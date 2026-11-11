@@ -47,8 +47,43 @@ static func tango_express() -> VehicleProfile:
 	p.estimated.append_array(PackedStringArray(["length_m", "capacity", "max_speed_ms"]))
 	return p
 
-## Matériel par défaut cohérent avec le type de ligne (vitesse, guidage).
+## Matériel jouable à partir d'une entrée de flotte (data/liveries.json) : famille, longueur, livrée.
+static func for_fleet(entry: Dictionary, meta: Dictionary = {}) -> VehicleProfile:
+	var fam := str(entry.get("family", "citadis"))
+	var p: VehicleProfile
+	match fam:
+		"translohr": p = translohr()
+		"dualis": p = dualis()
+		"avanto":
+			p = dualis(); p.id = "avanto"
+		"tango": p = tango_express()
+		_: p = citadis_302()
+	if fam == "tfs":
+		p.width_m = 2.3; p.power_kw = 550.0; p.max_tractive_effort_n = 90000.0; p.capacity = 170
+	var L := float(entry.get("length", p.length_m))
+	p.empty_mass_kg *= L / p.length_m
+	p.capacity = int(p.capacity * L / p.length_m)
+	p.length_m = L
+	if str(meta.get("kind", "")) == "tram-train" and fam != "dualis" and fam != "avanto":
+		p.max_speed_ms = maxf(p.max_speed_ms, 80.0 / 3.6)
+	p.id = "%s_%s" % [fam, str(entry.get("name", "")).md5_text().substr(0, 6)]
+	p.family = str(entry.get("name", fam))
+	p.model_family = fam
+	p.fleet = entry
+	if not "length_m" in p.estimated: p.estimated.append("length_m")
+	return p
+
+## Matériel par défaut cohérent avec le réseau : premier matériel de sa flotte.
 static func default_for(meta: Dictionary) -> VehicleProfile:
+	if meta.has("source_id"):
+		var fl: Array = TramModel.fleet_for(meta)
+		if not fl.is_empty():
+			var v := for_fleet(fl[0], meta)
+			if meta.get("guidance", "steel") == "rubber_guided": v.guidance = "rubber_guided"
+			return v
+	return _default_generic(meta)
+
+static func _default_generic(meta: Dictionary) -> VehicleProfile:
 	if meta.get("guidance", "steel") == "rubber_guided":
 		return translohr()
 	match str(meta.get("kind", "")):

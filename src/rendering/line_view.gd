@@ -22,15 +22,16 @@ var headlight: SpotLight3D
 var livery: Dictionary = {}
 var family := ""
 var orbit := 0.0                   # rotation de la caméra extérieure (glisser au doigt)
+var cam_dist := 40.0               # distance de la caméra extérieure (molette / pincement)
 var _tram_len := 0.0
 
 func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile = null) -> void:
 	net = network
 	geometric = net.has_geometry()
-	livery = TramModel.livery_for(net.meta)
+	livery = TramModel.livery_for(net.meta, vehicle.fleet if vehicle else {})
 	family = livery.family
-	if vehicle != null and vehicle.id != VehicleLibrary.default_for(net.meta).id:
-		family = TramModel.PROFILE_FAMILY.get(vehicle.id, family)
+	if vehicle != null:
+		family = vehicle.model_family if vehicle.model_family != "" else TramModel.PROFILE_FAMILY.get(vehicle.id, family)
 	if not geometric:
 		_unfold(start_edge)
 	day_night = DayNight.new(); add_child(day_night); day_night.setup(self)
@@ -238,7 +239,8 @@ func update_from(s: MissionSession, external: bool) -> void:
 	tram.visible = external
 	if external:
 		var back := fwd.rotated(Vector3.UP, orbit)
-		cam.position = front.origin - back * 40.0 + Vector3(0, 9.5, 0) + back.cross(Vector3.UP) * -11.0
+		var k := cam_dist / 40.0
+		cam.position = front.origin - back * cam_dist + Vector3(0, 9.5 * k, 0) + back.cross(Vector3.UP) * (-11.0 * k)
 		cam.look_at(front.origin - fwd * 14.0 + Vector3(0, 2.0, 0))
 	else:  # vue cabine
 		cam.position = front.origin - fwd * 1.0 + Vector3(0, 2.6, 0)

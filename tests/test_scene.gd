@@ -6,7 +6,7 @@ func _run(main: Node, free: bool) -> bool:
 	main._start()
 	for i in 30: await process_frame
 	var ok: bool = main.session != null and main.view != null and main.view.tram != null
-	print("scène (libre=%s): %s | %s" % [free, ok, main.hud.text])
+	print("scène (libre=%s): %s | %s" % [free, ok, main.hud_info.text])
 	return ok
 func _init() -> void:
 	var main = load("res://src/ui/main.tscn").instantiate()

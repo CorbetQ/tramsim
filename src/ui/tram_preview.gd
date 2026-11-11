@@ -24,10 +24,10 @@ func _ready() -> void:
 
 func show_tram(meta: Dictionary, vehicle: VehicleProfile) -> void:
 	for c in holder.get_children(): c.queue_free()
-	var liv := TramModel.livery_for(meta)
+	var liv := TramModel.livery_for(meta, vehicle.fleet if vehicle else {})
 	var fam: String = liv.family
-	if vehicle != null and vehicle.id != VehicleLibrary.default_for(meta).id:
-		fam = TramModel.PROFILE_FAMILY.get(vehicle.id, fam)
+	if vehicle != null:
+		fam = vehicle.model_family if vehicle.model_family != "" else TramModel.PROFILE_FAMILY.get(vehicle.id, fam)
 	var L := minf(vehicle.length_m if vehicle else 32.0, 44.0)
 	var mods := TramModel.build(L, liv, fam)
 	var seg := L / mods.size()

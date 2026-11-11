@@ -10,7 +10,7 @@ const FAMILIES := {
 	"citadis_reims": {"w": 2.40, "h": 3.30, "nose": 2.1, "taper": 0.58, "rake": 0.85, "drop": 0.28, "segs": 6, "round": 2.4, "ws": 1.00, "light_y": 0.80},
 	"citadis_tours": {"w": 2.40, "h": 3.30, "nose": 1.9, "taper": 0.70, "rake": 0.75, "drop": 0.12, "segs": 5, "round": 1.8, "ws": 1.05, "light_y": 0.80},
 	"eurotram": {"w": 2.40, "h": 3.25, "nose": 2.0, "taper": 0.66, "rake": 0.95, "drop": 0.30, "segs": 6, "round": 2.8, "ws": 0.70, "light_y": 0.60},
-	"tfs": {"w": 2.30, "h": 3.40, "nose": 0.9, "taper": 0.92, "rake": 0.15, "drop": 0.00, "segs": 2, "round": 1.0, "ws": 1.35, "light_y": 0.95},
+	"tfs": {"w": 2.30, "h": 3.45, "nose": 0.8, "taper": 0.94, "rake": 0.10, "drop": 0.00, "segs": 2, "round": 1.0, "ws": 1.30, "light_y": 1.00, "win_lo": 1.30, "win_hi": 2.60, "skirt": 0.75},
 	"translohr": {"w": 2.20, "h": 3.10, "nose": 1.5, "taper": 0.70, "rake": 0.60, "drop": 0.15, "segs": 5, "round": 1.8, "ws": 1.05, "light_y": 0.80},
 	"flexity_marseille": {"w": 2.40, "h": 3.30, "nose": 2.4, "taper": 0.42, "rake": 0.50, "drop": 0.06, "segs": 6, "round": 1.3, "ws": 1.00, "light_y": 0.75},
 	"urbos": {"w": 2.40, "h": 3.30, "nose": 1.5, "taper": 0.80, "rake": 0.50, "drop": 0.08, "segs": 4, "round": 1.4, "ws": 1.10, "light_y": 0.85},
@@ -32,10 +32,32 @@ const LAMP_A := 0.1      # alpha < 0.25 : feux, girouette (émissifs)
 static var _liveries: Dictionary = {}
 
 ## Livrée résolue pour un réseau : défaut <- réseau <- ligne. "route" = couleur GTFS de la ligne.
-static func livery_for(meta: Dictionary) -> Dictionary:
+## Flotte jouable d'un réseau : entrées {name, family, length, ...couleurs}. Sans flotte déclarée : la famille du réseau.
+static func fleet_for(meta: Dictionary) -> Array:
+	_load()
+	var src := str(meta.get("source_id", ""))
+	var net: Dictionary = _liveries.get("networks", {}).get(src, {})
+	var line_key := str(meta.get("id", "")).trim_prefix(src + "_").split("_")[0]
+	var line: Dictionary = net.get("lines", {}).get(line_key, {})
+	if line.has("family"):  # matériel propre à la ligne (ex. T5 Translohr, Rhônexpress)
+		return [{"name": FAMILY_NAMES.get(line.family, line.family), "family": line.family}]
+	if net.has("fleet"):
+		return net.fleet
+	var fam := str(net.get("family", "citadis"))
+	return [{"name": FAMILY_NAMES.get(fam, fam), "family": fam}]
+
+const FAMILY_NAMES := {"citadis": "Alstom Citadis", "citadis_x05": "Alstom Citadis X05", "citadis_reims": "Alstom Citadis (face avant Reims)",
+	"citadis_tours": "Alstom Citadis (face avant Tours)", "eurotram": "Bombardier Eurotram", "tfs": "Alstom TFS", "translohr": "Translohr",
+	"flexity_marseille": "Bombardier Flexity", "urbos": "CAF Urbos", "urbos_short": "CAF Urbos (court)", "avanto": "Siemens Avanto",
+	"dualis": "Alstom Citadis Dualis", "incentro": "Bombardier Incentro", "tango": "Stadler Tango", "breda": "Breda VLC"}
+
+static func _load() -> void:
 	if _liveries.is_empty():
 		var f := FileAccess.open("res://data/liveries.json", FileAccess.READ)
 		if f: _liveries = JSON.parse_string(f.get_as_text())
+
+static func livery_for(meta: Dictionary, fleet_entry: Dictionary = {}) -> Dictionary:
+	_load()
 	var out: Dictionary = _liveries.get("default", {}).duplicate()
 	var src := str(meta.get("source_id", ""))
 	var net: Dictionary = _liveries.get("networks", {}).get(src, {})
@@ -45,6 +67,7 @@ static func livery_for(meta: Dictionary) -> Dictionary:
 	var lines: Dictionary = net.get("lines", {})
 	if lines.has(line_key):
 		for k in lines[line_key]: out[k] = lines[line_key][k]
+	for k in fleet_entry: out[k] = fleet_entry[k]
 	var route := Color.from_string(str(meta.get("color", "#c8102e")), Color(0.78, 0.06, 0.18))
 	if route.get_luminance() > 0.92: route = Color(0.2, 0.3, 0.45)  # couleur de ligne trop claire sur caisse blanche
 	var res := {}
@@ -55,6 +78,10 @@ static func livery_for(meta: Dictionary) -> Dictionary:
 		if str(out.get(k, "")) == "accent": res[k] = res.accent
 	res.family = str(out.get("family", "citadis"))
 	res.style = str(out.get("style", "band"))
+	res.name = str(out.get("name", FAMILY_NAMES.get(res.family, res.family)))
+	var stripes: Array = []
+	for c in out.get("stripes", []): stripes.append(route if str(c) == "route" else Color.from_string(str(c), Color.GRAY))
+	res.stripes = stripes
 	return res
 
 ## Construit les modules (MeshInstance3D) d'une rame de longueur totale `length_m`.
@@ -86,17 +113,30 @@ class _Builder:
 	var st: SurfaceTool
 	var f: Dictionary
 	var L: Dictionary
-	var ring: Array = []      # [Vector2(x, y), bande] demi-profil droit, de bas en haut
-	const BANDS := ["skirt", "body", "glass", "upper", "roof", "roof"]
+	var ring: Array = []      # demi-profil droit (Vector2 x, y), de bas en haut
+	var seg_band: Array = []  # bande du segment ring[j] -> ring[j+1]
 
 	func _init(s: SurfaceTool, fam: Dictionary, liv: Dictionary) -> void:
 		st = s; f = fam; L = liv
 		var w: float = f.w * 0.5
 		var h: float = f.h
-		ring = [Vector2(w, 0.30), Vector2(w, 0.45), Vector2(w, 1.05), Vector2(w, 2.45), Vector2(w, h - 0.45),
-			Vector2(w - 0.28, h - 0.12), Vector2(0.0, h)]
+		var lo: float = f.get("win_lo", 1.05); var hi: float = f.get("win_hi", 2.45); var sk: float = f.get("skirt", 0.45)
+		ring = [Vector2(w, 0.30), Vector2(w, sk)]
+		seg_band = ["skirt"]
+		var ns: int = L.stripes.size()
+		if ns > 0:  # bandes multicolores sous les baies
+			for i in range(1, ns + 1):
+				ring.append(Vector2(w, sk + (lo - sk) * i / ns)); seg_band.append("stripe_%d" % (i - 1))
+		else:
+			ring.append(Vector2(w, lo)); seg_band.append("body")
+		ring.append(Vector2(w, hi)); seg_band.append("glass")
+		ring.append(Vector2(w, h - 0.45)); seg_band.append("upper")
+		ring.append(Vector2(w - 0.28, h - 0.12)); seg_band.append("roof")
+		ring.append(Vector2(0.0, h)); seg_band.append("roof")
 
 	func _col(band: String, front_zone: bool = false) -> Color:
+		if band.begins_with("stripe_"):
+			return L.stripes[int(band.substr(7)) % L.stripes.size()]
 		match band:
 			"skirt": return L.skirt
 			"glass":
@@ -119,7 +159,7 @@ class _Builder:
 	func _band_of(j: int) -> String:
 		var n := ring.size() - 1
 		var k := j if j < n else (2 * n - 1 - j)
-		return BANDS[mini(k, BANDS.size() - 1)]
+		return seg_band[mini(k, seg_band.size() - 1)]
 
 	func tri(a: Vector3, b: Vector3, c: Vector3, col: Color, out: Vector3) -> void:
 		if (b - a).cross(c - a).dot(out) > 0.0:  # Godot : faces avant dans le sens horaire
@@ -146,7 +186,7 @@ class _Builder:
 			var out := Vector3(mid.x, mid.y - f.h * 0.5, 0.0)
 			quad(Vector3(a.x, a.y, z0), Vector3(b.x, b.y, z0), Vector3(b.x, b.y, z1), Vector3(a.x, a.y, z1), _col(_band_of(j)), out)
 		# bandeau d'accent sous les baies
-		if L.style == "band":
+		if L.style == "band" and L.stripes.is_empty():
 			for side in [-1.0, 1.0]:
 				var x: float = side * (f.w * 0.5 + 0.005)
 				quad(Vector3(x, 0.88, z0), Vector3(x, 1.02, z0), Vector3(x, 1.02, z1), Vector3(x, 0.88, z1), L.accent, Vector3(side, 0, 0))
@@ -211,6 +251,7 @@ class _Builder:
 			var bulge := Vector3(0, 0, dir * 0.10)
 			var y := (a0.y + a1.y) * 0.5
 			var col: Color = L.skirt if y < 0.45 else L.front
+			if _band_of(k).begins_with("stripe_"): col = _col(_band_of(k))
 			if y > f.ws and y < f.h - 0.35:
 				col = L.window; col.a = 0.8
 			# léger galbe : la ligne médiane avance un peu
@@ -219,7 +260,9 @@ class _Builder:
 			quad(ma, mb, b1, b0, col, Vector3(0, 0, dir))
 		# montants de pare-brise
 		for side in [-1.0, 1.0]:
-			var k0 := 3 if side > 0 else 2 * m - 3
+			var kw := 0
+			while kw < m and ring[kw].y < f.ws: kw += 1
+			var k0 := kw if side > 0 else 2 * m - kw
 			var p0: Vector3 = tip[k0]
 			box(Vector3(p0.x * 0.98, (f.ws + f.h - 0.35) * 0.5, p0.z + dir * 0.02), Vector3(0.12, f.h - 0.35 - f.ws, 0.08), L.front)
 		# feux (blancs à l'avant, rouges à l'arrière) et girouette

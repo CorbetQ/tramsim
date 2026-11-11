@@ -35,4 +35,17 @@ func _init() -> void:
 	main.map.visible = true; main.map.queue_redraw()
 	await _shot("%s/%s_carte.png" % [out, netf])
 	if main.view.city: print("tuiles: ", main.view.city.stats)
+	main.map.visible = false
+	# mode libre + panneau des aiguillages
+	var src := str(net.meta.get("source_id", ""))
+	if FileAccess.file_exists("res://data/free/%s.json" % src):
+		main.free_mode = true
+		main.net_path = "res://data/free/%s.json" % src
+		var fn := NetworkLoader.new(); fn.load_file(main.net_path)
+		main.start_station = fn.stations[mini(5, fn.stations.size() - 1)]
+		main._start()
+		main.paused = true
+		await _shot("%s/%s_libre.png" % [out, netf])
+		main._toggle_switches()
+		await _shot("%s/%s_aiguillages.png" % [out, netf])
 	quit()

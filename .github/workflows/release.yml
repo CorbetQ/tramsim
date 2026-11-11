@@ -43,23 +43,30 @@ jobs:
           export/android/debug_keystore_pass = "tramsim-dev"
           CFG
       - name: Tests
-        run: GODOT=$PWD/godot tests/run_all.sh
+        run: |
+          sudo apt-get install -y xvfb mesa-utils > /dev/null 2>&1 || true
+          GODOT=$PWD/godot tests/run_all.sh
       - name: Export
         run: |
           mkdir -p build
           ./godot --headless --path . --import >/dev/null 2>&1 || true
           ./godot --headless --path . --export-debug Android build/TramSimFrance.apk
           ./godot --headless --path . --export-release Windows build/TramSimFrance.exe
-          cd build && zip -9 TramSimFrance-windows.zip TramSimFrance.exe && ls -la
+          cd build && zip -9 TramSimFrance-windows.zip TramSimFrance.exe && cd ..
+          sudo apt-get update > /dev/null && sudo apt-get install -y wixl > /dev/null
+          wixl -a x64 -D Version=0.3.${{ github.run_number }} -o build/TramSimFrance.msi installer/tramsim.wxs
+          ls -la build
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.2.${{ github.run_number }}
-          name: Tram Sim France 0.2.${{ github.run_number }}
+          tag_name: v0.3.${{ github.run_number }}
+          name: Tram Sim France 0.3.${{ github.run_number }}
           prerelease: true
           body: |
-            APK Android (arm64, signature de développement) et EXE Windows (x86_64).
+            - **Android** : TramSimFrance.apk (arm64, signature de développement : autoriser les sources inconnues).
+            - **Windows** : TramSimFrance.msi (installeur, raccourcis menu Démarrer et Bureau) ou TramSimFrance-windows.zip (exécutable portable).
             Données : GTFS des réseaux (transport.data.gouv.fr) et BD TOPO® IGN — voir CREDITS.md et docs/COUVERTURE.md.
           files: |
             build/TramSimFrance.apk
             build/TramSimFrance-windows.zip
+            build/TramSimFrance.msi

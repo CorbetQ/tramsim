@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Installeur Windows (MSI) de Tram Sim France. Compilation : wixl -a x64 -D Version=0.3.0 -o build/TramSimFrance.msi installer/tramsim.wxs
+     (msitools/wixl sous Linux, ou WiX v3 sous Windows). Le fichier build/TramSimFrance.exe doit exister (PCK intégré). -->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Tram Sim France" Language="1036" Codepage="1252" Version="$(var.Version)"
+           Manufacturer="Tram Sim France" UpgradeCode="6B1C5E0A-6C2E-4C7D-9B0E-2F0D7E5A9A31">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
+             Description="Simulateur de tramway — réseaux français" Comments="Données : GTFS (transport.data.gouv.fr), BD TOPO IGN" />
+    <MajorUpgrade DowngradeErrorMessage="Une version plus récente de Tram Sim France est déjà installée." />
+    <Media Id="1" Cabinet="tramsim.cab" EmbedCab="yes" />
+    <Property Id="ARPCOMMENTS" Value="Simulateur de tramway low poly — 120 lignes françaises" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLDIR" Name="Tram Sim France">
+          <Component Id="MainExe" Guid="2E7B9C41-5D3A-4F6B-8C1D-9A0E3B7F6D21" Win64="yes">
+            <File Id="TramSimExe" Name="TramSimFrance.exe" Source="build/TramSimFrance.exe" KeyPath="yes" />
+          </Component>
+          <Component Id="Docs" Guid="4A8D2F63-1B9E-4C5A-A7D3-6E2F0B9C8D42" Win64="yes">
+            <File Id="Credits" Name="CREDITS.md" Source="CREDITS.md" KeyPath="yes" />
+            <File Id="Readme" Name="README.md" Source="README.md" />
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="AppMenu" Name="Tram Sim France">
+          <Component Id="MenuShortcut" Guid="7C3E5A91-2D4B-4E8F-B6A0-1F9D3C7E5B63">
+            <Shortcut Id="StartShortcut" Name="Tram Sim France" Description="Simulateur de tramway"
+                      Target="[INSTALLDIR]TramSimFrance.exe" WorkingDirectory="INSTALLDIR" />
+            <RemoveFolder Id="RemoveAppMenu" On="uninstall" />
+            <RegistryValue Root="HKCU" Key="Software\TramSimFrance" Name="menu" Type="integer" Value="1" KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder">
+        <Component Id="DesktopShortcut" Guid="9E1A7C53-4F2D-4B6E-8A9C-3D5F7B1E0C84">
+          <Shortcut Id="DeskShortcut" Name="Tram Sim France" Target="[INSTALLDIR]TramSimFrance.exe" WorkingDirectory="INSTALLDIR" />
+          <RegistryValue Root="HKCU" Key="Software\TramSimFrance" Name="desktop" Type="integer" Value="1" KeyPath="yes" />
+        </Component>
+      </Directory>
+    </Directory>
+    <Feature Id="Complete" Title="Tram Sim France" Level="1">
+      <ComponentRef Id="MainExe" />
+      <ComponentRef Id="Docs" />
+      <ComponentRef Id="MenuShortcut" />
+      <ComponentRef Id="DesktopShortcut" />
+    </Feature>
+  </Product>
+</Wix>

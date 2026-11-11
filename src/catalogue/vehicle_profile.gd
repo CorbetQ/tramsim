@@ -4,6 +4,8 @@ extends Resource
 
 @export var id: String = ""
 @export var family: String = ""
+@export var model_family: String = ""   # famille 3D (TramModel.FAMILIES)
+var fleet: Dictionary = {}                # entrée de flotte (livrée) si matériel du réseau
 @export var length_m: float = 30.0
 @export var width_m: float = 2.4
 @export var empty_mass_kg: float = 40000.0

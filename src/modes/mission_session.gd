@@ -121,6 +121,27 @@ func locate_behind(d: float) -> Array:
 		off += net.graph.edges[route[i]].length
 	return [route[i], maxf(off, 0.0)]
 
+var _st_index: Dictionary = {}
+
+## Prochaine station devant la rame (toutes stations du réseau, utile en mode libre).
+func next_station_ahead(max_edges: int = 10) -> Dictionary:
+	if _st_index.is_empty():
+		for st in net.stations:
+			if not _st_index.has(st.edge): _st_index[st.edge] = []
+			_st_index[st.edge].append(st)
+	var e := edge_id
+	var off := offset
+	for i in max_edges:
+		var best: Dictionary = {}
+		for st in _st_index.get(e, []):
+			if float(st.offset) >= off - 3.0 and (best.is_empty() or float(st.offset) < float(best.offset)):
+				best = st
+		if not best.is_empty(): return best
+		e = net.graph.next_edge(e)
+		off = -1.0
+		if e == "": break
+	return {}
+
 func _dist_cb(_e: String, _o: float, to_edge: String, to_offset: float) -> float:
 	return dist_to_point(to_edge, to_offset)
 

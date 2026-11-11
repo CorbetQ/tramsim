@@ -61,7 +61,8 @@ def validate(net):
             if n not in seen:
                 seen.add(n); st.extend(adj[n] - seen)
         if seen != nodes:
-            errs.append(f"réseau non connexe ({len(nodes) - len(seen)} nœuds séparés)")
+            msg = f"réseau non connexe ({len(nodes) - len(seen)} nœuds séparés)"
+            (warns if net.get("kind") == "free" else errs).append(msg)
     return errs, warns
 
 

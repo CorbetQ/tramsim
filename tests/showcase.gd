@@ -7,24 +7,25 @@ func _init() -> void:
 	var ground := MeshInstance3D.new(); var pm := PlaneMesh.new(); pm.size = Vector2(400, 400); ground.mesh = pm
 	var gm := StandardMaterial3D.new(); gm.albedo_color = Color("#8fae6a"); pm.material = gm
 	world.add_child(ground)
-	var picks := [["angers_a", "Angers A"], ["bordeaux_a", "Bordeaux A"], ["strasbourg_a", "Strasbourg A"], ["marseille_t1", "Marseille T1"],
-		["montpellier_3", "Montpellier 3"], ["tours_a", "Tours A"], ["reims_tram", "Reims"], ["clermont_a", "Clermont A"],
-		["idf_t4", "IDF T4"], ["besancon_t1", "Besançon T1"], ["lille_tram", "Lille"], ["dijon_t1", "Dijon T1"]]
+	var picks := [["angers_a", 0], ["nantes_1", 0], ["nantes_1", 1], ["grenoble_a", 0], ["strasbourg_a", 0], ["marseille_t1", 0],
+		["montpellier_1", 0], ["lille_tram", 0], ["bordeaux_a", 0], ["clermont_a", 0], ["idf_t4", 0], ["tours_a", 0]]
 	var i := 0
 	for p in picks:
 		var net := NetworkLoader.new()
 		if not net.load_file("res://data/networks/%s.json" % p[0]).is_empty(): continue
-		var liv := TramModel.livery_for(net.meta)
-		var v := VehicleLibrary.default_for(net.meta)
-		var mods := TramModel.build(32.0 if v.length_m < 40 else v.length_m * 0.8, liv)
+		var fleet: Array = TramModel.fleet_for(net.meta)
+		var entry: Dictionary = fleet[mini(p[1], fleet.size() - 1)]
+		var v := VehicleLibrary.for_fleet(entry, net.meta)
+		var liv := TramModel.livery_for(net.meta, entry)
+		var mods := TramModel.build(minf(v.length_m, 36.0), liv, v.model_family)
 		var holder := Node3D.new(); world.add_child(holder)
 		holder.position = Vector3((i % 4) * 9.0 - 13.5, 0, (i / 4) * 45.0)
-		var seg := 32.0 / mods.size()
+		var seg := minf(v.length_m, 36.0) / mods.size()
 		for k in mods.size():
 			mods[k].position = Vector3(0, 0, -16.0 + seg * (k + 0.5))
 			holder.add_child(mods[k])
-		var lbl := Label3D.new(); lbl.text = "%s\n%s" % [p[1], liv.family]; lbl.font_size = 96; lbl.pixel_size = 0.01
-		lbl.position = Vector3(0, 5.2, -14.0); lbl.billboard = BaseMaterial3D.BILLBOARD_ENABLED; lbl.outline_size = 16
+		var lbl := Label3D.new(); lbl.text = "%s\n%s" % [net.meta.city, liv.name]; lbl.font_size = 80; lbl.pixel_size = 0.008
+		lbl.position = Vector3(0, 5.0, -14.0); lbl.billboard = BaseMaterial3D.BILLBOARD_ENABLED; lbl.outline_size = 16
 		holder.add_child(lbl)
 		i += 1
 	var cam := Camera3D.new(); world.add_child(cam); cam.current = true; cam.fov = 50

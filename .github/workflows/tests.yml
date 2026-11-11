@@ -9,4 +9,5 @@ jobs:
         run: |
           curl -sSL -o g.zip https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
           unzip -q g.zip && chmod +x Godot_v4.6.3-stable_linux.x86_64
+      - run: sudo apt-get install -y xvfb > /dev/null 2>&1 || true
       - run: GODOT=$PWD/Godot_v4.6.3-stable_linux.x86_64 tests/run_all.sh
