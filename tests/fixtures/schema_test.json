@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "id": "angers_a_provisoire",
+  "city": "Angers",
+  "line": "A",
+  "provisional": true,
+  "provenance": "Schéma fabriqué à la main, NON issu d'OSM/GTFS (réseau inaccessible depuis l'environnement). Noms et distances à remplacer par l'import. Section e1 en APS : hypothèse de test pour valider les transitions.",
+  "supply": "overhead",
+  "nodes": [
+    "N0",
+    "N1",
+    "N2",
+    "N3",
+    "N4",
+    "D1"
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "from": "N0",
+      "to": "N1",
+      "length": 900,
+      "limit_kmh": 50,
+      "grade": 0.0
+    },
+    {
+      "id": "e1",
+      "from": "N1",
+      "to": "N2",
+      "length": 1100,
+      "limit_kmh": 50,
+      "grade": 0.01,
+      "supply": "aps"
+    },
+    {
+      "id": "e2",
+      "from": "N2",
+      "to": "N3",
+      "length": 1000,
+      "limit_kmh": 50,
+      "grade": -0.01,
+      "curve_radius": 60
+    },
+    {
+      "id": "e3",
+      "from": "N3",
+      "to": "N4",
+      "length": 1200,
+      "limit_kmh": 50,
+      "grade": 0.0
+    },
+    {
+      "id": "dep",
+      "from": "N1",
+      "to": "D1",
+      "length": 300,
+      "limit_kmh": 20,
+      "grade": 0.0
+    }
+  ],
+  "stations": [
+    {
+      "name": "Terminus Sud",
+      "edge": "e0",
+      "offset": 850,
+      "dwell_s": 25
+    },
+    {
+      "name": "Centre",
+      "edge": "e1",
+      "offset": 500,
+      "dwell_s": 25
+    },
+    {
+      "name": "Gare",
+      "edge": "e2",
+      "offset": 900,
+      "dwell_s": 30
+    },
+    {
+      "name": "Terminus Nord",
+      "edge": "e3",
+      "offset": 1150,
+      "dwell_s": 25
+    }
+  ],
+  "signals": [
+    {
+      "edge": "e1",
+      "offset": 1095,
+      "default": "clear",
+      "protects": "e2"
+    }
+  ],
+  "guidance": "steel",
+  "roads": [
+    {
+      "id": "r1",
+      "length": 200,
+      "cross_at": 100,
+      "edge": "e1",
+      "edge_offset": 300,
+      "spawn_every_s": 9,
+      "light_range_m": 150
+    }
+  ]
+}

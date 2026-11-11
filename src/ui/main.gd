@@ -19,6 +19,7 @@ var map: MapView
 var tuto: Label
 var tuto_step := 0
 var _result_saved := false
+var mission: Dictionary = {}
 
 const TUTO := [
 	"1/4  Curseur gauche : haut = traction, bas = freinage.",
@@ -46,10 +47,12 @@ func _clear() -> void:
 
 func _build_menu() -> void:
 	_clear()
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(center)
 	var box := VBoxContainer.new()
-	box.set_anchors_preset(Control.PRESET_CENTER)
-	box.custom_minimum_size = Vector2(520, 0)
-	add_child(box)
+	box.custom_minimum_size = Vector2(640, 0)
+	center.add_child(box)
 	var title := Label.new(); title.text = "Tram Sim France"; box.add_child(title)
 	var net_opt := OptionButton.new()
 	var NETS := NetworkRegistry.scan()
@@ -59,8 +62,10 @@ func _build_menu() -> void:
 	var vehicles := VehicleLibrary.all()
 	for v in vehicles: veh_opt.add_item(v.family)
 	box.add_child(veh_opt)
-	var sheet := Label.new(); box.add_child(sheet)
+	var sheet := Label.new(); sheet.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; sheet.custom_minimum_size = Vector2(640, 0); box.add_child(sheet)
 	var mode_opt := OptionButton.new(); mode_opt.add_item("Mission horaire"); mode_opt.add_item("Mode libre"); box.add_child(mode_opt)
+	var mis_opt := OptionButton.new(); box.add_child(mis_opt)
+	var mis_list: Array = []
 	var traffic_cb := CheckBox.new(); traffic_cb.text = "Trafic automobile"
 	traffic_cb.button_pressed = save.settings.traffic; box.add_child(traffic_cb)
 	var go := Button.new(); go.custom_minimum_size = Vector2(0, 90); box.add_child(go)
@@ -70,6 +75,11 @@ func _build_menu() -> void:
 		var n := NetworkLoader.new(); n.load_file(path)
 		var supply: Array = n.supplies; var guid := str(n.meta.get("guidance", "steel"))
 		var ok := Compatibility.mission_allowed(v, supply, guid)
+		mis_list = n.missions()
+		mis_opt.clear()
+		for m in mis_list:
+			mis_opt.add_item("%s — départ %s → %s" % [m.id, m.start_time, m.headsign])
+		if mis_list.is_empty(): mis_opt.add_item("Service de démonstration")
 		sheet.text = "%s — %.0f m, %.0f t, %.0f kW, %d places, alim. %s\nValeurs estimées : %s" % [v.family, v.length_m, v.empty_mass_kg / 1000.0, v.power_kw, v.capacity, v.supply, ", ".join(v.estimated)]
 		var libre: bool = mode_opt.selected == 1
 		go.disabled = not ok and not libre
@@ -82,6 +92,7 @@ func _build_menu() -> void:
 		net_path = NETS.values()[net_opt.selected]
 		vehicle = vehicles[veh_opt.selected]
 		free_mode = mode_opt.selected == 1
+		mission = mis_list[mis_opt.selected] if mis_opt.selected >= 0 and mis_opt.selected < mis_list.size() else {}
 		_start())
 
 func _start() -> void:
@@ -92,15 +103,26 @@ func _start() -> void:
 	if not errs.is_empty():
 		push_error(str(errs)); _build_menu(); return
 	var first: String = net.meta.edges[0].id
+	if not mission.is_empty():
+		first = mission.start_edge
 	if free_mode:
-		var e := first; var o := 100.0
+		var e := first
+		var o := float(mission.get("start_offset", minf(100.0, net.graph.edges[first].length - 5.0)))
 		if save.free.get("network", "") == net_path:
 			e = save.free.edge; o = float(save.free.offset)
 		free = FreeSession.new(net, vehicle, e, o, save.settings.traffic)
 		session = free
 	else:
-		var sched: Array[float] = [120.0, 260.0, 470.0, 610.0]
-		session = MissionSession.new(net, vehicle, first, 100.0, sched, 40)
+		var sched: Array[float] = []
+		var start_off := 100.0
+		if not mission.is_empty():
+			for t in mission.departures: sched.append(float(t))
+			start_off = float(mission.start_offset)
+		else:
+			for i in net.stations.size(): sched.append(120.0 + 140.0 * i)
+		session = MissionSession.new(net, vehicle, first, start_off, sched, 40)
+		if not mission.is_empty():
+			session.set_mission_stops(mission.stops)
 		session.traffic.set_enabled(save.settings.traffic)
 	session.event.connect(func(_k, text): log_label.text = text)
 	var vp := SubViewportContainer.new(); vp.stretch = true
@@ -113,8 +135,8 @@ func _start() -> void:
 	hud = Label.new(); hud.position = Vector2(20, 10); add_child(hud)
 	log_label = Label.new(); log_label.position = Vector2(20, 90); add_child(log_label)
 	if free and free.adaptation_notice != "": log_label.text = free.adaptation_notice
-	map = MapView.new(); map.size = Vector2(700, 160); map.position = Vector2(290, 100); map.visible = false
-	map.setup(session, view.edge_origin); add_child(map)
+	map = MapView.new(); map.size = Vector2(380, 420); map.position = Vector2(880, 100); map.visible = false
+	map.setup(session, view); add_child(map)
 	_build_controls()
 	if not save.settings.tutorial_done:
 		tuto = Label.new(); tuto.position = Vector2(200, 300); tuto.text = TUTO[0]
@@ -169,8 +191,8 @@ func _process(dt: float) -> void:
 	view.update_from(session, external_cam)
 	if map.visible: map.queue_redraw()
 	var st: Dictionary = {}
-	if not session.net.stations.is_empty():
-		st = session.net.stations[mini(session.next_station, session.net.stations.size() - 1)]
+	if not session.stops.is_empty():
+		st = session.stops[mini(session.next_station, session.stops.size() - 1)]
 	hud.text = "%d km/h (limite %d)  |  %s  |  voyageurs %d  |  portes %s%s%s" % [
 		session.phys.speed * 3.6, session.speed_limit() * 3.6,
 		("prochain : " + str(st.get("name", "")) if not free_mode else "mode libre"), session.phys.passengers,

@@ -22,6 +22,7 @@ keystore de développement (`keytool -genkey -v -keystore dev.keystore -alias de
 Puis `godot --headless --export-debug Android build/tramsim.apk`. Voir `docs/ROADMAP.md`.
 
 ## État actuel
-`data/networks/angers_a.json` est un **schéma provisoire** (noms et distances inventés), pas la vraie ligne A.
-Tests : `GODOT=/chemin/godot tests/run_all.sh` (Godot headless + Python). Import : `tools/import/` (OSM, GTFS, validateur).
-Inventaire national : `docs/INVENTAIRE.md` (brouillon à vérifier).
+- Réseaux livrés : **Angers A, B, C** (GTFS Irigo, ODbL — voir `CREDITS.md`, `docs/SOURCES.md` pour les valeurs estimées).
+- `tests/fixtures/schema_test.json` : petit réseau inventé servant uniquement aux tests.
+- Tests : `GODOT=/chemin/godot tests/run_all.sh`. Captures : `xvfb-run godot --path . --rendering-driver opengl3 -s tests/screenshot.gd -- <dossier>`.
+- Inventaire national : `docs/INVENTAIRE.md` (brouillon à vérifier).

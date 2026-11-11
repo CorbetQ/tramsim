@@ -1,7 +1,7 @@
 extends SceneTree
 func _run(main: Node, free: bool) -> bool:
 	main.free_mode = free
-	main.net_path = "res://data/networks/angers_a.json"
+	main.net_path = "res://tests/fixtures/schema_test.json"
 	main.vehicle = VehicleLibrary.citadis_302_hybride()
 	main._start()
 	for i in 30: await process_frame

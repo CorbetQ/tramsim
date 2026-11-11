@@ -6,7 +6,7 @@ func check(c: bool, m: String) -> void:
 	else: print("ok: ", m)
 
 func _net() -> NetworkLoader:
-	var n := NetworkLoader.new(); n.load_file("res://data/networks/angers_a.json"); return n
+	var n := NetworkLoader.new(); n.load_file("res://tests/fixtures/schema_test.json"); return n
 
 func _init() -> void:
 	# feux : les voitures s'arrêtent quand la rame approche, et repartent après

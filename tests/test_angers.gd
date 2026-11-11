@@ -7,67 +7,20 @@ func check(c: bool, m: String) -> void:
 
 func _new(delay: float = 0.0, pax: int = 40) -> MissionSession:
 	var net := NetworkLoader.new()
-	var errs := net.load_file("res://data/networks/angers_a.json")
+	var errs := net.load_file("res://tests/fixtures/schema_test.json")
 	assert(errs.is_empty(), str(errs))
 	var sched: Array[float] = [120.0 + delay, 260.0, 470.0, 610.0]
 	return MissionSession.new(net, VehicleLibrary.citadis_302_hybride(), "e0", 100.0, sched, pax)
 
-## Pilote automatique : s'arrête à chaque station, ouvre/ferme les portes.
+var ap = preload("res://tests/autopilot.gd").new()
 func _drive(m: MissionSession, hold_s: float = 0.0, skip_stop: int = -1, max_t: float = 1500.0) -> void:
-	_dt_state = 0.0
-	while not m.finished and m.time_s < max_t:
-		_auto_pantograph(m)
-		_drive_step(m, hold_s, skip_stop)
-
-## Pilote : pantographe levé sur caténaire, baissé sur APS (changement dès l'entrée en section).
+	ap._drive(m, hold_s, skip_stop, max_t)
 func _auto_pantograph(m: MissionSession) -> void:
-	var want_up: bool = m.net.edge_info[m.edge_id].supply == "overhead"
-	if want_up != m.pantograph_up:
-		m.toggle_pantograph()
-
-var _dt_state := 0.0
-func _drive_step(m: MissionSession, hold_s: float = 0.0, skip_stop: int = -1) -> void:
-	var dt := 0.1
-	var door_timer := _dt_state
-	if true:
-		var i := m.next_station
-		var notch := 0.0
-		var st: Dictionary = m.net.stations[i] if i < m.net.stations.size() else {}
-		if not st.is_empty():
-			var dist := _dist_to(m, st)
-			var v := m.phys.speed
-			var vmax := minf(m.speed_limit() - 1.0, sqrt(maxf(0.0, 2.0 * 0.6 * (dist - 1.0))))
-			if i == skip_stop: vmax = m.speed_limit() - 1.0
-			notch = 1.0 if v < vmax - 0.3 else (-1.0 if v > vmax + 0.3 else 0.0)
-			if dist < 2.5 and dist > -4.0 and i != skip_stop: notch = -1.0
-			if v < 0.05 and absf(dist) < 4.0 and i != skip_stop:
-				if not m.doors_open and not m.served:
-					m.set_doors(true); door_timer = 0.0
-				elif m.doors_open:
-					door_timer += dt
-					if door_timer > maxf(m.dwell_left, 0.0) and m.time_s >= m.schedule[i] + 3.0 + hold_s and door_timer > 5.0:
-						m.set_doors(false)
-				elif m.served:
-					notch = 1.0
-			if m.served and not m.doors_open: notch = 1.0
-		m.tick(dt, notch)
-		_dt_state = door_timer
-
-func _dist_to(m: MissionSession, st: Dictionary) -> float:
-	var d := 0.0
-	var e := m.edge_id
-	if e == st.edge: return float(st.offset) - m.offset
-	d = m.net.graph.edges[e].length - m.offset
-	while true:
-		e = m.net.graph.next_edge(e)
-		if e == "": return 1e9
-		if e == st.edge: return d + float(st.offset)
-		d += m.net.graph.edges[e].length
-	return 1e9
+	ap._auto_pantograph(m)
 
 func _init() -> void:
 	var net := NetworkLoader.new()
-	check(net.load_file("res://data/networks/angers_a.json").is_empty(), "réseau valide")
+	check(net.load_file("res://tests/fixtures/schema_test.json").is_empty(), "réseau valide")
 	check(net.load_file("res://nope.json").size() == 1, "fichier manquant signalé")
 	# mission nominale
 	var m := _new()
@@ -102,7 +55,7 @@ func _init() -> void:
 	# aiguillage vers le dépôt (N1 : e1 ou dep)
 	var m6 := _new()
 	check(not m6.net.graph.throw_switch("N1", 1), "aiguillage refusé : rame sur la section d'approche")
-	var net6 := NetworkLoader.new(); net6.load_file("res://data/networks/angers_a.json")
+	var net6 := NetworkLoader.new(); net6.load_file("res://tests/fixtures/schema_test.json")
 	check(net6.graph.throw_switch("N1", 1) and net6.graph.next_edge("e0") == "dep", "aiguillage libre vers dépôt")
 	# portes interdites en marche
 	var m8 := _new(); m8.phys.speed = 5.0; m8.set_doors(true)
@@ -123,7 +76,7 @@ func _init() -> void:
 	check(a.power_ok, "pantographe baissé sur APS => alimentation rétablie")
 	var o := _new(); o.toggle_pantograph(); o.tick(0.1, 1.0)
 	check(not o.power_ok, "pantographe baissé sur caténaire => coupure")
-	var n7 := NetworkLoader.new(); n7.load_file("res://data/networks/angers_a.json")
+	var n7 := NetworkLoader.new(); n7.load_file("res://tests/fixtures/schema_test.json")
 	check(not Compatibility.mission_allowed(VehicleLibrary.citadis_302(), n7.supplies, "steel"), "caténaire seul incompatible avec réseau mixte")
 	check(Compatibility.mission_allowed(VehicleLibrary.citadis_302_hybride(), n7.supplies, "steel"), "hybride compatible réseau mixte")
 	quit(1 if fails > 0 else 0)

@@ -1,27 +1,39 @@
 class_name MapView
 extends Control
-## Carte schématique du réseau : arêtes dépliées, stations, position de la rame.
+## Carte du réseau : tracés, stations, position de la rame.
 
 var session: MissionSession
-var origins: Dictionary = {}
+var view: LineView
+var lines: Array = []    # [PackedVector2Array] en mètres (x, z)
+var lo := Vector2(INF, INF)
+var hi := Vector2(-INF, -INF)
 
-func setup(s: MissionSession, edge_origin: Dictionary) -> void:
-	session = s
-	origins = edge_origin
+func setup(s: MissionSession, v: LineView) -> void:
+	session = s; view = v
+	for id in s.net.graph.edges:
+		var poly := PackedVector2Array()
+		var L: float = s.net.graph.edges[id].length
+		var n := 8
+		for k in n + 1:
+			var p := v.pos3(id, L * k / n)
+			poly.append(Vector2(p.x, p.z))
+			lo = Vector2(minf(lo.x, p.x), minf(lo.y, p.z)); hi = Vector2(maxf(hi.x, p.x), maxf(hi.y, p.z))
+		lines.append(poly)
+
+func _to_screen(p: Vector2) -> Vector2:
+	var span := (hi - lo); span = Vector2(maxf(span.x, 1.0), maxf(span.y, 1.0))
+	var sc := minf((size.x - 30.0) / span.x, (size.y - 30.0) / span.y)
+	return Vector2(15, 15) + (p - lo) * sc
 
 func _draw() -> void:
-	if session == null or origins.is_empty():
-		return
-	var maxx := 1.0
-	for id in origins:
-		maxx = maxf(maxx, origins[id].x + session.net.graph.edges[id].length)
-	var sc := (size.x - 40.0) / maxx
-	var to2 := func(v: Vector3) -> Vector2: return Vector2(20.0 + v.x * sc, size.y * 0.5 + v.z * 4.0)
-	draw_rect(Rect2(Vector2.ZERO, size), Color(0, 0, 0, 0.6))
-	for id in origins:
-		var a: Vector2 = to2.call(origins[id])
-		var b: Vector2 = to2.call(origins[id] + Vector3(session.net.graph.edges[id].length, 0, 0))
-		draw_line(a, b, Color.WHITE, 3.0)
-	for st in session.net.stations:
-		draw_circle(to2.call(origins[st.edge] + Vector3(float(st.offset), 0, 0)), 6.0, Color.GOLD)
-	draw_circle(to2.call(origins[session.edge_id] + Vector3(session.offset, 0, 0)), 8.0, Color.RED)
+	if session == null: return
+	draw_rect(Rect2(Vector2.ZERO, size), Color(0, 0, 0, 0.65))
+	for poly in lines:
+		var sp := PackedVector2Array()
+		for p in poly: sp.append(_to_screen(p))
+		draw_polyline(sp, Color.WHITE, 2.0)
+	for st in session.stops:
+		var p3 := view.pos3(st.edge, float(st.offset))
+		draw_circle(_to_screen(Vector2(p3.x, p3.z)), 4.0, Color.GOLD)
+	var t := view.pos3(session.edge_id, session.offset)
+	draw_circle(_to_screen(Vector2(t.x, t.z)), 7.0, Color.RED)

@@ -19,6 +19,7 @@ var time_s: float = 0.0
 var doors_open := false
 var finished := false
 var overspeed := false
+var stops: Array = []               # arrêts desservis par la mission (défaut : toutes les stations)
 var schedule: Array[float] = []      # heure de départ prévue par station
 var next_station := 0
 var dwell_left := 0.0
@@ -35,6 +36,7 @@ var signal_state: Dictionary = {}    # idx -> "clear"/"stop"
 
 func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, start_offset: float, sched: Array[float], pax: int = 40) -> void:
 	net = network
+	stops = network.stations
 	phys = TrainPhysics.new(profile)
 	phys.passengers = pax
 	edge_id = start_edge
@@ -47,8 +49,20 @@ func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, 
 		signal_state[i] = net.signals[i].get("default", "clear")
 	traffic = RoadTraffic.new(net.meta.get("roads", []))
 
+## Remplace la liste d'arrêts (mission issue du GTFS) : indices dans net.stations.
+func set_mission_stops(indices: Array) -> void:
+	stops = []
+	for i in indices:
+		stops.append(net.stations[int(i)])
+
+## Limite la plus restrictive sous la rame (du nez à la queue sur l'arête courante, et devant 0 m).
 func speed_limit() -> float:
-	return net.edge_info[edge_id].limit_ms
+	var v := net.limit_at(edge_id, offset)
+	var tail := maxf(0.0, offset - phys.profile.length_m)
+	for z in net.edge_info[edge_id].zones:
+		if z[1] >= tail and z[0] <= offset:
+			v = minf(v, z[2])
+	return v
 
 func set_doors(open: bool) -> void:
 	if open and phys.speed > 0.1:
@@ -63,9 +77,9 @@ func set_doors(open: bool) -> void:
 	doors_open = open
 
 func _station_here() -> Dictionary:
-	if next_station >= net.stations.size():
+	if next_station >= stops.size():
 		return {}
-	var s: Dictionary = net.stations[next_station]
+	var s: Dictionary = stops[next_station]
 	if s.edge == edge_id and absf(float(s.offset) - offset) <= STOP_TOLERANCE_M:
 		return s
 	return {}
@@ -98,6 +112,15 @@ func dist_to_point(to_edge: String, to_offset: float, horizon: float = 1500.0) -
 		back += net.graph.edges[route[i]].length
 	return INF
 
+## Point de voie situé `d` mètres derrière le nez (pour placer les caisses articulées).
+func locate_behind(d: float) -> Array:
+	var off := offset - d
+	var i := route.size() - 1
+	while off < 0.0 and i > 0:
+		i -= 1
+		off += net.graph.edges[route[i]].length
+	return [route[i], maxf(off, 0.0)]
+
 func _dist_cb(_e: String, _o: float, to_edge: String, to_offset: float) -> float:
 	return dist_to_point(to_edge, to_offset)
 
@@ -122,7 +145,7 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	var before := phys.position
 	phys.step(dt, n, info.grade, emergency or doors_open and phys.speed > 0.1)
 	var d := phys.position - before
-	overspeed = phys.speed > info.limit_ms + 0.5
+	overspeed = phys.speed > speed_limit() + 0.5
 	_advance(d)
 	if finished:
 		return
@@ -206,22 +229,22 @@ func _update_dwell(dt: float) -> void:
 		_alight_acc -= off
 		phys.passengers = clampi(phys.passengers + on - off, 0, phys.profile.capacity)
 		dwell_left = maxf(0.0, dwell_left - dt)
-	var last := next_station == net.stations.size() - 1
+	var last := next_station == stops.size() - 1
 	# départ : portes fermées, cycle fait, rame qui repart (terminus : fermeture suffit)
 	if served and door_cycle_done and not doors_open and (phys.speed > 0.5 or last):
-		var st: Dictionary = net.stations[next_station]
+		var st: Dictionary = stops[next_station]
 		var r := scorer.evaluate_departure(st.name, schedule[next_station], time_s - dt, true)
 		event.emit("departure", "%s : %s" % [st.name, ["OK", "départ anticipé", "retard > 60 s", "arrêt oublié"][r]])
 		next_station += 1
 		served = false
 		door_cycle_done = false
-		if next_station >= net.stations.size():
+		if next_station >= stops.size():
 			finished = true
 
 func _check_station_passed() -> void:
-	if next_station >= net.stations.size() or served:
+	if next_station >= stops.size() or served:
 		return
-	var s: Dictionary = net.stations[next_station]
+	var s: Dictionary = stops[next_station]
 	var passed: bool = (s.edge == edge_id and offset > float(s.offset) + STOP_TOLERANCE_M) or (s.edge in visited and s.edge != edge_id)
 	if passed:
 		scorer.evaluate_departure(s.name, schedule[next_station], time_s, false)

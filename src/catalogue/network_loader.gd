@@ -34,7 +34,13 @@ func load_file(path: String) -> PackedStringArray:
 		var sup := str(e.get("supply", data.get("supply", "overhead")))
 		if not sup in supplies:
 			supplies.append(sup)
-		edge_info[e.id] = {"limit_ms": lim, "grade": float(e.get("grade", 0.0)), "supply": sup}
+		var zones: Array = []
+		for z in e.get("limits", []):
+			zones.append([float(z[0]), float(z[1]), float(z[2]) / 3.6])
+		var pts: PackedVector2Array = []
+		for q in e.get("pts", []):
+			pts.append(Vector2(float(q[0]), float(q[1])))
+		edge_info[e.id] = {"limit_ms": lim, "zones": zones, "grade": float(e.get("grade", 0.0)), "supply": sup, "pts": pts}
 	for s in data.get("stations", []):
 		if not graph.edges.has(s.edge):
 			errs.append("station sur arête inconnue: " + s.name)
@@ -47,3 +53,41 @@ func load_file(path: String) -> PackedStringArray:
 		signals.append(s.duplicate())
 	errs.append_array(graph.validate())
 	return errs
+
+## Limite (m/s) en un point : limite de l'arête, réduite par les zones de courbe.
+func limit_at(edge_id: String, offset: float) -> float:
+	var info: Dictionary = edge_info[edge_id]
+	var v: float = info.limit_ms
+	for z in info.zones:
+		if offset >= z[0] and offset <= z[1]:
+			v = minf(v, z[2])
+	return v
+
+## Missions horaires décrites dans le fichier réseau (issues du GTFS).
+func missions() -> Array:
+	return meta.get("missions", [])
+
+func has_geometry() -> bool:
+	for id in edge_info:
+		if edge_info[id].pts.size() >= 2:
+			return true
+	return false
+
+## Position (x, z en mètres) et cap le long de la polyligne de l'arête.
+func point_on(edge_id: String, offset: float) -> Dictionary:
+	var pts: PackedVector2Array = edge_info[edge_id].pts
+	var L: float = graph.edges[edge_id].length
+	var total := 0.0
+	for i in range(pts.size() - 1):
+		total += pts[i].distance_to(pts[i + 1])
+	# l'abscisse de jeu est ramenée sur la longueur géométrique de la polyligne
+	var s := clampf(offset, 0.0, L) * (total / L if L > 0.0 else 1.0)
+	var acc := 0.0
+	for i in range(pts.size() - 1):
+		var seg := pts[i].distance_to(pts[i + 1])
+		if acc + seg >= s or i == pts.size() - 2:
+			var u := 0.0 if seg == 0.0 else clampf((s - acc) / seg, 0.0, 1.0)
+			var dir := (pts[i + 1] - pts[i]).normalized()
+			return {"p": pts[i].lerp(pts[i + 1], u), "dir": dir}
+		acc += seg
+	return {"p": pts[0] if pts.size() > 0 else Vector2.ZERO, "dir": Vector2.RIGHT}
