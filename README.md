@@ -14,12 +14,19 @@ Simulateur de tramway 3D (Godot 4.6.3, GDScript, Android 10+, paysage, hors lign
 Godot 4.6.3 + modèles d'export, JDK 21, Android SDK (platform 36, build-tools 36.0.0, platform-tools). Réglages éditeur :
 `export/android/android_sdk_path`, `java_sdk_path`, `debug_keystore(_user/_pass)`. Le projet doit avoir
 `rendering/textures/vram_compression/import_etc2_astc=true` (sinon l'export échoue avec une erreur vide). Si `sdkmanager`/`java` affichent
-« Picked up JAVA_TOOL_OPTIONS », faire `unset JAVA_TOOL_OPTIONS`. Commande : `godot --headless --export-debug Android build/tramsim.apk`.
+« Picked up JAVA_TOOL_OPTIONS », faire `unset JAVA_TOOL_OPTIONS`. Commandes : `godot --headless --export-debug Android build/tramsim.apk` et `godot --headless --export-release Windows build/TramSimFrance.exe`.
+Le workflow `.github/workflows/release.yml` compile et publie automatiquement l'APK et l'EXE dans une Release GitHub.
 
 ## Ancienne note de compilation
 Prérequis : Godot 4.6.3 + modèles d'export, JDK 17, Android SDK (platform 34, build-tools 34, NDK r28),
 keystore de développement (`keytool -genkey -v -keystore dev.keystore -alias dev -keyalg RSA -keysize 2048 -validity 10000`).
 Puis `godot --headless --export-debug Android build/tramsim.apk`. Voir `docs/ROADMAP.md`.
+
+## Direction artistique
+Low poly et cel shading (shaders `src/rendering/shaders/`) : facettes plates, éclairage en paliers, contours encrés des rames,
+eau animée, fenêtres éclairées la nuit, lampadaires, phares. Cycle jour/nuit (`DayNight`) calé sur l'heure GTFS du service.
+Rames générées par famille (Citadis, X05, Eurotram, Flexity, Translohr, Urbos, Avanto, Dualis, Incentro, Tango, Breda…)
+avec livrées par réseau et par ligne. Décor réel BD TOPO IGN chargé par tuiles (`CityScene`).
 
 ## État actuel
 - Réseaux livrés : **120 lignes et variantes de 29 réseaux français** importées des GTFS officiels — voir `docs/COUVERTURE.md`, `CREDITS.md`, `docs/SOURCES.md`.

@@ -1,0 +1,63 @@
+name: release
+# Compile l'APK Android et l'EXE Windows puis les publie dans une Release GitHub.
+on:
+  push:
+    branches: [main, master, "ccr-*"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GODOT_VERSION: 4.6.3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: "21"}
+      - uses: android-actions/setup-android@v3
+      - name: SDK Android
+        run: sdkmanager "platform-tools" "build-tools;36.0.0" "platforms;android-36"
+      - name: Godot et modèles d'export
+        run: |
+          curl -sSL -o godot.zip https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
+          unzip -q godot.zip && mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot && chmod +x godot
+          curl -sSL -o tpl.tpz https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          unzip -q tpl.tpz && mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
+      - name: Clé de développement et réglages d'export
+        run: |
+          keytool -genkeypair -keystore $HOME/dev.keystore -alias dev -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass tramsim-dev -keypass tramsim-dev -dname "CN=TramSim Dev"
+          mkdir -p ~/.config/godot
+          cat > ~/.config/godot/editor_settings-4.6.tres <<CFG
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$ANDROID_HOME"
+          export/android/java_sdk_path = "$JAVA_HOME"
+          export/android/debug_keystore = "$HOME/dev.keystore"
+          export/android/debug_keystore_user = "dev"
+          export/android/debug_keystore_pass = "tramsim-dev"
+          CFG
+      - name: Tests
+        run: GODOT=$PWD/godot tests/run_all.sh
+      - name: Export
+        run: |
+          mkdir -p build
+          ./godot --headless --path . --import >/dev/null 2>&1 || true
+          ./godot --headless --path . --export-debug Android build/TramSimFrance.apk
+          ./godot --headless --path . --export-release Windows build/TramSimFrance.exe
+          cd build && zip -9 TramSimFrance-windows.zip TramSimFrance.exe && ls -la
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.2.${{ github.run_number }}
+          name: Tram Sim France 0.2.${{ github.run_number }}
+          prerelease: true
+          body: |
+            APK Android (arm64, signature de développement) et EXE Windows (x86_64).
+            Données : GTFS des réseaux (transport.data.gouv.fr) et BD TOPO® IGN — voir CREDITS.md et docs/COUVERTURE.md.
+          files: |
+            build/TramSimFrance.apk
+            build/TramSimFrance-windows.zip

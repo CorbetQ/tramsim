@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "clermont",
+ "origin": [
+  45.7667552,
+  3.1343321
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 80,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 7171,
+  "surfaces_1": 7,
+  "surfaces_2": 220,
+  "surfaces_3": 212,
+  "surfaces_4": 44,
+  "surfaces_5": 4,
+  "lignes_1": 2367,
+  "lignes_0": 338,
+  "lignes_3": 245,
+  "lignes_2": 27,
+  "lignes_10": 20
+ }
+}

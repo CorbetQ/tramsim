@@ -1,6 +1,10 @@
 # Crédits et licences
 
 - Moteur : Godot Engine 4.6.3 (MIT).
+- **Décor (bâtiments, routes, eau, végétation, terrains de sport, cimetières, voies ferrées)** : Source : IGN – BD TOPO®,
+  service WFS data.geopf.fr, **Licence Ouverte 2.0** (Etalab). Fichiers dérivés : `data/scenes/*.bin` (+ `.json` : date d'extraction).
+- Modèles de rames, livrées, palettes de façades : créations originales du projet (aucune image ni marque reproduite) ;
+  les couleurs d'accent sont les couleurs officielles des lignes publiées dans les GTFS.
 - Données d'offre de transport (tracés, arrêts, horaires) issues des GTFS publiés sur transport.data.gouv.fr. Les fichiers `data/networks/*.json` sont des bases dérivées ; celles issues de jeux sous ODbL restent sous **ODbL**.
 
 | Réseau | Producteur | Licence |

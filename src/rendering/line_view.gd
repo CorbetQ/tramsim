@@ -1,9 +1,8 @@
 class_name LineView
 extends Node3D
-## Rendu : voie (ruban par arête), quais, signaux, carrefours, rame articulée.
-## Géométrie réelle si le réseau fournit `pts` (import GTFS/OSM), sinon arêtes dépliées le long de X.
-
-const MODULE_LEN := 7.0
+## Rendu d'une ligne : décor réel (CityScene, BD TOPO IGN) ou décor générique, plateforme et rails,
+## quais avec abris, signaux, carrefours, rame modélisée articulée (TramModel), cycle jour/nuit (DayNight).
+## Géométrie réelle si le réseau fournit `pts` (import GTFS), sinon arêtes dépliées le long de X.
 
 var net: NetworkLoader
 var geometric := false
@@ -17,15 +16,32 @@ var sector_center: Dictionary = {} # edge id -> Vector3
 var view_distance := 400.0
 var car_nodes: Array[MeshInstance3D] = []
 var light_nodes: Array[MeshInstance3D] = []
-var livery := Color(0.85, 0.1, 0.15)
+var city: CityScene
+var day_night: DayNight
+var headlight: SpotLight3D
+var livery: Dictionary = {}
+var family := ""
+var orbit := 0.0                   # rotation de la caméra extérieure (glisser au doigt)
+var _tram_len := 0.0
 
-func build(network: NetworkLoader, start_edge: String) -> void:
+func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile = null) -> void:
 	net = network
 	geometric = net.has_geometry()
-	if net.meta.has("color"):
-		livery = Color.from_string(str(net.meta.color), livery)
+	livery = TramModel.livery_for(net.meta)
+	family = livery.family
+	if vehicle != null and vehicle.id != VehicleLibrary.default_for(net.meta).id:
+		family = TramModel.PROFILE_FAMILY.get(vehicle.id, family)
 	if not geometric:
 		_unfold(start_edge)
+	day_night = DayNight.new(); add_child(day_night); day_night.setup(self)
+	var src := str(net.meta.get("source_id", ""))
+	if geometric and net.meta.has("origin") and CityScene.available(src):
+		city = CityScene.new()
+		if city.open(src, net.meta.origin):
+			city.radius = maxf(view_distance + 200.0, 500.0)
+			add_child(city)
+		else:
+			city.free(); city = null
 	var lo := Vector3(INF, 0, INF); var hi := Vector3(-INF, 0, -INF)
 	for id in net.graph.edges:
 		var sec := Node3D.new(); add_child(sec); sectors[id] = sec
@@ -33,28 +49,36 @@ func build(network: NetworkLoader, start_edge: String) -> void:
 		sector_center[id] = (a + b) * 0.5
 		lo = Vector3(minf(lo.x, minf(a.x, b.x)), 0, minf(lo.z, minf(a.z, b.z)))
 		hi = Vector3(maxf(hi.x, maxf(a.x, b.x)), 0, maxf(hi.z, maxf(a.z, b.z)))
-		_track_ribbon(sec, id)
-		if geometric: _buildings(sec, id)
+		_track(sec, id)
+		if geometric and city == null: _generic_buildings(sec, id)
 	for s in net.stations:
-		var t := _frame(s.edge, float(s.offset))
-		_box(sectors[s.edge], t.origin + t.basis.x * 2.9 + Vector3(0, 0.4, 0) - t.basis.z * 0.0, Vector3(2.2, 0.8, 40.0), Color(0.8, 0.75, 0.6), t.basis)
+		_station(sectors[s.edge], s)
 	for s in net.signals:
 		var t2 := _frame(s.edge, float(s.offset))
-		signal_nodes.append(_box(sectors[s.edge], t2.origin - t2.basis.x * 2.0 + Vector3(0, 2.0, 0), Vector3(0.4, 1.0, 0.4), Color(0.1, 0.8, 0.2), t2.basis))
+		_post(sectors[s.edge], t2.origin - t2.basis.x * 2.2, 3.2)
+		signal_nodes.append(_lamp(sectors[s.edge], t2.origin - t2.basis.x * 2.2 + Vector3(0, 3.0, 0), Color(0.1, 0.9, 0.3)))
 	for lane in net.meta.get("roads", []):
 		var t3 := _frame(lane.edge, float(lane.edge_offset))
-		_box(self, t3.origin + Vector3(0, -0.12, 0), Vector3(float(lane.length), 0.05, 7.0), Color(0.15, 0.15, 0.17), t3.basis)
-		light_nodes.append(_box(self, t3.origin + t3.basis.x * 4.0 + Vector3(0, 2.0, 0) + t3.basis.z * 5.0, Vector3(0.4, 1.0, 0.4), Color(0.1, 0.8, 0.2), t3.basis))
+		var road := _Geo.new()
+		road.box(Vector3(0, -0.04, 0), Vector3(float(lane.length), 0.06, 7.0), Color("#5b5f66"))
+		_add_geo(self, road, Materials.building(), t3)
+		_post(self, t3.origin + t3.basis.x * 4.0 + t3.basis.z * 5.0, 3.0)
+		light_nodes.append(_lamp(self, t3.origin + t3.basis.x * 4.0 + Vector3(0, 2.8, 0) + t3.basis.z * 5.0, Color(0.1, 0.9, 0.3)))
 	tram = Node3D.new(); add_child(tram)
-	var sun := DirectionalLight3D.new(); sun.rotation_degrees = Vector3(-55, 35, 0); add_child(sun)
-	var env := WorldEnvironment.new(); env.environment = Environment.new()
-	env.environment.background_mode = Environment.BG_COLOR
-	env.environment.background_color = Color(0.62, 0.78, 0.92)
-	env.environment.ambient_light_color = Color(0.6, 0.6, 0.65); env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	add_child(env)
-	var c := (lo + hi) * 0.5; var ext := (hi - lo) + Vector3(600, 0, 600)
-	_box(self, c + Vector3(0, -0.3, 0), Vector3(ext.x, 0.2, ext.z), Color(0.36, 0.48, 0.3))
-	cam = Camera3D.new(); cam.far = 800.0; add_child(cam)
+	# sol au-delà du corridor
+	var c := (lo + hi) * 0.5; var ext := (hi - lo) + Vector3(3000, 0, 3000)
+	var ground := _Geo.new()
+	ground.box(Vector3(0, -0.3, 0), Vector3(ext.x, 0.2, ext.z), Color("#97b46f"))
+	_add_geo(self, ground, Materials.building(), Transform3D(Basis.IDENTITY, c))
+	cam = Camera3D.new(); cam.far = 1600.0; cam.fov = 62.0; add_child(cam)
+	headlight = SpotLight3D.new()
+	headlight.spot_range = 70.0; headlight.spot_angle = 28.0; headlight.light_energy = 6.0
+	headlight.light_color = Color(1.0, 0.95, 0.85)
+	add_child(headlight)
+
+func set_hour(h: float) -> void:
+	day_night.set_hour(h)
+	headlight.visible = day_night.night > 0.35
 
 func _unfold(start_edge: String) -> void:
 	var placed := {}
@@ -76,69 +100,90 @@ func _unfold(start_edge: String) -> void:
 			edge_origin[id] = Vector3(0, 0, 30.0 + 8.0 * edge_origin.size())
 
 ## Position 3D d'un point de voie.
+const TRACK_OFFSET := 1.75   # demi-entraxe : chaque sens roule à droite de l'axe commun
+
 func pos3(edge_id: String, offset: float) -> Vector3:
 	if geometric:
-		var p: Vector2 = net.point_on(edge_id, offset).p
-		return Vector3(p.x, 0.0, p.y)
+		var q: Dictionary = net.point_on(edge_id, offset)
+		var p: Vector2 = q.p
+		var d: Vector2 = q.dir
+		return Vector3(p.x - d.y * TRACK_OFFSET, 0.0, p.y + d.x * TRACK_OFFSET)
 	return edge_origin[edge_id] + Vector3(offset, 0, 0)
 
-## Repère local : origine sur la voie, -Z = sens de marche.
+## Repère local : origine sur la voie, -Z = sens de marche, X = droite.
 func _frame(edge_id: String, offset: float) -> Transform3D:
 	var o := pos3(edge_id, offset)
 	var d := Vector3(1, 0, 0)
 	if geometric:
 		var v: Vector2 = net.point_on(edge_id, offset).dir
 		d = Vector3(v.x, 0, v.y)
-	var b := Basis.looking_at(d.normalized(), Vector3.UP)
-	return Transform3D(b, o)
+	return Transform3D(Basis.looking_at(d.normalized(), Vector3.UP), o)
 
-func _track_ribbon(parent: Node3D, id: String) -> void:
+## Plateforme engazonnée, longrines béton, rails.
+func _track(parent: Node3D, id: String) -> void:
 	var pts: Array[Vector3] = []
 	if geometric:
 		for q in net.edge_info[id].pts: pts.append(Vector3(q.x, 0.0, q.y))
 	else:
 		pts = [pos3(id, 0.0), pos3(id, net.graph.edges[id].length)]
 	if pts.size() < 2: return
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var w := 1.4
-	for i in range(pts.size() - 1):
-		var d := (pts[i + 1] - pts[i]).normalized()
-		var n := Vector3(-d.z, 0, d.x) * w
-		var a := pts[i] - n; var b := pts[i] + n; var c := pts[i + 1] + n; var e := pts[i + 1] - n
-		for v in [a, b, c, a, c, e]:
-			st.set_normal(Vector3.UP); st.add_vertex(v + Vector3(0, 0.02, 0))
-	var mi := MeshInstance3D.new(); mi.mesh = st.commit()
-	var mat := StandardMaterial3D.new(); mat.albedo_color = Color(0.33, 0.33, 0.36)
-	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mi.material_override = mat
-	parent.add_child(mi)
-	_rails(parent, pts)
+	var g := _Geo.new()
+	var o := TRACK_OFFSET if geometric else 0.0
+	g.ribbon(pts, 3.5, 0.09, Color("#6f9f50"), o)
+	for off in [-0.72, 0.72]:
+		g.ribbon(pts, 0.42, 0.11, Color("#b3b1aa"), o + off)
+		g.ribbon(pts, 0.08, 0.17, Color("#8f959c", 0.9), o + off)
+	_add_geo(parent, g, Materials.building())
 
-## Deux rails (écartement 1,435 m) en ruban fin, plus clairs que la plateforme.
-func _rails(parent: Node3D, pts: Array[Vector3]) -> void:
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for side in [-0.7175, 0.7175]:
-		for i in range(pts.size() - 1):
-			var d := (pts[i + 1] - pts[i]).normalized()
-			var n := Vector3(-d.z, 0, d.x)
-			var c0: Vector3 = pts[i] + n * side; var c1: Vector3 = pts[i + 1] + n * side
-			var w := n * 0.04
-			for v in [c0 - w, c0 + w, c1 + w, c0 - w, c1 + w, c1 - w]:
-				st.set_normal(Vector3.UP); st.add_vertex(v + Vector3(0, 0.06, 0))
-	var mi := MeshInstance3D.new(); mi.mesh = st.commit()
-	var mat := StandardMaterial3D.new(); mat.albedo_color = Color(0.75, 0.75, 0.78); mat.metallic = 0.6
-	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mi.material_override = mat
-	parent.add_child(mi)
+## Quai avec abri, banc et totem, à droite dans le sens de marche.
+func _station(parent: Node3D, s: Dictionary) -> void:
+	var t := _frame(s.edge, float(s.offset))
+	var g := _Geo.new()
+	var L := 42.0
+	var zc := L * 0.5 - 2.0   # le quai s'étend vers l'arrière depuis le point d'arrêt du nez
+	g.box(Vector3(2.85, 0.15, zc), Vector3(2.4, 0.3, L), Color("#d9d4c8"))
+	g.box(Vector3(1.72, 0.31, zc), Vector3(0.18, 0.02, L), Color("#f2f2ee"))
+	var acc: Color = livery.get("accent", Color("#c8102e"))
+	for k in [-1.0, 1.0]:
+		g.box(Vector3(3.6, 1.4, zc + k * 3.0), Vector3(0.1, 2.5, 0.1), Color("#4a4f55"))
+	g.box(Vector3(3.3, 2.7, zc), Vector3(1.5, 0.08, 7.0), Color("#5d646b"))
+	g.box(Vector3(3.95, 1.5, zc), Vector3(0.05, 2.0, 6.6), Color(0.6, 0.75, 0.82, 0.5))
+	g.box(Vector3(3.55, 0.75, zc), Vector3(0.5, 0.1, 2.4), Color("#7a6a58"))
+	g.box(Vector3(3.5, 1.4, zc + 6.5), Vector3(0.3, 2.8, 0.6), acc)
+	_add_geo(parent, g, Materials.building(), t)
+	var lbl := Label3D.new()
+	lbl.text = str(s.name)
+	lbl.font_size = 64; lbl.pixel_size = 0.006
+	lbl.outline_size = 12
+	lbl.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+	lbl.position = t * Vector3(3.5, 3.15, zc + 6.5)
+	parent.add_child(lbl)
 
-## Bâtiments génériques de part et d'autre de la voie (MultiMesh par secteur, pseudo-aléatoire stable).
-func _buildings(parent: Node3D, id: String) -> void:
+func _post(parent: Node3D, p: Vector3, h: float) -> void:
+	var g := _Geo.new()
+	g.box(Vector3(0, h * 0.5, 0), Vector3(0.14, h, 0.14), Color("#3f4449"))
+	_add_geo(parent, g, Materials.building(), Transform3D(Basis.IDENTITY, p))
+
+func _lamp(parent: Node3D, p: Vector3, col: Color) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	var bm := BoxMesh.new(); bm.size = Vector3(0.35, 0.55, 0.35)
+	var mat := StandardMaterial3D.new(); mat.albedo_color = col
+	mat.emission_enabled = true; mat.emission = col; mat.emission_energy_multiplier = 1.5
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	bm.material = mat
+	mi.mesh = bm; mi.position = p
+	parent.add_child(mi)
+	return mi
+
+func _set_lamp(mi: MeshInstance3D, col: Color) -> void:
+	var mat := (mi.mesh as BoxMesh).material as StandardMaterial3D
+	mat.albedo_color = col; mat.emission = col
+
+## Décor générique (réseaux sans scène IGN) : bâtiments pseudo-aléatoires stables.
+func _generic_buildings(parent: Node3D, id: String) -> void:
 	var L: float = net.graph.edges[id].length
 	var rng := RandomNumberGenerator.new(); rng.seed = hash(id)
-	var xf: Array[Transform3D] = []
-	var cols: Array[Color] = []
+	var g := _Geo.new()
 	var s := 10.0
 	while s < L - 5.0:
 		var t := _frame(id, s)
@@ -147,42 +192,25 @@ func _buildings(parent: Node3D, id: String) -> void:
 			var h := rng.randf_range(6.0, 22.0)
 			var w := rng.randf_range(10.0, 18.0)
 			var dpt := rng.randf_range(10.0, 16.0)
-			var off := rng.randf_range(14.0, 22.0) + dpt * 0.5
-			var p: Vector3 = t.origin + t.basis.x * side * off + Vector3(0, h * 0.5, 0)
-			xf.append(Transform3D(t.basis * Basis.from_scale(Vector3(dpt, h, w)), p))
-			var g := rng.randf_range(0.72, 0.92)
-			cols.append(Color(g, g * rng.randf_range(0.92, 1.0), g * rng.randf_range(0.82, 0.95)))
+			var p: Vector3 = t.origin + t.basis.x * side * (rng.randf_range(14.0, 22.0) + dpt * 0.5)
+			var col := Color(0.85, 0.82, 0.76).darkened(rng.randf() * 0.15)
+			col.a = 0.5 + rng.randf() * 0.49
+			g.box_basis(p + Vector3(0, h * 0.5, 0), Vector3(dpt, h, w), t.basis, col)
 		s += rng.randf_range(16.0, 24.0)
-	if xf.is_empty(): return
-	var mm := MultiMesh.new()
-	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.use_colors = true
-	mm.mesh = BoxMesh.new()
-	mm.instance_count = xf.size()
-	for i in xf.size():
-		mm.set_instance_transform(i, xf[i]); mm.set_instance_color(i, cols[i])
-	var mmi := MultiMeshInstance3D.new(); mmi.multimesh = mm
-	var mat := StandardMaterial3D.new(); mat.vertex_color_use_as_albedo = true
-	mmi.material_override = mat
-	parent.add_child(mmi)
+	_add_geo(parent, g, Materials.building())
 
-func _box(parent: Node3D, pos: Vector3, size: Vector3, col: Color, basis: Basis = Basis.IDENTITY) -> MeshInstance3D:
+func _add_geo(parent: Node3D, g: _Geo, mat: Material, xf: Transform3D = Transform3D.IDENTITY) -> MeshInstance3D:
 	var mi := MeshInstance3D.new()
-	var bm := BoxMesh.new(); bm.size = size
-	var mat := StandardMaterial3D.new(); mat.albedo_color = col
-	bm.material = mat
-	mi.mesh = bm
-	mi.transform = Transform3D(basis, pos)
+	mi.mesh = g.mesh(); mi.material_override = mat; mi.transform = xf
 	parent.add_child(mi)
 	return mi
 
-## Une caisse par module : chaque caisse est posée sur la voie (articulations).
-func _ensure_modules(n: int) -> void:
-	while modules.size() < n:
-		var m := _box(tram, Vector3.ZERO, Vector3(2.4, 3.2, MODULE_LEN - 0.4), livery)
-		_box(m, Vector3(0, 0.45, 0), Vector3(2.44, 1.1, MODULE_LEN - 1.2), Color(0.12, 0.16, 0.2))
-		_box(m, Vector3(0, 1.75, 0), Vector3(2.0, 0.3, MODULE_LEN - 1.6), Color(0.85, 0.85, 0.85))
-		modules.append(m)
+func _ensure_modules(length_m: float) -> void:
+	if not modules.is_empty() and is_equal_approx(length_m, _tram_len): return
+	for m in modules: m.queue_free()
+	modules = TramModel.build(length_m, livery, family)
+	for m in modules: tram.add_child(m)
+	_tram_len = length_m
 
 func update_sectors(center: Vector3) -> int:
 	var shown := 0
@@ -194,44 +222,90 @@ func update_sectors(center: Vector3) -> int:
 	return shown
 
 func update_from(s: MissionSession, external: bool) -> void:
-	var n := maxi(1, int(round(s.phys.profile.length_m / MODULE_LEN)))
-	_ensure_modules(n)
+	_ensure_modules(s.phys.profile.length_m)
+	var n := modules.size()
 	var seg := s.phys.profile.length_m / n
 	for i in n:
 		var f: Array = s.locate_behind(i * seg)
 		var b: Array = s.locate_behind((i + 1) * seg)
 		var pf := pos3(f[0], f[1]); var pb := pos3(b[0], b[1])
-		var mid := (pf + pb) * 0.5 + Vector3(0, 1.9, 0)
 		var dir := pf - pb
 		if dir.length() < 0.01: dir = Vector3(1, 0, 0)
-		modules[i].transform = Transform3D(Basis.looking_at(dir.normalized(), Vector3.UP), mid)
+		modules[i].transform = Transform3D(Basis.looking_at(dir.normalized(), Vector3.UP), (pf + pb) * 0.5)
 	var front := _frame(s.edge_id, s.offset)
-	tram.visible = external
 	var fwd := -front.basis.z
+	headlight.global_transform = Transform3D(Basis.looking_at((fwd + Vector3(0, -0.12, 0)).normalized(), Vector3.UP), front.origin + fwd * 0.5 + Vector3(0, 1.0, 0))
+	tram.visible = external
 	if external:
-		cam.position = front.origin - fwd * 30.0 + Vector3(0, 12, 0) + front.basis.x * 7.0
-		cam.look_at(front.origin + fwd * 5.0 + Vector3(0, 1, 0))
+		var back := fwd.rotated(Vector3.UP, orbit)
+		cam.position = front.origin - back * 40.0 + Vector3(0, 9.5, 0) + back.cross(Vector3.UP) * -11.0
+		cam.look_at(front.origin - fwd * 14.0 + Vector3(0, 2.0, 0))
 	else:  # vue cabine
-		cam.position = front.origin - fwd * 1.2 + Vector3(0, 3.0, 0)
-		cam.look_at(cam.position + fwd * 30.0 + Vector3(0, -0.6, 0))
+		cam.position = front.origin - fwd * 1.0 + Vector3(0, 2.6, 0)
+		cam.look_at(cam.position + fwd * 30.0 + Vector3(0, -0.8, 0))
 	update_sectors(front.origin)
+	if city: city.update(cam.global_position, 1)
 	_update_cars(s)
 	for i in signal_nodes.size():
-		var c := Color(0.1, 0.8, 0.2) if s.signal_state[i] == "clear" else Color(0.9, 0.1, 0.1)
-		(signal_nodes[i].mesh.material as StandardMaterial3D).albedo_color = c
+		_set_lamp(signal_nodes[i], Color(0.1, 0.9, 0.3) if s.signal_state[i] == "clear" else Color(0.95, 0.1, 0.1))
 
 func _update_cars(s: MissionSession) -> void:
 	var cars := s.traffic.cars
 	while car_nodes.size() < cars.size():
-		car_nodes.append(_box(self, Vector3.ZERO, Vector3(1.9, 1.5, RoadTraffic.CAR_LEN), Color(0.2, 0.3, 0.9)))
+		var g := _Geo.new()
+		var body := Color.from_hsv(randf(), 0.55, 0.75)
+		g.box(Vector3(0, 0.55, 0), Vector3(1.8, 0.7, 4.3), body)
+		g.box(Vector3(0, 1.15, 0.2), Vector3(1.6, 0.55, 2.3), Color(0.25, 0.32, 0.38, 0.5))
+		var mi := _add_geo(self, g, Materials.toon())
+		car_nodes.append(mi)
 	for i in car_nodes.size():
 		var node := car_nodes[i]
 		node.visible = i < cars.size()
 		if node.visible:
 			var lane: Dictionary = s.traffic.lanes[cars[i].lane]
 			var t := _frame(lane.edge, float(lane.edge_offset))
-			# la route croise la voie à angle droit (axe x local)
-			var p := t.origin + t.basis.x * (float(cars[i].pos) - float(lane.cross_at)) + t.basis.z * 1.5 + Vector3(0, 0.8, 0)
+			var p := t.origin + t.basis.x * (float(cars[i].pos) - float(lane.cross_at)) + t.basis.z * 1.5
 			node.transform = Transform3D(Basis.looking_at(t.basis.x, Vector3.UP), p)
 	for i in light_nodes.size():
-		(light_nodes[i].mesh.material as StandardMaterial3D).albedo_color = Color(0.9, 0.1, 0.1) if s.traffic.light_red[i] else Color(0.1, 0.8, 0.2)
+		_set_lamp(light_nodes[i], Color(0.95, 0.1, 0.1) if s.traffic.light_red[i] else Color(0.1, 0.9, 0.3))
+
+## Petit accumulateur géométrique (couleurs de sommets ; alpha < 0.75 = vitrage, < 0.25 = lumineux).
+class _Geo:
+	var v := PackedVector3Array()
+	var c := PackedColorArray()
+	var uv := PackedVector2Array()
+
+	func tri(a: Vector3, b: Vector3, d: Vector3, col: Color) -> void:
+		v.append_array([a, b, d]); c.append_array([col, col, col])
+		uv.append_array([Vector2(-1, -1), Vector2(-1, -1), Vector2(-1, -1)])
+
+	func quad(a: Vector3, b: Vector3, d: Vector3, e: Vector3, col: Color) -> void:
+		tri(a, b, d, col); tri(a, d, e, col)
+
+	func box(ctr: Vector3, s: Vector3, col: Color) -> void:
+		box_basis(ctr, s, Basis.IDENTITY, col)
+
+	func box_basis(ctr: Vector3, s: Vector3, b: Basis, col: Color) -> void:
+		var h := s * 0.5
+		var p := []
+		for q in [Vector3(-h.x, -h.y, -h.z), Vector3(h.x, -h.y, -h.z), Vector3(h.x, h.y, -h.z), Vector3(-h.x, h.y, -h.z),
+			Vector3(-h.x, -h.y, h.z), Vector3(h.x, -h.y, h.z), Vector3(h.x, h.y, h.z), Vector3(-h.x, h.y, h.z)]:
+			p.append(ctr + b * q)
+		for f in [[0, 1, 2, 3], [5, 4, 7, 6], [4, 0, 3, 7], [1, 5, 6, 2], [3, 2, 6, 7]]:
+			quad(p[f[0]], p[f[1]], p[f[2]], p[f[3]], col)
+
+	func ribbon(pts: Array[Vector3], w: float, y: float, col: Color, offset: float = 0.0) -> void:
+		for i in range(pts.size() - 1):
+			var d := (pts[i + 1] - pts[i]).normalized()
+			var n := Vector3(-d.z, 0, d.x)
+			var a := pts[i] + n * offset - d * 0.05; var b := pts[i + 1] + n * offset + d * 0.05
+			var hw := n * (w * 0.5)
+			quad(a - hw + Vector3(0, y, 0), a + hw + Vector3(0, y, 0), b + hw + Vector3(0, y, 0), b - hw + Vector3(0, y, 0), col)
+
+	func mesh() -> ArrayMesh:
+		var arr := []
+		arr.resize(Mesh.ARRAY_MAX)
+		arr[Mesh.ARRAY_VERTEX] = v; arr[Mesh.ARRAY_COLOR] = c; arr[Mesh.ARRAY_TEX_UV] = uv
+		var m := ArrayMesh.new()
+		if v.size() > 0: m.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+		return m

@@ -1,0 +1,43 @@
+{
+ "comment": "Livrées et familles de rames par réseau (et par ligne si précisé). APPROXIMATIONS : couleurs de base choisies d'après l'apparence générale connue des matériels ; la couleur d'accent 'route' est la couleur officielle de la ligne (GTFS route_color). Aucune image ou marque déposée n'est reproduite.",
+ "default": {"family": "citadis", "body": "#f1f2f2", "accent": "route", "window": "#1d2a33", "door": "accent", "front": "accent", "roof": "#c9cdd0", "skirt": "#3a3f44", "style": "band"},
+ "networks": {
+  "angers": {"family": "citadis"},
+  "nantes": {"family": "incentro", "body": "#f4f5f2"},
+  "bordeaux": {"family": "citadis", "body": "#b9bec4", "roof": "#9aa0a6", "front": "#2a2e33", "style": "front_mask"},
+  "clermont": {"family": "translohr"},
+  "mulhouse": {"family": "citadis", "lines": {"tt": {"family": "avanto"}}},
+  "grenoble": {"family": "citadis"},
+  "toulouse": {"family": "citadis"},
+  "strasbourg": {"family": "eurotram", "body": "#e9eded"},
+  "montpellier": {"family": "citadis", "lines": {
+     "1": {"body": "#1f4e9c", "accent": "#ffffff", "front": "#1f4e9c", "door": "#ffffff"},
+     "2": {"body": "#f08a24", "accent": "#ffffff", "front": "#f08a24"},
+     "3": {"body": "#0b8fa3", "accent": "#e4f4f2", "front": "#0b8fa3"},
+     "4": {"body": "#b48a2c", "accent": "#3b2a12", "front": "#b48a2c"},
+     "5": {"body": "#7a3e8e", "accent": "#ffffff", "front": "#7a3e8e"}}},
+  "lille": {"family": "breda", "body": "#e6e8ea"},
+  "lyon": {"family": "citadis", "lines": {"rhonexpress": {"family": "tango", "body": "#d6262e", "accent": "#ffffff", "front": "#d6262e"}}},
+  "marseille": {"family": "flexity_marseille", "body": "#4b5157", "roof": "#6b7177", "front": "#2b3035", "style": "front_mask"},
+  "nice": {"family": "citadis"},
+  "rouen": {"family": "citadis"},
+  "reims": {"family": "citadis_reims"},
+  "dijon": {"family": "citadis", "body": "#5b1d4b", "front": "#5b1d4b", "accent": "#e7d7e2"},
+  "tours": {"family": "citadis_tours", "body": "#f2f2f2", "front": "#111316", "accent": "#b9c0c6", "style": "front_mask"},
+  "orleans": {"family": "citadis"},
+  "lemans": {"family": "citadis"},
+  "caen": {"family": "citadis_x05"},
+  "brest": {"family": "citadis"},
+  "lehavre": {"family": "citadis"},
+  "saintetienne": {"family": "urbos"},
+  "besancon": {"family": "urbos_short"},
+  "avignon": {"family": "citadis_x05"},
+  "valenciennes": {"family": "citadis", "body": "#9b1b24", "front": "#9b1b24", "accent": "#ffffff"},
+  "aubagne": {"family": "urbos_short"},
+  "reims_": {},
+  "idf": {"family": "citadis", "body": "#e7ecea", "lines": {
+     "t4": {"family": "avanto"}, "t5": {"family": "translohr"}, "t6": {"family": "translohr"},
+     "t9": {"family": "urbos"}, "t10": {"family": "citadis_x05"}, "t11": {"family": "dualis"},
+     "t12": {"family": "dualis"}, "t13": {"family": "dualis"}}}
+ }
+}

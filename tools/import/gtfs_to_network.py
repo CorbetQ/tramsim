@@ -314,7 +314,7 @@ def build(gtfs, route_id, args, feed=None, selection=None, prefix=None, net_id=N
                     e["from"] = dir_info[a]["last_node"]
             nodes.remove(old)
     return {
-        "schema": 1, "id": net_id or args.id, "city": args.city, "line": route["route_short_name"],
+        "schema": 1, "id": net_id or args.id, "origin": [round(proj.lat0, 7), round(proj.lon0, 7)], "city": args.city, "line": route["route_short_name"],
         "long_name": route["route_long_name"], "color": "#" + (route.get("route_color") or "c8102e"),
         "provisional": False,
         "provenance": f"GTFS {args.publisher} (licence {args.licence}), données du {args.source_date} via transport.data.gouv.fr. "

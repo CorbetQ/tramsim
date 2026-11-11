@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "bordeaux",
+ "origin": [
+  44.887668,
+  -0.517313
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 453,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 48936,
+  "surfaces_1": 128,
+  "surfaces_2": 1610,
+  "surfaces_3": 978,
+  "surfaces_4": 119,
+  "surfaces_5": 14,
+  "lignes_1": 11514,
+  "lignes_0": 1531,
+  "lignes_2": 646,
+  "lignes_3": 1080,
+  "lignes_10": 629
+ }
+}

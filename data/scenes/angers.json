@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "angers",
+ "origin": [
+  47.443902,
+  -0.554032
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 110,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 11123,
+  "surfaces_1": 34,
+  "surfaces_3": 319,
+  "surfaces_2": 192,
+  "surfaces_4": 49,
+  "surfaces_5": 8,
+  "lignes_1": 4676,
+  "lignes_0": 538,
+  "lignes_3": 1377,
+  "lignes_2": 240,
+  "lignes_10": 32
+ }
+}

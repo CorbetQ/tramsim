@@ -1,5 +1,9 @@
 extends SceneTree
-## Captures du rendu (nécessite un affichage, ex. xvfb-run). Arg : dossier de sortie.
+## Captures du rendu (xvfb-run). Args : dossier, réseau, [arête].
+func _shot(path: String) -> void:
+	for i in 6: await process_frame
+	root.get_viewport().get_texture().get_image().save_png(path)
+
 func _init() -> void:
 	var args := OS.get_cmdline_user_args()
 	var out: String = args[0] if args.size() > 0 else "user://"
@@ -8,25 +12,27 @@ func _init() -> void:
 	root.add_child(main)
 	await process_frame
 	main.save.settings.tutorial_done = true
-	await process_frame
-	root.get_viewport().get_texture().get_image().save_png(out + "/" + netf + "_0_menu.png")
+	await _shot(out + "/" + netf + "_0_menu.png")
 	var net := NetworkLoader.new(); net.load_file("res://data/networks/%s.json" % netf)
 	main.net_path = "res://data/networks/%s.json" % netf
-	main.vehicle = VehicleLibrary.citadis_302()
+	main.vehicle = VehicleLibrary.default_for(net.meta)
 	main.free_mode = false
 	main.mission = net.missions()[0]
 	main._start()
-	# avance la rame au milieu d'une inter-station
 	var ids: Array = net.graph.edges.keys()
-	var e9: String = ids[mini(9, ids.size() - 1)]
-	main.session.edge_id = e9; main.session.route.assign([e9]); main.session.offset = minf(150.0, net.graph.edges[e9].length * 0.6)
+	var e9: String = args[2] if args.size() > 2 else ids[mini(10, ids.size() - 1)]
+	main.session.edge_id = e9; main.session.route.assign([e9]); main.session.offset = minf(120.0, net.graph.edges[e9].length * 0.6)
 	main.paused = true
-	for i in 10: await process_frame
-	root.get_viewport().get_texture().get_image().save_png(out + "/" + netf + "_1_exterieur.png")
+	if main.view.city: main.view.city.warm(main.view.cam.global_position)
+	for h in [[13.5, "jour"], [20.3, "soir"], [23.0, "nuit"]]:
+		main.hour0 = h[0] - main.session.time_s / 3600.0
+		main.external_cam = true
+		await _shot("%s/%s_ext_%s.png" % [out, netf, h[1]])
+	main.hour0 = 13.5 - main.session.time_s / 3600.0
 	main.external_cam = false
-	for i in 5: await process_frame
-	root.get_viewport().get_texture().get_image().save_png(out + "/" + netf + "_2_cabine.png")
+	await _shot("%s/%s_cabine.png" % [out, netf])
+	main.external_cam = true
 	main.map.visible = true; main.map.queue_redraw()
-	for i in 5: await process_frame
-	root.get_viewport().get_texture().get_image().save_png(out + "/" + netf + "_3_carte.png")
+	await _shot("%s/%s_carte.png" % [out, netf])
+	if main.view.city: print("tuiles: ", main.view.city.stats)
 	quit()

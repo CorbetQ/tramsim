@@ -18,6 +18,13 @@ def verdict(r):
     if r["fault"] or r["early"] or r["missed"] or r["ok"] + r["late"] != r["stops"]: return "ÉCHEC"
     if r["late"]: return f"retard sur {r['late']} arrêt(s)"
     return "réussie"
+import os
+def scene(e):
+    sid = e["id"].split("_")[0]
+    p = os.path.join("data", "scenes", sid + ".json")
+    if not os.path.exists(p): return "non"
+    m = json.load(open(p))
+    return f"oui ({m['stats'].get('bâtiments', 0)} bât.)"
 by_city = defaultdict(list)
 for e in idx:
     by_city[e["city"]].append(e)
@@ -28,11 +35,11 @@ out = ["# État de couverture", "",
        "Valeurs estimées communes à tous les réseaux (détail dans `docs/SOURCES.md`) : pentes nulles, limites de vitesse "
        "déduites de la géométrie et des horaires, alimentation supposée par caténaire (APS non localisé), rebroussement simplifié, "
        "voies de service et aiguillages intermédiaires absents (OpenStreetMap inaccessible lors de l'import), matériel générique par famille.", "",
-       "| Ville | Ligne | Parcours | Type | Arrêts | km | Mission test |", "|---|---|---|---|---|---|---|"]
+       "| Ville | Ligne | Parcours | Type | Arrêts | km | Décor réel IGN | Mission test |", "|---|---|---|---|---|---|---|---|"]
 for city in sorted(by_city):
     for e in by_city[city]:
         out.append(f"| {city} | {e['line']} | {e['long_name']} | {e['kind']}{' (pneus)' if e['guidance'] == 'rubber_guided' else ''} | "
-                   f"{e['stations'] // 2} | {e['length_km']} | {verdict(res.get(e['id']))} |")
+                   f"{e['stations'] // 2} | {e['length_km']} | {scene(e)} | {verdict(res.get(e['id']))} |")
 out += ["", "## Sources", "", "| Réseau | Exploitant / AOM | Licence | État |", "|---|---|---|---|"]
 imported = {e["id"].split("_")[0] for e in idx}
 for c in cat:

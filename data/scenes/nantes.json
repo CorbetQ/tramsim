@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "nantes",
+ "origin": [
+  47.222012,
+  -1.637673
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 223,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 21876,
+  "surfaces_1": 66,
+  "surfaces_2": 533,
+  "surfaces_3": 837,
+  "surfaces_4": 93,
+  "surfaces_5": 7,
+  "lignes_0": 878,
+  "lignes_1": 9388,
+  "lignes_3": 2439,
+  "lignes_2": 112,
+  "lignes_10": 230
+ }
+}

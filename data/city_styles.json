@@ -1,0 +1,204 @@
+{
+ "comment": "Palettes régionales (façades, toitures) appliquées aux bâtiments IGN. Choix artistiques inspirés des matériaux dominants de chaque ville.",
+ "default": {
+  "walls": [
+   "#e8e1d3",
+   "#dcd5c6",
+   "#efe9dd",
+   "#d8d2c4"
+  ],
+  "roofs": [
+   "#7d6e66",
+   "#8a7a70"
+  ],
+  "pitched": "#a65e44",
+  "ground": "#b6b1a8"
+ },
+ "styles": {
+  "ouest": {
+   "walls": [
+    "#efe8d6",
+    "#e9e1cc",
+    "#f3eee2",
+    "#ddd5c1"
+   ],
+   "roofs": [
+    "#4f5864",
+    "#5a6370",
+    "#47505b"
+   ],
+   "pitched": "#4a5361",
+   "ground": "#b9b7ae"
+  },
+  "sud": {
+   "walls": [
+    "#ecd3a8",
+    "#e6c48f",
+    "#f1dfbf",
+    "#d9b88a",
+    "#efe2c8"
+   ],
+   "roofs": [
+    "#b8693f",
+    "#c27a4c"
+   ],
+   "pitched": "#bf6a40",
+   "ground": "#c3b9a6"
+  },
+  "toulouse": {
+   "walls": [
+    "#d98a6c",
+    "#c97c5f",
+    "#e3a084",
+    "#d4917a"
+   ],
+   "roofs": [
+    "#b5603c",
+    "#a8573a"
+   ],
+   "pitched": "#b5603c",
+   "ground": "#beb0a1"
+  },
+  "nord": {
+   "walls": [
+    "#b5624b",
+    "#a65844",
+    "#c27459",
+    "#d9cfc0"
+   ],
+   "roofs": [
+    "#4c4f55",
+    "#5b5550"
+   ],
+   "pitched": "#5a4b44",
+   "ground": "#b0aea8"
+  },
+  "est": {
+   "walls": [
+    "#ead9b7",
+    "#d9b9a0",
+    "#e7c9a4",
+    "#d8dccb",
+    "#efe4cf"
+   ],
+   "roofs": [
+    "#a8523b",
+    "#9c4c38"
+   ],
+   "pitched": "#a8523b",
+   "ground": "#b7b4aa"
+  },
+  "paris": {
+   "walls": [
+    "#ece3cf",
+    "#e4d9c1",
+    "#efe8d9",
+    "#d9cfba"
+   ],
+   "roofs": [
+    "#7a8590",
+    "#6d7882"
+   ],
+   "pitched": "#6f7a85",
+   "ground": "#b8b4ab"
+  },
+  "lyon": {
+   "walls": [
+    "#e9c89a",
+    "#e3b58a",
+    "#efd7b2",
+    "#d9a782"
+   ],
+   "roofs": [
+    "#b9673f",
+    "#a95c3a"
+   ],
+   "pitched": "#b9673f",
+   "ground": "#beb6a8"
+  },
+  "bordeaux": {
+   "walls": [
+    "#efe7d2",
+    "#e8dec5",
+    "#f2ecdc"
+   ],
+   "roofs": [
+    "#b86d48",
+    "#a96244"
+   ],
+   "pitched": "#b86d48",
+   "ground": "#beb8ab"
+  },
+  "montagne": {
+   "walls": [
+    "#c9c6bf",
+    "#b8b4ad",
+    "#d8d3c8",
+    "#a9a49b"
+   ],
+   "roofs": [
+    "#5c5a58",
+    "#6c6560"
+   ],
+   "pitched": "#5f5a56",
+   "ground": "#aeaba5"
+  },
+  "beton": {
+   "walls": [
+    "#cfcfcb",
+    "#c2c3c0",
+    "#dadad6",
+    "#b9bab7"
+   ],
+   "roofs": [
+    "#8c8e8f",
+    "#7f8183"
+   ],
+   "pitched": "#7f8183",
+   "ground": "#b0b0ac"
+  },
+  "bretagne": {
+   "walls": [
+    "#d9d6cf",
+    "#e7e4dc",
+    "#c9c5bc"
+   ],
+   "roofs": [
+    "#454c56",
+    "#3e444d"
+   ],
+   "pitched": "#454c56",
+   "ground": "#b6b4ae"
+  }
+ },
+ "cities": {
+  "angers": "ouest",
+  "nantes": "ouest",
+  "tours": "ouest",
+  "orleans": "ouest",
+  "lemans": "ouest",
+  "caen": "ouest",
+  "bordeaux": "bordeaux",
+  "toulouse": "toulouse",
+  "montpellier": "sud",
+  "marseille": "sud",
+  "nice": "sud",
+  "avignon": "sud",
+  "aubagne": "sud",
+  "lille": "nord",
+  "valenciennes": "nord",
+  "reims": "est",
+  "strasbourg": "est",
+  "mulhouse": "est",
+  "dijon": "est",
+  "besancon": "est",
+  "idf": "paris",
+  "lyon": "lyon",
+  "saintetienne": "montagne",
+  "grenoble": "montagne",
+  "clermont": "montagne",
+  "lehavre": "beton",
+  "rouen": "nord",
+  "brest": "bretagne"
+ }
+}

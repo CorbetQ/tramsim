@@ -20,6 +20,8 @@ var tuto: Label
 var tuto_step := 0
 var _result_saved := false
 var mission: Dictionary = {}
+var hour0 := 12.0
+var _drag := false
 
 const TUTO := [
 	"1/4  Curseur gauche : haut = traction, bas = freinage.",
@@ -77,6 +79,10 @@ func _build_menu() -> void:
 	var mode_opt := OptionButton.new(); mode_opt.add_item("Mission horaire"); mode_opt.add_item("Mode libre"); box.add_child(mode_opt)
 	var mis_opt := OptionButton.new(); box.add_child(mis_opt)
 	var mis_list: Array = []
+	var time_opt := OptionButton.new()
+	for t in ["Heure réelle du service", "Jour (12 h)", "Coucher de soleil (20 h)", "Nuit (23 h)", "Cycle accéléré (1 h = 1 min)"]: time_opt.add_item(t)
+	time_opt.selected = int(save.settings.get("time_mode", 0))
+	box.add_child(time_opt)
 	var traffic_cb := CheckBox.new(); traffic_cb.text = "Trafic automobile"
 	traffic_cb.button_pressed = save.settings.traffic; box.add_child(traffic_cb)
 	var go := Button.new(); go.custom_minimum_size = Vector2(0, 90); box.add_child(go)
@@ -109,6 +115,7 @@ func _build_menu() -> void:
 	refresh.call()
 	go.pressed.connect(func():
 		save.settings.traffic = traffic_cb.button_pressed
+		save.settings.time_mode = time_opt.selected
 		net_path = city_nets[net_opt.selected].path
 		vehicle = vehicles[veh_opt.selected]
 		free_mode = mode_opt.selected == 1
@@ -148,10 +155,18 @@ func _start() -> void:
 	var vp := SubViewportContainer.new(); vp.stretch = true
 	vp.set_anchors_preset(Control.PRESET_FULL_RECT)
 	var sv := SubViewport.new(); vp.add_child(sv); add_child(vp)
-	view = LineView.new(); sv.add_child(view); view.build(net, first)
+	view = LineView.new(); view.view_distance = float(save.settings.view_distance)
+	sv.add_child(view); view.build(net, first, vehicle)
+	hour0 = _start_hour()
+	view.set_hour(hour0)
+	# réglages mobiles : pas d'ombres, décor chargé moins loin (cible 4 Go / 30 i/s)
+	if OS.has_feature("mobile"):
+		view.day_night.sun.shadow_enabled = false
+		if view.city: view.city.radius = 450.0
+	view.update_from(session, true)
+	if view.city: view.city.warm(view.cam.global_position)
 	view.cam.current = true
 	view.view_distance = float(save.settings.view_distance)
-	view.cam.far = float(save.settings.view_distance) * 2.0
 	hud = Label.new(); hud.position = Vector2(20, 10); add_child(hud)
 	log_label = Label.new(); log_label.position = Vector2(20, 90); add_child(log_label)
 	if free and free.adaptation_notice != "": log_label.text = free.adaptation_notice
@@ -204,16 +219,40 @@ func _toggle_switch() -> void:
 	var nb: int = (int(net.graph.switch_state.get(e.to_node, 0)) + 1) % outs.size()
 	log_label.text = ("Aiguillage → " + str(outs[nb])) if free.select_branch(e.to_node, nb) else "Aiguillage occupé : manœuvre refusée"
 
+## Heure de départ : horaire GTFS du service (mission), sinon selon le réglage.
+func _start_hour() -> float:
+	match int(save.settings.get("time_mode", 0)):
+		1: return 12.0
+		2: return 20.0
+		3: return 23.0
+	if not mission.is_empty():
+		var p := str(mission.start_time).split(":")
+		return fposmod(float(p[0]) + float(p[1]) / 60.0 + float(p[2]) / 3600.0, 24.0)
+	return 9.0
+
+func current_hour() -> float:
+	var speed := 60.0 if int(save.settings.get("time_mode", 0)) == 4 else 1.0
+	return hour0 + session.time_s * speed / 3600.0
+
+func _unhandled_input(ev: InputEvent) -> void:
+	# glisser horizontalement : tourner la caméra extérieure autour de la rame
+	if view == null: return
+	if ev is InputEventScreenDrag:
+		view.orbit -= ev.relative.x * 0.006
+	elif ev is InputEventMouseMotion and (ev.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
+		view.orbit -= ev.relative.x * 0.006
+
 func _process(dt: float) -> void:
 	if session == null: return
 	if not paused and not session.finished:
 		session.tick(minf(dt, 0.1), notch, false)
+	view.set_hour(current_hour())
 	view.update_from(session, external_cam)
 	if map.visible: map.queue_redraw()
 	var st: Dictionary = {}
 	if not session.stops.is_empty():
 		st = session.stops[mini(session.next_station, session.stops.size() - 1)]
-	hud.text = "%d km/h (limite %d)  |  %s  |  voyageurs %d  |  portes %s%s%s" % [
+	hud.text = view.day_night.clock_text() + "  |  " + "%d km/h (limite %d)  |  %s  |  voyageurs %d  |  portes %s%s%s" % [
 		roundi(session.phys.speed * 3.6), roundi(session.speed_limit() * 3.6),
 		("prochain : " + str(st.get("name", "")) if not free_mode else "mode libre"), session.phys.passengers,
 		"ouvertes" if session.doors_open else "fermées", ("  | COUPURE ALIM." if not session.power_ok else "") + ("  | SURVITESSE" if session.overspeed else ""),

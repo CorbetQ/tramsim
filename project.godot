@@ -13,5 +13,13 @@ window/handheld/orientation=0
 
 [rendering]
 textures/vram_compression/import_etc2_astc=true
+textures/vram_compression/import_s3tc_bptc=true
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[shader_globals]
+
+night={
+"type": "float",
+"value": 0.0
+}
