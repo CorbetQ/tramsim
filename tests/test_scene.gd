@@ -6,6 +6,12 @@ func _run(main: Node, free: bool) -> bool:
 	main._start()
 	for i in 30: await process_frame
 	var ok: bool = main.session != null and main.view != null and main.view.tram != null
+	ok = ok and main.hud_speed is Speedometer and main.lever is NotchLever and main.lamps.size() == 4
+	if free:
+		main._toggle_switches()
+		for i in 3: await process_frame
+		ok = ok and main.switch_panel != null and main.switch_panel.switch_pos.size() > 0
+		main._toggle_switches()
 	print("scène (libre=%s): %s | %s" % [free, ok, main.hud_info.text])
 	return ok
 func _init() -> void:
@@ -14,6 +20,12 @@ func _init() -> void:
 	await process_frame
 	var a = await _run(main, false)
 	var b = await _run(main, true)
-	main._build_menu()
+	main.menu_page = "home"; main._build_menu()
 	await process_frame
-	quit(0 if a and b else 1)
+	var c: bool = main.find_child("card_mission", true, false) != null and main.find_child("card_free", true, false) != null
+	main.menu_page = "setup"; main._build_menu()
+	for i in 3: await process_frame
+	var go = main.find_child("start", true, false)
+	c = c and go is Button and not go.disabled
+	print("menu : accueil + configuration ", c)
+	quit(0 if a and b and c else 1)

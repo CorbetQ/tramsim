@@ -15,8 +15,17 @@ func _click(p: Vector2) -> void:
 
 func _find(main: Node, text: String) -> Button:
 	for n in main.find_children("*", "Button", true, false):
-		if (n as Button).text.begins_with(text): return n
+		if (n as Button).text.begins_with(text) or str(n.get_meta("label", "")).begins_with(text): return n
 	return null
+
+func _key(k: Key, shift := false) -> void:
+	var e := InputEventKey.new(); e.keycode = k; e.physical_keycode = k; e.pressed = true; e.shift_pressed = shift
+	Input.parse_input_event(e); await process_frame
+	var u := e.duplicate(); u.pressed = false; Input.parse_input_event(u); await process_frame
+
+func _press(b: Control) -> void:
+	await _click(b.get_global_rect().get_center())
+	for i in 3: await process_frame
 
 func _init() -> void:
 	var main = load("res://src/ui/main.tscn").instantiate()
@@ -40,7 +49,21 @@ func _init() -> void:
 	for i in 3: await process_frame
 	check(not main.session.doors_open, "clic Portes : portes fermées")
 	# traction : clic en haut du manipulateur
-	var sl: VSlider = main.find_children("*", "VSlider", true, false)[0]
+	# voyants et outils du HUD
+	var pb := _find(main, "Pantographe")
+	check(pb != null, "bouton Pantographe présent")
+	await _press(pb)
+	check(not main.session.pantograph_up, "clic Pantographe : baissé")
+	check(main.lamps["panto"][3] == 0, "voyant pantographe éteint")
+	await _press(pb)
+	check(main.session.pantograph_up, "clic Pantographe : levé")
+	var hb: Button = main.find_child("btn_help", true, false)
+	await _press(hb)
+	check(main.help_layer != null, "bouton aide : aide affichée")
+	await _key(KEY_F1)
+	check(main.help_layer == null, "F1 : aide fermée")
+	check(main.hud_speed is Speedometer and main.hud_info.text != "", "tachymètre et prochain arrêt")
+	var sl: NotchLever = main.lever
 	var r := sl.get_global_rect()
 	await _click(Vector2(r.get_center().x, r.position.y + 6))
 	for i in 60: await process_frame
@@ -78,8 +101,37 @@ func _init() -> void:
 	await _click(ab.get_global_rect().get_center())
 	for i in 3: await process_frame
 	check(main.switch_panel != null, "panneau des aiguillages ouvert")
-	var bl := 0
-	for n in main.switch_panel.find_children("*", "Button", true, false):
-		if (n as Button).text.begins_with("○") or (n as Button).text.begins_with("●"): bl += 1
-	print("boutons de branches : ", bl)
+	var spn: SwitchPanel = main.switch_panel
+	var g: TrackGraph = main.free.net.graph
+	await _press(spn.filter_btns["all"])
+	check(spn.filter == "all" and spn.rows.size() > 0, "filtre Tous : %d aiguillages" % spn.rows.size())
+	# un aiguillage libre de la liste : clic -> bulle -> clic sur une autre branche
+	var key := ""
+	for k in spn._row_keys.slice(0, 5):
+		if not g.switch_occupied(spn.switch_of[k][0]): key = k; break
+	check(key != "", "aiguillage libre visible dans la liste")
+	await _press(spn.rows[key][0])
+	check(spn.selected == key and spn.popover.visible, "clic liste : aiguillage sélectionné, bulle ouverte")
+	var sw: Array = spn.switch_of[key]
+	var before := g.active_branch(sw[0], sw[1])
+	var target: Button = null
+	for bb in spn.popover.find_children("branch_*", "Button", true, false):
+		if int(bb.get_meta("branch")) != before and not bb.is_queued_for_deletion(): target = bb
+	check(target != null, "bulle : bouton de branche")
+	await _press(target)
+	check(g.active_branch(sw[0], sw[1]) != before, "clic branche : aiguillage manœuvré")
+	# clavier : 1 = première branche, Tab = aiguillage suivant
+	await _key(KEY_1)
+	check(g.active_branch(sw[0], sw[1]) == 0, "touche 1 : branche 1")
+	await _key(KEY_TAB)
+	check(spn.selected != key and spn.selected != "", "Tab : aiguillage suivant")
+	# clic sur le plan : sélection d'un aiguillage par sa position
+	spn.selected = ""; spn.refresh()
+	for i in 3: await process_frame
+	await _click(spn.screen_pos(key))
+	for i in 3: await process_frame
+	check(spn.selected == spn._pick(spn.canvas.get_global_transform().affine_inverse() * spn.screen_pos(key)) and spn.selected != "", "clic sur le plan : aiguillage sélectionné")
+	await _key(KEY_A)
+	for i in 3: await process_frame
+	check(main.switch_panel == null, "A : panneau fermé")
 	quit(1 if fails > 0 else 0)

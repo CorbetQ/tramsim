@@ -5,10 +5,10 @@
 shader_type spatial;
 render_mode cull_disabled;
 
-global uniform float night;          // 0 = jour, 1 = nuit (piloté par DayNight)
-uniform float bands : hint_range(2.0, 5.0) = 3.0;
-uniform float shade_floor : hint_range(0.0, 1.0) = 0.42;
-uniform float rim_strength : hint_range(0.0, 1.0) = 0.18;
+#include "res://src/rendering/shaders/cel.gdshaderinc"
+uniform float bands : hint_range(2.0, 5.0) = 3.0;   // conservé (compatibilité) : paliers fixés par cel.gdshaderinc
+uniform float shade_floor : hint_range(0.0, 1.0) = 0.36;
+uniform float rim_strength : hint_range(0.0, 1.0) = 0.3;
 uniform vec3 glass_glow = vec3(1.0, 0.86, 0.6);
 uniform float glow_strength = 0.55;
 // Les couleurs de sommets arrivent déjà linéarisées en rendu Compatibility : 1.0 = pas de reconversion (rames).
@@ -147,6 +147,7 @@ vec4 tram_motif(vec2 uv) {
 
 void vertex() {
 	v_paint = UV2.x;
+	POSITION = cel_layer_clip(VERTEX, MODEL_MATRIX, MODELVIEW_MATRIX, PROJECTION_MATRIX);
 }
 
 void fragment() {
@@ -172,11 +173,6 @@ void fragment() {
 }
 
 void light() {
-	float ndl = dot(NORMAL, LIGHT);
-	float lit = clamp(ndl, 0.0, 1.0) * ATTENUATION;
-	float stepped = floor(lit * bands + 0.5) / bands;
-	stepped = LIGHT_IS_DIRECTIONAL ? mix(shade_floor, 1.0, stepped) * tram_sun : lit;
-	DIFFUSE_LIGHT += LIGHT_COLOR * stepped / PI;
-	float rim = 1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0);
-	DIFFUSE_LIGHT += LIGHT_COLOR * rim_strength * step(0.72, rim) * clamp(ndl + 0.3, 0.0, 1.0) * ATTENUATION / PI;
+	DIFFUSE_LIGHT += cel_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, LIGHT_IS_DIRECTIONAL,
+		shade_floor, tram_sun, rim_strength);
 }

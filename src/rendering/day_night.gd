@@ -6,27 +6,75 @@ extends Node
 var hour := 12.0
 var sun: DirectionalLight3D
 var env: Environment
-var sky_mat: ProceduralSkyMaterial
+var sky_mat: ShaderMaterial
 var night := 0.0
+var edges: MeshInstance3D       # contours encrés (post-traitement plein écran), absent sur mobile
+## Qualité : mobile = ombres allégées, glow léger, pas de contours en post-traitement.
+static var low_quality := OS.has_feature("mobile")
 
 func setup(parent: Node3D) -> void:
 	sun = DirectionalLight3D.new()
 	sun.shadow_enabled = true
-	sun.directional_shadow_max_distance = 140.0
-	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
+	# décor : normales de facette (CityScene) pour le biais normal ; rubans des voies sans normales : biais de profondeur
+	sun.shadow_bias = 0.12
+	sun.shadow_normal_bias = 1.6
+	sun.shadow_blur = 0.25
+	sun.shadow_opacity = 0.9
+	sun.directional_shadow_max_distance = 110.0 if low_quality else 170.0
+	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS if low_quality else DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
+	sun.directional_shadow_split_1 = 0.08
+	sun.directional_shadow_split_2 = 0.25
+	sun.directional_shadow_split_3 = 0.55
+	sun.directional_shadow_blend_splits = not low_quality
+	sun.directional_shadow_fade_start = 0.85
 	parent.add_child(sun)
-	sky_mat = ProceduralSkyMaterial.new()
+	sky_mat = ShaderMaterial.new()
+	sky_mat.shader = load("res://src/rendering/shaders/sky.gdshader")
 	var sky := Sky.new(); sky.sky_material = sky_mat
+	sky.process_mode = Sky.PROCESS_MODE_REALTIME if not low_quality else Sky.PROCESS_MODE_AUTOMATIC
+	sky.radiance_size = Sky.RADIANCE_SIZE_32
 	env = Environment.new()
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
 	env.fog_enabled = true
+	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
 	env.fog_density = 0.0016
+	env.fog_sky_affect = 0.0
+	env.fog_height = 30.0
+	env.fog_height_density = 0.004
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	env.tonemap_white = 1.6
+	env.tonemap_exposure = 1.0
+	env.tonemap_white = 2.2
+	# bloom : seules les sources émissives (fenêtres, lampadaires, phares, soleil) débordent
+	env.glow_enabled = true
+	env.glow_normalized = false
+	env.glow_intensity = 0.55 if low_quality else 0.8
+	env.glow_strength = 1.0
+	env.glow_bloom = 0.0
+	env.glow_hdr_threshold = 0.9
+	env.glow_hdr_scale = 2.0
+	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SCREEN
+	for i in 7: env.set_glow_level(i, 0.0)
+	env.set_glow_level(1, 0.6); env.set_glow_level(2, 1.0)
+	if not low_quality: env.set_glow_level(3, 0.8); env.set_glow_level(4, 0.4)
+	env.adjustment_enabled = true
+	env.adjustment_contrast = 1.06
+	env.adjustment_saturation = 1.05
 	var we := WorldEnvironment.new(); we.environment = env
 	parent.add_child(we)
+	if not low_quality:
+		edges = MeshInstance3D.new()
+		var q := QuadMesh.new(); q.size = Vector2(1, 1)
+		edges.mesh = q
+		var em := ShaderMaterial.new(); em.shader = load("res://src/rendering/shaders/edges.gdshader")
+		em.render_priority = 100
+		edges.material_override = em
+		edges.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		edges.custom_aabb = AABB(Vector3(-1e5, -1e5, -1e5), Vector3(2e5, 2e5, 2e5))
+		edges.extra_cull_margin = 16384.0
+		parent.add_child(edges)
 	set_hour(hour)
 
 static func _k(keys: Array, h: float) -> Color:
@@ -45,27 +93,37 @@ func set_hour(h: float) -> void:
 	var azim := lerpf(-100.0, 100.0, clampf(t, 0.0, 1.0))
 	night = clampf(1.0 - (elev + 6.0) / 14.0, 0.0, 1.0)
 	RenderingServer.global_shader_parameter_set("night", night)
-	var day_col := _k([[0.0, Color("#3b4a7a")], [5.5, Color("#3b4a7a")], [7.0, Color("#ffb37a")], [9.0, Color("#fff1dc")],
-		[17.0, Color("#fff1dc")], [19.8, Color("#ff9d5c")], [21.5, Color("#3b4a7a")], [24.0, Color("#3b4a7a")]], hour)
+	# lumière dorée basse au lever / coucher, blanc chaud en journée
+	var day_col := _k([[0.0, Color("#3b4a7a")], [5.5, Color("#3b4a7a")], [6.8, Color("#ffa86a")], [8.3, Color("#ffd29a")], [10.0, Color("#fff3e0")],
+		[17.0, Color("#fff3e0")], [19.0, Color("#ffd08e")], [20.2, Color("#ffa264")], [21.5, Color("#3b4a7a")], [24.0, Color("#3b4a7a")]], hour)
 	if elev > -4.0:
 		sun.rotation_degrees = Vector3(-maxf(elev, 3.0), azim, 0)
 		sun.light_color = day_col
-		sun.light_energy = lerpf(0.12, 0.95, clampf(elev / 25.0, 0.0, 1.0))
+		sun.light_energy = lerpf(0.25, 1.15, clampf(elev / 22.0, 0.0, 1.0))
 	else:  # clair de lune
 		sun.rotation_degrees = Vector3(-35.0, 140.0, 0)
-		sun.light_color = Color("#9fb4ff")
-		sun.light_energy = 0.12
-	sky_mat.sky_top_color = _k([[0.0, Color("#0b1026")], [5.5, Color("#0f1733")], [7.5, Color("#5d8fd8")], [12.0, Color("#3f7fd6")],
-		[18.5, Color("#4f86d1")], [20.5, Color("#2a3a78")], [22.0, Color("#0b1026")], [24.0, Color("#0b1026")]], hour)
-	sky_mat.sky_horizon_color = _k([[0.0, Color("#1a2140")], [5.5, Color("#2a2f55")], [7.0, Color("#ffb08a")], [9.0, Color("#bcd7f2")],
-		[17.5, Color("#c4dbf2")], [20.0, Color("#ff9e6e")], [21.5, Color("#2a2f55")], [24.0, Color("#1a2140")]], hour)
-	sky_mat.ground_horizon_color = sky_mat.sky_horizon_color
-	sky_mat.ground_bottom_color = sky_mat.sky_top_color.darkened(0.4)
-	env.ambient_light_color = _k([[0.0, Color("#2c3560")], [6.0, Color("#3a4170")], [8.0, Color("#b9c6d6")], [17.0, Color("#c4cfdc")],
-		[20.5, Color("#6a5a7a")], [22.0, Color("#2c3560")], [24.0, Color("#2c3560")]], hour)
-	env.ambient_light_energy = lerpf(0.42, 0.3, night)
-	env.fog_light_color = sky_mat.sky_horizon_color
-	env.fog_density = lerpf(0.0008, 0.0016, night)
+		sun.light_color = Color("#a9bcff")
+		sun.light_energy = 0.16
+	var top := _k([[0.0, Color("#070b1e")], [5.5, Color("#101736")], [7.0, Color("#4f78c4")], [9.0, Color("#3f7fd6")], [12.0, Color("#3a7ad4")],
+		[18.5, Color("#4a80cf")], [20.3, Color("#33407e")], [21.8, Color("#0a1028")], [24.0, Color("#070b1e")]], hour)
+	var horizon := _k([[0.0, Color("#18203f")], [5.5, Color("#2c2f58")], [6.9, Color("#ffa77a")], [8.5, Color("#cde0f2")],
+		[17.5, Color("#cfe1f2")], [19.3, Color("#f6cfa6")], [20.3, Color("#f0a07a")], [21.5, Color("#2c2f58")], [24.0, Color("#18203f")]], hour)
+	sky_mat.set_shader_parameter("top_color", top)
+	sky_mat.set_shader_parameter("horizon_color", horizon)
+	sky_mat.set_shader_parameter("ground_color", top.lerp(horizon, 0.5).darkened(0.35))
+	sky_mat.set_shader_parameter("sun_glow", day_col.lerp(Color("#ffd9a0"), 0.3))
+	sky_mat.set_shader_parameter("cloud_light", horizon.lerp(Color.WHITE, 0.55).lerp(day_col, 0.25))
+	sky_mat.set_shader_parameter("cloud_shade", horizon.lerp(top, 0.25).lerp(Color.WHITE, 0.2))
+	sky_mat.set_shader_parameter("night", night)
+	sky_mat.set_shader_parameter("energy", lerpf(1.0, 0.9, night))
+	# ambiance : bleutée (ombres froides) le jour, violacée au crépuscule, bleu nuit
+	env.ambient_light_color = _k([[0.0, Color("#2a3466")], [6.0, Color("#3e4478")], [8.0, Color("#a9bad6")], [17.0, Color("#b4c3da")],
+		[20.3, Color("#8a8ab0")], [22.0, Color("#2a3466")], [24.0, Color("#2a3466")]], hour)
+	env.ambient_light_energy = lerpf(0.55, 0.42, night)
+	env.fog_light_color = horizon.lerp(top, 0.15)
+	env.fog_light_energy = lerpf(0.9, 0.5, night)
+	env.fog_density = lerpf(0.0011, 0.0017, night)
+	env.glow_intensity = lerpf(0.35, 0.55 if low_quality else 0.9, night)
 
 func clock_text() -> String:
 	return "%02d:%02d" % [int(hour), int(fmod(hour, 1.0) * 60.0)]

@@ -1,78 +1,115 @@
 {
  "generated_by": "data/audio/make_audio.py",
+ "version": 2,
  "sample_rate": 32000,
- "format": "OGG Vorbis mono 32 kHz, qualité 3",
- "statut": "Tous les fichiers sont des synthèses : les enregistrements libres de référence ci-dessous (Wikimedia Commons) ont été identifiés mais leurs originaux n'ont pas pu être téléchargés (HTTP 429, limitation Wikimedia des téléchargements d'originaux). Paramètres = valeurs publiées / estimées, à recaler sur ces enregistrements quand ils seront accessibles.",
+ "format": "OGG Vorbis mono 32 kHz, qualité 4",
+ "sonie": "boucles -20 LUFS intégrés, ponctuels -18 LUFS momentanés max (ITU-R BS.1770) ; crête ≤ -1 dBFS",
+ "statut": "Synthèses calibrées sur la littérature publique (voir l'en-tête de make_audio.py). Tentatives de téléchargement des enregistrements libres de référence (2026-11-11, User-Agent descriptif, 1 requête / 10 s) : Wikimedia Commons (API et upload.wikimedia.org) HTTP 429 à 3 reprises -> abandon ; Freesound et BigSoundBank (CC0) inaccessibles depuis l'environnement (proxy). Aucun échantillon externe inclus.",
  "files": {
   "motor.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:motor)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Sifflement d'onduleur IGBT / moteur asynchrone : fondamentale 1000 Hz (hauteur pilotée par pitch_scale selon la vitesse, cf. TramAudio.motor_hz), harmoniques 2f et 3f, sous-harmonique magnétostrictive f/2, bandes latérales ±(2 × 60 Hz) de la modulation, souffle de ventilation."
+   "description": "Raie d'onduleur / moteur asynchrone (modes synchrones) : fondamentale 600 Hz (hauteur pilotée par pitch_scale, cf. TramAudio.motor_hz), harmoniques en 1/n^1,6 (2f, 3f, 4f) + 6f magnétique discrète, composante de bruit étroite autour de chaque raie (instabilité de la MLI), passe-bas 2,2 kHz : timbre de « sifflement chanté » doux plutôt que sinus pur.",
+   "lufs": -20.0,
+   "duree_s": 4.0
+  },
+  "motor_hum.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:motor_hum)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Ronronnement électromagnétique des moteurs de traction : raie 2f statorique 120 Hz (hauteur pilotée par la vitesse), harmoniques en 1/n^1,3 jusqu'à 1 kHz, souffle de ventilation brun, légère ondulation de couple.",
+   "lufs": -20.0,
+   "duree_s": 4.0
   },
   "carrier.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:carrier)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Porteuse de découpage MLI asynchrone (basse vitesse) : raie fixe ~1350 Hz et bandes latérales ±40/80 Hz, 2fc atténuée — le « bourdon aigu » constant au démarrage des Citadis avant le passage en modes synchrones."
+   "description": "Porteuse de découpage MLI asynchrone (démarrage, < ~8 km/h) : raie ~1050 Hz entourée de bandes latérales ±2f et ±4f (le « bourdon » qui précède le chant de l'onduleur), adoucie (passe-bas 1,6 kHz, niveau bas).",
+   "lufs": -20.0,
+   "duree_s": 4.0
   },
   "rolling.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:rolling)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Roulement acier/acier : grondement < 300 Hz, rugosité roue-rail 400-1600 Hz, modulation de rotation de roue (périmètre ~2 m) ; hauteur et niveau pilotés par la vitesse."
+   "description": "Roulement acier/acier : bruit brun (grondement de caisse < 200 Hz) + bruit rose 250-1600 Hz (rugosité roue/rail, bande dominante des mesures), modulation de rotation de roue (6 et 12 Hz) ; niveau ~ 30 log v.",
+   "lufs": -20.0,
+   "duree_s": 8.0
   },
   "squeal.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:squeal)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Crissement en courbe serrée (stick-slip latéral) : raies étroites 3,2 et 4,1 kHz, glissements de fréquence lents, amplitude intermittente."
+   "description": "Crissement en courbe serrée : raies étroites 2,4 et 3,6 kHz (modes axiaux de roue), dérive lente, intermittence marquée (plages muettes), passe-bas doux ; joué rarement et bas dans le mixage.",
+   "lufs": -20.0,
+   "duree_s": 5.6
   },
   "hvac.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:hvac)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Compresseur / climatisation de toiture au ralenti : ventilateur (bruit large bande 150-3000 Hz, raie de passage de pales 190 Hz), compresseur (harmoniques 50/100/150 Hz)."
+   "description": "Climatisation / ventilation de toiture et compresseur : bruit rose 100-2000 Hz (ventilateurs), raie de passage de pales 165 Hz, ronflement de compresseur 50/100 Hz, cycle lent.",
+   "lufs": -20.0,
+   "duree_s": 6.0
   },
   "ambience.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:ambience)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Ambiance urbaine lointaine : rumeur de circulation (bruit brun < 500 Hz, houle lente), passages de véhicules (bouffées filtrées), pépiements rares."
+   "description": "Ambiance urbaine discrète : rumeur de circulation (bruit brun < 400 Hz, houle lente), passages lointains de véhicules, voix indistinctes très basses, quelques oiseaux faibles.",
+   "lufs": -20.0,
+   "duree_s": 19.2
   },
   "joint.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:joint)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Joint de rail / cœur d'aiguillage : « ta-tac » des deux essieux d'un bogie (empattement 1,8 m à ~40 km/h -> ~0,16 s)."
+   "description": "Joint de rail / soudure / cœur d'aiguillage : « ta-dam » sourd des deux essieux d'un bogie (choc grave 70 Hz, résonance de roue 520 Hz amortie), écart 0,16 s.",
+   "lufs": -19.0,
+   "duree_s": 0.6
   },
   "brake_mech.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:brake_mech)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Freinage mécanique final (frein à disque / patins, sous ~7 km/h) : frottement 1,5-6 kHz croissant, crissement bref 2,7 kHz, à-coup d'arrêt à 2,1 s."
+   "description": "Fin de freinage (frein mécanique sous ~7 km/h) : frottement doux 400-2500 Hz croissant, brève plainte tonale 1,1 kHz très basse, à-coup d'arrêt (balancement de caisse) à 2,0 s.",
+   "lufs": -18.0,
+   "duree_s": 2.8
   },
   "brake_release.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:brake_release)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Desserrage des freins au démarrage : clic d'électrovanne + détente hydraulique / pneumatique."
+   "description": "Desserrage des freins au démarrage : clic d'électrovanne étouffé + détente hydraulique (souffle bref).",
+   "lufs": -18.5,
+   "duree_s": 0.8
   },
   "emergency.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:emergency)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Freinage d'urgence : chute des patins électromagnétiques (choc grave), grincement large bande 700-5000 Hz modulé, décroissance sur ~3 s, buzzer cabine 800 Hz."
+   "description": "Freinage d'urgence : chute des patins électromagnétiques (choc grave), frottement des patins sur le rail 400-3000 Hz modulé, décroissance ~3 s, buzzer cabine 620 Hz adouci.",
+   "lufs": -18.0,
+   "duree_s": 3.4
   },
   "door_open.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:door_open)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Ouverture des portes louvoyantes-coulissantes : moteur 230 -> 180 Hz (~2,5 s), décollement des joints, butée en fin de course."
+   "description": "Ouverture des portes louvoyantes-coulissantes : décollement des joints (souffle), moteur 150 -> 120 Hz, butée amortie en fin de course.",
+   "lufs": -18.0,
+   "duree_s": 3.0
   },
   "door_chime.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:door_chime)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Signal de fermeture des portes (tramways français) : bips 2 kHz, 4 par seconde pendant 2 s."
+   "description": "Signal de fermeture des portes (type Citadis) : « bip-bip » doubles à 1 kHz, sinus quasi pur à attaque adoucie (10 ms), 3 paires sur 2 s.",
+   "lufs": -18.0,
+   "duree_s": 2.2
   },
   "door_close.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:door_close)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Fermeture : moteur 180 -> 240 Hz, choc des vantaux et verrouillage."
+   "description": "Fermeture : moteur 120 -> 160 Hz, contact des joints des vantaux et verrouillage (deux chocs sourds).",
+   "lufs": -18.0,
+   "duree_s": 3.0
   },
   "gong.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:gong)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Gong de tramway (double tintement) : partiels inharmoniques de cloche (1 ; 2,76 ; 5,40 ; 8,93) sur 880 Hz, deux frappes à 0,28 s, décroissance ~1,2 s."
+   "description": "Gong de tramway « ding-ding » : partiels inharmoniques de cloche (1 ; 2,0 ; 2,76 ; 5,40) sur 660 puis 550 Hz, attaque frappée adoucie, décroissance ~1,5 s, passe-bas 4 kHz.",
+   "lufs": -18.0,
+   "duree_s": 2.0
   }
  },
  "references": [

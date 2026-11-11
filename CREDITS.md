@@ -43,13 +43,18 @@ Caen : licence non précisée sur le portail — à vérifier avant diffusion pu
 
 ## Sons
 
-Tous les sons de `data/audio/*.ogg` (onduleur IGBT, porteuse de découpage, roulement, joints de rail, crissement en courbe,
-climatisation / compresseur, freinage électrique et mécanique, urgence, portes et signal de fermeture, gong, ambiance urbaine)
-sont des **synthèses originales du projet** générées par `data/audio/make_audio.py` (numpy/scipy, encodage ffmpeg/libvorbis) ;
-aucun audio extrait de vidéos ni d'œuvres protégées. Détail par fichier : `data/audio/sources.json`.
+Tous les sons de `data/audio/*.ogg` (raie d'onduleur IGBT, ronronnement des moteurs, porteuse de découpage, roulement,
+joints de rail, crissement en courbe, climatisation / compresseur, fin de freinage, urgence, portes et signal de
+fermeture « bip-bip », gong, ambiance urbaine) sont des **synthèses originales du projet** générées par
+`data/audio/make_audio.py` (numpy/scipy, encodage ffmpeg/libvorbis, sonie normalisée ITU-R BS.1770) ; aucun audio
+extrait de vidéos ni d'œuvres protégées, aucun échantillon externe inclus. Détail par fichier : `data/audio/sources.json`.
 
-Enregistrements libres de référence identifiés sur Wikimedia Commons (pour recaler les synthèses ; non inclus — originaux
-non téléchargeables depuis l'environnement de génération, HTTP 429) :
+Calibrage sur la littérature publique : D. Thompson, *Railway Noise and Vibration* (Elsevier, 2009) — spectres et
+loi en 30 log v du bruit de roulement, crissement en courbe 1-5 kHz ; principes des onduleurs de traction IGBT
+(MLI asynchrone puis modes synchrones) et raies magnétiques des moteurs asynchrones ; méthode de mesure ISO 3095.
+
+Enregistrements libres de référence identifiés (non inclus — téléchargement refusé le 2026-11-11 : Wikimedia Commons
+HTTP 429 à trois reprises, Freesound / BigSoundBank inaccessibles depuis l'environnement de génération) :
 
 | Fichier Commons | Auteur | Licence |
 |---|---|---|
@@ -64,3 +69,10 @@ non téléchargeables depuis l'environnement de génération, HTTP 429) :
 Vignettes `data/rolling_stock/thumbs/*.png` : rendus des modèles 3D du projet (`tools/render_thumbs.gd`), aucune photo reproduite.
 Les photos Wikimedia Commons citées dans `data/rolling_stock/research.json` (« references ») ont servi de référence de forme et de
 couleur uniquement ; elles ne sont pas distribuées.
+
+## Interface
+
+- **Police Atkinson Hyperlegible** (Regular, Bold) — © 2020 Braille Institute of America, Inc., licence
+  SIL Open Font License 1.1 (`data/ui/fonts/OFL.txt`). Source : https://github.com/googlefonts/atkinson-hyperlegible
+  (commit 1cb3116), fichiers `fonts/ttf/AtkinsonHyperlegible-{Regular,Bold}.ttf` copiés dans `data/ui/fonts/`.
+- **Icônes** `data/ui/icons/*.svg` : dessinées pour le projet (même licence que le code).

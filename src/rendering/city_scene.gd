@@ -320,8 +320,7 @@ func _hip_roof(S: _Arrays, ring: PackedVector2Array, y: float, rise: float, col:
 	var apex := Vector3(c.x, y + rise, c.y)
 	for i in ring.size():
 		var a := ring[i]; var b := ring[(i + 1) % ring.size()]
-		var sh := 0.9 + 0.1 * float(i % 2)
-		S.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), apex, Color(col.r * sh, col.g * sh, col.b * sh, SOLID_A), -1.0)
+		S.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), apex, Color(col.r, col.g, col.b, SOLID_A), -1.0)
 
 ## Toit à deux pans (quadrilatère) : faîtage parallèle au grand côté, pignons maçonnés.
 func _gable_roof(S: _Arrays, ring: PackedVector2Array, y: float, rise: float, col: Color, gable_col: Color) -> void:
@@ -519,6 +518,8 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 	else:
 		var roof := roof_ortho if has_ortho else _pal("roofs", seed / 7)
 		_flat_roof(S, ring, idx, h, roof)
+		if h > 5.0 and n <= 16 and cls != 2:  # corniche : arête nette en tête de façade
+			_ledge(S, ring, h, 0.28, Color(wall.r * 1.08, wall.g * 1.08, wall.b * 1.06))
 		if h > 12.0 and n <= 12:
 			_walls(S, ring, h, h + 0.6, Color(roof.r * 1.1, roof.g * 1.1, roof.b * 1.1, SOLID_A), false)
 		if h > 15.0 and rng.randf() < 0.6:  # édicule technique
@@ -535,17 +536,17 @@ func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -
 	var asphalt := Color("#5b5f66") if cls == L_MAJOR else Color("#63666c")
 	match cls:
 		L_RAIL:
-			_ribbon(S, pts, 3.2, 0.035, Color("#8d8174"))
+			_ribbon(S, pts, 3.2, 0.04, Color("#8d8174"))
 			for off in [-0.72, 0.72]:
 				_ribbon(S, pts, 0.09, 0.12, Color("#b9bcc0"), off)
 			return
 		L_PATH:
-			_ribbon(S, pts, maxf(w, 1.5), 0.04, Color("#d2c3a1")); return
+			_ribbon(S, pts, maxf(w, 1.5), 0.05, Color("#cdbb94")); return
 		L_SMALL:
-			_ribbon(S, pts, maxf(w, 2.5), 0.045, Color("#9b9385")); return
+			_ribbon(S, pts, maxf(w, 2.5), 0.06, Color("#8f8a80")); return
 	# trottoirs + chaussée + marquage central pointillé
-	_ribbon(S, pts, w + 3.6, 0.035, Color("#bdb8ae"))
-	_ribbon(S, pts, w, 0.055, asphalt)
+	_ribbon(S, pts, w + 3.6, 0.035, Color("#b9b3a8"))
+	_ribbon(S, pts, w, 0.07, asphalt)
 	if w >= 5.5:
 		var acc := 0.0
 		for i in range(pts.size() - 1):
@@ -554,7 +555,7 @@ func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -
 			var d := (b - a) / maxf(len, 0.001)
 			var s := fposmod(-acc, 9.0)
 			while s + 3.0 <= len:
-				_ribbon(S, PackedVector2Array([a + d * s, a + d * (s + 3.0)]), 0.15, 0.07, Color("#ecebe6"))
+				_ribbon(S, PackedVector2Array([a + d * s, a + d * (s + 3.0)]), 0.15, 0.095, Color("#ecebe6"))
 				s += 9.0
 			acc += len
 	# arbres d'alignement (essence dominante de la ville), de part et d'autre des avenues
@@ -710,23 +711,27 @@ static func _tree_mesh(v: int) -> Mesh:
 	if _trees.size() == TREE_KINDS:
 		return _trees[v]
 	_trees.clear()
+	# houppiers en volumes facettés (ellipsoïdes low poly), 2 tons : dessus clair, dessous ombré
 	for k in TREE_KINDS:
 		var A := _Arrays.new()
 		var trunk := Color("#6b4f3a", 0.9)
 		match k:
-			0:  # feuillu rond (tilleul, chêne)
-				A.box(Vector3(0, 1.3, 0), Vector3(0.35, 2.6, 0.35), trunk)
-				A.cone(Vector3(0, 4.0, 0), 2.6, 1.8, 7, Color("#5d9a42", 0.9)); A.cone(Vector3(0, 4.0, 0), 2.6, -1.8, 7, Color("#4c8538", 0.9))
-			1:  # conifère
-				A.box(Vector3(0, 1.0, 0), Vector3(0.35, 2.0, 0.35), trunk)
-				A.cone(Vector3(0, 1.6, 0), 2.3, 3.6, 6, Color("#2f6e46", 0.9)); A.cone(Vector3(0, 3.8, 0), 1.6, 3.2, 6, Color("#38804f", 0.9))
-			2:  # feuillu élancé
-				A.box(Vector3(0, 1.6, 0), Vector3(0.3, 3.2, 0.3), trunk)
-				A.cone(Vector3(0, 4.4, 0), 1.9, 2.0, 7, Color("#6ea845", 0.9)); A.cone(Vector3(0, 4.4, 0), 1.9, -1.4, 7, Color("#5a9238", 0.9))
-				A.cone(Vector3(0, 6.2, 0), 1.3, 1.6, 7, Color("#6ea845", 0.9))
+			0:  # feuillu rond (tilleul, chêne) : masse principale + 2 grappes
+				A.trunk(Vector3.ZERO, 0.22, 3.2, 5, trunk)
+				A.blob(Vector3(0, 4.1, 0), Vector3(2.5, 2.0, 2.5), 7, Color("#6aa84a", 0.9), Color("#3f7a37", 0.9), 1)
+				A.blob(Vector3(1.3, 3.5, 0.6), Vector3(1.4, 1.2, 1.4), 6, Color("#6aa84a", 0.9), Color("#3f7a37", 0.9), 2)
+				A.blob(Vector3(-1.0, 3.7, -0.9), Vector3(1.3, 1.1, 1.3), 6, Color("#6aa84a", 0.9), Color("#3f7a37", 0.9), 3)
+			1:  # conifère : 3 étages
+				A.trunk(Vector3.ZERO, 0.2, 2.0, 5, trunk)
+				A.cone(Vector3(0, 1.4, 0), 2.3, 2.8, 7, Color("#2f6e46", 0.9))
+				A.cone(Vector3(0, 2.9, 0), 1.8, 2.6, 7, Color("#367a4c", 0.9))
+				A.cone(Vector3(0, 4.4, 0), 1.2, 2.6, 7, Color("#3e8653", 0.9))
+			2:  # feuillu élancé : ovoïde haut
+				A.trunk(Vector3.ZERO, 0.18, 3.4, 5, trunk)
+				A.blob(Vector3(0, 5.0, 0), Vector3(1.9, 2.8, 1.9), 7, Color("#7cb24c", 0.9), Color("#4d8a3a", 0.9), 4)
 			3:  # pin parasol : tronc haut, houppier plat
-				A.box(Vector3(0, 2.6, 0), Vector3(0.4, 5.2, 0.4), Color("#7a5a44", 0.9))
-				A.cone(Vector3(0, 5.6, 0), 3.4, 1.0, 8, Color("#3f7a3a", 0.9)); A.cone(Vector3(0, 5.6, 0), 3.4, -0.7, 8, Color("#356a33", 0.9))
+				A.trunk(Vector3.ZERO, 0.24, 5.4, 5, Color("#7a5a44", 0.9))
+				A.blob(Vector3(0, 5.8, 0), Vector3(3.4, 1.0, 3.4), 8, Color("#4f8a42", 0.9), Color("#2f5f30", 0.9), 5)
 			4:  # palmier
 				A.cone(Vector3(0, 0, 0), 0.35, 7.5, 6, Color("#8b7355", 0.9))
 				for i in 7:
@@ -734,12 +739,13 @@ static func _tree_mesh(v: int) -> Mesh:
 					var d := Vector3(cos(ang), 0, sin(ang))
 					A.tri(Vector3(0, 7.3, 0), Vector3(0, 7.3, 0) + d * 3.0 + Vector3(0, -1.2, 0) + d.cross(Vector3.UP) * 0.6,
 						Vector3(0, 7.3, 0) + d * 3.0 + Vector3(0, -1.2, 0) - d.cross(Vector3.UP) * 0.6, Color("#4f8f3c", 0.9))
-			5:  # peuplier : colonne
-				A.box(Vector3(0, 0.8, 0), Vector3(0.3, 1.6, 0.3), trunk)
-				A.cone(Vector3(0, 1.4, 0), 1.1, 9.0, 6, Color("#6c9e3c", 0.9))
+			5:  # peuplier : fuseau
+				A.trunk(Vector3.ZERO, 0.16, 1.6, 5, trunk)
+				A.blob(Vector3(0, 5.6, 0), Vector3(1.1, 4.6, 1.1), 6, Color("#79aa45", 0.9), Color("#4e8236", 0.9), 6)
 			6:  # platane : grand houppier clair, tronc tacheté
-				A.box(Vector3(0, 1.8, 0), Vector3(0.5, 3.6, 0.5), Color("#a39a7f", 0.9))
-				A.cone(Vector3(0, 5.6, 0), 3.6, 2.4, 8, Color("#7fb04f", 0.9)); A.cone(Vector3(0, 5.6, 0), 3.6, -2.0, 8, Color("#6b9a41", 0.9))
+				A.trunk(Vector3.ZERO, 0.3, 3.8, 6, Color("#a39a7f", 0.9))
+				A.blob(Vector3(0, 5.6, 0), Vector3(3.5, 2.3, 3.5), 8, Color("#8cbc58", 0.9), Color("#58893d", 0.9), 7)
+				A.blob(Vector3(1.6, 5.0, -1.0), Vector3(1.8, 1.4, 1.8), 6, Color("#8cbc58", 0.9), Color("#58893d", 0.9), 8)
 		_trees.append(A.mesh())
 	return _trees[v]
 
@@ -778,9 +784,47 @@ class _Arrays:
 		var tip := base + Vector3(0, h, 0)
 		for i in sides:
 			var a0 := TAU * i / sides; var a1 := TAU * (i + 1) / sides
-			var shade := 0.88 + 0.12 * float(i % 2)
-			tri(base + Vector3(cos(a0) * r, 0, sin(a0) * r), base + Vector3(cos(a1) * r, 0, sin(a1) * r), tip,
-				Color(col.r * shade, col.g * shade, col.b * shade, col.a))
+			tri(base + Vector3(cos(a0) * r, 0, sin(a0) * r), base + Vector3(cos(a1) * r, 0, sin(a1) * r), tip, col)
+
+	## Tronc prismatique effilé.
+	func trunk(base: Vector3, r: float, h: float, sides: int, col: Color) -> void:
+		for i in sides:
+			var a0 := TAU * i / sides; var a1 := TAU * (i + 1) / sides
+			var p0 := Vector3(cos(a0), 0, sin(a0)); var p1 := Vector3(cos(a1), 0, sin(a1))
+			quad(base + p0 * r, base + p1 * r, base + p1 * r * 0.65 + Vector3(0, h, 0), base + p0 * r * 0.65 + Vector3(0, h, 0), col, -1.0)
+
+	## Ellipsoïde low poly (houppier) : 3 parallèles décalés d'un demi-pas (facettes triangulaires régulières),
+	## léger relief déterministe ; teinte claire au-dessus, foncée dessous.
+	func blob(ctr: Vector3, rad: Vector3, sides: int, top: Color, bottom: Color, seed: int) -> void:
+		var lats := [-0.55, 0.0, 0.5]
+		var rings: Array = []
+		for j in lats.size():
+			var ring: Array = []
+			var lat: float = lats[j] * PI * 0.5
+			for i in sides:
+				var ang := TAU * (i + 0.5 * float(j % 2)) / sides
+				var jit := 1.0 + 0.09 * sin(float(i * 7 + j * 3 + seed * 5) * 1.7)
+				ring.append(ctr + Vector3(cos(ang) * cos(lat) * rad.x * jit, sin(lat) * rad.y, sin(ang) * cos(lat) * rad.z * jit))
+			rings.append(ring)
+		var bot := ctr + Vector3(0, -rad.y * 0.85, 0); var tp := ctr + Vector3(0, rad.y, 0)
+		var ymid := ctr.y
+		var shade := func(p: Vector3) -> Color: return top if p.y > ymid + rad.y * 0.05 else bottom
+		for i in sides:
+			var i1 := (i + 1) % sides
+			tri(rings[0][i1], rings[0][i], bot, bottom)
+			tri(rings[2][i], rings[2][i1], tp, top)
+			for j in range(lats.size() - 1):
+				var lo: Array = rings[j]; var hi: Array = rings[j + 1]
+				if j % 2 == 0:  # parallèle supérieur décalé de +1/2 pas
+					var c1: Vector3 = (lo[i] + lo[i1] + hi[i]) / 3.0
+					tri(lo[i], lo[i1], hi[i], shade.call(c1))
+					var c2: Vector3 = (lo[i1] + hi[i1] + hi[i]) / 3.0
+					tri(lo[i1], hi[i1], hi[i], shade.call(c2))
+				else:
+					var c1: Vector3 = (lo[i] + lo[i1] + hi[i1]) / 3.0
+					tri(lo[i], lo[i1], hi[i1], shade.call(c1))
+					var c2: Vector3 = (lo[i] + hi[i1] + hi[i]) / 3.0
+					tri(lo[i], hi[i1], hi[i], shade.call(c2))
 
 	func mesh() -> ArrayMesh:
 		var arr := []
@@ -788,6 +832,13 @@ class _Arrays:
 		arr[Mesh.ARRAY_VERTEX] = v
 		arr[Mesh.ARRAY_COLOR] = c
 		arr[Mesh.ARRAY_TEX_UV] = uv
+		# normales de facette : servent au biais normal des ombres (anti-acné), l'éclairage les recalcule au pixel
+		var nr := PackedVector3Array(); nr.resize(v.size())
+		for i in range(0, v.size() - 2, 3):
+			var fn := (v[i + 2] - v[i]).cross(v[i + 1] - v[i]).normalized()
+			if fn.y < -0.01: fn = -fn   # faces vues des deux côtés : normale vers le ciel
+			nr[i] = fn; nr[i + 1] = fn; nr[i + 2] = fn
+		arr[Mesh.ARRAY_NORMAL] = nr
 		var m := ArrayMesh.new()
 		if v.size() > 0:
 			m.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
