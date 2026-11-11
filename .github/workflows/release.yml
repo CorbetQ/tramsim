@@ -53,8 +53,12 @@ jobs:
           ./godot --headless --path . --export-debug Android build/TramSimFrance.apk
           ./godot --headless --path . --export-release Windows build/TramSimFrance.exe
           cd build && zip -9 TramSimFrance-windows.zip TramSimFrance.exe && cd ..
-          sudo apt-get update > /dev/null && sudo apt-get install -y wixl > /dev/null
-          wixl -a x64 -D Version=0.3.${{ github.run_number }} -o build/TramSimFrance.msi installer/tramsim.wxs
+          for i in 1 2 3; do sudo apt-get update > /dev/null 2>&1; sudo apt-get install -y wixl > /dev/null 2>&1 && break; sleep 20; done
+          if command -v wixl > /dev/null; then
+            wixl -a x64 -D Version=0.3.${{ github.run_number }} -o build/TramSimFrance.msi installer/tramsim.wxs
+          else
+            echo "::warning::wixl indisponible : MSI non produit"
+          fi
           ls -la build
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -62,6 +66,7 @@ jobs:
           tag_name: v0.3.${{ github.run_number }}
           name: Tram Sim France 0.3.${{ github.run_number }}
           prerelease: true
+          fail_on_unmatched_files: false
           body: |
             - **Android** : TramSimFrance.apk (arm64, signature de développement : autoriser les sources inconnues).
             - **Windows** : TramSimFrance.msi (installeur, raccourcis menu Démarrer et Bureau) ou TramSimFrance-windows.zip (exécutable portable).
