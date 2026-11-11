@@ -28,7 +28,7 @@ Puis `godot --headless --export-debug Android build/tramsim.apk`. Voir `docs/ROA
   le panneau **Aiguillages** (touche A) affiche le plan du réseau, l'itinéraire prévu et permet de choisir chaque branche.
 - **Commandes** : manipulateur à gauche (ou Z/↑ et S/↓), X neutre, Espace urgence, O portes, K cloche, C caméra
   (glisser pour tourner, molette pour zoomer), M carte, P pantographe, A aiguillages, R remise sur voie, T trafic, Échap pause, F11 plein écran.
-- **Matériels** : chaque réseau propose sa flotte (`data/liveries.json`, ex. Citadis « arc-en-ciel » d'Irigo, TFS et Incentro à Nantes,
+- **Matériels** : chaque réseau propose sa flotte (`data/rolling_stock/liveries.json`, rames générées depuis `data/rolling_stock/plans/`, ex. Citadis « arc-en-ciel » d'Irigo, TFS et Incentro à Nantes,
   TFS à Grenoble, Eurotram à Strasbourg) ; les autres matériels restent jouables (mode d'adaptation en mode libre).
 - **Installation Windows** : `TramSimFrance.msi` (raccourcis menu Démarrer et Bureau) ou l'exécutable portable.
 

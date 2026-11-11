@@ -1,0 +1,1593 @@
+{
+ "_conventions": {
+  "y": "mètres au-dessus du rail",
+  "z": "fraction de la longueur de la rame depuis le nez avant (0..1) ; symmetric=true : répété en miroir côté arrière",
+  "route": "couleur GTFS de la ligne",
+  "lines": "surcharges par ligne (nom court minuscule) ; peuvent changer family",
+  "families": "surcharges de couleurs quand la rame est d'une autre famille de fleet",
+  "dims": "surcharge de longueur/largeur de la variante (rééchelonner les modules)"
+ },
+ "angers": {
+  "family": "citadis_302",
+  "name": "Citadis 302 Irigo « arc-en-ciel »",
+  "base": "#e3e8ee",
+  "window": "#1a1d1c",
+  "door": "#e3e8ee",
+  "front": "#e3e8ee",
+  "roof": "#c9cdd0",
+  "skirt": "#444b4f",
+  "elements": [
+   {
+    "type": "front_mask",
+    "colors": [
+     "#1a1d1c"
+    ],
+    "y": [
+     1.1,
+     2.8
+    ],
+    "zone": "front"
+   },
+   {
+    "type": "diagonal",
+    "colors": [
+     "#e2231a",
+     "#f18a00",
+     "#ffd500",
+     "#5cb531",
+     "#0096d6",
+     "#6a2c91"
+    ],
+    "y": [
+     0.45,
+     2.2
+    ],
+    "z": [
+     0.0,
+     0.12
+    ],
+    "angle_deg": 60,
+    "zone": "sides+front",
+    "symmetric": true
+   },
+   {
+    "type": "diagonal",
+    "colors": [
+     "#e2231a",
+     "#f18a00",
+     "#ffd500",
+     "#5cb531",
+     "#0096d6",
+     "#6a2c91"
+    ],
+    "y": [
+     0.45,
+     1.05
+    ],
+    "z": [
+     0.3,
+     0.7
+    ],
+    "angle_deg": 60,
+    "zone": "sides"
+   }
+  ],
+  "fleet": [
+   "citadis_302",
+   "citadis_x05"
+  ],
+  "families": {
+   "citadis_x05": {
+    "name": "Citadis X05 Irigo"
+   }
+  },
+  "approximation": "base/vitrage mesurés (citadis_302_1.jpg) ; spectre arc-en-ciel estimé (bandes trop petites pour la mesure), disposition des blocs diagonaux approchée",
+  "sources": [
+   "research.json#liveries.angers"
+  ]
+ },
+ "nantes": {
+  "family": "incentro",
+  "name": "Incentro TAN",
+  "base": "#f7f8f5",
+  "window": "#121517",
+  "door": "#f7f8f5",
+  "front": "#343b35",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "band",
+    "colors": [
+     "#00965e"
+    ],
+    "y": [
+     0.45,
+     0.6
+    ],
+    "zone": "sides+front"
+   }
+  ],
+  "fleet": [
+   "incentro",
+   "tfs",
+   "citadis_x05"
+  ],
+  "families": {
+   "tfs": {
+    "base": "#f3f3ee",
+    "door": "#00965e",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#00965e"
+      ],
+      "y": [
+       1.2,
+       1.4
+      ],
+      "zone": "sides+front"
+     }
+    ],
+    "dims": {
+     "length_m": 39.15
+    }
+   },
+   "citadis_x05": {
+    "front": "#1e2328",
+    "dims": {
+     "length_m": 48.0
+    }
+   }
+  },
+  "approximation": "couleurs mesurées par k-means sur photo Commons (incentro_2.jpg), éclairage non corrigé pour Incentro ; bande verte, TFS et X05 estimés",
+  "sources": [
+   "research.json#liveries.nantes"
+  ]
+ },
+ "bordeaux": {
+  "family": "citadis_402",
+  "name": "Citadis 402 TBM",
+  "base": "#bdc5c3",
+  "window": "#141412",
+  "door": "#bdc5c3",
+  "front": "#24344e",
+  "roof": "#d0d3d6",
+  "skirt": "#2d3138",
+  "elements": [
+   {
+    "type": "front_mask",
+    "colors": [
+     "#24344e"
+    ],
+    "y": [
+     0.3,
+     3.0
+    ],
+    "zone": "front"
+   }
+  ],
+  "fleet": [
+   "citadis_402",
+   "citadis_302"
+  ],
+  "dims": {
+   "length_m": 44.0
+  },
+  "approximation": "couleurs mesurées par k-means sur photo Commons (citadis_402_1.jpg), éclairage non corrigé ; nez bleu nuit métallisé (mesuré #183056 à l'ombre, éclairci)",
+  "sources": [
+   "research.json#liveries.bordeaux"
+  ]
+ },
+ "clermont": {
+  "family": "translohr",
+  "name": "Translohr STE4 T2C « fleur de lave »",
+  "base": "#6f2e39",
+  "window": "#1c121a",
+  "door": "#6f2e39",
+  "front": "#6f2e39",
+  "roof": "#d8d8d8",
+  "skirt": "#3e1a22",
+  "elements": [],
+  "fleet": [
+   "translohr"
+  ],
+  "approximation": "couleurs mesurées par k-means sur photo Commons (translohr_1.jpg), éclairage non corrigé ; proche de l'estimation #7a2338",
+  "sources": [
+   "research.json#liveries.clermont"
+  ]
+ },
+ "mulhouse": {
+  "family": "citadis_302",
+  "name": "Citadis 302 Soléa",
+  "base": "#f2c500",
+  "window": "#1b232b",
+  "door": "#f2c500",
+  "front": "#d42027",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "band",
+    "colors": [
+     "#d42027"
+    ],
+    "y": [
+     0.45,
+     0.9
+    ],
+    "zone": "sides"
+   }
+  ],
+  "fleet": [
+   "citadis_302",
+   "avanto"
+  ],
+  "dims": {
+   "length_m": 32.5,
+   "width_m": 2.65
+  },
+  "lines": {
+   "tt": {
+    "family": "avanto",
+    "name": "Avanto tram-train",
+    "base": "#e9ebec",
+    "door": "#e9ebec",
+    "front": "#e9ebec",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#c8102e"
+      ],
+      "y": [
+       0.55,
+       0.85
+      ],
+      "zone": "sides+front"
+     },
+     {
+      "type": "band",
+      "colors": [
+       "#f2c500"
+      ],
+      "y": [
+       0.85,
+       1.0
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   }
+  },
+  "approximation": "couleurs estimées (pas de photo de Mulhouse) ; répartition jaune/rouge approchée",
+  "sources": [
+   "research.json#liveries.mulhouse"
+  ]
+ },
+ "grenoble": {
+  "family": "citadis_402",
+  "name": "Citadis 402 TAG",
+  "base": "#c4c8cb",
+  "window": "#1b232b",
+  "door": "#c4c8cb",
+  "front": "#2a2e33",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [],
+  "fleet": [
+   "citadis_402",
+   "tfs"
+  ],
+  "families": {
+   "tfs": {
+    "name": "TFS TAG",
+    "base": "#adb1b0",
+    "door": "#74a0c5",
+    "front": "#adb1b0",
+    "skirt": "#4d636b",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#74a0c5"
+      ],
+      "y": [
+       0.45,
+       1.3
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   }
+  },
+  "approximation": "TFS mesuré (tfs_2.jpg : caisse argent, bas de caisse bleu ciel, contredit l'estimation blanc/bandeau sombre) ; Citadis 402 estimé",
+  "sources": [
+   "research.json#liveries.grenoble"
+  ]
+ },
+ "toulouse": {
+  "family": "citadis_302",
+  "name": "Citadis 302 Tisséo",
+  "base": "#f3f4f4",
+  "window": "#1b1f24",
+  "door": "#f3f4f4",
+  "front": "#2a2f35",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "front_mask",
+    "colors": [
+     "#2a2f35"
+    ],
+    "y": [
+     0.9,
+     2.9
+    ],
+    "zone": "front"
+   }
+  ],
+  "fleet": [
+   "citadis_302"
+  ],
+  "lines": {
+   "ae": {
+    "name": "Aéroport Express",
+    "base": "#b06a3b",
+    "door": "#b06a3b",
+    "front": "#2a2f35"
+   }
+  },
+  "approximation": "estimé (pas de photo) ; nom court de la ligne aéroport supposé « ae »",
+  "sources": [
+   "research.json#liveries.toulouse"
+  ]
+ },
+ "strasbourg": {
+  "family": "citadis_403_strasbourg",
+  "name": "Citadis 403 CTS",
+  "base": "#e9e7e2",
+  "window": "#0d1007",
+  "door": "#e9e7e2",
+  "front": "#353520",
+  "roof": "#c9cdd0",
+  "skirt": "#555542",
+  "elements": [
+   {
+    "type": "front_mask",
+    "colors": [
+     "#1f2a26"
+    ],
+    "y": [
+     0.5,
+     3.0
+    ],
+    "zone": "front"
+   },
+   {
+    "type": "band",
+    "colors": [
+     "#5aa53c"
+    ],
+    "y": [
+     0.4,
+     0.5
+    ],
+    "zone": "sides"
+   }
+  ],
+  "fleet": [
+   "citadis_403_strasbourg",
+   "eurotram",
+   "citadis_x05"
+  ],
+  "families": {
+   "eurotram": {
+    "name": "Eurotram CTS",
+    "base": "#f5ebf2",
+    "window": "#19151a",
+    "front": "#365860",
+    "skirt": "#273c45",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#365860"
+      ],
+      "y": [
+       0.4,
+       0.75
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   },
+   "citadis_x05": {
+    "name": "Citadis 405 CTS",
+    "dims": {
+     "length_m": 45.0
+    }
+   }
+  },
+  "approximation": "403 : couleurs mesurées par k-means sur photo Commons (citadis_403_strasbourg_2.jpg), éclairage non corrigé (nez vert-gris sombre) ; Eurotram mesuré (eurotram_2.jpg, bandeau bas sarcelle) ; filet vert estimé",
+  "sources": [
+   "research.json#liveries.strasbourg"
+  ]
+ },
+ "montpellier": {
+  "family": "citadis_402",
+  "name": "Rame multiligne TaM noire",
+  "base": "#1a1a1a",
+  "window": "#0f0f0f",
+  "door": "#1a1a1a",
+  "front": "#1a1a1a",
+  "roof": "#5a5a5a",
+  "skirt": "#30353a",
+  "elements": [],
+  "fleet": [
+   "citadis_402",
+   "citadis_302",
+   "citadis_x01",
+   "urbos"
+  ],
+  "lines": {
+   "1": {
+    "family": "citadis_402",
+    "name": "L1 « Hirondelles »",
+    "base": "#377ae6",
+    "door": "#377ae6",
+    "front": "#377ae6",
+    "window": "#131f2a",
+    "roof": "#dcedf6",
+    "elements": [
+     {
+      "type": "panel",
+      "pattern": "swallows",
+      "colors": [
+       "#ffffff"
+      ],
+      "y": [
+       1.0,
+       3.0
+      ],
+      "z": [
+       0,
+       1
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   },
+   "2": {
+    "family": "citadis_302",
+    "name": "L2 « fleurs »",
+    "base": "#f2efe6",
+    "door": "#f2efe6",
+    "front": "#f2efe6",
+    "elements": [
+     {
+      "type": "panel",
+      "pattern": "flowers",
+      "colors": [
+       "#ef7d00",
+       "#e2231a",
+       "#ffd500",
+       "#5cb531"
+      ],
+      "y": [
+       0.45,
+       3.0
+      ],
+      "z": [
+       0,
+       1
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   },
+   "3": {
+    "family": "citadis_402",
+    "name": "L3 « mondes sous-marins »",
+    "base": "#1f6e7e",
+    "door": "#1f6e7e",
+    "front": "#1f6e7e",
+    "elements": [
+     {
+      "type": "panel",
+      "pattern": "sea_creatures",
+      "colors": [
+       "#c8d400",
+       "#c9a227"
+      ],
+      "y": [
+       0.45,
+       3.0
+      ],
+      "z": [
+       0,
+       1
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   },
+   "4": {
+    "family": "citadis_302",
+    "name": "L4 « patrimoine »",
+    "base": "#4b2a0e",
+    "door": "#4b2a0e",
+    "front": "#4b2a0e",
+    "elements": [
+     {
+      "type": "panel",
+      "pattern": "heritage",
+      "colors": [
+       "#c9a227"
+      ],
+      "y": [
+       0.45,
+       3.0
+      ],
+      "z": [
+       0,
+       1
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   },
+   "5": {
+    "family": "urbos",
+    "name": "L5 « feuilles de vie » Urbos 100X",
+    "base": "#2d7431",
+    "door": "#2d7431",
+    "front": "#2d7431",
+    "elements": [
+     {
+      "type": "panel",
+      "pattern": "leaves",
+      "colors": [
+       "#a8d08d"
+      ],
+      "y": [
+       0.45,
+       3.0
+      ],
+      "z": [
+       0,
+       1
+      ],
+      "zone": "sides+front"
+     }
+    ],
+    "dims": {
+     "length_m": 33.0,
+     "width_m": 2.65
+    }
+   }
+  },
+  "families": {
+   "citadis_x01": {
+    "dims": {
+     "length_m": 40.9,
+     "width_m": 2.65
+    }
+   }
+  },
+  "dims": {
+   "width_m": 2.65
+  },
+  "approximation": "L1 bleu mesuré (citadis_x01_1.jpg, #377ae6, plus clair que #0058a2 Wikipédia) ; autres lignes estimées ; motifs = textures à créer (pattern)",
+  "sources": [
+   "research.json#liveries.montpellier"
+  ]
+ },
+ "lille": {
+  "family": "breda_vlc",
+  "name": "Breda VLC Ilévia",
+  "base": "#d9d8d9",
+  "window": "#262425",
+  "door": "#d9d8d9",
+  "front": "#d9d8d9",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "band",
+    "colors": [
+     "#d0021b"
+    ],
+    "y": [
+     0.6,
+     0.8
+    ],
+    "zone": "sides+front"
+   }
+  ],
+  "fleet": [
+   "breda_vlc",
+   "citadis_x05"
+  ],
+  "approximation": "couleurs mesurées par k-means sur photo Commons (breda_vlc_2.jpg), éclairage non corrigé (tunnel, faible lumière) ; bande rouge estimée",
+  "sources": [
+   "research.json#liveries.lille"
+  ]
+ },
+ "lyon": {
+  "family": "citadis_302",
+  "name": "Citadis TCL",
+  "base": "#e0e3e5",
+  "window": "#15191b",
+  "door": "#e0e3e5",
+  "front": "#c1c5c7",
+  "roof": "#c9cdd0",
+  "skirt": "#4c5051",
+  "elements": [
+   {
+    "type": "front_mask",
+    "colors": [
+     "#15191b"
+    ],
+    "y": [
+     1.1,
+     2.9
+    ],
+    "zone": "front"
+   }
+  ],
+  "fleet": [
+   "citadis_302",
+   "citadis_402",
+   "citadis_x05",
+   "tango_rhonexpress"
+  ],
+  "lines": {
+   "t3": {
+    "family": "citadis_402"
+   },
+   "t4": {
+    "family": "citadis_402"
+   },
+   "t6": {
+    "family": "citadis_402"
+   },
+   "rhonexpress": {
+    "family": "tango_rhonexpress",
+    "name": "Tango Rhônexpress",
+    "base": "#a8272e",
+    "door": "#a8272e",
+    "front": "#a8272e",
+    "window": "#242124",
+    "roof": "#c8c6c7",
+    "skirt": "#565459",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#e2dfde"
+      ],
+      "y": [
+       2.5,
+       3.2
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   }
+  },
+  "approximation": "TCL mesuré (citadis_302_2.jpg : nez clair et non anthracite) ; Rhônexpress mesuré (tango_rhonexpress_2.jpg, haut de caisse gris clair)",
+  "sources": [
+   "research.json#liveries.lyon"
+  ]
+ },
+ "marseille": {
+  "family": "flexity_marseille",
+  "name": "Flexity Outlook RTM",
+  "base": "#ded9d3",
+  "window": "#0f0d0e",
+  "door": "#ded9d3",
+  "front": "#39393e",
+  "roof": "#c9cdd0",
+  "skirt": "#39393e",
+  "elements": [
+   {
+    "type": "front_mask",
+    "colors": [
+     "#0f0d0e"
+    ],
+    "y": [
+     0.9,
+     3.0
+    ],
+    "zone": "front"
+   },
+   {
+    "type": "panel",
+    "pattern": "ring",
+    "colors": [
+     "route"
+    ],
+    "y": [
+     0.6,
+     1.4
+    ],
+    "zone": "front"
+   }
+  ],
+  "fleet": [
+   "flexity_marseille",
+   "urbos"
+  ],
+  "families": {
+   "urbos": {
+    "name": "Urbos 100X RTM",
+    "dims": {
+     "length_m": 33.0
+    }
+   }
+  },
+  "approximation": "couleurs mesurées par k-means sur photo Commons (flexity_marseille_2.jpg), éclairage non corrigé : caisse gris clair (contredit l'estimation anthracite) ; anneau = couleur de ligne",
+  "sources": [
+   "research.json#liveries.marseille"
+  ]
+ },
+ "nice": {
+  "family": "citadis_402",
+  "name": "Citadis 402 Lignes d'Azur",
+  "base": "#e6e8e9",
+  "window": "#1b232b",
+  "door": "#e6e8e9",
+  "front": "#2a2f33",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [],
+  "fleet": [
+   "citadis_402",
+   "citadis_x05"
+  ],
+  "dims": {
+   "length_m": 44.0
+  },
+  "lines": {
+   "t2": {
+    "family": "citadis_x05",
+    "base": "#f4f4f2",
+    "door": "#f4f4f2",
+    "dims": {
+     "length_m": 44.0
+    }
+   },
+   "t3": {
+    "family": "citadis_x05",
+    "base": "#f4f4f2",
+    "door": "#f4f4f2",
+    "dims": {
+     "length_m": 44.0
+    }
+   }
+  },
+  "approximation": "estimé (pas de photo)",
+  "sources": [
+   "research.json#liveries.nice"
+  ]
+ },
+ "rouen": {
+  "family": "citadis_402",
+  "name": "Citadis 402 Astuce",
+  "base": "#f4f4f4",
+  "window": "#1b232b",
+  "door": "#f4f4f4",
+  "front": "#f4f4f4",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "panel",
+    "pattern": "visuals",
+    "colors": [
+     "#4f6f8c"
+    ],
+    "y": [
+     1.05,
+     2.45
+    ],
+    "z": [
+     0.2,
+     0.8
+    ],
+    "zone": "sides"
+   }
+  ],
+  "fleet": [
+   "citadis_402"
+  ],
+  "approximation": "estimé",
+  "sources": [
+   "research.json#liveries.rouen"
+  ]
+ },
+ "reims": {
+  "family": "citadis_reims",
+  "name": "Citadis « Évolution » Reims",
+  "base": "#88954f",
+  "window": "#1b232b",
+  "door": "#88954f",
+  "front": "#88954f",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "gradient",
+    "colors": [
+     "#88954f",
+     "#f4f4f2"
+    ],
+    "y": [
+     0.4,
+     2.9
+    ],
+    "zone": "front"
+   }
+  ],
+  "fleet": [
+   "citadis_reims"
+  ],
+  "variants_colors": [
+   "#f3b9c6",
+   "#b9d9f0",
+   "#88954f",
+   "#fbe3a1",
+   "#d7c3e6",
+   "#f8c9a0",
+   "#bfe6e0",
+   "#e6d3b3"
+  ],
+  "approximation": "vert mesuré (citadis_reims_1.jpg, #88954f) remplace le pastel vert estimé ; 7 autres teintes estimées (variants_colors : une teinte par rame)",
+  "sources": [
+   "research.json#liveries.reims"
+  ]
+ },
+ "dijon": {
+  "family": "citadis_302",
+  "name": "Citadis Divia cassis",
+  "base": "#5b1a3f",
+  "window": "#1b232b",
+  "door": "#5b1a3f",
+  "front": "#5b1a3f",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [],
+  "fleet": [
+   "citadis_302"
+  ],
+  "approximation": "estimé",
+  "sources": [
+   "research.json#liveries.dijon"
+  ]
+ },
+ "tours": {
+  "family": "citadis_tours",
+  "name": "Citadis Tours « miroir »",
+  "base": "#3b4147",
+  "window": "#14161b",
+  "door": "#3b4147",
+  "front": "#14161b",
+  "roof": "#757375",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "gradient",
+    "colors": [
+     "#96caf4",
+     "#3b4147"
+    ],
+    "y": [
+     1.0,
+     3.0
+    ],
+    "zone": "sides"
+   },
+   {
+    "type": "panel",
+    "pattern": "led_bars",
+    "colors": [
+     "#f5f7ff"
+    ],
+    "y": [
+     0.6,
+     2.6
+    ],
+    "zone": "front"
+   }
+  ],
+  "fleet": [
+   "citadis_tours"
+  ],
+  "approximation": "couleurs mesurées par k-means sur photo Commons (citadis_tours_2.jpg), éclairage non corrigé : caisse miroir sombre reflétant le ciel (gradient) ; estimation argent #cdd3d8 écartée",
+  "sources": [
+   "research.json#liveries.tours"
+  ]
+ },
+ "orleans": {
+  "family": "citadis_302",
+  "name": "Citadis Tao",
+  "base": "#ececea",
+  "window": "#1b232b",
+  "door": "#ececea",
+  "front": "#22262b",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [],
+  "fleet": [
+   "citadis_302",
+   "citadis_x01"
+  ],
+  "lines": {
+   "a": {
+    "family": "citadis_x01",
+    "base": "#e8e8e4",
+    "front": "#e8e8e4",
+    "door": "#e8e8e4"
+   },
+   "b": {
+    "family": "citadis_302"
+   }
+  },
+  "approximation": "estimé",
+  "sources": [
+   "research.json#liveries.orleans"
+  ]
+ },
+ "lemans": {
+  "family": "citadis_302",
+  "name": "Citadis Setram",
+  "base": "#9c4a2f",
+  "window": "#1b232b",
+  "door": "#9c4a2f",
+  "front": "#9c4a2f",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [],
+  "fleet": [
+   "citadis_302"
+  ],
+  "dims": {
+   "length_m": 32.0
+  },
+  "approximation": "estimé",
+  "sources": [
+   "research.json#liveries.lemans"
+  ]
+ },
+ "caen": {
+  "family": "citadis_x05",
+  "name": "Citadis 305 Twisto",
+  "base": "#e4edf0",
+  "window": "#141917",
+  "door": "#e4edf0",
+  "front": "#374342",
+  "roof": "#c9cdd0",
+  "skirt": "#374342",
+  "elements": [
+   {
+    "type": "front_mask",
+    "colors": [
+     "#141917"
+    ],
+    "y": [
+     0.4,
+     3.0
+    ],
+    "zone": "front"
+   },
+   {
+    "type": "gradient",
+    "colors": [
+     "#e4edf0",
+     "#879491"
+    ],
+    "y": [
+     0.45,
+     1.05
+    ],
+    "zone": "sides"
+   }
+  ],
+  "fleet": [
+   "citadis_x05"
+  ],
+  "approximation": "couleurs mesurées par k-means sur photo Commons (citadis_x05_1.jpg), éclairage non corrigé ; la rame 1009 (citadis_x05_2) est bleu ciel #6db5e4 : livrée alternative",
+  "sources": [
+   "research.json#liveries.caen"
+  ]
+ },
+ "brest": {
+  "family": "citadis_302",
+  "name": "Citadis Bibus vert anis",
+  "base": "#b5c92a",
+  "window": "#1b232b",
+  "door": "#b5c92a",
+  "front": "#b5c92a",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [],
+  "fleet": [
+   "citadis_302"
+  ],
+  "approximation": "estimé",
+  "sources": [
+   "research.json#liveries.brest"
+  ]
+ },
+ "lehavre": {
+  "family": "citadis_302",
+  "name": "Citadis LiA",
+  "base": "#6b4a3a",
+  "window": "#1b232b",
+  "door": "#6b4a3a",
+  "front": "#6b4a3a",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "panel",
+    "pattern": "perret_claustra",
+    "colors": [
+     "#d9c8b4"
+    ],
+    "y": [
+     0.45,
+     1.05
+    ],
+    "z": [
+     0,
+     1
+    ],
+    "zone": "sides"
+   }
+  ],
+  "fleet": [
+   "citadis_302"
+  ],
+  "dims": {
+   "length_m": 32.0
+  },
+  "approximation": "estimé",
+  "sources": [
+   "research.json#liveries.lehavre"
+  ]
+ },
+ "saintetienne": {
+  "family": "urbos",
+  "name": "Urbos 3 STAS",
+  "base": "#f2f2f2",
+  "window": "#1b232b",
+  "door": "#f2f2f2",
+  "front": "#f2f2f2",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "band",
+    "colors": [
+     "#c8102e"
+    ],
+    "y": [
+     0.45,
+     0.75
+    ],
+    "zone": "sides+front"
+   }
+  ],
+  "fleet": [
+   "urbos",
+   "vevey_saint_etienne"
+  ],
+  "dims": {
+   "length_m": 33.0,
+   "width_m": 2.15
+  },
+  "families": {
+   "vevey_saint_etienne": {
+    "name": "Vevey STE2",
+    "base": "#dce2e5",
+    "door": "#dce2e5",
+    "front": "#dce2e5",
+    "skirt": "#929333",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#a8a83a"
+      ],
+      "y": [
+       0.3,
+       1.0
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   }
+  },
+  "approximation": "Urbos estimé ; Vevey mesuré (vevey_saint_etienne_2.jpg : argent, bas jaune-vert)",
+  "sources": [
+   "research.json#liveries.saintetienne"
+  ]
+ },
+ "besancon": {
+  "family": "urbos",
+  "name": "Urbos 3 Ginko",
+  "base": "#3bbedd",
+  "window": "#0d1110",
+  "door": "#3bbedd",
+  "front": "#3bbedd",
+  "roof": "#c9cdd0",
+  "skirt": "#2e3638",
+  "elements": [
+   {
+    "type": "band",
+    "colors": [
+     "#0d1110"
+    ],
+    "y": [
+     1.05,
+     2.45
+    ],
+    "zone": "sides+front"
+   }
+  ],
+  "fleet": [
+   "urbos",
+   "citadis_x05"
+  ],
+  "approximation": "couleurs mesurées par k-means sur photo Commons (urbos_2.jpg), éclairage non corrigé ; turquoise plus clair que l'estimation #00a3b4",
+  "sources": [
+   "research.json#liveries.besancon"
+  ]
+ },
+ "avignon": {
+  "family": "citadis_compact",
+  "name": "Citadis Compact Orizo",
+  "base": "#edeeef",
+  "window": "#0f120a",
+  "door": "#edeeef",
+  "front": "#edeeef",
+  "roof": "#c9cdd0",
+  "skirt": "#2f3522",
+  "elements": [
+   {
+    "type": "front_mask",
+    "colors": [
+     "#0f120a"
+    ],
+    "y": [
+     0.4,
+     2.9
+    ],
+    "zone": "front"
+   },
+   {
+    "type": "stripes",
+    "colors": [
+     "#8cc63f",
+     "#2f9e44"
+    ],
+    "y": [
+     0.45,
+     0.55
+    ],
+    "zone": "sides"
+   }
+  ],
+  "fleet": [
+   "citadis_compact"
+  ],
+  "approximation": "couleurs mesurées par k-means sur photo Commons (citadis_compact_1.jpg), éclairage non corrigé ; filets verts Orizo estimés",
+  "sources": [
+   "research.json#liveries.avignon"
+  ]
+ },
+ "valenciennes": {
+  "family": "citadis_302",
+  "name": "Citadis Transvilles",
+  "base": "#f1f1ee",
+  "window": "#1b232b",
+  "door": "#f1f1ee",
+  "front": "#a33a2c",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "front_mask",
+    "colors": [
+     "#a33a2c"
+    ],
+    "y": [
+     0.4,
+     3.0
+    ],
+    "zone": "front"
+   }
+  ],
+  "fleet": [
+   "citadis_302"
+  ],
+  "dims": {
+   "length_m": 33.0
+  },
+  "approximation": "estimé",
+  "sources": [
+   "research.json#liveries.valenciennes"
+  ]
+ },
+ "aubagne": {
+  "family": "citadis_compact",
+  "name": "Citadis Compact Aubagne",
+  "base": "#f2f2f0",
+  "window": "#1b232b",
+  "door": "#f2f2f0",
+  "front": "#f2f2f0",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [],
+  "fleet": [
+   "citadis_compact"
+  ],
+  "dims": {
+   "length_m": 22.0
+  },
+  "approximation": "estimé",
+  "sources": [
+   "research.json#liveries.aubagne"
+  ]
+ },
+ "annemasse": {
+  "family": "tango_rhonexpress",
+  "name": "Tango TPG (ligne 17)",
+  "base": "#f0f0ee",
+  "window": "#1b232b",
+  "door": "#f0f0ee",
+  "front": "#f0f0ee",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "band",
+    "colors": [
+     "#e30613"
+    ],
+    "y": [
+     0.45,
+     0.7
+    ],
+    "zone": "sides+front"
+   }
+  ],
+  "fleet": [
+   "tango_rhonexpress",
+   "flexity_marseille"
+  ],
+  "families": {
+   "flexity_marseille": {
+    "name": "Flexity Cityrunner TPG (nez différent de Marseille)"
+   }
+  },
+  "approximation": "entièrement estimé : pas de recherche ni photo ; ligne 17 TPG Genève–Annemasse, Tango Stadler (plan Rhônexpress réutilisé)",
+  "sources": []
+ },
+ "idf": {
+  "family": "citadis_402",
+  "name": "IDFM",
+  "base": "#d9dcdd",
+  "window": "#1b232b",
+  "door": "#d9dcdd",
+  "front": "#2b2f33",
+  "roof": "#c9cdd0",
+  "skirt": "#30353a",
+  "elements": [
+   {
+    "type": "band",
+    "colors": [
+     "#67b4b1"
+    ],
+    "y": [
+     0.45,
+     0.6
+    ],
+    "zone": "sides"
+   }
+  ],
+  "fleet": [
+   "citadis_402",
+   "citadis_302",
+   "citadis_x05",
+   "translohr",
+   "citadis_dualis",
+   "avanto"
+  ],
+  "lines": {
+   "t1": {
+    "family": "citadis_x05",
+    "dims": {
+     "width_m": 2.65
+    }
+   },
+   "t2": {
+    "family": "citadis_302",
+    "base": "#f2f2f0",
+    "door": "#f2f2f0",
+    "front": "#f2f2f0",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#00a88f"
+      ],
+      "y": [
+       0.45,
+       0.7
+      ],
+      "zone": "sides+front"
+     }
+    ],
+    "dims": {
+     "length_m": 32.2
+    }
+   },
+   "t3a": {
+    "family": "citadis_402",
+    "base": "#f2f2f0",
+    "door": "#f2f2f0",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#00a88f"
+      ],
+      "y": [
+       0.45,
+       0.7
+      ],
+      "zone": "sides+front"
+     }
+    ],
+    "dims": {
+     "width_m": 2.65
+    }
+   },
+   "t3b": {
+    "family": "citadis_402",
+    "base": "#f2f2f0",
+    "door": "#f2f2f0",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#00a88f"
+      ],
+      "y": [
+       0.45,
+       0.7
+      ],
+      "zone": "sides+front"
+     }
+    ],
+    "dims": {
+     "width_m": 2.65
+    }
+   },
+   "t4": {
+    "family": "avanto",
+    "name": "Avanto Transilien",
+    "base": "#121d68",
+    "door": "#121d68",
+    "front": "#121d68",
+    "window": "#0e1117",
+    "skirt": "#2d2c2f",
+    "elements": [
+     {
+      "type": "panel",
+      "pattern": "door_berlingots",
+      "colors": [
+       "#e2231a",
+       "#f18a00",
+       "#ffd500",
+       "#5cb531",
+       "#0096d6"
+      ],
+      "y": [
+       0.6,
+       2.6
+      ],
+      "zone": "doors"
+     }
+    ]
+   },
+   "t5": {
+    "family": "translohr",
+    "base": "#f2f2f0",
+    "door": "#f2f2f0",
+    "front": "#f2f2f0",
+    "dims": {
+     "length_m": 25.0
+    },
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#00a88f"
+      ],
+      "y": [
+       0.35,
+       0.6
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   },
+   "t6": {
+    "family": "translohr",
+    "base": "#f2f2f0",
+    "door": "#f2f2f0",
+    "front": "#f2f2f0",
+    "dims": {
+     "length_m": 46.0
+    },
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#00a88f"
+      ],
+      "y": [
+       0.35,
+       0.6
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   },
+   "t7": {
+    "family": "citadis_302",
+    "base": "#f2f2f0",
+    "door": "#f2f2f0",
+    "dims": {
+     "length_m": 32.7
+    }
+   },
+   "t8": {
+    "family": "citadis_302",
+    "base": "#f2f2f0",
+    "door": "#f2f2f0"
+   },
+   "t9": {
+    "family": "citadis_x05",
+    "dims": {
+     "length_m": 45.0,
+     "width_m": 2.65
+    }
+   },
+   "t10": {
+    "family": "citadis_x05"
+   },
+   "t11": {
+    "family": "citadis_dualis",
+    "name": "Dualis tram-train",
+    "base": "#dde0df",
+    "door": "#dde0df",
+    "front": "#dde0df",
+    "window": "#0f0d0c",
+    "elements": [
+     {
+      "type": "front_mask",
+      "colors": [
+       "#b34f59"
+      ],
+      "y": [
+       1.2,
+       3.2
+      ],
+      "zone": "front"
+     },
+     {
+      "type": "band",
+      "colors": [
+       "#b34f59"
+      ],
+      "y": [
+       2.55,
+       2.75
+      ],
+      "z": [
+       0,
+       0.1
+      ],
+      "zone": "sides",
+      "symmetric": true
+     }
+    ]
+   },
+   "t12": {
+    "family": "citadis_dualis",
+    "name": "Dualis tram-train",
+    "base": "#dde0df",
+    "door": "#dde0df",
+    "front": "#dde0df",
+    "window": "#0f0d0c",
+    "elements": [
+     {
+      "type": "front_mask",
+      "colors": [
+       "#b34f59"
+      ],
+      "y": [
+       1.2,
+       3.2
+      ],
+      "zone": "front"
+     },
+     {
+      "type": "band",
+      "colors": [
+       "#b34f59"
+      ],
+      "y": [
+       2.55,
+       2.75
+      ],
+      "z": [
+       0,
+       0.1
+      ],
+      "zone": "sides",
+      "symmetric": true
+     }
+    ]
+   },
+   "t13": {
+    "family": "citadis_dualis",
+    "name": "Dualis tram-train",
+    "base": "#dde0df",
+    "door": "#dde0df",
+    "front": "#dde0df",
+    "window": "#0f0d0c",
+    "elements": [
+     {
+      "type": "front_mask",
+      "colors": [
+       "#b34f59"
+      ],
+      "y": [
+       1.2,
+       3.2
+      ],
+      "zone": "front"
+     },
+     {
+      "type": "band",
+      "colors": [
+       "#b34f59"
+      ],
+      "y": [
+       2.55,
+       2.75
+      ],
+      "z": [
+       0,
+       0.1
+      ],
+      "zone": "sides",
+      "symmetric": true
+     }
+    ]
+   }
+  },
+  "approximation": "T4 mesuré (avanto_2.jpg, bleu #121d68 ; berlingots estimés) ; Dualis mesuré (citadis_dualis_2.jpg : collerette framboise #b34f59 au lieu du bleu estimé) ; IDFM/RATP estimés",
+  "sources": [
+   "research.json#liveries.idf"
+  ]
+ }
+}

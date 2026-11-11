@@ -9,8 +9,10 @@ uniform float shade_floor : hint_range(0.0, 1.0) = 0.42;
 uniform float rim_strength : hint_range(0.0, 1.0) = 0.18;
 uniform vec3 glass_glow = vec3(1.0, 0.86, 0.6);
 uniform float glow_strength = 0.55;
+// Les couleurs de sommets arrivent déjà linéarisées en rendu Compatibility : 1.0 = pas de reconversion (rames).
+uniform float color_gamma = 2.2;
 
-vec3 to_linear(vec3 c) { return pow(c, vec3(2.2)); }
+vec3 to_linear(vec3 c) { return pow(c, vec3(color_gamma)); }
 
 void fragment() {
 	NORMAL = normalize(cross(dFdy(VERTEX), dFdx(VERTEX)));

@@ -1,0 +1,2522 @@
+{
+ "meta": {
+  "date": "2026-11-11",
+  "method": "Wikipédia FR (wikitext via API), Wikimedia Commons (miniatures 500 px, taille standard la plus proche ≤ 640). Hex = estimations (pas d'échantillonnage pixel) sauf couleurs de ligne Montpellier (tableau Wikipédia).",
+  "corrections": [
+   "IDF T9 = Citadis 405 (pas Urbos)",
+   "Aubagne = Citadis Compact (pas Urbos)",
+   "Avignon = Citadis Compact (plateforme X05)",
+   "Nice T1 = 402 (302 allongés)",
+   "Montpellier L1/L5 : Urbos 100X ajoutés",
+   "IDF T14 : non trouvé"
+  ],
+  "images_dir": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs"
+ },
+ "families": {
+  "citadis_302": {
+   "name": "Alstom Citadis 302",
+   "manufacturer": "Alstom",
+   "generation": "X02 (2000-2005)",
+   "networks": [
+    "angers",
+    "lyon",
+    "bordeaux",
+    "toulouse",
+    "orleans",
+    "brest",
+    "dijon",
+    "lemans",
+    "lehavre",
+    "valenciennes",
+    "mulhouse",
+    "montpellier",
+    "idf"
+   ],
+   "lines": {
+    "idf": [
+     "t2",
+     "t7",
+     "t8"
+    ],
+    "orleans": [
+     "b"
+    ],
+    "montpellier": [
+     "2",
+     "4"
+    ]
+   },
+   "length_m": 32.4,
+   "length_variants_m": {
+    "reims/lyon/toulouse/angers": 32.4,
+    "idf_t2": 32.2,
+    "idf_t7": 32.7,
+    "mulhouse": 32.5,
+    "lemans/lehavre": 32.0,
+    "valenciennes": 33.0
+   },
+   "width_m": 2.4,
+   "width_variants_m": {
+    "mulhouse": 2.65,
+    "montpellier": 2.65
+   },
+   "height_m": 3.3,
+   "floor_height_m": 0.32,
+   "max_speed_kmh": 70,
+   "mass_t": 40.0,
+   "power_kw": 480,
+   "capacity": 206,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.8,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 6,
+   "doors_detail": "4 doubles + 2 simples aux extrémités (Angers 2e série et versions récentes : doubles aux extrémités)",
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "door_width_single_m": 0.8,
+   "front": "Nez configurable par réseau (Citadis 'face avant à la carte') : grand pare-brise panoramique bombé incliné ~15-20°, montants fins, girouette en haut du pare-brise, feux bas en bandeaux ou ovales sous le pare-brise, jupe pleine affleurant le rail, attelage caché. Toit : 1 pantographe sur module central, caissons clim sur modules d'extrémité.",
+   "notes": "Nice T1 : toutes les rames 302 allongées en 402 (44 m). Lyon : 73 rames T1-T7. Reims : voir citadis_reims. Bordeaux : quelques 302 de 33 m. Mulhouse : 22 rames 2,65 m, nez spécifique.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Alstom_Citadis",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Reims",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Lyon",
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Angers",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Mulhouse",
+    "https://fr.wikipedia.org/wiki/Ligne_2_du_tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_7_du_tramway_d%27%C3%8Ele-de-France",
+    "https://presse.angers.fr/private/uploads/piecesjointes/dp-essai-rame-tramway.pdf"
+   ],
+   "estimated": [
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "modules",
+    "doors_per_side",
+    "door_width_single_m",
+    "front"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_n%C2%B01001_IRIGO_-_Pont_Confluences.JPG",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Alstom_Citadis_302_n%C2%B01001_IRIGO_-_Pont_Confluences.JPG/500px-Alstom_Citadis_302_n%C2%B01001_IRIGO_-_Pont_Confluences.JPG",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_302_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_n%C2%B0859_TCL_Saxe-Pr%C3%A9fecture.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Alstom_Citadis_302_n%C2%B0859_TCL_Saxe-Pr%C3%A9fecture.jpg/500px-Alstom_Citadis_302_n%C2%B0859_TCL_Saxe-Pr%C3%A9fecture.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_302_2.jpg",
+     "licence": "CC BY-SA 3.0",
+     "author": "Florian Fèvre"
+    }
+   ]
+  },
+  "citadis_402": {
+   "name": "Alstom Citadis 402",
+   "manufacturer": "Alstom",
+   "generation": "X02",
+   "networks": [
+    "bordeaux",
+    "grenoble",
+    "montpellier",
+    "rouen",
+    "lyon",
+    "nice",
+    "idf"
+   ],
+   "lines": {
+    "idf": [
+     "t3a",
+     "t3b"
+    ],
+    "lyon": [
+     "t3",
+     "t4",
+     "t6"
+    ],
+    "montpellier": [
+     "1",
+     "2",
+     "3"
+    ],
+    "nice": [
+     "t1"
+    ]
+   },
+   "length_m": 43.7,
+   "length_variants_m": {
+    "bordeaux": 44.0,
+    "nice": 44.0,
+    "idf_t3": 43.7
+   },
+   "width_m": 2.4,
+   "width_variants_m": {
+    "idf_t3": 2.65,
+    "montpellier": 2.65
+   },
+   "height_m": 3.3,
+   "floor_height_m": 0.32,
+   "max_speed_kmh": 70,
+   "mass_t": 55.0,
+   "power_kw": 720,
+   "capacity": 300,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.8,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.8,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 8,
+   "doors_detail": "6 doubles + 2 simples",
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Identique 302 selon réseau. Lyon LT6/LT6+ (2019-) : cabines type Citadis 405 et nouveau design extérieur. Bordeaux : nez arrondi Lanoire & Courrian, pare-brise très enveloppant.",
+   "notes": "7 modules, 3 bogies moteurs/porteurs + nacelles. Bordeaux 130 rames (A-D) ; IDF T3a/T3b ; Rouen 27 rames (2012) ; Grenoble 50 rames.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Alstom_Citadis",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Bordeaux",
+    "https://fr.wikipedia.org/wiki/Ligne_3a_du_tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_3b_du_tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Lyon",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Rouen",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Grenoble"
+   ],
+   "estimated": [
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Citadis_402_at_Victoire_tram_stop_Bordeaux_2007-10-23_(142442).jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Citadis_402_at_Victoire_tram_stop_Bordeaux_2007-10-23_%28142442%29.jpg/500px-Citadis_402_at_Victoire_tram_stop_Bordeaux_2007-10-23_%28142442%29.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_402_1.jpg",
+     "licence": "CC BY-SA 3.0",
+     "author": "Peter Gugerell"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Tramway_Citadis,_centre-ville_de_Bordeaux_(2).jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tramway_Citadis%2C_centre-ville_de_Bordeaux_%282%29.jpg/500px-Tramway_Citadis%2C_centre-ville_de_Bordeaux_%282%29.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_402_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Kevin.B"
+    }
+   ]
+  },
+  "citadis_403_strasbourg": {
+   "name": "Alstom Citadis 403 (Strasbourg)",
+   "manufacturer": "Alstom",
+   "networks": [
+    "strasbourg"
+   ],
+   "length_m": 45.0,
+   "width_m": 2.4,
+   "height_m": 3.3,
+   "floor_height_m": 0.32,
+   "max_speed_kmh": 70,
+   "mass_t": 58.0,
+   "power_kw": 720,
+   "capacity": 288,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.6,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.8,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.8,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.6,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 8,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Face avant spécifique CTS inspirée de l'Eurotram : nez très vitré, pare-brise panoramique enveloppant descendant bas, haut du nez arrondi en bulle, feux en bandeau bas ; bogies d'extrémité modifiés (spécifiques Strasbourg). Phases 1 (2005, 41 rames), 2 (2016, 22), 3 (2022, 17).",
+   "notes": "Citadis 405 commandés (12 + 27 en 2024) pour remplacer les Eurotram.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Alstom_Citadis",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Strasbourg"
+   ],
+   "estimated": [
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side",
+    "door_width_m"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_403_n%C2%B02032_CTS_Pont_de_Saverne.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Alstom_Citadis_403_n%C2%B02032_CTS_Pont_de_Saverne.jpg/500px-Alstom_Citadis_403_n%C2%B02032_CTS_Pont_de_Saverne.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_403_strasbourg_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Citadis_403_-_Strasbourg_n%C2%B03032.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Citadis_403_-_Strasbourg_n%C2%B03032.jpg/500px-Citadis_403_-_Strasbourg_n%C2%B03032.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_403_strasbourg_2.jpg",
+     "licence": "CC BY 4.0",
+     "author": "Kyah117"
+    }
+   ]
+  },
+  "citadis_x05": {
+   "name": "Alstom Citadis X05 (305 / 405)",
+   "manufacturer": "Alstom",
+   "generation": "X05 (2017-)",
+   "networks": [
+    "caen",
+    "angers",
+    "besancon",
+    "nice",
+    "nantes",
+    "lyon",
+    "strasbourg",
+    "lille",
+    "idf"
+   ],
+   "lines": {
+    "idf": [
+     "t1",
+     "t9",
+     "t10"
+    ],
+    "nice": [
+     "t2",
+     "t3"
+    ]
+   },
+   "variants": {
+    "305": {
+     "length_m": 32.5,
+     "modules": 5,
+     "networks": "caen (36 rames), angers (2001-2020), besancon (901-908, 2025), idf_t1 (TW20, 2024-)"
+    },
+    "405": {
+     "length_m": 44.0,
+     "modules": 7,
+     "networks": "nice T2/T3, idf T9 (45 m, 2,65 m), idf T10, strasbourg (commande 2024)"
+    },
+    "nantes": {
+     "length_m": 48.0,
+     "note": "Citadis X05 Nantes (2020s), version longue"
+    }
+   },
+   "length_m": 32.5,
+   "width_m": 2.4,
+   "width_variants_m": {
+    "idf_t9": 2.65,
+    "idf_t1": 2.65
+   },
+   "height_m": 3.3,
+   "floor_height_m": 0.32,
+   "max_speed_kmh": 70,
+   "mass_t": 40.0,
+   "power_kw": 560,
+   "capacity": 212,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.1,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.7,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.1,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 6,
+   "doors_detail": "6 doubles par côté (Caen)",
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Nez X05 plus vertical, pare-brise grand et peu incliné, bandeau noir enveloppant, feux LED en virgules/bandeaux fins, jupe basse. IDF T9/T10/T1 : face avant 405 IDFM commune. Bogies Ixège, moteurs synchrones à aimants permanents.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Alstom_Citadis",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Caen",
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Angers",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Besan%C3%A7on",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Nice",
+    "https://fr.wikipedia.org/wiki/Ligne_1_du_tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_9_du_tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_10_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "height_m",
+    "floor_height_m",
+    "power_kw",
+    "modules",
+    "front",
+    "variants.nantes"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Citadis_305_devant_le_Ch%C3%A2teau_de_Caen.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Citadis_305_devant_le_Ch%C3%A2teau_de_Caen.jpg/500px-Citadis_305_devant_le_Ch%C3%A2teau_de_Caen.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_x05_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Rémi Simonnin"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Tramway_Caen_rame_1009.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Tramway_Caen_rame_1009.jpg/500px-Tramway_Caen_rame_1009.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_x05_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Bmazerolles"
+    }
+   ]
+  },
+  "citadis_dualis": {
+   "name": "Alstom Citadis Dualis (tram-train)",
+   "manufacturer": "Alstom",
+   "networks": [
+    "idf"
+   ],
+   "lines": {
+    "idf": [
+     "t4",
+     "t11",
+     "t12",
+     "t13"
+    ]
+   },
+   "length_m": 42.0,
+   "width_m": 2.65,
+   "height_m": 3.35,
+   "floor_height_m": 0.4,
+   "max_speed_kmh": 100,
+   "mass_t": 62.0,
+   "power_kw": 1050,
+   "capacity": 250,
+   "axle_load_t": 11.5,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 11.0,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 10.0,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 10.0,
+     "bogie": true
+    },
+    {
+     "kind": "cab",
+     "length_m": 11.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 4,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Nez tram-train plus long et anguleux, pare-brise incliné en V, cadre anti-collision, gros feux ronds/ovaux haut et bas (signalisation ferroviaire), attelage visible. Toit : pantographe + équipements 25 kV.",
+   "notes": "4 caisses M+2R+M, UM2 possible (84 m, 500 voyageurs). Hors IDF : tram-trains de Nantes et Lyon (SNCF).",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Alstom_Citadis_Dualis",
+    "https://fr.wikipedia.org/wiki/Ligne_11_Express_du_tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_12_Express_du_tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_13_Express_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "modules",
+    "doors_per_side",
+    "door_width_m"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Citadis_Dualis_T11_Pierrefitte_-_Stains_nuit.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Citadis_Dualis_T11_Pierrefitte_-_Stains_nuit.jpg/500px-Citadis_Dualis_T11_Pierrefitte_-_Stains_nuit.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_dualis_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Idris2000"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Citadis_dualis_du_T11_Express.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Citadis_dualis_du_T11_Express.jpg/500px-Citadis_dualis_du_T11_Express.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_dualis_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Adnane"
+    }
+   ]
+  },
+  "tfs": {
+   "name": "Alsthom TFS (Tramway français standard)",
+   "manufacturer": "Alsthom / GEC-Alsthom",
+   "networks": [
+    "nantes",
+    "grenoble",
+    "idf"
+   ],
+   "lines": {
+    "idf": [
+     "t1"
+    ],
+    "grenoble": [
+     "a"
+    ]
+   },
+   "length_m": 29.4,
+   "length_variants_m": {
+    "nantes_3_caisses": 39.15
+   },
+   "width_m": 2.3,
+   "height_m": 3.36,
+   "floor_height_m": 0.87,
+   "floor_low_m": 0.345,
+   "max_speed_kmh": 70,
+   "mass_t": 44.2,
+   "mass_loaded_t": 56.6,
+   "power_kw": 550,
+   "capacity": 178,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 13.2,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 3.0,
+     "bogie": true
+    },
+    {
+     "kind": "cab",
+     "length_m": 13.2,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 8,
+   "doors_detail": "TFS-1 : 2 simples + 6 doubles ; TFS-2 : 4 par face",
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Face plate quasi verticale, pare-brise rectangulaire à 2 vitres légèrement inclinées, girouette au-dessus, feux ronds doubles bas de chaque côté, pare-chocs/jupe rectangulaire. Caisses à flancs plats, baies rectangulaires.",
+   "notes": "Grenoble : premier tram à plancher bas (nacelle centrale à bogie coudé, 0,345 m) ; Nantes : caisse centrale basse ajoutée (39,15 m). Rouen : TFS retirés (2012). IDF T1 : remplacés par Citadis 305 TW20.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_fran%C3%A7ais_standard",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Grenoble",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Nantes",
+    "https://fr.wikipedia.org/wiki/Ligne_1_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "modules",
+    "door_width_m"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Tramway_Alsthom_TFS_devant_la_gare_de_Grenoble.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tramway_Alsthom_TFS_devant_la_gare_de_Grenoble.jpg/500px-Tramway_Alsthom_TFS_devant_la_gare_de_Grenoble.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/tfs_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Neimedia_"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Alsthom_TFS_-_R%C3%A9seau_TAG_-_Grenoble.JPG",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Alsthom_TFS_-_R%C3%A9seau_TAG_-_Grenoble.JPG/500px-Alsthom_TFS_-_R%C3%A9seau_TAG_-_Grenoble.JPG",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/tfs_2.jpg",
+     "licence": "CC BY-SA 3.0",
+     "author": "Florian Fèvre"
+    }
+   ]
+  },
+  "incentro": {
+   "name": "Adtranz / Bombardier Incentro AT6/5",
+   "manufacturer": "Adtranz / Bombardier",
+   "networks": [
+    "nantes"
+   ],
+   "length_m": 36.4,
+   "width_m": 2.4,
+   "height_m": 3.4,
+   "floor_height_m": 0.35,
+   "max_speed_kmh": 70,
+   "mass_t": 46.0,
+   "power_kw": 540,
+   "capacity": 250,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 8.6,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 5.0
+    },
+    {
+     "kind": "middle",
+     "length_m": 5.0,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 5.0
+    },
+    {
+     "kind": "cab",
+     "length_m": 8.6,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 6,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Nez arrondi bas, grand pare-brise bombé presque continu avec les vitres latérales de cabine, feux en amande intégrés en bas, jupe galbée.",
+   "notes": "5 caisses M+3R+M, 33 rames (2000-2001), Nantes ; infobox : 36 m.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Bombardier_Incentro",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Nantes"
+   ],
+   "estimated": [
+    "length_m",
+    "width_m",
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Incentro,_ligne_1_du_tramway_de_Nantes.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Incentro%2C_ligne_1_du_tramway_de_Nantes.jpg/500px-Incentro%2C_ligne_1_du_tramway_de_Nantes.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/incentro_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Kevin.B"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Flickr_-_IngolfBLN_-_Nantes_-_Tramway_-_Details_-_Adtranz_Incentro_(6).jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Flickr_-_IngolfBLN_-_Nantes_-_Tramway_-_Details_-_Adtranz_Incentro_%286%29.jpg/500px-Flickr_-_IngolfBLN_-_Nantes_-_Tramway_-_Details_-_Adtranz_Incentro_%286%29.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/incentro_2.jpg",
+     "licence": "CC BY-SA 2.0",
+     "author": "IngolfBLN"
+    }
+   ]
+  },
+  "eurotram": {
+   "name": "ABB / Bombardier Eurotram (Flexity Outlook E)",
+   "manufacturer": "Socimi / ABB / Bombardier",
+   "networks": [
+    "strasbourg"
+   ],
+   "length_m": 33.0,
+   "length_variants_m": {
+    "7_modules": 33.0,
+    "9_modules": 43.0
+   },
+   "width_m": 2.4,
+   "height_m": 3.3,
+   "floor_height_m": 0.35,
+   "max_speed_kmh": 70,
+   "mass_t": 40.0,
+   "power_kw": 600,
+   "capacity": 210,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 6.0,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 3.5
+    },
+    {
+     "kind": "middle",
+     "length_m": 3.5,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 7.0
+    },
+    {
+     "kind": "middle",
+     "length_m": 3.5,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 3.5
+    },
+    {
+     "kind": "cab",
+     "length_m": 6.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 6,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Cabine 'bulle' : immense pare-brise teinté enveloppant d'un seul tenant descendant presque à la jupe, toit de cabine arrondi, baies latérales très hautes (vitrage quasi intégral), petits feux bas.",
+   "notes": "Phase 1 (26 rames 33 m, 1994-95) retirée ; phase 2 : 10 × 33 m + 17 × 43 m, remplacement par Citadis 405.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Bombardier_Flexity_Outlook",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Strasbourg"
+   ],
+   "estimated": [
+    "width_m",
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side",
+    "door_width_m"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Bombardier_Eurotram_n%C2%B01003_CTS_Alt_Winm%C3%A4rik.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Bombardier_Eurotram_n%C2%B01003_CTS_Alt_Winm%C3%A4rik.jpg/500px-Bombardier_Eurotram_n%C2%B01003_CTS_Alt_Winm%C3%A4rik.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/eurotram_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Eurotram_Strasbourg_Langstross_tram_A_(2004).jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Eurotram_Strasbourg_Langstross_tram_A_%282004%29.jpg/500px-Eurotram_Strasbourg_Langstross_tram_A_%282004%29.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/eurotram_2.jpg",
+     "licence": "CC BY-SA 3.0",
+     "author": "C. Horwitz"
+    }
+   ]
+  },
+  "flexity_marseille": {
+   "name": "Bombardier Flexity Outlook C (Cityrunner) Marseille",
+   "manufacturer": "Bombardier",
+   "networks": [
+    "marseille"
+   ],
+   "length_m": 32.5,
+   "length_variants_m": {
+    "5_modules": 32.5,
+    "7_modules": 42.5
+   },
+   "width_m": 2.4,
+   "height_m": 3.4,
+   "floor_height_m": 0.35,
+   "max_speed_kmh": 70,
+   "mass_t": 40.0,
+   "power_kw": 520,
+   "capacity": 200,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 8.5,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 5.0
+    },
+    {
+     "kind": "middle",
+     "length_m": 5.5,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 5.0
+    },
+    {
+     "kind": "cab",
+     "length_m": 8.5,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 6,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Design MBD : nez sombre très incliné en pointe douce, pare-brise teinté continu, anneau lumineux (cercle) à la couleur de la ligne autour du phare/de l'avant, feux fins.",
+   "notes": "Allongement à 42,5 m (+2 modules). CAF Urbos 100X attendus (2025+).",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Marseille",
+    "https://fr.wikipedia.org/wiki/Bombardier_Flexity_Outlook"
+   ],
+   "estimated": [
+    "height_m",
+    "floor_height_m",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side",
+    "door_width_m"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Tramway_Marseille_Sadi_Carnot_1.JPG",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Tramway_Marseille_Sadi_Carnot_1.JPG/500px-Tramway_Marseille_Sadi_Carnot_1.JPG",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/flexity_marseille_1.jpg",
+     "licence": "CC BY-SA 3.0",
+     "author": "Ianaré"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Tramway_Bombardier_Flexity_Outlook_Cityrunner_%C3%A0_l%27arr%C3%AAt_R%C3%A9publique_Dames_(Marseille).jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Tramway_Bombardier_Flexity_Outlook_Cityrunner_%C3%A0_l%27arr%C3%AAt_R%C3%A9publique_Dames_%28Marseille%29.jpg/500px-Tramway_Bombardier_Flexity_Outlook_Cityrunner_%C3%A0_l%27arr%C3%AAt_R%C3%A9publique_Dames_%28Marseille%29.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/flexity_marseille_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Remontees"
+    }
+   ]
+  },
+  "translohr": {
+   "name": "NTL Translohr STE3 / STE4 / STE6",
+   "manufacturer": "Lohr Industrie / NTL (Alstom)",
+   "networks": [
+    "clermont",
+    "idf"
+   ],
+   "lines": {
+    "idf": [
+     "t5",
+     "t6"
+    ]
+   },
+   "variants": {
+    "STE3": {
+     "length_m": 25.0,
+     "capacity": 127,
+     "networks": "idf_t5"
+    },
+    "STE4": {
+     "length_m": 32.0,
+     "capacity": 170,
+     "networks": "clermont"
+    },
+    "STE6": {
+     "length_m": 46.0,
+     "capacity": 255,
+     "networks": "idf_t6"
+    }
+   },
+   "length_m": 32.0,
+   "width_m": 2.2,
+   "height_m": 2.89,
+   "floor_height_m": 0.25,
+   "max_speed_kmh": 70,
+   "mass_t": 35.0,
+   "power_kw": 520,
+   "capacity": 170,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 6.0,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 2.5
+    },
+    {
+     "kind": "middle",
+     "length_m": 6.0,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 2.5
+    },
+    {
+     "kind": "middle",
+     "length_m": 6.0,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 2.5
+    },
+    {
+     "kind": "cab",
+     "length_m": 6.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 4,
+   "door_type": "coulissante",
+   "door_width_m": 1.3,
+   "front": "Sur pneus guidés par rail central. Nez court et arrondi très vitré (pare-brise bulle descendant bas), petite cabine, feux ronds bas, jupes masquant les roues pneumatiques. Caisses courtes sur essieu unique alternant avec modules d'intercirculation.",
+   "notes": "Gabarit étroit 2,20 m, hauteur 2,89 m hors captage.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/NTL_Translohr",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Clermont-Ferrand",
+    "https://fr.wikipedia.org/wiki/Ligne_5_du_tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_6_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "modules",
+    "doors_per_side",
+    "door_type",
+    "door_width_m"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Translohr_STE4_n%C2%B002_T2C_Stade_Gabriel_Montpied.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Translohr_STE4_n%C2%B002_T2C_Stade_Gabriel_Montpied.jpg/500px-Translohr_STE4_n%C2%B002_T2C_Stade_Gabriel_Montpied.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/translohr_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Translohr_STE4_n%C2%B020_T2C_Fontaine_du_Bac.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Translohr_STE4_n%C2%B020_T2C_Fontaine_du_Bac.jpg/500px-Translohr_STE4_n%C2%B020_T2C_Fontaine_du_Bac.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/translohr_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    }
+   ]
+  },
+  "urbos": {
+   "name": "CAF Urbos 3 / Urbos 100X",
+   "manufacturer": "CAF",
+   "networks": [
+    "besancon",
+    "saintetienne",
+    "montpellier",
+    "marseille",
+    "idf"
+   ],
+   "lines": {
+    "montpellier": [
+     "1",
+     "5"
+    ],
+    "idf": [
+     "t13 (commande 15 rames, à confirmer)"
+    ]
+   },
+   "variants": {
+    "besancon_urbos3": {
+     "length_m": 23.021,
+     "width_m": 2.4,
+     "capacity": 132,
+     "modules": 3,
+     "rames": 19
+    },
+    "saintetienne_urbos3": {
+     "length_m": 33.0,
+     "width_m": 2.15,
+     "rames": 16,
+     "note": "voie métrique"
+    },
+    "montpellier_urbos100x": {
+     "lines": "1, 5",
+     "note": "2025-"
+    },
+    "marseille_urbos100x": {
+     "note": "livraison prévue 2025+"
+    }
+   },
+   "length_m": 23.021,
+   "width_m": 2.4,
+   "height_m": 3.3,
+   "floor_height_m": 0.35,
+   "max_speed_kmh": 70,
+   "mass_t": 31.0,
+   "power_kw": 432,
+   "capacity": 132,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 5.0
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 4,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Nez Urbos 3 : grand pare-brise bombé légèrement incliné, bandeau supérieur sombre avec girouette, feux en goutte allongée dans les coins bas, jupe arrondie ; Saint-Étienne : caisse étroite.",
+   "notes": "IDF T9 n'est pas un Urbos (Citadis 405). Aubagne n'est pas un Urbos (Citadis Compact).",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/CAF_Urbos",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Besan%C3%A7on",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Saint-%C3%89tienne",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Montpellier",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Marseille",
+    "https://fr.wikipedia.org/wiki/Ligne_13_Express_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "modules",
+    "doors_per_side",
+    "variants.saintetienne_urbos3"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:CAF_Urbos_3_n%C2%B0812_GINKO_R%C3%A9publique.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/CAF_Urbos_3_n%C2%B0812_GINKO_R%C3%A9publique.jpg/500px-CAF_Urbos_3_n%C2%B0812_GINKO_R%C3%A9publique.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/urbos_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:CAF_Urbos_Besan%C3%A7on_Ginko_n%C2%B0810.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/CAF_Urbos_Besan%C3%A7on_Ginko_n%C2%B0810.jpg/500px-CAF_Urbos_Besan%C3%A7on_Ginko_n%C2%B0810.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/urbos_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Kevin.B"
+    }
+   ]
+  },
+  "avanto": {
+   "name": "Siemens Avanto (S70 tram-train)",
+   "manufacturer": "Siemens",
+   "networks": [
+    "mulhouse",
+    "idf"
+   ],
+   "lines": {
+    "mulhouse": [
+     "tt"
+    ],
+    "idf": [
+     "t4"
+    ]
+   },
+   "length_m": 36.97,
+   "width_m": 2.65,
+   "height_m": 3.52,
+   "floor_height_m": 0.4,
+   "max_speed_kmh": 100,
+   "mass_t": 62.5,
+   "mass_loaded_t": 67.0,
+   "power_kw": 520,
+   "capacity": 240,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 10.5,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.0
+    },
+    {
+     "kind": "middle",
+     "length_m": 7.9,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.0
+    },
+    {
+     "kind": "cab",
+     "length_m": 10.5,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 4,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Nez ferroviaire massif, pare-brise large et incliné, grand bandeau vitré, phares doubles hauts + bas (feux ferroviaires), boîte à attelage, jupe chasse-obstacles.",
+   "notes": "U 25500 (T4). Mulhouse : 11 rames TT16-TT27 (TT26 réformée). T4 Clichy-Montfermeil : Citadis Dualis.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Siemens_S70/S700_et_Avanto",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Mulhouse",
+    "https://fr.wikipedia.org/wiki/Ligne_4_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "floor_height_m",
+    "capacity",
+    "modules",
+    "doors_per_side",
+    "door_width_m"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:T4_avanto1.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/T4_avanto1.jpg/500px-T4_avanto1.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/avanto_1.jpg",
+     "licence": "CC BY-SA 3.0",
+     "author": "User Eole99 on fr.wikipedia"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:U_25500_Villemomble_fr_01.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/U_25500_Villemomble_fr_01.jpg/500px-U_25500_Villemomble_fr_01.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/avanto_2.jpg",
+     "licence": "CC BY-SA 2.5",
+     "author": "Oxam Hartog"
+    }
+   ]
+  },
+  "tango_rhonexpress": {
+   "name": "Stadler Tango (Rhônexpress)",
+   "manufacturer": "Stadler",
+   "networks": [
+    "lyon"
+   ],
+   "lines": {
+    "lyon": [
+     "rhonexpress"
+    ]
+   },
+   "length_m": 27.0,
+   "width_m": 2.4,
+   "height_m": 3.5,
+   "floor_height_m": 0.35,
+   "max_speed_kmh": 100,
+   "mass_t": 42.0,
+   "power_kw": 540,
+   "capacity": 180,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.5,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 8.0,
+     "bogie": true
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.5,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 4,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Nez Tango : pare-brise haut et vertical en un bloc, coins de cabine arrondis, feux en grappe dans les angles bas, bandeau noir de vitrage continu.",
+   "notes": "6 rames (2009-2010), 100 km/h, 3 caisses (infobox Tango : 2/3/6 caisses, 22/28/45 m).",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Stadler_Tango",
+    "https://fr.wikipedia.org/wiki/Rh%C3%B4nexpress"
+   ],
+   "estimated": [
+    "length_m",
+    "width_m",
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side",
+    "door_width_m"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Rh%C3%B4nExpress_Stadler_Tango_n%C2%B0102_-_A%C3%A9roport_Lyon_Saint-Exup%C3%A9ry.JPG",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Rh%C3%B4nExpress_Stadler_Tango_n%C2%B0102_-_A%C3%A9roport_Lyon_Saint-Exup%C3%A9ry.JPG/500px-Rh%C3%B4nExpress_Stadler_Tango_n%C2%B0102_-_A%C3%A9roport_Lyon_Saint-Exup%C3%A9ry.JPG",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/tango_rhonexpress_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Lyon_tramwaj_Rhonexpress_103.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Lyon_tramwaj_Rhonexpress_103.jpg/500px-Lyon_tramwaj_Rhonexpress_103.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/tango_rhonexpress_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Andrzej Otrębski"
+    }
+   ]
+  },
+  "breda_vlc": {
+   "name": "Breda VLC (Mongy)",
+   "manufacturer": "Breda",
+   "networks": [
+    "lille"
+   ],
+   "length_m": 29.9,
+   "width_m": 2.4,
+   "height_m": 3.3,
+   "floor_height_m": 0.35,
+   "max_speed_kmh": 70,
+   "mass_t": 38.0,
+   "power_kw": 410,
+   "capacity": 230,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 12.0,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 5.9,
+     "bogie": true
+    },
+    {
+     "kind": "cab",
+     "length_m": 12.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 4,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Nez arrondi italien, grand pare-brise bombé, feux ronds bas, jupe pleine. Voie métrique.",
+   "notes": "24 rames (1994), 2 × 205 kW, 4 portes louvoyantes coulissantes par côté. Remplacement par Alstom Citadis (marché 2023, 1re rame livrée 2025).",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Breda_VLC",
+    "https://www.alstom.com/fr/press-releases-news/2023/12/alstom-fournira-les-nouveaux-tramways-de-la-metropole-europeenne-de-lille"
+   ],
+   "estimated": [
+    "length_m",
+    "width_m",
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "capacity",
+    "modules",
+    "door_width_m"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Villeneuve_d%27Ascq_Mongy_Breda_VLC_sur_la_Ligne_R.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Villeneuve_d%27Ascq_Mongy_Breda_VLC_sur_la_Ligne_R.jpg/500px-Villeneuve_d%27Ascq_Mongy_Breda_VLC_sur_la_Ligne_R.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/breda_vlc_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Pierre André Leclercq"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:141007_Lille_IMG_5441.JPG",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/141007_Lille_IMG_5441.JPG/500px-141007_Lille_IMG_5441.JPG",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/breda_vlc_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Roehrensee"
+    }
+   ]
+  },
+  "citadis_reims": {
+   "name": "Alstom Citadis 302 Reims (face avant « Évolution »)",
+   "manufacturer": "Alstom",
+   "networks": [
+    "reims"
+   ],
+   "length_m": 32.4,
+   "width_m": 2.4,
+   "height_m": 3.3,
+   "floor_height_m": 0.32,
+   "max_speed_kmh": 70,
+   "mass_t": 40.0,
+   "power_kw": 480,
+   "capacity": 206,
+   "seats": 54,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.8,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 6,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "« Évolution » (MBD Design), choisie par vote (janv. 2007) : nez en flûte à champagne, pare-brise s'évasant vers le haut, partie basse resserrée et galbée, feux verticaux fins ; couleur du nez intégrée à la livrée pastel. APS sur ~2 km.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Reims"
+   ],
+   "estimated": [
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "modules",
+    "doors_per_side"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_%E2%80%94_tramway_de_Reims.5.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Alstom_Citadis_302_%E2%80%94_tramway_de_Reims.5.jpg/500px-Alstom_Citadis_302_%E2%80%94_tramway_de_Reims.5.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_reims_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Skililipappa"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_%E2%80%94_tramway_de_Reims.7.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Alstom_Citadis_302_%E2%80%94_tramway_de_Reims.7.jpg/500px-Alstom_Citadis_302_%E2%80%94_tramway_de_Reims.7.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_reims_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Skililipappa"
+    }
+   ]
+  },
+  "citadis_tours": {
+   "name": "Alstom Citadis 402 Tours",
+   "manufacturer": "Alstom",
+   "networks": [
+    "tours"
+   ],
+   "length_m": 43.0,
+   "width_m": 2.4,
+   "height_m": 3.3,
+   "floor_height_m": 0.32,
+   "max_speed_kmh": 70,
+   "mass_t": 55.0,
+   "power_kw": 720,
+   "capacity": 280,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.8,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.8,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 4.8
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 8,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Design « Ensemble(s) la Ligne » + Alstom : nez vertical tronqué, bandeaux lumineux LED verticaux sur le nez (effet curseur), surfaces réfléchissantes « miroir d'eau de Loire ». APS 1,8 km.",
+   "notes": "21 rames (2013).",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Tours"
+   ],
+   "estimated": [
+    "width_m",
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Tramway_de_Tours_Citadis_402.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Tramway_de_Tours_Citadis_402.jpg/500px-Tramway_de_Tours_Citadis_402.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_tours_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Anthony Tempo"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Citadis_n%C2%B052_Anatole_France_(tram_Tours)_par_Cramos.JPG",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Citadis_n%C2%B052_Anatole_France_%28tram_Tours%29_par_Cramos.JPG/500px-Citadis_n%C2%B052_Anatole_France_%28tram_Tours%29_par_Cramos.JPG",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_tours_2.jpg",
+     "licence": "CC BY-SA 3.0",
+     "author": "Cramos"
+    }
+   ]
+  },
+  "citadis_x01": {
+   "name": "Alstom Citadis 301 / 401 (1re génération) [AJOUT]",
+   "manufacturer": "Alstom",
+   "networks": [
+    "orleans",
+    "montpellier"
+   ],
+   "lines": {
+    "orleans": [
+     "a"
+    ],
+    "montpellier": [
+     "1"
+    ]
+   },
+   "variants": {
+    "301": {
+     "length_m": 30.0,
+     "modules": 3,
+     "low_floor": "~70-75 %",
+     "networks": "orleans A"
+    },
+    "401": {
+     "length_m": 40.9,
+     "modules": 5,
+     "width_m": 2.65,
+     "networks": "montpellier 1 (29 rames)"
+    }
+   },
+   "length_m": 30.0,
+   "width_m": 2.32,
+   "height_m": 3.3,
+   "floor_height_m": 0.35,
+   "max_speed_kmh": 70,
+   "mass_t": 37.0,
+   "power_kw": 480,
+   "capacity": 180,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 11.0,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 8.0,
+     "bogie": true
+    },
+    {
+     "kind": "cab",
+     "length_m": 11.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 4,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Nez Citadis 1re génération : pare-brise bombé, Montpellier : nez rond 'bonbon' (Garouste & Bonetti), Orléans : face spécifique.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Alstom_Citadis",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Montpellier",
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Orl%C3%A9ans"
+   ],
+   "estimated": [
+    "width_m",
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_401_n%C2%B02011_TAM_Place_de_France.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Alstom_Citadis_401_n%C2%B02011_TAM_Place_de_France.jpg/500px-Alstom_Citadis_401_n%C2%B02011_TAM_Place_de_France.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_x01_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Citadis_401_Tramway_de_Montpellier_ligne_T1_2011.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Citadis_401_Tramway_de_Montpellier_ligne_T1_2011.jpg/500px-Citadis_401_Tramway_de_Montpellier_ligne_T1_2011.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_x01_2.jpg",
+     "licence": "CC0",
+     "author": "User:Willem_90"
+    }
+   ]
+  },
+  "citadis_compact": {
+   "name": "Alstom Citadis Compact [AJOUT]",
+   "manufacturer": "Alstom",
+   "networks": [
+    "avignon",
+    "aubagne"
+   ],
+   "length_m": 24.0,
+   "length_variants_m": {
+    "avignon": 24.0,
+    "aubagne": 22.0
+   },
+   "width_m": 2.4,
+   "height_m": 3.3,
+   "floor_height_m": 0.32,
+   "max_speed_kmh": 70,
+   "mass_t": 30.0,
+   "power_kw": 360,
+   "capacity": 150,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 6.0
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 4,
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "front": "Plateforme X05 : nez vertical, grand pare-brise, bandeau sombre, feux LED.",
+   "notes": "Avignon : 10 + 4 rames (2018-2019), blanc ; Aubagne : 8 rames, 2,40 m ext., 2,24 m int., portes doubles 1,30 m.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Alstom_Citadis",
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Avignon",
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Aubagne"
+   ],
+   "estimated": [
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side",
+    "front"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Citadis_Compact_quittant_la_station_Gare-Centre_-_R%C3%A9publique_en_Avignon.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Citadis_Compact_quittant_la_station_Gare-Centre_-_R%C3%A9publique_en_Avignon.jpg/500px-Citadis_Compact_quittant_la_station_Gare-Centre_-_R%C3%A9publique_en_Avignon.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_compact_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Remontees"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Citadis_Compact_le_long_des_remparts_d%27Avignon_entre_les_stations_Gare_Centre_et_Saint-Roch_(1).jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Citadis_Compact_le_long_des_remparts_d%27Avignon_entre_les_stations_Gare_Centre_et_Saint-Roch_%281%29.jpg/500px-Citadis_Compact_le_long_des_remparts_d%27Avignon_entre_les_stations_Gare_Centre_et_Saint-Roch_%281%29.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/citadis_compact_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Remontees"
+    }
+   ]
+  },
+  "vevey_saint_etienne": {
+   "name": "Vevey-Alsthom STE1/STE2 (Saint-Étienne) [AJOUT]",
+   "manufacturer": "Vevey / Alsthom / Duewag",
+   "networks": [
+    "saintetienne"
+   ],
+   "length_m": 23.24,
+   "width_m": 2.1,
+   "height_m": 3.3,
+   "floor_height_m": 0.35,
+   "max_speed_kmh": 60,
+   "mass_t": 30.0,
+   "power_kw": 300,
+   "capacity": 150,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 10.0,
+     "bogie": true
+    },
+    {
+     "kind": "middle",
+     "length_m": 3.2,
+     "bogie": true
+    },
+    {
+     "kind": "cab",
+     "length_m": 10.0,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 4,
+   "door_type": "louvoyante",
+   "door_width_m": 1.2,
+   "front": "Dérivé TFS : face plate, pare-brise rectangulaire, feux ronds bas. Voie métrique.",
+   "notes": "STE1 901-915 (1991-92), STE2 916-935 (1998, portes louvoyantes, caméras) ; retrait progressif (Urbos 3).",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Saint-%C3%89tienne",
+    "https://fr.wikipedia.org/wiki/Tramway_fran%C3%A7ais_standard"
+   ],
+   "estimated": [
+    "width_m",
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "capacity",
+    "modules",
+    "doors_per_side",
+    "door_width_m",
+    "max_speed_kmh"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Vevey-Alsthom_STAS_916_Saint-%C3%89tienne_Ch%C3%A2teaucreux.JPG",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Vevey-Alsthom_STAS_916_Saint-%C3%89tienne_Ch%C3%A2teaucreux.JPG/500px-Vevey-Alsthom_STAS_916_Saint-%C3%89tienne_Ch%C3%A2teaucreux.JPG",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/vevey_saint_etienne_1.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    },
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Alsthom_Vevey_D%C3%BCwag_n%C2%B0914_Solaure_STAS.jpg",
+     "thumb": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Alsthom_Vevey_D%C3%BCwag_n%C2%B0914_Solaure_STAS.jpg/500px-Alsthom_Vevey_D%C3%BCwag_n%C2%B0914_Solaure_STAS.jpg",
+     "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/vevey_saint_etienne_2.jpg",
+     "licence": "CC BY-SA 4.0",
+     "author": "Florian Fèvre"
+    }
+   ]
+  }
+ },
+ "liveries": {
+  "angers": {
+   "family": "citadis_302",
+   "description": "Irigo, tramway « arc-en-ciel » : caisse blanche, masque avant et bandeau vitré noirs, bandes multicolores (spectre rouge→violet) le long des flancs. Citadis 305 (2022) : même esprit.",
+   "colors": {
+    "base": "#f4f4f2",
+    "front": "#1b232b",
+    "window": "#1b232b",
+    "stripes": [
+     "#e2231a",
+     "#f18a00",
+     "#ffd500",
+     "#5cb531",
+     "#0096d6",
+     "#6a2c91"
+    ],
+    "roof": "#c9cdd0",
+    "skirt": "#30353a"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Angers"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "nantes": {
+   "family": "incentro",
+   "description": "TAN : rames claires (blanc/gris clair), vitrages noirs ; TFS : caisse blanche, bande et portes vertes ; Incentro : blanc, masque avant sombre ; Citadis X05 : blanc, avant noir.",
+   "colors": {
+    "base": "#f2f2ee",
+    "accent": "#00965e",
+    "front": "#2a2f33",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Nantes"
+   ],
+   "variants": {
+    "tfs": {
+     "base": "#f3f3ee",
+     "accent": "#00965e"
+    },
+    "incentro": {
+     "base": "#f4f5f2",
+     "front": "#2a2f33"
+    },
+    "citadis_x05": {
+     "base": "#f2f2f0",
+     "front": "#1e2328"
+    }
+   },
+   "estimated": [
+    "colors"
+   ]
+  },
+  "bordeaux": {
+   "family": "citadis_402",
+   "description": "TBM : caisse gris argent métallisé, bandeau vitré noir continu, nez gris anthracite (design Lanoire & Courrian), toit gris clair.",
+   "colors": {
+    "base": "#b9bec2",
+    "window": "#1a1e22",
+    "front": "#3a3f44",
+    "roof": "#d0d3d6"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Bordeaux"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "clermont": {
+   "family": "translohr",
+   "description": "T2C : toutes les rames couleur « fleur de lave » (rouge violacé sombre), vitrages noirs, toit gris.",
+   "colors": {
+    "base": "#7a2338",
+    "window": "#1a1a1e",
+    "roof": "#d8d8d8"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Clermont-Ferrand"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "mulhouse": {
+   "family": "citadis_302",
+   "description": "Soléa : rames de couleur jaune et rouge (couleurs choisies par les Mulhousiens, 2003), nez de forme particulière.",
+   "colors": {
+    "base": "#f2c500",
+    "accent": "#d42027",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Mulhouse"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "mulhouse_tt": {
+   "family": "avanto",
+   "description": "Tram-train : livrée alliant TER Alsace et tramway de Mulhouse (caisse claire, bandes TER + couleur tram).",
+   "colors": {
+    "base": "#e9ebec",
+    "accent": "#f2c500",
+    "accent2": "#c8102e",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tram-train_Mulhouse_Vall%C3%A9e_de_la_Thur"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "grenoble": {
+   "family": "citadis_402",
+   "description": "TAG/M réso : Citadis 402 gris argent, vitrages et nez noirs ; TFS blancs à bandeau sombre.",
+   "colors": {
+    "base": "#c4c8cb",
+    "front": "#2a2e33",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Grenoble"
+   ],
+   "variants": {
+    "tfs": {
+     "base": "#eeeeea",
+     "band": "#2a2e33"
+    }
+   },
+   "estimated": [
+    "colors"
+   ]
+  },
+  "toulouse": {
+   "family": "citadis_302",
+   "description": "Tisséo : design Airbus (clin d'œil aéronautique), caisse blanche, nez sombre type cockpit, vitrages noirs.",
+   "colors": {
+    "base": "#f3f4f4",
+    "front": "#2a2f35",
+    "window": "#1b1f24"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Toulouse"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "toulouse_aeroport": {
+   "family": "citadis_302",
+   "description": "Ligne Aéroport Express (2025-26) : livrée spécifique dans les tons cuivrés.",
+   "colors": {
+    "base": "#b06a3b",
+    "window": "#1b1f24"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Toulouse"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "strasbourg": {
+   "family": "citadis_403_strasbourg",
+   "description": "CTS : caisse gris argent, vitrage noir quasi intégral, nez vitré ; Eurotram identiques en esprit.",
+   "colors": {
+    "base": "#bfc4c7",
+    "window": "#14181c",
+    "front": "#14181c",
+    "accent": "#5aa53c"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Strasbourg"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "montpellier_1": {
+   "family": "citadis_402",
+   "description": "Ligne 1 « Les Hirondelles » (Garouste & Bonetti) : fond bleu soutenu à hirondelles blanches. Couleur ligne #0058A2.",
+   "colors": {
+    "base": "#0058a2",
+    "motif": "#ffffff",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Montpellier"
+   ],
+   "motif": "hirondelles blanches stylisées",
+   "estimated": [
+    "colors"
+   ]
+  },
+  "montpellier_2": {
+   "family": "citadis_302",
+   "description": "Ligne 2 « La Jeune Parque », fleurs (Garouste & Bonetti) : fleurs multicolores sur fond clair, ligne orange #EF7D00.",
+   "colors": {
+    "base": "#f2efe6",
+    "motif": [
+     "#ef7d00",
+     "#e2231a",
+     "#ffd500",
+     "#5cb531"
+    ],
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Montpellier"
+   ],
+   "motif": "grandes fleurs",
+   "estimated": [
+    "colors"
+   ]
+  },
+  "montpellier_3": {
+   "family": "citadis_402",
+   "description": "Ligne 3 « Mondes sous-marins » (Christian Lacroix) : fond bleu-vert marin, créatures marines dorées ; ligne #C8D400.",
+   "colors": {
+    "base": "#1f6e7e",
+    "motif": "#c8d400",
+    "accent": "#c9a227",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Montpellier"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "montpellier_4": {
+   "family": "citadis_302",
+   "description": "Ligne 4 « Patrimoine » (Christian Lacroix) : fond brun/or, motifs patrimoniaux dorés ; ligne #4B2A0E.",
+   "colors": {
+    "base": "#4b2a0e",
+    "motif": "#c9a227",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Montpellier"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "montpellier_5": {
+   "family": "urbos",
+   "description": "Ligne 5 « Feuilles de vie » (Urbos 100X) : feuillages, vert ; ligne #2D7431.",
+   "colors": {
+    "base": "#2d7431",
+    "motif": "#a8d08d",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Montpellier"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "montpellier_multi": {
+   "family": "citadis_402",
+   "description": "Rames multilignes : livrée entièrement noire (adhésifs promotionnels possibles).",
+   "colors": {
+    "base": "#1a1a1a",
+    "window": "#0f0f0f"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Montpellier"
+   ]
+  },
+  "lille": {
+   "family": "breda_vlc",
+   "description": "Ilévia : caisse blanche/gris clair, vitrage noir, bandes rouges/grises (Breda VLC rénovés).",
+   "colors": {
+    "base": "#f1f1f1",
+    "accent": "#d0021b",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Breda_VLC"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "lyon": {
+   "family": "citadis_302",
+   "description": "TCL : caisse blanc nacré/gris très clair, vitrage noir, nez gris anthracite ; nouvelle livrée dévoilée à la mise en service de T5 ; LT6 (402) : nouveau design extérieur.",
+   "colors": {
+    "base": "#e9ebec",
+    "front": "#2b2f34",
+    "window": "#1b232b",
+    "roof": "#c9cdd0"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Lyon"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "lyon_rhonexpress": {
+   "family": "tango_rhonexpress",
+   "description": "Rhônexpress : caisse rouge vif, vitrage noir, bas de caisse gris.",
+   "colors": {
+    "base": "#d7262e",
+    "window": "#1b232b",
+    "skirt": "#5a5f64"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Rh%C3%B4nexpress"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "marseille": {
+   "family": "flexity_marseille",
+   "description": "RTM : caisse gris anthracite/noir, lignes argent, cercle lumineux à la couleur de la ligne en face avant (design MBD).",
+   "colors": {
+    "base": "#2c2f33",
+    "accent": "#a9adb1",
+    "window": "#111316",
+    "ring": "route"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Marseille"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "nice": {
+   "family": "citadis_402",
+   "description": "Lignes d'Azur : T1 gris argent clair à vitrage noir ; T2/T3 (Citadis 405) blanc à nez noir.",
+   "colors": {
+    "base": "#e6e8e9",
+    "front": "#2a2f33",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Nice"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "rouen": {
+   "family": "citadis_402",
+   "description": "Astuce : livrée à majorité blanche avec visuels sur les faces latérales (anciens TFS : bleu acier).",
+   "colors": {
+    "base": "#f4f4f4",
+    "window": "#1b232b",
+    "historic_tfs": "#4f6f8c"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Rouen"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "reims": {
+   "family": "citadis_reims",
+   "description": "Livrée Ruedi Baur : 15 des 18 rames associées chacune à l'une des 8 couleurs pastel (3 rames publicitaires) ; nez « flûte » intégré.",
+   "colors": {
+    "base": "#f4f4f2",
+    "pastels": [
+     "#f3b9c6",
+     "#b9d9f0",
+     "#c9e4b4",
+     "#fbe3a1",
+     "#d7c3e6",
+     "#f8c9a0",
+     "#bfe6e0",
+     "#e6d3b3"
+    ],
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Reims"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "dijon": {
+   "family": "citadis_302",
+   "description": "Divia : livrée unie couleur cassis ; design « vague » partagé avec Brest, hublots de toit.",
+   "colors": {
+    "base": "#5b1a3f",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Dijon",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Brest"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "brest": {
+   "family": "citadis_302",
+   "description": "Bibus : vert anis (choix du jury 2008), design « vague » à grandes surfaces vitrées et puits de lumière en hublots.",
+   "colors": {
+    "base": "#b5c92a",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Brest"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "tours": {
+   "family": "citadis_tours",
+   "description": "Fil Bleu : « miroir d'eau de Loire » (caisse réfléchissante argent/chrome), vitrage noir, bandeaux LED verticaux sur le nez.",
+   "colors": {
+    "base": "#cdd3d8",
+    "window": "#15181b",
+    "led": "#f5f7ff"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Tours"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "orleans_a": {
+   "family": "citadis_x01",
+   "description": "Tao ligne A : Citadis 301, caisse claire, vitrage sombre.",
+   "colors": {
+    "base": "#e8e8e4",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Orl%C3%A9ans"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "orleans_b": {
+   "family": "citadis_302",
+   "description": "Tao ligne B : Citadis 302 (aussi sur A), caisse claire, face avant sombre.",
+   "colors": {
+    "base": "#ececea",
+    "front": "#22262b",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Orl%C3%A9ans"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "lemans": {
+   "family": "citadis_302",
+   "description": "Setram : livrée brique cuivrée (RCP Design Global).",
+   "colors": {
+    "base": "#9c4a2f",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_du_Mans"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "caen": {
+   "family": "citadis_x05",
+   "description": "Twisto : designs proposés gris/noir, blanc/noir ou « Sérénité » beige/noir ; intercirculations rouges.",
+   "colors": {
+    "base": "#d9dadb",
+    "front": "#1c1f22",
+    "window": "#1b232b",
+    "accent": "#c8102e"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Caen"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "lehavre": {
+   "family": "citadis_302",
+   "description": "LiA : marron glacé, motifs de claustras style Perret sur les flancs (choix 2010).",
+   "colors": {
+    "base": "#6b4a3a",
+    "motif": "#d9c8b4",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_du_Havre"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "saintetienne": {
+   "family": "urbos",
+   "description": "STAS : rames claires à touches rouges (tradition stéphanoise), vitrage noir.",
+   "colors": {
+    "base": "#f2f2f2",
+    "accent": "#c8102e",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Saint-%C3%89tienne"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "besancon": {
+   "family": "urbos",
+   "description": "Ginko : bleu turquoise (vote 2011) ; Citadis 305 (2025) même teinte.",
+   "colors": {
+    "base": "#00a3b4",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Besan%C3%A7on"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "avignon": {
+   "family": "citadis_compact",
+   "description": "Orizo : rames de couleur blanche, intérieur bleu-gris.",
+   "colors": {
+    "base": "#f4f4f2",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Avignon"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "valenciennes": {
+   "family": "citadis_302",
+   "description": "Transvilles : extrémités dessinées par And Partenaires, couleurs selon l'architecture et le climat de Valenciennes.",
+   "colors": {
+    "base": "#f1f1ee",
+    "accent": "#a33a2c",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Valenciennes"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "aubagne": {
+   "family": "citadis_compact",
+   "description": "Lignes de l'agglo : Citadis Compact, caisse claire.",
+   "colors": {
+    "base": "#f2f2f0",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27Aubagne"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf": {
+   "family": "citadis_402",
+   "description": "IDFM : nouvelle livrée Île-de-France Mobilités (gris argent, bandeau sombre, accents turquoise) remplaçant l'ancienne RATP (blanc + vert jade).",
+   "colors": {
+    "base": "#d9dcdd",
+    "front": "#2b2f33",
+    "accent": "#67b4b1",
+    "ratp_accent": "#00a88f",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_2_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t1": {
+   "family": "citadis_x05",
+   "description": "T1 : Citadis 305 TW20 (face avant type 405 T9/T10), TFS restants en blanc/vert jade.",
+   "colors": {
+    "base": "#d9dcdd",
+    "front": "#2b2f33",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_1_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t2": {
+   "family": "citadis_302",
+   "description": "T2 : Citadis 302 (RATP → IDFM).",
+   "colors": {
+    "base": "#f2f2f0",
+    "accent": "#00a88f",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_2_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t3a": {
+   "family": "citadis_402",
+   "description": "T3a : Citadis 402 2,65 m.",
+   "colors": {
+    "base": "#f2f2f0",
+    "accent": "#00a88f",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_3a_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t3b": {
+   "family": "citadis_402",
+   "description": "T3b : idem T3a.",
+   "colors": {
+    "base": "#f2f2f0",
+    "accent": "#00a88f",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_3b_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t4": {
+   "family": "avanto",
+   "description": "T4 : livrée Transilien bleu nuit avec « berlingots » de couleur aux portes.",
+   "colors": {
+    "base": "#1b2a4a",
+    "door_marks": [
+     "#e2231a",
+     "#ffd500",
+     "#5cb531",
+     "#0096d6"
+    ],
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_4_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t5": {
+   "family": "translohr",
+   "description": "T5 : Translohr STE3 blanc, accents RATP.",
+   "colors": {
+    "base": "#f2f2f0",
+    "accent": "#00a88f",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_5_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t6": {
+   "family": "translohr",
+   "description": "T6 : Translohr STE6.",
+   "colors": {
+    "base": "#f2f2f0",
+    "accent": "#00a88f",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_6_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t7": {
+   "family": "citadis_302",
+   "description": "T7 : Citadis 302 avec décoration et face avant différentes du T2.",
+   "colors": {
+    "base": "#f2f2f0",
+    "front": "#2b2f33",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_7_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t8": {
+   "family": "citadis_302",
+   "description": "T8 : identiques T7.",
+   "colors": {
+    "base": "#f2f2f0",
+    "front": "#2b2f33",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_8_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t9": {
+   "family": "citadis_x05",
+   "description": "T9 : Citadis 405 (45 m) livrée IDFM.",
+   "colors": {
+    "base": "#d9dcdd",
+    "front": "#2b2f33",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_9_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t10": {
+   "family": "citadis_x05",
+   "description": "T10 : Citadis X05/405 livrée IDFM.",
+   "colors": {
+    "base": "#d9dcdd",
+    "front": "#2b2f33",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_10_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t11": {
+   "family": "citadis_dualis",
+   "description": "T11 Express : Dualis, livrée Transilien.",
+   "colors": {
+    "base": "#e1e3e4",
+    "accent": "#1b2a4a",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_11_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t12": {
+   "family": "citadis_dualis",
+   "description": "T12 : Dualis U 52600.",
+   "colors": {
+    "base": "#e1e3e4",
+    "accent": "#1b2a4a",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_12_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  },
+  "idf_t13": {
+   "family": "citadis_dualis",
+   "description": "T13 : Dualis U 53800.",
+   "colors": {
+    "base": "#e1e3e4",
+    "accent": "#1b2a4a",
+    "window": "#1b232b"
+   },
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Ligne_13_du_tramway_d%27%C3%8Ele-de-France"
+   ],
+   "estimated": [
+    "colors"
+   ]
+  }
+ }
+}

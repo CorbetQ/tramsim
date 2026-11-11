@@ -1,10 +1,13 @@
 class_name TramPreview
 extends SubViewportContainer
 ## Aperçu 3D tournant d'une rame (menu) : famille et livrée du réseau / de la ligne choisis.
+## Démonstration des animations : cycle d'ouverture / fermeture des portes, pantographe levé.
 
 var world: Node3D
 var holder: Node3D
 var cam: Camera3D
+var rig: TramModel.Rig
+var _cycle := 0.0
 
 func _ready() -> void:
 	stretch = true
@@ -15,7 +18,7 @@ func _ready() -> void:
 	var dn := DayNight.new(); world.add_child(dn); dn.setup(world); dn.set_hour(15.5)
 	dn.env.fog_enabled = false
 	var g := MeshInstance3D.new(); var cm := CylinderMesh.new()
-	cm.top_radius = 22.0; cm.bottom_radius = 22.0; cm.height = 0.2; cm.radial_segments = 24
+	cm.top_radius = 26.0; cm.bottom_radius = 26.0; cm.height = 0.2; cm.radial_segments = 24
 	g.mesh = cm; g.position = Vector3(0, -0.1, 0)
 	var gm := StandardMaterial3D.new(); gm.albedo_color = Color("#7d8a72"); g.material_override = gm; world.add_child(g)
 	holder = Node3D.new(); world.add_child(holder)
@@ -24,16 +27,17 @@ func _ready() -> void:
 
 func show_tram(meta: Dictionary, vehicle: VehicleProfile) -> void:
 	for c in holder.get_children(): c.queue_free()
-	var liv := TramModel.livery_for(meta, vehicle.fleet if vehicle else {})
-	var fam: String = liv.family
-	if vehicle != null:
-		fam = vehicle.model_family if vehicle.model_family != "" else TramModel.PROFILE_FAMILY.get(vehicle.id, fam)
-	var L := minf(vehicle.length_m if vehicle else 32.0, 44.0)
-	var mods := TramModel.build(L, liv, fam)
-	var seg := L / mods.size()
-	for k in mods.size():
-		mods[k].position = Vector3(0, 0, -L * 0.5 + seg * (k + 0.5))
-		holder.add_child(mods[k])
+	var liv := TramModel.livery_for(meta, LineView.tram_entry(vehicle))
+	var L := minf(vehicle.length_m if vehicle else float(liv.length), 48.0)
+	rig = TramModel.build_rig(liv, L)
+	rig.layout_straight()
+	for m in rig.modules: holder.add_child(m)
+	_cycle = 0.0
 
 func _process(dt: float) -> void:
 	if holder: holder.rotate_y(dt * 0.35)
+	if rig:
+		_cycle = fmod(_cycle + dt, 12.0)
+		rig.set_doors(_cycle > 3.0 and _cycle < 8.0)
+		rig.set_pantograph(true)
+		rig.update(dt)

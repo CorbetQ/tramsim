@@ -9,6 +9,7 @@ var geometric := false
 var edge_origin: Dictionary = {}   # mode schématique : id -> Vector3
 var tram: Node3D
 var modules: Array[MeshInstance3D] = []
+var rig: TramModel.Rig                 # rame animée (portes, pantographe)
 var cam: Camera3D
 var signal_nodes: Array[MeshInstance3D] = []
 var sectors: Dictionary = {}       # edge id -> Node3D (affiché/masqué selon la distance)
@@ -24,14 +25,13 @@ var family := ""
 var orbit := 0.0                   # rotation de la caméra extérieure (glisser au doigt)
 var cam_dist := 40.0               # distance de la caméra extérieure (molette / pincement)
 var _tram_len := 0.0
+var _rig_fresh := false
 
 func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile = null) -> void:
 	net = network
 	geometric = net.has_geometry()
-	livery = TramModel.livery_for(net.meta, vehicle.fleet if vehicle else {})
+	livery = TramModel.livery_for(net.meta, tram_entry(vehicle))
 	family = livery.family
-	if vehicle != null:
-		family = vehicle.model_family if vehicle.model_family != "" else TramModel.PROFILE_FAMILY.get(vehicle.id, family)
 	if not geometric:
 		_unfold(start_edge)
 	day_night = DayNight.new(); add_child(day_night); day_night.setup(self)
@@ -206,12 +206,20 @@ func _add_geo(parent: Node3D, g: _Geo, mat: Material, xf: Transform3D = Transfor
 	parent.add_child(mi)
 	return mi
 
+## Entrée de flotte d'un matériel : la sienne, sinon sa famille 3D (livrée du réseau appliquée).
+static func tram_entry(vehicle: VehicleProfile) -> Dictionary:
+	if vehicle == null: return {}
+	if not vehicle.fleet.is_empty(): return vehicle.fleet
+	return {"family": vehicle.model_family if vehicle.model_family != "" else vehicle.id}
+
 func _ensure_modules(length_m: float) -> void:
 	if not modules.is_empty() and is_equal_approx(length_m, _tram_len): return
 	for m in modules: m.queue_free()
-	modules = TramModel.build(length_m, livery, family)
+	rig = TramModel.build_rig(livery, length_m)
+	modules = rig.modules
 	for m in modules: tram.add_child(m)
 	_tram_len = length_m
+	_rig_fresh = true
 
 func update_sectors(center: Vector3) -> int:
 	var shown := 0
@@ -225,14 +233,18 @@ func update_sectors(center: Vector3) -> int:
 func update_from(s: MissionSession, external: bool) -> void:
 	_ensure_modules(s.phys.profile.length_m)
 	var n := modules.size()
-	var seg := s.phys.profile.length_m / n
 	for i in n:
-		var f: Array = s.locate_behind(i * seg)
-		var b: Array = s.locate_behind((i + 1) * seg)
+		var f: Array = s.locate_behind(rig.module_starts[i])
+		var b: Array = s.locate_behind(rig.module_starts[i] + rig.module_lengths[i])
 		var pf := pos3(f[0], f[1]); var pb := pos3(b[0], b[1])
 		var dir := pf - pb
 		if dir.length() < 0.01: dir = Vector3(1, 0, 0)
 		modules[i].transform = Transform3D(Basis.looking_at(dir.normalized(), Vector3.UP), (pf + pb) * 0.5)
+	rig.set_doors(s.doors_open)
+	rig.set_pantograph(s.pantograph_up)
+	if _rig_fresh: rig.snap()
+	else: rig.update(get_process_delta_time())
+	_rig_fresh = false
 	var front := _frame(s.edge_id, s.offset)
 	var fwd := -front.basis.z
 	headlight.global_transform = Transform3D(Basis.looking_at((fwd + Vector3(0, -0.12, 0)).normalized(), Vector3.UP), front.origin + fwd * 0.5 + Vector3(0, 1.0, 0))

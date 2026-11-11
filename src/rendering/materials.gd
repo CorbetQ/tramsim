@@ -32,6 +32,7 @@ static func tram(height: float) -> ShaderMaterial:
 	var key := "tram_%.2f" % height
 	if not _cache.has(key):
 		var m := ShaderMaterial.new(); m.shader = _shader("res://src/rendering/shaders/toon.gdshader")
+		m.set_shader_parameter("color_gamma", 1.0)
 		var o := ShaderMaterial.new(); o.shader = _shader("res://src/rendering/shaders/outline.gdshader")
 		o.set_shader_parameter("axis_center", Vector3(0, height * 0.5, 0))
 		m.next_pass = o

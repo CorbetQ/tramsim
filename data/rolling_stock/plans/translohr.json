@@ -1,0 +1,355 @@
+{
+ "id": "translohr",
+ "name": "NTL Translohr STE3 / STE4 / STE6",
+ "length_m": 32.0,
+ "width_m": 2.2,
+ "height_m": 2.89,
+ "floor_m": 0.25,
+ "body": {
+  "skirt_top_m": 0.35,
+  "window_bottom_m": 0.85,
+  "window_top_m": 2.3,
+  "cant_m": 2.37,
+  "roof_shoulder_m": 0.22,
+  "tumblehome_m": 0.0
+ },
+ "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)",
+ "modules": [
+  {
+   "kind": "cab",
+   "length_m": 6.1,
+   "bogie": true,
+   "bogie_z_m": 2.03,
+   "running_gear": "single_axle_rubber_tyres",
+   "doors": [
+    {
+     "z_m": 4.37,
+     "width_m": 1.3,
+     "leaves": 2
+    }
+   ],
+   "windows": [
+    {
+     "z0_m": 1.0,
+     "z1_m": 3.57
+    },
+    {
+     "z0_m": 5.17,
+     "z1_m": 5.9
+    }
+   ],
+   "roof": [
+    {
+     "type": "fairing",
+     "z_m": 0.5,
+     "size": [
+      1.76,
+      0.25,
+      1.0
+     ]
+    },
+    {
+     "type": "hvac",
+     "z_m": 2.6,
+     "size": [
+      1.6,
+      0.32,
+      2.4
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "middle",
+   "length_m": 2.54,
+   "bogie": true,
+   "bogie_z_m": 1.27,
+   "running_gear": "single_axle_rubber_tyres",
+   "doors": [],
+   "windows": [
+    {
+     "z0_m": 0.2,
+     "z1_m": 2.34
+    }
+   ],
+   "roof": []
+  },
+  {
+   "kind": "suspended",
+   "length_m": 6.1,
+   "bogie": false,
+   "doors": [
+    {
+     "z_m": 3.05,
+     "width_m": 1.3,
+     "leaves": 2
+    }
+   ],
+   "windows": [
+    {
+     "z0_m": 0.2,
+     "z1_m": 2.25
+    },
+    {
+     "z0_m": 3.85,
+     "z1_m": 5.9
+    }
+   ],
+   "roof": [
+    {
+     "type": "hvac",
+     "z_m": 3.05,
+     "size": [
+      1.6,
+      0.32,
+      2.4
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "middle",
+   "length_m": 2.54,
+   "bogie": true,
+   "bogie_z_m": 1.27,
+   "running_gear": "single_axle_rubber_tyres",
+   "doors": [],
+   "windows": [
+    {
+     "z0_m": 0.2,
+     "z1_m": 2.34
+    }
+   ],
+   "roof": [
+    {
+     "type": "pantograph",
+     "z_m": 1.27,
+     "size": [
+      1.6,
+      0.3,
+      2.0
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "suspended",
+   "length_m": 6.1,
+   "bogie": false,
+   "doors": [
+    {
+     "z_m": 3.05,
+     "width_m": 1.3,
+     "leaves": 2
+    }
+   ],
+   "windows": [
+    {
+     "z0_m": 0.2,
+     "z1_m": 2.25
+    },
+    {
+     "z0_m": 3.85,
+     "z1_m": 5.9
+    }
+   ],
+   "roof": [
+    {
+     "type": "hvac",
+     "z_m": 3.05,
+     "size": [
+      1.6,
+      0.32,
+      2.4
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "middle",
+   "length_m": 2.54,
+   "bogie": true,
+   "bogie_z_m": 1.27,
+   "running_gear": "single_axle_rubber_tyres",
+   "doors": [],
+   "windows": [
+    {
+     "z0_m": 0.2,
+     "z1_m": 2.34
+    }
+   ],
+   "roof": []
+  },
+  {
+   "kind": "cab",
+   "length_m": 6.1,
+   "bogie": true,
+   "bogie_z_m": 4.07,
+   "running_gear": "single_axle_rubber_tyres",
+   "doors": [
+    {
+     "z_m": 1.73,
+     "width_m": 1.3,
+     "leaves": 2
+    }
+   ],
+   "windows": [
+    {
+     "z0_m": 0.2,
+     "z1_m": 0.93
+    },
+    {
+     "z0_m": 2.53,
+     "z1_m": 5.1
+    }
+   ],
+   "roof": [
+    {
+     "type": "fairing",
+     "z_m": 5.6,
+     "size": [
+      1.76,
+      0.25,
+      1.0
+     ]
+    },
+    {
+     "type": "hvac",
+     "z_m": 3.5,
+     "size": [
+      1.6,
+      0.32,
+      2.4
+     ]
+    }
+   ]
+  }
+ ],
+ "front": {
+  "length_m": 1.0,
+  "plan": [
+   [
+    0,
+    1
+   ],
+   [
+    0.4,
+    0.95
+   ],
+   [
+    0.8,
+    0.78
+   ],
+   [
+    1,
+    0.6
+   ]
+  ],
+  "side": [
+   [
+    0.1,
+    0.1
+   ],
+   [
+    0.4,
+    0.0
+   ],
+   [
+    1.0,
+    0.02
+   ],
+   [
+    1.6,
+    0.15
+   ],
+   [
+    2.2,
+    0.45
+   ],
+   [
+    2.55,
+    0.8
+   ]
+  ],
+  "windshield": {
+   "bottom_m": 0.95,
+   "top_m": 2.45,
+   "wrap": 0.45
+  },
+  "headlights": {
+   "shape": "round",
+   "y_m": 0.65,
+   "x_m": 0.7,
+   "w_m": 0.15,
+   "h_m": 0.15
+  },
+  "destination": {
+   "y_m": 2.5,
+   "w_m": 1.2,
+   "h_m": 0.18
+  },
+  "bumper_m": 0.04
+ },
+ "door_anim": {
+  "type": "sliding",
+  "open_s": 2.2,
+  "travel_m": 0.65,
+  "out_m": 0.0,
+  "single_leaf_travel_m": 0.8
+ },
+ "pantograph": {
+  "down_m": 0.25,
+  "up_m": 3.01,
+  "raise_s": 4.0,
+  "type": "single_arm"
+ },
+ "sources": [
+  "research.json#translohr",
+  "https://fr.wikipedia.org/wiki/NTL_Translohr",
+  "https://fr.wikipedia.org/wiki/Tramway_de_Clermont-Ferrand",
+  "https://fr.wikipedia.org/wiki/Ligne_5_du_tramway_d%27%C3%8Ele-de-France",
+  "https://fr.wikipedia.org/wiki/Ligne_6_du_tramway_d%27%C3%8Ele-de-France"
+ ],
+ "estimated": [
+  "body",
+  "modules.windows",
+  "modules.roof",
+  "modules.bogie_z_m",
+  "front.plan",
+  "front.side",
+  "front.windshield",
+  "front.headlights",
+  "front.destination",
+  "door_anim",
+  "pantograph",
+  "modules.length_m (rééchelonnés de 31.50 à 32.00 m)",
+  "research:floor_height_m",
+  "research:mass_t",
+  "research:power_kw",
+  "research:modules",
+  "research:doors_per_side",
+  "research:door_type",
+  "research:door_width_m"
+ ],
+ "guidance": "pneus + rail central de guidage ; jupes couvrant les roues",
+ "variants": {
+  "variants": {
+   "STE3": {
+    "length_m": 25.0,
+    "capacity": 127,
+    "networks": "idf_t5"
+   },
+   "STE4": {
+    "length_m": 32.0,
+    "capacity": 170,
+    "networks": "clermont"
+   },
+   "STE6": {
+    "length_m": 46.0,
+    "capacity": 255,
+    "networks": "idf_t6"
+   }
+  }
+ },
+ "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur"
+}

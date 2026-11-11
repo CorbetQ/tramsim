@@ -1,0 +1,359 @@
+{
+ "id": "citadis_x05",
+ "name": "Alstom Citadis X05 (305 / 405)",
+ "length_m": 32.5,
+ "width_m": 2.4,
+ "height_m": 3.3,
+ "floor_m": 0.32,
+ "body": {
+  "skirt_top_m": 0.45,
+  "window_bottom_m": 1.05,
+  "window_top_m": 2.45,
+  "cant_m": 2.75,
+  "roof_shoulder_m": 0.25,
+  "tumblehome_m": 0.0
+ },
+ "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)",
+ "modules": [
+  {
+   "kind": "cab",
+   "length_m": 9.1,
+   "bogie": true,
+   "bogie_z_m": 5.4,
+   "doors": [
+    {
+     "z_m": 3.1,
+     "width_m": 1.3,
+     "leaves": 2
+    },
+    {
+     "z_m": 7.7,
+     "width_m": 1.3,
+     "leaves": 2
+    }
+   ],
+   "windows": [
+    {
+     "z0_m": 1.2,
+     "z1_m": 2.3
+    },
+    {
+     "z0_m": 3.9,
+     "z1_m": 6.9
+    },
+    {
+     "z0_m": 8.5,
+     "z1_m": 8.9
+    }
+   ],
+   "roof": [
+    {
+     "type": "fairing",
+     "z_m": 0.6,
+     "size": [
+      1.92,
+      0.25,
+      1.2
+     ]
+    },
+    {
+     "type": "hvac",
+     "z_m": 2.8,
+     "size": [
+      1.6,
+      0.32,
+      2.4
+     ]
+    },
+    {
+     "type": "box",
+     "z_m": 7.6,
+     "size": [
+      1.3,
+      0.3,
+      1.8
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "suspended",
+   "length_m": 4.8,
+   "bogie": false,
+   "doors": [
+    {
+     "z_m": 2.4,
+     "width_m": 1.3,
+     "leaves": 2
+    }
+   ],
+   "windows": [
+    {
+     "z0_m": 0.2,
+     "z1_m": 1.6
+    },
+    {
+     "z0_m": 3.2,
+     "z1_m": 4.6
+    }
+   ],
+   "roof": [
+    {
+     "type": "hvac",
+     "z_m": 2.4,
+     "size": [
+      1.6,
+      0.32,
+      2.4
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "middle",
+   "length_m": 4.7,
+   "bogie": true,
+   "bogie_z_m": 2.35,
+   "doors": [],
+   "windows": [
+    {
+     "z0_m": 0.2,
+     "z1_m": 4.5
+    }
+   ],
+   "roof": [
+    {
+     "type": "pantograph",
+     "z_m": 2.35,
+     "size": [
+      1.6,
+      0.3,
+      2.0
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "suspended",
+   "length_m": 4.8,
+   "bogie": false,
+   "doors": [
+    {
+     "z_m": 2.4,
+     "width_m": 1.3,
+     "leaves": 2
+    }
+   ],
+   "windows": [
+    {
+     "z0_m": 0.2,
+     "z1_m": 1.6
+    },
+    {
+     "z0_m": 3.2,
+     "z1_m": 4.6
+    }
+   ],
+   "roof": [
+    {
+     "type": "hvac",
+     "z_m": 2.4,
+     "size": [
+      1.6,
+      0.32,
+      2.4
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "cab",
+   "length_m": 9.1,
+   "bogie": true,
+   "bogie_z_m": 3.7,
+   "doors": [
+    {
+     "z_m": 1.4,
+     "width_m": 1.3,
+     "leaves": 2
+    },
+    {
+     "z_m": 6.0,
+     "width_m": 1.3,
+     "leaves": 2
+    }
+   ],
+   "windows": [
+    {
+     "z0_m": 2.2,
+     "z1_m": 5.2
+    },
+    {
+     "z0_m": 6.8,
+     "z1_m": 7.9
+    }
+   ],
+   "roof": [
+    {
+     "type": "fairing",
+     "z_m": 8.5,
+     "size": [
+      1.92,
+      0.25,
+      1.2
+     ]
+    },
+    {
+     "type": "hvac",
+     "z_m": 6.3,
+     "size": [
+      1.6,
+      0.32,
+      2.4
+     ]
+    },
+    {
+     "type": "box",
+     "z_m": 1.5,
+     "size": [
+      1.3,
+      0.3,
+      1.8
+     ]
+    }
+   ]
+  }
+ ],
+ "front": {
+  "length_m": 1.2,
+  "plan": [
+   [
+    0,
+    1
+   ],
+   [
+    0.5,
+    0.96
+   ],
+   [
+    0.85,
+    0.86
+   ],
+   [
+    1,
+    0.72
+   ]
+  ],
+  "side": [
+   [
+    0.1,
+    0.06
+   ],
+   [
+    0.6,
+    0.0
+   ],
+   [
+    1.2,
+    0.0
+   ],
+   [
+    2.0,
+    0.1
+   ],
+   [
+    2.8,
+    0.3
+   ],
+   [
+    3.0,
+    0.6
+   ]
+  ],
+  "windshield": {
+   "bottom_m": 1.1,
+   "top_m": 2.8,
+   "wrap": 0.25
+  },
+  "headlights": {
+   "shape": "strip",
+   "y_m": 0.9,
+   "x_m": 0.85,
+   "w_m": 0.3,
+   "h_m": 0.05
+  },
+  "destination": {
+   "y_m": 2.85,
+   "w_m": 1.4,
+   "h_m": 0.22
+  },
+  "bumper_m": 0.05
+ },
+ "door_anim": {
+  "type": "plug",
+  "open_s": 2.5,
+  "travel_m": 0.65,
+  "out_m": 0.06,
+  "leaf_split": "center",
+  "single_leaf_travel_m": 0.8
+ },
+ "pantograph": {
+  "down_m": 0.25,
+  "up_m": 2.6,
+  "raise_s": 4.0,
+  "type": "single_arm"
+ },
+ "sources": [
+  "research.json#citadis_x05",
+  "https://fr.wikipedia.org/wiki/Alstom_Citadis",
+  "https://fr.wikipedia.org/wiki/Tramway_de_Caen",
+  "https://fr.wikipedia.org/wiki/Tramway_d%27Angers",
+  "https://fr.wikipedia.org/wiki/Tramway_de_Besan%C3%A7on",
+  "https://fr.wikipedia.org/wiki/Tramway_de_Nice",
+  "https://fr.wikipedia.org/wiki/Ligne_1_du_tramway_d%27%C3%8Ele-de-France",
+  "https://fr.wikipedia.org/wiki/Ligne_9_du_tramway_d%27%C3%8Ele-de-France",
+  "https://fr.wikipedia.org/wiki/Ligne_10_du_tramway_d%27%C3%8Ele-de-France"
+ ],
+ "estimated": [
+  "body",
+  "modules.windows",
+  "modules.roof",
+  "modules.bogie_z_m",
+  "front.plan",
+  "front.side",
+  "front.windshield",
+  "front.headlights",
+  "front.destination",
+  "door_anim",
+  "pantograph",
+  "research:height_m",
+  "research:floor_height_m",
+  "research:power_kw",
+  "research:modules",
+  "research:front",
+  "research:variants.nantes"
+ ],
+ "variants": {
+  "variants": {
+   "305": {
+    "length_m": 32.5,
+    "modules": 5,
+    "networks": "caen (36 rames), angers (2001-2020), besancon (901-908, 2025), idf_t1 (TW20, 2024-)"
+   },
+   "405": {
+    "length_m": 44.0,
+    "modules": 7,
+    "networks": "nice T2/T3, idf T9 (45 m, 2,65 m), idf T10, strasbourg (commande 2024)"
+   },
+   "nantes": {
+    "length_m": 48.0,
+    "note": "Citadis X05 Nantes (2020s), version longue"
+   }
+  },
+  "width_variants_m": {
+   "idf_t9": 2.65,
+   "idf_t1": 2.65
+  }
+ },
+ "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur"
+}

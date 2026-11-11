@@ -25,4 +25,4 @@ Régénération d'une ligne : `python3 tools/import/gtfs_to_network.py <dossier_
 - Toits : à quatre pans pour les petites maisons, plats ailleurs (choix stylistique low poly) ; fenêtres procédurales.
 - Arbres : dispersés aléatoirement (tirage stable) dans les zones de végétation réelles ; pas d'arbres d'alignement.
 - Couleurs de façades et de toitures : palettes régionales choisies par le projet (`data/city_styles.json`), pas les couleurs réelles de chaque bâtiment.
-- Livrées : `data/liveries.json` (approximations ; couleur d'accent = couleur officielle de la ligne).
+- Livrées : `data/rolling_stock/liveries.json` (approximations documentées par réseau ; `route` = couleur officielle de la ligne).
