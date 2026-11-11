@@ -1,18 +1,36 @@
 class_name NetworkRegistry
 extends RefCounted
-## Découvre les réseaux livrés dans res://data/networks (un JSON par ligne/réseau).
+## Catalogue des réseaux livrés. Lit res://data/index.json (généré par tools/import/build_index.py),
+## sinon parcourt res://data/networks.
 
-static func scan(dir: String = "res://data/networks") -> Dictionary:
-	var out := {}
-	for f in DirAccess.get_files_at(dir):
-		if not f.ends_with(".json"):
-			continue
+const INDEX := "res://data/index.json"
+
+## Retourne [{city, line, long_name, path, kind, guidance, ...}] trié par ville.
+static func entries() -> Array:
+	var f := FileAccess.open(INDEX, FileAccess.READ)
+	if f != null:
+		var d = JSON.parse_string(f.get_as_text())
+		if typeof(d) == TYPE_DICTIONARY and d.has("networks"):
+			return d.networks
+	var out: Array = []
+	for name in DirAccess.get_files_at("res://data/networks"):
+		if not name.ends_with(".json"): continue
 		var n := NetworkLoader.new()
-		if not n.load_file(dir + "/" + f).is_empty():
-			push_warning("réseau invalide ignoré: " + f)
-			continue
-		var label := "%s — ligne %s" % [n.meta.get("city", "?"), n.meta.get("line", "?")]
-		if n.meta.get("provisional", false):
-			label += " (données provisoires)"
-		out[label] = dir + "/" + f
+		if n.load_file("res://data/networks/" + name).is_empty():
+			out.append({"city": n.meta.get("city", "?"), "line": n.meta.get("line", "?"), "long_name": n.meta.get("long_name", ""),
+				"path": "res://data/networks/" + name, "kind": n.meta.get("kind", "tram"), "guidance": n.meta.get("guidance", "steel")})
+	return out
+
+static func cities() -> PackedStringArray:
+	var c := PackedStringArray()
+	for e in entries():
+		if not e.city in c: c.append(e.city)
+	c.sort()
+	return c
+
+## Compatibilité : libellé -> chemin (ancienne API).
+static func scan(_dir: String = "") -> Dictionary:
+	var out := {}
+	for e in entries():
+		out["%s — ligne %s" % [e.city, e.line]] = e.path
 	return out

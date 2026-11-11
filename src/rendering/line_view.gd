@@ -209,7 +209,7 @@ func update_from(s: MissionSession, external: bool) -> void:
 	tram.visible = external
 	var fwd := -front.basis.z
 	if external:
-		cam.position = front.origin - fwd * 35.0 + Vector3(0, 14, 0) + front.basis.x * 18.0
+		cam.position = front.origin - fwd * 30.0 + Vector3(0, 12, 0) + front.basis.x * 7.0
 		cam.look_at(front.origin + fwd * 5.0 + Vector3(0, 1, 0))
 	else:  # vue cabine
 		cam.position = front.origin - fwd * 1.2 + Vector3(0, 3.0, 0)

@@ -20,6 +20,7 @@ STOP_BACK_M = 2.0      # le nez de la rame s'arrête 2 m avant le nœud
 DEFAULT_LIMIT = 50
 MIN_LIMIT = 15
 A_LAT = 0.9
+MAX_SHAPE_GAP = 50.0   # écart arrêt/tracé au-delà duquel le tracé est jugé incohérent
 
 
 def rd(d, name):
@@ -138,45 +139,108 @@ def curve_zones(poly, span=25.0, step=5.0, margin=15.0):
     return [[round(a, 1), round(b, 1), v] for a, b, v in zones]
 
 
-def build(gtfs, route_id, args):
-    stops = {s["stop_id"]: s for s in rd(gtfs, "stops.txt")}
-    trips = [t for t in rd(gtfs, "trips.txt") if t["route_id"] == route_id]
-    if not trips:
-        raise SystemExit(f"route {route_id} absente")
-    shapes = defaultdict(list)
-    for r in rd(gtfs, "shapes.txt"):
-        shapes[r["shape_id"]].append((int(r["shape_pt_sequence"]), float(r["shape_pt_lat"]), float(r["shape_pt_lon"])))
-    trip_ids = {t["trip_id"] for t in trips}
-    st_by_trip = defaultdict(list)
-    for r in rd(gtfs, "stop_times.txt"):
-        if r["trip_id"] in trip_ids:
-            st_by_trip[r["trip_id"]].append(r)
-    for v in st_by_trip.values():
-        v.sort(key=lambda r: int(r["stop_sequence"]))
+class Feed:
+    """Tables GTFS utiles, chargées une fois (stop_times filtré sur les routes demandées)."""
+    def __init__(self, gtfs, route_ids):
+        self.dir = gtfs
+        self.stops = {s["stop_id"]: s for s in rd(gtfs, "stops.txt")}
+        self.routes = {r["route_id"]: r for r in rd(gtfs, "routes.txt")}
+        self.trips = [t for t in rd(gtfs, "trips.txt") if t["route_id"] in route_ids]
+        self.shapes = defaultdict(list)
+        if os.path.exists(os.path.join(gtfs, "shapes.txt")):
+            wanted = {t.get("shape_id", "") for t in self.trips}
+            for r in rd(gtfs, "shapes.txt"):
+                if r["shape_id"] in wanted:
+                    self.shapes[r["shape_id"]].append((int(float(r["shape_pt_sequence"])), float(r["shape_pt_lat"]), float(r["shape_pt_lon"])))
+        ids = {t["trip_id"] for t in self.trips}
+        self.st = defaultdict(list)
+        with open(os.path.join(gtfs, "stop_times.txt"), encoding="utf-8-sig") as f:
+            for r in csv.DictReader(f):
+                if r["trip_id"] in ids:
+                    self.st[r["trip_id"]].append(r)
+        for v in self.st.values():
+            v.sort(key=lambda r: int(r["stop_sequence"]))
+        # parent_station -> nom commun pour regrouper les quais
+        self.name = {k: v["stop_name"].strip() for k, v in self.stops.items()}
 
-    first = next(iter(shapes.values()))
-    proj = Proj(first[0][1], first[0][2])
-    route = next(r for r in rd(gtfs, "routes.txt") if r["route_id"] == route_id)
+    def pattern(self, t):
+        return tuple(r["stop_id"] for r in self.st[t["trip_id"]])
+
+
+def variants(feed, route_id, min_share=0.10, min_trips=20):
+    """Variantes d'une ligne : un couple de terminus (noms) = une variante, avec le motif le plus fréquent par sens."""
+    trips = [t for t in feed.trips if t["route_id"] == route_id and feed.st.get(t["trip_id"])]
+    groups = defaultdict(lambda: defaultdict(list))
+    for t in trips:
+        pat = feed.pattern(t)
+        if len(pat) < 2:
+            continue
+        key = frozenset((feed.name[pat[0]], feed.name[pat[-1]]))
+        groups[key][t.get("direction_id") or ("0" if feed.name[pat[0]] <= feed.name[pat[-1]] else "1")].append(t)
+    out = []
+    total = max(1, len(trips))
+    for key, by_dir in groups.items():
+        n = sum(len(v) for v in by_dir.values())
+        if n < min_trips and n / total < min_share:
+            continue
+        sel = {}
+        for d, ts in by_dir.items():
+            pat = Counter(feed.pattern(t) for t in ts).most_common(1)[0][0]
+            typed = [t for t in ts if feed.pattern(t) == pat]
+            shape = Counter(t.get("shape_id", "") for t in typed).most_common(1)[0][0]
+            sel[d] = (pat, typed, shape if shape in feed.shapes else None)
+        out.append((n, key, sel))
+    out.sort(key=lambda x: -x[0])
+    return out
+
+
+def build(gtfs, route_id, args, feed=None, selection=None, prefix=None, net_id=None):
+    feed = feed or Feed(gtfs, {route_id})
+    if selection is None:
+        vs = variants(feed, route_id)
+        if not vs:
+            raise SystemExit(f"route {route_id} absente ou sans service")
+        selection = vs[0][2]
+    prefix = prefix or route_id
+    stops = feed.stops
+    route = feed.routes[route_id]
+    any_pt = stops[next(iter(selection.values()))[0][0]]
+    proj = Proj(float(any_pt["stop_lat"]), float(any_pt["stop_lon"]))
+    st_by_trip = feed.st
+    straight = False
 
     nodes, edges, stations, missions, report = [], [], [], [], {}
     dir_info = {}
-    for d in sorted({t["direction_id"] for t in trips}):
-        dtrips = [t for t in trips if t["direction_id"] == d]
-        shape_id = Counter(t["shape_id"] for t in dtrips).most_common(1)[0][0]
-        main = [t for t in dtrips if t["shape_id"] == shape_id]
-        # trajet type : le motif d'arrêts le plus fréquent sur ce tracé
-        pattern = Counter(tuple(r["stop_id"] for r in st_by_trip[t["trip_id"]]) for t in main).most_common(1)[0][0]
-        typed = [t for t in main if tuple(r["stop_id"] for r in st_by_trip[t["trip_id"]]) == pattern]
-        pts = [proj(la, lo) for _, la, lo in sorted(shapes[shape_id])]
-        cum = cumulative(pts)
-        s_prev, abscissa, worst = 0.0, [], 0.0
-        for sid in pattern:
-            p = proj(float(stops[sid]["stop_lat"]), float(stops[sid]["stop_lon"]))
-            s, gap = project(pts, cum, p, s_prev)
-            worst = max(worst, gap)
-            abscissa.append(s)
-            s_prev = s
-        pre = f"{route_id}{d}_pre"
+    for d in sorted(selection):
+        full, typed, shape_id = selection[d]
+        # quais homonymes consécutifs (même station, quais distincts) : fusionnés en un seul arrêt
+        groups = []
+        for k, sid in enumerate(full):
+            if groups and feed.name[full[groups[-1][0]]] == feed.name[sid]:
+                groups[-1].append(k)
+            else:
+                groups.append([k])
+        pattern = tuple(full[g[0]] for g in groups)
+        if shape_id:
+            pts = [proj(la, lo) for _, la, lo in sorted(feed.shapes[shape_id])]
+        else:  # pas de tracé : segments droits entre arrêts (géométrie estimée)
+            straight = True
+            pts = [proj(float(stops[s]["stop_lat"]), float(stops[s]["stop_lon"])) for s in pattern]
+        for attempt in (0, 1):
+            cum = cumulative(pts)
+            s_prev, abscissa, worst = 0.0, [], 0.0
+            for sid in pattern:
+                p = proj(float(stops[sid]["stop_lat"]), float(stops[sid]["stop_lon"]))
+                s, gap = project(pts, cum, p, s_prev) or (s_prev, 0.0)
+                worst = max(worst, gap)
+                abscissa.append(s)
+                s_prev = s
+            if worst <= MAX_SHAPE_GAP or attempt == 1:
+                break
+            # tracé incohérent avec les arrêts : repli sur des segments droits entre arrêts
+            straight = True
+            pts = [proj(float(stops[x]["stop_lat"]), float(stops[x]["stop_lon"])) for x in pattern]
+        pre = f"{prefix}{d}_pre"
         nodes.append(pre)
         # approche : prolonge le tracé en amont du premier arrêt
         a0 = point_at(pts, cum, abscissa[0])
@@ -184,12 +248,12 @@ def build(gtfs, route_id, args):
         ux, uz = a0[0] - a1[0], a0[1] - a1[1]
         n = math.hypot(ux, uz) or 1.0
         appr_start = (a0[0] + ux / n * APPROACH_M, a0[1] + uz / n * APPROACH_M)
-        node0 = f"{route_id}{d}_S0"
+        node0 = f"{prefix}{d}_S0"
         nodes.append(node0)
         st_index = []
-        edges.append({"id": f"{route_id}{d}_appr", "from": pre, "to": node0, "length": APPROACH_M,
+        edges.append({"id": f"{prefix}{d}_appr", "from": pre, "to": node0, "length": APPROACH_M,
                       "limit_kmh": 30, "grade": 0.0, "pts": [[round(x, 2) for x in appr_start], [round(x, 2) for x in a0]]})
-        stations.append({"name": stops[pattern[0]]["stop_name"], "stop_id": pattern[0], "edge": f"{route_id}{d}_appr",
+        stations.append({"name": stops[pattern[0]]["stop_name"], "stop_id": pattern[0], "edge": f"{prefix}{d}_appr",
                          "offset": APPROACH_M - STOP_BACK_M, "dwell_s": 20})
         st_index.append(len(stations) - 1)
         for i in range(1, len(pattern)):
@@ -198,35 +262,48 @@ def build(gtfs, route_id, args):
             length = max(1.0, s1 - s0)
             r = min_radius(poly)
             zones = curve_zones(poly)
-            ni = f"{route_id}{d}_S{i}"
+            ni = f"{prefix}{d}_S{i}"
             nodes.append(ni)
-            e = {"id": f"{route_id}{d}_{i}", "from": f"{route_id}{d}_S{i-1}", "to": ni, "length": round(length, 1),
+            e = {"id": f"{prefix}{d}_{i}", "from": f"{prefix}{d}_S{i-1}", "to": ni, "length": round(length, 1),
                  "limit_kmh": DEFAULT_LIMIT, "limits": zones, "grade": 0.0, "min_radius_m": None if r == math.inf else round(r, 1),
                  "pts": [[round(x, 2), round(z, 2)] for x, z in poly]}
             edges.append(e)
             stations.append({"name": stops[pattern[i]]["stop_name"], "stop_id": pattern[i], "edge": e["id"],
                              "offset": round(max(0.0, length - STOP_BACK_M), 1), "dwell_s": 20})
             st_index.append(len(stations) - 1)
-        # temps d'arrêt et missions à partir des services réels
-        dwell = defaultdict(list)
+        # temps d'arrêt, temps de parcours et missions à partir des services réels
+        dwell, run = defaultdict(list), defaultdict(list)
         for t in typed:
-            for k, r in enumerate(st_by_trip[t["trip_id"]]):
-                dwell[k].append(hms(r["departure_time"]) - hms(r["arrival_time"]))
+            rows = st_by_trip[t["trip_id"]]
+            for k, g in enumerate(groups):
+                dwell[k].append(hms(rows[g[-1]]["departure_time"]) - hms(rows[g[0]]["arrival_time"]))
+                if k:
+                    run[k].append(hms(rows[g[0]]["arrival_time"]) - hms(rows[groups[k - 1][-1]]["departure_time"]))
         for k, si in enumerate(st_index):
             vals = sorted(dwell[k])
             stations[si]["dwell_s"] = max(20, vals[len(vals) // 2] if vals else 20)
-        typed.sort(key=lambda t: hms(st_by_trip[t["trip_id"]][0]["departure_time"]))
+        # limite de l'inter-station : relevée si l'horaire l'exige (vitesse moyenne x 1,5), bornée à vmax
+        vmax = getattr(args, "vmax", 70)
+        by_id = {e["id"]: e for e in edges}
+        for k in range(1, len(groups)):
+            vals = sorted(v for v in run[k] if v > 0)
+            if not vals:
+                continue
+            e = by_id[f"{prefix}{d}_{k}"]
+            need = e["length"] / vals[len(vals) // 2] * 3.6 * 1.5
+            e["limit_kmh"] = int(max(DEFAULT_LIMIT, min(vmax, math.ceil(need / 5.0) * 5)))
+        typed.sort(key=lambda t: hms(st_by_trip[t["trip_id"]][groups[0][-1]]["departure_time"]))
         picks = [typed[int(j * (len(typed) - 1) / max(1, args.missions - 1))] for j in range(min(args.missions, len(typed)))]
         for t in picks:
             rows = st_by_trip[t["trip_id"]]
-            t0 = hms(rows[0]["departure_time"])
+            t0 = hms(rows[groups[0][-1]]["departure_time"])
             missions.append({"id": t["trip_id"], "direction": d, "headsign": t.get("trip_headsign", ""),
-                             "start_time": rows[0]["departure_time"], "start_edge": f"{route_id}{d}_appr",
+                             "start_time": rows[groups[0][-1]]["departure_time"], "start_edge": f"{prefix}{d}_appr",
                              "start_offset": APPROACH_M - STOP_BACK_M, "stops": st_index,
-                             "departures": [hms(r["departure_time"]) - t0 + 60 for r in rows]})
-        dir_info[d] = {"first_node": pre, "last_node": f"{route_id}{d}_S{len(pattern) - 1}"}
+                             "departures": [hms(rows[g[-1]]["departure_time"]) - t0 + 60 for g in groups]})
+        dir_info[d] = {"first_node": pre, "last_node": f"{prefix}{d}_S{len(pattern) - 1}"}
         report[d] = {"shape": shape_id, "stops": len(pattern), "length_m": round(abscissa[-1] - abscissa[0]),
-                     "max_stop_gap_m": round(worst, 1), "trips_on_shape": len(main)}
+                     "max_stop_gap_m": round(worst, 1), "trips": len(typed)}
     # rebroussements : fin d'un sens -> approche de l'autre (le nœud d'approche est fusionné avec le terminus)
     ds = sorted(dir_info)
     if len(ds) == 2:
@@ -237,12 +314,12 @@ def build(gtfs, route_id, args):
                     e["from"] = dir_info[a]["last_node"]
             nodes.remove(old)
     return {
-        "schema": 1, "id": args.id, "city": args.city, "line": route["route_short_name"],
+        "schema": 1, "id": net_id or args.id, "city": args.city, "line": route["route_short_name"],
         "long_name": route["route_long_name"], "color": "#" + (route.get("route_color") or "c8102e"),
         "provisional": False,
         "provenance": f"GTFS {args.publisher} (licence {args.licence}), données du {args.source_date} via transport.data.gouv.fr. "
                       "Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés).",
-        "estimated": ["grade (aucun MNT importé)", "limit_kmh (50 km/h par défaut ; zones réduites autour des courbes selon le rayon mesuré)",
+        "estimated": (["géométrie : segments droits entre arrêts (tracé absent ou incohérent)"] if straight else []) + ["grade (aucun MNT importé)", "limit_kmh (50 km/h par défaut, relevée si l'horaire GTFS l'exige ; zones réduites autour des courbes selon le rayon mesuré)",
                       "supply (" + args.supply_note + ")", "rebroussement simplifié aux terminus"],
         "supply": args.supply, "guidance": "steel",
         "nodes": nodes, "edges": edges, "stations": stations, "signals": [], "roads": [], "missions": missions,

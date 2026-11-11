@@ -31,5 +31,30 @@ static func translohr() -> VehicleProfile:
 	p.estimated.append_array(PackedStringArray(["length_m", "capacity"]))
 	return p
 
+static func dualis() -> VehicleProfile:
+	var p := citadis_302()
+	p.id = "citadis_dualis"; p.family = "Alstom Citadis Dualis (tram-train)"
+	p.length_m = 42.0; p.empty_mass_kg = 60000.0; p.power_kw = 1000.0; p.max_tractive_effort_n = 120000.0
+	p.max_speed_ms = 100.0 / 3.6; p.capacity = 250
+	p.estimated.append_array(PackedStringArray(["length_m", "capacity", "max_speed_ms"]))
+	return p
+
+static func tango_express() -> VehicleProfile:
+	var p := citadis_302()
+	p.id = "tango_express"; p.family = "Stadler Tango (tram express)"
+	p.length_m = 32.0; p.empty_mass_kg = 42000.0; p.power_kw = 800.0
+	p.max_speed_ms = 100.0 / 3.6; p.capacity = 150
+	p.estimated.append_array(PackedStringArray(["length_m", "capacity", "max_speed_ms"]))
+	return p
+
+## Matériel par défaut cohérent avec le type de ligne (vitesse, guidage).
+static func default_for(meta: Dictionary) -> VehicleProfile:
+	if meta.get("guidance", "steel") == "rubber_guided":
+		return translohr()
+	match str(meta.get("kind", "")):
+		"tram-train": return dualis()
+		"express": return tango_express()
+	return citadis_302()
+
 static func all() -> Array[VehicleProfile]:
-	return [citadis_302(), citadis_302_hybride(), citadis_402_aps(), translohr()]
+	return [citadis_302(), citadis_302_hybride(), citadis_402_aps(), translohr(), dualis(), tango_express()]

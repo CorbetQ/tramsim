@@ -1,0 +1,264 @@
+{
+ "comment": "Sources GTFS des réseaux de tramway (transport.data.gouv.fr, consulté le 2026-11-11). Licences telles que déclarées sur le portail.",
+ "networks": [
+  {
+   "id": "angers",
+   "city": "Angers",
+   "publisher": "Irigo / Angers Loire Métropole",
+   "licence": "ODbL",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/32f30b64-33f7-43bb-9b6f-34c21c2f83a3"
+  },
+  {
+   "id": "nantes",
+   "city": "Nantes",
+   "publisher": "Naolib / Nantes Métropole",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/65bdd7e4-a8e7-4a54-893a-808e71c34d68"
+  },
+  {
+   "id": "bordeaux",
+   "city": "Bordeaux",
+   "publisher": "TBM / Bordeaux Métropole",
+   "licence": "Licence Ouverte",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/10b87ffe-e6bb-494d-93df-bb6019e223d9",
+   "supply": "mixed_aps"
+  },
+  {
+   "id": "clermont",
+   "city": "Clermont-Ferrand",
+   "publisher": "T2C / SMTC-AC",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/4e237a58-cd14-4746-b729-1337a40a8a7b",
+   "routes": {
+    "A": {
+     "guidance": "rubber_guided"
+    }
+   }
+  },
+  {
+   "id": "mulhouse",
+   "city": "Mulhouse",
+   "publisher": "Soléa",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/7db50c2d-3fe4-4d3d-9942-57ac37c93a8d",
+   "route_types": [
+    0,
+    2
+   ],
+   "routes": {
+    "TT": {
+     "kind": "tram-train",
+     "supply_note": "tram-train bitension (750 V continu / 25 kV alternatif) : modélisé en caténaire unique"
+    }
+   }
+  },
+  {
+   "id": "grenoble",
+   "city": "Grenoble",
+   "publisher": "M réso / SMMAG",
+   "licence": "ODbL",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/b6ec7ba4-09bc-46df-b9a1-79a2c2668cf2"
+  },
+  {
+   "id": "toulouse",
+   "city": "Toulouse",
+   "publisher": "Tisséo",
+   "licence": "ODbL",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/64318177-f5b5-4144-a6be-2d0f22d26c77"
+  },
+  {
+   "id": "strasbourg",
+   "city": "Strasbourg",
+   "publisher": "CTS",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/eeea9e52-4f8a-459e-aef5-a093a3b05356"
+  },
+  {
+   "id": "montpellier",
+   "city": "Montpellier",
+   "publisher": "TaM",
+   "licence": "ODbL",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/93a29ce2-cfc8-44ff-b712-bcfd814b7f00"
+  },
+  {
+   "id": "lille",
+   "city": "Lille",
+   "publisher": "Ilévia / MEL",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/c9e5dd3f-8eed-4ad7-aec2-915240599cf6"
+  },
+  {
+   "id": "lyon",
+   "city": "Lyon",
+   "publisher": "TCL / Sytral Mobilités",
+   "licence": "Licence Mobilités (vérifier les conditions)",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/abebedc6-28cf-4e2e-9c64-db57a40156f8",
+   "routes": {
+    "Rhônexpress": {
+     "vmax": 100,
+     "express": true
+    }
+   }
+  },
+  {
+   "id": "marseille",
+   "city": "Marseille",
+   "publisher": "RTM / Métropole Aix-Marseille-Provence",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/7eef6ec9-9ebb-44f2-becb-2efc522522d6"
+  },
+  {
+   "id": "nice",
+   "city": "Nice",
+   "publisher": "Lignes d'Azur",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/f5678ab2-c863-4b48-ba1f-9021c7d97634"
+  },
+  {
+   "id": "rouen",
+   "city": "Rouen",
+   "publisher": "Astuce / Métropole Rouen Normandie",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/307f2911-39a3-42a6-85ee-2b742955836a"
+  },
+  {
+   "id": "reims",
+   "city": "Reims",
+   "publisher": "Grand Reims Mobilités",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://transport.data.gouv.fr/resources/80594/download",
+   "supply": "mixed_aps",
+   "route_types": [
+    0,
+    1
+   ],
+   "routes": {
+    "TRAM": {}
+   }
+  },
+  {
+   "id": "dijon",
+   "city": "Dijon",
+   "publisher": "DiviaMobilités",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/e0dbd217-15cd-4e28-9459-211a27511a34"
+  },
+  {
+   "id": "tours",
+   "city": "Tours",
+   "publisher": "Fil Bleu / SMT",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/198b7602-5e74-4d88-b6bc-483af85a2430",
+   "supply": "mixed_aps"
+  },
+  {
+   "id": "orleans",
+   "city": "Orléans",
+   "publisher": "TAO / Orléans Métropole",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/b2dfbaa3-47e9-4749-b6a4-750bebd760e7",
+   "supply": "mixed_aps"
+  },
+  {
+   "id": "lemans",
+   "city": "Le Mans",
+   "publisher": "SETRAM",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/dee9adc5-044c-4f68-9cd3-eefbdf7a6abd"
+  },
+  {
+   "id": "caen",
+   "city": "Caen",
+   "publisher": "Twisto / Caen la Mer",
+   "licence": "non précisée sur le portail (à vérifier)",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/a5a8f046-e282-4010-91c5-82bc1f70ff73"
+  },
+  {
+   "id": "brest",
+   "city": "Brest",
+   "publisher": "Bibus / Brest Métropole",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/583d1419-058b-481b-b378-449cab744c82"
+  },
+  {
+   "id": "lehavre",
+   "city": "Le Havre",
+   "publisher": "LiA",
+   "licence": "ODbL",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/2178bfa8-9fe0-4633-8223-8c151728ef28"
+  },
+  {
+   "id": "saintetienne",
+   "city": "Saint-Étienne",
+   "publisher": "STAS",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/fc66b270-658c-4678-9794-229a1a8a4938"
+  },
+  {
+   "id": "besancon",
+   "city": "Besançon",
+   "publisher": "Ginko",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/e18e0aeb-8805-47fd-bcdb-c226d21c96fe"
+  },
+  {
+   "id": "avignon",
+   "city": "Avignon",
+   "publisher": "Orizo",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/40b26c33-9be2-47ea-a46c-8bda9f63273e"
+  },
+  {
+   "id": "valenciennes",
+   "city": "Valenciennes",
+   "publisher": "Transvilles / SIMOUV",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/982e0826-4118-42d9-9b73-c3d3b455cd4f"
+  },
+  {
+   "id": "annemasse",
+   "city": "Annemasse",
+   "publisher": "TAC / Annemasse Agglo",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/373e19e2-af0a-4939-9f33-3f1268d1e0bb",
+   "skip": "tram d'Annemasse exploité par les TPG (Genève) : absent du GTFS TAC"
+  },
+  {
+   "id": "idf",
+   "city": "Île-de-France",
+   "publisher": "Île-de-France Mobilités",
+   "licence": "Licence Mobilités (vérifier les conditions)",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/d34a4b53-5d6d-41b5-9cd9-bb738637b7e9",
+   "route_types": [
+    0
+   ],
+   "routes": {
+    "T5": {
+     "guidance": "rubber_guided"
+    },
+    "T6": {
+     "guidance": "rubber_guided"
+    },
+    "T4": {
+     "kind": "tram-train"
+    },
+    "T11": {
+     "kind": "tram-train"
+    },
+    "T12": {
+     "kind": "tram-train"
+    },
+    "T13": {
+     "kind": "tram-train"
+    }
+   }
+  },
+  {
+   "id": "aubagne",
+   "city": "Aubagne",
+   "publisher": "Les lignes de l'agglo / Métropole Aix-Marseille-Provence",
+   "licence": "Licence Ouverte 2.0",
+   "url": "https://www.data.gouv.fr/api/1/datasets/r/cde22673-d7e4-4cbd-837f-3c8bd9fb2f9b"
+  }
+ ]
+}

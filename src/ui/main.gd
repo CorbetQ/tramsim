@@ -54,10 +54,21 @@ func _build_menu() -> void:
 	box.custom_minimum_size = Vector2(640, 0)
 	center.add_child(box)
 	var title := Label.new(); title.text = "Tram Sim France"; box.add_child(title)
+	var all_nets: Array = NetworkRegistry.entries()
+	var city_opt := OptionButton.new()
+	var cities := NetworkRegistry.cities()
+	for c in cities: city_opt.add_item(c)
+	box.add_child(city_opt)
 	var net_opt := OptionButton.new()
-	var NETS := NetworkRegistry.scan()
-	for k in NETS: net_opt.add_item(k)
 	box.add_child(net_opt)
+	var city_nets: Array = []
+	var fill_lines := func():
+		city_nets.clear()
+		city_nets.append_array(all_nets.filter(func(e): return e.city == cities[city_opt.selected]))
+		net_opt.clear()
+		for e in city_nets:
+			net_opt.add_item("Ligne %s — %s%s" % [e.line, e.long_name, "  (tram-train)" if e.kind == "tram-train" else ""])
+	fill_lines.call()
 	var veh_opt := OptionButton.new()
 	var vehicles := VehicleLibrary.all()
 	for v in vehicles: veh_opt.add_item(v.family)
@@ -71,11 +82,12 @@ func _build_menu() -> void:
 	var go := Button.new(); go.custom_minimum_size = Vector2(0, 90); box.add_child(go)
 	var refresh := func(_i = 0):
 		var v: VehicleProfile = vehicles[veh_opt.selected]
-		var path: String = NETS.values()[net_opt.selected]
+		var path: String = city_nets[net_opt.selected].path
 		var n := NetworkLoader.new(); n.load_file(path)
 		var supply: Array = n.supplies; var guid := str(n.meta.get("guidance", "steel"))
 		var ok := Compatibility.mission_allowed(v, supply, guid)
-		mis_list = n.missions()
+		mis_list.clear()
+		mis_list.append_array(n.missions())
 		mis_opt.clear()
 		for m in mis_list:
 			mis_opt.add_item("%s — départ %s → %s" % [m.id, m.start_time, m.headsign])
@@ -85,11 +97,19 @@ func _build_menu() -> void:
 		go.disabled = not ok and not libre
 		go.text = "Démarrer" if (ok or libre) else "Matériel incompatible avec ce réseau (essayez le mode libre)"
 		if libre and not ok: go.text = "Démarrer — " + Compatibility.adaptation_notice(v, supply, guid)
-	for o in [net_opt, veh_opt, mode_opt]: o.item_selected.connect(refresh)
+	var preselect := func(_i = 0):
+		var n2 := NetworkLoader.new(); n2.load_file(city_nets[net_opt.selected].path)
+		var dv := VehicleLibrary.default_for(n2.meta)
+		for k in vehicles.size():
+			if vehicles[k].id == dv.id: veh_opt.select(k)
+	city_opt.item_selected.connect(func(_i): fill_lines.call(); preselect.call(); refresh.call())
+	net_opt.item_selected.connect(func(_i): preselect.call(); refresh.call())
+	for o in [veh_opt, mode_opt]: o.item_selected.connect(refresh)
+	preselect.call()
 	refresh.call()
 	go.pressed.connect(func():
 		save.settings.traffic = traffic_cb.button_pressed
-		net_path = NETS.values()[net_opt.selected]
+		net_path = city_nets[net_opt.selected].path
 		vehicle = vehicles[veh_opt.selected]
 		free_mode = mode_opt.selected == 1
 		mission = mis_list[mis_opt.selected] if mis_opt.selected >= 0 and mis_opt.selected < mis_list.size() else {}
@@ -194,7 +214,7 @@ func _process(dt: float) -> void:
 	if not session.stops.is_empty():
 		st = session.stops[mini(session.next_station, session.stops.size() - 1)]
 	hud.text = "%d km/h (limite %d)  |  %s  |  voyageurs %d  |  portes %s%s%s" % [
-		session.phys.speed * 3.6, session.speed_limit() * 3.6,
+		roundi(session.phys.speed * 3.6), roundi(session.speed_limit() * 3.6),
 		("prochain : " + str(st.get("name", "")) if not free_mode else "mode libre"), session.phys.passengers,
 		"ouvertes" if session.doors_open else "fermées", ("  | COUPURE ALIM." if not session.power_ok else "") + ("  | SURVITESSE" if session.overspeed else ""),
 		("  | INCIDENT : " + free.incident) if free and free.incident != "" else ""]
