@@ -1,0 +1,3 @@
+stop_id,stop_name
+S1,Alpha
+S2,Beta

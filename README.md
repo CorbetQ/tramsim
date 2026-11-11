@@ -17,4 +17,5 @@ Puis `godot --headless --export-debug Android build/tramsim.apk`. Voir `docs/ROA
 
 ## État actuel
 `data/networks/angers_a.json` est un **schéma provisoire** (noms et distances inventés), pas la vraie ligne A.
-Tests : `godot --headless --path . --import` puis `-s tests/run_tests.gd`, `-s tests/test_angers.gd`, `-s tests/test_scene.gd`.
+Tests : `GODOT=/chemin/godot tests/run_all.sh` (Godot headless + Python). Import : `tools/import/` (OSM, GTFS, validateur).
+Inventaire national : `docs/INVENTAIRE.md` (brouillon à vérifier).

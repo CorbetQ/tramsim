@@ -1,0 +1,2 @@
+route_id,trip_id,direction_id
+A,T1,0

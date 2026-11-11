@@ -8,6 +8,8 @@ var edge_origin: Dictionary = {}   # id -> Vector3
 var tram: Node3D
 var cam: Camera3D
 var signal_nodes: Array[MeshInstance3D] = []
+var car_nodes: Array[MeshInstance3D] = []
+var light_nodes: Array[MeshInstance3D] = []
 
 func build(network: NetworkLoader, start_edge: String) -> void:
 	net = network
@@ -34,6 +36,10 @@ func build(network: NetworkLoader, start_edge: String) -> void:
 	for s in net.signals:
 		var p2: Vector3 = edge_origin[s.edge] + Vector3(float(s.offset), 2.0, -2.0)
 		signal_nodes.append(_add_box(p2, Vector3(0.4, 1.0, 0.4), Color(0.1, 0.8, 0.2)))
+	for lane in net.meta.get("roads", []):
+		var c: Vector3 = edge_origin[lane.edge] + Vector3(float(lane.edge_offset), 0, 0)
+		_add_box(c + Vector3(0, -0.15, 0), Vector3(7, 0.05, float(lane.length)), Color(0.15, 0.15, 0.17))
+		light_nodes.append(_add_box(c + Vector3(4, 2.0, -float(lane.cross_at) + 5.0 - 1.0), Vector3(0.4, 1.0, 0.4), Color(0.1, 0.8, 0.2)))
 	tram = Node3D.new()
 	_add_box_to(tram, Vector3(0, 1.8, 0), Vector3(32, 3.6, 2.4), Color(0.85, 0.1, 0.15))
 	add_child(tram)
@@ -67,6 +73,22 @@ func update_from(s: MissionSession, external: bool) -> void:
 	else:  # vue cabine simplifiée
 		cam.position = front + Vector3(-1.5, 3.0, 0)
 		cam.look_at(front + Vector3(30, 2.5, 0))
+	_update_cars(s)
 	for i in signal_nodes.size():
 		var c := Color(0.1, 0.8, 0.2) if s.signal_state[i] == "clear" else Color(0.9, 0.1, 0.1)
 		(signal_nodes[i].mesh.material as StandardMaterial3D).albedo_color = c
+
+func _update_cars(s: MissionSession) -> void:
+	var cars := s.traffic.cars
+	while car_nodes.size() < cars.size():
+		car_nodes.append(_add_box(Vector3.ZERO, Vector3(RoadTraffic.CAR_LEN, 1.5, 1.9), Color(0.2, 0.3, 0.9)))
+	for i in car_nodes.size():
+		var n := car_nodes[i]
+		n.visible = i < cars.size()
+		if n.visible:
+			var lane: Dictionary = s.traffic.lanes[cars[i].lane]
+			var c: Vector3 = edge_origin[lane.edge] + Vector3(float(lane.edge_offset), 0, 0)
+			n.position = c + Vector3(1.5, 0.7, float(cars[i].pos) - float(lane.cross_at))
+			n.rotation_degrees.y = 90.0
+	for i in light_nodes.size():
+		(light_nodes[i].mesh.material as StandardMaterial3D).albedo_color = Color(0.9, 0.1, 0.1) if s.traffic.light_red[i] else Color(0.1, 0.8, 0.2)

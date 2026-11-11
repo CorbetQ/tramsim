@@ -1,0 +1,10 @@
+{"elements":[
+{"type":"node","id":1,"lat":47.4700,"lon":-0.5500},
+{"type":"node","id":2,"lat":47.4700,"lon":-0.5450},
+{"type":"node","id":3,"lat":47.4700,"lon":-0.5400,"tags":{"railway":"tram_stop","name":"Mairie"}},
+{"type":"node","id":4,"lat":47.4720,"lon":-0.5350},
+{"type":"node","id":5,"lat":47.4680,"lon":-0.5350},
+{"type":"way","id":10,"nodes":[1,2,3],"tags":{"railway":"tram","maxspeed":"40"}},
+{"type":"way","id":11,"nodes":[3,4],"tags":{"railway":"tram"}},
+{"type":"way","id":12,"nodes":[3,5],"tags":{"railway":"tram"}}
+]}

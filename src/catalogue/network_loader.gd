@@ -9,6 +9,7 @@ var meta: Dictionary = {}
 var edge_info: Dictionary = {}   # id -> {limit_ms, grade, curve_radius}
 var stations: Array[Dictionary] = []
 var signals: Array[Dictionary] = []
+var supplies: Array = []
 
 ## Retourne la liste des erreurs (vide = OK).
 func load_file(path: String) -> PackedStringArray:
@@ -30,7 +31,10 @@ func load_file(path: String) -> PackedStringArray:
 		var lim := float(e.get("limit_kmh", 50)) / 3.6
 		if e.has("curve_radius"):
 			lim = minf(lim, TrainPhysics.curve_speed_limit(float(e.curve_radius)))
-		edge_info[e.id] = {"limit_ms": lim, "grade": float(e.get("grade", 0.0))}
+		var sup := str(e.get("supply", data.get("supply", "overhead")))
+		if not sup in supplies:
+			supplies.append(sup)
+		edge_info[e.id] = {"limit_ms": lim, "grade": float(e.get("grade", 0.0)), "supply": sup}
 	for s in data.get("stations", []):
 		if not graph.edges.has(s.edge):
 			errs.append("station sur arête inconnue: " + s.name)

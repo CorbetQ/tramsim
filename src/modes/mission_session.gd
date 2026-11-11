@@ -24,6 +24,10 @@ var next_station := 0
 var dwell_left := 0.0
 var served := false                  # arrêt courant desservi
 var door_cycle_done := false
+var pantograph_up := true
+var power_ok := true
+var traffic: RoadTraffic
+var blocked := false
 var visited: Dictionary = {}
 var _board_acc := 0.0
 var _alight_acc := 0.0
@@ -41,6 +45,7 @@ func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, 
 	net.graph.occupy(start_edge, train_id)
 	for i in net.signals.size():
 		signal_state[i] = net.signals[i].get("default", "clear")
+	traffic = RoadTraffic.new(net.meta.get("roads", []))
 
 func speed_limit() -> float:
 	return net.edge_info[edge_id].limit_ms
@@ -70,14 +75,49 @@ func _fail(reason: String) -> void:
 	finished = true
 	event.emit("fail", reason)
 
+## Remise à zéro après échec (recommencer la mission) : recharge via nouvelle session.
+
+## Distance (m) du nez de la rame à un point de voie : >0 devant, <0 derrière, INF si hors de portée.
+func dist_to_point(to_edge: String, to_offset: float, horizon: float = 1500.0) -> float:
+	if to_edge == edge_id:
+		return to_offset - offset
+	var d: float = net.graph.edges[edge_id].length - offset
+	var e: String = edge_id
+	while d < horizon:
+		e = net.graph.next_edge(e)
+		if e == "":
+			break
+		if e == to_edge:
+			return d + to_offset
+		d += net.graph.edges[e].length
+	# croisement derrière sur une arête déjà parcourue et encore sous la rame
+	var back := offset
+	for i in range(route.size() - 2, -1, -1):
+		if route[i] == to_edge:
+			return -(back + net.graph.edges[to_edge].length - to_offset)
+		back += net.graph.edges[route[i]].length
+	return INF
+
+func _dist_cb(_e: String, _o: float, to_edge: String, to_offset: float) -> float:
+	return dist_to_point(to_edge, to_offset)
+
 func tick(dt: float, notch: float, emergency: bool = false) -> void:
-	if finished:
+	if finished or blocked:
 		return
 	time_s += dt
+	if traffic.enabled and traffic.lanes.size() > 0:
+		traffic.step(dt, edge_id, offset, phys.profile.length_m, _dist_cb)
+		for li in traffic.lanes.size():
+			var lane: Dictionary = traffic.lanes[li]
+			var d := dist_to_point(lane.edge, float(lane.edge_offset))
+			if d != INF and d <= 0.0 and d > -phys.profile.length_m and traffic.car_in_crossing(li):
+				_fail("Collision avec un véhicule")
+				return
 	var info: Dictionary = net.edge_info[edge_id]
 	var n := notch
 	if doors_open:
 		n = minf(n, 0.0)  # traction coupée portes ouvertes
+	_update_power(info.supply)
 	var before := phys.position
 	phys.step(dt, n, info.grade, emergency or doors_open and phys.speed > 0.1)
 	var d := phys.position - before
@@ -87,6 +127,24 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 		return
 	_update_dwell(dt)
 	_check_station_passed()
+
+## Alimentation selon le mode de la section et l'état du pantographe.
+func _update_power(edge_supply: String) -> void:
+	var sup := phys.profile.supply
+	var ok := true
+	if sup == "hybrid":
+		ok = (edge_supply == "overhead" and pantograph_up) or (edge_supply == "aps" and not pantograph_up)
+	elif sup == "overhead":
+		ok = edge_supply == "overhead" and pantograph_up
+	else:
+		ok = sup == edge_supply
+	if ok != power_ok:
+		event.emit("power", "Alimentation rétablie" if ok else "Coupure d'alimentation")
+	power_ok = ok
+	phys.power_available = ok
+
+func toggle_pantograph() -> void:
+	pantograph_up = not pantograph_up
 
 func _advance(d: float) -> void:
 	offset += d

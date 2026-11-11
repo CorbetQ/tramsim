@@ -10,13 +10,20 @@ func _new(delay: float = 0.0, pax: int = 40) -> MissionSession:
 	var errs := net.load_file("res://data/networks/angers_a.json")
 	assert(errs.is_empty(), str(errs))
 	var sched: Array[float] = [120.0 + delay, 260.0, 470.0, 610.0]
-	return MissionSession.new(net, VehicleLibrary.citadis_302(), "e0", 100.0, sched, pax)
+	return MissionSession.new(net, VehicleLibrary.citadis_302_hybride(), "e0", 100.0, sched, pax)
 
 ## Pilote automatique : s'arrête à chaque station, ouvre/ferme les portes.
 func _drive(m: MissionSession, hold_s: float = 0.0, skip_stop: int = -1, max_t: float = 1500.0) -> void:
 	_dt_state = 0.0
 	while not m.finished and m.time_s < max_t:
+		_auto_pantograph(m)
 		_drive_step(m, hold_s, skip_stop)
+
+## Pilote : pantographe levé sur caténaire, baissé sur APS (changement dès l'entrée en section).
+func _auto_pantograph(m: MissionSession) -> void:
+	var want_up: bool = m.net.edge_info[m.edge_id].supply == "overhead"
+	if want_up != m.pantograph_up:
+		m.toggle_pantograph()
 
 var _dt_state := 0.0
 func _drive_step(m: MissionSession, hold_s: float = 0.0, skip_stop: int = -1) -> void:
@@ -80,18 +87,17 @@ func _init() -> void:
 	check(not m2.debrief().success, "arrêt oublié => échec")
 	# fin de voie
 	var m3 := _new()
-	var e3 := 0
-	while not m3.finished and m3.time_s < 900: m3.tick(0.1, 1.0)
+	while not m3.finished and m3.time_s < 900: _auto_pantograph(m3); m3.tick(0.1, 1.0)
 	check(m3.scorer.fail_reason == "Fin de voie dépassée", "fin de voie dépassée => échec")
 	# signal d'arrêt
 	var m4 := _new()
 	m4.signal_state[0] = "stop"
-	while not m4.finished and m4.time_s < 900: m4.tick(0.1, 1.0)
+	while not m4.finished and m4.time_s < 900: _auto_pantograph(m4); m4.tick(0.1, 1.0)
 	check(m4.scorer.fail_reason == "Signal d'arrêt franchi", "signal d'arrêt franchi => échec")
 	# collision par occupation
 	var m5 := _new()
 	m5.net.graph.occupy("e1", "AUTRE")
-	while not m5.finished and m5.time_s < 900: m5.tick(0.1, 1.0)
+	while not m5.finished and m5.time_s < 900: _auto_pantograph(m5); m5.tick(0.1, 1.0)
 	check(m5.scorer.fail_reason == "Collision", "section occupée => collision")
 	# aiguillage vers le dépôt (N1 : e1 ou dep)
 	var m6 := _new()
@@ -106,4 +112,18 @@ func _init() -> void:
 	var p0 := m9.phys.passengers; m9.set_doors(true)
 	for i in 100: m9.tick(0.1, 0.0)
 	check(m9.phys.passengers != p0, "montée/descente modifie la charge")
+	# APS : transitions caténaire <-> sol
+	var a := _new(); a.edge_id = "e1"; a.route = ["e1"]; a.offset = 10.0; a.phys.speed = 10.0
+	a.tick(0.1, 1.0)
+	check(not a.power_ok, "pantographe levé sur APS => coupure d'alimentation")
+	var v0 := a.phys.speed
+	for i in 50: a.tick(0.1, 0.5)
+	check(a.phys.speed < v0, "la rame ralentit sans traction (coupure)")
+	a.toggle_pantograph(); a.tick(0.1, 1.0)
+	check(a.power_ok, "pantographe baissé sur APS => alimentation rétablie")
+	var o := _new(); o.toggle_pantograph(); o.tick(0.1, 1.0)
+	check(not o.power_ok, "pantographe baissé sur caténaire => coupure")
+	var n7 := NetworkLoader.new(); n7.load_file("res://data/networks/angers_a.json")
+	check(not Compatibility.mission_allowed(VehicleLibrary.citadis_302(), n7.supplies, "steel"), "caténaire seul incompatible avec réseau mixte")
+	check(Compatibility.mission_allowed(VehicleLibrary.citadis_302_hybride(), n7.supplies, "steel"), "hybride compatible réseau mixte")
 	quit(1 if fails > 0 else 0)
