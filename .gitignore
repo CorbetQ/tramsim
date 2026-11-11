@@ -2,3 +2,4 @@ build/
 .godot/
 *.keystore
 *.apk
+android/

@@ -10,7 +10,13 @@ Simulateur de tramway 3D (Godot 4.6.3, GDScript, Android 10+, paysage, hors lign
 - `data/` données importées ; `tools/import` chaîne d'import reproductible
 - `tests/` : `godot --headless --path . -s tests/run_tests.gd`
 
-## Compilation APK
+## Compilation APK (vérifiée)
+Godot 4.6.3 + modèles d'export, JDK 21, Android SDK (platform 36, build-tools 36.0.0, platform-tools). Réglages éditeur :
+`export/android/android_sdk_path`, `java_sdk_path`, `debug_keystore(_user/_pass)`. Le projet doit avoir
+`rendering/textures/vram_compression/import_etc2_astc=true` (sinon l'export échoue avec une erreur vide). Si `sdkmanager`/`java` affichent
+« Picked up JAVA_TOOL_OPTIONS », faire `unset JAVA_TOOL_OPTIONS`. Commande : `godot --headless --export-debug Android build/tramsim.apk`.
+
+## Ancienne note de compilation
 Prérequis : Godot 4.6.3 + modèles d'export, JDK 17, Android SDK (platform 34, build-tools 34, NDK r28),
 keystore de développement (`keytool -genkey -v -keystore dev.keystore -alias dev -keyalg RSA -keysize 2048 -validity 10000`).
 Puis `godot --headless --export-debug Android build/tramsim.apk`. Voir `docs/ROADMAP.md`.
