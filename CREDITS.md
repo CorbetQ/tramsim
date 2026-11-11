@@ -40,3 +40,27 @@
 
 Deux jeux (Lyon TCL, Île-de-France Mobilités) sont sous « Licence Mobilités » : conditions de réutilisation à vérifier avant toute diffusion publique.
 Caen : licence non précisée sur le portail — à vérifier avant diffusion publique.
+
+## Sons
+
+Tous les sons de `data/audio/*.ogg` (onduleur IGBT, porteuse de découpage, roulement, joints de rail, crissement en courbe,
+climatisation / compresseur, freinage électrique et mécanique, urgence, portes et signal de fermeture, gong, ambiance urbaine)
+sont des **synthèses originales du projet** générées par `data/audio/make_audio.py` (numpy/scipy, encodage ffmpeg/libvorbis) ;
+aucun audio extrait de vidéos ni d'œuvres protégées. Détail par fichier : `data/audio/sources.json`.
+
+Enregistrements libres de référence identifiés sur Wikimedia Commons (pour recaler les synthèses ; non inclus — originaux
+non téléchargeables depuis l'environnement de génération, HTTP 429) :
+
+| Fichier Commons | Auteur | Licence |
+|---|---|---|
+| Départ / Arrivée d'une rame Citadis 402 à la station Porte d'Ivry | Litlok | CC BY-SA 4.0 |
+| Tram sound in Lyon, France | Glaneur de sons | CC BY 3.0 |
+| Tram doors open and close hiss and beeping | stephan | domaine public |
+| Noodrem / Diverse bellen / Omvormer en compressor / Het rijden van een tram (Amsterdam, Den Haag) | Beeld en Geluid | CC BY-SA 3.0 |
+| Ratelend voetgangerslicht en voorbij rijdende tram | Campos | CC BY-SA 3.0 |
+
+## Images du catalogue
+
+Vignettes `data/rolling_stock/thumbs/*.png` : rendus des modèles 3D du projet (`tools/render_thumbs.gd`), aucune photo reproduite.
+Les photos Wikimedia Commons citées dans `data/rolling_stock/research.json` (« references ») ont servi de référence de forme et de
+couleur uniquement ; elles ne sont pas distribuées.

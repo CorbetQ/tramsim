@@ -129,30 +129,31 @@ func _frame(edge_id: String, offset: float) -> Transform3D:
 		d = Vector3(v.x, 0, v.y)
 	return Transform3D(Basis.looking_at(d.normalized(), Vector3.UP), o)
 
-## Plateforme engazonnée, longrines béton, rails.
+## Plateforme (nature réelle par tronçon si la scène IGN la fournit), longrines ou rails noyés ; rubans en onglet.
 func _track(parent: Node3D, id: String) -> void:
-	var pts: Array[Vector3] = []
+	var pts: Array = []
 	if geometric:
 		for q in net.edge_info[id].pts: pts.append(Vector3(q.x, 0.0, q.y))
 	else:
 		pts = [pos3(id, 0.0), pos3(id, net.graph.edges[id].length)]
 	if pts.size() < 2: return
 	var g := _Geo.new()
-	var o := TRACK_OFFSET if geometric else 0.0
-	g.ribbon(pts, 3.5, 0.09, _bed_color(id), o)
-	for off in [-0.72, 0.72]:
-		g.ribbon(pts, 0.42, 0.11, Color("#b3b1aa"), o + off)
-		g.ribbon(pts, 0.08, 0.17, Color("#8f959c", 0.9), o + off)
+	var o := TRACK_OFFSET if geometric and not net.edge_info[id].raw else 0.0
+	var fallback := _bed_color(id)
+	var paved := Color("#a49a8c") if city != null and city.style.get("trees", [0])[0] == 6 else Color("#9a958d")
+	var nature := func(p: Vector3) -> int: return city.track_nature_at(p) if city != null else TrackView.BED_UNKNOWN
+	TrackView.build(g, pts, o, nature, fallback, paved)
 	_add_geo(parent, g, Materials.building())
 
-## Plateforme : engazonnée en périphérie, pavée ou en enrobé dans les quartiers denses (densité de bâti IGN).
+## Plateforme par défaut (sans analyse d'orthophoto) : engazonnée en périphérie, pavée ou en enrobé
+## dans les quartiers denses (densité de bâti IGN).
 func _bed_color(id: String) -> Color:
-	if city == null: return Color("#6f9f50")
+	if city == null: return TrackView.GRASS
 	var mid := pos3(id, net.graph.edges[id].length * 0.5)
 	var dens := city.density_at(mid)
 	if dens > 170: return Color("#a49a8c") if city.style.get("trees", [0])[0] == 6 else Color("#8f8a84")
-	if dens > 110: return Color("#6b6e73")
-	return Color("#6f9f50")
+	if dens > 110: return TrackView.ASPHALT
+	return TrackView.GRASS
 
 ## Communications de voies (croisement en ciseaux) avant le quai des arrêts de retournement.
 func _crossovers() -> void:
@@ -207,6 +208,9 @@ func _station(parent: Node3D, s: Dictionary) -> void:
 	g.box(Vector3(3.55, 0.75, zc), Vector3(0.5, 0.1, 2.4), Color("#7a6a58"))
 	g.box(Vector3(3.5, 1.4, zc + 6.5), Vector3(0.3, 2.8, 0.6), acc)
 	_add_geo(parent, g, Materials.building(), t)
+	if city != null:  # quai, abri et totem : interdits aux arbres et lampadaires du décor
+		var qa := t * Vector3(3.2, 0, zc - L * 0.5); var qb := t * Vector3(3.2, 0, zc + L * 0.5)
+		city.add_keepout(Vector2(qa.x, qa.z), Vector2(qb.x, qb.z), 2.4)
 	var lbl := Label3D.new()
 	lbl.text = str(s.name)
 	lbl.font_size = 64; lbl.pixel_size = 0.006
@@ -249,6 +253,8 @@ func _generic_buildings(parent: Node3D, id: String) -> void:
 			var w := rng.randf_range(10.0, 18.0)
 			var dpt := rng.randf_range(10.0, 16.0)
 			var p: Vector3 = t.origin + t.basis.x * side * (rng.randf_range(14.0, 22.0) + dpt * 0.5)
+			if TrackView.keepout_for(net).blocked(Vector2(p.x, p.z), maxf(dpt, w) * 0.6):
+				continue  # n'empiète pas sur une autre voie (croisements, troncs communs)
 			var col := Color(0.85, 0.82, 0.76).darkened(rng.randf() * 0.15)
 			col.a = 0.5 + rng.randf() * 0.49
 			g.box_basis(p + Vector3(0, h * 0.5, 0), Vector3(dpt, h, w), t.basis, col)
@@ -295,13 +301,13 @@ func update_from(s: MissionSession, external: bool) -> void:
 		var dir := pf - pb
 		if dir.length() < 0.01: dir = Vector3(1, 0, 0)
 		modules[i].transform = Transform3D(Basis.looking_at(dir.normalized(), Vector3.UP), (pf + pb) * 0.5)
-	rig.set_doors(s.doors_open, "right")   # quais à droite dans le sens de marche
+	rig.set_doors(s.doors_open, "right" if s.direction >= 0 else "left")   # quais à droite du sens de l'arête
 	rig.set_pantograph(s.pantograph_up)
 	if _rig_fresh: rig.snap()
 	else: rig.update(get_process_delta_time())
 	_rig_fresh = false
 	var front := _frame(s.edge_id, s.offset)
-	var fwd := -front.basis.z
+	var fwd := -front.basis.z * float(s.direction)   # sens de marche (cabine active)
 	headlight.global_transform = Transform3D(Basis.looking_at((fwd + Vector3(0, -0.12, 0)).normalized(), Vector3.UP), front.origin + fwd * 0.5 + Vector3(0, 1.0, 0))
 	tram.visible = external
 	if external:

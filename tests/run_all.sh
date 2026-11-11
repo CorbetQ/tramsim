@@ -4,7 +4,7 @@ set -u
 G="${GODOT:-godot}"; cd "$(dirname "$0")/.."
 rc=0
 "$G" --headless --path . --import >/dev/null 2>&1
-for t in run_tests test_rolling_stock test_angers test_angers_real test_traffic_free test_turnback test_save test_scene test_input test_all_networks; do
+for t in run_tests test_rolling_stock test_angers test_angers_real test_traffic_free test_turnback test_bidir test_audio test_save test_scene test_scene_data test_input test_all_networks; do
   if [ "$t" = "test_input" ]; then
     command -v xvfb-run >/dev/null || { echo "SKIP $t (xvfb-run absent)"; continue; }
     out=$(timeout 600 xvfb-run -a -s "-screen 0 1280x720x24" "$G" --path . --rendering-driver opengl3 --resolution 1280x720 -s tests/$t.gd 2>&1); c=$?

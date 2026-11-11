@@ -13,8 +13,10 @@ var phys: TrainPhysics
 var scorer := MissionScorer.new()
 var train_id := "T1"
 var route: Array[String] = []        # arêtes parcourues (queue incluse)
+var route_dir: Array[int] = []       # sens de parcours de chaque arête de route (+1 / -1)
 var edge_id: String
-var offset: float = 0.0
+var offset: float = 0.0              # abscisse du nez (tête dans le sens de marche) sur edge_id, depuis from_node
+var direction: int = 1               # sens de marche sur edge_id : +1 dans le sens de l'arête, -1 à rebours
 var time_s: float = 0.0
 var doors_open := false
 var finished := false
@@ -43,6 +45,7 @@ func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, 
 	offset = start_offset
 	schedule = sched
 	route = [start_edge]
+	route_dir = [1]
 	visited[start_edge] = true
 	net.graph.occupy(start_edge, train_id)
 	for i in net.signals.size():
@@ -58,9 +61,10 @@ func set_mission_stops(indices: Array) -> void:
 ## Limite la plus restrictive sous la rame (du nez à la queue sur l'arête courante, et devant 0 m).
 func speed_limit() -> float:
 	var v := net.limit_at(edge_id, offset)
-	var tail := maxf(0.0, offset - phys.profile.length_m)
+	var tail := offset - phys.profile.length_m * direction
+	var lo := maxf(0.0, minf(tail, offset)); var hi := maxf(tail, offset)
 	for z in net.edge_info[edge_id].zones:
-		if z[1] >= tail and z[0] <= offset:
+		if z[1] >= lo and z[0] <= hi:
 			v = minf(v, z[2])
 	return v
 
@@ -94,32 +98,59 @@ func _fail(reason: String) -> void:
 ## Distance (m) du nez de la rame à un point de voie : >0 devant, <0 derrière, INF si hors de portée.
 func dist_to_point(to_edge: String, to_offset: float, horizon: float = 1500.0) -> float:
 	if to_edge == edge_id:
-		return to_offset - offset
-	var d: float = net.graph.edges[edge_id].length - offset
+		return (to_offset - offset) * direction
+	_sync_dirs()
+	var d: float = _ahead_on_edge()
 	var e: String = edge_id
+	var r: int = direction
 	while d < horizon:
-		e = net.graph.next_edge(e)
-		if e == "":
+		var st := net.graph.next_step(e, r)
+		if st.is_empty():
 			break
+		e = st[0]; r = st[1]
+		var L: float = net.graph.edges[e].length
 		if e == to_edge:
-			return d + to_offset
-		d += net.graph.edges[e].length
+			return d + (to_offset if r > 0 else L - to_offset)
+		d += L
 	# croisement derrière sur une arête déjà parcourue et encore sous la rame
-	var back := offset
+	var back := _behind_on_edge()
 	for i in range(route.size() - 2, -1, -1):
+		var L: float = net.graph.edges[route[i]].length
 		if route[i] == to_edge:
-			return -(back + net.graph.edges[to_edge].length - to_offset)
-		back += net.graph.edges[route[i]].length
+			return -(back + (L - to_offset if route_dir[i] > 0 else to_offset))
+		back += L
 	return INF
 
-## Point de voie situé `d` mètres derrière le nez (pour placer les caisses articulées).
+## Distance du nez à la fin de l'arête courante (dans le sens de marche) et à son début (derrière).
+func _ahead_on_edge() -> float:
+	return net.graph.edges[edge_id].length - offset if direction > 0 else offset
+
+func _behind_on_edge() -> float:
+	return offset if direction > 0 else net.graph.edges[edge_id].length - offset
+
+## route_dir suit route (route peut être réassignée de l'extérieur, ex. tests) : sens +1 par défaut.
+func _sync_dirs() -> void:
+	if route_dir.size() != route.size():
+		route_dir.clear()
+		for i in route.size():
+			route_dir.append(direction if i == route.size() - 1 else 1)
+	if not route.is_empty():
+		route_dir[route.size() - 1] = direction
+
+## Point de voie situé `d` mètres derrière le nez : [arête, abscisse, sens, indice dans route].
 func locate_behind(d: float) -> Array:
-	var off := offset - d
+	_sync_dirs()
 	var i := route.size() - 1
-	while off < 0.0 and i > 0:
+	var rem := d
+	var avail := _behind_on_edge()
+	while rem > avail and i > 0:
+		rem -= avail
 		i -= 1
-		off += net.graph.edges[route[i]].length
-	return [route[i], maxf(off, 0.0)]
+		avail = net.graph.edges[route[i]].length
+	var L: float = net.graph.edges[route[i]].length
+	var r: int = route_dir[i]
+	var exit_x: float = offset if i == route.size() - 1 else (L if r > 0 else 0.0)
+	return [route[i], clampf(exit_x - rem * r, 0.0, L), r, i]
 
 var _st_index: Dictionary = {}
 
@@ -130,16 +161,19 @@ func next_station_ahead(max_edges: int = 10) -> Dictionary:
 			if not _st_index.has(st.edge): _st_index[st.edge] = []
 			_st_index[st.edge].append(st)
 	var e := edge_id
+	var r := direction
 	var off := offset
 	for i in max_edges:
 		var best: Dictionary = {}
 		for st in _st_index.get(e, []):
-			if float(st.offset) >= off - 3.0 and (best.is_empty() or float(st.offset) < float(best.offset)):
+			var ahead := (float(st.offset) - off) * r
+			if ahead >= -3.0 and (best.is_empty() or ahead < (float(best.offset) - off) * r):
 				best = st
 		if not best.is_empty(): return best
-		e = net.graph.next_edge(e)
-		off = -1.0
-		if e == "": break
+		var nx := net.graph.next_step(e, r)
+		if nx.is_empty(): break
+		e = nx[0]; r = nx[1]
+		off = -1.0 if r > 0 else net.graph.edges[e].length + 1.0
 	return {}
 
 func _dist_cb(_e: String, _o: float, to_edge: String, to_offset: float) -> float:
@@ -201,44 +235,54 @@ func toggle_pantograph() -> void:
 	pantograph_up = not pantograph_up
 
 func _advance(d: float) -> void:
-	offset += d
+	_sync_dirs()
+	offset += d * direction
 	while true:
 		var e: TrackGraph.Edge = net.graph.edges[edge_id]
-		# signal d'arrêt franchi
-		for i in net.signals.size():
-			var s: Dictionary = net.signals[i]
-			if s.edge == edge_id and signal_state[i] == "stop" and offset - d < float(s.offset) and offset >= float(s.offset):
-				_fail("Signal d'arrêt franchi")
-				return
-		if offset < e.length:
+		# signal d'arrêt franchi (signaux orientés dans le sens de l'arête)
+		if direction > 0:
+			for i in net.signals.size():
+				var s: Dictionary = net.signals[i]
+				if s.edge == edge_id and signal_state[i] == "stop" and offset - d < float(s.offset) and offset >= float(s.offset):
+					_fail("Signal d'arrêt franchi")
+					return
+		var over: float = offset - e.length if direction > 0 else -offset
+		if over < 0.0:
 			break
-		var nxt := net.graph.next_edge(edge_id)
-		if nxt == "":
-			offset = e.length
+		var end_x: float = e.length if direction > 0 else 0.0
+		var nxt := net.graph.next_step(edge_id, direction)
+		if nxt.is_empty():
+			offset = end_x
 			phys.speed = 0.0
 			_fail("Fin de voie dépassée")
 			return
-		if not net.graph.occupy(nxt, train_id):
-			offset = e.length
+		if not net.graph.occupy(nxt[0], train_id):
+			offset = end_x
 			phys.speed = 0.0
 			_fail("Collision")
 			return
-		offset -= e.length
-		edge_id = nxt
-		route.append(nxt)
-		visited[nxt] = true
+		edge_id = nxt[0]
+		direction = nxt[1]
+		offset = over if direction > 0 else net.graph.edges[edge_id].length - over
+		route.append(edge_id)
+		route_dir.append(direction)
+		visited[edge_id] = true
 	_release_tail()
 
 ## Libère les arêtes derrière la queue de la rame (longueur dans l'occupation).
 func _release_tail() -> void:
-	var covered := offset
+	_sync_dirs()
+	var covered := _behind_on_edge()
 	var keep := route.size() - 1
 	while covered < phys.profile.length_m and keep > 0:
 		keep -= 1
 		covered += net.graph.edges[route[keep]].length
+	var kept := route.slice(keep)
 	for i in keep:
-		net.graph.release(route[i], train_id)
-	route = route.slice(keep)
+		if not route[i] in kept:
+			net.graph.release(route[i], train_id)
+	route = kept
+	route_dir = route_dir.slice(keep)
 
 func _update_dwell(dt: float) -> void:
 	if doors_open and served:
@@ -266,7 +310,7 @@ func _check_station_passed() -> void:
 	if next_station >= stops.size() or served:
 		return
 	var s: Dictionary = stops[next_station]
-	var passed: bool = (s.edge == edge_id and offset > float(s.offset) + STOP_TOLERANCE_M) or (s.edge in visited and s.edge != edge_id)
+	var passed: bool = (s.edge == edge_id and (offset - float(s.offset)) * direction > STOP_TOLERANCE_M) or (s.edge in visited and s.edge != edge_id)
 	if passed:
 		scorer.evaluate_departure(s.name, schedule[next_station], time_s, false)
 		event.emit("missed", "Arrêt oublié : " + s.name)

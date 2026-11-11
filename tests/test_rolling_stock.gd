@@ -10,7 +10,7 @@ func check(c: bool, m: String) -> void:
 
 func _init() -> void:
 	var ids := TramModel.plan_ids()
-	check(ids.size() >= 19, "%d plans trouvés" % ids.size())
+	check(ids.size() >= 20, "%d plans trouvés" % ids.size())
 	var meta := {"source_id": "test", "id": "test_1", "color": "#c8102e"}
 	for id in ids:
 		var p := TramModel.plan(id)
@@ -92,4 +92,28 @@ func _init() -> void:
 	check(absf(v.length_m - 32.4) < 0.01 and v.model_family == "citadis_302", "VehicleLibrary.for_fleet : longueur du plan (%.1f m)" % v.length_m)
 	var bx := VehicleLibrary.default_for({"source_id": "bordeaux", "id": "bordeaux_a"})
 	check(absf(bx.length_m - 44.0) < 0.01, "Bordeaux : 44 m (dims de livrée)")
+	# Nantes : Citadis X05 nantais (plan dédié, 45,6 m, 8 portes doubles par côté), Urbos 3 sur la ligne 1
+	var n1: Array = TramModel.fleet_for({"source_id": "nantes", "id": "nantes_1"}).map(func(e): return e.family)
+	var n2: Array = TramModel.fleet_for({"source_id": "nantes", "id": "nantes_2"}).map(func(e): return e.family)
+	check("citadis_x05_nantes" in n1 and "urbos" in n1 and "citadis_x05_nantes" in n2 and not "urbos" in n2, "flotte de Nantes : L1 %s, L2 %s" % [n1, n2])
+	var xn := TramModel.livery_for({"source_id": "nantes", "id": "nantes_1"}, {"family": "citadis_x05_nantes"})
+	var rx := TramModel.build_rig(xn)
+	var right := rx.leaves.filter(func(lf): return float(lf.side) > 0.0).size()
+	check(absf(rx.length - 45.6) < 0.01 and right == 16, "Citadis X05 Nantes : %.1f m, %d vantaux côté droit (8 portes doubles)" % [rx.length, right])
+	for m in rx.modules: m.free()
+	var un := VehicleLibrary.for_fleet(TramModel.fleet_for({"source_id": "nantes", "id": "nantes_1"}).filter(func(e): return e.family == "urbos")[0], {"source_id": "nantes"})
+	check(absf(un.length_m - 37.966) < 0.01, "Urbos 3 nantais : %.2f m" % un.length_m)
+	check(TramModel.research("citadis_x05_nantes").get("sources", []).size() >= 2, "Citadis X05 Nantes : fiche sourcée")
+	# catalogue : vignettes, familles par ville, fiche technique
+	for id in ids:
+		var tex := Catalogue.thumb(id)
+		check(tex != null and tex.get_width() == 512 and tex.get_height() == 288, "%s : vignette 512×288" % id)
+	var fams := Catalogue.families()
+	check(fams.size() == ids.size(), "catalogue : %d familles" % fams.size())
+	var in_nantes: Array = fams.filter(func(f): return "Nantes" in f.cities).map(func(f): return f.id)
+	check(in_nantes.size() == 4 and "citadis_x05_nantes" in in_nantes, "catalogue filtré Nantes : %s" % str(in_nantes))
+	var lx := Catalogue.lines_for("citadis_x05_nantes")
+	check(not lx.is_empty() and lx[0].city == "Nantes", "catalogue : lignes du X05 nantais (%d)" % lx.size())
+	var txt := TramSheet.sheet_text("citadis_x05_nantes", VehicleLibrary.for_fleet(lx[0].entry, lx[0].meta), lx[0].meta)
+	check(txt.contains("45.60 m") and txt.contains("estimé") and txt.contains("wikipedia"), "fiche : longueur, valeurs estimées, sources")
 	quit(1 if fails > 0 else 0)

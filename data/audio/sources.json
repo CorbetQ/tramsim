@@ -1,0 +1,164 @@
+{
+ "generated_by": "data/audio/make_audio.py",
+ "sample_rate": 32000,
+ "format": "OGG Vorbis mono 32 kHz, qualité 3",
+ "statut": "Tous les fichiers sont des synthèses : les enregistrements libres de référence ci-dessous (Wikimedia Commons) ont été identifiés mais leurs originaux n'ont pas pu être téléchargés (HTTP 429, limitation Wikimedia des téléchargements d'originaux). Paramètres = valeurs publiées / estimées, à recaler sur ces enregistrements quand ils seront accessibles.",
+ "files": {
+  "motor.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:motor)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Sifflement d'onduleur IGBT / moteur asynchrone : fondamentale 1000 Hz (hauteur pilotée par pitch_scale selon la vitesse, cf. TramAudio.motor_hz), harmoniques 2f et 3f, sous-harmonique magnétostrictive f/2, bandes latérales ±(2 × 60 Hz) de la modulation, souffle de ventilation."
+  },
+  "carrier.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:carrier)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Porteuse de découpage MLI asynchrone (basse vitesse) : raie fixe ~1350 Hz et bandes latérales ±40/80 Hz, 2fc atténuée — le « bourdon aigu » constant au démarrage des Citadis avant le passage en modes synchrones."
+  },
+  "rolling.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:rolling)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Roulement acier/acier : grondement < 300 Hz, rugosité roue-rail 400-1600 Hz, modulation de rotation de roue (périmètre ~2 m) ; hauteur et niveau pilotés par la vitesse."
+  },
+  "squeal.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:squeal)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Crissement en courbe serrée (stick-slip latéral) : raies étroites 3,2 et 4,1 kHz, glissements de fréquence lents, amplitude intermittente."
+  },
+  "hvac.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:hvac)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Compresseur / climatisation de toiture au ralenti : ventilateur (bruit large bande 150-3000 Hz, raie de passage de pales 190 Hz), compresseur (harmoniques 50/100/150 Hz)."
+  },
+  "ambience.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:ambience)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Ambiance urbaine lointaine : rumeur de circulation (bruit brun < 500 Hz, houle lente), passages de véhicules (bouffées filtrées), pépiements rares."
+  },
+  "joint.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:joint)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Joint de rail / cœur d'aiguillage : « ta-tac » des deux essieux d'un bogie (empattement 1,8 m à ~40 km/h -> ~0,16 s)."
+  },
+  "brake_mech.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:brake_mech)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Freinage mécanique final (frein à disque / patins, sous ~7 km/h) : frottement 1,5-6 kHz croissant, crissement bref 2,7 kHz, à-coup d'arrêt à 2,1 s."
+  },
+  "brake_release.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:brake_release)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Desserrage des freins au démarrage : clic d'électrovanne + détente hydraulique / pneumatique."
+  },
+  "emergency.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:emergency)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Freinage d'urgence : chute des patins électromagnétiques (choc grave), grincement large bande 700-5000 Hz modulé, décroissance sur ~3 s, buzzer cabine 800 Hz."
+  },
+  "door_open.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:door_open)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Ouverture des portes louvoyantes-coulissantes : moteur 230 -> 180 Hz (~2,5 s), décollement des joints, butée en fin de course."
+  },
+  "door_chime.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:door_chime)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Signal de fermeture des portes (tramways français) : bips 2 kHz, 4 par seconde pendant 2 s."
+  },
+  "door_close.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:door_close)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Fermeture : moteur 180 -> 240 Hz, choc des vantaux et verrouillage."
+  },
+  "gong.ogg": {
+   "origine": "synthèse (data/audio/make_audio.py:gong)",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Gong de tramway (double tintement) : partiels inharmoniques de cloche (1 ; 2,76 ; 5,40 ; 8,93) sur 880 Hz, deux frappes à 0,28 s, décroissance ~1,2 s."
+  }
+ },
+ "references": [
+  {
+   "title": "File:Arrivée d'une rame Citadis 402 à la station Porte d'Ivry.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_d%27une_rame_Citadis_402_%C3%A0_la_station_Porte_d%27Ivry.ogg",
+   "licence": "CC BY-SA 4.0",
+   "auteur": "Litlok",
+   "description": "Arrivée d'une rame Citadis 402 à la station Porte d'Ivry"
+  },
+  {
+   "title": "File:Diverse bellen van een tram - SoundCloud - Beeld en Geluid.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Diverse_bellen_van_een_tram_-_SoundCloud_-_Beeld_en_Geluid.ogg",
+   "licence": "CC BY-SA 3.0",
+   "auteur": "Beeld en Geluid",
+   "description": "Tram Amsterdam: diverse bellen"
+  },
+  {
+   "title": "File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+   "licence": "CC BY-SA 4.0",
+   "auteur": "Litlok",
+   "description": "Départ d'une rame Citadis 402 de la station Porte d'Ivry"
+  },
+  {
+   "title": "File:Het rijden van een tram - SoundCloud - Beeld en Geluid.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Het_rijden_van_een_tram_-_SoundCloud_-_Beeld_en_Geluid.ogg",
+   "licence": "CC BY-SA 3.0",
+   "auteur": "Beeld en Geluid",
+   "description": "Tram Den Haag: rijden, opgenomen op het voorbalkon (interieur)"
+  },
+  {
+   "title": "File:Het vertrekken van een elektrische tram - SoundCloud - Beeld en Geluid.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Het_vertrekken_van_een_elektrische_tram_-_SoundCloud_-_Beeld_en_Geluid.ogg",
+   "licence": "CC BY-SA 3.0",
+   "auteur": "Beeld en Geluid",
+   "description": "Het vertrekken van een elektrische tram met bel en vogels op de achtergrond"
+  },
+  {
+   "title": "File:Het voorbijrijden van een elektrische tram - SoundCloud - Beeld en Geluid.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Het_voorbijrijden_van_een_elektrische_tram_-_SoundCloud_-_Beeld_en_Geluid.ogg",
+   "licence": "CC BY-SA 3.0",
+   "auteur": "Beeld en Geluid",
+   "description": "Tweemaal voorbijrijden van een elektrische tram met op de achtergrond het kraaien van vogels en een aap uit Burgers Zoo"
+  },
+  {
+   "title": "File:Noodrem van een tram - SoundCloud - Beeld en Geluid.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Noodrem_van_een_tram_-_SoundCloud_-_Beeld_en_Geluid.ogg",
+   "licence": "CC BY-SA 3.0",
+   "auteur": "Beeld en Geluid",
+   "description": "Tram Amsterdam: noodrem (interieur)"
+  },
+  {
+   "title": "File:Omvormer en compressor van een tram - SoundCloud - Beeld en Geluid.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Omvormer_en_compressor_van_een_tram_-_SoundCloud_-_Beeld_en_Geluid.ogg",
+   "licence": "CC BY-SA 3.0",
+   "auteur": "Beeld en Geluid",
+   "description": "Tram Amsterdam: omvormer en compressor (exterieur)"
+  },
+  {
+   "title": "File:Ratelend voetgangerslicht en voorbij rijdende tram - SoundCloud - Campos.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Ratelend_voetgangerslicht_en_voorbij_rijdende_tram_-_SoundCloud_-_Campos.ogg",
+   "licence": "CC BY-SA 3.0",
+   "auteur": "Campos",
+   "description": "Ratelapparaat van voetgangerslicht en voorbijrijdende tram op Museumplein in Amsterdam"
+  },
+  {
+   "title": "File:Rijden van een tram langs haltes - SoundCloud - Beeld en Geluid.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Rijden_van_een_tram_langs_haltes_-_SoundCloud_-_Beeld_en_Geluid.ogg",
+   "licence": "CC BY-SA 3.0",
+   "auteur": "Beeld en Geluid",
+   "description": "Tram Amsterdam: rijden, zonder passagiers met af en toe een mobilofoon (interieur)"
+  },
+  {
+   "title": "File:Tram doors open and close hiss and beeping.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Tram_doors_open_and_close_hiss_and_beeping.ogg",
+   "licence": "Public domain",
+   "auteur": "stephan",
+   "description": "Title Tram Doors open and close, hiss and beeping\nArtist stephan\nOriginal mp3 data Length:0:14 minutes (331.06 KB) Format:MP3 Stereo 44kHz 192Kbps (CBR)\nUser ta"
+  },
+  {
+   "title": "File:Tram sound in Lyon, France.ogg",
+   "page": "https://commons.wikimedia.org/wiki/File:Tram_sound_in_Lyon,_France.ogg",
+   "licence": "CC BY 3.0",
+   "auteur": "Glaneur de sons",
+   "description": "The sound of a tram from Lyon, France."
+  }
+ ]
+}

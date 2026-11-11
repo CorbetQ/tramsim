@@ -8,7 +8,9 @@
    "Avignon = Citadis Compact (plateforme X05)",
    "Nice T1 = 402 (302 allongés)",
    "Montpellier L1/L5 : Urbos 100X ajoutés",
-   "IDF T14 : non trouvé"
+   "IDF T14 : non trouvé",
+   "Nantes : CAF Urbos 3 (12 rames, ligne 1) ajoutés à la flotte",
+   "Nantes : Citadis X05 = plan dédié citadis_x05_nantes (45,6 m, 8 portes/côté), pas 48 m"
   ],
   "images_dir": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs"
  },
@@ -351,7 +353,6 @@
     "angers",
     "besancon",
     "nice",
-    "nantes",
     "lyon",
     "strasbourg",
     "lille",
@@ -380,8 +381,8 @@
      "networks": "nice T2/T3, idf T9 (45 m, 2,65 m), idf T10, strasbourg (commande 2024)"
     },
     "nantes": {
-     "length_m": 48.0,
-     "note": "Citadis X05 Nantes (2020s), version longue"
+     "length_m": 45.6,
+     "note": "voir famille citadis_x05_nantes (plan dédié)"
     }
    },
    "length_m": 32.5,
@@ -441,8 +442,7 @@
     "floor_height_m",
     "power_kw",
     "modules",
-    "front",
-    "variants.nantes"
+    "front"
    ],
    "references": [
     {
@@ -981,7 +981,8 @@
     "saintetienne",
     "montpellier",
     "marseille",
-    "idf"
+    "idf",
+    "nantes"
    ],
    "lines": {
     "montpellier": [
@@ -990,6 +991,9 @@
     ],
     "idf": [
      "t13 (commande 15 rames, à confirmer)"
+    ],
+    "nantes": [
+     "1"
     ]
    },
    "variants": {
@@ -1012,6 +1016,22 @@
     },
     "marseille_urbos100x": {
      "note": "livraison prévue 2025+"
+    },
+    "nantes_urbos3": {
+     "length_m": 37.966,
+     "width_m": 2.4,
+     "height_m": 3.4,
+     "mass_t": 42.2,
+     "capacity": 240,
+     "power_kw": 560,
+     "modules": 5,
+     "doors_per_side": 6,
+     "floor_height_m": 0.34,
+     "rames": 12,
+     "numeros": "384-395",
+     "livraison": "2012-2013",
+     "lines": "1 (seul dépôt équipé : Dalby)",
+     "source": "https://fr.wikipedia.org/wiki/Tramway_de_Nantes#CAF_Urbos_3"
     }
    },
    "length_m": 23.021,
@@ -1049,7 +1069,8 @@
     "https://fr.wikipedia.org/wiki/Tramway_de_Saint-%C3%89tienne",
     "https://fr.wikipedia.org/wiki/Tramway_de_Montpellier",
     "https://fr.wikipedia.org/wiki/Tramway_de_Marseille",
-    "https://fr.wikipedia.org/wiki/Ligne_13_Express_du_tramway_d%27%C3%8Ele-de-France"
+    "https://fr.wikipedia.org/wiki/Ligne_13_Express_du_tramway_d%27%C3%8Ele-de-France",
+    "https://fr.wikipedia.org/wiki/Tramway_de_Nantes"
    ],
    "estimated": [
     "height_m",
@@ -1683,6 +1704,84 @@
      "local": "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/refs/vevey_saint_etienne_2.jpg",
      "licence": "CC BY-SA 4.0",
      "author": "Florian Fèvre"
+    }
+   ]
+  },
+  "citadis_x05_nantes": {
+   "name": "Alstom Citadis X05 Nantes (Naolib)",
+   "manufacturer": "Alstom (design RCP Design Global)",
+   "generation": "X05 (2023-)",
+   "networks": [
+    "nantes"
+   ],
+   "length_m": 45.6,
+   "width_m": 2.4,
+   "height_m": 3.3,
+   "floor_height_m": 0.32,
+   "max_speed_kmh": 70,
+   "mass_t": 58.0,
+   "power_kw": 720,
+   "capacity": 300,
+   "modules": [
+    {
+     "kind": "cab",
+     "length_m": 9.6,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 5.6
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.1,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 7.0
+    },
+    {
+     "kind": "middle",
+     "length_m": 4.1,
+     "bogie": true
+    },
+    {
+     "kind": "suspended",
+     "length_m": 5.6
+    },
+    {
+     "kind": "cab",
+     "length_m": 9.6,
+     "bogie": true
+    }
+   ],
+   "doors_per_side": 8,
+   "doors_detail": "8 portes doubles par côté (16 au total), toutes accessibles PMR ; bogies d'extrémité sous la loge (comme les Citadis 403 de Strasbourg)",
+   "door_type": "louvoyante",
+   "door_width_m": 1.3,
+   "supply": "LAC 750 V CC + système autonome d'alimentation (franchissement ponctuel sans caténaire, exigé au marché)",
+   "fleet_count": 61,
+   "in_service": "2024-04-15 (rame 403, ligne 1)",
+   "front": "Face X05 nantaise (RCP Design Global) : grand pare-brise peu incliné, masque noir enveloppant, 40 % des faces vitrées.",
+   "notes": "Marché 2019 (46 m max, 2,40 m max, ≥ 300 places) ; 49 rames commandées le 17/07/2020, +12 le 30/06/2021 (61) ; longueur ramenée de 48 m à 45,6 m (design de janvier 2021) ; remplace les TFS ; consommation -20 à -25 %.",
+   "sources": [
+    "https://fr.wikipedia.org/wiki/Tramway_de_Nantes#Alstom_Citadis_X05",
+    "https://www.alstom.com/fr/press-releases-news/2021/6/alstom-fournira-12-tramways-citadis-supplementaires-nantes-metropole",
+    "https://metropole.nantes.fr/actualites/2021/deplacements-stationnement/tramway-nouveau-nantais-alstom",
+    "https://semitan.tan.fr/le-developpement-du-tramway"
+   ],
+   "estimated": [
+    "height_m",
+    "floor_height_m",
+    "mass_t",
+    "power_kw",
+    "modules"
+   ],
+   "references": [
+    {
+     "url": "https://commons.wikimedia.org/wiki/File:Nantes_-_Bouffay_20250726-02.jpg",
+     "note": "photo de la rame à Bouffay (référence de livrée)"
     }
    ]
   }

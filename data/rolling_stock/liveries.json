@@ -111,8 +111,9 @@
   ],
   "fleet": [
    "incentro",
+   "citadis_x05_nantes",
    "tfs",
-   "citadis_x05"
+   "urbos"
   ],
   "families": {
    "tfs": {
@@ -135,14 +136,53 @@
      "length_m": 39.15
     }
    },
-   "citadis_x05": {
-    "front": "#1e2328",
+   "citadis_x05_nantes": {
+    "name": "Citadis X05 Naolib",
+    "base": "#f4f5f3",
+    "front": "#16191c",
+    "window": "#121517",
+    "door": "#f4f5f3",
+    "roof": "#cfd3d5",
+    "skirt": "#24282c",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#00a77e"
+      ],
+      "y": [
+       0.45,
+       0.56
+      ],
+      "zone": "sides+front"
+     }
+    ]
+   },
+   "urbos": {
+    "name": "CAF Urbos 3 Naolib",
+    "base": "#f3f4f1",
+    "front": "#2a2f33",
+    "window": "#121517",
+    "door": "#f3f4f1",
+    "elements": [
+     {
+      "type": "band",
+      "colors": [
+       "#00965e"
+      ],
+      "y": [
+       0.45,
+       0.6
+      ],
+      "zone": "sides+front"
+     }
+    ],
     "dims": {
-     "length_m": 48.0
+     "length_m": 37.966
     }
    }
   },
-  "approximation": "couleurs mesurées par k-means sur photo Commons (incentro_2.jpg), éclairage non corrigé pour Incentro ; bande verte, TFS et X05 estimés",
+  "approximation": "couleurs mesurées par k-means sur photo Commons (incentro_2.jpg), éclairage non corrigé pour Incentro ; bande verte, TFS et X05 estimés ; Urbos 3 (37,97 m, 5 caisses) et Citadis X05 nantais (45,6 m, plan dédié) : couleurs estimées (livrée Naolib)",
   "sources": [
    "research.json#liveries.nantes"
   ]

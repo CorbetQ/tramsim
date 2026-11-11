@@ -6,9 +6,12 @@ Couches : bâtiments (emprise + hauteur), tronçons de route (largeur), surfaces
 terrains de sport, cimetières, voies ferrées. Tout est projeté dans le repère local de la ville,
 découpé en tuiles de TILE_M mètres et écrit dans un binaire compact lu par src/rendering/city_scene.gd.
 
-Usage : ign_scene.py CITY_ID NETWORKS_DIR OUT_DIR CACHE_DIR
-Format (little endian) : "TSC1", uint32 nb_tuiles, table [int32 tx, int32 tz, uint32 offset, uint32 taille],
-puis par tuile : bâtiments, polygones, lignes (voir write_tile).
+Usage : ign_scene.py CITY_ID NETWORKS_DIR OUT_DIR CACHE_DIR [ORTHO_CACHE_DIR]
+Avec ORTHO_CACHE_DIR : analyse des orthophotos IGN (toits, houppiers, sol vert) et OUT_DIR/<ville>_track.json
+(nature des plateformes). Dépend de numpy, shapely, mapbox_earcut, Pillow, scipy.
+Format (little endian) : "TSC3", uint32 nb_tuiles, table [int32 tx, int32 tz, uint32 offset, uint32 taille],
+puis par tuile : bâtiments, polygones, lignes, ponctuels, étiquettes (TSC2), toits, arbres, sol vert (TSC3) ;
+voir write_tile. Le jeu lit aussi TSC1 et TSC2.
 """
 import json, math, os, struct, subprocess, sys, time, urllib.parse
 from collections import defaultdict
@@ -257,10 +260,333 @@ def write_tile(tile, ox, oz):
     for kind, v, name in labels:
         b = name.encode("utf-8")[:120]
         out += struct.pack("<B", kind) + struct.pack("<hh", *q(v, ox, oz)) + struct.pack("<B", len(b)) + b
+    # TSC3 : couleurs de toits (RGB444 + bit 15, 0 = style), houppiers détectés, cellules de sol vert
+    roofs = tile.get("rf") or [0] * len(blds)
+    out += struct.pack("<H", len(roofs)) + struct.pack("<%dH" % len(roofs), *roofs)
+    trees = tile.get("tr", [])
+    out += struct.pack("<H", len(trees))
+    for x, z, r, kind in trees:
+        out += struct.pack("<hh", *q((x, z), ox, oz)) + struct.pack("<BB", max(1, min(255, int(round(r * 10)))), kind)
+    runs = tile.get("gr", [])
+    out += struct.pack("<H", len(runs))
+    for row, s0, n in runs:
+        out += struct.pack("<BBB", row, s0, n)
     return bytes(out)
 
 
-def main(city, nets_dir, out_dir, cache):
+# ----------------------------------------------------------------------------------------- orthophotos IGN
+# BD ORTHO® IGN (Licence Ouverte 2.0), WMTS data.geopf.fr, Web Mercator. z17 (~0,8 m/px réel) pour le corridor
+# (couleur des toits, houppiers, sol vert/minéral), z18 (~0,4 m/px) le long de l'axe des voies (nature de plateforme).
+WMTS = ("https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS"
+        "&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/jpeg")
+Z_AREA, Z_TRACK = 17, 18
+GREEN_CELL = 4.0          # m, cellules de sol vert (100 x 100 par tuile)
+TRACK_CELL = 8.0          # m, cellules de nature de plateforme
+TRACK_CLEAR = 3.6         # m, demi-largeur de plateforme interdite aux bâtiments (2 voies à ±1,75 m)
+TREE_CLEAR = 4.5          # m, distance minimale tronc / axe des voies
+BED_GRASS, BED_ROAD, BED_PAVED = 1, 2, 3
+
+
+class Ortho:
+    def __init__(self, cache):
+        self.cache = cache
+        self.mem = {}
+
+    def path(self, z, x, y):
+        return os.path.join(self.cache, str(z), str(x), f"{y}.jpg")
+
+    def prefetch(self, z, keys, workers=12):
+        from concurrent.futures import ThreadPoolExecutor
+        todo = [k for k in keys if not os.path.exists(self.path(z, *k)) and not os.path.exists(self.path(z, *k) + ".none")]
+
+        def get(k):
+            p = self.path(z, *k)
+            os.makedirs(os.path.dirname(p), exist_ok=True)
+            for attempt in range(5):
+                r = subprocess.run(["curl", "-sS", "-m", "60", "-o", p + ".part", "-w", "%{http_code}",
+                                    WMTS.format(z=z, x=k[0], y=k[1])], capture_output=True)
+                code = r.stdout.decode().strip()
+                if code == "200":
+                    os.replace(p + ".part", p); return
+                if code in ("404", "400"):
+                    open(p + ".none", "w").close()
+                    if os.path.exists(p + ".part"): os.remove(p + ".part")
+                    return
+                time.sleep(1.5 * 2 ** attempt)
+            print(f"  ortho {z}/{k}: échec", file=sys.stderr)
+        if todo:
+            print(f"  orthophotos z{z} : {len(todo)} dalles à télécharger", file=sys.stderr, flush=True)
+            with ThreadPoolExecutor(workers) as ex:
+                list(ex.map(get, todo))
+
+    def tile(self, z, x, y):
+        k = (z, x, y)
+        if k not in self.mem:
+            if len(self.mem) > 1500:
+                self.mem.clear()
+            p = self.path(z, x, y)
+            arr = None
+            if os.path.exists(p):
+                from PIL import Image
+                try:
+                    arr = np.asarray(Image.open(p).convert("RGB"), dtype=np.uint8)
+                except Exception:
+                    arr = None
+            self.mem[k] = arr
+        return self.mem[k]
+
+    @staticmethod
+    def pixel(z, lat, lon):
+        n = 256.0 * 2 ** z
+        px = (np.asarray(lon) + 180.0) / 360.0 * n
+        py = (1.0 - np.arcsinh(np.tan(np.radians(lat))) / math.pi) / 2.0 * n
+        return px, py
+
+    def keys_for(self, z, lat, lon):
+        px, py = self.pixel(z, lat, lon)
+        return set(zip((px // 256).astype(int).ravel().tolist(), (py // 256).astype(int).ravel().tolist()))
+
+    def sample(self, z, lat, lon):
+        """RGB (float 0..1, forme (..., 3)) et masque de validité aux points (lat, lon)."""
+        px, py = self.pixel(z, lat, lon)
+        shp = np.shape(px)
+        px, py = px.ravel(), py.ravel()
+        tx, ty = (px // 256).astype(np.int64), (py // 256).astype(np.int64)
+        ix, iy = np.clip((px - tx * 256).astype(int), 0, 255), np.clip((py - ty * 256).astype(int), 0, 255)
+        out = np.zeros((px.size, 3), np.float32)
+        ok = np.zeros(px.size, bool)
+        key = tx * 10_000_000 + ty
+        for k in np.unique(key):
+            sel = key == k
+            arr = self.tile(z, int(k // 10_000_000), int(k % 10_000_000))
+            if arr is None:
+                continue
+            out[sel] = arr[iy[sel], ix[sel]] / 255.0
+            ok[sel] = True
+        return out.reshape(shp + (3,)), ok.reshape(shp)
+
+
+def frame_inv_np(frame, x, z):
+    return frame.lat0 - np.degrees(z / R), frame.lon0 + np.degrees(x / (R * frame.k))
+
+
+def veg_index(rgb):
+    r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+    s = r + g + b + 1e-3
+    return (2 * g - r - b) / s, s / 3.0   # indice de verdure normalisé (ExG), luminance
+
+
+def roof_rgb444(mean):
+    """Couleur moyenne d'un toit -> couleur de style (éclaircie, saturée, quantifiée en 4 bits/canal)."""
+    import colorsys
+    h, s, v = colorsys.rgb_to_hsv(*[float(c) for c in mean])
+    v = min(1.0, 0.05 + v * 1.12)   # le rendu toon éclaircit déjà fortement les faces au soleil
+    s = min(0.6, s * 1.3)
+    r, g, b = colorsys.hsv_to_rgb(h, s, v)
+    q = [max(0, min(15, int(round(c * 15)))) for c in (r, g, b)]
+    return 0x8000 | (q[0] << 8) | (q[1] << 4) | q[2]   # bit 15 : couleur présente
+
+
+def ortho_tile(ortho, frame, tkey, tile, nb_blds, track_lines):
+    """Analyse d'une tuile : couleurs de toits, houppiers, cellules vertes."""
+    from PIL import Image, ImageDraw
+    from scipy import ndimage
+    M = 40
+    N = int(TILE_M) + 2 * M
+    gx0, gz0 = tkey[0] * TILE_M - M, tkey[1] * TILE_M - M
+    xs = gx0 + 0.5 + np.arange(N)
+    zs = gz0 + 0.5 + np.arange(N)
+    X, Z = np.meshgrid(xs, zs)
+    lat, lon = frame_inv_np(frame, X, Z)
+    rgb, ok = ortho.sample(Z_AREA, lat, lon)
+    if not ok.any():
+        return [0] * len(tile["b"]), [], []
+    lab = Image.new("I", (N, N), 0)
+    bm = Image.new("L", (N, N), 0)
+    dl, db = ImageDraw.Draw(lab), ImageDraw.Draw(bm)
+    for i, (poly, *_r) in enumerate(tile["b"]):
+        ring = [(x - gx0, z - gz0) for x, z in poly.exterior.coords]
+        dl.polygon(ring, fill=i + 1)
+    for poly in nb_blds:
+        db.polygon([(x - gx0, z - gz0) for x, z in poly.exterior.coords], fill=255)
+    tm = Image.new("L", (N, N), 0)
+    dt = ImageDraw.Draw(tm)
+    for coords in track_lines:
+        dt.line([(x - gx0, z - gz0) for x, z in coords], fill=255, width=int(2 * TREE_CLEAR + 1), joint="curve")
+    tmask = np.asarray(tm) > 0
+    lab = np.asarray(lab, dtype=np.int32)
+    bmask = (np.asarray(bm) > 0) | (lab > 0)
+    # couleurs de toits : moyenne des pixels intérieurs (bord érodé d'1 px), pixels valides
+    inner = lab * (ndimage.minimum_filter(lab, 3) == lab) * ok
+    cnt = np.bincount(inner.ravel(), minlength=len(tile["b"]) + 1)
+    roofs = [0] * len(tile["b"])
+    sums = [np.bincount(inner.ravel(), weights=rgb[..., c].ravel(), minlength=len(tile["b"]) + 1) for c in range(3)]
+    for i in range(len(tile["b"])):
+        n = cnt[i + 1]
+        if n >= 6:
+            m = (sums[0][i + 1] / n, sums[1][i + 1] / n, sums[2][i + 1] / n)
+            if veg_index(np.array(m))[0] < 0.08:   # toit masqué par un arbre : couleur du style
+                roofs[i] = roof_rgb444(m)
+    # végétation : ExG élevé ; houppiers = végétation sombre ou texturée hors bâti et hors voies
+    exg, lum = veg_index(rgb)
+    veg = ok & (is_green(rgb) | ((exg > 0.05) & (lum > 0.04))) & ~bmask
+    veg = ndimage.binary_opening(veg, iterations=1)
+    tex = ndimage.uniform_filter(lum * lum, 5) - ndimage.uniform_filter(lum, 5) ** 2
+    treem = veg & ((lum < 0.30) | (tex > 0.0025))
+    treem = ndimage.binary_opening(ndimage.binary_closing(treem, iterations=1), iterations=1)
+    treem &= ~tmask
+    dist = ndimage.distance_transform_edt(treem)
+    peaks = (dist >= 1.6) & (dist == ndimage.maximum_filter(dist, size=7))
+    trees = []
+    zz, xx = np.nonzero(peaks)
+    order = np.argsort(-dist[zz, xx])
+    taken = []
+    for j in order:
+        x, z = int(xx[j]), int(zz[j])
+        if not (M <= x < M + TILE_M and M <= z < M + TILE_M):
+            continue
+        r = float(dist[z, x]) + 0.8
+        if any((x - a) ** 2 + (z - c) ** 2 < (0.8 * max(r, rr)) ** 2 for a, c, rr in taken[-60:]):
+            continue
+        taken.append((x, z, r))
+        dark = float(lum[z, x])
+        trees.append((xs[x], zs[z], min(r, 9.0), 1 if dark < 0.12 else 0))
+    # sol vert : cellules de 4 m à majorité de végétation (hors bâti)
+    c = int(GREEN_CELL)
+    vg = (ok & is_green(rgb) & ~bmask)[M:M + int(TILE_M), M:M + int(TILE_M)]
+    nb_ok = (ok & ~bmask)[M:M + int(TILE_M), M:M + int(TILE_M)]
+    n = int(TILE_M / GREEN_CELL)
+    frac = vg.reshape(n, c, n, c).sum(axis=(1, 3)) / np.maximum(1, nb_ok.reshape(n, c, n, c).sum(axis=(1, 3)))
+    green = (frac > 0.5) & (nb_ok.reshape(n, c, n, c).sum(axis=(1, 3)) >= c * c // 2)
+    green = ndimage.binary_opening(green) | (green & ndimage.binary_erosion(green, np.ones((1, 3))))
+    runs = []
+    for row in range(n):
+        col = 0
+        line = green[row]
+        while col < n:
+            if line[col]:
+                s = col
+                while col < n and line[col]:
+                    col += 1
+                runs.append((row, s, col - s))
+            else:
+                col += 1
+    return roofs, trees, runs
+
+
+def is_green(rgb):
+    """Végétation, y compris gazon sec (orthophotos estivales) : vert >= rouge et nettement > bleu."""
+    r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+    s = r + g + b + 1e-3
+    exg = (2 * g - r - b) / s
+    return ((exg > 0.04) | ((g >= r * 0.97) & ((g - b) / s > 0.028))) & (s / 3.0 > 0.06) & (s / 3.0 < 0.62)
+
+
+def asphalt_level(ortho, frame, tiles, lines):
+    """Luminance médiane des chaussées BD TOPO (hors voies de tram) : référence « enrobé » propre à chaque ville
+    (la radiométrie des orthophotos varie d'un département et d'une campagne à l'autre)."""
+    from shapely.strtree import STRtree
+    from shapely.geometry import Point
+    tl = STRtree(lines)
+    pts = []
+    for t in tiles.values():
+        for cls, w, coords in t["l"]:
+            if cls in (L_MAJOR, L_ROAD) and w >= 5.0:
+                l = LineString(coords)
+                for k in range(0, int(l.length), 25):
+                    p = l.interpolate(k)
+                    j = tl.nearest(p)
+                    if lines[int(j)].distance(p) > 20.0:
+                        pts.append((p.x, p.y))
+    if len(pts) < 50:
+        return 0.40
+    pts = np.array(pts[::max(1, len(pts) // 20000)])
+    lat, lon = frame_inv_np(frame, pts[:, 0], pts[:, 1])
+    rgb, ok = ortho.sample(Z_AREA, lat, lon)
+    m = ok & ~is_green(rgb)
+    return float(np.median(rgb.mean(axis=-1)[m])) if m.sum() > 50 else 0.40
+
+
+def track_nature(ortho, frame, lines, under, tram_ref=(), asphalt=0.40):
+    """Nature de la plateforme le long de l'axe (z18) : gazon, enrobé/chaussée, pavés/béton. -> {(cx, cz): code}.
+    Échantillons en travers sur ±4,5 m (plateforme 7 m + imprécision du tracé GTFS), recentrés sur la voie BD TOPO
+    (`tram_ref`, nature Tramway) la plus proche à moins de 10 m ; lissage sur 5 x 5 cellules ;
+    luminance minérale : 75e centile (robuste aux ombres portées des façades)."""
+    green_n = defaultdict(int)
+    tot_n = defaultdict(int)
+    lums = defaultdict(list)
+    warm = defaultdict(float)   # somme de (rouge - bleu) des pixels minéraux : gazon sec (orthophotos d'été)
+    pts, ctr = [], []
+    from shapely.strtree import STRtree
+    from shapely.geometry import Point
+    ref = list(tram_ref)
+    rtree = STRtree(ref) if ref else None
+    for l in lines:
+        n = max(2, int(l.length / 2.0) + 1)
+        for k in range(n):
+            s = l.length * k / (n - 1)
+            p = l.interpolate(s)
+            q = l.interpolate(min(l.length, s + 0.5)); q0 = l.interpolate(max(0.0, s - 0.5))
+            dx, dz = q.x - q0.x, q.y - q0.y
+            L = math.hypot(dx, dz) or 1.0
+            pts.append((p.x, p.y, -dz / L, dx / L))
+            c = (p.x, p.y)
+            if rtree is not None:
+                j = rtree.nearest(p)
+                if j is not None and ref[int(j)].distance(p) < 10.0:
+                    r = ref[int(j)]
+                    pp = r.interpolate(r.project(p))
+                    c = (pp.x, pp.y)
+            ctr.append(c)
+    if not pts:
+        return {}
+    P = np.array(pts)
+    C = np.array(ctr)
+    offs = np.linspace(-4.5, 4.5, 13)
+    X = C[:, 0:1] + P[:, 2:3] * offs
+    Z = C[:, 1:2] + P[:, 3:4] * offs
+    lat, lon = frame_inv_np(frame, X, Z)
+    ortho.prefetch(Z_TRACK, ortho.keys_for(Z_TRACK, lat, lon))
+    rgb, ok = ortho.sample(Z_TRACK, lat, lon)
+    lum = rgb.mean(axis=-1)
+    green = is_green(rgb) & ok
+    cx = np.floor(P[:, 0] / TRACK_CELL).astype(int)
+    cz = np.floor(P[:, 1] / TRACK_CELL).astype(int)
+    for i in range(len(P)):
+        if not ok[i].any():
+            continue
+        c = (int(cx[i]), int(cz[i]))
+        green_n[c] += int(green[i].sum())
+        tot_n[c] += int(ok[i].sum())
+        m = ok[i] & ~green[i]
+        lums[c] += lum[i][m].tolist()
+        warm[c] += float((rgb[i][m][:, 0] - rgb[i][m][:, 2]).sum())
+    under_cells = set()
+    if under is not None and not under.is_empty:
+        from shapely.geometry import Point
+        from shapely.prepared import prep
+        up = prep(under)
+        under_cells = {c for c in tot_n if up.contains(Point((c[0] + 0.5) * TRACK_CELL, (c[1] + 0.5) * TRACK_CELL))}
+    out = {}
+    for (x, z) in tot_n:
+        if (x, z) in under_cells:
+            continue
+        g = t = 0
+        ls = []
+        wm = 0.0
+        for dx in range(-2, 3):
+            for dz in range(-2, 3):
+                k = (x + dx, z + dz)
+                if k in tot_n:
+                    g += green_n[k]; t += tot_n[k]; ls += lums[k]; wm += warm[k]
+        gfrac = g / max(t, 1)
+        p75 = float(np.percentile(ls, 75)) if ls else 0.0
+        dry = bool(ls) and wm / len(ls) > 0.035 and p75 < 0.60
+        out[(x, z)] = BED_GRASS if gfrac > 0.38 or dry else (BED_PAVED if p75 > min(0.70, max(0.50, asphalt + 0.08)) else BED_ROAD)
+    return out
+
+
+def main(city, nets_dir, out_dir, cache, ortho_dir=None):
     os.makedirs(cache, exist_ok=True)
     nets = []
     for f in sorted(os.listdir(nets_dir)):
@@ -301,6 +627,19 @@ def main(city, nets_dir, out_dir, cache):
                 feats[name][ft["id"]] = ft
         print(f"  cellule {i + 1}/{len(cells)}", file=sys.stderr, flush=True)
     tiles = defaultdict(lambda: {"b": [], "p": [], "l": [], "pt": [], "lb": []})
+    # plateformes de tram (hors tronçons souterrains BD TOPO) : aucun bâtiment ni objet ponctuel dessus
+    under = []
+    for ft in feats["fer"].values():
+        p = ft["properties"]
+        if ft.get("geometry") and p.get("nature") == "Tramway" and str(p.get("position_par_rapport_au_sol", "0")).startswith("-"):
+            g = project_geom(shape(ft["geometry"]), frame)
+            under += [x.buffer(15.0) for x in (g if isinstance(g, list) else lines_of(g))]
+    under = unary_union(under) if under else None
+    track_zone = unary_union([l.buffer(TRACK_CLEAR, resolution=2) for l in lines])
+    if under is not None:
+        track_zone = track_zone.difference(under)
+    from shapely.prepared import prep
+    track_zone_p = prep(track_zone)
 
     def tile_of(px, pz):
         return (int(math.floor(px / TILE_M)), int(math.floor(pz / TILE_M)))
@@ -346,6 +685,9 @@ def main(city, nets_dir, out_dir, cache):
             p = Polygon(p.exterior.coords)
             if not p.exterior.is_ccw:
                 p = Polygon(list(p.exterior.coords)[::-1])
+            if track_zone_p.intersects(p) and p.intersection(track_zone).area > 1.0:
+                stats["bâtiments_sur_voie"] += 1
+                continue
             cls = building_class(ft["properties"])
             kind, best = K_NONE, None
             if ztree is not None:
@@ -428,7 +770,7 @@ def main(city, nets_dir, out_dir, cache):
         if not k or not ft.get("geometry"):
             continue
         g = project_geom(shape(ft["geometry"]), frame)
-        if g is None or g.geom_type != "Point" or not corridor.contains(g):
+        if g is None or g.geom_type != "Point" or not corridor.contains(g) or track_zone_p.contains(g):
             continue
         h = float(pr.get("hauteur") or {1: 38.0, 2: 30.0, 3: 25.0, 4: 30.0, 5: 4.0}[k])
         tiles[tile_of(g.x, g.y)]["pt"].append((k, h, (g.x, g.y)))
@@ -440,10 +782,56 @@ def main(city, nets_dir, out_dir, cache):
         if name and k != K_SCHOOL:
             tiles[tile_of(*cxy)]["lb"].append((k, cxy, name))
             stats["étiquettes"] += 1
+    # orthophotos : toits, houppiers, sol vert ; nature de plateforme
+    if ortho_dir:
+        ortho = Ortho(ortho_dir)
+        # dalles z17 qui touchent le corridor (échantillonnage à 50 m)
+        x0, z0, x1, z1 = corridor.bounds
+        gx, gz = np.meshgrid(np.arange(x0 - 60, x1 + 60, 50.0), np.arange(z0 - 60, z1 + 60, 50.0))
+        cp = prep(corridor.buffer(60))
+        from shapely.geometry import Point
+        sel = np.array([cp.contains(Point(a, b)) for a, b in zip(gx.ravel(), gz.ravel())])
+        lat, lon = frame_inv_np(frame, gx.ravel()[sel], gz.ravel()[sel])
+        ortho.prefetch(Z_AREA, ortho.keys_for(Z_AREA, lat, lon))
+        track_coords = [list(l.coords) for l in lines]
+        from shapely.strtree import STRtree as _T
+        tl_tree = _T(lines)
+        for i, t in enumerate(sorted(tiles)):
+            tb = tile_box(t).buffer(48)
+            if not corridor.intersects(tb):
+                continue
+            nb_blds = [b[0] for dx in (-1, 0, 1) for dz in (-1, 0, 1) if (dx or dz) and (t[0] + dx, t[1] + dz) in tiles
+                       for b in tiles[(t[0] + dx, t[1] + dz)]["b"] if b[0].intersects(tb)]
+            tl = [track_coords[j] for j in tl_tree.query(tb)]
+            roofs, trees, runs = ortho_tile(ortho, frame, t, tiles[t], nb_blds, tl)
+            tiles[t]["rf"], tiles[t]["tr"], tiles[t]["gr"] = roofs, trees, runs
+            stats["toits_ortho"] += sum(1 for r in roofs if r)
+            stats["arbres_ortho"] += len(trees)
+            stats["cellules_vertes"] += sum(r[2] for r in runs)
+            if i % 50 == 0:
+                print(f"  ortho tuile {i + 1}/{len(tiles)}", file=sys.stderr, flush=True)
+        tram_ref = []
+        for ft in feats["fer"].values():
+            if ft.get("geometry") and ft["properties"].get("nature") == "Tramway":
+                g = project_geom(shape(ft["geometry"]), frame)
+                tram_ref += g if isinstance(g, list) else lines_of(g)
+        asphalt = asphalt_level(ortho, frame, tiles, lines)
+        stats["luminance_enrobe"] = round(asphalt, 3)
+        nat = track_nature(ortho, frame, lines, under, tram_ref, asphalt)
+        cnt = defaultdict(int)
+        for v in nat.values():
+            cnt[v] += 1
+        stats.update({f"plateforme_{k}": v for k, v in {"gazon": cnt[BED_GRASS], "enrobe": cnt[BED_ROAD], "paves": cnt[BED_PAVED]}.items()})
+        tj = {"schema": 1, "city": city, "cell_m": TRACK_CELL, "codes": {"1": "gazon", "2": "enrobé / chaussée partagée", "3": "pavés / béton"},
+              "source": "BD ORTHO® IGN (Licence Ouverte 2.0), WMTS data.geopf.fr : indice de verdure le long de l'axe des voies",
+              "cells": [[k[0], k[1], v] for k, v in sorted(nat.items())]}
+        os.makedirs(out_dir, exist_ok=True)
+        with open(os.path.join(out_dir, city + "_track.json"), "w") as f:
+            json.dump(tj, f, ensure_ascii=False, separators=(",", ":"))
     # écriture
     keys = sorted(tiles)
     blobs = [write_tile(tiles[t], t[0] * TILE_M, t[1] * TILE_M) for t in keys]
-    head = b"TSC2" + struct.pack("<I", len(keys))
+    head = b"TSC3" + struct.pack("<I", len(keys))
     off = len(head) + 16 * len(keys)
     table = bytearray()
     for t, b in zip(keys, blobs):
@@ -461,4 +849,4 @@ def main(city, nets_dir, out_dir, cache):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:5])
+    main(*sys.argv[1:6])

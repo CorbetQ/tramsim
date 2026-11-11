@@ -62,8 +62,10 @@ func _init() -> void:
 	# choix de branche en mode libre (aiguillage libre)
 	var f3 := FreeSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e3", 100.0, false)
 	check(f3.select_branch("N1", 1), "branche sélectionnée sur aiguillage libre")
-	var f4 := FreeSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e0", 100.0, false)
-	check(not f4.select_branch("N1", 1), "aiguillage occupé refusé en libre")
+	var f4 := FreeSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e0", 890.0, false)
+	check(not f4.select_branch("N1", 1), "aiguillage occupé refusé en libre (rame sur la zone d'aiguillage)")
+	var f4b := FreeSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e0", 100.0, false)
+	check(f4b.select_branch("N1", 1), "aiguillage libre : rame loin de la zone d'aiguillage")
 	# compatibilité
 	var cit := VehicleLibrary.citadis_302(); var aps := VehicleLibrary.citadis_402_aps(); var tl := VehicleLibrary.translohr()
 	check(Compatibility.mission_allowed(cit, ["overhead"], "steel"), "Citadis 302 compatible Angers")

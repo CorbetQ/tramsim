@@ -28,6 +28,13 @@ var stats := {"tiles": 0, "buildings": 0}
 static var _styles: Dictionary = {}
 static var _trees: Array[Mesh] = []
 var v2 := false
+var v3 := false                 # TSC3 : toits, houppiers et sol vert analysés sur orthophotos IGN
+var _ortho_tile := false
+var _track_nat: Dictionary = {} # Vector2i (cellule) -> nature de plateforme (TrackView.BED_*)
+var _track_cell := 8.0
+var debug_props := false        # tests : mémorise la position (repère ville) des arbres et lampadaires posés
+var placed_props: Array[Vector2] = []
+var placed_trees: Array[Vector2] = []
 var _trees_cur: Array = []
 const K_CHURCH := 1
 const K_CATHEDRAL := 2
@@ -48,9 +55,10 @@ func open(c: String, net_origin: Array) -> bool:
 	city = c
 	buf = FileAccess.get_file_as_bytes(path_for(c))
 	var magic := buf.slice(0, 4).get_string_from_ascii() if buf.size() >= 8 else ""
-	if magic != "TSC1" and magic != "TSC2":
+	if magic != "TSC1" and magic != "TSC2" and magic != "TSC3":
 		return false
-	v2 = magic == "TSC2"
+	v2 = magic == "TSC2" or magic == "TSC3"
+	v3 = magic == "TSC3"
 	var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s.json" % c))
 	tile_m = float(meta.tile_m)
 	var n := buf.decode_u32(4)
@@ -62,7 +70,29 @@ func open(c: String, net_origin: Array) -> bool:
 	var lat_c := float(meta.origin[0]); var lon_c := float(meta.origin[1])
 	position = Vector3(deg_to_rad(lon_c - lon_n) * R * cos(deg_to_rad(lat_n)), 0.0, -deg_to_rad(lat_c - lat_n) * R)
 	_load_style(c)
+	_load_track_nature(c)
 	return true
+
+## Nature des plateformes (data/scenes/<ville>_track.json, cellules de 8 m le long de l'axe des voies).
+func _load_track_nature(c: String) -> void:
+	_track_nat.clear()
+	var path := "res://data/scenes/%s_track.json" % c
+	if not FileAccess.file_exists(path): return
+	var d = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if typeof(d) != TYPE_DICTIONARY: return
+	_track_cell = float(d.get("cell_m", 8.0))
+	for e in d.get("cells", []):
+		_track_nat[Vector2i(int(e[0]), int(e[1]))] = int(e[2])
+
+## Nature de la plateforme au point p (repère de la ligne) : TrackView.BED_*, 0 si inconnue.
+func track_nature_at(p_net: Vector3) -> int:
+	if _track_nat.is_empty(): return 0
+	var c := p_net - position
+	var k := Vector2i(floori(c.x / _track_cell), floori(c.z / _track_cell))
+	if _track_nat.has(k): return _track_nat[k]
+	for d in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+		if _track_nat.has(k + d): return _track_nat[k + d]
+	return 0
 
 func _load_style(c: String) -> void:
 	if _styles.is_empty():
@@ -148,10 +178,40 @@ func _build_tile(k: Vector2i) -> Node3D:
 		for i in nlb:
 			var kd := buf.decode_u8(o); var pos := Vector2(buf.decode_s16(o + 1) * 0.1, buf.decode_s16(o + 3) * 0.1); var ln := buf.decode_u8(o + 5)
 			labels.append([kd, pos, buf.slice(o + 6, o + 6 + ln).get_string_from_utf8()]); o += 6 + ln
+	var roofs := PackedInt32Array()
+	var otrees: Array = []
+	var runs: Array = []
+	if v3:
+		var nr := buf.decode_u16(o); o += 2
+		for i in nr: roofs.append(buf.decode_u16(o + i * 2))
+		o += nr * 2
+		var ntr := buf.decode_u16(o); o += 2
+		for i in ntr:
+			otrees.append([Vector2(buf.decode_s16(o) * 0.1, buf.decode_s16(o + 2) * 0.1), buf.decode_u8(o + 4) * 0.1, buf.decode_u8(o + 5)]); o += 6
+		var ng := buf.decode_u16(o); o += 2
+		for i in ng:
+			runs.append(Vector3i(buf.decode_u8(o), buf.decode_u8(o + 1), buf.decode_u8(o + 2))); o += 3
+	_ortho_tile = not otrees.is_empty() or not runs.is_empty()
+	# sol vert réel (cellules de 4 m, orthophoto), sous les surfaces BD TOPO et les routes
+	var lawn := Color("#8db463")
+	for r in runs:
+		var z0: float = r.x * 4.0; var x0: float = r.y * 4.0; var x1: float = x0 + r.z * 4.0
+		S.quad(Vector3(x0, 0.012, z0), Vector3(x1, 0.012, z0), Vector3(x1, 0.012, z0 + 4.0), Vector3(x0, 0.012, z0 + 4.0), lawn, -1.0)
+	# houppiers réels détectés (essence selon le style de la ville, taille selon le houppier)
+	var trng := RandomNumberGenerator.new(); trng.seed = seed * 13
+	for t in otrees:
+		# essence d'alignement de la ville majoritaire, sinon mélange régional (t[2] = 1 : houppier sombre, non utilisé)
+		var kind := int(style.get("trees", [0])[0]) if trng.randf() < 0.55 else _pick_tree(trng)
+		var sc := clampf(float(t[1]) / CROWN_R[kind], 0.55, 2.0)
+		_add_tree(kind, Vector3(t[0].x, 0.02, t[0].y), trng, sc, true)
 	# bâtiments
 	for i in blds.size():
 		var b: Array = blds[i]
-		_building(S, b[0], b[1], b[2], b[3], b[4], seed + i, points)
+		if _keepout != null and _keepout.blocked(_tile_origin + _centroid(b[0])): continue
+		var rc := Color(0, 0, 0, 0)
+		if i < roofs.size() and roofs[i] & 0x8000:
+			rc = Color(((roofs[i] >> 8) & 15) / 15.0, ((roofs[i] >> 4) & 15) / 15.0, (roofs[i] & 15) / 15.0)
+		_building(S, b[0], b[1], b[2], b[3], b[4], seed + i, points, rc)
 	stats.buildings += nb
 	# surfaces
 	o = polys_start
@@ -170,7 +230,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 				W.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(c.x, y, c.y), Color.WHITE)
 			else:
 				S.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(c.x, y, c.y), col, -1.0)
-				if cls == P_FOREST or cls == P_GRASS or cls == P_CEMETERY:
+				if (cls == P_FOREST or cls == P_GRASS or cls == P_CEMETERY) and not _ortho_tile:
 					var area := absf((b - a).cross(c - a)) * 0.5
 					var dens := 110.0 if cls == P_FOREST else 700.0
 					var count := mini(int(area / dens + rng.randf()), 40)
@@ -191,6 +251,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 	# éléments ponctuels (clochers isolés, tours, cheminées)
 	for p in points:
 		if p[0] == 1 and p.size() > 3: continue  # clocher déjà rattaché à une église
+		if _keepout != null and _keepout.blocked(_tile_origin + p[2], 3.0): continue
 		_point(S, p[0], p[1], p[2])
 	# maillages
 	var mi := MeshInstance3D.new(); mi.mesh = S.mesh(); mi.material_override = Materials.building()
@@ -337,7 +398,7 @@ func _crenels(S: _Arrays, ring: PackedVector2Array, y: float, col: Color) -> voi
 				S.box(Vector3(m.x, y + 0.55, m.y), Vector3(0.9, 1.1, 0.9), Color(col.r, col.g, col.b, SOLID_A))
 				count += 1
 
-func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: int, h: float, kind_raw: int, seed: int, points: Array) -> void:
+func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: int, h: float, kind_raw: int, seed: int, points: Array, roof_ortho: Color = Color(0, 0, 0, 0)) -> void:
 	var principal := (kind_raw & 0x80) != 0
 	var kind := kind_raw & 0x7f
 	var n := ring.size()
@@ -345,6 +406,8 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 	var c := _centroid(ring)
 	var rng := RandomNumberGenerator.new(); rng.seed = seed
 	var pitched := Color.from_string(str(style.get("pitched", "#a65e44")), Color.BROWN)
+	var has_ortho := roof_ortho.a > 0.0   # couleur réelle du toit (orthophoto IGN)
+	if has_ortho: pitched = roof_ortho
 	match kind:
 		K_CHURCH, K_CATHEDRAL:
 			var stone := STONE.lerp(Color("#3b3a3c"), 0.85) if city == "clermont" else STONE  # Clermont : pierre de Volvic
@@ -443,7 +506,7 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 	elif cls == 0 and h <= 12.0 and n <= 8 and area < 320.0:
 		_hip_roof(S, ring, h, clampf(sqrt(area) * 0.3, 1.2, 3.5), pitched)
 	elif cls == 2 and area > 600.0:
-		_flat_roof(S, ring, idx, h, Color("#8e9296"))
+		_flat_roof(S, ring, idx, h, roof_ortho if has_ortho else Color("#8e9296"))
 		# lanterneaux vitrés (sheds)
 		var a := ring[0]; var b := ring[1]
 		var dir := (b - a).normalized(); var nrm := Vector2(-dir.y, dir.x)
@@ -454,7 +517,7 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 				Vector3(m.x + dir.x * 10.0 + nrm.x * 2.0, h + 0.9, m.y + dir.y * 10.0 + nrm.y * 2.0), Vector3(m.x - dir.x * 10.0 + nrm.x * 2.0, h + 0.9, m.y - dir.y * 10.0 + nrm.y * 2.0),
 				Color(0.55, 0.68, 0.75, SOLID_A), -1.0)
 	else:
-		var roof := _pal("roofs", seed / 7)
+		var roof := roof_ortho if has_ortho else _pal("roofs", seed / 7)
 		_flat_roof(S, ring, idx, h, roof)
 		if h > 12.0 and n <= 12:
 			_walls(S, ring, h, h + 0.6, Color(roof.r * 1.1, roof.g * 1.1, roof.b * 1.1, SOLID_A), false)
@@ -495,7 +558,7 @@ func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -
 				s += 9.0
 			acc += len
 	# arbres d'alignement (essence dominante de la ville), de part et d'autre des avenues
-	if cls == L_MAJOR or (cls == L_ROAD and w >= 7.0):
+	if (cls == L_MAJOR or (cls == L_ROAD and w >= 7.0)) and not _ortho_tile:  # sinon arbres réels (orthophoto)
 		var mix: Array = style.get("trees", [0])
 		var kind := int(mix[0])
 		var rng := RandomNumberGenerator.new(); rng.seed = seed * 7
@@ -524,7 +587,10 @@ func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -
 			var s := fposmod(-acc2, 32.0)
 			while s < len:
 				var p := a + d * s + nrm
+				if _keepout != null and _keepout.blocked(_tile_origin + p, 0.4):
+					s += 32.0; continue
 				S.box(Vector3(p.x, 3.0, p.y), Vector3(0.18, 6.0, 0.18), Color("#4a4d52", 0.4))
+				if debug_props: placed_props.append(_tile_origin + p)
 				S.box(Vector3(p.x, 6.05, p.y), Vector3(0.5, 0.18, 0.5), Color(1.0, 0.86, 0.55, 0.1))
 				s += 32.0
 			acc2 += len
@@ -568,34 +634,77 @@ func find_label(substr: String) -> Vector3:
 			o += 6 + ln
 	return Vector3.INF
 
+## Vérifie la structure d'une tuile (lecture complète des sections, taille exacte) : pour les tests.
+func tile_ok(k: Vector2i) -> bool:
+	if not table.has(k): return false
+	var o: int = table[k].x
+	var end: int = table[k].x + table[k].y
+	var nb := buf.decode_u16(o); o += 2
+	for b in nb:
+		var n := buf.decode_u8(o); o += (5 if v2 else 4) + n * 4
+		o += 1 + buf.decode_u8(o) * 3
+	var np := buf.decode_u16(o); o += 2
+	for p in np: o += 5 + buf.decode_u16(o + 1) * 4 + buf.decode_u16(o + 3) * 6
+	var nl := buf.decode_u16(o); o += 2
+	for l in nl: o += 4 + buf.decode_u16(o + 2) * 4
+	if v2:
+		var npt := buf.decode_u16(o); o += 2 + npt * 7
+		var nlb := buf.decode_u16(o); o += 2
+		for i in nlb: o += 6 + buf.decode_u8(o + 5)
+	if v3:
+		var nr := buf.decode_u16(o); o += 2
+		if nr != nb: return false
+		o += nr * 2
+		o += 2 + buf.decode_u16(o) * 6
+		o += 2 + buf.decode_u16(o) * 3
+	return o == end
+
 ## Nombre de bâtiments de la tuile contenant ce point (repère de la ligne) : indicateur de densité urbaine.
 func density_at(p_net: Vector3) -> int:
 	var c := p_net - position
 	var k := Vector2i(floori(c.x / tile_m), floori(c.z / tile_m))
 	return buf.decode_u16(table[k].x) if table.has(k) else 0
 
-## Voies de tram (repère ville) : cellules de 4 m interdites aux arbres.
-var _track_cells: Dictionary = {}
+## Zones interdites au décor (repère ville) : plateformes de tram (axe ± TRACK_KEEP) et quais.
+## Arbres, lampadaires, éléments ponctuels et bâtiments n'y sont pas posés.
+const TRACK_KEEP := 4.2
+var _keepout: TrackView.KeepOut = null
 var _tile_origin := Vector2.ZERO
+## Rayon de houppier des modèles d'arbres (échelle 1), par essence.
+const CROWN_R := [2.6, 2.3, 1.9, 3.4, 3.0, 1.1, 3.6]
 
 func set_tracks(polylines: Array) -> void:
+	if _keepout == null: _keepout = TrackView.KeepOut.new()
+	var off := Vector2(position.x, position.z)
 	for poly in polylines:
-		for i in range(poly.size() - 1):
-			var a: Vector2 = poly[i] - Vector2(position.x, position.z)
-			var b: Vector2 = poly[i + 1] - Vector2(position.x, position.z)
-			var n := maxi(1, int(a.distance_to(b) / 2.0))
-			for k in n + 1:
-				var p := a.lerp(b, float(k) / n)
-				for dx in [-1, 0, 1]:
-					for dz in [-1, 0, 1]:
-						_track_cells[Vector2i(floori(p.x / 4.0) + dx, floori(p.y / 4.0) + dz)] = true
+		var pl := PackedVector2Array()
+		for q in poly: pl.append(q - off)
+		_keepout.add_polyline(pl, TRACK_KEEP)
 
-func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float = 1.0) -> void:
+## Segment interdit supplémentaire (repère de la ligne), ex. quai de station.
+func add_keepout(a_net: Vector2, b_net: Vector2, clearance: float) -> void:
+	if _keepout == null: _keepout = TrackView.KeepOut.new()
+	var off := Vector2(position.x, position.z)
+	_keepout.add_segment(a_net - off, b_net - off, clearance)
+
+## Vrai si le point (repère ville) est sur une plateforme ou un quai (marge `extra`).
+func blocked(p_city: Vector2, extra: float = 0.0) -> bool:
+	return _keepout != null and _keepout.blocked(p_city, extra)
+
+func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float = 1.0, exact: bool = false) -> void:
 	var w := _tile_origin + Vector2(pos.x, pos.z)
-	if _track_cells.has(Vector2i(floori(w.x / 4.0), floori(w.y / 4.0))):
-		return
-	var b := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * rng.randf_range(0.85, 1.3) * scale)
+	var sc := scale if exact else rng.randf_range(0.85, 1.3) * scale
+	var crown: float = CROWN_R[kind] * sc
+	if _keepout != null:
+		if _keepout.blocked(w, 0.6): return
+		# houppier : ne déborde pas sur la plateforme (réduit, sinon arbre omis)
+		var lim := crown
+		while lim > 1.2 and _keepout.blocked(w, lim * 0.8): lim *= 0.8
+		if lim <= 1.2 and _keepout.blocked(w, lim * 0.8): return
+		sc *= lim / crown
+	var b := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * sc)
 	_trees_cur[kind].append(Transform3D(b, pos))
+	if debug_props: placed_trees.append(w)
 
 static func _tree_mesh(v: int) -> Mesh:
 	if _trees.size() == TREE_KINDS:

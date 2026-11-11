@@ -27,7 +27,7 @@ func load_file(path: String) -> PackedStringArray:
 	for e in data.get("edges", []):
 		if not (e.from in nodes and e.to in nodes):
 			errs.append("nœud inconnu sur l'arête " + e.id)
-		graph.add_edge(e.id, e.from, e.to, float(e.length))
+		graph.add_edge(e.id, e.from, e.to, float(e.length), int(e.get("from_side", 1)), int(e.get("to_side", -1)))
 		var lim := float(e.get("limit_kmh", 50)) / 3.6
 		if e.has("curve_radius"):
 			lim = minf(lim, TrainPhysics.curve_speed_limit(float(e.curve_radius)))

@@ -131,6 +131,9 @@ func _build_menu() -> void:
 	var mis_row := _row(box, "Service"); var mis_opt: OptionButton = mis_row.get_child(1)
 	var st_row := _row(box, "Départ"); var st_opt: OptionButton = st_row.get_child(1)
 	var veh_opt := _opt(box, "Matériel")
+	var cat_btn := Button.new(); cat_btn.text = "Catalogue…"; cat_btn.custom_minimum_size = Vector2(150, 48)
+	cat_btn.tooltip_text = "Catalogue des rames : fiches techniques, livrées, choix du matériel"; veh_opt.get_parent().add_child(cat_btn)
+	cat_btn.pressed.connect(func(): _open_catalogue(cities[city_opt.selected]))
 	var time_opt := _opt(box, "Heure")
 	for t in ["Heure réelle du service", "Jour (12 h)", "Coucher de soleil (20 h)", "Nuit (23 h)", "Cycle accéléré (1 h = 1 min)"]: time_opt.add_item(t)
 	time_opt.selected = int(save.settings.get("time_mode", 0))
@@ -200,6 +203,19 @@ func _build_menu() -> void:
 	b_free.toggled.connect(func(on): if on: full.call())
 	veh_opt.item_selected.connect(refresh)
 	full.call()
+	# choix venu du catalogue (« Conduire cette rame ») : ville, ligne et matériel, puis départ
+	var pick: Dictionary = get_meta("catalogue_pick", {})
+	if not pick.is_empty():
+		remove_meta("catalogue_pick")
+		var ci := cities.find(str(pick.city))
+		if ci >= 0:
+			city_opt.select(ci); fill.call()
+			for i in city_nets.size():
+				if city_nets[i].path == pick.path: line_opt.select(i)
+			fill.call()
+			for i in vehicles.size():
+				if (vehicles[i] as VehicleProfile).model_family == pick.family: veh_opt.select(i); break
+			refresh.call()
 	go.pressed.connect(func():
 		save.settings.traffic = traffic_cb.button_pressed
 		save.settings.time_mode = time_opt.selected
@@ -214,6 +230,20 @@ func _build_menu() -> void:
 			net_path = city_nets[maxi(line_opt.selected, 0)].path
 			mission = mis_list[mis_opt.selected] if mis_opt.selected >= 0 and mis_opt.selected < mis_list.size() else {}
 		_start())
+	if pick.get("start", false) and not go.disabled: go.pressed.emit()
+
+## Catalogue des rames par-dessus le menu (masqué) ; « Conduire cette rame » reconstruit le menu avec ce choix.
+func _open_catalogue(city: String) -> Catalogue:
+	var hidden: Array = []
+	for c in get_children():
+		if c is CanvasItem and c.visible: c.visible = false; hidden.append(c)
+	var cat := Catalogue.new(city); add_child(cat)
+	cat.closed.connect(func():
+		for c in hidden:
+			if is_instance_valid(c): c.visible = true)
+	cat.drive.connect(func(p: Dictionary):
+		p.start = true; set_meta("catalogue_pick", p); _build_menu())
+	return cat
 
 func _source_of(city_nets: Array) -> String:
 	if city_nets.is_empty(): return ""
@@ -276,6 +306,7 @@ func _start() -> void:
 	view.update_from(session, true)
 	if view.city: view.city.warm(view.cam.global_position)
 	view.cam.current = true
+	add_child(TramAudio.new(view, bell))   # moteur sonore de la rame
 	_build_hud()
 	if free and free.adaptation_notice != "": _log(free.adaptation_notice)
 	if not save.settings.tutorial_done: _show_tuto()
@@ -362,10 +393,11 @@ func _panto() -> void:
 func _emergency() -> void:
 	emergency = true; _set_notch(-1.0); _log("Freinage d'urgence")
 
-func _reverse() -> void:
+func _reverse() -> void:  # changement de cabine : même voie, sens de marche inversé
 	if free:
 		var err := free.reverse()
-		if err != "": _log(err)
+		_log(err if err != "" else ("Changement de cabine : " + ("sens de la voie" if free.direction > 0 else "marche à contre-sens")))
+		if switch_panel: switch_panel.refresh()
 
 func _rerail() -> void:
 	if free: free.rerail(); _log("Remise sur voie")
@@ -492,6 +524,7 @@ func _process(dt: float) -> void:
 		if emergency and session.phys.speed < 0.05: emergency = false
 	view.set_hour(current_hour())
 	view.update_from(session, external_cam)
+	if has_node("TramAudio"): ($TramAudio as TramAudio).update(session, notch, emergency, external_cam, paused, dt)
 	if map.visible: map.queue_redraw()
 	if switch_panel and Engine.get_process_frames() % 15 == 0: switch_panel.canvas.queue_redraw()
 	_log_time -= dt

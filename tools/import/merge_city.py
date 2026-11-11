@@ -7,6 +7,8 @@
 - Les arêtes doublons (même départ, même arrivée après fusion) sont supprimées ; chaque arête garde la liste
   des lignes qui l'empruntent.
 - Les stations homonymes proches sont dédoublonnées.
+- Pas de rebroussement artificiel aux terminus : l'approche de chaque sens part d'un heurtoir (nœud "_pre"),
+  le retournement se fait par changement de cabine et communication de voies (ajoutées par turnbacks.py).
 Usage : merge_city.py CITY_ID NETWORKS_DIR OUT.json
 """
 import json, math, os, sys
@@ -53,6 +55,8 @@ def main(city, nets_dir, out):
             ne = dict(e)
             ne["id"] = f"{tag}:{e['id']}"
             ne["from"] = f"{tag}:{e['from']}"
+            if e["id"].endswith("_appr"):  # heurtoir après le quai au lieu de la boucle vers l'autre sens
+                ne["from"] = f"{tag}:{e['id'][:-4]}pre"
             ne["to"] = f"{tag}:{e['to']}"
             ne["pts"] = [[round(x, 2), round(z, 2)] for x, z in pts]
             ne["lines"] = [n["line"]]
@@ -90,6 +94,8 @@ def main(city, nets_dir, out):
                 for o in grid[(gx + dx, gz + dz)]:
                     if o <= k or k.split(":")[0] == o.split(":")[0]:
                         continue
+                    if k.endswith("_pre") != o.endswith("_pre"):
+                        continue  # un heurtoir ne se raccorde qu'à un autre heurtoir
                     if math.dist(node_pos[k], node_pos[o]) > MERGE_M:
                         continue
                     ha, hb = head_of(k), head_of(o)
@@ -140,7 +146,7 @@ def main(city, nets_dir, out):
            "kind": "free", "free_only": True, "origin": nets[0]["origin"], "source_id": city, "color": nets[0].get("color", "#c8102e"),
            "provisional": False, "provenance": "Fusion des lignes de la ville (tools/import/merge_city.py) ; raccordements entre lignes "
            "déduits de la proximité des arrêts communs (estimés, pas les vrais appareils de voie).",
-           "estimated": ["aiguillages entre lignes : position déduite des arrêts communs"] + nets[0].get("estimated", []),
+           "estimated": ["aiguillages entre lignes : position déduite des arrêts communs"] + [x for x in nets[0].get("estimated", []) if "rebroussement" not in x],
            "supply": nets[0].get("supply", "overhead"), "guidance": nets[0].get("guidance", "steel"),
            "nodes": nodes, "edges": kept, "stations": st_out, "signals": [], "roads": [], "missions": [],
            "switches": switches, "lines": sorted({n["line"] for n in nets})}
