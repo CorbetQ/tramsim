@@ -14,3 +14,7 @@ Simulateur de tramway 3D (Godot 4.6.3, GDScript, Android 10+, paysage, hors lign
 Prérequis : Godot 4.6.3 + modèles d'export, JDK 17, Android SDK (platform 34, build-tools 34, NDK r28),
 keystore de développement (`keytool -genkey -v -keystore dev.keystore -alias dev -keyalg RSA -keysize 2048 -validity 10000`).
 Puis `godot --headless --export-debug Android build/tramsim.apk`. Voir `docs/ROADMAP.md`.
+
+## État actuel
+`data/networks/angers_a.json` est un **schéma provisoire** (noms et distances inventés), pas la vraie ligne A.
+Tests : `godot --headless --path . --import` puis `-s tests/run_tests.gd`, `-s tests/test_angers.gd`, `-s tests/test_scene.gd`.
