@@ -8,6 +8,8 @@ var edge_origin: Dictionary = {}   # id -> Vector3
 var tram: Node3D
 var cam: Camera3D
 var signal_nodes: Array[MeshInstance3D] = []
+var sectors: Dictionary = {}       # edge id -> Node3D (chargé/masqué selon la distance)
+var view_distance := 400.0
 var car_nodes: Array[MeshInstance3D] = []
 var light_nodes: Array[MeshInstance3D] = []
 
@@ -29,13 +31,14 @@ func build(network: NetworkLoader, start_edge: String) -> void:
 				edge_origin[outs[k]] = end + Vector3(0, 0, 8.0 * k)
 				q.append(outs[k])
 	for id in edge_origin:
-		_add_box(edge_origin[id] + Vector3(net.graph.edges[id].length * 0.5, -0.1, 0), Vector3(net.graph.edges[id].length, 0.1, 1.435), Color(0.35, 0.35, 0.38))
+		var sec := Node3D.new(); add_child(sec); sectors[id] = sec
+		_add_box_to(sec, edge_origin[id] + Vector3(net.graph.edges[id].length * 0.5, -0.1, 0), Vector3(net.graph.edges[id].length, 0.1, 1.435), Color(0.35, 0.35, 0.38))
 	for s in net.stations:
 		var p: Vector3 = edge_origin[s.edge] + Vector3(float(s.offset), 0.0, 2.6)
-		_add_box(p + Vector3(0, 0.4, 0), Vector3(40, 0.8, 2.5), Color(0.8, 0.75, 0.6))
+		_add_box_to(sectors[s.edge], p + Vector3(0, 0.4, 0), Vector3(40, 0.8, 2.5), Color(0.8, 0.75, 0.6))
 	for s in net.signals:
 		var p2: Vector3 = edge_origin[s.edge] + Vector3(float(s.offset), 2.0, -2.0)
-		signal_nodes.append(_add_box(p2, Vector3(0.4, 1.0, 0.4), Color(0.1, 0.8, 0.2)))
+		signal_nodes.append(_add_box_to(sectors[s.edge], p2, Vector3(0.4, 1.0, 0.4), Color(0.1, 0.8, 0.2)))
 	for lane in net.meta.get("roads", []):
 		var c: Vector3 = edge_origin[lane.edge] + Vector3(float(lane.edge_offset), 0, 0)
 		_add_box(c + Vector3(0, -0.15, 0), Vector3(7, 0.05, float(lane.length)), Color(0.15, 0.15, 0.17))
@@ -64,6 +67,18 @@ func _add_box_to(parent: Node3D, pos: Vector3, size: Vector3, col: Color) -> Mes
 	parent.add_child(mi)
 	return mi
 
+## Charge/masque les secteurs (une arête = un secteur) selon la distance de vue.
+func update_sectors(center: Vector3) -> int:
+	var shown := 0
+	for id in sectors:
+		var o: Vector3 = edge_origin[id]
+		var len: float = net.graph.edges[id].length
+		var dx := maxf(maxf(o.x - center.x, center.x - (o.x + len)), 0.0)
+		var vis := Vector2(dx, absf(o.z - center.z)).length() <= view_distance
+		sectors[id].visible = vis
+		if vis: shown += 1
+	return shown
+
 func update_from(s: MissionSession, external: bool) -> void:
 	var front: Vector3 = edge_origin[s.edge_id] + Vector3(s.offset, 0, 0)
 	tram.position = front - Vector3(s.phys.profile.length_m * 0.5, 0, 0)
@@ -73,6 +88,7 @@ func update_from(s: MissionSession, external: bool) -> void:
 	else:  # vue cabine simplifiée
 		cam.position = front + Vector3(-1.5, 3.0, 0)
 		cam.look_at(front + Vector3(30, 2.5, 0))
+	update_sectors(front)
 	_update_cars(s)
 	for i in signal_nodes.size():
 		var c := Color(0.1, 0.8, 0.2) if s.signal_state[i] == "clear" else Color(0.9, 0.1, 0.1)

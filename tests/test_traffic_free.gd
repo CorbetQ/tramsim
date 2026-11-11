@@ -73,4 +73,27 @@ func _init() -> void:
 	check(f5.adaptation_notice.begins_with("Mode d'adaptation"), "mode d'adaptation annoncé en libre")
 	var f6 := FreeSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e0", 100.0, false)
 	check(f6.adaptation_notice == "", "pas d'annonce si compatible")
+	# cantonnement : section protégée occupée => signal à l'arrêt, franchissement = échec
+	var b := MissionSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e0", 100.0, [] as Array[float], 10)
+	b.traffic.set_enabled(false)
+	b.tick(0.1, 0.0)
+	check(b.signal_state[0] == "clear", "signal au vert, section libre")
+	b.net.graph.occupy("e2", "AUTRE"); b.tick(0.1, 0.0)
+	check(b.signal_state[0] == "stop", "signal à l'arrêt, section protégée occupée")
+	b.net.graph.release("e2", "AUTRE"); b.tick(0.1, 0.0)
+	check(b.signal_state[0] == "clear", "signal repasse au vert")
+	var b2 := MissionSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e1", 1000.0, [] as Array[float], 10)
+	b2.traffic.set_enabled(false); b2.toggle_pantograph(); b2.phys.speed = 8.0
+	b2.net.graph.occupy("e2", "AUTRE")
+	for i in 100: b2.tick(0.1, 0.3)
+	check(b2.scorer.fail_reason == "Signal d'arrêt franchi", "signal automatique franchi => échec")
+	# registre + secteurs
+	var reg := NetworkRegistry.scan()
+	check(reg.size() >= 1, "registre : réseau(x) découvert(s)")
+	var vw := LineView.new(); root.add_child(vw)
+	var nn := _net(); vw.build(nn, "e0"); vw.view_distance = 300.0
+	var near := vw.update_sectors(Vector3(100, 0, 0))
+	var all := vw.update_sectors(Vector3(100, 0, 0)) 
+	vw.view_distance = 100000.0
+	check(near < vw.update_sectors(Vector3(100, 0, 0)), "seuls les secteurs proches sont affichés")
 	quit(1 if fails > 0 else 0)

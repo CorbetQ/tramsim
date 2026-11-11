@@ -91,7 +91,7 @@ func _init() -> void:
 	check(m3.scorer.fail_reason == "Fin de voie dépassée", "fin de voie dépassée => échec")
 	# signal d'arrêt
 	var m4 := _new()
-	m4.signal_state[0] = "stop"
+	m4.net.graph.occupy("e2", "AUTRE")  # section protégée occupée => signal à l'arrêt
 	while not m4.finished and m4.time_s < 900: _auto_pantograph(m4); m4.tick(0.1, 1.0)
 	check(m4.scorer.fail_reason == "Signal d'arrêt franchi", "signal d'arrêt franchi => échec")
 	# collision par occupation

@@ -117,6 +117,7 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	var n := notch
 	if doors_open:
 		n = minf(n, 0.0)  # traction coupée portes ouvertes
+	_update_signals()
 	_update_power(info.supply)
 	var before := phys.position
 	phys.step(dt, n, info.grade, emergency or doors_open and phys.speed > 0.1)
@@ -127,6 +128,15 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 		return
 	_update_dwell(dt)
 	_check_station_passed()
+
+## Cantonnement automatique : un signal portant `protects` passe à l'arrêt si la section
+## protégée est occupée par un autre mobile ; sans `protects`, l'état est celui fixé à la main.
+func _update_signals() -> void:
+	for i in net.signals.size():
+		var sg: Dictionary = net.signals[i]
+		if sg.has("protects"):
+			var occ: String = net.graph.edges[sg.protects].occupied_by
+			signal_state[i] = "stop" if (occ != "" and occ != train_id) else "clear"
 
 ## Alimentation selon le mode de la section et l'état du pantographe.
 func _update_power(edge_supply: String) -> void:

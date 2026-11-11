@@ -1,7 +1,6 @@
 extends Control
 ## Menu : mode -> matériel -> départ ; HUD tactile, carte, tutoriel, sauvegarde.
 
-const NETS := {"Angers — ligne A (données provisoires)": "res://data/networks/angers_a.json"}
 
 var save: Dictionary
 var session: MissionSession
@@ -53,6 +52,7 @@ func _build_menu() -> void:
 	add_child(box)
 	var title := Label.new(); title.text = "Tram Sim France"; box.add_child(title)
 	var net_opt := OptionButton.new()
+	var NETS := NetworkRegistry.scan()
 	for k in NETS: net_opt.add_item(k)
 	box.add_child(net_opt)
 	var veh_opt := OptionButton.new()
@@ -108,6 +108,7 @@ func _start() -> void:
 	var sv := SubViewport.new(); vp.add_child(sv); add_child(vp)
 	view = LineView.new(); sv.add_child(view); view.build(net, first)
 	view.cam.current = true
+	view.view_distance = float(save.settings.view_distance)
 	view.cam.far = float(save.settings.view_distance) * 2.0
 	hud = Label.new(); hud.position = Vector2(20, 10); add_child(hud)
 	log_label = Label.new(); log_label.position = Vector2(20, 90); add_child(log_label)
