@@ -40,7 +40,7 @@ func load_file(path: String) -> PackedStringArray:
 		var pts: PackedVector2Array = []
 		for q in e.get("pts", []):
 			pts.append(Vector2(float(q[0]), float(q[1])))
-		edge_info[e.id] = {"limit_ms": lim, "zones": zones, "grade": float(e.get("grade", 0.0)), "supply": sup, "pts": pts}
+		edge_info[e.id] = {"limit_ms": lim, "zones": zones, "grade": float(e.get("grade", 0.0)), "supply": sup, "pts": pts, "raw": bool(e.get("raw", false))}
 	for s in data.get("stations", []):
 		if not graph.edges.has(s.edge):
 			errs.append("station sur arête inconnue: " + s.name)

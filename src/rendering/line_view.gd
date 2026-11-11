@@ -115,6 +115,8 @@ func pos3(edge_id: String, offset: float) -> Vector3:
 		var q: Dictionary = net.point_on(edge_id, offset)
 		var p: Vector2 = q.p
 		var d: Vector2 = q.dir
+		if net.edge_info[edge_id].raw:  # géométrie déjà sur l'axe de la voie (communications de voies)
+			return Vector3(p.x, 0.0, p.y)
 		return Vector3(p.x - d.y * TRACK_OFFSET, 0.0, p.y + d.x * TRACK_OFFSET)
 	return edge_origin[edge_id] + Vector3(offset, 0, 0)
 
