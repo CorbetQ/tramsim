@@ -65,7 +65,7 @@ func set_hour(h: float) -> void:
 		[20.5, Color("#6a5a7a")], [22.0, Color("#2c3560")], [24.0, Color("#2c3560")]], hour)
 	env.ambient_light_energy = lerpf(0.42, 0.3, night)
 	env.fog_light_color = sky_mat.sky_horizon_color
-	env.fog_density = lerpf(0.0014, 0.0022, night)
+	env.fog_density = lerpf(0.0008, 0.0016, night)
 
 func clock_text() -> String:
 	return "%02d:%02d" % [int(hour), int(fmod(hour, 1.0) * 60.0)]

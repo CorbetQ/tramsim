@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "nice",
+ "origin": [
+  43.676752,
+  7.199191
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 131,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 9719,
+  "surfaces_1": 30,
+  "surfaces_3": 586,
+  "surfaces_2": 267,
+  "surfaces_4": 51,
+  "surfaces_5": 4,
+  "lignes_1": 4164,
+  "lignes_0": 886,
+  "lignes_3": 280,
+  "lignes_2": 25,
+  "lignes_10": 82
+ }
+}

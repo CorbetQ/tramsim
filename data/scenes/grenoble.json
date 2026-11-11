@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "grenoble",
+ "origin": [
+  45.13782,
+  5.70369
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 222,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 15933,
+  "surfaces_1": 47,
+  "surfaces_2": 670,
+  "surfaces_3": 684,
+  "surfaces_4": 124,
+  "surfaces_5": 5,
+  "lignes_1": 7074,
+  "lignes_3": 1276,
+  "lignes_2": 123,
+  "lignes_0": 1131,
+  "lignes_10": 111
+ }
+}

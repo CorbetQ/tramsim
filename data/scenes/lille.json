@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "lille",
+ "origin": [
+  50.691036,
+  3.178993
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 113,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 11473,
+  "surfaces_1": 26,
+  "surfaces_2": 628,
+  "surfaces_3": 543,
+  "surfaces_4": 13,
+  "surfaces_5": 5,
+  "lignes_0": 491,
+  "lignes_1": 2688,
+  "lignes_3": 309,
+  "lignes_2": 95,
+  "lignes_10": 24
+ }
+}

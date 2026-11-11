@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "valenciennes",
+ "origin": [
+  50.326399,
+  3.392775
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 188,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 20440,
+  "surfaces_1": 63,
+  "surfaces_2": 681,
+  "surfaces_3": 440,
+  "surfaces_4": 44,
+  "surfaces_5": 13,
+  "lignes_1": 3536,
+  "lignes_3": 571,
+  "lignes_0": 630,
+  "lignes_2": 201,
+  "lignes_10": 58
+ }
+}

@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "marseille",
+ "origin": [
+  43.297158,
+  5.381109
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 100,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 20496,
+  "surfaces_1": 22,
+  "surfaces_2": 389,
+  "surfaces_3": 316,
+  "surfaces_4": 43,
+  "surfaces_5": 5,
+  "lignes_1": 3587,
+  "lignes_0": 252,
+  "lignes_2": 130,
+  "lignes_3": 223,
+  "lignes_10": 91
+ }
+}

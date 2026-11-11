@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "mulhouse",
+ "origin": [
+  47.77683,
+  7.328791
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 179,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 15137,
+  "surfaces_1": 77,
+  "surfaces_3": 437,
+  "surfaces_2": 458,
+  "surfaces_4": 65,
+  "surfaces_5": 8,
+  "lignes_1": 4014,
+  "lignes_2": 294,
+  "lignes_0": 425,
+  "lignes_3": 445,
+  "lignes_10": 329
+ }
+}

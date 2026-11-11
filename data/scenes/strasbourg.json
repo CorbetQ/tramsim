@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "strasbourg",
+ "origin": [
+  48.524845,
+  7.7080736
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 258,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 17606,
+  "surfaces_1": 132,
+  "surfaces_3": 754,
+  "surfaces_2": 586,
+  "surfaces_4": 148,
+  "surfaces_5": 24,
+  "lignes_1": 11064,
+  "lignes_0": 1625,
+  "lignes_2": 353,
+  "lignes_3": 1809,
+  "lignes_10": 386
+ }
+}

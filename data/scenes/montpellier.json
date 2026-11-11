@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "montpellier",
+ "origin": [
+  43.5970423,
+  3.9220637
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 323,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 25333,
+  "surfaces_1": 115,
+  "surfaces_2": 1746,
+  "surfaces_3": 1423,
+  "surfaces_4": 153,
+  "surfaces_5": 8,
+  "lignes_1": 11002,
+  "lignes_3": 1255,
+  "lignes_2": 259,
+  "lignes_0": 1351,
+  "lignes_10": 107
+ }
+}

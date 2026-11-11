@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "reims",
+ "origin": [
+  49.2845713,
+  4.0269421
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 65,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 7004,
+  "surfaces_1": 11,
+  "surfaces_2": 210,
+  "surfaces_3": 333,
+  "surfaces_4": 35,
+  "surfaces_5": 3,
+  "lignes_1": 3414,
+  "lignes_3": 1983,
+  "lignes_2": 58,
+  "lignes_0": 339,
+  "lignes_10": 38
+ }
+}

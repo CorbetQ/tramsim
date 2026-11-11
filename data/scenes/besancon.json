@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "besancon",
+ "origin": [
+  47.261314,
+  6.0609517
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 81,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 4048,
+  "surfaces_1": 19,
+  "surfaces_2": 276,
+  "surfaces_3": 170,
+  "surfaces_4": 33,
+  "surfaces_5": 5,
+  "lignes_1": 1881,
+  "lignes_3": 469,
+  "lignes_0": 267,
+  "lignes_2": 57,
+  "lignes_10": 28
+ }
+}

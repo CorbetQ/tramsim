@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "idf",
+ "origin": [
+  48.92729,
+  2.27462
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 1064,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 76205,
+  "surfaces_1": 302,
+  "surfaces_2": 2230,
+  "surfaces_3": 2802,
+  "surfaces_4": 622,
+  "surfaces_5": 118,
+  "lignes_1": 25826,
+  "lignes_3": 6385,
+  "lignes_0": 6548,
+  "lignes_2": 948,
+  "lignes_10": 1643
+ }
+}

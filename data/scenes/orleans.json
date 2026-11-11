@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "orleans",
+ "origin": [
+  47.837479,
+  1.919278
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 151,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 12567,
+  "surfaces_1": 45,
+  "surfaces_3": 456,
+  "surfaces_2": 548,
+  "surfaces_4": 37,
+  "surfaces_5": 2,
+  "lignes_0": 673,
+  "lignes_1": 4069,
+  "lignes_2": 78,
+  "lignes_3": 469,
+  "lignes_10": 131
+ }
+}

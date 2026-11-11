@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "rouen",
+ "origin": [
+  49.447063,
+  1.10509
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 85,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 13136,
+  "surfaces_1": 15,
+  "surfaces_3": 198,
+  "surfaces_2": 154,
+  "surfaces_4": 38,
+  "surfaces_5": 5,
+  "lignes_1": 3176,
+  "lignes_0": 384,
+  "lignes_3": 460,
+  "lignes_2": 13,
+  "lignes_10": 86
+ }
+}

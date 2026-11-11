@@ -1,0 +1,24 @@
+{
+ "schema": 1,
+ "city": "tours",
+ "origin": [
+  47.423438,
+  0.7095967
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 86,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 7118,
+  "surfaces_1": 39,
+  "surfaces_2": 258,
+  "surfaces_3": 184,
+  "surfaces_4": 23,
+  "lignes_1": 2872,
+  "lignes_3": 299,
+  "lignes_2": 63,
+  "lignes_0": 383,
+  "lignes_10": 60
+ }
+}

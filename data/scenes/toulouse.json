@@ -1,0 +1,25 @@
+{
+ "schema": 1,
+ "city": "toulouse",
+ "origin": [
+  43.6676077,
+  1.3598851
+ ],
+ "tile_m": 400.0,
+ "corridor_m": 220.0,
+ "tiles": 87,
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
+ "stats": {
+  "bâtiments": 7325,
+  "surfaces_1": 37,
+  "surfaces_2": 150,
+  "surfaces_3": 138,
+  "surfaces_4": 39,
+  "surfaces_5": 1,
+  "lignes_1": 2972,
+  "lignes_2": 67,
+  "lignes_3": 515,
+  "lignes_0": 237,
+  "lignes_10": 16
+ }
+}
