@@ -5,7 +5,8 @@
   "route": "couleur GTFS de la ligne",
   "lines": "surcharges par ligne (nom court minuscule) ; peuvent changer family",
   "families": "surcharges de couleurs quand la rame est d'une autre famille de fleet",
-  "dims": "surcharge de longueur/largeur de la variante (rééchelonner les modules)"
+  "dims": "surcharge de longueur/largeur de la variante (rééchelonner les modules)",
+  "pattern": "motif procédural de livrée (shader des rames, UV de caisse en m) : {type, colors, y:[lo,hi], scale (m, taille de cellule), density (0..1), seed, glass (opacité sur les baies latérales, vitrophanie)} ; types : swallows, flowers, waves, gilding, mirror_bands, leaves (évocations stylisées, sans logos) ; front_variant : couleur de face tirée par rame parmi colors (ou livrée.variant)"
  },
  "angers": {
   "family": "citadis_302",
@@ -441,24 +442,21 @@
     "front": "#377ae6",
     "window": "#131f2a",
     "roof": "#dcedf6",
-    "elements": [
-     {
-      "type": "panel",
-      "pattern": "swallows",
-      "colors": [
-       "#ffffff"
-      ],
-      "y": [
-       1.0,
-       3.0
-      ],
-      "z": [
-       0,
-       1
-      ],
-      "zone": "sides+front"
-     }
-    ]
+    "elements": [],
+    "pattern": {
+     "type": "swallows",
+     "colors": [
+      "#ffffff"
+     ],
+     "y": [
+      0.5,
+      3.05
+     ],
+     "scale": 1.6,
+     "density": 0.75,
+     "seed": 1,
+     "glass": 0.85
+    }
    },
    "2": {
     "family": "citadis_302",
@@ -466,78 +464,70 @@
     "base": "#f2efe6",
     "door": "#f2efe6",
     "front": "#f2efe6",
-    "elements": [
-     {
-      "type": "panel",
-      "pattern": "flowers",
-      "colors": [
-       "#ef7d00",
-       "#e2231a",
-       "#ffd500",
-       "#5cb531"
-      ],
-      "y": [
-       0.45,
-       3.0
-      ],
-      "z": [
-       0,
-       1
-      ],
-      "zone": "sides+front"
-     }
-    ]
+    "elements": [],
+    "pattern": {
+     "type": "flowers",
+     "colors": [
+      "#ef7d00",
+      "#e2231a",
+      "#ffd500",
+      "#5cb531"
+     ],
+     "y": [
+      0.5,
+      3.05
+     ],
+     "scale": 0.9,
+     "density": 0.75,
+     "seed": 2,
+     "glass": 0.6
+    }
    },
    "3": {
     "family": "citadis_402",
-    "name": "L3 « mondes sous-marins »",
+    "name": "L3 « vagues marines » (C. Lacroix)",
     "base": "#1f6e7e",
     "door": "#1f6e7e",
     "front": "#1f6e7e",
-    "elements": [
-     {
-      "type": "panel",
-      "pattern": "sea_creatures",
-      "colors": [
-       "#c8d400",
-       "#c9a227"
-      ],
-      "y": [
-       0.45,
-       3.0
-      ],
-      "z": [
-       0,
-       1
-      ],
-      "zone": "sides+front"
-     }
-    ]
+    "elements": [],
+    "pattern": {
+     "type": "waves",
+     "colors": [
+      "#c8d400",
+      "#3f9fae",
+      "#c9a227"
+     ],
+     "y": [
+      0.5,
+      3.05
+     ],
+     "scale": 0.9,
+     "density": 0.8,
+     "seed": 3,
+     "glass": 0.5
+    }
    },
    "4": {
     "family": "citadis_302",
-    "name": "L4 « patrimoine »",
+    "name": "L4 « dorures » (C. Lacroix)",
     "base": "#4b2a0e",
     "door": "#4b2a0e",
     "front": "#4b2a0e",
-    "elements": [
-     {
-      "type": "panel",
-      "pattern": "heritage",
-      "colors": [
-       "#c9a227"
-      ],
-      "y": [
-       0.45,
-       3.0
-      ],
-      "z": [
-       0,
-       1
-      ],
-      "zone": "sides+front"
-     }
-    ]
+    "elements": [],
+    "pattern": {
+     "type": "gilding",
+     "colors": [
+      "#c9a227"
+     ],
+     "y": [
+      0.5,
+      3.05
+     ],
+     "scale": 0.75,
+     "density": 0.9,
+     "seed": 4,
+     "glass": 0.5
+    }
    },
    "5": {
     "family": "urbos",
@@ -545,27 +535,26 @@
     "base": "#2d7431",
     "door": "#2d7431",
     "front": "#2d7431",
-    "elements": [
-     {
-      "type": "panel",
-      "pattern": "leaves",
-      "colors": [
-       "#a8d08d"
-      ],
-      "y": [
-       0.45,
-       3.0
-      ],
-      "z": [
-       0,
-       1
-      ],
-      "zone": "sides+front"
-     }
-    ],
+    "elements": [],
     "dims": {
      "length_m": 33.0,
      "width_m": 2.65
+    },
+    "pattern": {
+     "type": "leaves",
+     "colors": [
+      "#a8d08d",
+      "#7fbf5a",
+      "#cfe6b8"
+     ],
+     "y": [
+      0.5,
+      3.05
+     ],
+     "scale": 0.8,
+     "density": 0.6,
+     "seed": 5,
+     "glass": 0.4
     }
    }
   },
@@ -848,7 +837,20 @@
   "approximation": "vert mesuré (citadis_reims_1.jpg, #88954f) remplace le pastel vert estimé ; 7 autres teintes estimées (variants_colors : une teinte par rame)",
   "sources": [
    "research.json#liveries.reims"
-  ]
+  ],
+  "pattern": {
+   "type": "front_variant",
+   "colors": [
+    "#f3b9c6",
+    "#b9d9f0",
+    "#88954f",
+    "#fbe3a1",
+    "#d7c3e6",
+    "#f8c9a0",
+    "#bfe6e0",
+    "#e6d3b3"
+   ]
+  }
  },
  "dijon": {
   "family": "citadis_302",
@@ -879,18 +881,6 @@
   "skirt": "#30353a",
   "elements": [
    {
-    "type": "gradient",
-    "colors": [
-     "#96caf4",
-     "#3b4147"
-    ],
-    "y": [
-     1.0,
-     3.0
-    ],
-    "zone": "sides"
-   },
-   {
     "type": "panel",
     "pattern": "led_bars",
     "colors": [
@@ -909,7 +899,21 @@
   "approximation": "couleurs mesurées par k-means sur photo Commons (citadis_tours_2.jpg), éclairage non corrigé : caisse miroir sombre reflétant le ciel (gradient) ; estimation argent #cdd3d8 écartée",
   "sources": [
    "research.json#liveries.tours"
-  ]
+  ],
+  "pattern": {
+   "type": "mirror_bands",
+   "colors": [
+    "#96caf4",
+    "#3b4147",
+    "#e8eef4"
+   ],
+   "y": [
+    0.45,
+    3.0
+   ],
+   "scale": 1.0,
+   "density": 1.0
+  }
  },
  "orleans": {
   "family": "citadis_302",

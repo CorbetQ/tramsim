@@ -30,6 +30,9 @@ LAYERS = {
     "sport": "BDTOPO_V3:terrain_de_sport",
     "cimetiere": "BDTOPO_V3:cimetiere",
     "fer": "BDTOPO_V3:troncon_de_voie_ferree",
+    "ponctuel": "BDTOPO_V3:construction_ponctuelle",
+    "zone": "BDTOPO_V3:zone_d_activite_ou_d_interet",
+    "transport": "BDTOPO_V3:equipement_de_transport",
 }
 # classes de polygones au sol
 P_WATER, P_FOREST, P_GRASS, P_SPORT, P_CEMETERY = 1, 2, 3, 4, 5
@@ -91,6 +94,12 @@ def project_geom(g, frame):
         return MultiPolygon([project_geom(p, frame) for p in g.geoms])
     if g.geom_type == "LineString":
         return LineString(tr(g.coords))
+    if g.geom_type == "Point":
+        from shapely.geometry import Point
+        return Point(*frame.fwd(g.y, g.x))
+    if g.geom_type == "MultiPoint" and len(g.geoms):
+        from shapely.geometry import Point
+        return Point(*frame.fwd(g.geoms[0].y, g.geoms[0].x))
     if g.geom_type == "MultiLineString":
         return [LineString(tr(l.coords)) for l in g.geoms]
     return None
@@ -120,6 +129,34 @@ def lines_of(g):
             out += lines_of(p)
         return out
     return []
+
+
+# types remarquables (zone d'intérêt nommée contenant le bâtiment)
+K_NONE, K_CHURCH, K_CATHEDRAL, K_CASTLE, K_CIVIC, K_STATION, K_SCHOOL = 0, 1, 2, 3, 4, 5, 6
+CIVIC = ("Mairie", "Préfecture", "Hôtel de département", "Hôtel de région", "Musée", "Monument", "Salle de spectacle ou conférence",
+         "Palais de justice", "Administration centrale de l'Etat", "Siège d'EPCI", "Bibliothèque", "Opéra")
+SCHOOL = ("Lycée", "Collège", "Enseignement supérieur", "Enseignement primaire", "Autre établissement d'enseignement")
+PRIORITY = {K_CATHEDRAL: 6, K_CASTLE: 5, K_STATION: 4, K_CHURCH: 3, K_CIVIC: 2, K_SCHOOL: 1}
+P_KIND = {"Clocher": 1, "Minaret": 2, "Tour": 2, "Phare": 3, "Cheminée": 4, "Calvaire": 5, "Croix": 5}
+
+
+def zone_kind(p):
+    nat = p.get("nature") or ""
+    name = (p.get("toponyme") or "").lower()
+    noise = ("château d'eau", "piscine", "parc", "complexe", "stade", "colline", "rue ", "résidence", "école", "lycée",
+             "collège", "gymnase", "salle", "centre", "quartier", "cité", "place")
+    if (name.startswith(("château", "citadelle", "forteresse", "fort ")) or "château de" in name or "château des" in name) \
+            and not any(k in name for k in noise):
+        return K_CASTLE
+    if nat.startswith("Culte"):
+        return K_CATHEDRAL if any(k in name for k in ("cathédrale", "basilique", "abbatiale", "collégiale")) else K_CHURCH
+    if "Gare" in nat:
+        return K_STATION
+    if nat in CIVIC:
+        return K_CIVIC
+    if nat in SCHOOL:
+        return K_SCHOOL
+    return K_NONE
 
 
 def building_class(p):
@@ -190,10 +227,10 @@ def write_tile(tile, ox, oz):
     out = bytearray()
     blds = tile["b"]
     out += struct.pack("<H", len(blds))
-    for poly, cls, h in blds:
+    for poly, cls, h, kind in blds:
         ring = list(poly.exterior.coords)[:-1]
         verts, idx = tri(Polygon(ring))
-        out += struct.pack("<BBH", len(ring), cls, int(round(h * 10)))
+        out += struct.pack("<BBHB", len(ring), cls, int(round(h * 10)), kind)
         for v in ring:
             out += struct.pack("<hh", *q(v, ox, oz))
         out += struct.pack("<B", len(idx) // 3)
@@ -211,6 +248,15 @@ def write_tile(tile, ox, oz):
         out += struct.pack("<BBH", cls, max(1, min(255, int(round(w * 5)))), len(coords))
         for v in coords:
             out += struct.pack("<hh", *q(v, ox, oz))
+    pts = tile.get("pt", [])
+    out += struct.pack("<H", len(pts))
+    for cls, h, v in pts:
+        out += struct.pack("<BH", cls, int(round(min(h, 600.0) * 10))) + struct.pack("<hh", *q(v, ox, oz))
+    labels = tile.get("lb", [])
+    out += struct.pack("<H", len(labels))
+    for kind, v, name in labels:
+        b = name.encode("utf-8")[:120]
+        out += struct.pack("<B", kind) + struct.pack("<hh", *q(v, ox, oz)) + struct.pack("<B", len(b)) + b
     return bytes(out)
 
 
@@ -254,7 +300,7 @@ def main(city, nets_dir, out_dir, cache):
             for ft in fetch(layer, bb, cache):
                 feats[name][ft["id"]] = ft
         print(f"  cellule {i + 1}/{len(cells)}", file=sys.stderr, flush=True)
-    tiles = defaultdict(lambda: {"b": [], "p": [], "l": []})
+    tiles = defaultdict(lambda: {"b": [], "p": [], "l": [], "pt": [], "lb": []})
 
     def tile_of(px, pz):
         return (int(math.floor(px / TILE_M)), int(math.floor(pz / TILE_M)))
@@ -263,6 +309,24 @@ def main(city, nets_dir, out_dir, cache):
         return box(t[0] * TILE_M, t[1] * TILE_M, (t[0] + 1) * TILE_M, (t[1] + 1) * TILE_M)
 
     stats = defaultdict(int)
+    from shapely.strtree import STRtree
+    zones, zgeoms = [], []
+    for ft in list(feats["zone"].values()) + list(feats["transport"].values()):
+        if not ft.get("geometry"):
+            continue
+        k = zone_kind(ft["properties"])
+        if k == K_NONE:
+            continue
+        g = project_geom(shape(ft["geometry"]), frame)
+        if g is None:
+            continue
+        if isinstance(g, list):
+            g = unary_union(g)
+        g = g.buffer(12.0) if g.geom_type in ("Point", "LineString", "MultiLineString") else g.buffer(2.0)
+        zones.append((k, ft["properties"].get("toponyme") or "", g))
+        zgeoms.append(g)
+    ztree = STRtree(zgeoms) if zgeoms else None
+    zone_best = {}   # index de zone -> (aire, centroïde) du plus grand bâtiment, pour l'étiquette
     # bâtiments : centroïde dans le corridor, emprise simplifiée (<= 32 sommets)
     for ft in feats["batiment"].values():
         if not ft.get("geometry"):
@@ -283,7 +347,22 @@ def main(city, nets_dir, out_dir, cache):
             if not p.exterior.is_ccw:
                 p = Polygon(list(p.exterior.coords)[::-1])
             cls = building_class(ft["properties"])
-            tiles[tile_of(c.x, c.y)]["b"].append((p, cls, building_height(ft["properties"], cls)))
+            kind, best = K_NONE, None
+            if ztree is not None:
+                for zi in ztree.query(c):
+                    zi = int(zi)
+                    if zgeoms[zi].contains(c) and (best is None or PRIORITY[zones[zi][0]] > PRIORITY[zones[best][0]]):
+                        best = zi
+                if best is not None:
+                    kind = zones[best][0]
+                    if p.area > zone_best.get(best, (0, None))[0]:
+                        zone_best[best] = (p.area, (c.x, c.y), tile_of(c.x, c.y), len(tiles[tile_of(c.x, c.y)]["b"]))
+            if cls == 3 and kind == K_NONE:
+                kind = K_CHURCH
+            if kind == K_CHURCH and p.area > 1500:
+                kind = K_CATHEDRAL
+            tiles[tile_of(c.x, c.y)]["b"].append((p, cls, building_height(ft["properties"], cls), kind))
+            stats["remarquables"] += kind != K_NONE
             stats["bâtiments"] += 1
     # surfaces : découpées par le corridor puis par tuile
     def add_area(g, cls):
@@ -343,10 +422,28 @@ def main(city, nets_dir, out_dir, cache):
         if p.get("nature") == "Tramway":
             continue  # les voies de tram sont dessinées par le jeu à partir du tracé de la ligne
         add_line(project_geom(shape(ft["geometry"]), frame), L_RAIL, 3.0)
+    for ft in feats["ponctuel"].values():
+        pr = ft["properties"]
+        k = P_KIND.get(pr.get("nature") or "")
+        if not k or not ft.get("geometry"):
+            continue
+        g = project_geom(shape(ft["geometry"]), frame)
+        if g is None or g.geom_type != "Point" or not corridor.contains(g):
+            continue
+        h = float(pr.get("hauteur") or {1: 38.0, 2: 30.0, 3: 25.0, 4: 30.0, 5: 4.0}[k])
+        tiles[tile_of(g.x, g.y)]["pt"].append((k, h, (g.x, g.y)))
+        stats["ponctuels"] += 1
+    for zi, (area, cxy, tk, bi) in zone_best.items():
+        b = tiles[tk]["b"][bi]
+        tiles[tk]["b"][bi] = (b[0], b[1], b[2], b[3] | 0x80)   # volume principal du monument (tours, flèche)
+        k, name, _ = zones[zi]
+        if name and k != K_SCHOOL:
+            tiles[tile_of(*cxy)]["lb"].append((k, cxy, name))
+            stats["étiquettes"] += 1
     # écriture
     keys = sorted(tiles)
     blobs = [write_tile(tiles[t], t[0] * TILE_M, t[1] * TILE_M) for t in keys]
-    head = b"TSC1" + struct.pack("<I", len(keys))
+    head = b"TSC2" + struct.pack("<I", len(keys))
     off = len(head) + 16 * len(keys)
     table = bytearray()
     for t, b in zip(keys, blobs):

@@ -10,6 +10,7 @@
  "tiles": 30,
  "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
  "stats": {
+  "remarquables": 61,
   "bâtiments": 3566,
   "surfaces_3": 280,
   "surfaces_2": 35,
@@ -18,6 +19,8 @@
   "lignes_0": 126,
   "lignes_2": 4,
   "lignes_3": 124,
-  "lignes_10": 84
+  "lignes_10": 84,
+  "ponctuels": 1,
+  "étiquettes": 8
  }
 }

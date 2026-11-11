@@ -12,7 +12,8 @@ const PICKS := [
 	["tango_rhonexpress", "lyon_rhonexpress", "tango_rhonexpress"], ["tfs", "grenoble_a", "tfs"], ["translohr", "clermont_a", "translohr"],
 	["urbos", "besancon_t1", "urbos"], ["vevey_saint_etienne", "saintetienne_t1", "vevey_saint_etienne"],
 	["liv_angers", "angers_a", "citadis_302"], ["liv_montpellier_1", "montpellier_1", "citadis_402"], ["liv_montpellier_2", "montpellier_2", "citadis_302"],
-	["liv_idf_t3a", "idf_t3a", "citadis_402"], ["liv_mulhouse_tt", "mulhouse_tt", "avanto"]]
+	["liv_montpellier_3", "montpellier_3", "citadis_402"], ["liv_montpellier_4", "montpellier_4", "citadis_302"],
+	["liv_montpellier_5", "montpellier_5", "urbos"], ["liv_idf_t3a", "idf_t3a", "citadis_402"], ["liv_mulhouse_tt", "mulhouse_tt", "avanto"]]
 
 func _meta(id: String) -> Dictionary:
 	var net := NetworkLoader.new()

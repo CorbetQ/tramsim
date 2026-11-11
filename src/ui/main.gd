@@ -3,7 +3,7 @@ extends Control
 ## Interface ancrée et mise à l'échelle (stretch canvas_items) : lisible du téléphone au grand écran de PC.
 ## Commandes : écran tactile/souris et clavier (voir KEYS_HELP).
 
-const KEYS_HELP := "Clavier : Z/↑ traction · S/↓ freinage · X neutre · Espace urgence · O portes · K cloche · C caméra · M carte · P pantographe · A aiguillages · R remise sur voie · Échap pause · F11 plein écran · molette : zoom"
+const KEYS_HELP := "Clavier : Z/↑ traction · S/↓ freinage · X neutre · Espace urgence · O portes · K cloche · C caméra · M carte · P pantographe · A aiguillages · V changer de sens · R remise sur voie · Échap pause · F11 plein écran · molette : zoom"
 
 const TUTO := [
 	"Manipulateur à gauche (ou Z/S) : vers le haut = traction, vers le bas = freinage.",
@@ -319,7 +319,7 @@ func _build_hud() -> void:
 	var bh := HBoxContainer.new(); bh.add_theme_constant_override("separation", 10); bottom.add_child(bh)
 	var specs := [["Portes\nO", _doors], ["Cloche\nK", _horn], ["Caméra\nC", _camera], ["Carte\nM", _toggle_map], ["Pantographe\nP", _panto]]
 	if free_mode:
-		specs += [["Aiguillages\nA", _toggle_switches], ["Remise sur voie\nR", _rerail], ["Trafic\nT", _traffic]]
+		specs += [["Aiguillages\nA", _toggle_switches], ["Changer de sens\nV", _reverse], ["Remise sur voie\nR", _rerail], ["Trafic\nT", _traffic]]
 	for spec in specs:
 		var b := Button.new(); b.text = spec[0]; b.custom_minimum_size = Vector2(108, 74); b.pressed.connect(spec[1])
 		b.add_theme_font_size_override("font_size", 19); bh.add_child(b)
@@ -361,6 +361,11 @@ func _panto() -> void:
 
 func _emergency() -> void:
 	emergency = true; _set_notch(-1.0); _log("Freinage d'urgence")
+
+func _reverse() -> void:
+	if free:
+		var err := free.reverse()
+		if err != "": _log(err)
 
 func _rerail() -> void:
 	if free: free.rerail(); _log("Remise sur voie")
@@ -471,6 +476,7 @@ func _input(ev: InputEvent) -> void:
 		KEY_P: _panto()
 		KEY_A: _toggle_switches()
 		KEY_R: _rerail()
+		KEY_V: _reverse()
 		KEY_T: _traffic()
 		KEY_W, KEY_Z, KEY_UP: _set_notch(notch + 0.25)
 		KEY_S, KEY_DOWN: _set_notch(notch - 0.25)

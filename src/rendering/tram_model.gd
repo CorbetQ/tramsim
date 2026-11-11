@@ -141,7 +141,7 @@ static func livery_for(meta: Dictionary, entry: Dictionary = {}) -> Dictionary:
 	var raw: Dictionary = DEFAULT_COLORS.duplicate()
 	raw.elements = [] if not net.is_empty() else [{"type": "band", "colors": ["route"], "y": [0.5, 0.85], "zone": "sides+front"}]
 	for l in _layers(net, line, fam):
-		for k in COLOR_KEYS + ["elements"]:
+		for k in COLOR_KEYS + ["elements", "pattern"]:
 			if l.has(k): raw[k] = l[k]
 	var route := Color.from_string(str(meta.get("color", "#c8102e")), Color(0.78, 0.06, 0.18))
 	if route.get_luminance() > 0.92: route = Color(0.2, 0.3, 0.45)
@@ -157,6 +157,12 @@ static func livery_for(meta: Dictionary, entry: Dictionary = {}) -> Dictionary:
 		r.colors = cols
 		els.append(r)
 	res.elements = els
+	if raw.has("pattern"):
+		var pat: Dictionary = (raw.pattern as Dictionary).duplicate(true)
+		var pc: Array = []
+		for col in pat.get("colors", []): pc.append(_color(col, route))
+		pat.colors = pc
+		res.pattern = pat
 	return res
 
 # ---------------------------------------------------------------- construction
@@ -166,7 +172,7 @@ static func build_rig(livery: Dictionary, length_m: float = -1.0) -> Rig:
 	var fam := family_id(str(livery.get("family", "citadis_302")))
 	var p := plan(fam)
 	var L := length_m if length_m > 0.0 else float(livery.get("length", p.get("length_m", 32.0)))
-	var bld := _Body.new(p, livery, L)
+	var bld := _Body.new(p, _variant(livery), L)
 	return bld.make_rig()
 
 ## Compatibilité : modules seuls (sans animation).
@@ -174,6 +180,60 @@ static func build(length_m: float, livery: Dictionary, family: String = "") -> A
 	var liv := livery.duplicate()
 	if family != "": liv.family = family
 	return build_rig(liv, length_m).modules
+
+static var _variant_n := 0
+
+## Couleur de face tirée par rame (motif "front_variant", ex. Reims) : livrée.variant ou rotation.
+static func _variant(livery: Dictionary) -> Dictionary:
+	var pat: Dictionary = livery.get("pattern", {})
+	var cols: Array = pat.get("colors", [])
+	if str(pat.get("type", "")) != "front_variant" or cols.is_empty(): return livery
+	var liv := livery.duplicate(true)
+	var idx := int(livery.get("variant", _variant_n))
+	_variant_n += 1
+	var c: Color = cols[posmod(idx, cols.size())]
+	var old: Color = liv.front
+	liv.front = c
+	for el in liv.elements:
+		if str(el.get("zone", "")).contains("front") and not (el.colors as Array).is_empty() and (el.colors[0] as Color).is_equal_approx(old):
+			el.colors[0] = c
+	liv.variant_color = c
+	return liv
+
+## Interpolation cubique monotone (Fritsch-Carlson) d'une suite [[x, y], ...] à x croissants : profils lissés.
+static func _sm(pts: Array, x: float) -> float:
+	var n := pts.size()
+	if n == 0: return 0.0
+	if n == 1 or x <= float(pts[0][0]): return float(pts[0][1])
+	if x >= float(pts[-1][0]): return float(pts[-1][1])
+	var i := 1
+	while i < n - 1 and x > float(pts[i][0]): i += 1
+	var x0 := float(pts[i - 1][0]); var x1 := float(pts[i][0])
+	var y0 := float(pts[i - 1][1]); var y1 := float(pts[i][1])
+	var hh := x1 - x0
+	if hh <= 1e-6: return y1
+	var d := (y1 - y0) / hh
+	var m0 := _slope(pts, i - 1); var m1 := _slope(pts, i)
+	if absf(d) < 1e-9: m0 = 0.0; m1 = 0.0
+	else:
+		var a := m0 / d; var b := m1 / d
+		if a < 0.0: m0 = 0.0
+		if b < 0.0: m1 = 0.0
+		var r := a * a + b * b
+		if r > 9.0:
+			var t := 3.0 / sqrt(r); m0 = t * a * d; m1 = t * b * d
+	var u := (x - x0) / hh
+	var u2 := u * u; var u3 := u2 * u
+	return (2 * u3 - 3 * u2 + 1) * y0 + (u3 - 2 * u2 + u) * hh * m0 + (-2 * u3 + 3 * u2) * y1 + (u3 - u2) * hh * m1
+
+static func _slope(pts: Array, i: int) -> float:
+	var n := pts.size()
+	if i == 0: return (float(pts[1][1]) - float(pts[0][1])) / maxf(float(pts[1][0]) - float(pts[0][0]), 1e-6)
+	if i == n - 1: return (float(pts[i][1]) - float(pts[i - 1][1])) / maxf(float(pts[i][0]) - float(pts[i - 1][0]), 1e-6)
+	var d0 := (float(pts[i][1]) - float(pts[i - 1][1])) / maxf(float(pts[i][0]) - float(pts[i - 1][0]), 1e-6)
+	var d1 := (float(pts[i + 1][1]) - float(pts[i][1])) / maxf(float(pts[i + 1][0]) - float(pts[i][0]), 1e-6)
+	if d0 * d1 <= 0.0: return 0.0
+	return (d0 + d1) * 0.5
 
 static func _material_plain(h: float) -> ShaderMaterial:
 	var key := "%.2f" % h
@@ -209,15 +269,26 @@ class Rig:
 	var panto_cfg: Dictionary = {}
 	var doors_target := false
 	var panto_target := true
-	var door_t := 0.0
+	var door_t := 0.0               # ouverture la plus avancée des deux côtés (0..1)
+	var door_t_right := 0.0         # côté droit dans le sens de marche (+x, avant vers -z)
+	var door_t_left := 0.0
+	var door_right := false         # cibles par côté
+	var door_left := false
 	var panto_t := 1.0
 
-	func set_doors(open: bool) -> void: doors_target = open
+	## Ouvre les portes du côté quai : "right", "left" ou "both" (droite/gauche dans le sens de marche,
+	## nez avant vers -z) ; seules ces portes s'ouvrent. `open` = false referme toutes les portes.
+	func set_doors(open: bool, side: String = "right") -> void:
+		doors_target = open
+		door_right = open and side in ["right", "both"]
+		door_left = open and side in ["left", "both"]
+	func door_side_t(side: float) -> float: return door_t_right if side > 0.0 else door_t_left
 	func set_pantograph(up: bool) -> void: panto_target = up
 	func door_time() -> float: return maxf(float(door_cfg.get("open_s", 2.5)), 0.05)
 	func panto_time() -> float: return maxf(float(panto_cfg.get("raise_s", 4.0)), 0.05)
-	func doors_open() -> bool: return door_t >= 1.0
-	func doors_closed() -> bool: return door_t <= 0.0
+	func doors_open() -> bool:
+		return doors_target and (not door_right or door_t_right >= 1.0) and (not door_left or door_t_left >= 1.0) and door_t >= 1.0
+	func doors_closed() -> bool: return door_t_right <= 0.0 and door_t_left <= 0.0
 	func pantograph_up() -> bool: return panto_t >= 1.0
 	func pantograph_down() -> bool: return panto_t <= 0.0
 	## Hauteur de l'archet au-dessus du toit (m).
@@ -226,15 +297,19 @@ class Rig:
 
 	## Place les états sans transition.
 	func snap() -> void:
-		door_t = 1.0 if doors_target else 0.0
+		door_t_right = 1.0 if door_right else 0.0
+		door_t_left = 1.0 if door_left else 0.0
+		door_t = maxf(door_t_right, door_t_left)
 		panto_t = 1.0 if panto_target else 0.0
 		_apply()
 
 	func update(dt: float) -> void:
-		var d0 := door_t; var p0 := panto_t
-		door_t = move_toward(door_t, 1.0 if doors_target else 0.0, dt / door_time())
+		var r0 := door_t_right; var l0 := door_t_left; var p0 := panto_t
+		door_t_right = move_toward(door_t_right, 1.0 if door_right else 0.0, dt / door_time())
+		door_t_left = move_toward(door_t_left, 1.0 if door_left else 0.0, dt / door_time())
+		door_t = maxf(door_t_right, door_t_left)
 		panto_t = move_toward(panto_t, 1.0 if panto_target else 0.0, dt / panto_time())
-		if d0 != door_t or p0 != panto_t: _apply()
+		if r0 != door_t_right or l0 != door_t_left or p0 != panto_t: _apply()
 
 	## Modules alignés en ligne droite autour de l'origine (aperçus).
 	func layout_straight() -> void:
@@ -246,16 +321,17 @@ class Rig:
 		var out_m := float(door_cfg.get("out_m", 0.06))
 		for lf in leaves:
 			var n: Node3D = lf.node
+			var dt_: float = door_side_t(float(lf.side))
 			if typ == "swing":
-				var a: float = -float(lf.side) * float(lf.dir) * deg_to_rad(95.0) * smoothstep(0.0, 1.0, door_t)
+				var a: float = -float(lf.side) * float(lf.dir) * deg_to_rad(95.0) * smoothstep(0.0, 1.0, dt_)
 				var hinge: Vector3 = lf.hinge
 				var b := Basis(Vector3.UP, a)
 				n.transform = Transform3D(b, hinge - b * hinge)
 				continue
-			var u1 := 1.0; var u2 := smoothstep(0.0, 1.0, door_t)
+			var u1 := 1.0; var u2 := smoothstep(0.0, 1.0, dt_)
 			if typ == "plug":
-				u1 = smoothstep(0.0, 1.0, clampf(door_t / 0.3, 0.0, 1.0))
-				u2 = smoothstep(0.0, 1.0, clampf((door_t - 0.3) / 0.7, 0.0, 1.0))
+				u1 = smoothstep(0.0, 1.0, clampf(dt_ / 0.3, 0.0, 1.0))
+				u2 = smoothstep(0.0, 1.0, clampf((dt_ - 0.3) / 0.7, 0.0, 1.0))
 			else:
 				u1 = 0.0
 			n.position = Vector3(float(lf.side) * out_m * u1, 0.0, float(lf.dir) * float(lf.travel) * u2)
@@ -284,10 +360,25 @@ class Rig:
 
 
 ## Accumulateur de triangles (couleurs par sommet, faces orientées vers `out`).
+## UV = (abscisse de caisse en m, y) pour les motifs de livrée ; UV2.x = 1 sur la peinture (`paint`).
 class _Mesh:
 	extends RefCounted
 	var st := SurfaceTool.new()
 	var tris := 0
+	var gz := 0.0        # z global du centre du module
+	var ndir := 0.0      # face avant en cours (-1 / +1) : abscisse déroulée autour du nez
+	var hw := 1.2
+	var paint := false
+
+	func _v(p: Vector3, col: Color) -> void:
+		var u := p.z + gz
+		if ndir != 0.0: u += ndir * maxf(hw - absf(p.x), 0.0)
+		st.set_color(col)
+		st.set_uv(Vector2(u, p.y))
+		var pm := 0.0
+		if paint: pm = 1.0 if col.a > 0.99 else (0.5 if absf(col.a - TramModel.GLASS_A) < 0.01 else 0.0)
+		st.set_uv2(Vector2(pm, 0.0))
+		st.add_vertex(p)
 
 	func _init() -> void:
 		st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -297,9 +388,7 @@ class _Mesh:
 		if n.length_squared() < 1e-10: return
 		if n.dot(out) > 0.0:  # Godot : faces avant dans le sens horaire
 			var t := b; b = c; c = t
-		st.set_color(col); st.add_vertex(a)
-		st.set_color(col); st.add_vertex(b)
-		st.set_color(col); st.add_vertex(c)
+		_v(a, col); _v(b, col); _v(c, col)
 		tris += 1
 
 	func quad(a: Vector3, b: Vector3, c: Vector3, d: Vector3, col: Color, out: Vector3) -> void:
@@ -365,6 +454,9 @@ class _Body:
 	var full: Array = []       # profil complet droite -> gauche
 	var decals: Array = []     # {pts: Array[Vector2(zg, y)], col, glass: bool}
 	var rubber := false
+	var bulge_r := 0.22        # bombé frontal (pare-brise, bouclier) / demi-largeur de la pointe
+	var Lfz := 1.5             # avancée des anneaux (Lf moins le bombé central)
+	const TUCK := 0.07         # chanfrein du bas de caisse (jupe rentrante)
 
 	func _init(p: Dictionary, liv: Dictionary, length_m: float) -> void:
 		P = p; L = liv; total = length_m
@@ -387,6 +479,8 @@ class _Body:
 		var ws: Dictionary = front.get("windshield", {})
 		ws_lo = float(ws.get("bottom_m", 1.1)); ws_hi = float(ws.get("top_m", 2.8)); wrap = float(ws.get("wrap", 0.3))
 		bumper = float(front.get("bumper_m", 0.05))
+		bulge_r = float(front.get("bulge", 0.22))
+		Lfz = maxf(Lf - bulge_r * hw * plan_w(1.0), Lf * 0.6)
 		_prepare_modules()
 		_prepare_levels()
 		_prepare_decals()
@@ -461,7 +555,10 @@ class _Body:
 		if float(levels[-1]) < cant - 0.001: levels.append(cant)
 		profile = []
 		for y in levels: profile.append(Vector2(hw, float(y)))
-		profile.append(Vector2(hw - sh * 0.35, cant + (h - cant) * 0.62))
+		profile[0].x = hw - TUCK
+		for k in range(1, 4):  # épaulement arrondi (quart d'ellipse)
+			var a := PI * 0.5 * k / 4.0
+			profile.append(Vector2(hw - sh + sh * cos(a), cant + (h - cant) * sin(a)))
 		profile.append(Vector2(hw - sh, h))
 		profile.append(Vector2(0.0, h))
 		full = profile.duplicate()
@@ -619,40 +716,58 @@ class _Body:
 
 	# ------------------------------------------------ face avant
 	func smax(y: float) -> float:
-		return clampf(1.0 - TramModel._ip(side_pts, y), 0.0, 1.0)
+		return clampf(1.0 - TramModel._sm(side_pts, y), 0.0, 1.0)
 
 	func plan_w(s: float) -> float:
-		return TramModel._ip(plan_pts, s)
+		return TramModel._sm(plan_pts, s)
 
 	func sect_w(y: float, s: float) -> float:
 		if sect_pts.is_empty(): return 1.0
-		return lerpf(1.0, TramModel._ip(sect_pts, y), s)
+		return lerpf(1.0, TramModel._sm(sect_pts, y), s)
+
+	## Bouclier : avancée du pare-chocs, fondue sur 0,3 m au-dessus de la jupe.
+	func bump(y: float, s: float) -> float:
+		return bumper * s * smoothstep(skirt + 0.25, skirt - 0.05, y)
 
 	func nose_pt(p: Vector2, s: float, zj: float, dir: float) -> Vector3:
-		var bump := bumper * s if p.y <= skirt + 0.01 else 0.0
-		return Vector3(p.x * plan_w(s) * sect_w(p.y, s), p.y, zj + dir * (s * Lf + bump))
+		return Vector3(p.x * plan_w(s) * sect_w(p.y, s), p.y, zj + dir * (s * Lfz + bump(p.y, s)))
 
-	## z de la surface avant au point (|x|, y) (feux, girouette).
+	## z de la surface avant au point (|x|, y) (feux, girouette), bombé de la calotte compris.
 	func face_z(x: float, y: float, zj: float, dir: float) -> float:
 		var sm := smax(y)
-		var s := sm
-		if hw * plan_w(sm) * sect_w(y, sm) < x:
+		var wt := hw * plan_w(sm) * sect_w(y, sm)
+		if wt <= x:
 			var lo := 0.0; var hi := sm
 			for i in 12:
 				var mid := (lo + hi) * 0.5
 				if hw * plan_w(mid) * sect_w(y, mid) > x: lo = mid
 				else: hi = mid
-			s = lo
-		return zj + dir * (s * Lf + (bumper * s if y <= skirt + 0.01 else 0.0))
+			return zj + dir * (lo * Lfz + bump(y, lo))
+		var u := x / maxf(wt, 0.01)
+		return zj + dir * (sm * Lfz + bump(y, sm) + bulge_r * wt * sqrt(maxf(1.0 - u * u, 0.0)))
+
+	## Colonnes de la calotte d'une rangée : quart d'ellipse de la pointe du flanc (r) à l'axe.
+	func _cap_row(r: Vector3, dir: float, sx: float) -> Array:
+		var out: Array = []
+		var w := absf(r.x)
+		for i in CAP_K + 1:
+			var a := PI * 0.5 * float(i) / CAP_K
+			out.append(Vector3(sx * w * cos(a), r.y, r.z + dir * bulge_r * w * sin(a)))
+		return out
+
+	const CAP_K := 6
+	const RINGS := [0.0, 0.14, 0.28, 0.41, 0.53, 0.64, 0.74, 0.83, 0.9, 0.955, 1.0]
 
 	func nose(m: _Mesh, zj: float, dir: float, is_front: bool, gz: float) -> void:
-		var S := [0.0, 0.22, 0.42, 0.6, 0.75, 0.88, 1.0]
+		m.ndir = dir; m.paint = true
 		var rings: Array = []; var ses: Array = []
-		for s in S:
+		var sm: Array = []
+		for p in full: sm.append(smax(p.y))
+		for s in RINGS:
 			var ring: Array = []; var se: Array = []
-			for p in full:
-				var e := minf(float(s), smax(p.y))
-				ring.append(nose_pt(p, e, zj, dir)); se.append(e)
+			for j in full.size():
+				var e := minf(float(s), float(sm[j]))
+				ring.append(nose_pt(full[j], e, zj, dir)); se.append(e)
 			rings.append(ring); ses.append(se)
 		var zg := gz + zj
 		for k in range(1, rings.size()):
@@ -671,33 +786,34 @@ class _Body:
 					col = surf(y, zg, "front" if s > 0.18 else "side")
 				var xm := (a0.x + a1.x + b0.x + b1.x) * 0.25
 				m.quad(a0, a1, b1, b0, col, Vector3(xm, y - h * 0.5, dir * 0.8))
-		# calotte frontale : bandes horizontales entre les deux flancs, légèrement bombée au centre
+		# calotte frontale bombée (pare-brise et bouclier galbés) : quarts d'ellipse entre les deux flancs
 		var tip: Array = rings[-1]
-		var n := full.size()
 		var c_idx := profile.size() - 1
+		var bottom: Array = []
 		for j in range(c_idx):
-			var r0: Vector3 = tip[j]; var r1: Vector3 = tip[j + 1]; var l0: Vector3 = tip[n - 1 - j]; var l1: Vector3 = tip[n - 2 - j]
+			var r0: Vector3 = tip[j]; var r1: Vector3 = tip[j + 1]
 			var y := (r0.y + r1.y) * 0.5
-			var b0 := Vector3(0, 0, dir * (0.05 if r0.y < cant else 0.0)); var b1 := Vector3(0, 0, dir * (0.05 if r1.y < cant else 0.0))
-			var m0 := (r0 + l0) * 0.5 + b0; var m1 := (r1 + l1) * 0.5 + b1
-			var col: Color
 			var frame := surf(y, zg, "front")
-			if y > ws_lo and y < ws_hi: col = shield()
-			elif y >= h - 0.02: col = L.roof
-			else: col = frame
-			if col == frame or y >= h - 0.02:
-				m.quad(r0, r1, m1, m0, col, Vector3(0.2, 0, dir))
-				m.quad(m0, m1, l1, l0, col, Vector3(-0.2, 0, dir))
-			else:  # pare-brise encadré par des montants
-				var k0 := 0.9 if wrap > 0.15 else 0.94
-				var e0 := m0.lerp(r0, k0); var e1 := m1.lerp(r1, k0); var f0 := m0.lerp(l0, k0); var f1 := m1.lerp(l1, k0)
-				m.quad(r0, r1, e1, e0, frame, Vector3(0.3, 0, dir))
-				m.quad(e0, e1, m1, m0, col, Vector3(0.2, 0, dir))
-				m.quad(m0, m1, f1, f0, col, Vector3(-0.2, 0, dir))
-				m.quad(f0, f1, l1, l0, frame, Vector3(-0.3, 0, dir))
-		# dessous du nez
-		var jb: Vector3 = rings[0][0]; var tb: Vector3 = tip[0]
-		m.quad(Vector3(jb.x, yb, jb.z), Vector3(-jb.x, yb, jb.z), Vector3(-tb.x, yb, tb.z), Vector3(tb.x, yb, tb.z), L.skirt.darkened(0.3), Vector3.DOWN)
+			var in_ws := y > ws_lo and y < ws_hi
+			for sx in [1.0, -1.0]:
+				var P0 := _cap_row(r0, dir, sx); var P1 := _cap_row(r1, dir, sx)
+				if j == 0: bottom.append(P0)
+				for i in CAP_K:
+					var col: Color = frame
+					if y >= h - 0.02: col = L.roof
+					elif in_ws and i > 0: col = shield()
+					m.quad(P0[i], P0[i + 1], P1[i + 1], P1[i], col, Vector3(sx * (0.6 - 0.15 * i), 0, dir))
+		# dessous du nez (éventail depuis la jonction)
+		m.paint = false
+		var under: Array = [Vector3(0, yb, zj)]
+		for k in rings.size(): under.append(rings[k][0])
+		for q in (bottom[0] as Array).slice(1): under.append(q)
+		var left: Array = (bottom[1] as Array).slice(0, CAP_K)
+		left.reverse()
+		for q in left: under.append(q)
+		for k in range(rings.size() - 1, -1, -1): under.append(rings[k][full.size() - 1])
+		m.poly(under, L.skirt.darkened(0.3), Vector3.DOWN)
+		m.ndir = 0.0
 		_lamps(m, zj, dir, is_front)
 
 	func _lamps(m: _Mesh, zj: float, dir: float, is_front: bool) -> void:
@@ -711,13 +827,13 @@ class _Body:
 			var lx: float = side * x
 			var z := face_z(absf(lx), y, zj, dir)
 			if is_front:
-				_lamp(m, shape, Vector3(lx, y, z), w, hh, white, dir)
+				_lamp(m, shape, Vector3(lx, y, z), w, hh, white, dir, zj)
 			else:
-				_lamp(m, shape, Vector3(lx, y, z), w * 0.7, hh, red, dir)
+				_lamp(m, shape, Vector3(lx, y, z), w * 0.7, hh, red, dir, zj)
 		var ul: Dictionary = front.get("upper_light", {})
 		if not ul.is_empty():
 			var uy := float(ul.get("y_m", h - 0.15))
-			_lamp(m, "round", Vector3(0, uy, face_z(0.0, uy, zj, dir)), 0.14, 0.14, white if is_front else red, dir)
+			_lamp(m, "round", Vector3(0, uy, face_z(0.0, uy, zj, dir)), 0.14, 0.14, white if is_front else red, dir, zj)
 		var dest: Dictionary = front.get("destination", {})
 		var dy := float(dest.get("y_m", h - 0.45)); var dw := float(dest.get("w_m", 1.4)); var dh := float(dest.get("h_m", 0.22))
 		dy = minf(dy, h - dh * 0.5 - 0.03)
@@ -745,20 +861,26 @@ class _Body:
 					var by := (float(yr[0]) + float(yr[1])) * 0.5
 					m.box(Vector3(bx, by, face_z(absf(bx), by, zj, dir) + dir * 0.01), Vector3(0.05, float(yr[1]) - float(yr[0]), 0.04), Color(0.92, 0.95, 1.0, LAMP_A))
 
-	func _lamp(m: _Mesh, shape: String, c: Vector3, w: float, hh: float, col: Color, dir: float) -> void:
+	## Feu plaqué sur la surface avant (suit le galbe, subdivisé) : lunette sombre puis optique.
+	func _lamp(m: _Mesh, shape: String, c: Vector3, w: float, hh: float, col: Color, dir: float, zj: float) -> void:
 		var bez := Color(0.08, 0.08, 0.09)
-		if shape == "round":
-			var r := maxf(w, hh) * 0.5
-			var pts: Array = []; var outer: Array = []
-			for i in 8:
-				var a := TAU * i / 8.0
-				pts.append(c + Vector3(cos(a) * r, sin(a) * r, dir * 0.03))
-				outer.append(c + Vector3(cos(a) * (r + 0.04), sin(a) * (r + 0.04), dir * 0.02))
-			m.poly(outer, bez, Vector3(0, 0, dir))
-			m.poly(pts, col, Vector3(0, 0, dir))
-		else:
-			m.box(c + Vector3(0, 0, dir * 0.01), Vector3(w + 0.06, hh + 0.06, 0.04), bez)
-			m.box(c + Vector3(0, 0, dir * 0.03), Vector3(w, hh, 0.03), col)
+		var nrm := Vector3(0, 0, dir)
+		for layer in [[bez, 0.035, 0.03], [col, 0.0, 0.05]]:
+			var k: float = layer[1]; var off: float = layer[2]
+			var on := func(dx: float, dy: float) -> Vector3:
+				var px := c.x + dx; var py := c.y + dy
+				return Vector3(px, py, face_z(absf(px), py, zj, dir) + dir * off)
+			if shape == "round":
+				var r := maxf(w, hh) * 0.5 + k
+				var ctr: Vector3 = on.call(0.0, 0.0)
+				for i in 8:
+					var a0 := TAU * i / 8.0; var a1 := TAU * (i + 1) / 8.0
+					m.tri(ctr, on.call(cos(a0) * r, sin(a0) * r), on.call(cos(a1) * r, sin(a1) * r), layer[0], nrm)
+			else:
+				var hx := w * 0.5 + k; var hy := hh * 0.5 + k
+				for i in 4:
+					var x0 := lerpf(-hx, hx, i / 4.0); var x1 := lerpf(-hx, hx, (i + 1) / 4.0)
+					m.quad(on.call(x0, -hy), on.call(x1, -hy), on.call(x1, hy), on.call(x0, hy), layer[0], nrm)
 
 	# ------------------------------------------------ caisse d'un module
 	func make_rig() -> TramModel.Rig:
@@ -767,7 +889,8 @@ class _Body:
 		rig.length = total
 		rig.door_cfg = P.get("door_anim", {})
 		rig.panto_cfg = P.get("pantograph", {})
-		var mat := Materials.tram(h)
+		var pat: Dictionary = L.get("pattern", {})
+		var mat := Materials.tram(h, pat if Materials.PATTERN_IDS.has(str(pat.get("type", ""))) else {})
 		var plain := TramModel._material_plain(h)
 		var g0 := 0.0
 		var n := mods.size()
@@ -775,6 +898,7 @@ class _Body:
 			var md: Dictionary = mods[i]
 			var Lm := float(md.length_m) * scale
 			var m := _Mesh.new()
+			m.gz = g0 + Lm * 0.5; m.hw = hw
 			var mi := MeshInstance3D.new()
 			mi.name = "Module%d" % i
 			var leaves := _module(m, md, i, n, Lm, g0 + Lm * 0.5, rig, mi, mat, plain)
@@ -822,10 +946,12 @@ class _Body:
 		cuts[-1] = zB
 		var interior := Color(0.16, 0.17, 0.19, GLASS_A)
 		# parois latérales : rangées de niveaux, cellules fusionnées par couleur
+		m.paint = true
 		for side in [1.0, -1.0]:
 			var x: float = side * hw
 			for r in range(levels.size() - 1):
 				var y0 := float(levels[r]); var y1 := float(levels[r + 1])
+				var xb: float = side * (hw - TUCK) if r == 0 else x   # chanfrein du bas de caisse
 				var ym := (y0 + y1) * 0.5
 				var run_z := float(cuts[0]); var run_c := Color(-1, 0, 0)
 				for k in range(cuts.size() - 1):
@@ -842,10 +968,10 @@ class _Body:
 					elif in_win: col = glass()
 					else: col = surf(ym, zm + gz, "side")
 					if k > 0 and not col.is_equal_approx(run_c):
-						m.quad(Vector3(x, y0, run_z), Vector3(x, y1, run_z), Vector3(x, y1, za), Vector3(x, y0, za), run_c, Vector3(side, 0, 0))
+						m.quad(Vector3(xb, y0, run_z), Vector3(x, y1, run_z), Vector3(x, y1, za), Vector3(xb, y0, za), run_c, Vector3(side, 0, 0))
 						run_z = za
 					run_c = col
-				m.quad(Vector3(x, y0, run_z), Vector3(x, y1, run_z), Vector3(x, y1, zB), Vector3(x, y0, zB), run_c, Vector3(side, 0, 0))
+				m.quad(Vector3(xb, y0, run_z), Vector3(x, y1, run_z), Vector3(x, y1, zB), Vector3(xb, y0, zB), run_c, Vector3(side, 0, 0))
 			# épaulement et toit
 			for k in range(levels.size() - 1, profile.size() - 1):
 				var a: Vector2 = profile[k]; var b: Vector2 = profile[k + 1]
@@ -858,9 +984,12 @@ class _Body:
 			for d in doors:
 				zfree.append([zcur, float(d.z0)]); zcur = float(d.z1)
 			zfree.append([zcur, zB])
+			m.paint = false
 			for zr in zfree:
 				if float(zr[1]) - float(zr[0]) > 0.02:
 					_emit_decals(m, x + side * 0.008, side, gz, float(zr[0]), float(zr[1]), [[yb, cant]], [[yb, wb], [wt, cant]])
+			m.paint = true
+		m.paint = false
 		# fond de caisse
 		m.quad(Vector3(-hw, yb, zA), Vector3(hw, yb, zA), Vector3(hw, yb, zB), Vector3(-hw, yb, zB), L.skirt.darkened(0.3), Vector3.DOWN)
 		# extrémités d'intercirculation, soufflet
@@ -1024,6 +1153,7 @@ class _Body:
 			for pt in parts:
 				var a := float(pt[0]) + 0.01; var b := float(pt[1]) - 0.01
 				var lm := _Mesh.new()
+				lm.gz = gz; lm.hw = hw; lm.paint = true
 				var fr := 0.07
 				for r in range(ry.size() - 1):
 					var y0 := float(ry[r]); var y1 := float(ry[r + 1]); var ym := (y0 + y1) * 0.5
@@ -1035,6 +1165,7 @@ class _Body:
 					else:
 						lm.quad(Vector3(x, y0, a), Vector3(x, y1, a), Vector3(x, y1, b), Vector3(x, y0, b), c, Vector3(side, 0, 0))
 				# chants
+				lm.paint = false
 				var xi: float = x - side * 0.04
 				var ec: Color = (L.door as Color).darkened(0.35)
 				lm.quad(Vector3(x, floor_y, a), Vector3(x, door_top, a), Vector3(xi, door_top, a), Vector3(xi, floor_y, a), ec, Vector3(0, 0, -1))

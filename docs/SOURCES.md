@@ -26,3 +26,10 @@ Régénération d'une ligne : `python3 tools/import/gtfs_to_network.py <dossier_
 - Arbres : dispersés aléatoirement (tirage stable) dans les zones de végétation réelles ; pas d'arbres d'alignement.
 - Couleurs de façades et de toitures : palettes régionales choisies par le projet (`data/city_styles.json`), pas les couleurs réelles de chaque bâtiment.
 - Livrées : `data/rolling_stock/liveries.json` (approximations documentées par réseau ; `route` = couleur officielle de la ligne).
+
+## Décor v2 (BD TOPO)
+- Bâtiments remarquables : zones d'intérêt nommées (`zone_d_activite_ou_d_interet`, `equipement_de_transport`) → églises, cathédrales/basiliques, châteaux, édifices civiques (mairie, préfecture, musée, monument…), gares, écoles ; nom affiché au-dessus du volume principal.
+- Clochers, tours, cheminées : `construction_ponctuelle` (hauteur IGN si renseignée, sinon estimée).
+- Toits (deux pans, croupe, mansarde parisienne, sheds), vitrines, balcons haussmanniens, essences d'arbres régionales et arbres d'alignement : choix stylistiques du projet, pas des relevés.
+- Plateformes de tram : engazonnée / enrobée / pavée selon la densité de bâti alentour (heuristique).
+- Arrêts de retournement : arrêts GTFS où des services commencent ou finissent (≥ 4 services) ; la géométrie des communications de voies est stylisée.

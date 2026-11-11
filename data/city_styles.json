@@ -12,7 +12,12 @@
    "#8a7a70"
   ],
   "pitched": "#a65e44",
-  "ground": "#b6b1a8"
+  "ground": "#b6b1a8",
+  "trees": [
+   0,
+   2,
+   1
+  ]
  },
  "styles": {
   "ouest": {
@@ -28,7 +33,13 @@
     "#47505b"
    ],
    "pitched": "#4a5361",
-   "ground": "#b9b7ae"
+   "ground": "#b9b7ae",
+   "trees": [
+    0,
+    2,
+    5,
+    1
+   ]
   },
   "sud": {
    "walls": [
@@ -43,7 +54,12 @@
     "#c27a4c"
    ],
    "pitched": "#bf6a40",
-   "ground": "#c3b9a6"
+   "ground": "#c3b9a6",
+   "trees": [
+    6,
+    3,
+    0
+   ]
   },
   "toulouse": {
    "walls": [
@@ -57,7 +73,12 @@
     "#a8573a"
    ],
    "pitched": "#b5603c",
-   "ground": "#beb0a1"
+   "ground": "#beb0a1",
+   "trees": [
+    6,
+    0,
+    2
+   ]
   },
   "nord": {
    "walls": [
@@ -71,7 +92,12 @@
     "#5b5550"
    ],
    "pitched": "#5a4b44",
-   "ground": "#b0aea8"
+   "ground": "#b0aea8",
+   "trees": [
+    0,
+    2,
+    5
+   ]
   },
   "est": {
    "walls": [
@@ -86,7 +112,12 @@
     "#9c4c38"
    ],
    "pitched": "#a8523b",
-   "ground": "#b7b4aa"
+   "ground": "#b7b4aa",
+   "trees": [
+    0,
+    2,
+    1
+   ]
   },
   "paris": {
    "walls": [
@@ -100,7 +131,12 @@
     "#6d7882"
    ],
    "pitched": "#6f7a85",
-   "ground": "#b8b4ab"
+   "ground": "#b8b4ab",
+   "trees": [
+    6,
+    0,
+    2
+   ]
   },
   "lyon": {
    "walls": [
@@ -114,7 +150,12 @@
     "#a95c3a"
    ],
    "pitched": "#b9673f",
-   "ground": "#beb6a8"
+   "ground": "#beb6a8",
+   "trees": [
+    6,
+    0,
+    2
+   ]
   },
   "bordeaux": {
    "walls": [
@@ -127,7 +168,12 @@
     "#a96244"
    ],
    "pitched": "#b86d48",
-   "ground": "#beb8ab"
+   "ground": "#beb8ab",
+   "trees": [
+    6,
+    0,
+    3
+   ]
   },
   "montagne": {
    "walls": [
@@ -141,7 +187,12 @@
     "#6c6560"
    ],
    "pitched": "#5f5a56",
-   "ground": "#aeaba5"
+   "ground": "#aeaba5",
+   "trees": [
+    1,
+    0,
+    5
+   ]
   },
   "beton": {
    "walls": [
@@ -155,7 +206,12 @@
     "#7f8183"
    ],
    "pitched": "#7f8183",
-   "ground": "#b0b0ac"
+   "ground": "#b0b0ac",
+   "trees": [
+    0,
+    2,
+    5
+   ]
   },
   "bretagne": {
    "walls": [
@@ -168,7 +224,32 @@
     "#3e444d"
    ],
    "pitched": "#454c56",
-   "ground": "#b6b4ae"
+   "ground": "#b6b4ae",
+   "trees": [
+    0,
+    1,
+    2
+   ]
+  },
+  "nice": {
+   "walls": [
+    "#ecd3a8",
+    "#e6c48f",
+    "#f1dfbf",
+    "#d9b88a",
+    "#efe2c8"
+   ],
+   "roofs": [
+    "#b8693f",
+    "#c27a4c"
+   ],
+   "pitched": "#bf6a40",
+   "ground": "#c3b9a6",
+   "trees": [
+    4,
+    6,
+    3
+   ]
   }
  },
  "cities": {
@@ -182,7 +263,7 @@
   "toulouse": "toulouse",
   "montpellier": "sud",
   "marseille": "sud",
-  "nice": "sud",
+  "nice": "nice",
   "avignon": "sud",
   "aubagne": "sud",
   "lille": "nord",

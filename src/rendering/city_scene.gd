@@ -27,6 +27,15 @@ var city := ""
 var stats := {"tiles": 0, "buildings": 0}
 static var _styles: Dictionary = {}
 static var _trees: Array[Mesh] = []
+var v2 := false
+var _trees_cur: Array = []
+const K_CHURCH := 1
+const K_CATHEDRAL := 2
+const K_CASTLE := 3
+const K_CIVIC := 4
+const K_STATION := 5
+const K_SCHOOL := 6
+const TREE_KINDS := 7
 
 static func path_for(c: String) -> String:
 	return "res://data/scenes/%s.bin" % c
@@ -38,8 +47,10 @@ static func available(c: String) -> bool:
 func open(c: String, net_origin: Array) -> bool:
 	city = c
 	buf = FileAccess.get_file_as_bytes(path_for(c))
-	if buf.size() < 8 or buf.slice(0, 4).get_string_from_ascii() != "TSC1":
+	var magic := buf.slice(0, 4).get_string_from_ascii() if buf.size() >= 8 else ""
+	if magic != "TSC1" and magic != "TSC2":
 		return false
+	v2 = magic == "TSC2"
 	var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s.json" % c))
 	tile_m = float(meta.tile_m)
 	var n := buf.decode_u32(4)
@@ -100,23 +111,51 @@ func _build_tile(k: Vector2i) -> Node3D:
 	var o := e.x
 	var S := _Arrays.new()
 	var W := _Arrays.new()
-	var trees: Array = [[], [], []]
+	_trees_cur = []
+	for i in TREE_KINDS: _trees_cur.append([])
+	_tile_origin = Vector2(k.x * tile_m, k.y * tile_m)
 	var seed := hash(k)
-	# sol urbain de la tuile
 	S.quad(Vector3(0, 0, 0), Vector3(tile_m, 0, 0), Vector3(tile_m, 0, tile_m), Vector3(0, 0, tile_m), Color.from_string(str(style.get("ground", "#cfcac0")), Color.GRAY), -1.0)
-	# --- bâtiments
+	# 1re passe : lecture de la tuile
+	var blds: Array = []
 	var nb := buf.decode_u16(o); o += 2
 	for b in nb:
-		var n := buf.decode_u8(o); var cls := buf.decode_u8(o + 1); var h := buf.decode_u16(o + 2) * 0.1; o += 4
+		var n := buf.decode_u8(o); var cls := buf.decode_u8(o + 1); var h := buf.decode_u16(o + 2) * 0.1
+		var kind := 0
+		if v2: kind = buf.decode_u8(o + 4); o += 5
+		else: o += 4
 		var ring := PackedVector2Array(); ring.resize(n)
 		for i in n:
 			ring[i] = Vector2(buf.decode_s16(o) * 0.1, buf.decode_s16(o + 2) * 0.1); o += 4
 		var nt := buf.decode_u8(o); o += 1
-		var idx := buf.slice(o, o + nt * 3); o += nt * 3
-		_building(S, ring, idx, cls, h, seed + b)
-	stats.buildings += nb
-	# --- surfaces
+		blds.append([ring, buf.slice(o, o + nt * 3), cls, h, kind])
+		o += nt * 3
+	var polys_start := o
 	var np := buf.decode_u16(o); o += 2
+	for p in np:
+		var nv := buf.decode_u16(o + 1); var ntr := buf.decode_u16(o + 3); o += 5 + nv * 4 + ntr * 6
+	var lines_start := o
+	var nl := buf.decode_u16(o); o += 2
+	for l in nl:
+		o += 4 + buf.decode_u16(o + 2) * 4
+	var points: Array = []
+	var labels: Array = []
+	if v2:
+		var npt := buf.decode_u16(o); o += 2
+		for i in npt:
+			points.append([buf.decode_u8(o), buf.decode_u16(o + 1) * 0.1, Vector2(buf.decode_s16(o + 3) * 0.1, buf.decode_s16(o + 5) * 0.1)]); o += 7
+		var nlb := buf.decode_u16(o); o += 2
+		for i in nlb:
+			var kd := buf.decode_u8(o); var pos := Vector2(buf.decode_s16(o + 1) * 0.1, buf.decode_s16(o + 3) * 0.1); var ln := buf.decode_u8(o + 5)
+			labels.append([kd, pos, buf.slice(o + 6, o + 6 + ln).get_string_from_utf8()]); o += 6 + ln
+	# bâtiments
+	for i in blds.size():
+		var b: Array = blds[i]
+		_building(S, b[0], b[1], b[2], b[3], b[4], seed + i, points)
+	stats.buildings += nb
+	# surfaces
+	o = polys_start
+	np = buf.decode_u16(o); o += 2
 	for p in np:
 		var cls := buf.decode_u8(o); var nv := buf.decode_u16(o + 1); var ntr := buf.decode_u16(o + 3); o += 5
 		var v := PackedVector2Array(); v.resize(nv)
@@ -138,74 +177,296 @@ func _build_tile(k: Vector2i) -> Node3D:
 					for i in count:
 						var r1 := sqrt(rng.randf()); var r2 := rng.randf()
 						var q := a * (1.0 - r1) + b * (r1 * (1.0 - r2)) + c * (r1 * r2)
-						trees[rng.randi() % 3].append(Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * rng.randf_range(0.8, 1.35)), Vector3(q.x, y, q.y)))
-	# --- lignes (routes, voies ferrées)
-	var nl := buf.decode_u16(o); o += 2
+						var kind := 1 if (cls == P_CEMETERY and rng.randf() < 0.6) else _pick_tree(rng)
+						_add_tree(kind, Vector3(q.x, y, q.y), rng)
+	# lignes (routes avec arbres d'alignement, voies ferrées)
+	o = lines_start
+	nl = buf.decode_u16(o); o += 2
 	for l in nl:
 		var cls := buf.decode_u8(o); var w := buf.decode_u8(o + 1) / 5.0; var n := buf.decode_u16(o + 2); o += 4
 		var pts := PackedVector2Array(); pts.resize(n)
 		for i in n:
 			pts[i] = Vector2(buf.decode_s16(o) * 0.1, buf.decode_s16(o + 2) * 0.1); o += 4
 		_line(S, pts, cls, w, seed + l)
-	# --- maillages
+	# éléments ponctuels (clochers isolés, tours, cheminées)
+	for p in points:
+		if p[0] == 1 and p.size() > 3: continue  # clocher déjà rattaché à une église
+		_point(S, p[0], p[1], p[2])
+	# maillages
 	var mi := MeshInstance3D.new(); mi.mesh = S.mesh(); mi.material_override = Materials.building()
 	node.add_child(mi)
 	if W.count() > 0:
 		var wi := MeshInstance3D.new(); wi.mesh = W.mesh(); wi.material_override = Materials.water()
 		node.add_child(wi)
-	for v in 3:
-		if trees[v].is_empty(): continue
+	for v in TREE_KINDS:
+		if _trees_cur[v].is_empty(): continue
 		var mm := MultiMesh.new(); mm.transform_format = MultiMesh.TRANSFORM_3D
-		mm.mesh = _tree_mesh(v); mm.instance_count = trees[v].size()
-		for i in trees[v].size(): mm.set_instance_transform(i, trees[v][i])
+		mm.mesh = _tree_mesh(v); mm.instance_count = _trees_cur[v].size()
+		for i in _trees_cur[v].size(): mm.set_instance_transform(i, _trees_cur[v][i])
 		var mmi := MultiMeshInstance3D.new(); mmi.multimesh = mm; mmi.material_override = Materials.toon()
 		node.add_child(mmi)
+	# noms des monuments
+	for lb in labels:
+		var l3 := Label3D.new(); l3.text = lb[2]
+		l3.font_size = 72; l3.pixel_size = 0.03; l3.outline_size = 14
+		l3.billboard = BaseMaterial3D.BILLBOARD_ENABLED; l3.no_depth_test = false
+		l3.modulate = Color(1, 0.96, 0.85)
+		l3.position = Vector3(lb[1].x, 34.0, lb[1].y)
+		l3.visibility_range_end = 700.0
+		node.add_child(l3)
 	stats.tiles += 1
 	return node
 
-func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: int, h: float, seed: int) -> void:
+# ----------------------------------------------------------------------------------------------- bâtiments
+
+const STONE := Color("#ddd3c0")
+const SLATE := Color("#4c5562")
+const ZINC := Color("#7e8a95")
+const GLASS_SHOP := 0.45     # alpha des vitrines (éclairées la nuit)
+const SOLID_A := 0.35        # alpha sans fenêtres
+
+func _wall_a(seed: int) -> float:
+	return 0.5 + 0.49 * float(absi(seed * 2654435761) % 1000) / 1000.0
+
+func _centroid(ring: PackedVector2Array) -> Vector2:
+	var c := Vector2.ZERO
+	for p in ring: c += p
+	return c / ring.size()
+
+func _area(ring: PackedVector2Array) -> float:
+	var a := 0.0
+	for i in ring.size(): a += ring[i].cross(ring[(i + 1) % ring.size()]) * 0.5
+	return absf(a)
+
+## Murs entre y0 et y1 (UV = abscisse, hauteur : fenêtres procédurales si alpha > 0.5).
+func _walls(S: _Arrays, ring: PackedVector2Array, y0: float, y1: float, col: Color, windows: bool = true) -> void:
+	var u := 0.0
+	for i in ring.size():
+		var a := ring[i]; var b := ring[(i + 1) % ring.size()]
+		var len := a.distance_to(b)
+		if windows: S.wall(Vector3(a.x, y0, a.y), Vector3(b.x, y0, b.y), y1 - y0, col, u, u + len)
+		else: S.wall(Vector3(a.x, y0, a.y), Vector3(b.x, y0, b.y), y1 - y0, col, 0.0, 0.0)
+		u += len
+
+func _flat_roof(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, y: float, col: Color) -> void:
+	col.a = SOLID_A
+	for t in range(0, idx.size(), 3):
+		var a := ring[idx[t]]; var b := ring[idx[t + 1]]; var c := ring[idx[t + 2]]
+		S.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(c.x, y, c.y), col, -1.0)
+
+func _hip_roof(S: _Arrays, ring: PackedVector2Array, y: float, rise: float, col: Color) -> void:
+	var c := _centroid(ring)
+	var apex := Vector3(c.x, y + rise, c.y)
+	for i in ring.size():
+		var a := ring[i]; var b := ring[(i + 1) % ring.size()]
+		var sh := 0.9 + 0.1 * float(i % 2)
+		S.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), apex, Color(col.r * sh, col.g * sh, col.b * sh, SOLID_A), -1.0)
+
+## Toit à deux pans (quadrilatère) : faîtage parallèle au grand côté, pignons maçonnés.
+func _gable_roof(S: _Arrays, ring: PackedVector2Array, y: float, rise: float, col: Color, gable_col: Color) -> void:
+	var a := ring[0]; var b := ring[1]; var c := ring[2]; var d := ring[3]
+	if a.distance_to(b) < b.distance_to(c):
+		var t := a; a = b; b = c; c = d; d = t
+	var r1 := (d + a) * 0.5; var r2 := (b + c) * 0.5
+	var R1 := Vector3(r1.x, y + rise, r1.y); var R2 := Vector3(r2.x, y + rise, r2.y)
+	var A := Vector3(a.x, y, a.y); var B := Vector3(b.x, y, b.y); var C := Vector3(c.x, y, c.y); var D := Vector3(d.x, y, d.y)
+	col.a = SOLID_A
+	S.quad(A, B, R2, R1, col, -1.0)
+	S.quad(C, D, R1, R2, Color(col.r * 0.88, col.g * 0.88, col.b * 0.88, SOLID_A), -1.0)
+	gable_col.a = SOLID_A
+	S.tri(D, A, R1, gable_col, -1.0); S.tri(B, C, R2, gable_col, -1.0)
+
+## Mansarde parisienne : brisis en zinc à forte pente, terrasson presque plat.
+func _mansard(S: _Arrays, ring: PackedVector2Array, y: float, col: Color) -> void:
+	var c := _centroid(ring)
+	var inner := PackedVector2Array()
+	for p in ring: inner.append(p + (c - p).limit_length(1.4))
+	for i in ring.size():
+		var a := ring[i]; var b := ring[(i + 1) % ring.size()]; var ia := inner[i]; var ib := inner[(i + 1) % ring.size()]
+		S.quad(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(ib.x, y + 2.8, ib.y), Vector3(ia.x, y + 2.8, ia.y), Color(col.r, col.g, col.b, SOLID_A), -1.0)
+		# lucarnes
+		if a.distance_to(b) > 5.0:
+			var m := (a + b) * 0.5 + (c - (a + b) * 0.5).limit_length(0.6)
+			S.box(Vector3(m.x, y + 1.4, m.y), Vector3(1.1, 1.3, 1.1), Color("#ece4d2", SOLID_A))
+	var apex := Vector3(c.x, y + 3.3, c.y)
+	for i in inner.size():
+		var a := inner[i]; var b := inner[(i + 1) % inner.size()]
+		S.tri(Vector3(a.x, y + 2.8, a.y), Vector3(b.x, y + 2.8, b.y), apex, Color(col.r * 0.92, col.g * 0.92, col.b * 0.92, SOLID_A), -1.0)
+
+## Corniche / balcon filant à la hauteur y.
+func _ledge(S: _Arrays, ring: PackedVector2Array, y: float, depth: float, col: Color) -> void:
+	var c := _centroid(ring)
+	col.a = SOLID_A
+	for i in ring.size():
+		var a := ring[i]; var b := ring[(i + 1) % ring.size()]
+		var oa := a + (a - c).normalized() * depth; var ob := b + (b - c).normalized() * depth
+		S.quad(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(ob.x, y, ob.y), Vector3(oa.x, y, oa.y), col, -1.0)
+		S.quad(Vector3(oa.x, y - 0.25, oa.y), Vector3(ob.x, y - 0.25, ob.y), Vector3(ob.x, y, ob.y), Vector3(oa.x, y, oa.y), col, -1.0)
+
+## Tour carrée surmontée d'une flèche (clocher) ou d'un toit bas.
+func _tower(S: _Arrays, p: Vector2, side: float, h: float, spire: float, wall: Color, roof: Color) -> void:
+	S.box(Vector3(p.x, h * 0.5, p.y), Vector3(side, h, side), Color(wall.r, wall.g, wall.b, SOLID_A))
+	S.box(Vector3(p.x, h - 2.5, p.y), Vector3(side * 1.02, 1.4, side * 1.02), Color(0.15, 0.15, 0.17, SOLID_A))  # abat-sons
+	if spire > 0.0:
+		S.cone(Vector3(p.x, h, p.y), side * 0.62, spire, 8, Color(roof.r, roof.g, roof.b, SOLID_A))
+
+func _round_tower(S: _Arrays, p: Vector2, r: float, h: float, wall: Color, roof: Color, cap: bool, striped: bool) -> void:
+	var sides := 10
+	for i in sides:
+		var a0 := TAU * i / sides; var a1 := TAU * (i + 1) / sides
+		var A := p + Vector2(cos(a0), sin(a0)) * r; var B := p + Vector2(cos(a1), sin(a1)) * r
+		var y := 0.0
+		var band := 0
+		while y < h:
+			var y1 := minf(h, y + (1.6 if striped else h))
+			var col := wall
+			if striped and band % 2 == 1: col = Color("#3e3b3d")
+			S.wall(Vector3(A.x, y, A.y), Vector3(B.x, y, B.y), y1 - y, Color(col.r, col.g, col.b, SOLID_A), 0.0, 0.0)
+			y = y1; band += 1
+	if cap: S.cone(Vector3(p.x, h, p.y), r * 1.15, r * 2.2, sides, Color(roof.r, roof.g, roof.b, SOLID_A))
+	else: S.cone(Vector3(p.x, h, p.y), r, 0.01, sides, Color(wall.r * 0.8, wall.g * 0.8, wall.b * 0.8, SOLID_A))
+
+func _crenels(S: _Arrays, ring: PackedVector2Array, y: float, col: Color) -> void:
+	var count := 0
+	for i in ring.size():
+		var a := ring[i]; var b := ring[(i + 1) % ring.size()]
+		var n := int(a.distance_to(b) / 2.2)
+		for k in n:
+			if k % 2 == 0 and count < 120:
+				var m := a.lerp(b, (k + 0.5) / n)
+				S.box(Vector3(m.x, y + 0.55, m.y), Vector3(0.9, 1.1, 0.9), Color(col.r, col.g, col.b, SOLID_A))
+				count += 1
+
+func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: int, h: float, kind_raw: int, seed: int, points: Array) -> void:
+	var principal := (kind_raw & 0x80) != 0
+	var kind := kind_raw & 0x7f
 	var n := ring.size()
+	var area := _area(ring)
+	var c := _centroid(ring)
+	var rng := RandomNumberGenerator.new(); rng.seed = seed
+	var pitched := Color.from_string(str(style.get("pitched", "#a65e44")), Color.BROWN)
+	match kind:
+		K_CHURCH, K_CATHEDRAL:
+			var stone := STONE.lerp(Color("#3b3a3c"), 0.85) if city == "clermont" else STONE  # Clermont : pierre de Volvic
+			_walls(S, ring, 0.0, h, Color(stone.r, stone.g, stone.b, SOLID_A), false)
+			var rise := clampf(sqrt(area) * 0.3, 3.0, 16.0)
+			if n == 4: _gable_roof(S, ring, h, rise, SLATE, stone)
+			else: _hip_roof(S, ring, h, rise, SLATE)
+			if not principal and kind == K_CATHEDRAL:
+				return  # volumes secondaires (bas-côtés, chapelles) : pas de tours
+			# clocher réel (BD TOPO) le plus proche, sinon tour en façade
+			var placed := false
+			for p in points:
+				if p[0] == 1 and p.size() == 3 and (p[2] as Vector2).distance_to(c) < sqrt(area) * 0.9 + 15.0:
+					var ht: float = maxf(p[1], h + 12.0)
+					_tower(S, p[2], clampf(sqrt(area) * 0.22, 5.0, 12.0), ht * 0.62, ht * 0.38, stone, SLATE)
+					p.append(true); placed = true
+			if not placed and principal:
+				var a := ring[0]; var b := ring[1]
+				var front := (a + b) * 0.5 + (c - (a + b) * 0.5).limit_length(3.0)
+				if kind == K_CATHEDRAL:
+					var dir := (b - a).normalized()
+					for s in [-1.0, 1.0]:
+						_tower(S, front + dir * s * minf(a.distance_to(b) * 0.33, 14.0), clampf(sqrt(area) * 0.16, 7.0, 14.0), h * 1.75, 6.0, stone, SLATE)
+				else:
+					_tower(S, front, clampf(sqrt(area) * 0.22, 4.0, 9.0), h + 10.0, 14.0, stone, SLATE)
+			return
+		K_CASTLE:
+			var striped := city == "angers"   # château d'Angers : schiste et tuffeau en bandes
+			var stone := Color("#d6ccb8")
+			if striped:
+				var y := 0.0; var band := 0
+				while y < h:
+					var y1 := minf(h, y + 1.6)
+					_walls(S, ring, y, y1, Color("#3e3b3d") if band % 2 == 1 else Color("#d8cfbd"), false)
+					y = y1; band += 1
+			else:
+				_walls(S, ring, 0.0, h, Color(stone.r, stone.g, stone.b, SOLID_A), false)
+			_flat_roof(S, ring, idx, h, Color("#8a8278"))
+			_crenels(S, ring, h, stone)
+			if area > 400.0 and (principal or area > 1500.0):
+				for i in n:
+					var p := ring[i]; var pa := ring[(i - 1 + n) % n]; var pb := ring[(i + 1) % n]
+					if (pa - p).normalized().dot((pb - p).normalized()) > -0.4 and p.distance_to(pa) > 8.0:
+						_round_tower(S, p, clampf(sqrt(area) * 0.08, 3.0, 7.0), h + 3.0, stone, SLATE, not striped, striped)
+			return
+		K_STATION:
+			_walls(S, ring, 0.0, h, Color("#e6dfcf", _wall_a(seed)))
+			if n == 4: _gable_roof(S, ring, h, clampf(sqrt(area) * 0.18, 2.0, 9.0), Color("#a9c3d1"), Color("#e6dfcf"))
+			else: _flat_roof(S, ring, idx, h, Color("#a9c3d1"))
+			return
+		K_CIVIC:
+			var w := Color("#ece4d2"); w.a = _wall_a(seed)
+			_walls(S, ring, 0.0, h, w)
+			_ledge(S, ring, h - 0.2, 0.4, Color("#f2ebdb"))
+			if n <= 8: _hip_roof(S, ring, h, clampf(sqrt(area) * 0.22, 2.5, 9.0), SLATE)
+			else: _flat_roof(S, ring, idx, h, SLATE)
+			# mât et drapeau tricolore
+			S.box(Vector3(c.x, h + 4.0, c.y), Vector3(0.12, 8.0, 0.12), Color(0.85, 0.85, 0.85, SOLID_A))
+			for k in 3:
+				S.box(Vector3(c.x + 0.35 + k * 0.6, h + 7.2, c.y), Vector3(0.6, 1.2, 0.04), [Color("#1f3b8f"), Color("#f4f4f4"), Color("#d6282f")][k])
+			return
+		K_SCHOOL:
+			var w := Color("#d9b9a0") if style.get("walls", [""])[0] == "#d98a6c" else Color("#e3dccb")
+			w.a = _wall_a(seed)
+			_walls(S, ring, 0.0, h, w)
+			_flat_roof(S, ring, idx, h, Color("#8d8f91"))
+			return
+	# --- bâti courant
 	var wall: Color
 	match cls:
 		2: wall = Color("#c7c3ba").lerp(Color("#a9b0b5"), (seed % 7) / 7.0)
-		3: wall = Color("#e9e3d3")
+		3: wall = STONE
 		4: wall = Color("#eee6d2")
 		5: wall = Color("#b9b6ae")
 		_: wall = _pal("walls", seed)
-	var has_windows := cls == 0 or cls == 1 or cls == 4
-	wall.a = (0.5 + 0.49 * float(absi(seed * 2654435761) % 1000) / 1000.0) if has_windows else 0.4
-	var u := 0.0
-	for i in n:
-		var a := ring[i]; var b := ring[(i + 1) % n]
-		var len := a.distance_to(b)
-		S.wall(Vector3(a.x, 0, a.y), Vector3(b.x, 0, b.y), h, wall, u, u + len)
-		u += len
-	# toit : pyramide basse pour les petites maisons, sinon toit plat
-	var area := 0.0
-	var cen := Vector2.ZERO
-	for i in n:
-		area += ring[i].cross(ring[(i + 1) % n]) * 0.5
-		cen += ring[i]
-	cen /= n
-	area = absf(area)
-	if cls == 0 and h <= 11.0 and n <= 8 and area < 260.0:
-		var roof := Color.from_string(str(style.get("pitched", "#a65e44")), Color.BROWN)
-		var apex := Vector3(cen.x, h + clampf(sqrt(area) * 0.32, 1.2, 3.5), cen.y)
-		for i in n:
-			var a := ring[i]; var b := ring[(i + 1) % n]
-			var shade := 0.92 + 0.08 * float(i % 2)
-			S.tri(Vector3(a.x, h, a.y), Vector3(b.x, h, b.y), apex, Color(roof.r * shade, roof.g * shade, roof.b * shade, 0.4), -1.0)
+	var windows := cls == 0 or cls == 1 or cls == 4
+	var paris: bool = style.get("pitched", "") == "#6f7a85"
+	var shop := (cls == 1 or (cls == 0 and h > 11.0 and rng.randf() < 0.45)) and h > 6.0
+	var y0 := 0.0
+	if shop:  # rez-de-chaussée commercial : vitrines (éclairées le soir)
+		_walls(S, ring, 0.0, 3.4, Color(0.2, 0.24, 0.27, GLASS_SHOP), false)
+		y0 = 3.4
+	wall.a = _wall_a(seed) if windows else SOLID_A
+	_walls(S, ring, y0, h, wall, windows)
+	if paris and cls == 0 and h > 13.0 and n <= 16:
+		# immeuble haussmannien : balcons filants aux 2e et 5e étages, mansarde en zinc
+		_ledge(S, ring, 7.4, 0.8, Color("#e9e1cf"))
+		if h > 18.0: _ledge(S, ring, h - 3.6, 0.8, Color("#e9e1cf"))
+		_mansard(S, ring, h, ZINC)
+		return
+	if cls == 0 and h <= 12.0 and area < 320.0 and n == 4:
+		_gable_roof(S, ring, h, clampf(sqrt(area) * 0.35, 1.5, 4.0), pitched, wall)
+		if rng.randf() < 0.5:  # cheminée
+			var p := ring[0].lerp(ring[2], 0.3)
+			S.box(Vector3(p.x, h + 2.2, p.y), Vector3(0.6, 1.6, 0.6), Color("#9c6a52", SOLID_A))
+	elif cls == 0 and h <= 12.0 and n <= 8 and area < 320.0:
+		_hip_roof(S, ring, h, clampf(sqrt(area) * 0.3, 1.2, 3.5), pitched)
+	elif cls == 2 and area > 600.0:
+		_flat_roof(S, ring, idx, h, Color("#8e9296"))
+		# lanterneaux vitrés (sheds)
+		var a := ring[0]; var b := ring[1]
+		var dir := (b - a).normalized(); var nrm := Vector2(-dir.y, dir.x)
+		for k in range(-2, 3):
+			var m := c + nrm * k * 6.0
+			S.box(Vector3(m.x, h + 0.4, m.y), Vector3(0.1, 0.8, 0.1), Color("#8e9296", SOLID_A))
+			S.quad(Vector3(m.x - dir.x * 10.0, h + 0.05, m.y - dir.y * 10.0), Vector3(m.x + dir.x * 10.0, h + 0.05, m.y + dir.y * 10.0),
+				Vector3(m.x + dir.x * 10.0 + nrm.x * 2.0, h + 0.9, m.y + dir.y * 10.0 + nrm.y * 2.0), Vector3(m.x - dir.x * 10.0 + nrm.x * 2.0, h + 0.9, m.y - dir.y * 10.0 + nrm.y * 2.0),
+				Color(0.55, 0.68, 0.75, SOLID_A), -1.0)
 	else:
 		var roof := _pal("roofs", seed / 7)
-		roof.a = 0.4
-		for t in range(0, idx.size(), 3):
-			var a := ring[idx[t]]; var b := ring[idx[t + 1]]; var c := ring[idx[t + 2]]
-			S.tri(Vector3(a.x, h, a.y), Vector3(b.x, h, b.y), Vector3(c.x, h, c.y), roof, -1.0)
-		# acrotère pour les toits plats élevés
+		_flat_roof(S, ring, idx, h, roof)
 		if h > 12.0 and n <= 12:
-			for i in n:
-				var a := ring[i]; var b := ring[(i + 1) % n]
-				S.wall(Vector3(a.x, h, a.y), Vector3(b.x, h, b.y), 0.6, Color(roof.r * 1.1, roof.g * 1.1, roof.b * 1.1, 0.4), 0.0, 0.0)
+			_walls(S, ring, h, h + 0.6, Color(roof.r * 1.1, roof.g * 1.1, roof.b * 1.1, SOLID_A), false)
+		if h > 15.0 and rng.randf() < 0.6:  # édicule technique
+			S.box(Vector3(c.x, h + 1.2, c.y), Vector3(3.0, 2.4, 3.0), Color("#b3b0a8", SOLID_A))
+
+func _point(S: _Arrays, kind: int, h: float, p: Vector2) -> void:
+	match kind:
+		1: _tower(S, p, 6.0, h * 0.62, h * 0.38, STONE, SLATE)
+		2: _tower(S, p, 5.0, h, 0.0, STONE, SLATE)
+		3: _round_tower(S, p, 2.5, h, Color("#f2f2f2"), Color("#c0392b"), true, false)
+		4: S.cone(Vector3(p.x, 0, p.y), 1.6, h, 8, Color("#9c6a52", SOLID_A))
 
 func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -> void:
 	var asphalt := Color("#5b5f66") if cls == L_MAJOR else Color("#63666c")
@@ -233,6 +494,25 @@ func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -
 				_ribbon(S, PackedVector2Array([a + d * s, a + d * (s + 3.0)]), 0.15, 0.07, Color("#ecebe6"))
 				s += 9.0
 			acc += len
+	# arbres d'alignement (essence dominante de la ville), de part et d'autre des avenues
+	if cls == L_MAJOR or (cls == L_ROAD and w >= 7.0):
+		var mix: Array = style.get("trees", [0])
+		var kind := int(mix[0])
+		var rng := RandomNumberGenerator.new(); rng.seed = seed * 7
+		var acc3 := float(seed % 11)
+		for i in range(pts.size() - 1):
+			var a := pts[i]; var b := pts[i + 1]
+			var len := a.distance_to(b)
+			var d := (b - a) / maxf(len, 0.001)
+			var nrm := Vector2(-d.y, d.x) * (w * 0.5 + 2.4)
+			var s2 := fposmod(-acc3, 17.0)
+			while s2 < len:
+				for side in [-1.0, 1.0]:
+					var p: Vector2 = a + d * s2 + nrm * side
+					if p.x > 0.0 and p.y > 0.0 and p.x < tile_m and p.y < tile_m:
+						_add_tree(kind, Vector3(p.x, 0.04, p.y), rng, 0.62)
+				s2 += 17.0
+			acc3 += len
 	# lampadaires sur trottoir (émissifs la nuit)
 	if cls == L_MAJOR or (cls == L_ROAD and w >= 6.0):
 		var acc2 := float(seed % 17)
@@ -260,27 +540,97 @@ func _ribbon(S: _Arrays, pts: PackedVector2Array, w: float, y: float, col: Color
 		S.quad(Vector3(a2.x - hw.x, y, a2.y - hw.y), Vector3(a2.x + hw.x, y, a2.y + hw.y),
 			Vector3(b2.x + hw.x, y, b2.y + hw.y), Vector3(b2.x - hw.x, y, b2.y - hw.y), col, -1.0)
 
-## Arbres low poly : 3 variantes (feuillu rond, conifère, feuillu haut).
+## Essences : 0 feuillu rond, 1 conifère, 2 feuillu élancé, 3 pin parasol, 4 palmier, 5 peuplier, 6 platane.
+func _pick_tree(rng: RandomNumberGenerator) -> int:
+	var mix: Array = style.get("trees", [0, 2, 1])
+	return int(mix[rng.randi() % mix.size()])
+
+## Recherche d'un monument nommé (étiquette BD TOPO) : position dans le repère de la ligne, ou Vector3.INF.
+func find_label(substr: String) -> Vector3:
+	if not v2: return Vector3.INF
+	for k in table:
+		var o: int = table[k].x
+		var nb := buf.decode_u16(o); o += 2
+		for b in nb:
+			var n := buf.decode_u8(o); o += 5 + n * 4
+			o += 1 + buf.decode_u8(o) * 3
+		var np := buf.decode_u16(o); o += 2
+		for p in np: o += 5 + buf.decode_u16(o + 1) * 4 + buf.decode_u16(o + 3) * 6
+		var nl := buf.decode_u16(o); o += 2
+		for l in nl: o += 4 + buf.decode_u16(o + 2) * 4
+		var npt := buf.decode_u16(o); o += 2 + npt * 7
+		var nlb := buf.decode_u16(o); o += 2
+		for i in nlb:
+			var ln := buf.decode_u8(o + 5)
+			var name := buf.slice(o + 6, o + 6 + ln).get_string_from_utf8()
+			if name.to_lower().contains(substr.to_lower()):
+				return position + Vector3(k.x * tile_m + buf.decode_s16(o + 1) * 0.1, 0, k.y * tile_m + buf.decode_s16(o + 3) * 0.1)
+			o += 6 + ln
+	return Vector3.INF
+
+## Nombre de bâtiments de la tuile contenant ce point (repère de la ligne) : indicateur de densité urbaine.
+func density_at(p_net: Vector3) -> int:
+	var c := p_net - position
+	var k := Vector2i(floori(c.x / tile_m), floori(c.z / tile_m))
+	return buf.decode_u16(table[k].x) if table.has(k) else 0
+
+## Voies de tram (repère ville) : cellules de 4 m interdites aux arbres.
+var _track_cells: Dictionary = {}
+var _tile_origin := Vector2.ZERO
+
+func set_tracks(polylines: Array) -> void:
+	for poly in polylines:
+		for i in range(poly.size() - 1):
+			var a: Vector2 = poly[i] - Vector2(position.x, position.z)
+			var b: Vector2 = poly[i + 1] - Vector2(position.x, position.z)
+			var n := maxi(1, int(a.distance_to(b) / 2.0))
+			for k in n + 1:
+				var p := a.lerp(b, float(k) / n)
+				for dx in [-1, 0, 1]:
+					for dz in [-1, 0, 1]:
+						_track_cells[Vector2i(floori(p.x / 4.0) + dx, floori(p.y / 4.0) + dz)] = true
+
+func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float = 1.0) -> void:
+	var w := _tile_origin + Vector2(pos.x, pos.z)
+	if _track_cells.has(Vector2i(floori(w.x / 4.0), floori(w.y / 4.0))):
+		return
+	var b := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * rng.randf_range(0.85, 1.3) * scale)
+	_trees_cur[kind].append(Transform3D(b, pos))
+
 static func _tree_mesh(v: int) -> Mesh:
-	if _trees.size() == 3:
+	if _trees.size() == TREE_KINDS:
 		return _trees[v]
 	_trees.clear()
-	for k in 3:
+	for k in TREE_KINDS:
 		var A := _Arrays.new()
 		var trunk := Color("#6b4f3a", 0.9)
-		A.box(Vector3(0, 1.2, 0), Vector3(0.35, 2.4, 0.35), trunk)
-		var greens := [Color("#4f8f3c", 0.9), Color("#2f6e46", 0.9), Color("#679f3f", 0.9)]
-		var g: Color = greens[k]
-		if k == 1:  # conifère : deux cônes à 6 pans
-			A.cone(Vector3(0, 1.8, 0), 2.4, 3.6, 6, g)
-			A.cone(Vector3(0, 4.0, 0), 1.7, 3.0, 6, g.lightened(0.08))
-		else:  # feuillu : bipyramide facettée
-			var r := 2.4 if k == 0 else 1.8
-			var y0 := 2.2 if k == 0 else 2.6
-			A.cone(Vector3(0, y0 + 1.6, 0), r, 1.6, 7, g.lightened(0.06))
-			A.cone(Vector3(0, y0 + 1.6, 0), r, -1.6, 7, g.darkened(0.1))
-			if k == 2:
-				A.cone(Vector3(0, y0 + 3.6, 0), r * 0.75, 1.8, 7, g)
+		match k:
+			0:  # feuillu rond (tilleul, chêne)
+				A.box(Vector3(0, 1.3, 0), Vector3(0.35, 2.6, 0.35), trunk)
+				A.cone(Vector3(0, 4.0, 0), 2.6, 1.8, 7, Color("#5d9a42", 0.9)); A.cone(Vector3(0, 4.0, 0), 2.6, -1.8, 7, Color("#4c8538", 0.9))
+			1:  # conifère
+				A.box(Vector3(0, 1.0, 0), Vector3(0.35, 2.0, 0.35), trunk)
+				A.cone(Vector3(0, 1.6, 0), 2.3, 3.6, 6, Color("#2f6e46", 0.9)); A.cone(Vector3(0, 3.8, 0), 1.6, 3.2, 6, Color("#38804f", 0.9))
+			2:  # feuillu élancé
+				A.box(Vector3(0, 1.6, 0), Vector3(0.3, 3.2, 0.3), trunk)
+				A.cone(Vector3(0, 4.4, 0), 1.9, 2.0, 7, Color("#6ea845", 0.9)); A.cone(Vector3(0, 4.4, 0), 1.9, -1.4, 7, Color("#5a9238", 0.9))
+				A.cone(Vector3(0, 6.2, 0), 1.3, 1.6, 7, Color("#6ea845", 0.9))
+			3:  # pin parasol : tronc haut, houppier plat
+				A.box(Vector3(0, 2.6, 0), Vector3(0.4, 5.2, 0.4), Color("#7a5a44", 0.9))
+				A.cone(Vector3(0, 5.6, 0), 3.4, 1.0, 8, Color("#3f7a3a", 0.9)); A.cone(Vector3(0, 5.6, 0), 3.4, -0.7, 8, Color("#356a33", 0.9))
+			4:  # palmier
+				A.cone(Vector3(0, 0, 0), 0.35, 7.5, 6, Color("#8b7355", 0.9))
+				for i in 7:
+					var ang := TAU * i / 7.0
+					var d := Vector3(cos(ang), 0, sin(ang))
+					A.tri(Vector3(0, 7.3, 0), Vector3(0, 7.3, 0) + d * 3.0 + Vector3(0, -1.2, 0) + d.cross(Vector3.UP) * 0.6,
+						Vector3(0, 7.3, 0) + d * 3.0 + Vector3(0, -1.2, 0) - d.cross(Vector3.UP) * 0.6, Color("#4f8f3c", 0.9))
+			5:  # peuplier : colonne
+				A.box(Vector3(0, 0.8, 0), Vector3(0.3, 1.6, 0.3), trunk)
+				A.cone(Vector3(0, 1.4, 0), 1.1, 9.0, 6, Color("#6c9e3c", 0.9))
+			6:  # platane : grand houppier clair, tronc tacheté
+				A.box(Vector3(0, 1.8, 0), Vector3(0.5, 3.6, 0.5), Color("#a39a7f", 0.9))
+				A.cone(Vector3(0, 5.6, 0), 3.6, 2.4, 8, Color("#7fb04f", 0.9)); A.cone(Vector3(0, 5.6, 0), 3.6, -2.0, 8, Color("#6b9a41", 0.9))
 		_trees.append(A.mesh())
 	return _trees[v]
 

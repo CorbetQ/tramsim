@@ -24,6 +24,10 @@ void fragment() {
 	if (COLOR.a < 0.25) {  // lampadaires, feux : lumineux, surtout la nuit
 		EMISSION = base * (0.3 + 2.2 * night);
 	}
+	if (COLOR.a > 0.42 && COLOR.a < 0.48) {  // vitrines de rez-de-chaussée : reflet le jour, éclairées le soir
+		ALBEDO = mix(base * 0.7 + vec3(0.06, 0.08, 0.1), base * 0.4, night);
+		EMISSION = vec3(1.0, 0.78, 0.48) * 1.3 * night;
+	}
 	if (UV.y > 1.0 && COLOR.a > 0.5) {  // murs (hors rez-de-chaussée bas) des bâtiments à fenêtres
 		vec2 cell = vec2(UV.x / bay_w, (UV.y - 0.4) / floor_h);
 		vec2 f = fract(cell);

@@ -41,6 +41,12 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		if city.open(src, net.meta.origin):
 			city.radius = maxf(view_distance + 200.0, 500.0)
 			add_child(city)
+			var polys: Array = []
+			for id in net.edge_info:
+				var pl := PackedVector2Array()
+				for q in net.edge_info[id].pts: pl.append(q)
+				if pl.size() >= 2: polys.append(pl)
+			city.set_tracks(polys)
 		else:
 			city.free(); city = null
 	var lo := Vector3(INF, 0, INF); var hi := Vector3(-INF, 0, -INF)
@@ -54,6 +60,7 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		if geometric and city == null: _generic_buildings(sec, id)
 	for s in net.stations:
 		_station(sectors[s.edge], s)
+	_crossovers()
 	for s in net.signals:
 		var t2 := _frame(s.edge, float(s.offset))
 		_post(sectors[s.edge], t2.origin - t2.basis.x * 2.2, 3.2)
@@ -130,11 +137,57 @@ func _track(parent: Node3D, id: String) -> void:
 	if pts.size() < 2: return
 	var g := _Geo.new()
 	var o := TRACK_OFFSET if geometric else 0.0
-	g.ribbon(pts, 3.5, 0.09, Color("#6f9f50"), o)
+	g.ribbon(pts, 3.5, 0.09, _bed_color(id), o)
 	for off in [-0.72, 0.72]:
 		g.ribbon(pts, 0.42, 0.11, Color("#b3b1aa"), o + off)
 		g.ribbon(pts, 0.08, 0.17, Color("#8f959c", 0.9), o + off)
 	_add_geo(parent, g, Materials.building())
+
+## Plateforme : engazonnée en périphérie, pavée ou en enrobé dans les quartiers denses (densité de bâti IGN).
+func _bed_color(id: String) -> Color:
+	if city == null: return Color("#6f9f50")
+	var mid := pos3(id, net.graph.edges[id].length * 0.5)
+	var dens := city.density_at(mid)
+	if dens > 170: return Color("#a49a8c") if city.style.get("trees", [0])[0] == 6 else Color("#8f8a84")
+	if dens > 110: return Color("#6b6e73")
+	return Color("#6f9f50")
+
+## Communications de voies (croisement en ciseaux) avant le quai des arrêts de retournement.
+func _crossovers() -> void:
+	var done: Array = []
+	var cand: Array = []
+	for s in net.stations:
+		if s.get("turnback", false): cand.append(s)
+	if cand.is_empty():  # réseau d'une ligne : terminus = arrêts des approches
+		for s in net.stations:
+			if str(s.edge).ends_with("_appr"): cand.append(s)
+	for s in cand:
+		var L: float = net.graph.edges[s.edge].length
+		var so := float(s.offset)
+		var a := so - 80.0; var b := so - 48.0
+		if a < 0.0: continue
+		var c := pos3(s.edge, so)
+		var dup := false
+		for p in done:
+			if (p as Vector3).distance_to(c) < 70.0: dup = true; break
+		if dup: continue
+		done.append(c)
+		var g := _Geo.new()
+		var fa := _frame(s.edge, a); var fb := _frame(s.edge, b)
+		var off := TRACK_OFFSET if geometric else 0.0
+		# pos3 inclut déjà le décalage de la voie de droite : la voie opposée est à -2 x décalage
+		for diag in [[0.0, -2.0 * off], [-2.0 * off, 0.0]]:
+			var p0: Vector3 = fa.origin + fa.basis.x * diag[0]
+			var p1: Vector3 = fb.origin + fb.basis.x * diag[1]
+			var pts: Array[Vector3] = [p0, p1]
+			g.ribbon(pts, 2.6, 0.095, Color("#7d7a73"))
+			for r in [-0.72, 0.72]:
+				g.ribbon(pts, 0.08, 0.17, Color("#8f959c", 0.9), r)
+		# moteurs d'aiguille
+		for k in [a, b]:
+			var f := _frame(s.edge, k)
+			g.box_basis(f.origin + f.basis.x * 1.4 + Vector3(0, 0.25, 0), Vector3(0.5, 0.4, 0.9), f.basis, Color("#d9b43a"))
+		_add_geo(sectors[s.edge], g, Materials.building())
 
 ## Quai avec abri, banc et totem, à droite dans le sens de marche.
 func _station(parent: Node3D, s: Dictionary) -> void:
@@ -240,7 +293,7 @@ func update_from(s: MissionSession, external: bool) -> void:
 		var dir := pf - pb
 		if dir.length() < 0.01: dir = Vector3(1, 0, 0)
 		modules[i].transform = Transform3D(Basis.looking_at(dir.normalized(), Vector3.UP), (pf + pb) * 0.5)
-	rig.set_doors(s.doors_open)
+	rig.set_doors(s.doors_open, "right")   # quais à droite dans le sens de marche
 	rig.set_pantograph(s.pantograph_up)
 	if _rig_fresh: rig.snap()
 	else: rig.update(get_process_delta_time())

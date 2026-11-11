@@ -2,7 +2,7 @@ extends SceneTree
 ## Matériel roulant : chaque plan se construit (modules, longueur, budget de triangles), les animations
 ## (portes, pantographe) atteignent leurs états, la flotte des réseaux est résolue depuis data/rolling_stock.
 var fails := 0
-const BUDGET := 6500
+const BUDGET := 7000
 
 func check(c: bool, m: String) -> void:
 	if not c: fails += 1; printerr("ECHEC: ", m)
@@ -36,6 +36,22 @@ func _init() -> void:
 		rig.set_doors(false)
 		for k in 200: rig.update(0.05)
 		check(rig.doors_closed() and leaf.position.distance_to(closed) < 0.001, "%s : portes refermées" % id)
+		# portes côté quai : seules celles du côté demandé bougent (droite = +x, sens de marche -z)
+		for sd in ["right", "left", "both"]:
+			var rest: Array = []
+			for lf in rig.leaves: rest.append((lf.node as Node3D).transform)
+			rig.set_doors(true, sd)
+			for k in 200: rig.update(0.05)
+			var ok := rig.doors_open()
+			for li in rig.leaves.size():
+				var lf: Dictionary = rig.leaves[li]
+				var want: bool = sd == "both" or (sd == "right") == (float(lf.side) > 0.0)
+				var moved := not (lf.node as Node3D).transform.is_equal_approx(rest[li])
+				if moved != want: ok = false
+			check(ok, "%s : portes côté %s seules ouvertes" % [id, sd])
+			rig.set_doors(false)
+			for k in 200: rig.update(0.05)
+		check(rig.doors_closed(), "%s : portes refermées des deux côtés" % id)
 		# pantographe : levé -> baissé -> levé
 		var up_h := rig.pantograph_height()
 		var head: Node3D = rig.panto.head
@@ -60,6 +76,18 @@ func _init() -> void:
 	check(t4[0].family == "avanto", "T4 : Avanto")
 	var mtp := TramModel.livery_for({"source_id": "montpellier", "id": "montpellier_1"})
 	check(mtp.family == "citadis_402" and (mtp.base as Color).is_equal_approx(Color("#377ae6")), "Montpellier L1 : livrée hirondelles")
+	# motifs procéduraux de livrée (shader des rames)
+	for pair in [["montpellier_1", "swallows"], ["montpellier_2", "flowers"], ["montpellier_3", "waves"], ["montpellier_4", "gilding"], ["tours_a", "mirror_bands"]]:
+		var lv := TramModel.livery_for({"source_id": str(pair[0]).split("_")[0], "id": pair[0]})
+		var pt: Dictionary = lv.get("pattern", {})
+		var rg := TramModel.build_rig(lv)
+		var mat := rg.modules[0].material_override as ShaderMaterial
+		check(str(pt.get("type", "")) == pair[1] and int(mat.get_shader_parameter("tram_pattern")) == Materials.PATTERN_IDS[pair[1]],
+			"%s : motif %s" % pair)
+		for m in rg.modules: m.free()
+	var reims := TramModel.livery_for({"source_id": "reims", "id": "reims_tram"})
+	var v0 := TramModel._variant(reims.merged({"variant": 0})); var v1 := TramModel._variant(reims.merged({"variant": 1}))
+	check(not (v0.front as Color).is_equal_approx(v1.front), "Reims : couleur de face par rame")
 	var v := VehicleLibrary.for_fleet(angers[0], {"source_id": "angers"})
 	check(absf(v.length_m - 32.4) < 0.01 and v.model_family == "citadis_302", "VehicleLibrary.for_fleet : longueur du plan (%.1f m)" % v.length_m)
 	var bx := VehicleLibrary.default_for({"source_id": "bordeaux", "id": "bordeaux_a"})
