@@ -9,7 +9,7 @@ render_mode cull_disabled;
 #include "res://src/rendering/shaders/cel.gdshaderinc"
 
 uniform float bands = 3.0;            // conservé (compatibilité)
-uniform float shade_floor = 0.34;
+uniform float shade_floor = 0.18;
 uniform float rim_strength = 0.22;
 uniform vec3 window_day : source_color = vec3(0.30, 0.40, 0.50);
 uniform vec3 window_night : source_color = vec3(1.0, 0.78, 0.45);
@@ -17,7 +17,7 @@ uniform float floor_h = 3.0;
 uniform float bay_w = 3.2;
 // Les couleurs de sommets sont converties en linéaire ici (palette en sRGB).
 uniform float color_gamma = 2.2;
-uniform float saturation = 1.0;       // ravive les teintes (couleurs moins délavées)
+uniform float saturation = 1.16;       // ravive les teintes (couleurs moins délavées)
 
 varying vec3 v_world;
 

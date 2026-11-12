@@ -12,7 +12,7 @@ const THUMBS := "res://data/rolling_stock/thumbs/"
 const ALL := "Toutes les villes"
 
 var city := ""                   # filtre initial (ville du menu) ; "" = toutes
-var filter: OptionButton
+var filter: TouchChoice
 var grid: GridContainer
 var list_box: Control
 var sheet: TramSheet
@@ -99,7 +99,7 @@ func _ready() -> void:
 	var title := Label.new(); title.text = "Catalogue des rames"; title.add_theme_font_size_override("font_size", 34)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; title.visible = not UiLayout.compact(self); top.add_child(title)
 	var fl := Label.new(); fl.text = "Ville"; top.add_child(fl)
-	filter = OptionButton.new(); filter.custom_minimum_size = Vector2(220 if UiLayout.compact(self) else 300, 52); top.add_child(filter)
+	filter = TouchChoice.new(); filter.choice_title = "Ville"; filter.custom_minimum_size = Vector2(220 if UiLayout.compact(self) else 300, 52); top.add_child(filter)
 	filter.add_item(ALL)
 	_cities = NetworkRegistry.cities()
 	for c in _cities: filter.add_item(c)

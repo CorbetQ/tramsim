@@ -34,6 +34,10 @@ var _last_ms := 0
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed and _finger == -1 and is_visible_in_tree() and get_global_rect().has_point(event.position):
+			# Un menu ouvert doit posséder ses gestes : le formulaire derrière
+			# lui ne doit jamais se déplacer en parallèle.
+			for modal in get_tree().get_nodes_in_group("touch_choice_modal"):
+				if modal.is_visible_in_tree() and not modal.is_ancestor_of(self): return
 			# Le scroller imbriqué le plus profond reçoit le geste.
 			for child in find_children("*", "ScrollContainer", true, false):
 				if child.is_visible_in_tree() and child.get_global_rect().has_point(event.position): return

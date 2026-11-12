@@ -92,7 +92,7 @@ func _run() -> void:
 		var start := main.find_child("start",true,false) as Button
 		check(start != null and start.size.x > 100, "%s : lancement disponible dans la configuration" % dimensions)
 		if dimensions.x == 640:
-			var option := main.find_children("*", "OptionButton",true,false)[0] as OptionButton
+			var option := main.find_children("*", "Button",true,false).filter(func(node): return node is TouchChoice)[0] as TouchChoice
 			var container: Node = option.get_parent()
 			while container != null and not (container is TouchScroll): container = container.get_parent()
 			var form := container as TouchScroll
@@ -103,8 +103,8 @@ func _run() -> void:
 				system_touch(event); await process_frame
 			system_touch(touch(0,point - Vector2(0,90),false)); await create_timer(0.35).timeout
 			check(form.scroll_vertical > 15, "formulaire : glisser depuis une liste déroule la page")
-			check(not option.get_popup().visible, "formulaire : glisser ne choisit pas une option")
-			option.get_popup().hide()
+			check(not is_instance_valid(option.popup), "formulaire : glisser ne choisit pas une option")
+			option.close_picker()
 
 	main.queue_free(); await process_frame
 	quit(1 if fails else 0)

@@ -270,10 +270,10 @@ func _build_setup() -> void:
 	var s1 := _step(box, 1, "Ville et ligne")
 	var city_opt := _opt(s1, "Ville")
 	for c in cities: city_opt.add_item(c)
-	var line_row := _row(s1, "Ligne"); var line_opt: OptionButton = line_row.get_child(1)
+	var line_row := _row(s1, "Ligne"); var line_opt: TouchChoice = line_row.get_child(1)
 	var s2 := _step(box, 2, "Service")
-	var mis_row := _row(s2, "Service"); var mis_opt: OptionButton = mis_row.get_child(1)
-	var st_row := _row(s2, "Départ"); var st_opt: OptionButton = st_row.get_child(1)
+	var mis_row := _row(s2, "Service"); var mis_opt: TouchChoice = mis_row.get_child(1)
+	var st_row := _row(s2, "Départ"); var st_opt: TouchChoice = st_row.get_child(1)
 	var s3 := _step(box, 3, "Rame")
 	var veh_opt := _opt(s3, "Matériel")
 	var specs := HFlowContainer.new(); specs.add_theme_constant_override("h_separation", 8); specs.add_theme_constant_override("v_separation", 8)
@@ -438,13 +438,13 @@ func _source_of(city_nets: Array) -> String:
 	var n := NetworkLoader.new(); n.load_file(city_nets[0].path)
 	return str(n.meta.get("source_id", ""))
 
-func _opt(parent: Control, label: String) -> OptionButton:
+func _opt(parent: Control, label: String) -> TouchChoice:
 	return _row(parent, label).get_child(1)
 
 func _row(parent: Control, label: String) -> HBoxContainer:
 	var r := HBoxContainer.new(); r.add_theme_constant_override("separation", 12); parent.add_child(r)
 	var l := UiTheme.label_(label, UiTheme.SIZE_SMALL, UiTheme.MUTED); l.custom_minimum_size = Vector2(100, 0); r.add_child(l)
-	var o := OptionButton.new(); o.size_flags_horizontal = Control.SIZE_EXPAND_FILL; o.custom_minimum_size = Vector2(0, 50)
+	var o := TouchChoice.new(); o.choice_title = label; o.size_flags_horizontal = Control.SIZE_EXPAND_FILL; o.custom_minimum_size = Vector2(0, 50)
 	o.fit_to_longest_item = false; o.clip_text = true
 	r.add_child(o)
 	return r

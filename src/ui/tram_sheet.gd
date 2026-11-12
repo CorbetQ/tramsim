@@ -12,7 +12,7 @@ const SUPPLY := {"overhead": "ligne aérienne de contact 750 V CC", "aps": "APS 
 var family := ""
 var city := ""
 var lines: Array = []            # Catalogue.lines_for(family), ville filtrée en tête
-var livery_opt: OptionButton
+var livery_opt: TouchChoice
 var preview: TramPreview
 var text: RichTextLabel
 var drive_btn: Button
@@ -45,7 +45,7 @@ func _ready() -> void:
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var lr := HBoxContainer.new(); left.add_child(lr)
 	var ll := Label.new(); ll.text = "Livrée"; ll.custom_minimum_size = Vector2(90, 0); lr.add_child(ll)
-	livery_opt = OptionButton.new(); livery_opt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	livery_opt = TouchChoice.new(); livery_opt.choice_title = "Livrée"; livery_opt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	livery_opt.custom_minimum_size = Vector2(0, 52); livery_opt.clip_text = true; lr.add_child(livery_opt)
 	drive_btn = Button.new(); drive_btn.text = "Conduire cette rame"; drive_btn.custom_minimum_size = Vector2(0, 72)
 	drive_btn.add_theme_font_size_override("font_size", 26); left.add_child(drive_btn)

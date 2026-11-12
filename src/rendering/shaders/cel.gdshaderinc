@@ -13,7 +13,7 @@ float cel_steps(float lit, float floor_) {
 
 // Teinte froide des ombres (lumière du ciel), plus bleutée la nuit.
 vec3 cel_shadow_tint() {
-	return mix(vec3(0.78, 0.86, 1.08), vec3(0.7, 0.8, 1.15), night);
+	return mix(vec3(0.66, 0.79, 1.08), vec3(0.7, 0.8, 1.15), night);
 }
 
 // Contribution d'une lumière : soleil/lune en paliers, lumières ponctuelles (phares, lampes) en 2 paliers.

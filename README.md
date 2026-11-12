@@ -2,7 +2,9 @@
 
 Simulateur de tramway 3D (Godot 4.6.3, GDScript, Android 10+, paysage, hors ligne).
 
-## Version 0.9
+## Version 0.9.1
+
+Le correctif 0.9.1 renforce les ombres et les couleurs du rendu mobile et remplace les menus déroulants natifs par des listes tactiles avec recherche. Voir [les changements](docs/CHANGEMENTS_0_9_1.md).
 
 Les 28 réseaux libres utilisent les voies physiques OpenStreetMap, leurs nœuds de connexion, les voies de service et les emprises de quais disponibles. Le décor IGN est étendu autour des nouveaux tracés ; les bâtiments de maintenance suivent les emprises BD TOPO. Les missions conservent leur graphe et leurs horaires GTFS, avec une altimétrie raccordée aux ouvrages cartographiés.
 

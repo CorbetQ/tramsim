@@ -9,7 +9,7 @@ render_mode cull_disabled;
 uniform float wind_strength = 0.0;
 
 uniform float bands : hint_range(2.0, 5.0) = 3.0;   // conservé (compatibilité) : paliers fixés par cel.gdshaderinc
-uniform float shade_floor : hint_range(0.0, 1.0) = 0.36;
+uniform float shade_floor : hint_range(0.0, 1.0) = 0.18;
 uniform float rim_strength : hint_range(0.0, 1.0) = 0.3;
 uniform vec3 glass_glow = vec3(1.0, 0.86, 0.6);
 uniform float glow_strength = 0.55;
@@ -34,7 +34,11 @@ uniform float tram_pat_glass = 0.0;      // opacité du motif sur les baies lat�
 varying float v_paint;
 varying float v_glass;
 
-vec3 to_linear(vec3 c) { return pow(c, vec3(color_gamma)); }
+vec3 to_linear(vec3 c) {
+	vec3 linear = pow(c, vec3(color_gamma));
+	float grey = dot(linear, vec3(0.2126, 0.7152, 0.0722));
+	return max(mix(vec3(grey), linear, 1.12), vec3(0.0));
+}
 
 float h21(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7)) + tram_pat_seed * 17.13) * 43758.5453); }
 vec2 h22(vec2 p) { return vec2(h21(p), h21(p + vec2(41.3, 7.7))); }

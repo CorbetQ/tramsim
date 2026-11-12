@@ -34,8 +34,8 @@ static func water() -> ShaderMaterial:
 	return _cache.water
 
 ## Réglage d'exposition des rames : les couleurs de livrée sont mesurées sur photos (teinte déjà éclairée) ;
-## face au soleil, soleil + ambiance ≈ 1 restitue la teinte mesurée sans écrêtage, l'ombre garde ~60 %.
-const TRAM_TONE := {"tram_albedo_day": 0.8, "tram_albedo_night": 0.95, "tram_sun": 0.88, "shade_floor": 0.3,
+## face au soleil, soleil + ambiance ≈ 1 restitue la teinte mesurée sans écrêtage, les ombres restent plus profondes et froides.
+const TRAM_TONE := {"tram_albedo_day": 0.8, "tram_albedo_night": 0.95, "tram_sun": 0.88, "shade_floor": 0.18,
 	"rim_strength": 0.08, "bands": 3.0, "color_gamma": 1.0}
 const PATTERN_IDS := {"swallows": 1, "flowers": 2, "waves": 3, "gilding": 4, "mirror_bands": 5, "leaves": 6}
 

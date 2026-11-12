@@ -60,8 +60,8 @@ func setup(parent: Node3D) -> void:
 	env.set_glow_level(1, 0.6); env.set_glow_level(2, 1.0)
 	if not low_quality: env.set_glow_level(3, 0.8); env.set_glow_level(4, 0.4)
 	env.adjustment_enabled = true
-	env.adjustment_contrast = 1.06
-	env.adjustment_saturation = 1.05
+	env.adjustment_contrast = 1.12
+	env.adjustment_saturation = 1.10
 	var we := WorldEnvironment.new(); we.environment = env
 	parent.add_child(we)
 	if not low_quality:
@@ -99,7 +99,7 @@ func set_hour(h: float) -> void:
 	if elev > -4.0:
 		sun.rotation_degrees = Vector3(-maxf(elev, 3.0), azim, 0)
 		sun.light_color = day_col
-		sun.light_energy = lerpf(0.25, 1.15, clampf(elev / 22.0, 0.0, 1.0))
+		sun.light_energy = lerpf(0.25, 1.22, clampf(elev / 22.0, 0.0, 1.0))
 	else:  # clair de lune
 		sun.rotation_degrees = Vector3(-35.0, 140.0, 0)
 		sun.light_color = Color("#a9bcff")
@@ -119,10 +119,10 @@ func set_hour(h: float) -> void:
 	# ambiance : bleutée (ombres froides) le jour, violacée au crépuscule, bleu nuit
 	env.ambient_light_color = _k([[0.0, Color("#2a3466")], [6.0, Color("#3e4478")], [8.0, Color("#a9bad6")], [17.0, Color("#b4c3da")],
 		[20.3, Color("#8a8ab0")], [22.0, Color("#2a3466")], [24.0, Color("#2a3466")]], hour)
-	env.ambient_light_energy = lerpf(0.55, 0.42, night)
+	env.ambient_light_energy = lerpf(0.30, 0.42, night)
 	env.fog_light_color = horizon.lerp(top, 0.15)
 	env.fog_light_energy = lerpf(0.9, 0.5, night)
-	env.fog_density = lerpf(0.0011, 0.0017, night)
+	env.fog_density = lerpf(0.00065, 0.0017, night)
 	env.glow_intensity = lerpf(0.35, 0.55 if low_quality else 0.9, night)
 
 func clock_text() -> String:
