@@ -27,6 +27,16 @@ func _press(b: Control) -> void:
 	await _click(b.get_global_rect().get_center())
 	for i in 3: await process_frame
 
+func _choose_power(main: Node, button: Button, mode: String) -> void:
+	await _press(button)
+	var target: Button
+	for popup in get_nodes_in_group("touch_choice_modal"):
+		for b in popup.find_children("*", "Button", true, false):
+			if b.text == MissionSession.power_label(mode): target = b
+	check(target != null, "choix d’alimentation " + mode)
+	if target: await _press(target)
+	await create_timer(0.7).timeout
+
 func _init() -> void:
 	# Les entrées et la physique sont testées ici ; le rendu 3D est vérifié par visual_review.gd.
 	root.disable_3d = true
@@ -52,13 +62,15 @@ func _init() -> void:
 	check(not main.session.doors_open, "clic Portes : portes fermées")
 	# traction : clic en haut du manipulateur
 	# voyants et outils du HUD
-	var pb := _find(main, "Pantographe")
-	check(pb != null, "bouton Pantographe présent")
-	await _press(pb)
-	check(not main.session.pantograph_up, "clic Pantographe : baissé")
-	check(main.lamps["panto"][3] == 0, "voyant pantographe éteint")
-	await _press(pb)
-	check(main.session.pantograph_up, "clic Pantographe : levé")
+	var pb := _find(main, "Alimentation")
+	check(pb != null, "bouton Alimentation présent")
+	var initial: String = main.session.power_mode
+	var alternate := "aps" if initial == "overhead" else "overhead"
+	await _choose_power(main, pb, alternate)
+	check(main.session.power_mode == alternate and main.session.pantograph_up == (alternate == "overhead"), "clic alimentation : mode et collecteur commutés")
+	check(main.lamps["panto"][3] == (1 if alternate == "overhead" else 0), "voyant pantographe cohérent")
+	await _choose_power(main, pb, initial)
+	check(main.session.power_mode == initial and main.session.power_ok, "clic alimentation : retour au mode initial alimenté")
 	var hb: Button = main.find_child("btn_help", true, false)
 	await _press(hb)
 	check(main.help_layer != null, "bouton aide : aide affichée")
@@ -98,8 +110,8 @@ func _init() -> void:
 	main.start_station = fn.stations[0]
 	main._start(); main.view.day_night.sun.shadow_enabled = false
 	for i in 5: await process_frame
-	var ab := _find(main, "Aiguillages")
-	check(ab != null, "mode libre : bouton Aiguillages")
+	var ab := _find(main, "Plan")
+	check(ab != null, "mode libre : bouton Plan")
 	await _click(ab.get_global_rect().get_center())
 	for i in 3: await process_frame
 	check(main.plan_panel != null, "panneau des aiguillages ouvert")
