@@ -10,12 +10,12 @@ scrollers imbriqués et l'axe des curseurs restent distincts.
 `tools/import/station_power.py` enrichit les 28 réseaux libres et les 120 fichiers
 de lignes depuis leurs instantanés OSM versionnés. Les identifiants GTFS des
 nœuds `stop_position` sont prioritaires ; à défaut, le nom et la proximité dans
-le même quartier servent au rapprochement. 2 949 arrêts libres sur 3 371 portent
+le même quartier servent au rapprochement. 2 953 arrêts libres sur 3 371 portent
 une référence à un nœud OSM. Les autres positions restent issues du GTFS.
 Les départs de mission sont replacés avant le premier arrêt ; un quai au nœud
 entre deux tronçons est reconnu depuis le tronçon précédent.
 
-3 102 quais sont rendus dans leur repère géographique. Les surfaces fermées
+3 113 quais sont rendus dans leur repère géographique. Les surfaces fermées
 conservent leurs sommets OSM ; les lignes ouvertes gardent le tracé cartographié,
 avec largeur estimée lorsque `width` est absent (1 626 cas). La largeur estimée
 est placée du côté opposé aux voies si un tampon centré les recouvrirait.

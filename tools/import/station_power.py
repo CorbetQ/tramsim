@@ -9,7 +9,7 @@ import numpy as np
 from shapely.geometry import Point,LineString,Polygon
 from shapely.strtree import STRtree
 ROOT=Path(__file__).resolve().parents[2]
-R=6378137.
+R=6371008.8 # même rayon terrestre que CityScene et les voies physiques
 def electrical_mode(tag,city):
  return {'contact_line':'overhead','ground-level_power_supply':'aps','no':'battery' if city=='nice' else 'none'}.get(tag)
 def fold(x):return re.sub('[^a-z0-9]','',unicodedata.normalize('NFKD',x).encode('ascii','ignore').decode().lower())
@@ -36,6 +36,10 @@ def enrich(path,osm):
   n=min(exact or candidates,key=lambda n:Point(p(n)).distance(old));pt=Point(p(n))
   j=int(tree.nearest(pt)) if d.get('geometry_kind')=='physical' else i
   if lines[j].distance(pt)>30:continue
+  if d.get('geometry_kind')=='physical' and i!=j:
+   before=np.array(line.interpolate(min(line.length,line.project(old)+.5)).coords[0])-np.array(line.interpolate(max(0,line.project(old)-.5)).coords[0])
+   after=np.array(lines[j].interpolate(min(lines[j].length,lines[j].project(pt)+.5)).coords[0])-np.array(lines[j].interpolate(max(0,lines[j].project(pt)-.5)).coords[0])
+   s['direction']=int(s.get('direction',1)) * (1 if np.dot(before,after)>=0 else -1)
   s['edge']=edges[j]['id'];s['offset']=round(lines[j].project(pt)/lines[j].length*edges[j]['length'],3)
   s['source_osm_node']=n['id'];s['stop_source']='OSM stop_position';s['projection_m']=round(lines[j].distance(pt),3);moved+=1
  for mission in d.get('missions',[]):

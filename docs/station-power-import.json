@@ -81,7 +81,7 @@
       63
     ],
     "data/networks/bordeaux_d.json": [
-      47,
+      48,
       46
     ],
     "data/networks/bordeaux_e.json": [
@@ -205,8 +205,8 @@
   },
   "idf": {
     "data/free/idf.json": [
-      542,
-      492
+      546,
+      503
     ],
     "data/networks/idf_t1.json": [
       72,
@@ -221,7 +221,7 @@
       14
     ],
     "data/networks/idf_t12.json": [
-      25,
+      26,
       19
     ],
     "data/networks/idf_t13.json": [
@@ -229,15 +229,15 @@
       21
     ],
     "data/networks/idf_t14.json": [
-      8,
+      6,
       0
     ],
     "data/networks/idf_t2.json": [
-      19,
+      21,
       40
     ],
     "data/networks/idf_t2_2.json": [
-      20,
+      21,
       41
     ],
     "data/networks/idf_t3a.json": [
@@ -305,7 +305,7 @@
       21
     ],
     "data/networks/lemans_t1.json": [
-      41,
+      42,
       11
     ],
     "data/networks/lemans_t2.json": [
@@ -319,7 +319,7 @@
       68
     ],
     "data/networks/lille_tram.json": [
-      44,
+      43,
       39
     ],
     "data/networks/lille_tram_2.json": [
@@ -334,11 +334,11 @@
     ],
     "data/networks/lyon_rhonexpress.json": [
       6,
-      13
+      15
     ],
     "data/networks/lyon_t1.json": [
       48,
-      53
+      54
     ],
     "data/networks/lyon_t2.json": [
       46,
@@ -346,7 +346,7 @@
     ],
     "data/networks/lyon_t3.json": [
       25,
-      34
+      35
     ],
     "data/networks/lyon_t4.json": [
       54,
@@ -394,7 +394,7 @@
     ],
     "data/networks/montpellier_2.json": [
       48,
-      39
+      40
     ],
     "data/networks/montpellier_2_2.json": [
       47,
@@ -421,7 +421,7 @@
       33
     ],
     "data/networks/montpellier_5.json": [
-      51,
+      52,
       52
     ]
   },
@@ -457,27 +457,27 @@
       169
     ],
     "data/networks/nantes_1.json": [
-      57,
+      59,
       67
     ],
     "data/networks/nantes_1_2.json": [
-      40,
-      47
+      41,
+      48
     ],
     "data/networks/nantes_1_3.json": [
-      58,
-      68
+      60,
+      69
     ],
     "data/networks/nantes_2.json": [
-      45,
+      46,
       51
     ],
     "data/networks/nantes_2_2.json": [
-      51,
+      52,
       58
     ],
     "data/networks/nantes_2_3.json": [
-      59,
+      60,
       65
     ],
     "data/networks/nantes_3.json": [
@@ -564,7 +564,7 @@
     ],
     "data/networks/saintetienne_t1.json": [
       39,
-      48
+      49
     ],
     "data/networks/saintetienne_t2.json": [
       18,
@@ -576,7 +576,7 @@
     ],
     "data/networks/saintetienne_t3_2.json": [
       41,
-      51
+      52
     ]
   },
   "strasbourg": {
@@ -585,11 +585,11 @@
       200
     ],
     "data/networks/strasbourg_a.json": [
-      51,
+      53,
       55
     ],
     "data/networks/strasbourg_b.json": [
-      50,
+      52,
       57
     ],
     "data/networks/strasbourg_c.json": [
@@ -597,15 +597,15 @@
       37
     ],
     "data/networks/strasbourg_d.json": [
-      47,
+      48,
       52
     ],
     "data/networks/strasbourg_e.json": [
-      47,
+      50,
       54
     ],
     "data/networks/strasbourg_f.json": [
-      36,
+      38,
       40
     ]
   },
