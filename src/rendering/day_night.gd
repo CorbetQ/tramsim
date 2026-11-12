@@ -37,7 +37,7 @@ func setup(parent: Node3D) -> void:
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
+	env.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	env.fog_enabled = true
 	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
 	env.fog_density = 0.0016
@@ -69,6 +69,7 @@ func setup(parent: Node3D) -> void:
 		var q := QuadMesh.new(); q.size = Vector2(1, 1)
 		edges.mesh = q
 		var em := ShaderMaterial.new(); em.shader = load("res://src/rendering/shaders/edges.gdshader")
+		em.set_shader_parameter("strength",0.18)
 		em.render_priority = 100
 		edges.material_override = em
 		edges.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

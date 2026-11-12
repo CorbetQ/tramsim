@@ -1,0 +1,198 @@
+{
+  "angers": {
+    "identity": "angers",
+    "accent": "#526e72",
+    "paving": "#b9b6a7",
+    "masonry": 0,
+    "character": "pierre et soubassements minéraux"
+  },
+  "nantes": {
+    "identity": "nantes",
+    "accent": "#59736c",
+    "paving": "#b9b5aa",
+    "masonry": 0,
+    "character": "pierre et soubassements minéraux"
+  },
+  "tours": {
+    "identity": "tours",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 0,
+    "character": "pierre et soubassements minéraux"
+  },
+  "orleans": {
+    "identity": "orleans",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 0,
+    "character": "pierre et soubassements minéraux"
+  },
+  "lemans": {
+    "identity": "lemans",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 0,
+    "character": "pierre et soubassements minéraux"
+  },
+  "caen": {
+    "identity": "caen",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 0,
+    "character": "pierre et soubassements minéraux"
+  },
+  "bordeaux": {
+    "identity": "bordeaux",
+    "accent": "#6b7668",
+    "paving": "#c6b99f",
+    "masonry": 0,
+    "character": "pierre et soubassements minéraux"
+  },
+  "toulouse": {
+    "identity": "toulouse",
+    "accent": "#985e50",
+    "paving": "#c6a895",
+    "masonry": 1,
+    "character": "brique et menuiseries contrastées"
+  },
+  "montpellier": {
+    "identity": "montpellier",
+    "accent": "#7b8170",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "marseille": {
+    "identity": "marseille",
+    "accent": "#598397",
+    "paving": "#c9c4ad",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "nice": {
+    "identity": "nice",
+    "accent": "#538a81",
+    "paving": "#d5c9b1",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "avignon": {
+    "identity": "avignon",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "aubagne": {
+    "identity": "aubagne",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "lille": {
+    "identity": "lille",
+    "accent": "#804c45",
+    "paving": "#a6a5a1",
+    "masonry": 1,
+    "character": "brique et menuiseries contrastées"
+  },
+  "valenciennes": {
+    "identity": "valenciennes",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 1,
+    "character": "brique et menuiseries contrastées"
+  },
+  "reims": {
+    "identity": "reims",
+    "accent": "#68785b",
+    "paving": "#b9b5aa",
+    "masonry": 0,
+    "character": "pierre et soubassements minéraux"
+  },
+  "strasbourg": {
+    "identity": "strasbourg",
+    "accent": "#674844",
+    "paving": "#b9a99c",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "mulhouse": {
+    "identity": "mulhouse",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "dijon": {
+    "identity": "dijon",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 0,
+    "character": "pierre et soubassements minéraux"
+  },
+  "besancon": {
+    "identity": "besancon",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "idf": {
+    "identity": "idf",
+    "accent": "#49565b",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "lyon": {
+    "identity": "lyon",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "saintetienne": {
+    "identity": "saintetienne",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "grenoble": {
+    "identity": "grenoble",
+    "accent": "#637951",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "clermont": {
+    "identity": "clermont",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 3,
+    "character": "pierre sombre et granite"
+  },
+  "lehavre": {
+    "identity": "lehavre",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "rouen": {
+    "identity": "rouen",
+    "accent": "#5f726a",
+    "paving": "#b9b5aa",
+    "masonry": 2,
+    "character": "enduits et façades urbaines"
+  },
+  "brest": {
+    "identity": "brest",
+    "accent": "#477587",
+    "paving": "#9da9ab",
+    "masonry": 3,
+    "character": "pierre sombre et granite"
+  }
+}

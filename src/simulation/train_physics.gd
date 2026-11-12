@@ -7,7 +7,19 @@ const G := 9.80665
 
 var profile: VehicleProfile
 var passengers: int = 0
-var speed: float = 0.0      # m/s
+## Vitesse signée dans le sens de la cabine. speed reste une norme pour le HUD,
+## les portes et les sons ; position conserve le sens réel du déplacement.
+var velocity := 0.0
+var speed: float:
+	get: return absf(velocity)
+	set(value): velocity = maxf(value, 0.0)
+var adhesion := 0.26 # rail sec, coefficient estimé ; 0,14 représente un rail humide
+var driven_mass_fraction := 0.55
+var slip_ratio := 0.0
+var wheel_slip := false
+var rollback: bool:
+	get: return velocity < -0.05
+var _slip_time := 0.0
 var position: float = 0.0   # abscisse curviligne (m)
 var power_available: bool = true
 
@@ -24,21 +36,33 @@ func resistance(v: float) -> float:
 
 ## notch : -1 (freinage max) .. +1 (traction max) ; grade : pente (+ = montée).
 func step(dt: float, notch: float, grade: float, emergency: bool = false) -> void:
+	if dt <= 0.0: return
 	var m := mass()
-	var force := 0.0
-	if emergency:
-		force = -profile.emergency_brake_ms2 * m
-	elif notch >= 0.0 and power_available:
-		var fmax := minf(profile.max_tractive_effort_n, profile.power_kw * 1000.0 / maxf(speed, 1.0))
-		force = notch * fmax
-	elif notch < 0.0:
-		force = notch * profile.service_brake_ms2 * m
-	var drag := resistance(speed) + m * G * grade
-	var net := force - drag if speed > 0.0 or force > drag else 0.0
-	if force < 0.0:
-		net = force - drag  # freinage + résistances
-	speed = clampf(speed + net / m * dt, 0.0, profile.max_speed_ms)
-	position += speed * dt
+	var demand := 0.0
+	if notch > 0.0 and power_available and not emergency:
+		demand = clampf(notch,0.0,1.0) * minf(profile.max_tractive_effort_n,profile.power_kw*1000.0/maxf(speed,1.0))
+	var mu := maxf(adhesion,0.02) if profile.guidance != "rubber_guided" else maxf(adhesion,0.55)
+	var grip := mu * m * G * driven_mass_fraction
+	wheel_slip = demand > grip * 1.02
+	_slip_time += dt
+	var target := clampf((demand-grip)/maxf(grip,1.0),0.0,1.0) if wheel_slip else 0.0
+	slip_ratio = move_toward(slip_ratio,target,dt*3.0)
+	var traction := minf(demand,grip*(0.90+0.04*sin(_slip_time*19.0))) if wheel_slip else demand
+	var brake := (profile.emergency_brake_ms2 if emergency else maxf(-notch,0.0)*profile.service_brake_ms2)*m
+	var drive := traction-m*G*grade
+	var drag := resistance(speed)
+	var force := drive
+	if speed < 0.015:
+		if absf(drive) <= brake+drag:
+			velocity=0.0; return
+		force -= signf(drive)*(brake+drag)
+	else:
+		force -= signf(velocity)*(brake+drag)
+	var next := velocity+force/m*dt
+	# Le frein retient la rame à zéro sans la propulser dans l'autre sens.
+	if next*velocity < 0.0 and absf(drive) <= brake+drag: next=0.0
+	velocity=clampf(next,-profile.max_speed_ms,profile.max_speed_ms)
+	position += velocity*dt
 
 func braking_distance(v: float, emergency: bool = false) -> float:
 	var a := profile.emergency_brake_ms2 if emergency else profile.service_brake_ms2

@@ -243,7 +243,7 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	var info: Dictionary = net.edge_info[edge_id]
 	var n := notch
 	if doors_open:
-		n = minf(n, 0.0)  # traction coupée portes ouvertes
+		n = minf(n, -0.75)  # interverrouillage de portes : traction coupée et frein de maintien
 	_update_signals()
 	power_transition_left = maxf(0.0, power_transition_left - dt)
 	_update_power(net.supply_at(edge_id, offset))
@@ -308,6 +308,8 @@ func toggle_pantograph() -> void:
 	set_power_mode(str(modes[(modes.find(power_mode) + 1) % modes.size()]))
 
 func _advance(d: float) -> void:
+	if d < 0.0:
+		_retreat(-d); return
 	_sync_dirs()
 	offset += d * direction
 	while true:
@@ -340,6 +342,34 @@ func _advance(d: float) -> void:
 		route.append(edge_id)
 		route_dir.append(direction)
 		visited[edge_id] = true
+	_release_tail()
+
+## Recul réel, sans changer de cabine : retraverser les nœuds derrière le nez.
+func _retreat(distance_: float) -> void:
+	_sync_dirs()
+	offset -= distance_*direction
+	while offset < 0.0 or offset > net.graph.edges[edge_id].length:
+		var extra: float = -offset if direction>0 else offset-net.graph.edges[edge_id].length
+		var old := edge_id
+		var history := route.size()>1
+		var target:String
+		var target_direction:int
+		if history:
+			target=route[-2];target_direction=route_dir[-2]
+		else:
+			var step := net.graph.next_step(edge_id,-direction)
+			if step.is_empty():
+				offset=clampf(offset,0.0,net.graph.edges[old].length); phys.speed=0.0
+				_fail("Recul au-delà de la fin de voie"); return
+			target=step[0];target_direction=-int(step[1])
+		if not net.graph.occupy(target,train_id):
+			offset=clampf(offset,0.0,net.graph.edges[old].length)
+			phys.speed=0.0; _fail("Collision en recul"); return
+		if history:route.pop_back();route_dir.pop_back()
+		else:route=[target];route_dir=[target_direction]
+		edge_id=target;direction=target_direction
+		net.graph.release(old,train_id); visited[edge_id]=true
+		offset=net.graph.edges[edge_id].length-extra if direction>0 else extra
 	_release_tail()
 
 ## Libère les arêtes derrière la queue de la rame (longueur dans l'occupation).

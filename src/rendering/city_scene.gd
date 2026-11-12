@@ -43,6 +43,7 @@ var _ter_table: Dictionary = {}     # Vector2i -> offset de la tuile
 var _ter_grid: Dictionary = {}      # Vector2i -> PackedFloat32Array (41 x 41, [iz * 41 + ix])
 var _water_lv: Dictionary = {}      # Vector2i -> Array de Vector3 (x, niveau, z) repère tuile
 var _decks: Array = []              # [type, largeur, PackedVector3Array repère ville, Vector2i tuile]
+var _road_level_cells: Dictionary = {}
 var _deck_cells: Dictionary = {}    # Vector2i (cellules de 32 m) -> Array de [pont, segment]
 const TG := 41
 const TSTEP := 10.0
@@ -50,6 +51,7 @@ var debug_props := false        # tests : mémorise la position (repère ville) 
 var placed_props: Array[Vector2] = []
 var placed_trees: Array[Vector2] = []
 var _trees_cur: Array = []
+var _street_keepout := TrackView.KeepOut.new()
 var _camera_boxes: Array[AABB] = []
 var _portal_cut := TrackView.KeepOut.new()
 var _hangar_footprints: Array[PackedVector2Array] = []
@@ -59,7 +61,7 @@ const K_CASTLE := 3
 const K_CIVIC := 4
 const K_STATION := 5
 const K_SCHOOL := 6
-const TREE_KINDS := 7
+const TREE_KINDS := 10
 
 static func path_for(c: String) -> String:
 	return "res://data/scenes/%s.bin" % c
@@ -91,7 +93,33 @@ func open(c: String, net_origin: Array) -> bool:
 	_load_style(c)
 	_load_track_nature(c)
 	_load_terrain(c)
+	_load_road_levels(c)
 	return true
+
+func _load_road_levels(c: String) -> void:
+	var path:="res://data/scenes/%s_road_levels.json"%c
+	if not FileAccess.file_exists(path):return
+	var data:Dictionary=JSON.parse_string(FileAccess.get_file_as_string(path))
+	for segment in data.get("segments",[]):
+		var a:=Vector2(segment[0],segment[1]);var b:=Vector2(segment[2],segment[3])
+		var count:=maxi(1,ceili(a.distance_to(b)/16.0))
+		for i in count:
+			var p:=a.lerp(b,float(i)/count);var q:=a.lerp(b,float(i+1)/count)
+			for x in range(floori((minf(p.x,q.x)-2.0)/32.0),floori((maxf(p.x,q.x)+2.0)/32.0)+1):
+				for z in range(floori((minf(p.y,q.y)-2.0)/32.0),floori((maxf(p.y,q.y)+2.0)/32.0)+1):
+					var key:=Vector2i(x,z)
+					if not _road_level_cells.has(key):_road_level_cells[key]=[]
+					_road_level_cells[key].append([p,q,int(segment[4])])
+
+func _known_road_level(p:Vector2,heading:Vector2)->int:
+	var best:=1.8;var level:=99
+	for item in _road_level_cells.get(Vector2i(floori(p.x/32.0),floori(p.y/32.0)),[]):
+		var a:Vector2=item[0];var b:Vector2=item[1]
+		if absf((b-a).normalized().dot(heading))<0.85:continue
+		var distance_:=p.distance_to(Geometry2D.get_closest_point_to_segment(p,a,b))
+		if distance_<best-0.12:best=distance_;level=int(item[2])
+		elif absf(distance_-best)<0.12:level=mini(level,int(item[2]))
+	return level
 
 func _load_terrain(c: String) -> void:
 	var path := "res://data/scenes/%s_terrain.bin" % c
@@ -195,16 +223,23 @@ func _drape(S: _Arrays, i0: int, chosen_deck: int = -1) -> void:
 		if chosen_deck >= 0:
 			var dh := deck_city(x, z, chosen_deck)
 			if not is_nan(dh): h = dh
+			else: h = _bridge_approach(x,z,chosen_deck,h)
 		S.v[i] = Vector3(q.x, q.y + h + 0.04, q.z)
 
 ## Tablier suivi par une route : même orientation et même type, jamais le pont qui la croise.
-func _deck_for_line(pts: PackedVector2Array, rail: bool) -> int:
+func _deck_for_line(raw_pts: PackedVector2Array, rail: bool) -> int:
+	var pts:=PackedVector2Array()
+	for i in raw_pts.size()-1:
+		var count:=maxi(1,ceili(raw_pts[i].distance_to(raw_pts[i+1])/8.0))
+		for j in count:pts.append(raw_pts[i].lerp(raw_pts[i+1],float(j)/count))
+	if not raw_pts.is_empty():pts.append(raw_pts[-1])
 	var votes := {}; var total := 0.0
 	for i in range(pts.size() - 1):
 		var vector := pts[i + 1] - pts[i]; var length_ := vector.length()
 		if length_ < 0.01: continue
 		total += length_
 		var p := (pts[i] + pts[i + 1]) * 0.5 + _tile_origin
+		if not rail and _known_road_level(p,vector.normalized())<=0:continue
 		var found := -1; var best := INF
 		for item in _deck_cells.get(Vector2i(floori(p.x / 32.0), floori(p.y / 32.0)), []):
 			var d: Array = _decks[item[0]]
@@ -216,10 +251,23 @@ func _deck_for_line(pts: PackedVector2Array, rail: bool) -> int:
 			if distance_ < float(d[1]) * 0.5 + 0.4 and distance_ < best:
 				best = distance_; found = int(item[0])
 		if found >= 0: votes[found] = float(votes.get(found, 0.0)) + length_
-	var choice := -1; var most := total * 0.5
+	var choice := -1; var most := 0.0
 	for id in votes:
 		if float(votes[id]) > most: most = float(votes[id]); choice = int(id)
 	return choice
+
+func _bridge_approach(x: float,z: float,id: int,ground: float) -> float:
+	var d:Array=_decks[id];var points:PackedVector3Array=d[2]
+	if points.size()<2:return ground
+	var p:=Vector2(x,z)
+	for end in [0,points.size()-1]:
+		var tip:Vector3=points[end];var inner:Vector3=points[1 if end==0 else end-1]
+		var tangent:=Vector2(tip.x-inner.x,tip.z-inner.z).normalized()
+		var delta:=p-Vector2(tip.x,tip.z);var along:=delta.dot(tangent)
+		var reach:=clampf(absf(tip.y-ground)*14.0,24.0,90.0)
+		if along>=0.0 and along<reach and absf(delta.cross(tangent))<float(d[1])*0.5+0.4:
+			return lerpf(tip.y,ground,smoothstep(0.0,reach,along))
+	return ground
 
 func _lift(S: _Arrays, i0: int, dy: float) -> void:
 	if dy == 0.0: return
@@ -255,7 +303,9 @@ func _load_style(c: String) -> void:
 	if _styles.is_empty():
 		_styles = JSON.parse_string(FileAccess.get_file_as_string("res://data/city_styles.json"))
 	var key: String = _styles.cities.get(c, "")
-	style = _styles.styles.get(key, _styles.default)
+	style = _styles.styles.get(key, _styles.default).duplicate(true)
+	var identities: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/city_identity.json"))
+	style.merge(identities.get(c, {}), true)
 
 func _pal(name: String, h: int) -> Color:
 	var arr: Array = style.get(name, ["#cccccc"])
@@ -333,8 +383,13 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var nv := buf.decode_u16(o + 1); var ntr := buf.decode_u16(o + 3); o += 5 + nv * 4 + ntr * 6
 	var lines_start := o
 	var nl := buf.decode_u16(o); o += 2
+	_street_keepout=TrackView.KeepOut.new()
 	for l in nl:
-		o += 4 + buf.decode_u16(o + 2) * 4
+		var cls:=buf.decode_u8(o);var width_:=buf.decode_u8(o+1)/5.0;var count:=buf.decode_u16(o+2);o+=4
+		var road:=PackedVector2Array()
+		for j in count:
+			road.append(Vector2(buf.decode_s16(o)*0.1,buf.decode_s16(o+2)*0.1));o+=4
+		_street_keepout.add_polyline(road,maxf(width_*0.5,1.2)+0.35)
 	var points: Array = []
 	var labels: Array = []
 	if v2:
@@ -360,12 +415,23 @@ func _build_tile(k: Vector2i) -> Node3D:
 			runs.append(Vector3i(buf.decode_u8(o), buf.decode_u8(o + 1), buf.decode_u8(o + 2))); o += 3
 	_ortho_tile = not otrees.is_empty() or not runs.is_empty()
 	# sol vert réel (cellules de 4 m, orthophoto), sous les surfaces BD TOPO et les routes
-	var lawn := Color("#8db463")
+	var lawn := Color("#8db463",0.30)
+	var meadow_rng:=RandomNumberGenerator.new();meadow_rng.seed=seed*43
+	var meadow_count:=0
 	var i0 := S.count()
 	S.sub = TSTEP
 	for r in runs:
 		var z0: float = r.x * 4.0; var x0: float = r.y * 4.0; var x1: float = x0 + r.z * 4.0
 		S.quad(Vector3(x0, 0.012, z0), Vector3(x1, 0.012, z0), Vector3(x1, 0.012, z0 + 4.0), Vector3(x0, 0.012, z0 + 4.0), lawn, -1.0)
+		for j in mini(int((x1-x0)/8.0),6):
+			if meadow_count>=128:break
+			var q:=Vector2(meadow_rng.randf_range(x0,x1),z0+meadow_rng.randf_range(0.3,3.7))
+			var inside:=false
+			for building in blds:
+				if Geometry2D.is_point_in_polygon(q,building[0]):inside=true;break
+			if inside:continue
+			_add_tree(8 if meadow_rng.randf()<0.7 else 9,Vector3(q.x,0.02,q.y),meadow_rng,0.8)
+			meadow_count+=1
 	S.sub = 0.0
 	_drape(S, i0)
 	# houppiers réels détectés (essence selon le style de la ville, taille selon le houppier)
@@ -406,6 +472,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 			v[i] = Vector2(buf.decode_s16(o) * 0.1, buf.decode_s16(o + 2) * 0.1); o += 4
 		var y: float = {P_WATER: 0.03, P_FOREST: 0.025, P_GRASS: 0.02, P_SPORT: 0.03, P_CEMETERY: 0.025}.get(cls, 0.02)
 		var col: Color = {P_FOREST: Color("#5e9448"), P_GRASS: Color("#8cbd5b"), P_SPORT: Color("#a9cf6c"), P_CEMETERY: Color("#9cb487")}.get(cls, Color("#8cbd5b"))
+		col.a = 0.30
 		var rng := RandomNumberGenerator.new(); rng.seed = seed * 31 + p
 		if cls == P_WATER and has_terrain: y = _water_level(k, v) + 0.03
 		var p0 := S.count()
@@ -416,14 +483,15 @@ func _build_tile(k: Vector2i) -> Node3D:
 				W.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(c.x, y, c.y), Color.WHITE)
 			else:
 				S.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(c.x, y, c.y), col, -1.0)
-				if (cls == P_FOREST or cls == P_GRASS or cls == P_CEMETERY) and not _ortho_tile:
+				if (cls == P_FOREST or cls == P_GRASS or cls == P_CEMETERY):
 					var area := absf((b - a).cross(c - a)) * 0.5
-					var dens := 110.0 if cls == P_FOREST else 700.0
+					var dens := 85.0 if cls == P_FOREST else 180.0
 					var count := mini(int(area / dens + rng.randf()), 40)
 					for i in count:
 						var r1 := sqrt(rng.randf()); var r2 := rng.randf()
 						var q := a * (1.0 - r1) + b * (r1 * (1.0 - r2)) + c * (r1 * r2)
-						var kind := 1 if (cls == P_CEMETERY and rng.randf() < 0.6) else _pick_tree(rng)
+						var kind := 1 if (cls == P_CEMETERY and rng.randf() < 0.6) else (_pick_tree(rng) if rng.randf()<0.45 else 7+rng.randi_range(0,2))
+						if _ortho_tile and kind < 7: kind = 7+rng.randi_range(0,2)
 						_add_tree(kind, Vector3(q.x, y, q.y), rng)
 		S.sub = 0.0
 		_drape(S, p0)
@@ -600,7 +668,7 @@ const GLASS_SHOP := 0.45     # alpha des vitrines (éclairées la nuit)
 const SOLID_A := 0.35        # alpha sans fenêtres
 
 func _wall_a(seed: int) -> float:
-	return 0.5 + 0.49 * float(absi(seed * 2654435761) % 1000) / 1000.0
+	return 0.52 + float(style.get("masonry",2))*0.1 + float(absi(seed)%97)*0.0008
 
 func _centroid(ring: PackedVector2Array) -> Vector2:
 	var c := Vector2.ZERO
@@ -802,6 +870,7 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 	if shop:  # rez-de-chaussée commercial : vitrines (éclairées le soir)
 		_walls(S, ring, 0.0, 3.4, Color(0.2, 0.24, 0.27, GLASS_SHOP), false)
 		y0 = 3.4
+	if cls != 2: _facade_detail(S,ring,h,seed,shop)
 	wall.a = _wall_a(seed) if windows else SOLID_A
 	_walls(S, ring, y0, h, wall, windows)
 	if paris and cls == 0 and h > 13.0 and n <= 16:
@@ -838,6 +907,54 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 		if h > 15.0 and rng.randf() < 0.6:  # édicule technique
 			S.box(Vector3(c.x, h + 1.2, c.y), Vector3(3.0, 2.4, 3.0), Color("#b3b0a8", SOLID_A))
 
+## Menuiseries et balcons en géométrie, sur la façade principale de l'emprise.
+## Détails bornés par bâtiment ; toutes les pièces restent dans le maillage de tuile.
+func _facade_detail(S: _Arrays, ring: PackedVector2Array, height_: float, seed_: int, shop: bool) -> void:
+	if height_ < 3.5 or ring.size()<3: return
+	var building_center:=_centroid(ring)
+	var toward_street:=Vector2.ZERO;var nearest:=70.0
+	for x in range(floori((building_center.x-70.0)/16.0),floori((building_center.x+70.0)/16.0)+1):
+		for z in range(floori((building_center.y-70.0)/16.0),floori((building_center.y+70.0)/16.0)+1):
+			for road in _street_keepout.cells.get(Vector2i(x,z),[]):
+				var q:=Geometry2D.get_closest_point_to_segment(building_center,road[0],road[1])
+				if q.distance_to(building_center)<nearest:
+					nearest=q.distance_to(building_center);toward_street=(q-building_center).normalized()
+	var longest:=0; var length_:=0.0;var best:=-1.0
+	for i in ring.size():
+		var l:=ring[i].distance_to(ring[(i+1)%ring.size()])
+		var outward:=((ring[i]+ring[(i+1)%ring.size()])*0.5-building_center).normalized()
+		var score:=l*(0.2+0.8*maxf(0.0,outward.dot(toward_street)))
+		if score>best: longest=i; length_=l; best=score
+	if length_<5.0: return
+	var a:=ring[longest]; var b:=ring[(longest+1)%ring.size()]
+	var tangent:=(b-a).normalized(); var normal:=Vector2(-tangent.y,tangent.x)
+	if normal.dot((a+b)*0.5-_centroid(ring))<0.0:normal=-normal
+	var accent:=Color.from_string(str(style.get("accent","#44645f")),Color.GRAY)
+	accent.a=SOLID_A
+	var u0:=0.0
+	for i in longest:u0+=ring[i].distance_to(ring[(i+1)%ring.size()])
+	var face_seed:=floorf(_wall_a(seed_)*1000.0+0.5)
+	var bay:=lerpf(2.4,4.0,fposmod(face_seed*0.6180339,1.0))
+	var first_bay:=ceili((u0+1.25)/bay-0.5)
+	var bays:=clampi(int(length_/bay),1,8)
+	for i in bays:
+		var along:=(first_bay+i+0.5)*bay-u0
+		if along>length_-1.25:break
+		var center:=a+tangent*along+normal*0.08
+		var p:=Vector3(center.x,0,center.y);var t:=Vector3(tangent.x,0,tangent.y);var out:=Vector3(normal.x,0,normal.y)
+		if shop:
+			S.quad(p-t*1.25+Vector3.UP*2.9,p+t*1.25+Vector3.UP*2.9,p+t*1.25+out*0.9+Vector3.UP*2.65,p-t*1.25+out*0.9+Vector3.UP*2.65,accent,-1.0)
+			S.quad(p-t*1.25+out*0.9+Vector3.UP*2.65,p+t*1.25+out*0.9+Vector3.UP*2.65,p+t*1.25+out*0.9+Vector3.UP*2.4,p-t*1.25+out*0.9+Vector3.UP*2.4,accent.darkened(0.12),-1.0)
+		elif i==0:
+			S.quad(p-t*0.5,p+t*0.5,p+t*0.5+Vector3.UP*2.3,p-t*0.5+Vector3.UP*2.3,accent,-1.0)
+		if height_>8.0 and posmod(seed_,3)==0:
+			var y:=Vector3.UP*3.5
+			S.quad(p-t*1.0+y,p+t*1.0+y,p+t*1.0+out*0.7+y,p-t*1.0+out*0.7+y,Color("#bdb7aa",SOLID_A),-1.0)
+			for j in 7:
+				var x:=p+t*(j/3.0-1.0)+out*0.7+y
+				S.box(x+Vector3.UP*0.45,Vector3(0.035,0.9,0.035),accent)
+			S.quad(p-t+y+out*0.7+Vector3.UP*0.87,p+t+y+out*0.7+Vector3.UP*0.87,p+t+y+out*0.7+Vector3.UP*0.94,p-t+y+out*0.7+Vector3.UP*0.94,accent,-1.0)
+
 func _point(S: _Arrays, kind: int, h: float, p: Vector2) -> void:
 	match kind:
 		1: _tower(S, p, 6.0, h * 0.62, h * 0.38, STONE, SLATE)
@@ -846,7 +963,7 @@ func _point(S: _Arrays, kind: int, h: float, p: Vector2) -> void:
 		4: S.cone(Vector3(p.x, 0, p.y), 1.6, h, 8, Color("#9c6a52", SOLID_A))
 
 func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -> void:
-	var asphalt := Color("#5b5f66") if cls == L_MAJOR else Color("#63666c")
+	var asphalt := Color("#41464c",0.28) if cls == L_MAJOR else Color("#4c5054",0.28)
 	match cls:
 		L_RAIL:
 			_ribbon(S, pts, 3.2, 0.04, Color("#8d8174"))
@@ -858,8 +975,9 @@ func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -
 		L_SMALL:
 			_ribbon(S, pts, maxf(w, 2.5), 0.06, Color("#8f8a80")); return
 	# trottoirs + chaussée + marquage central pointillé
-	_ribbon(S, pts, w + 3.6, 0.035, Color("#b9b3a8"))
+	_ribbon(S, pts, w + 3.6, 0.035, Color.from_string(str(style.get("paving", "#b9b3a8")),Color.GRAY)*Color(1,1,1,0.29))
 	_ribbon(S, pts, w, 0.07, asphalt)
+	_street_edges(S,pts,w,seed)
 	if w >= 5.5:
 		var acc := 0.0
 		for i in range(pts.size() - 1):
@@ -909,16 +1027,52 @@ func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -
 				s += 32.0
 			acc2 += len
 
+func _crossroad(p:Vector2,heading:Vector2)->bool:
+	for item in _street_keepout.cells.get(Vector2i(floori(p.x/16.0),floori(p.y/16.0)),[]):
+		var d:Vector2=(item[1]-item[0]).normalized()
+		if absf(d.dot(heading))>0.85:continue
+		if p.distance_to(Geometry2D.get_closest_point_to_segment(p,item[0],item[1]))<float(item[2])+0.3:return true
+	return false
+
+func _street_edges(S:_Arrays,pts:PackedVector2Array,width_:float,seed_:int)->void:
+	var stone:=Color.from_string(str(style.get("paving","#b9b5aa")),Color.GRAY);stone.a=0.29
+	var accent:=Color.from_string(str(style.get("accent","#526b69")),Color.GRAY);accent.a=SOLID_A
+	var distance_:=0.0
+	for i in pts.size()-1:
+		var length_:=pts[i].distance_to(pts[i+1]);var count:=maxi(1,ceili(length_/2.5))
+		var heading:=(pts[i+1]-pts[i]).normalized();var n:=Vector2(-heading.y,heading.x)
+		for j in count:
+			var a:=pts[i].lerp(pts[i+1],float(j)/count);var b:=pts[i].lerp(pts[i+1],float(j+1)/count)
+			for side in [-1.0,1.0]:
+				var center:Vector2=(a+b)*0.5+n*side*(width_*0.5+0.85)
+				if _crossroad(center,heading):continue
+				var strip:=PackedVector2Array([a,b])
+				_ribbon(S,strip,1.7,0.17,stone,side*(width_*0.5+0.85))
+				var curb0:Vector2=a+n*side*(width_*0.5);var curb1:Vector2=b+n*side*(width_*0.5)
+				S.quad(Vector3(curb0.x,0.07,curb0.y),Vector3(curb1.x,0.07,curb1.y),Vector3(curb1.x,0.17,curb1.y),Vector3(curb0.x,0.17,curb0.y),stone.darkened(0.16),-1.0)
+				# Mobilier discret, sans potelet dans les voies ni dans les carrefours.
+				if width_>5.0 and j%10==posmod(seed_,10):
+					var p:Vector2=center+n*side*0.3
+					if _keepout==null or not _keepout.blocked(_tile_origin+p,0.6):
+						S.box(Vector3(p.x,0.55,p.y),Vector3(0.10,0.8,0.10),accent)
+		distance_+=length_
+
 func _ribbon(S: _Arrays, pts: PackedVector2Array, w: float, y: float, col: Color, offset: float = 0.0) -> void:
-	for i in range(pts.size() - 1):
-		var a := pts[i]; var b := pts[i + 1]
-		var d := (b - a).normalized()
-		var nrm := Vector2(-d.y, d.x)
-		var a2 := a - d * (w * 0.5) + nrm * offset
-		var b2 := b + d * (w * 0.5) + nrm * offset
-		var hw := nrm * (w * 0.5)
-		S.quad(Vector3(a2.x - hw.x, y, a2.y - hw.y), Vector3(a2.x + hw.x, y, a2.y + hw.y),
-			Vector3(b2.x + hw.x, y, b2.y + hw.y), Vector3(b2.x - hw.x, y, b2.y - hw.y), col, -1.0)
+	# Bande continue à joints biseautés : aucun dépassement longitudinal aux
+	# intersections ni élargissement répété à chaque sommet de polyligne.
+	if pts.size()<2:return
+	var left:=PackedVector3Array();var right:=PackedVector3Array()
+	for i in pts.size():
+		var before:=(pts[i]-pts[maxi(i-1,0)]).normalized() if i>0 else (pts[1]-pts[0]).normalized()
+		var after:=(pts[mini(i+1,pts.size()-1)]-pts[i]).normalized() if i<pts.size()-1 else before
+		var n0:=Vector2(-before.y,before.x);var n1:=Vector2(-after.y,after.x)
+		var m:=(n0+n1).normalized()
+		if m.length_squared()<0.1:m=n1
+		var reach:=minf(1.0/maxf(absf(m.dot(n1)),0.2),2.0)
+		var center:=pts[i]+m*offset*reach
+		var hw:=m*w*0.5*reach
+		left.append(Vector3(center.x-hw.x,y,center.y-hw.y));right.append(Vector3(center.x+hw.x,y,center.y+hw.y))
+	for i in pts.size()-1:S.quad(left[i],right[i],right[i+1],left[i+1],col,-1.0)
 
 ## Essences : 0 feuillu rond, 1 conifère, 2 feuillu élancé, 3 pin parasol, 4 palmier, 5 peuplier, 6 platane.
 func _pick_tree(rng: RandomNumberGenerator) -> int:
@@ -986,7 +1140,7 @@ const TRACK_KEEP := 4.2
 var _keepout: TrackView.KeepOut = null
 var _tile_origin := Vector2.ZERO
 ## Rayon de houppier des modèles d'arbres (échelle 1), par essence.
-const CROWN_R := [2.6, 2.3, 1.9, 3.4, 3.0, 1.1, 3.6]
+const CROWN_R := [2.6, 2.3, 1.9, 3.4, 3.0, 1.1, 3.6, 1.4, 0.5, 0.5]
 
 func set_tracks(polylines: Array) -> void:
 	if _keepout == null: _keepout = TrackView.KeepOut.new()
@@ -1007,7 +1161,9 @@ func blocked(p_city: Vector2, extra: float = 0.0) -> bool:
 	return _keepout != null and _keepout.blocked(p_city, extra)
 
 func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float = 1.0, exact: bool = false) -> void:
-	var w := _tile_origin + Vector2(pos.x, pos.z)
+	var local_ := Vector2(pos.x,pos.z)
+	if _street_keepout.blocked(local_,0.3):return
+	var w := _tile_origin + local_
 	var sc := scale if exact else rng.randf_range(0.85, 1.3) * scale
 	var crown: float = CROWN_R[kind] * sc
 	if _keepout != null:
@@ -1022,7 +1178,7 @@ func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float
 	_trees_cur[kind].append(Transform3D(b, pos))
 	var crown_pos := pos + Vector3(0, 5.0 * sc, 0)
 	var radius: float = CROWN_R[kind] * sc
-	_camera_boxes.append(AABB(crown_pos - Vector3(radius, 2.4 * sc, radius), Vector3(radius * 2.0, 4.8 * sc, radius * 2.0)))
+	if kind < 7: _camera_boxes.append(AABB(crown_pos - Vector3(radius, 2.4 * sc, radius), Vector3(radius * 2.0, 4.8 * sc, radius * 2.0)))
 	if debug_props: placed_trees.append(w)
 
 static func _tree_mesh(v: int) -> Mesh:
@@ -1036,7 +1192,7 @@ static func _tree_mesh(v: int) -> Mesh:
 		match k:
 			0:  # feuillu rond (tilleul, chêne) : masse principale + 2 grappes
 				A.trunk(Vector3.ZERO, 0.22, 3.2, 5, trunk)
-				A.blob(Vector3(0, 4.1, 0), Vector3(2.5, 2.0, 2.5), 7, Color("#6aa84a", 0.9), Color("#3f7a37", 0.9), 1)
+				A.blob(Vector3(0, 4.1, 0), Vector3(2.5, 2.0, 2.5), 10, Color("#6aa84a", 0.9), Color("#3f7a37", 0.9), 1)
 				A.blob(Vector3(1.3, 3.5, 0.6), Vector3(1.4, 1.2, 1.4), 6, Color("#6aa84a", 0.9), Color("#3f7a37", 0.9), 2)
 				A.blob(Vector3(-1.0, 3.7, -0.9), Vector3(1.3, 1.1, 1.3), 6, Color("#6aa84a", 0.9), Color("#3f7a37", 0.9), 3)
 			1:  # conifère : 3 étages
@@ -1046,10 +1202,10 @@ static func _tree_mesh(v: int) -> Mesh:
 				A.cone(Vector3(0, 4.4, 0), 1.2, 2.6, 7, Color("#3e8653", 0.9))
 			2:  # feuillu élancé : ovoïde haut
 				A.trunk(Vector3.ZERO, 0.18, 3.4, 5, trunk)
-				A.blob(Vector3(0, 5.0, 0), Vector3(1.9, 2.8, 1.9), 7, Color("#7cb24c", 0.9), Color("#4d8a3a", 0.9), 4)
+				A.blob(Vector3(0, 5.0, 0), Vector3(1.9, 2.8, 1.9), 10, Color("#7cb24c", 0.9), Color("#4d8a3a", 0.9), 4)
 			3:  # pin parasol : tronc haut, houppier plat
 				A.trunk(Vector3.ZERO, 0.24, 5.4, 5, Color("#7a5a44", 0.9))
-				A.blob(Vector3(0, 5.8, 0), Vector3(3.4, 1.0, 3.4), 8, Color("#4f8a42", 0.9), Color("#2f5f30", 0.9), 5)
+				A.blob(Vector3(0, 5.8, 0), Vector3(3.4, 1.0, 3.4), 12, Color("#4f8a42", 0.9), Color("#2f5f30", 0.9), 5)
 			4:  # palmier
 				A.cone(Vector3(0, 0, 0), 0.35, 7.5, 6, Color("#8b7355", 0.9))
 				for i in 7:
@@ -1062,8 +1218,22 @@ static func _tree_mesh(v: int) -> Mesh:
 				A.blob(Vector3(0, 5.6, 0), Vector3(1.1, 4.6, 1.1), 6, Color("#79aa45", 0.9), Color("#4e8236", 0.9), 6)
 			6:  # platane : grand houppier clair, tronc tacheté
 				A.trunk(Vector3.ZERO, 0.3, 3.8, 6, Color("#a39a7f", 0.9))
-				A.blob(Vector3(0, 5.6, 0), Vector3(3.5, 2.3, 3.5), 8, Color("#8cbc58", 0.9), Color("#58893d", 0.9), 7)
+				A.blob(Vector3(0, 5.6, 0), Vector3(3.5, 2.3, 3.5), 12, Color("#8cbc58", 0.9), Color("#58893d", 0.9), 7)
 				A.blob(Vector3(1.6, 5.0, -1.0), Vector3(1.8, 1.4, 1.8), 6, Color("#8cbc58", 0.9), Color("#58893d", 0.9), 8)
+			7: # massif d'arbustes : feuillage bas dense
+				for j in 3:
+					A.blob(Vector3((j-1)*0.6,0.65,0),Vector3(0.8,0.65,0.8),7,Color("#6e9450",0.9),Color("#355a3a",0.9),j+14)
+			8: # touffe de graminées, feuilles en rubans opaques
+				for j in 9:
+					var angle:=j*2.399
+					var d:=Vector3(cos(angle),0,sin(angle))*0.45
+					A.tri(Vector3.ZERO,d+Vector3(0,0.75+0.2*sin(j),0),d*0.5+Vector3(0.12,0,0),Color("#879856",0.9))
+			9: # vivaces fleuries / biodiversité ornementale
+				for j in 6:
+					var p:=Vector3(cos(j*2.4)*0.35,0,sin(j*2.4)*0.35)
+					A.trunk(p,0.025,0.65,4,Color("#63854b",0.9))
+					A.blob(p+Vector3.UP*0.65,Vector3(0.12,0.13,0.12),5,Color("#d4afc6",0.9),Color("#886ba2",0.9),j+10)
+
 		_trees.append(A.mesh())
 	return _trees[v]
 

@@ -2,11 +2,13 @@
 
 Simulateur de tramway 3D (Godot 4.6.3, GDScript, Android 10+, paysage, hors ligne).
 
-## Version 0.9.3
+## Version 0.10.0
 
-La version 0.9.3 ajoute des zones d’arrêt couvrant les quais OSM et des quais de transition **LAC + APS**, notamment dans les deux sens à Foch–Maison Bleue. L’arrêt reste actif jusqu’au bout du quai, y compris lorsqu’il traverse plusieurs segments de voie. Voir [les changements et leurs limites](docs/CHANGEMENTS_0_9_3.md).
+Nouvelle génération visuelle commune aux **28 villes** : matériaux métriques filtrés (pierre, brique, enduit, enrobé, dallage et toitures), vitrines, stores et balcons, végétation à plusieurs strates et profils régionaux. Les routes utilisent des raccords continus, des trottoirs surélevés interrompus aux croisements et une meilleure association aux tabliers. Les caténaires évitent les gabarits des voies voisines et séparent les niveaux aux intersections.
 
-Le **Plan** réunit carte et aiguillages ; **Alimentation** sélectionne LAC / APS / autonomie à l’arrêt selon le matériel. Les aiguillages libres sont prépositionnés selon le sens normal connu. Voir [les changements 0.9.2](docs/CHANGEMENTS_0_9_2.md).
+La physique ajoute l’adhérence des essieux moteurs, le patinage en traction forte et le recul réel au neutre en rampe. Le HUD signale **PATINAGE** et **RECUL** ; les portes ouvertes enclenchent le frein de maintien. Voir [les changements et leurs limites](docs/CHANGEMENTS_0_10.md).
+
+Les zones d’arrêt couvrent les quais OSM et les stations de transition disposent de **LAC + APS**, notamment dans les deux sens à Foch–Maison Bleue. Voir [0.9.3](docs/CHANGEMENTS_0_9_3.md).
 
 Les 28 réseaux libres utilisent les voies physiques OpenStreetMap, leurs nœuds de connexion, les voies de service et les emprises de quais disponibles. Le décor IGN est étendu autour des nouveaux tracés ; les bâtiments de maintenance suivent les emprises BD TOPO. Les missions conservent leur graphe et leurs horaires GTFS, avec une altimétrie raccordée aux ouvrages cartographiés.
 

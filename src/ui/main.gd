@@ -922,6 +922,8 @@ func _process(dt: float) -> void:
 	notch_label.text = ("Traction %d %%" % roundi(notch * 100)) if notch > 0.01 else (("URGENCE" if notch <= -0.99 else "Freinage %d %%" % roundi(-notch * 100)) if notch < -0.01 else "Neutre")
 	notch_label.add_theme_color_override("font_color", UiTheme.TRACTION if notch > 0.01 else (UiTheme.BRAKE if notch < -0.01 else UiTheme.TEXT))
 	var alerts: Array = []
+	if session.phys.wheel_slip: alerts.append("PATINAGE — RÉDUIRE LA TRACTION")
+	if session.phys.rollback: alerts.append("RECUL — APPLIQUER LE FREIN")
 	if not _speed_advice.is_empty() and session.phys.speed > float(_speed_advice.limit) + 0.5:
 		alerts.append("RALENTIR : %d km/h dans %d m" % [roundi(float(_speed_advice.limit) * 3.6), roundi(_speed_advice.distance)])
 	if session.overspeed: alerts.append("SURVITESSE")

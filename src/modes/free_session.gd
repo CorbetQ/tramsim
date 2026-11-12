@@ -108,6 +108,7 @@ func reverse() -> String:
 	edge_id = tail[0]
 	offset = tail[1]
 	direction = -int(tail[2])
+	phys.velocity = -phys.velocity
 	for id in route:
 		net.graph.occupy(id, train_id)
 	update_spans()

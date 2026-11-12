@@ -96,3 +96,7 @@ Licence : CC BY 3.0, https://creativecommons.org/licenses/by/3.0/ .
 Modifications : extrait 8–12 s, filtrage 85–1500 Hz, raccord et normalisation ;
 utilisé comme texture de roulement, complété par les moteurs synthétiques.
 Original et recette conservés dans `data/audio/reference/` et `tools/import/recorded_audio.py`.
+
+## Génération visuelle 0.10
+
+Les textures procédurales et détails architecturaux de 0.10 sont des créations du projet, sans échantillons photographiques externes ajoutés. Les profils régionaux sont des choix artistiques. Les niveaux routiers supplémentaires (`data/scenes/*_road_levels.json`) sont dérivés du champ IGN BD TOPO `position_par_rapport_au_sol`, Licence Ouverte 2.0, dans les extraits en cache de l’import géographique existant. Couverture et absences : `docs/world-010-coverage.json`.

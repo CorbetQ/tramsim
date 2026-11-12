@@ -216,7 +216,7 @@ func update(s: Object, notch: float, emergency: bool, ext: bool, paused: bool, d
 	if s == null: return
 	var st := {"speed": float(s.phys.speed), "max_speed": float(s.phys.profile.max_speed_ms), "notch": notch,
 		"doors_open": bool(s.doors_open), "emergency": emergency, "pantograph_up": bool(s.pantograph_up),
-		"power_ok": bool(s.power_ok), "supply": s.power_mode, "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
+		"wheel_slip":s.phys.slip_ratio, "power_ok": bool(s.power_ok), "supply": s.power_mode, "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
 		"external": ext, "bridge": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].bridge, s.offset), "underground": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].tunnel, s.offset), "curvature": _curvature()}
 	update_state(st, dt)
 
@@ -267,6 +267,7 @@ func update_state(st: Dictionary, dt: float) -> void:
 	t.motor = (0.35 + 0.65 * load) if load > 0.02 else 0.1 * smoothstep(1.0, 6.0, v)   # roue libre : léger résidu
 	t.motor_hum = (0.4 + 0.6 * load) * clampf(v, 0.3, 1.0) if load > 0.02 else 0.2 * smoothstep(0.0, 6.0, v)
 	t.carrier = load * (1.0 - smoothstep(1.5, 2.5, v)) * (0.6 + 0.4 * trac)
+	t.carrier = maxf(float(t.carrier),float(st.get("wheel_slip",0.0))*0.35)
 	t.rolling = pow(clampf(v / 16.0, 0.0, 1.0), 1.5)               # amplitude ~ v^1,5 : niveau ~ 30 log10(v)
 	# crissement : courbe serrée (> ~5° entre caisses), 2-9 m/s, une courbe sur trois environ
 	var curv := float(st.get("curvature", 0.0))

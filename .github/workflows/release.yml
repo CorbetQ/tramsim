@@ -17,6 +17,14 @@ jobs:
       GODOT_VERSION: 4.6.3
     steps:
       - uses: actions/checkout@v4
+      - name: Version du jeu
+        run: |
+          python - <<'PYVERSION' >> "$GITHUB_ENV"
+          import re
+          from pathlib import Path
+          version = re.search(r'config/version="([0-9.]+)"', Path('project.godot').read_text()).group(1)
+          print('APP_VERSION=' + version)
+          PYVERSION
       - uses: actions/setup-java@v4
         with: {distribution: temurin, java-version: "21"}
       - name: SDK Android (préinstallé sur le runner)
@@ -64,7 +72,7 @@ jobs:
           cd build && zip -9 TramSimFrance-windows.zip TramSimFrance.exe && cd ..
           for i in 1 2 3; do sudo apt-get update > /dev/null 2>&1; sudo apt-get install -y wixl > /dev/null 2>&1 && break; sleep 20; done
           if command -v wixl > /dev/null; then
-            wixl -a x64 -D Version=0.9.${{ github.run_number }} -o build/TramSimFrance.msi installer/tramsim.wxs
+            wixl -a x64 -D Version=${{ env.APP_VERSION }} -o build/TramSimFrance.msi installer/tramsim.wxs
           else
             echo "::warning::wixl indisponible : MSI non produit"
           fi
@@ -86,8 +94,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           target_commitish: ${{ github.sha }}
-          tag_name: v0.9.${{ github.run_number }}
-          name: Tram Sim France 0.9.${{ github.run_number }}
+          tag_name: v${{ env.APP_VERSION }}-build.${{ github.run_number }}
+          name: Tram Sim France ${{ env.APP_VERSION }} (build ${{ github.run_number }})
           prerelease: true
           fail_on_unmatched_files: false
           body: |

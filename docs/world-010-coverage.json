@@ -1,0 +1,145 @@
+{
+  "cities": 28,
+  "road_levels": [
+    {
+      "city": "angers",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "aubagne",
+      "segments": 564,
+      "status": "IGN cached"
+    },
+    {
+      "city": "avignon",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "besancon",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "bordeaux",
+      "segments": 500,
+      "status": "IGN cached"
+    },
+    {
+      "city": "brest",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "caen",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "clermont",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "dijon",
+      "segments": 126,
+      "status": "IGN cached"
+    },
+    {
+      "city": "grenoble",
+      "segments": 529,
+      "status": "IGN cached"
+    },
+    {
+      "city": "idf",
+      "segments": 1763,
+      "status": "IGN cached"
+    },
+    {
+      "city": "lehavre",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "lemans",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "lille",
+      "segments": 396,
+      "status": "IGN cached"
+    },
+    {
+      "city": "lyon",
+      "segments": 820,
+      "status": "IGN cached"
+    },
+    {
+      "city": "marseille",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "montpellier",
+      "segments": 245,
+      "status": "IGN cached"
+    },
+    {
+      "city": "mulhouse",
+      "segments": 222,
+      "status": "IGN cached"
+    },
+    {
+      "city": "nantes",
+      "segments": 1063,
+      "status": "IGN cached"
+    },
+    {
+      "city": "nice",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "orleans",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "reims",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "rouen",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "saintetienne",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "strasbourg",
+      "segments": 921,
+      "status": "IGN cached"
+    },
+    {
+      "city": "toulouse",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "tours",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    },
+    {
+      "city": "valenciennes",
+      "segments": 0,
+      "status": "No cached level coverage; geometry fallback"
+    }
+  ]
+}
