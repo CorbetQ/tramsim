@@ -12,8 +12,8 @@ extends Node
 
 const DIR := "res://data/audio/"
 ## Boucles : nom -> volume de référence (dB à gain 1).
-const LOOPS := {"motor": -22.0, "motor_hum": -11.0, "carrier": -32.0, "rolling": -8.0, "squeal": -26.0, "hvac": -21.0,
-	"ambience": -20.0}
+const LOOPS := {"motor": -25.0, "motor_hum": -11.0, "carrier": -32.0, "rolling": -8.0, "squeal": -26.0, "hvac": -21.0,
+	"ambience": -20.0, "real_rail": -18.0}
 ## Ponctuels : nom -> volume de référence (dB).
 const SHOTS := {"joint": -13.0, "brake_mech": -14.0, "brake_release": -20.0, "emergency": -9.0,
 	"door_open": -15.0, "door_chime": -17.0, "door_close": -14.0}
@@ -21,12 +21,14 @@ const GONG_DB := -11.0
 const TWO_D_ONLY := ["ambience"]          # l'ambiance entoure l'auditeur, elle ne suit pas la rame
 ## Cabine : correction de niveau (dB) et sources extérieures étouffées (bus TramCabin, passe-bas).
 const CAB_DB := {"motor": -4.0, "motor_hum": 1.0, "rolling": -3.0, "squeal": -6.0, "ambience": -6.0, "hvac": 3.0,
-	"carrier": -3.0, "joint": -2.0, "door_open": -3.0, "door_close": -3.0, "door_chime": 2.0}
-const CAB_MUFFLED := ["rolling", "squeal", "ambience", "joint", "brake_mech", "emergency", "carrier", "motor"]
+	"real_rail": -4.0, "carrier": -3.0, "joint": -2.0, "door_open": -3.0, "door_close": -3.0, "door_chime": 2.0}
+const CAB_MUFFLED := ["rolling", "squeal", "ambience", "joint", "brake_mech", "emergency", "carrier", "motor", "real_rail"]
 const BUS := "TramFX"
 const CAB_BUS := "TramCabin"
 const TUNNEL_BUS := "TramTunnel"
 var in_tunnel := false
+var on_bridge := false
+const BRIDGE_BUS := "TramBridge"
 const MOTOR_REF_HZ := 300.0               # fondamentale de motor.ogg à pitch_scale 1 (voir data/audio/make_audio.py)
 const HUM_REF_HZ := 120.0                 # raie 2f de motor_hum.ogg à pitch_scale 1
 const MODE_KMH := [18.0, 38.0]            # changements de mode synchrone (redescente de la raie d'onduleur)
@@ -94,12 +96,22 @@ static func setup_buses() -> void:
 		var room := AudioEffectReverb.new(); room.room_size = 0.65; room.damping = 0.75
 		room.wet = 0.18; room.dry = 0.9; AudioServer.add_bus_effect(j, room)
 
+	if AudioServer.get_bus_index(BRIDGE_BUS) == -1:
+		AudioServer.add_bus(); var j := AudioServer.bus_count - 1
+		AudioServer.set_bus_name(j, BRIDGE_BUS); AudioServer.set_bus_send(j, BUS)
+		var eq := AudioEffectEQ6.new(); eq.set_band_gain_db(0, 4.0); eq.set_band_gain_db(1, 2.0)
+		AudioServer.add_bus_effect(j, eq)
+		var room := AudioEffectReverb.new(); room.room_size = 0.35; room.wet = 0.06; room.dry = 1.0
+		AudioServer.add_bus_effect(j, room)
+
 ## Bus de chaque lecteur selon la vue (3D et extérieur -> TramFX ; cabine : sources extérieures -> TramCabin).
 func _route() -> void:
+	var environment_bus := TUNNEL_BUS if in_tunnel else (BRIDGE_BUS if on_bridge else BUS)
+	AudioServer.set_bus_send(AudioServer.get_bus_index(CAB_BUS), environment_bus)
 	for n in players:
 		var e: Dictionary = players[n]
 		(e.p2 as AudioStreamPlayer).bus = CAB_BUS if (not external and n in CAB_MUFFLED) else BUS
-		if e.p3 != null: (e.p3 as AudioStreamPlayer3D).bus = TUNNEL_BUS if in_tunnel else BUS
+		if e.p3 != null: (e.p3 as AudioStreamPlayer3D).bus = environment_bus
 
 ## Flux de data/audio/<nom>.ogg (importé, sinon lu directement).
 static func load_stream(n: String, loop: bool) -> AudioStream:
@@ -190,8 +202,8 @@ func update(s: Object, notch: float, emergency: bool, ext: bool, paused: bool, d
 	if s == null: return
 	var st := {"speed": float(s.phys.speed), "max_speed": float(s.phys.profile.max_speed_ms), "notch": notch,
 		"doors_open": bool(s.doors_open), "emergency": emergency, "pantograph_up": bool(s.pantograph_up),
-		"power_ok": bool(s.power_ok), "supply": str(s.net.edge_info[s.edge_id].supply), "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
-		"external": ext, "underground": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].tunnel, s.offset), "curvature": _curvature()}
+		"power_ok": bool(s.power_ok), "supply": s.net.supply_at(s.edge_id, s.offset), "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
+		"external": ext, "bridge": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].bridge, s.offset), "underground": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].tunnel, s.offset), "curvature": _curvature()}
 	update_state(st, dt)
 
 ## Courbure apparente (degrés entre caisses voisines) lue sur la rame affichée.
@@ -210,8 +222,9 @@ func _curvature() -> float:
 func update_state(st: Dictionary, dt: float) -> void:
 	state = st
 	var tunnel := bool(st.get("underground", false))
-	if tunnel != in_tunnel:
-		in_tunnel = tunnel; _route()
+	var bridge := bool(st.get("bridge", false))
+	if tunnel != in_tunnel or bridge != on_bridge:
+		in_tunnel = tunnel; on_bridge = bridge; _route()
 	set_external(bool(st.get("external", true)))
 	if view is Node3D and "modules" in view and not (view.modules as Array).is_empty():
 		var mods: Array = view.modules
@@ -246,7 +259,9 @@ func update_state(st: Dictionary, dt: float) -> void:
 	elif tight < 0.1: _in_curve = false; _squeal_on = false
 	t.squeal = tight * smoothstep(2.0, 4.0, v) * (1.0 - smoothstep(8.0, 12.0, v) * 0.6) if _squeal_on else 0.0
 	t.hvac = (0.6 + 0.4 * (1.0 - smoothstep(0.5, 6.0, v))) * (1.0 if powered else 0.25)
-	t.ambience = 1.0
+	t.real_rail = (0.30 * load * smoothstep(0.3, 3.0, v) + 0.65 * t.rolling) * (1.25 if on_bridge else 1.0)
+	t.rolling *= 1.25 if on_bridge else 1.0
+	t.ambience = 0.12 if in_tunnel else 1.0
 	var k := 1.0 - exp(-maxf(dt, 0.0) * 6.0)
 	for n in t:
 		if not players.has(n): continue
@@ -261,6 +276,7 @@ func update_state(st: Dictionary, dt: float) -> void:
 		var motor: Node = _active("motor")
 		motor.pitch_scale = lerpf(motor.pitch_scale, motor_hz(v) / MOTOR_REF_HZ, 1.0 - exp(-dt / 0.12))
 	if players.has("motor_hum"): _active("motor_hum").pitch_scale = hum_hz(v) / HUM_REF_HZ
+	if players.has("real_rail"): _active("real_rail").pitch_scale = 0.85 + 0.25 * clampf(v / vmax, 0.0, 1.0)
 	if players.has("rolling"): _active("rolling").pitch_scale = 0.75 + 0.5 * clampf(v / vmax, 0.0, 1.0)
 	if players.has("squeal"): _active("squeal").pitch_scale = 0.97 + 0.05 * sin(Time.get_ticks_msec() * 0.0013)
 	# joints de rail : « ta-tac » des deux essieux d'un bogie, espacement irrégulier (soudures, aiguillages)

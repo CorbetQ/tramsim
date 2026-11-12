@@ -79,3 +79,12 @@ couleur uniquement ; elles ne sont pas distribuées.
   SIL Open Font License 1.1 (`data/ui/fonts/OFL.txt`). Source : https://github.com/googlefonts/atkinson-hyperlegible
   (commit 1cb3116), fichiers `fonts/ttf/AtkinsonHyperlegible-{Regular,Bold}.ttf` copiés dans `data/ui/fonts/`.
 - **Icônes** `data/ui/icons/*.svg` : dessinées pour le projet (même licence que le code).
+
+## Captation de tramway (0.9)
+
+« Tram sound in Lyon, France », Glaneur de sons, 20 mars 2007.
+Source : https://commons.wikimedia.org/wiki/File:Tram_sound_in_Lyon,_France.ogg
+Licence : CC BY 3.0, https://creativecommons.org/licenses/by/3.0/ .
+Modifications : extrait 8–12 s, filtrage 85–1500 Hz, raccord et normalisation ;
+utilisé comme texture de roulement, complété par les moteurs synthétiques.
+Original et recette conservés dans `data/audio/reference/` et `tools/import/recorded_audio.py`.

@@ -47,9 +47,10 @@ func _run() -> void:
 		main.net_path = "res://tests/fixtures/schema_test.json"; main.free_mode = true
 		main.start_station = {}; main.vehicle = VehicleLibrary.citadis_302_hybride(); main._start(); main.view.day_night.sun.shadow_enabled = false
 		for i in 6: await process_frame
+		check(is_equal_approx(main.notch, -0.75), "départ au cran F3")
 		var viewport := Rect2(Vector2.ZERO, Vector2(dimensions))
 		var rects := {}
-		for name in ["trip", "lever", "dock", "emergency", "btn_pause", "btn_home"]:
+		for name in ["trip", "lever", "dock", "emergency", "btn_pause", "btn_home", "slope"]:
 			var c := main.find_child(name,true,false) as Control
 			check(c != null and viewport.grow(1).encloses(c.get_global_rect()), "%s : %s accessible" % [dimensions,name])
 			if c: rects[name] = c.get_global_rect()

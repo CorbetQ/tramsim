@@ -121,6 +121,11 @@ func _run() -> void:
 	check(ta.players.motor.p3.bus == TramAudio.TUNNEL_BUS, "tunnel : source extérieure réverbérée")
 	ta.update_state(_st(6.0, 0.5, {"underground": false}), dt)
 	check(ta.players.motor.p3.bus == TramAudio.BUS, "sortie de tunnel : retour au bus extérieur")
+	ta.update_state(_st(6.0, 0.5, {"bridge": true, "external": false}), dt)
+	check(AudioServer.get_bus_send(cab) == TramAudio.BRIDGE_BUS, "pont : résonance grave conservée en cabine")
+	ta.update_state(_st(6.0, 0.5, {"underground": true, "external": false}), dt)
+	check(AudioServer.get_bus_send(cab) == TramAudio.TUNNEL_BUS, "tunnel : réverbération derrière le filtrage cabine")
+	check(ta.players.has("real_rail") and ta.gain.real_rail > 0.0, "texture réelle de roulement présente dans le mixage")
 	# pause
 	ta.update_state(_st(5.0, 1.0, {"paused": true}), dt)
 	check(ta.is_paused, "pause : boucles suspendues")

@@ -24,6 +24,7 @@ var day_night: DayNight
 var headlight: SpotLight3D
 var livery: Dictionary = {}
 var family := ""
+var speed_material: ShaderMaterial
 var orbit := 0.0                   # rotation de la caméra extérieure (glisser au doigt)
 var cam_dist := 40.0               # distance de la caméra extérieure (molette / pincement)
 var _tram_len := 0.0
@@ -31,6 +32,10 @@ var _rig_fresh := false
 
 func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile = null) -> void:
 	net = network
+	var fx_layer := CanvasLayer.new(); fx_layer.layer = -1; add_child(fx_layer)
+	var fx := ColorRect.new(); fx.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fx.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); fx_layer.add_child(fx)
+	speed_material = ShaderMaterial.new(); speed_material.shader = load("res://src/rendering/shaders/speed.gdshader"); fx.material = speed_material
 	geometric = net.has_geometry()
 	livery = TramModel.livery_for(net.meta, tram_entry(vehicle))
 	family = livery.family
@@ -82,11 +87,13 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		lo = Vector3(minf(lo.x, minf(a.x, b.x)), 0, minf(lo.z, minf(a.z, b.z)))
 		hi = Vector3(maxf(hi.x, maxf(a.x, b.x)), 0, maxf(hi.z, maxf(a.z, b.z)))
 		_track(sec, id)
+		if geometric: ElectrificationView.build(self, id)
 		if geometric and city == null: _generic_buildings(sec, id)
 	if layout != null:
 		for pf in layout.platforms: _platform(sectors[net.stations[pf.station].edge], pf)
 	else:
 		for s in net.stations: _station(sectors[s.edge], s)
+	if geometric: ElectrificationView.junctions(self)
 	_depot_buildings()
 	_real_platforms()
 	_crossovers()
@@ -324,6 +331,27 @@ func _real_platforms() -> void:
 			var j := (i + 1) % top.size()
 			g.quad(top[i] - Vector3(0, h, 0), top[j] - Vector3(0, h, 0), top[j], top[i], color_.darkened(0.18))
 			if city: city.add_keepout(poly[i], poly[j], 0.5)
+		# Le plus long bord fournit l'orientation du mobilier, pas l'axe GTFS.
+		var longest := 0.0; var tangent := Vector3.FORWARD; var center := Vector3.ZERO
+		for i in top.size():
+			center += top[i]
+			var delta := top[(i + 1) % top.size()] - top[i]
+			if delta.length() > longest: longest = delta.length(); tangent = delta.normalized()
+		center /= maxf(1.0, top.size())
+		if not Geometry2D.is_point_in_polygon(Vector2(center.x, center.z), poly): center = top[triangles[0]].lerp(top[triangles[1]], 0.5).lerp(top[triangles[2]], 0.33) if triangles.size() >= 3 else top[0]
+		var basis := Basis.looking_at(tangent, Vector3.UP)
+		# Liseré tactile sur le bord le plus proche du rail.
+		for i in top.size():
+			var j := (i + 1) % top.size()
+			var mid := top[i].lerp(top[j], 0.5)
+			var inset := (center - mid).normalized() * 0.15
+			var edge_: Array[Vector3] = [top[i] + inset, top[j] + inset]
+			g.ribbon(edge_, 0.10, 0.012, Color("#eee6c9"))
+		if platform.get("shelter", false) and longest > 8.0:
+			g.box_basis(center + Vector3.UP * 2.5, Vector3(1.3, 0.12, 3.8), basis, Color("#536065"))
+			for side in [-1.0, 1.0]:
+				g.box(center + basis.z * side * 1.6 + Vector3.UP * 1.25, Vector3(0.06, 2.5, 0.06), Color("#535b60"))
+			g.box_basis(center + Vector3.UP * 0.5, Vector3(0.5, 0.12, 2.0), basis, Color("#746d5d"))
 		_add_geo(sectors[platform.edge], g, Materials.building())
 
 ## Plateforme par défaut (sans analyse d'orthophoto) : engazonnée en périphérie, pavée ou en enrobé
@@ -530,6 +558,8 @@ func update_sectors(center: Vector3) -> int:
 
 func update_from(s: MissionSession, external: bool) -> void:
 	_ensure_modules(s.phys.profile.length_m)
+	speed_material.set_shader_parameter("speed", s.phys.speed)
+	cam.fov = lerpf(cam.fov, 62.0 + smoothstep(4.0, 22.0, s.phys.speed) * 7.0, 1.0 - exp(-get_process_delta_time() * 2.0))
 	var n := modules.size()
 	for i in n:
 		var f: Array = s.locate_behind(rig.module_starts[i])

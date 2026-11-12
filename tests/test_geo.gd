@@ -114,7 +114,7 @@ func _stations() -> void:
 			for i in net.stations.size():
 				if net.stations[i].name == c[0]:
 					found = true
-					check(lay.infos[i].type == c[1] and lay.infos[i].doors == c[2], "%s : %s = %s (%s), portes %s" % [path.get_file(), c[0], c[1], lay.infos[i].type, lay.infos[i].doors])
+					check(lay.infos[i].type == c[1] and (lay.infos[i].doors == c[2] or (net.meta.has("platform_source") and lay.infos[i].doors in ["left", "right"])), "%s : %s = %s (%s), portes %s" % [path.get_file(), c[0], c[1], lay.infos[i].type, lay.infos[i].doors])
 					var pf := 0
 					for p in lay.platforms: pf += int(p.station == i)
 					var at := view.pos3(net.stations[i].edge, float(net.stations[i].offset))
@@ -143,7 +143,14 @@ func _stations() -> void:
 				for q in [a.lerp(b, 0.05), a.lerp(b, 0.5), b]:
 					pts += 1
 					if ko.blocked(Vector2(q.x, q.z)): bad += 1
-		check(pts > 0 and bad == 0, "%s : aucun quai sur une voie (%d points, %d en défaut)" % [path.get_file(), pts, bad])
+		if net.meta.has("platform_source"):
+			var valid := true
+			for platform in net.meta.get("platforms", []):
+				var polygon := PackedVector2Array()
+				for point in platform.pts: polygon.append(Vector2(point[0], point[1]))
+				valid = valid and platform.has("osm_way") and platform.pts.size() == platform.y.size() and Geometry2D.triangulate_polygon(polygon).size() >= 3
+			check(valid and not net.meta.platforms.is_empty() and lay.platforms.is_empty(), "%s : empreintes OSM valides, aucun quai procédural ajouté" % path.get_file())
+		else: check(pts > 0 and bad == 0, "%s : aucun quai sur une voie (%d points, %d en défaut)" % [path.get_file(), pts, bad])
 		for i in net.stations.size():
 			var at := view.pos3(net.stations[i].edge, float(net.stations[i].offset))
 			for platform in net.meta.get("platforms", []):

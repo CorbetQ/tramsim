@@ -267,4 +267,6 @@ if __name__=='__main__':
         osm=json.loads(gzip.decompress((ROOT/f'data/geography/osm/{path.stem}.json.gz').read_bytes()))
         net=build(path.stem,old,osm)
         path.write_text(json.dumps(net,ensure_ascii=False,separators=(',',':'))+'\n')
+        from station_power import enrich
+        enrich(path,osm) # quais ouverts, stop_position et alimentation OSM
         print(path.stem,json.dumps(net['coverage'],ensure_ascii=False),flush=True)

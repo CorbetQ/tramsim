@@ -50,6 +50,7 @@ func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, 
 	net.graph.occupy(start_edge, train_id)
 	for i in net.signals.size():
 		signal_state[i] = net.signals[i].get("default", "clear")
+	pantograph_up = net.supply_at(edge_id, offset) == "overhead"
 	traffic = RoadTraffic.new(net.meta.get("roads", []))
 
 ## Remplace la liste d'arrêts (mission issue du GTFS) : indices dans net.stations.
@@ -66,6 +67,22 @@ func speed_limit() -> float:
 	for z in net.edge_info[edge_id].zones:
 		if z[1] >= lo and z[0] <= hi:
 			v = minf(v, z[2])
+	# Restrictions sous la queue sur les arêtes précédentes, sans lever trop tôt
+	# la consigne lorsque le nez sort d'une courbe.
+	var back := locate_behind(phys.profile.length_m)
+	for index in range(int(back[3]), route.size() - 1):
+		var previous := route[index]
+		var length_: float = net.graph.edges[previous].length
+		var from_: float = float(back[1]) if index == int(back[3]) else (0.0 if route_dir[index] > 0 else length_)
+		var end_: float = length_ if route_dir[index] > 0 else 0.0
+		v = minf(v, net.edge_info[previous].limit_ms)
+		for zone in net.edge_info[previous].zones:
+			if float(zone[1]) >= minf(from_, end_) and float(zone[0]) <= maxf(from_, end_): v = minf(v, zone[2])
+	var remaining: float = net.graph.edges[edge_id].length - offset if direction > 0 else offset
+	if remaining < 10.0: v = minf(v, net.junction_limit(edge_id, direction))
+	# La queue conserve la restriction du raccord jusqu'à sa sortie complète.
+	if (offset if direction > 0 else net.graph.edges[edge_id].length - offset) < phys.profile.length_m and route.size() >= 2:
+		v = minf(v, net.junction_limit(route[-2], route_dir[-2]))
 	return v
 
 func set_doors(open: bool) -> void:
@@ -84,7 +101,7 @@ func _station_here() -> Dictionary:
 	if next_station >= stops.size():
 		return {}
 	var s: Dictionary = stops[next_station]
-	if s.edge == edge_id and absf(float(s.offset) - offset) <= STOP_TOLERANCE_M:
+	if absf(dist_to_point(str(s.edge), float(s.offset), 50.0)) <= STOP_TOLERANCE_M:
 		return s
 	return {}
 
@@ -196,7 +213,8 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	if doors_open:
 		n = minf(n, 0.0)  # traction coupée portes ouvertes
 	_update_signals()
-	_update_power(info.supply)
+	_update_power(net.supply_at(edge_id, offset))
+	if not power_ok: n = minf(n, -0.75) # frein de sécurité, maintien même en descente
 	var before := phys.position
 	phys.step(dt, n, net.grade_at(edge_id, offset) * direction, emergency or doors_open and phys.speed > 0.1)
 	var d := phys.position - before
@@ -221,7 +239,7 @@ func _update_power(edge_supply: String) -> void:
 	var sup := phys.profile.supply
 	var ok := true
 	if sup == "hybrid":
-		ok = (edge_supply == "overhead" and pantograph_up) or (edge_supply == "aps" and not pantograph_up)
+		ok = (edge_supply == "overhead" and pantograph_up) or (edge_supply in ["aps", "battery"] and not pantograph_up)
 	elif sup == "overhead":
 		ok = edge_supply == "overhead" and pantograph_up
 	else:
@@ -318,3 +336,29 @@ func _check_station_passed() -> void:
 
 func debrief() -> Dictionary:
 	return {"success": scorer.success(), "reason": scorer.fail_reason, "stops": scorer.stops, "time_s": time_s}
+
+## Première restriction devant la rame, sur l'itinéraire réellement sélectionné.
+func next_restriction(horizon: float = 220.0) -> Dictionary:
+	var current := speed_limit()
+	var e := edge_id; var r := direction; var off := offset; var travelled := 0.0
+	var best: Dictionary = {}; var nearest := horizon
+	for iteration in 32:
+		var length_: float = net.graph.edges[e].length
+		var info: Dictionary = net.edge_info[e]
+		if iteration > 0 and float(info.limit_ms) < current - 0.5 and travelled < nearest:
+			nearest = travelled; best = {"distance":nearest, "limit":float(info.limit_ms)}
+		for zone in info.zones:
+			var start: float = float(zone[0]) if r > 0 else float(zone[1])
+			var d := travelled + (start - off) * r
+			if d > 1.0 and d < nearest and float(zone[2]) < current - 0.5:
+				nearest = d; best = {"distance":d, "limit":float(zone[2])}
+		var remaining: float = length_ - off if r > 0 else off
+		var junction := net.junction_limit(e, r)
+		if junction < current - 0.5 and travelled + remaining < nearest:
+			nearest = travelled + remaining; best = {"distance":nearest, "limit":junction}
+		travelled += remaining
+		if travelled >= horizon: break
+		var next := net.graph.next_step(e, r)
+		if next.is_empty(): break
+		e = str(next[0]); r = int(next[1]); off = 0.0 if r > 0 else net.graph.edges[e].length
+	return best

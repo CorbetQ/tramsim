@@ -1,0 +1,650 @@
+{
+  "angers": {
+    "data/free/angers.json": [
+      78,
+      79
+    ],
+    "data/networks/angers_a.json": [
+      44,
+      52
+    ],
+    "data/networks/angers_b.json": [
+      34,
+      29
+    ],
+    "data/networks/angers_c.json": [
+      38,
+      36
+    ]
+  },
+  "aubagne": {
+    "data/free/aubagne.json": [
+      10,
+      19
+    ],
+    "data/networks/aubagne_t.json": [
+      10,
+      19
+    ]
+  },
+  "avignon": {
+    "data/free/avignon.json": [
+      20,
+      19
+    ],
+    "data/networks/avignon_t1.json": [
+      20,
+      19
+    ]
+  },
+  "besancon": {
+    "data/free/besancon.json": [
+      58,
+      12
+    ],
+    "data/networks/besancon_t1.json": [
+      54,
+      11
+    ],
+    "data/networks/besancon_t2.json": [
+      40,
+      6
+    ]
+  },
+  "bordeaux": {
+    "data/free/bordeaux.json": [
+      273,
+      264
+    ],
+    "data/networks/bordeaux_a.json": [
+      80,
+      75
+    ],
+    "data/networks/bordeaux_a_2.json": [
+      58,
+      55
+    ],
+    "data/networks/bordeaux_b.json": [
+      58,
+      64
+    ],
+    "data/networks/bordeaux_b_2.json": [
+      62,
+      68
+    ],
+    "data/networks/bordeaux_b_3.json": [
+      64,
+      69
+    ],
+    "data/networks/bordeaux_c.json": [
+      58,
+      63
+    ],
+    "data/networks/bordeaux_d.json": [
+      47,
+      46
+    ],
+    "data/networks/bordeaux_e.json": [
+      56,
+      54
+    ],
+    "data/networks/bordeaux_e_2.json": [
+      6,
+      9
+    ],
+    "data/networks/bordeaux_f.json": [
+      68,
+      68
+    ]
+  },
+  "brest": {
+    "data/free/brest.json": [
+      76,
+      76
+    ],
+    "data/networks/brest_a.json": [
+      48,
+      49
+    ],
+    "data/networks/brest_a_2.json": [
+      48,
+      50
+    ],
+    "data/networks/brest_b.json": [
+      22,
+      21
+    ]
+  },
+  "caen": {
+    "data/free/caen.json": [
+      94,
+      71
+    ],
+    "data/networks/caen_t1.json": [
+      50,
+      49
+    ],
+    "data/networks/caen_t2.json": [
+      17,
+      33
+    ],
+    "data/networks/caen_t2_2.json": [
+      17,
+      33
+    ],
+    "data/networks/caen_t3.json": [
+      30,
+      31
+    ]
+  },
+  "clermont": {
+    "data/free/clermont.json": [
+      53,
+      69
+    ],
+    "data/networks/clermont_a.json": [
+      54,
+      69
+    ]
+  },
+  "dijon": {
+    "data/free/dijon.json": [
+      69,
+      65
+    ],
+    "data/networks/dijon_t1.json": [
+      32,
+      34
+    ],
+    "data/networks/dijon_t2.json": [
+      42,
+      37
+    ]
+  },
+  "grenoble": {
+    "data/free/grenoble.json": [
+      3,
+      295
+    ],
+    "data/networks/grenoble_a.json": [
+      2,
+      122
+    ],
+    "data/networks/grenoble_b.json": [
+      2,
+      77
+    ],
+    "data/networks/grenoble_b_2.json": [
+      2,
+      74
+    ],
+    "data/networks/grenoble_c.json": [
+      0,
+      60
+    ],
+    "data/networks/grenoble_c_2.json": [
+      0,
+      69
+    ],
+    "data/networks/grenoble_d.json": [
+      2,
+      55
+    ],
+    "data/networks/grenoble_d_2.json": [
+      0,
+      32
+    ],
+    "data/networks/grenoble_e.json": [
+      0,
+      62
+    ],
+    "data/networks/grenoble_e_2.json": [
+      0,
+      88
+    ]
+  },
+  "idf": {
+    "data/free/idf.json": [
+      542,
+      492
+    ],
+    "data/networks/idf_t1.json": [
+      72,
+      72
+    ],
+    "data/networks/idf_t10.json": [
+      24,
+      8
+    ],
+    "data/networks/idf_t11.json": [
+      0,
+      14
+    ],
+    "data/networks/idf_t12.json": [
+      25,
+      19
+    ],
+    "data/networks/idf_t13.json": [
+      19,
+      21
+    ],
+    "data/networks/idf_t14.json": [
+      8,
+      0
+    ],
+    "data/networks/idf_t2.json": [
+      19,
+      40
+    ],
+    "data/networks/idf_t2_2.json": [
+      20,
+      41
+    ],
+    "data/networks/idf_t3a.json": [
+      48,
+      53
+    ],
+    "data/networks/idf_t3b.json": [
+      58,
+      57
+    ],
+    "data/networks/idf_t3b_2.json": [
+      28,
+      57
+    ],
+    "data/networks/idf_t4.json": [
+      22,
+      22
+    ],
+    "data/networks/idf_t4_2.json": [
+      30,
+      30
+    ],
+    "data/networks/idf_t5.json": [
+      28,
+      29
+    ],
+    "data/networks/idf_t6.json": [
+      39,
+      42
+    ],
+    "data/networks/idf_t7.json": [
+      30,
+      37
+    ],
+    "data/networks/idf_t8.json": [
+      18,
+      18
+    ],
+    "data/networks/idf_t8_2.json": [
+      24,
+      25
+    ],
+    "data/networks/idf_t9.json": [
+      36,
+      38
+    ]
+  },
+  "lehavre": {
+    "data/free/lehavre.json": [
+      32,
+      42
+    ],
+    "data/networks/lehavre_a.json": [
+      20,
+      27
+    ],
+    "data/networks/lehavre_b.json": [
+      22,
+      29
+    ]
+  },
+  "lemans": {
+    "data/free/lemans.json": [
+      64,
+      21
+    ],
+    "data/networks/lemans_t1.json": [
+      41,
+      11
+    ],
+    "data/networks/lemans_t2.json": [
+      32,
+      16
+    ]
+  },
+  "lille": {
+    "data/free/lille.json": [
+      69,
+      68
+    ],
+    "data/networks/lille_tram.json": [
+      44,
+      39
+    ],
+    "data/networks/lille_tram_2.json": [
+      40,
+      40
+    ]
+  },
+  "lyon": {
+    "data/free/lyon.json": [
+      216,
+      278
+    ],
+    "data/networks/lyon_rhonexpress.json": [
+      6,
+      13
+    ],
+    "data/networks/lyon_t1.json": [
+      48,
+      53
+    ],
+    "data/networks/lyon_t2.json": [
+      46,
+      68
+    ],
+    "data/networks/lyon_t3.json": [
+      25,
+      34
+    ],
+    "data/networks/lyon_t4.json": [
+      54,
+      70
+    ],
+    "data/networks/lyon_t5.json": [
+      16,
+      24
+    ],
+    "data/networks/lyon_t6.json": [
+      46,
+      44
+    ],
+    "data/networks/lyon_t7.json": [
+      9,
+      8
+    ]
+  },
+  "marseille": {
+    "data/free/marseille.json": [
+      89,
+      87
+    ],
+    "data/networks/marseille_t1.json": [
+      28,
+      29
+    ],
+    "data/networks/marseille_t2.json": [
+      30,
+      34
+    ],
+    "data/networks/marseille_t3.json": [
+      40,
+      42
+    ]
+  },
+  "montpellier": {
+    "data/free/montpellier.json": [
+      238,
+      185
+    ],
+    "data/networks/montpellier_1.json": [
+      62,
+      60
+    ],
+    "data/networks/montpellier_2.json": [
+      48,
+      39
+    ],
+    "data/networks/montpellier_2_2.json": [
+      47,
+      39
+    ],
+    "data/networks/montpellier_2_3.json": [
+      55,
+      45
+    ],
+    "data/networks/montpellier_3.json": [
+      46,
+      35
+    ],
+    "data/networks/montpellier_3_2.json": [
+      48,
+      35
+    ],
+    "data/networks/montpellier_3_3.json": [
+      50,
+      36
+    ],
+    "data/networks/montpellier_4.json": [
+      38,
+      33
+    ],
+    "data/networks/montpellier_5.json": [
+      51,
+      52
+    ]
+  },
+  "mulhouse": {
+    "data/free/mulhouse.json": [
+      57,
+      63
+    ],
+    "data/networks/mulhouse_1.json": [
+      20,
+      21
+    ],
+    "data/networks/mulhouse_2.json": [
+      26,
+      28
+    ],
+    "data/networks/mulhouse_2_2.json": [
+      3,
+      8
+    ],
+    "data/networks/mulhouse_3.json": [
+      20,
+      17
+    ],
+    "data/networks/mulhouse_tt.json": [
+      20,
+      28
+    ]
+  },
+  "nantes": {
+    "data/free/nantes.json": [
+      164,
+      169
+    ],
+    "data/networks/nantes_1.json": [
+      57,
+      67
+    ],
+    "data/networks/nantes_1_2.json": [
+      40,
+      47
+    ],
+    "data/networks/nantes_1_3.json": [
+      58,
+      68
+    ],
+    "data/networks/nantes_2.json": [
+      45,
+      51
+    ],
+    "data/networks/nantes_2_2.json": [
+      51,
+      58
+    ],
+    "data/networks/nantes_2_3.json": [
+      59,
+      65
+    ],
+    "data/networks/nantes_3.json": [
+      60,
+      55
+    ]
+  },
+  "nice": {
+    "data/free/nice.json": [
+      95,
+      90
+    ],
+    "data/networks/nice_b.json": [
+      10,
+      9
+    ],
+    "data/networks/nice_l1.json": [
+      44,
+      43
+    ],
+    "data/networks/nice_l2.json": [
+      32,
+      31
+    ],
+    "data/networks/nice_l3.json": [
+      42,
+      40
+    ],
+    "data/networks/nice_l3_2.json": [
+      34,
+      30
+    ],
+    "data/networks/nice_l3_3.json": [
+      12,
+      14
+    ]
+  },
+  "orleans": {
+    "data/free/orleans.json": [
+      100,
+      71
+    ],
+    "data/networks/orleans_a.json": [
+      48,
+      27
+    ],
+    "data/networks/orleans_b.json": [
+      49,
+      46
+    ]
+  },
+  "reims": {
+    "data/free/reims.json": [
+      37,
+      44
+    ],
+    "data/networks/reims_tram.json": [
+      34,
+      40
+    ],
+    "data/networks/reims_tram_2.json": [
+      34,
+      40
+    ]
+  },
+  "rouen": {
+    "data/free/rouen.json": [
+      62,
+      60
+    ],
+    "data/networks/rouen_metro.json": [
+      40,
+      37
+    ],
+    "data/networks/rouen_metro_2.json": [
+      36,
+      34
+    ]
+  },
+  "saintetienne": {
+    "data/free/saintetienne.json": [
+      63,
+      74
+    ],
+    "data/networks/saintetienne_t1.json": [
+      39,
+      48
+    ],
+    "data/networks/saintetienne_t2.json": [
+      18,
+      21
+    ],
+    "data/networks/saintetienne_t3.json": [
+      33,
+      43
+    ],
+    "data/networks/saintetienne_t3_2.json": [
+      41,
+      51
+    ]
+  },
+  "strasbourg": {
+    "data/free/strasbourg.json": [
+      195,
+      200
+    ],
+    "data/networks/strasbourg_a.json": [
+      51,
+      55
+    ],
+    "data/networks/strasbourg_b.json": [
+      50,
+      57
+    ],
+    "data/networks/strasbourg_c.json": [
+      34,
+      37
+    ],
+    "data/networks/strasbourg_d.json": [
+      47,
+      52
+    ],
+    "data/networks/strasbourg_e.json": [
+      47,
+      54
+    ],
+    "data/networks/strasbourg_f.json": [
+      36,
+      40
+    ]
+  },
+  "toulouse": {
+    "data/free/toulouse.json": [
+      48,
+      52
+    ],
+    "data/networks/toulouse_t1.json": [
+      48,
+      52
+    ]
+  },
+  "tours": {
+    "data/free/tours.json": [
+      52,
+      63
+    ],
+    "data/networks/tours_a.json": [
+      52,
+      63
+    ]
+  },
+  "valenciennes": {
+    "data/free/valenciennes.json": [
+      92,
+      74
+    ],
+    "data/networks/valenciennes_t1.json": [
+      54,
+      53
+    ],
+    "data/networks/valenciennes_t2.json": [
+      54,
+      37
+    ],
+    "data/networks/valenciennes_t2_2.json": [
+      66,
+      48
+    ]
+  }
+}

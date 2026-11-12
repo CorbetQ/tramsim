@@ -109,3 +109,13 @@ func reverse() -> String:
 	checkpoint_dir = direction
 	event.emit("reverse", "Changement de cabine : marche " + ("dans le sens de la voie" if direction > 0 else "à contre-sens de la voie"))
 	return ""
+
+## Adaptation libre d'un matériel étranger : conserve les interverrouillages
+## du collecteur, même lorsque les caractéristiques de la rame sont adaptées.
+func _update_power(edge_supply: String) -> void:
+	if adaptation_notice == "":
+		super._update_power(edge_supply)
+		return
+	var ok := (edge_supply == "overhead" and pantograph_up) or (edge_supply in ["aps", "battery", "third_rail"] and not pantograph_up)
+	if ok != power_ok: event.emit("power", "Alimentation rétablie" if ok else "Coupure d'alimentation — vérifier le collecteur")
+	power_ok = ok; phys.power_available = ok

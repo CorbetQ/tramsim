@@ -25,7 +25,7 @@ func _init() -> void:
 	var mi: Dictionary = ms[ms.size() / 2]
 	var sched: Array[float] = []
 	for t in mi.departures: sched.append(float(t))
-	var m := MissionSession.new(net, VehicleLibrary.citadis_302(), mi.start_edge, float(mi.start_offset), sched, 60)
+	var m := MissionSession.new(net, VehicleLibrary.citadis_302_hybride(), mi.start_edge, float(mi.start_offset), sched, 60)
 	m.set_mission_stops(mi.stops)
 	m.traffic.set_enabled(false)
 	helper._drive(m, 0.0, -1, 4000.0)

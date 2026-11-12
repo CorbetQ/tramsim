@@ -32,6 +32,7 @@ uniform float tram_pat_seed = 0.0;
 uniform float tram_pat_glass = 0.0;      // opacité du motif sur les baies latérales (vitrophanie)
 
 varying float v_paint;
+varying float v_glass;
 
 vec3 to_linear(vec3 c) { return pow(c, vec3(color_gamma)); }
 
@@ -155,6 +156,7 @@ void vertex() {
 		VERTEX.z += sin(TIME * 0.8 + world.z * 0.08) * weight * wind_strength * 0.6;
 	}
 	v_paint = UV2.x;
+	v_glass = COLOR.a;
 	POSITION = cel_layer_clip(VERTEX, MODEL_MATRIX, MODELVIEW_MATRIX, PROJECTION_MATRIX);
 }
 
@@ -173,6 +175,14 @@ void fragment() {
 	SPECULAR = 0.0;
 	if (COLOR.a < 0.75) {
 		ALBEDO = mix(base, base * 0.5, night) * mix(1.0, tram_albedo_day, pat_glass);
+		// Reflet stylisé du ciel : dépend du regard, suit les normales des vitres.
+		vec3 reflected = reflect(-VIEW, NORMAL);
+		float fresnel = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 3.0);
+		vec3 sky_reflection = mix(vec3(0.13, 0.22, 0.30), vec3(0.58, 0.76, 0.86), smoothstep(-0.15, 0.65, reflected.y));
+		float cloud_band = smoothstep(0.88, 0.96, sin(reflected.x * 10.0 + reflected.y * 17.0));
+		sky_reflection += vec3(0.10) * cloud_band;
+		ALBEDO = mix(ALBEDO, sky_reflection * mix(1.0, 0.12, night), 0.25 + fresnel * 0.45);
+		ROUGHNESS = 0.2; SPECULAR = 0.65;
 		EMISSION = glass_glow * glow_strength * night;
 	}
 	if (COLOR.a < 0.25) {  // feux / girouettes : toujours lumineux, plus forts la nuit
@@ -181,6 +191,10 @@ void fragment() {
 }
 
 void light() {
+	if (v_glass > 0.25 && v_glass < 0.75) {
+		vec3 halfway = normalize(LIGHT + VIEW);
+		SPECULAR_LIGHT += LIGHT_COLOR * ATTENUATION * pow(max(dot(NORMAL, halfway), 0.0), 64.0) * 0.6;
+	}
 	DIFFUSE_LIGHT += cel_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, LIGHT_IS_DIRECTIONAL,
 		shade_floor, tram_sun, rim_strength);
 }

@@ -26,7 +26,7 @@ func _init() -> void:
 	check(not s.traffic.car_in_crossing(0), "croisement dégagé sous feu rouge")
 	# rame qui traverse avec trafic : pas de collision (priorité tram)
 	var m := MissionSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e1", 0.0, [] as Array[float], 10)
-	m.toggle_pantograph()  # e1 est en APS
+	m.pantograph_up = false  # initialisation automatique sur la section APS
 	while not m.finished and m.time_s < 120 and m.edge_id == "e1" and m.offset < 600:
 		m.tick(0.1, 0.6 if m.phys.speed < 12.0 else 0.0)
 	check(m.scorer.fail_reason == "" and m.offset >= 600.0, "traversée du croisement sans collision")
@@ -85,7 +85,7 @@ func _init() -> void:
 	b.net.graph.release("e2", "AUTRE"); b.tick(0.1, 0.0)
 	check(b.signal_state[0] == "clear", "signal repasse au vert")
 	var b2 := MissionSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e1", 1000.0, [] as Array[float], 10)
-	b2.traffic.set_enabled(false); b2.toggle_pantograph(); b2.phys.speed = 8.0
+	b2.traffic.set_enabled(false); b2.pantograph_up = false; b2.phys.speed = 8.0
 	b2.net.graph.occupy("e2", "AUTRE")
 	for i in 100: b2.tick(0.1, 0.3)
 	check(b2.scorer.fail_reason == "Signal d'arrêt franchi", "signal automatique franchi => échec")

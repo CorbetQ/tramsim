@@ -49,8 +49,20 @@ func info_for(s: Dictionary, p: Vector3) -> Dictionary:
 		if g.key == k:
 			var d: float = (g.pos as Vector2).distance_to(Vector2(p.x, p.z))
 			if d < bd: bd = d; best = g
-	if best.is_empty(): return {"type": "lateral", "doors": "right"}
-	return {"type": best.type, "doors": best.doors}
+	var result := {"type": "lateral", "doors": "right"} if best.is_empty() else {"type": best.type, "doors": best.doors}
+	# Les empreintes OSM déterminent le côté réel, sans élargir ni déplacer les rails.
+	var closest := 14.0; var right: Vector3 = view._frame(s.edge, float(s.offset)).basis.x
+	for platform in view.net.meta.get("platforms", []):
+		if str(platform.get("name", "")) != "" and norm(str(platform.name)) != k: continue
+		var points: Array = platform.pts
+		for i in points.size():
+			var a := Vector2(points[i][0], points[i][1]); var b := Vector2(points[(i + 1) % points.size()][0], points[(i + 1) % points.size()][1])
+			var q := Geometry2D.get_closest_point_to_segment(Vector2(p.x, p.z), a, b)
+			var distance_ := q.distance_to(Vector2(p.x, p.z))
+			if distance_ < closest:
+				closest = distance_
+				result.doors = "right" if Vector3(q.x - p.x, 0, q.y - p.z).dot(right) > 0.0 else "left"
+	return result
 
 # ------------------------------------------------------------------------------------------- parcours de voie
 
@@ -142,7 +154,7 @@ func build(stations: Array, vehicle_len: float) -> void:
 				if Vector2(float(p[0]), float(p[1])).distance_to(Vector2(station_pos.x, station_pos.z)) < L:
 					real_platform = true; break
 			if real_platform: break
-		if real_platform: continue
+		if real_platform or view.net.meta.has("platform_source"): continue # pas de quai fictif hors empreinte OSM
 		if t == "lateral" or t == "offset" or t == "multi": _platform(i, stations[i], "right", L)
 		if t == "central" or t == "multi": _platform(i, stations[i], "left", L)
 

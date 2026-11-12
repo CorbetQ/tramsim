@@ -41,6 +41,8 @@ var menu_page := "home"         # "home" | "setup"
 # interface de conduite
 var hud_speed: Speedometer
 var hud_info: Label             # prochain arrêt
+var _speed_advice: Dictionary = {}
+var hud_grade: Label
 var hud_sub: Label              # distance / départ
 var hud_sched: Label            # écart à l'horaire
 var hud_clock: Label
@@ -452,9 +454,10 @@ func _row(parent: Control, label: String) -> HBoxContainer:
 func _start() -> void:
 	_clear()
 	_result_saved = false
+	_speed_advice = {}
 	paused = false
 	emergency = false
-	notch = 0.0
+	notch = -0.75 # F3 : immobilisation dès l’apparition, y compris en rampe.
 	net = NetworkLoader.new()
 	var errs := net.load_file(net_path)
 	if not errs.is_empty():
@@ -495,6 +498,7 @@ func _start() -> void:
 	view.cam.current = true
 	add_child(TramAudio.new(view, bell))   # moteur sonore de la rame
 	_build_hud()
+	_set_notch(notch)
 	if free and free.adaptation_notice != "": _log(free.adaptation_notice)
 	if not save.settings.tutorial_done: _show_tuto()
 
@@ -593,6 +597,8 @@ func _build_hud() -> void:
 	var eb := UiTheme.button("URGENCE", "emergency", "danger", Vector2(144, 52) if compact else Vector2(212, 64)); eb.name = "emergency"
 	eb.add_theme_font_size_override("font_size", 18 if compact else UiTheme.SIZE_H2); eb.tooltip_text = "Freinage d'urgence (Espace)"; eb.focus_mode = Control.FOCUS_NONE
 	eb.pressed.connect(_emergency); rp.add_child(eb)
+	hud_grade = UiTheme.label_("Pente 0 ‰", 15, UiTheme.TEXT, true); hud_grade.name = "slope"
+	hud_grade.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; rp.add_child(hud_grade)
 	hud_speed = Speedometer.new(); rp.add_child(hud_speed)
 	if compact: hud_speed.custom_minimum_size = Vector2(144, 144)
 	# --- barre d'outils (bas, centrée ; passe sur deux rangées si l'écran est étroit)
@@ -910,6 +916,8 @@ func _process(dt: float) -> void:
 	notch_label.text = ("Traction %d %%" % roundi(notch * 100)) if notch > 0.01 else (("URGENCE" if notch <= -0.99 else "Freinage %d %%" % roundi(-notch * 100)) if notch < -0.01 else "Neutre")
 	notch_label.add_theme_color_override("font_color", UiTheme.TRACTION if notch > 0.01 else (UiTheme.BRAKE if notch < -0.01 else UiTheme.TEXT))
 	var alerts: Array = []
+	if not _speed_advice.is_empty() and session.phys.speed > float(_speed_advice.limit) + 0.5:
+		alerts.append("RALENTIR : %d km/h dans %d m" % [roundi(float(_speed_advice.limit) * 3.6), roundi(_speed_advice.distance)])
 	if session.overspeed: alerts.append("SURVITESSE")
 	if not session.power_ok: alerts.append("COUPURE D'ALIMENTATION")
 	if emergency: alerts.append("FREINAGE D'URGENCE")
@@ -925,6 +933,7 @@ func _process(dt: float) -> void:
 	_hud_t -= dt
 	if _hud_t > 0.0 and not session.finished: return
 	_hud_t = 0.2
+	_speed_advice = session.next_restriction()
 	hud_clock.text = view.day_night.clock_text()
 	var st := _next_stop()
 	hud_info.text = str(st.get("name", "—"))
@@ -933,6 +942,10 @@ func _process(dt: float) -> void:
 		var d := session.dist_to_point(str(st.edge), float(st.offset), 3000.0)
 		if d >= 0.0 and d < 2999.0: sub.append("dans %d m" % roundi(d) if d >= 15.0 else "à quai")
 	sub.append("%d voyageurs" % session.phys.passengers)
+	var gradient := net.grade_at(session.edge_id, session.offset) * session.direction * 1000.0
+	hud_grade.text = "%s %+.1f ‰" % ["Montée" if gradient > 0.5 else ("Descente" if gradient < -0.5 else "Palier"), gradient]
+	var supply := net.supply_at(session.edge_id, session.offset)
+	sub.append("LAC" if supply == "overhead" else supply.to_upper())
 	hud_sub.text = "  ·  ".join(sub)
 	hud_sched.text = ""
 	if not free_mode and not session.finished and session.next_station < session.schedule.size():

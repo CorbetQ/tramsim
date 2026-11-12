@@ -34,6 +34,8 @@ func load_file(path: String) -> PackedStringArray:
 		if e.has("curve_radius"):
 			lim = minf(lim, TrainPhysics.curve_speed_limit(float(e.curve_radius)))
 		var sup := str(e.get("supply", data.get("supply", "overhead")))
+		for zone in e.get("supply_zones", []):
+			if not str(zone[2]) in supplies: supplies.append(str(zone[2]))
 		if not sup in supplies:
 			supplies.append(sup)
 		var zones: Array = []
@@ -48,9 +50,10 @@ func load_file(path: String) -> PackedStringArray:
 		for v in e.get("y", []): ys.append(float(v))
 		if ys.size() != pts.size(): ys = PackedFloat32Array()
 		edge_info[e.id] = {"limit_ms": lim, "zones": zones, "grade": float(e.get("grade", 0.0)), "supply": sup, "pts": pts, "raw": bool(e.get("raw", false)),
-			"physical": bool(e.get("physical", false)), "structure_left": bool(e.get("structure_left", true)), "structure_right": bool(e.get("structure_right", true)),
+			"supply_zones": e.get("supply_zones", []), "physical": bool(e.get("physical", false)), "structure_left": bool(e.get("structure_left", true)), "structure_right": bool(e.get("structure_right", true)),
 			"gauge_mm": int(e.get("gauge_mm", 1435)), "service": str(e.get("service", "")), "name": str(e.get("name", "")), "source": e.get("source", {}),
 			"arc": arc, "ys": ys, "bridge": e.get("bridge", []), "tunnel": e.get("tunnel", []), "trench": e.get("trench", [])}
+	_derive_curve_limits()
 	for s in data.get("stations", []):
 		if not graph.edges.has(s.edge):
 			errs.append("station sur arête inconnue: " + s.name)
@@ -121,3 +124,47 @@ static func in_spans(spans: Array, offset: float) -> bool:
 	for sp in spans:
 		if offset >= float(sp[0]) and offset <= float(sp[1]): return true
 	return false
+
+## Mode réel de la section, indépendant du pantographe choisi par le conducteur.
+func supply_at(edge_id: String, offset: float) -> String:
+	var info: Dictionary = edge_info[edge_id]
+	for zone in info.get("supply_zones", []):
+		if offset >= float(zone[0]) and offset < float(zone[1]): return str(zone[2])
+	return str(info.supply)
+
+## Rayon circonscrit sur une fenêtre de 16 m : évite de mesurer le bruit
+## centimétrique des points OSM comme une courbe. Les restrictions restent locales.
+func _derive_curve_limits() -> void:
+	for id in graph.edges:
+		var length_: float = graph.edges[id].length
+		if edge_info[id].pts.size() < 3: continue
+		var step_ := 4.0
+		var at := 4.0
+		while at < length_ - 2.0:
+			var a: Vector2 = point_on(id, maxf(0.0, at - 8.0)).p
+			var b: Vector2 = point_on(id, at).p
+			var c: Vector2 = point_on(id, minf(length_, at + 8.0)).p
+			var cross_ := absf((b - a).cross(c - a))
+			if cross_ > 0.05:
+				var radius := a.distance_to(b) * b.distance_to(c) * c.distance_to(a) / (2.0 * cross_)
+				var limit_ := floorf(TrainPhysics.curve_speed_limit(maxf(radius, 8.0)) * 3.6 / 5.0) * 5.0 / 3.6
+				if limit_ < edge_info[id].limit_ms:
+					edge_info[id].zones.append([maxf(0.0, at - 8.0), minf(length_, at + 8.0), maxf(5.0 / 3.6, limit_)])
+			at += step_
+
+## Rayon de raccordement estimé au nœud, pour les petits arcs OSM découpés
+## en plusieurs ways. Seule la branche sélectionnée est prise en compte.
+func junction_limit(edge_id: String, direction_: int) -> float:
+	var step_: Array = graph.next_step(edge_id, direction_)
+	if step_.is_empty() or str(step_[0]) == "": return INF
+	var other := str(step_[0]); var other_dir := int(step_[1])
+	var length_: float = graph.edges[edge_id].length
+	var other_length: float = graph.edges[other].length
+	var current_end := length_ if direction_ > 0 else 0.0
+	var next_start := 0.0 if other_dir > 0 else other_length
+	var a: Vector2 = point_on(edge_id, current_end).dir * direction_
+	var b: Vector2 = point_on(other, next_start).dir * other_dir
+	var angle := acos(clampf(a.dot(b), -1.0, 1.0))
+	if angle < deg_to_rad(5.0): return INF
+	var radius := minf(10.0, minf(length_, other_length) * 0.5) / maxf(tan(angle * 0.5), 0.01)
+	return maxf(5.0, floorf(TrainPhysics.curve_speed_limit(maxf(8.0, radius)) * 3.6 / 5.0) * 5.0) / 3.6

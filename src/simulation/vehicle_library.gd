@@ -80,6 +80,8 @@ static func for_fleet(entry: Dictionary, meta: Dictionary = {}) -> VehicleProfil
 	if fam == "translohr": p.guidance = "rubber_guided"
 	p.id = "%s_%s" % [fam, str(entry.get("name", "")).md5_text().substr(0, 6)]
 	p.family = str(entry.get("name", TramModel.plan(fam).get("name", fam)))
+	if str(meta.get("source_id", "")) in ["angers", "bordeaux", "orleans", "reims", "tours", "nice"] and fam.begins_with("citadis"):
+		p.supply = "hybrid"
 	p.model_family = fam
 	p.fleet = entry
 	p.estimated = est

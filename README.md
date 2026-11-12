@@ -2,13 +2,15 @@
 
 Simulateur de tramway 3D (Godot 4.6.3, GDScript, Android 10+, paysage, hors ligne).
 
-## Version 0.8
+## Version 0.9
 
 Les 28 réseaux libres utilisent les voies physiques OpenStreetMap, leurs nœuds de connexion, les voies de service et les emprises de quais disponibles. Le décor IGN est étendu autour des nouveaux tracés ; les bâtiments de maintenance suivent les emprises BD TOPO. Les missions conservent leur graphe et leurs horaires GTFS, avec une altimétrie raccordée aux ouvrages cartographiés.
 
 Le rendu corrige les stries d'ombre des rames, les raccords de terrain et les collisions de caméra. Les tunnels disposent de tubes, portails, éclairage proche et réverbération. Le HUD, les fenêtres et le catalogue s'adaptent aux petites fenêtres ; le plan accepte le pincement Android natif.
 
-Voir [l'audit et ses limites](docs/AUDIT_0_8.md), [la couverture calculée](docs/world-quality.json) et [les sources](CREDITS.md). Les sons de traction restent des synthèses, pas des enregistrements des constructeurs. L'APK de développement utilise une clé de test ; une ancienne APK signée avec une autre clé doit être désinstallée avant installation.
+Voir [l'audit et ses limites](docs/AUDIT_0_8.md), [la couverture calculée](docs/world-quality.json) et [les sources](CREDITS.md). Les sons combinent synthèse et captation libre de tramway lyonnais, sans prétendre reproduire chaque constructeur. L'APK de développement utilise une clé de test ; une ancienne APK signée avec une autre clé doit être désinstallée avant installation.
+
+La version 0.9 recale les arrêts sur les nœuds OSM, importe aussi les quais ouverts, rétablit les sections APS et ajoute LAC / rails APS visibles, départ en F3, pente au HUD, freinage sur coupure, limites locales en courbe et capture du défilement tactile. Voir [les changements et leurs limites](docs/CHANGEMENTS_0_9.md).
 
 ## Structure
 - `src/catalogue` ressources versionnées (matériels, réseaux, lignes, stations)

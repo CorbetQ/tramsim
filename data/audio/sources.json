@@ -1,10 +1,10 @@
 {
  "generated_by": "data/audio/make_audio.py",
- "version": 2,
+ "version": 3,
  "sample_rate": 32000,
  "format": "OGG Vorbis mono 32 kHz, qualité 4",
  "sonie": "boucles -20 LUFS intégrés, ponctuels -18 LUFS momentanés max (ITU-R BS.1770) ; crête ≤ -1 dBFS",
- "statut": "Synthèses calibrées sur la littérature publique (voir l'en-tête de make_audio.py). Tentatives de téléchargement des enregistrements libres de référence (2026-11-11, User-Agent descriptif, 1 requête / 10 s) : Wikimedia Commons (API et upload.wikimedia.org) HTTP 429 à 3 reprises -> abandon ; Freesound et BigSoundBank (CC0) inaccessibles depuis l'environnement (proxy). Aucun échantillon externe inclus.",
+ "statut": "Synthèse procédurale complétée par une texture issue d’une captation réelle libre. Ce mixage ne prétend pas reproduire chaque série de rames.",
  "files": {
   "motor.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:motor)",
@@ -110,6 +110,15 @@
    "description": "Gong de tramway « ding-ding » : partiels inharmoniques de cloche (1 ; 2,0 ; 2,76 ; 5,40) sur 660 puis 550 Hz, attaque frappée adoucie, décroissance ~1,5 s, passe-bas 4 kHz.",
    "lufs": -18.0,
    "duree_s": 2.0
+  },
+  "real_rail.ogg": {
+   "origine": "Glaneur de sons — Tram sound in Lyon, France (20 mars 2007)",
+   "licence": "CC BY 3.0 https://creativecommons.org/licenses/by/3.0/",
+   "source": "https://commons.wikimedia.org/wiki/File:Tram_sound_in_Lyon,_France.ogg",
+   "original": "reference/lyon-citadis-original.ogg",
+   "modifications": "extrait 8–12 s, passe-bande 85–1500 Hz, raccord 250 ms, mono 32 kHz, normalisation -20 LUFS",
+   "lufs": -20.0,
+   "duree_s": 3.75
   }
  },
  "references": [
