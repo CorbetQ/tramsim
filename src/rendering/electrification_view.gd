@@ -6,6 +6,7 @@ static func build(view, id: String) -> void:
 	var net: NetworkLoader = view.net
 	var length_: float = net.graph.edges[id].length
 	var g := LineView._Geo.new()
+	var wires := LineView._Geo.new()
 	var count := maxi(1, ceili(length_ / 5.0))
 	var last_mode := ""
 	var pole_distance := 36.0
@@ -23,9 +24,9 @@ static func build(view, id: String) -> void:
 			g.ribbon(rail, 0.12, 0.045, Color("#b3b8b5"))
 		elif mode == "overhead":
 			var wire: Array[Vector3] = [pa, pb]
-			g.ribbon(wire, 0.035, 5.45, Color("#353a3d"))
-			g.ribbon(wire, 0.025, 6.05, Color("#535757"))
-			g.box(pa.lerp(pb, 0.5) + Vector3.UP * 5.75, Vector3(0.025, 0.60, 0.025), Color("#555b5a"))
+			wires.ribbon(wire, 0.035, 5.45, Color("#353a3d"))
+			wires.ribbon(wire, 0.025, 6.05, Color("#535757"))
+			wires.box(pa.lerp(pb, 0.5) + Vector3.UP * 5.75, Vector3(0.025, 0.60, 0.025), Color("#555b5a"))
 			pole_distance += b - a
 			if pole_distance >= 30.0 or last_mode != mode:
 				pole_distance = 0.0
@@ -39,6 +40,7 @@ static func build(view, id: String) -> void:
 				g.box(pa + frame.basis.x * 2.8 + Vector3.UP * 5.9, Vector3(0.25, 0.16, 0.16), Color("#beb7a4"))
 		last_mode = mode
 	if not g.v.is_empty(): view._add_geo(view.sectors[id], g, Materials.building())
+	if not wires.v.is_empty(): view._add_geo(view.sectors[id], wires, wire_material())
 
 static func junctions(view) -> void:
 	var net: NetworkLoader = view.net
@@ -67,3 +69,15 @@ static func junctions(view) -> void:
 			var f: Transform3D = view._frame(branch, at)
 			g.box_basis(p + Vector3.UP * 5.45, Vector3(0.13, 0.035, 0.65), f.basis, Color("#857b5e"))
 		view._add_geo(view.sectors[id], g, Materials.building())
+
+## Fil fin : ne pas l'inscrire dans le tampon de profondeur utilisé par les
+## contours. Sinon un fil de moins d'un pixel devient une ligne de points noirs.
+static func wire_material() -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.vertex_color_use_as_albedo = true
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.albedo_color = Color(1.0, 1.0, 1.0, 0.96)
+	material.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.roughness = 0.75
+	return material

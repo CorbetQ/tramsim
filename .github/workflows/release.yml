@@ -95,5 +95,6 @@ jobs:
             Données : voies et quais OpenStreetMap (ODbL), GTFS des réseaux (transport.data.gouv.fr) et BD TOPO® IGN — voir CREDITS.md et docs/COUVERTURE.md.
           files: |
             build/TramSimFrance.apk
+            build/TramSimFrance.exe
             build/TramSimFrance-windows.zip
             build/TramSimFrance.msi
