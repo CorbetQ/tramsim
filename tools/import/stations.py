@@ -24,7 +24,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 from terrain import Frame  # noqa: E402
 
-GTFS_ROOT = "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad/gtfs"
+GTFS_ROOT = os.environ.get("GTFS_CACHE", os.path.join(os.path.dirname(__file__), "..", "..", ".cache", "geography", "gtfs"))
 OFFSET_M = 30.0
 GROUP_M = 300.0
 NOSE_MARGIN = 1.5

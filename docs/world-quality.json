@@ -1,0 +1,1338 @@
+{
+  "schema": 1,
+  "version": "0.8.0",
+  "summary": {
+    "networks": 28,
+    "commercial_network_files": 120,
+    "sections": 14205,
+    "service_sections": 3924,
+    "platform_footprints": 1485,
+    "depot_and_yard_sites": 90,
+    "named_sites": 38,
+    "maintenance_buildings": 142,
+    "tunnel_sections": 376,
+    "bridge_sections": 671,
+    "scenery_tiles_added": 677
+  },
+  "networks": [
+    {
+      "id": "angers",
+      "city": "Angers",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 326,
+      "service_sections": 64,
+      "platform_footprints": 0,
+      "depot_and_yard_sites": 1,
+      "named_sites": 1,
+      "maintenance_buildings": 2,
+      "tunnel_sections": 0,
+      "bridge_sections": 6,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 0.228,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 225
+    },
+    {
+      "id": "aubagne",
+      "city": "Aubagne",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 71,
+      "service_sections": 21,
+      "platform_footprints": 6,
+      "depot_and_yard_sites": 1,
+      "named_sites": 1,
+      "maintenance_buildings": 1,
+      "tunnel_sections": 0,
+      "bridge_sections": 15,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.497,
+      "scenery_tiles_added": 16,
+      "terrain_tiles": 69
+    },
+    {
+      "id": "avignon",
+      "city": "Avignon",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 96,
+      "service_sections": 31,
+      "platform_footprints": 2,
+      "depot_and_yard_sites": 1,
+      "named_sites": 0,
+      "maintenance_buildings": 0,
+      "tunnel_sections": 0,
+      "bridge_sections": 0,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 0.0,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 68
+    },
+    {
+      "id": "besancon",
+      "city": "Besançon",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 165,
+      "service_sections": 0,
+      "platform_footprints": 0,
+      "depot_and_yard_sites": 1,
+      "named_sites": 0,
+      "maintenance_buildings": 1,
+      "tunnel_sections": 0,
+      "bridge_sections": 10,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.647,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 163
+    },
+    {
+      "id": "bordeaux",
+      "city": "Bordeaux",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 907,
+      "service_sections": 279,
+      "platform_footprints": 19,
+      "depot_and_yard_sites": 3,
+      "named_sites": 2,
+      "maintenance_buildings": 7,
+      "tunnel_sections": 6,
+      "bridge_sections": 43,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 3.625,
+      "scenery_tiles_added": 12,
+      "terrain_tiles": 864
+    },
+    {
+      "id": "brest",
+      "city": "Brest",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 326,
+      "service_sections": 67,
+      "platform_footprints": 76,
+      "depot_and_yard_sites": 1,
+      "named_sites": 1,
+      "maintenance_buildings": 4,
+      "tunnel_sections": 8,
+      "bridge_sections": 13,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 4.001,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 215
+    },
+    {
+      "id": "caen",
+      "city": "Caen",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 225,
+      "service_sections": 51,
+      "platform_footprints": 2,
+      "depot_and_yard_sites": 1,
+      "named_sites": 0,
+      "maintenance_buildings": 1,
+      "tunnel_sections": 0,
+      "bridge_sections": 15,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 0.65,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 164
+    },
+    {
+      "id": "clermont",
+      "city": "Clermont-Ferrand",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 173,
+      "service_sections": 85,
+      "platform_footprints": 0,
+      "depot_and_yard_sites": 1,
+      "named_sites": 1,
+      "maintenance_buildings": 1,
+      "tunnel_sections": 0,
+      "bridge_sections": 6,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 5.032,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 168
+    },
+    {
+      "id": "dijon",
+      "city": "Dijon",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 163,
+      "service_sections": 63,
+      "platform_footprints": 17,
+      "depot_and_yard_sites": 1,
+      "named_sites": 1,
+      "maintenance_buildings": 3,
+      "tunnel_sections": 7,
+      "bridge_sections": 9,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.37,
+      "scenery_tiles_added": 5,
+      "terrain_tiles": 217
+    },
+    {
+      "id": "grenoble",
+      "city": "Grenoble",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 671,
+      "service_sections": 198,
+      "platform_footprints": 116,
+      "depot_and_yard_sites": 2,
+      "named_sites": 1,
+      "maintenance_buildings": 6,
+      "tunnel_sections": 0,
+      "bridge_sections": 25,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 2.087,
+      "scenery_tiles_added": 6,
+      "terrain_tiles": 417
+    },
+    {
+      "id": "idf",
+      "city": "Île-de-France",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 3055,
+      "service_sections": 761,
+      "platform_footprints": 478,
+      "depot_and_yard_sites": 26,
+      "named_sites": 8,
+      "maintenance_buildings": 41,
+      "tunnel_sections": 177,
+      "bridge_sections": 200,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 9.324,
+      "scenery_tiles_added": 64,
+      "terrain_tiles": 2242
+    },
+    {
+      "id": "lehavre",
+      "city": "Le Havre",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 101,
+      "service_sections": 57,
+      "platform_footprints": 42,
+      "depot_and_yard_sites": 3,
+      "named_sites": 1,
+      "maintenance_buildings": 3,
+      "tunnel_sections": 8,
+      "bridge_sections": 0,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.008,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 150
+    },
+    {
+      "id": "lemans",
+      "city": "Le Mans",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 305,
+      "service_sections": 56,
+      "platform_footprints": 14,
+      "depot_and_yard_sites": 3,
+      "named_sites": 1,
+      "maintenance_buildings": 2,
+      "tunnel_sections": 9,
+      "bridge_sections": 11,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.909,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 194
+    },
+    {
+      "id": "lille",
+      "city": "Lille",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 341,
+      "service_sections": 95,
+      "platform_footprints": 63,
+      "depot_and_yard_sites": 1,
+      "named_sites": 1,
+      "maintenance_buildings": 3,
+      "tunnel_sections": 28,
+      "bridge_sections": 2,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.052,
+      "scenery_tiles_added": 22,
+      "terrain_tiles": 282
+    },
+    {
+      "id": "lyon",
+      "city": "Lyon",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 1442,
+      "service_sections": 357,
+      "platform_footprints": 17,
+      "depot_and_yard_sites": 6,
+      "named_sites": 3,
+      "maintenance_buildings": 10,
+      "tunnel_sections": 17,
+      "bridge_sections": 33,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 2.779,
+      "scenery_tiles_added": 65,
+      "terrain_tiles": 789
+    },
+    {
+      "id": "marseille",
+      "city": "Marseille",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 270,
+      "service_sections": 137,
+      "platform_footprints": 12,
+      "depot_and_yard_sites": 3,
+      "named_sites": 3,
+      "maintenance_buildings": 2,
+      "tunnel_sections": 7,
+      "bridge_sections": 2,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 6.195,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 200
+    },
+    {
+      "id": "montpellier",
+      "city": "Montpellier",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 781,
+      "service_sections": 217,
+      "platform_footprints": 48,
+      "depot_and_yard_sites": 4,
+      "named_sites": 2,
+      "maintenance_buildings": 6,
+      "tunnel_sections": 8,
+      "bridge_sections": 38,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 2.873,
+      "scenery_tiles_added": 9,
+      "terrain_tiles": 580
+    },
+    {
+      "id": "mulhouse",
+      "city": "Mulhouse",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 196,
+      "service_sections": 47,
+      "platform_footprints": 63,
+      "depot_and_yard_sites": 1,
+      "named_sites": 0,
+      "maintenance_buildings": 1,
+      "tunnel_sections": 0,
+      "bridge_sections": 22,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.374,
+      "scenery_tiles_added": 5,
+      "terrain_tiles": 376
+    },
+    {
+      "id": "nantes",
+      "city": "Nantes",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 1131,
+      "service_sections": 347,
+      "platform_footprints": 13,
+      "depot_and_yard_sites": 4,
+      "named_sites": 4,
+      "maintenance_buildings": 6,
+      "tunnel_sections": 6,
+      "bridge_sections": 91,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 5.224,
+      "scenery_tiles_added": 461,
+      "terrain_tiles": 1173
+    },
+    {
+      "id": "nice",
+      "city": "Nice",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 366,
+      "service_sections": 152,
+      "platform_footprints": 90,
+      "depot_and_yard_sites": 3,
+      "named_sites": 1,
+      "maintenance_buildings": 6,
+      "tunnel_sections": 21,
+      "bridge_sections": 11,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 3.189,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 268
+    },
+    {
+      "id": "orleans",
+      "city": "Orléans",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 256,
+      "service_sections": 96,
+      "platform_footprints": 8,
+      "depot_and_yard_sites": 2,
+      "named_sites": 0,
+      "maintenance_buildings": 3,
+      "tunnel_sections": 4,
+      "bridge_sections": 12,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.028,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 303
+    },
+    {
+      "id": "reims",
+      "city": "Reims",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 192,
+      "service_sections": 47,
+      "platform_footprints": 13,
+      "depot_and_yard_sites": 1,
+      "named_sites": 1,
+      "maintenance_buildings": 1,
+      "tunnel_sections": 0,
+      "bridge_sections": 4,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.433,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 138
+    },
+    {
+      "id": "rouen",
+      "city": "Rouen",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 238,
+      "service_sections": 102,
+      "platform_footprints": 54,
+      "depot_and_yard_sites": 1,
+      "named_sites": 0,
+      "maintenance_buildings": 10,
+      "tunnel_sections": 29,
+      "bridge_sections": 4,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 0.023,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 178
+    },
+    {
+      "id": "saintetienne",
+      "city": "Saint-Étienne",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 178,
+      "service_sections": 57,
+      "platform_footprints": 7,
+      "depot_and_yard_sites": 1,
+      "named_sites": 0,
+      "maintenance_buildings": 1,
+      "tunnel_sections": 4,
+      "bridge_sections": 2,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.728,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 147
+    },
+    {
+      "id": "strasbourg",
+      "city": "Strasbourg",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 1467,
+      "service_sections": 344,
+      "platform_footprints": 195,
+      "depot_and_yard_sites": 14,
+      "named_sites": 3,
+      "maintenance_buildings": 14,
+      "tunnel_sections": 35,
+      "bridge_sections": 51,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.329,
+      "scenery_tiles_added": 9,
+      "terrain_tiles": 479
+    },
+    {
+      "id": "toulouse",
+      "city": "Toulouse",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 261,
+      "service_sections": 56,
+      "platform_footprints": 48,
+      "depot_and_yard_sites": 1,
+      "named_sites": 1,
+      "maintenance_buildings": 2,
+      "tunnel_sections": 2,
+      "bridge_sections": 12,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 2.682,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 180
+    },
+    {
+      "id": "tours",
+      "city": "Tours",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 236,
+      "service_sections": 38,
+      "platform_footprints": 8,
+      "depot_and_yard_sites": 1,
+      "named_sites": 0,
+      "maintenance_buildings": 1,
+      "tunnel_sections": 0,
+      "bridge_sections": 14,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 0.707,
+      "scenery_tiles_added": 3,
+      "terrain_tiles": 181
+    },
+    {
+      "id": "valenciennes",
+      "city": "Valenciennes",
+      "osm_base_date": "2026-10-25T14:06:36Z",
+      "sections": 266,
+      "service_sections": 99,
+      "platform_footprints": 74,
+      "depot_and_yard_sites": 2,
+      "named_sites": 1,
+      "maintenance_buildings": 4,
+      "tunnel_sections": 0,
+      "bridge_sections": 20,
+      "unmatched_stations": [],
+      "missing_terrain_sections": 0,
+      "max_estimated_profile_adjustment_m": 1.18,
+      "scenery_tiles_added": 0,
+      "terrain_tiles": 389
+    }
+  ],
+  "commercial_geometry_exceptions": [
+    {
+      "id": "aubagne_t",
+      "unmatched_vertices": 129
+    },
+    {
+      "id": "avignon_t1",
+      "unmatched_vertices": 1
+    },
+    {
+      "id": "bordeaux_a",
+      "unmatched_vertices": 2
+    },
+    {
+      "id": "bordeaux_a_2",
+      "unmatched_vertices": 197
+    },
+    {
+      "id": "bordeaux_b",
+      "unmatched_vertices": 3
+    },
+    {
+      "id": "bordeaux_b_2",
+      "unmatched_vertices": 1
+    },
+    {
+      "id": "bordeaux_b_3",
+      "unmatched_vertices": 3
+    },
+    {
+      "id": "bordeaux_e",
+      "unmatched_vertices": 3
+    },
+    {
+      "id": "bordeaux_e_2",
+      "unmatched_vertices": 92
+    },
+    {
+      "id": "bordeaux_f",
+      "unmatched_vertices": 1
+    },
+    {
+      "id": "brest_a",
+      "unmatched_vertices": 2
+    },
+    {
+      "id": "brest_a_2",
+      "unmatched_vertices": 1
+    },
+    {
+      "id": "brest_b",
+      "unmatched_vertices": 3
+    },
+    {
+      "id": "caen_t2_2",
+      "unmatched_vertices": 1
+    },
+    {
+      "id": "clermont_a",
+      "unmatched_vertices": 779
+    },
+    {
+      "id": "dijon_t1",
+      "unmatched_vertices": 18
+    },
+    {
+      "id": "dijon_t2",
+      "unmatched_vertices": 1
+    },
+    {
+      "id": "grenoble_a",
+      "unmatched_vertices": 2
+    },
+    {
+      "id": "grenoble_d",
+      "unmatched_vertices": 2
+    },
+    {
+      "id": "grenoble_d_2",
+      "unmatched_vertices": 2
+    },
+    {
+      "id": "idf_t1",
+      "unmatched_vertices": 386
+    },
+    {
+      "id": "idf_t10",
+      "unmatched_vertices": 229
+    },
+    {
+      "id": "idf_t11",
+      "unmatched_vertices": 1140
+    },
+    {
+      "id": "idf_t12",
+      "unmatched_vertices": 2148
+    },
+    {
+      "id": "idf_t13",
+      "unmatched_vertices": 2231
+    },
+    {
+      "id": "idf_t14",
+      "unmatched_vertices": 1101
+    },
+    {
+      "id": "idf_t2",
+      "unmatched_vertices": 656
+    },
+    {
+      "id": "idf_t2_2",
+      "unmatched_vertices": 623
+    },
+    {
+      "id": "idf_t3a",
+      "unmatched_vertices": 238
+    },
+    {
+      "id": "idf_t3b",
+      "unmatched_vertices": 602
+    },
+    {
+      "id": "idf_t3b_2",
+      "unmatched_vertices": 291
+    },
+    {
+      "id": "idf_t4",
+      "unmatched_vertices": 677
+    },
+    {
+      "id": "idf_t4_2",
+      "unmatched_vertices": 689
+    },
+    {
+      "id": "idf_t5",
+      "unmatched_vertices": 241
+    },
+    {
+      "id": "idf_t6",
+      "unmatched_vertices": 720
+    },
+    {
+      "id": "idf_t7",
+      "unmatched_vertices": 779
+    },
+    {
+      "id": "idf_t8",
+      "unmatched_vertices": 313
+    },
+    {
+      "id": "idf_t8_2",
+      "unmatched_vertices": 290
+    },
+    {
+      "id": "idf_t9",
+      "unmatched_vertices": 135
+    },
+    {
+      "id": "lehavre_a",
+      "unmatched_vertices": 192
+    },
+    {
+      "id": "lehavre_b",
+      "unmatched_vertices": 472
+    },
+    {
+      "id": "lemans_t1",
+      "unmatched_vertices": 502
+    },
+    {
+      "id": "lemans_t2",
+      "unmatched_vertices": 413
+    },
+    {
+      "id": "lille_tram",
+      "unmatched_vertices": 358
+    },
+    {
+      "id": "lille_tram_2",
+      "unmatched_vertices": 348
+    },
+    {
+      "id": "lyon_rhonexpress",
+      "unmatched_vertices": 3179
+    },
+    {
+      "id": "lyon_t1",
+      "unmatched_vertices": 612
+    },
+    {
+      "id": "lyon_t2",
+      "unmatched_vertices": 700
+    },
+    {
+      "id": "lyon_t3",
+      "unmatched_vertices": 893
+    },
+    {
+      "id": "lyon_t4",
+      "unmatched_vertices": 763
+    },
+    {
+      "id": "lyon_t5",
+      "unmatched_vertices": 320
+    },
+    {
+      "id": "lyon_t6",
+      "unmatched_vertices": 522
+    },
+    {
+      "id": "lyon_t7",
+      "unmatched_vertices": 588
+    },
+    {
+      "id": "marseille_t1",
+      "unmatched_vertices": 4
+    },
+    {
+      "id": "marseille_t3",
+      "unmatched_vertices": 2
+    },
+    {
+      "id": "montpellier_1",
+      "unmatched_vertices": 1219
+    },
+    {
+      "id": "montpellier_2",
+      "unmatched_vertices": 1086
+    },
+    {
+      "id": "montpellier_2_2",
+      "unmatched_vertices": 875
+    },
+    {
+      "id": "montpellier_2_3",
+      "unmatched_vertices": 1325
+    },
+    {
+      "id": "montpellier_3",
+      "unmatched_vertices": 1374
+    },
+    {
+      "id": "montpellier_3_2",
+      "unmatched_vertices": 1117
+    },
+    {
+      "id": "montpellier_3_3",
+      "unmatched_vertices": 1277
+    },
+    {
+      "id": "montpellier_4",
+      "unmatched_vertices": 501
+    },
+    {
+      "id": "montpellier_5",
+      "unmatched_vertices": 894
+    },
+    {
+      "id": "mulhouse_tt",
+      "unmatched_vertices": 5
+    },
+    {
+      "id": "nantes_1",
+      "unmatched_vertices": 681
+    },
+    {
+      "id": "nantes_1_2",
+      "unmatched_vertices": 510
+    },
+    {
+      "id": "nantes_1_3",
+      "unmatched_vertices": 668
+    },
+    {
+      "id": "nantes_2",
+      "unmatched_vertices": 728
+    },
+    {
+      "id": "nantes_2_2",
+      "unmatched_vertices": 742
+    },
+    {
+      "id": "nantes_2_3",
+      "unmatched_vertices": 802
+    },
+    {
+      "id": "nantes_3",
+      "unmatched_vertices": 502
+    },
+    {
+      "id": "nice_b",
+      "unmatched_vertices": 2
+    },
+    {
+      "id": "nice_l2",
+      "unmatched_vertices": 2
+    },
+    {
+      "id": "nice_l3",
+      "unmatched_vertices": 1
+    },
+    {
+      "id": "nice_l3_3",
+      "unmatched_vertices": 1
+    },
+    {
+      "id": "orleans_a",
+      "unmatched_vertices": 1152
+    },
+    {
+      "id": "orleans_b",
+      "unmatched_vertices": 367
+    },
+    {
+      "id": "reims_tram",
+      "unmatched_vertices": 536
+    },
+    {
+      "id": "reims_tram_2",
+      "unmatched_vertices": 593
+    },
+    {
+      "id": "saintetienne_t1",
+      "unmatched_vertices": 170
+    },
+    {
+      "id": "saintetienne_t2",
+      "unmatched_vertices": 36
+    },
+    {
+      "id": "saintetienne_t3",
+      "unmatched_vertices": 360
+    },
+    {
+      "id": "saintetienne_t3_2",
+      "unmatched_vertices": 448
+    },
+    {
+      "id": "strasbourg_a",
+      "unmatched_vertices": 6
+    },
+    {
+      "id": "strasbourg_c",
+      "unmatched_vertices": 1
+    },
+    {
+      "id": "strasbourg_d",
+      "unmatched_vertices": 6
+    },
+    {
+      "id": "tours_a",
+      "unmatched_vertices": 3
+    }
+  ],
+  "source_archives": [
+    {
+      "path": "data/geography/depot_buildings/angers.json.gz",
+      "sha256": "8169dabbf7f4375be871e63a3fc678ee6d9a45ee6a6d34e0c01106dc8dfd7b4e"
+    },
+    {
+      "path": "data/geography/depot_buildings/aubagne.json.gz",
+      "sha256": "8970c98edbbffc716a42aceb3144a883a29fcf1eb8b9b6f81b32cb4f88368544"
+    },
+    {
+      "path": "data/geography/depot_buildings/avignon.json.gz",
+      "sha256": "db76d7f5a6683e16f53761ab194eb42914e6336fffdf768ed8dead47eaeac171"
+    },
+    {
+      "path": "data/geography/depot_buildings/besancon.json.gz",
+      "sha256": "4af3b631049cc05d3710e5095b80b6709cabcd6489eca88b4e8ddeb97f7e2857"
+    },
+    {
+      "path": "data/geography/depot_buildings/bordeaux.json.gz",
+      "sha256": "6737d816b154e2b50c2af8e17a415c073ea8b1153ecdb03c0d513cc7a8e6c6b4"
+    },
+    {
+      "path": "data/geography/depot_buildings/brest.json.gz",
+      "sha256": "2be08f9b5a88460872f914b4304fba79928982ea0400d78a6971defa0ff2c3e2"
+    },
+    {
+      "path": "data/geography/depot_buildings/caen.json.gz",
+      "sha256": "9a6691cd96f046f7d3a545888376141ef276667ac2302fb7b24a5f85dd32594a"
+    },
+    {
+      "path": "data/geography/depot_buildings/clermont.json.gz",
+      "sha256": "18db7be9ac95bb16600be1d43766342e567f2ce32eda4f01077c4de73b3d56ef"
+    },
+    {
+      "path": "data/geography/depot_buildings/dijon.json.gz",
+      "sha256": "6d680aab6dec6ab08b6566b9a2be048a6c449d91d44ef118403ca79b51b03c32"
+    },
+    {
+      "path": "data/geography/depot_buildings/grenoble.json.gz",
+      "sha256": "693962b54b8e82191b662fd93445eb415a1ac979d19791d73414e5ebda320922"
+    },
+    {
+      "path": "data/geography/depot_buildings/idf.json.gz",
+      "sha256": "8c76013313d74456b8ee7209789a41f5e17115cba43fc5b7811471e8c32c10d5"
+    },
+    {
+      "path": "data/geography/depot_buildings/lehavre.json.gz",
+      "sha256": "eb5272bf1a4d1f4210089484f805f064faf2e61d4620fb938670c3f3f9e37e37"
+    },
+    {
+      "path": "data/geography/depot_buildings/lemans.json.gz",
+      "sha256": "c6df8355ab57643d85931f80b54f6d8f76a6eae9b16a5f2b40735dc89d7d63cb"
+    },
+    {
+      "path": "data/geography/depot_buildings/lille.json.gz",
+      "sha256": "08204bbe0d357b31b81d99600bc1eec99dcd360ffc259e8a6845987c7cd64432"
+    },
+    {
+      "path": "data/geography/depot_buildings/lyon.json.gz",
+      "sha256": "2b436c9bb0279a694f00ee39d3307fb909f81d49fe18e777ea6a5f4e1128e7d5"
+    },
+    {
+      "path": "data/geography/depot_buildings/marseille.json.gz",
+      "sha256": "68953494cb0aaf2be2c093230d05002d9375c9c9735cd9b2830a8a574445f85f"
+    },
+    {
+      "path": "data/geography/depot_buildings/montpellier.json.gz",
+      "sha256": "262a39d43b4f9987cea5fb7bfc8c2c9234f6e504180025cced2eb807bee21fa4"
+    },
+    {
+      "path": "data/geography/depot_buildings/mulhouse.json.gz",
+      "sha256": "b1ca983e28074facb6df9308d39ba8adfd2de34f7ea8d2bd375b6a45c3fd2daa"
+    },
+    {
+      "path": "data/geography/depot_buildings/nantes.json.gz",
+      "sha256": "8a2a393ad0091bdc6ccd2e6e9d0b8e181551ad90c8ff0545d7be62b85eda7682"
+    },
+    {
+      "path": "data/geography/depot_buildings/nice.json.gz",
+      "sha256": "279a95aea5d43089474b1001f2ba95c774733d073f8966b99ae3bf32c9f3c74a"
+    },
+    {
+      "path": "data/geography/depot_buildings/orleans.json.gz",
+      "sha256": "ace4aa54f4479bacd7464e85b3a7388bc0a587aafcde9193249740dad7ddb461"
+    },
+    {
+      "path": "data/geography/depot_buildings/reims.json.gz",
+      "sha256": "679db8cb61880475cc0e388c44c968f13e127824a55eb888ef1c53d014d1c370"
+    },
+    {
+      "path": "data/geography/depot_buildings/rouen.json.gz",
+      "sha256": "47690005c12c0b3e2256a4a8966743ab124413f0f7fc37c26feb0c29c915a002"
+    },
+    {
+      "path": "data/geography/depot_buildings/saintetienne.json.gz",
+      "sha256": "e4ebfaba662e86737542a5ac0988c67b813fff58048383c7884e4a766415d605"
+    },
+    {
+      "path": "data/geography/depot_buildings/strasbourg.json.gz",
+      "sha256": "58e26fa10f958e3267d50767153beb96351f8e9b41a83770e381cd4e5267a6eb"
+    },
+    {
+      "path": "data/geography/depot_buildings/toulouse.json.gz",
+      "sha256": "18d9df16204bc8cae76d640960aa628ab6151415fd827c00ce35a831a208742d"
+    },
+    {
+      "path": "data/geography/depot_buildings/tours.json.gz",
+      "sha256": "48327851909be6c23361ccc0ba6b847a3b11826ce69ee88e82d725681607d9df"
+    },
+    {
+      "path": "data/geography/depot_buildings/valenciennes.json.gz",
+      "sha256": "d1fefbcbc9f3f4ed51e28bdde63a3fa5d2695cef460b82606180d58bda842812"
+    },
+    {
+      "path": "data/geography/ign_rail/angers.json.gz",
+      "sha256": "00d0564f8ae58fa9ddc1aeb9c47c7575d3d86fb4a8336138fe7c6fcc7bbf7fcf"
+    },
+    {
+      "path": "data/geography/ign_rail/aubagne.json.gz",
+      "sha256": "f622f2d328647137e1594dd3b6175a9e1d15193e0cc5f7abe2297d5db4fe13bd"
+    },
+    {
+      "path": "data/geography/ign_rail/avignon.json.gz",
+      "sha256": "476a31e6792dd9237f9794619e2b3c905521048d63242eb3358f30d5520820cc"
+    },
+    {
+      "path": "data/geography/ign_rail/besancon.json.gz",
+      "sha256": "2e2405a77b654ed15f819d980f0408b3c039ef138076e745171f6e81e61679c0"
+    },
+    {
+      "path": "data/geography/ign_rail/bordeaux.json.gz",
+      "sha256": "b2932e25dd0c5a90713b0240d5cde7e7f9cbf5494051454955c24db45f92a636"
+    },
+    {
+      "path": "data/geography/ign_rail/brest.json.gz",
+      "sha256": "e01038f86f138c674357565e44a69e490d1f91f570111c794fbaee664ce91f74"
+    },
+    {
+      "path": "data/geography/ign_rail/caen.json.gz",
+      "sha256": "b08fc9c2ba358978bd13d2e171d46edc23fb7315dbeb2da77a856e9fd40e9ba8"
+    },
+    {
+      "path": "data/geography/ign_rail/clermont.json.gz",
+      "sha256": "17c82974ac83be1db6abffc5e6f82271cad681842dd7b20d51f874d40a4ba936"
+    },
+    {
+      "path": "data/geography/ign_rail/dijon.json.gz",
+      "sha256": "7f1446b2df4eec6b9da9b90f803ca1eb64c91a49e468e21122d2cad772e9a554"
+    },
+    {
+      "path": "data/geography/ign_rail/grenoble.json.gz",
+      "sha256": "28ad74c44be99f55bd689ce44b145016e151b5b964613834c5382f0e4df3e31b"
+    },
+    {
+      "path": "data/geography/ign_rail/idf.json.gz",
+      "sha256": "4fb84f4d51c0218e6bb6c1eaf3e25e7903ab14509a18edd2af83127a124b8356"
+    },
+    {
+      "path": "data/geography/ign_rail/lehavre.json.gz",
+      "sha256": "4b40108a34374b105ee7a460bf2abfc492c1c5cb1b81eb9324bf45af95d28775"
+    },
+    {
+      "path": "data/geography/ign_rail/lemans.json.gz",
+      "sha256": "d817ebdebc7bc841074343bc5858992298823051db80af0bf868c426e025ff4b"
+    },
+    {
+      "path": "data/geography/ign_rail/lille.json.gz",
+      "sha256": "d4e4d5cc869b090b1969f4e42c9413b361c321ec0be211d38ee360311a6f56a1"
+    },
+    {
+      "path": "data/geography/ign_rail/lyon.json.gz",
+      "sha256": "1adc25d48b924cf92108d8af47b67c56f04139a5579d3bdb4a55896d6ee1b3f3"
+    },
+    {
+      "path": "data/geography/ign_rail/marseille.json.gz",
+      "sha256": "5d93e009515b2d30cd5cf029a6439c06582ef127f1da381bb70f29015599cf1d"
+    },
+    {
+      "path": "data/geography/ign_rail/montpellier.json.gz",
+      "sha256": "f94abc7c57b34482435a4f73ac2271e42f6ef5c4d0981ce7e7c3f85da6b8810a"
+    },
+    {
+      "path": "data/geography/ign_rail/mulhouse.json.gz",
+      "sha256": "66adb9197197833869eb7e9a61ec36915d2ba5735d148b6045c6636d9953cecc"
+    },
+    {
+      "path": "data/geography/ign_rail/nantes.json.gz",
+      "sha256": "9a58d359e47fb2441d6fe56de8475b9396cb889cf466bab02f05d50bd9018ecb"
+    },
+    {
+      "path": "data/geography/ign_rail/nice.json.gz",
+      "sha256": "b722ba86fccf9cda85270275cd08644ae4cf24d228fee3df3f3859459a61066d"
+    },
+    {
+      "path": "data/geography/ign_rail/orleans.json.gz",
+      "sha256": "ba569e8b0c7cf3dde63335829b4959afff692a17e88adf6ea932ce1711d3c050"
+    },
+    {
+      "path": "data/geography/ign_rail/reims.json.gz",
+      "sha256": "974d61da36456bc5bb337e3486d132673f925360470d1ec9898bfb086a8eed68"
+    },
+    {
+      "path": "data/geography/ign_rail/rouen.json.gz",
+      "sha256": "e34851da2b4e8ac482d5e472c5b6d56e6892fb13ae9842df6725c4cfa3e88364"
+    },
+    {
+      "path": "data/geography/ign_rail/saintetienne.json.gz",
+      "sha256": "32cf8527e6a8e3fa73010d5d933ebb374ba13a2c19f3edc6e75824f0bd542ae0"
+    },
+    {
+      "path": "data/geography/ign_rail/strasbourg.json.gz",
+      "sha256": "ddbfc8892a21b084f5f88a4baf3b082c0fe7659a7a5cbcfc492294a15e5af5d9"
+    },
+    {
+      "path": "data/geography/ign_rail/toulouse.json.gz",
+      "sha256": "2874b2f8a117180fdff9999d8924ef6675cb8a21140301dab57d245b25214712"
+    },
+    {
+      "path": "data/geography/ign_rail/tours.json.gz",
+      "sha256": "83c69b270145400cb019d6ccb8e38749105c95c010c1782ffbefd3ec3b756d34"
+    },
+    {
+      "path": "data/geography/ign_rail/valenciennes.json.gz",
+      "sha256": "6cb9cf29eba692e47e253749309fd1d3116621dd9fb9b24222a15b82d7328da1"
+    },
+    {
+      "path": "data/geography/osm/angers.json.gz",
+      "sha256": "b30607fd78f8c44fabe6a296c83ba276058e8b3602b7e1b80ca3ad7b155beed6"
+    },
+    {
+      "path": "data/geography/osm/aubagne.json.gz",
+      "sha256": "1578afa56b8edeced7c82fbb0d9f63d28d9be576545c793bbc1a892db1b19fb9"
+    },
+    {
+      "path": "data/geography/osm/avignon.json.gz",
+      "sha256": "5b11b3daa6c70cd57e156c7273c0bfa526e681eae6402aba476a0fbdf7fa2905"
+    },
+    {
+      "path": "data/geography/osm/besancon.json.gz",
+      "sha256": "884b5fddd69d9049dea1db28e393f222adad383cc5866ca447c43cca2274065a"
+    },
+    {
+      "path": "data/geography/osm/bordeaux.json.gz",
+      "sha256": "7b198ecc001911bcef5fb8e135c1ca70c254ca3654593358a1a40468519ef610"
+    },
+    {
+      "path": "data/geography/osm/brest.json.gz",
+      "sha256": "abba02d658400c193d2d61591afb809981f3111b9adb565cdf28ff01c1070311"
+    },
+    {
+      "path": "data/geography/osm/caen.json.gz",
+      "sha256": "333639ff52dd547ad333a759903c3604a8f2504e19adf8892037d7beca24766c"
+    },
+    {
+      "path": "data/geography/osm/clermont.json.gz",
+      "sha256": "3e0edb8c8d88096d9bea6a59827d245ae21e2527c44910611af9e2ae31f6eb5e"
+    },
+    {
+      "path": "data/geography/osm/depot_besancon.json.gz",
+      "sha256": "4217425735585591c6651347a20b86bdb87af582468727bae5b63f082428e8df"
+    },
+    {
+      "path": "data/geography/osm/dijon.json.gz",
+      "sha256": "fd306346ec4fc3f8d9569e5355d5b619d1764f23fb1f2d91f359f37ee0609189"
+    },
+    {
+      "path": "data/geography/osm/grenoble.json.gz",
+      "sha256": "ee27ab3a374e499ebfe57aedcd2e1b8557b5950b00d06a52885dbea8525c8be5"
+    },
+    {
+      "path": "data/geography/osm/idf.json.gz",
+      "sha256": "d0bfb210dd99d353e69678431abf0407504a2aa00a03b3601c7e4a0df814b704"
+    },
+    {
+      "path": "data/geography/osm/lehavre.json.gz",
+      "sha256": "f9a0b5f87073b7e3b6b5cf0e296fdd2c8d1bc0cae10360a1465a1d8564dc53ab"
+    },
+    {
+      "path": "data/geography/osm/lemans.json.gz",
+      "sha256": "c808c381efad01e3e262347729d4befa4f28a94219dbebe989fb6aa9f12a78f5"
+    },
+    {
+      "path": "data/geography/osm/lille.json.gz",
+      "sha256": "9b6e64eaa3c4d9cf65de4bd0ab85489707dd0c2d5aafb7dd7a32971a136ab53e"
+    },
+    {
+      "path": "data/geography/osm/lyon.json.gz",
+      "sha256": "29716d3d4dfc126e3fd8bb2f47bd774f22d50ad8f28f4a6238d205963eace370"
+    },
+    {
+      "path": "data/geography/osm/marseille.json.gz",
+      "sha256": "91b48f506859722a60e9c233175c251aeca30d918e5caf33e4d9665b7609bcab"
+    },
+    {
+      "path": "data/geography/osm/montpellier.json.gz",
+      "sha256": "aff1d54dacea7a1327f199b2cfad1b245621bbce96518d61f638a5bb4c7d12b2"
+    },
+    {
+      "path": "data/geography/osm/mulhouse.json.gz",
+      "sha256": "2e95fe6f9e6517432266346b2c537942677b7e811df87c430d81db5528f5c928"
+    },
+    {
+      "path": "data/geography/osm/nantes.json.gz",
+      "sha256": "6ce1f39ee80fe984c08164e3b6dba9c677e2a98ed9a408740def2ce75d130f57"
+    },
+    {
+      "path": "data/geography/osm/nice.json.gz",
+      "sha256": "017303bd1741792e2a94a71f46fe27870b9271d5ac7b1d8bb911ac0b0ec9cfb3"
+    },
+    {
+      "path": "data/geography/osm/orleans.json.gz",
+      "sha256": "74c27f7ae08667c712c4ce9df64ec02c1dae979cc480aed323bb92665d847b84"
+    },
+    {
+      "path": "data/geography/osm/reims.json.gz",
+      "sha256": "254b30dcc3fecfd942fee703f4a3b9aae6d671e06f97c0fdc894a4d529e243c4"
+    },
+    {
+      "path": "data/geography/osm/rouen.json.gz",
+      "sha256": "30ef3eb84bc20592f2cc208ac8717b13cbb864e3ed32bea1ffe70c7b2b29108c"
+    },
+    {
+      "path": "data/geography/osm/saintetienne.json.gz",
+      "sha256": "aa951edc91d96a92ccf6e09546819d41ccf1fb9407c7c1b130cc800af89491c4"
+    },
+    {
+      "path": "data/geography/osm/strasbourg.json.gz",
+      "sha256": "954a5a47bd7b43da2a66725b4ca5ccf3d65171c1161b211b197e64041924ba63"
+    },
+    {
+      "path": "data/geography/osm/toulouse.json.gz",
+      "sha256": "5fc2b3274b33437f7349ec8ba9384096216c43723a647259ddd78600b9bd81be"
+    },
+    {
+      "path": "data/geography/osm/tours.json.gz",
+      "sha256": "345801bdf24ea8c8f54759f01b4308511d23d53f312b56c48f49e32f9bd0c5a2"
+    },
+    {
+      "path": "data/geography/osm/valenciennes.json.gz",
+      "sha256": "c855a0bfd87a3df6c1a1485912d1c28628277f0c7f70f1a8de146c88c76c5b76"
+    },
+    {
+      "path": "data/geography/reference/angers.json.gz",
+      "sha256": "1296de5308378a36901739b2a2c07289620f6d384f7f303b40909bd85b33ead8"
+    },
+    {
+      "path": "data/geography/reference/aubagne.json.gz",
+      "sha256": "ce5e07b764a99d595df59aa1c4ea2405caa7263e1f1206dee37232cb2546df58"
+    },
+    {
+      "path": "data/geography/reference/avignon.json.gz",
+      "sha256": "8aaa0813f6ab4b9b4e39c5502c23713cfa38f3dc303395784704ae6067deaa92"
+    },
+    {
+      "path": "data/geography/reference/besancon.json.gz",
+      "sha256": "b9f1b5df346a77890c87fb15360a36178a92b74515f0882799917cf118201095"
+    },
+    {
+      "path": "data/geography/reference/bordeaux.json.gz",
+      "sha256": "08e21faf7e438d73223427ed8a10312bb343806b53f37dad34063ebe4a490ffd"
+    },
+    {
+      "path": "data/geography/reference/brest.json.gz",
+      "sha256": "c217e7077a206b42269b92debc77e22103755a6cc1ba80d849b7498b5ee192f5"
+    },
+    {
+      "path": "data/geography/reference/caen.json.gz",
+      "sha256": "81567f29d0cf72c277b2027b1abf3037c05b93eda9b0070fca42f4e7246adc6c"
+    },
+    {
+      "path": "data/geography/reference/clermont.json.gz",
+      "sha256": "426d251c5392e65ac050467fcc37f7c830e656fa984b0cc2f86089e691964949"
+    },
+    {
+      "path": "data/geography/reference/dijon.json.gz",
+      "sha256": "76a45dca6f6457697737bdd35b1e68296e81a5d1d11f8c3275343ee9a17cd535"
+    },
+    {
+      "path": "data/geography/reference/grenoble.json.gz",
+      "sha256": "6951dc4ae5f53c98a2eff5b4d14ff3ec6a02bd2cfce1e8e8616a7e45e93a0e63"
+    },
+    {
+      "path": "data/geography/reference/idf.json.gz",
+      "sha256": "2ca103571b5259e087d190b57262e79422c70952972f17d0cc361a940fbf0cbf"
+    },
+    {
+      "path": "data/geography/reference/lehavre.json.gz",
+      "sha256": "e294dd74f7cbfc4c53c2a371d8694661e4580afb07f480e14a9593a0ffdfdaf0"
+    },
+    {
+      "path": "data/geography/reference/lemans.json.gz",
+      "sha256": "0c17b462238e1b71bcc4e4081738c308f8cd0749f598f8e4cbffcf63626585ed"
+    },
+    {
+      "path": "data/geography/reference/lille.json.gz",
+      "sha256": "7f85e2935e984890c8308dd06445fa84adcc0df6d940eb2ac05cb2206c57c03f"
+    },
+    {
+      "path": "data/geography/reference/lyon.json.gz",
+      "sha256": "fbf5d08d6d6400634d220cd7b6ba2434040cde4466bae0557314ccc8aeed5558"
+    },
+    {
+      "path": "data/geography/reference/marseille.json.gz",
+      "sha256": "6ee2fc5c13106bc48e4c44c9dc248fca0bcc33a4d081fedcb8463d0b2a31a3cb"
+    },
+    {
+      "path": "data/geography/reference/montpellier.json.gz",
+      "sha256": "29ed3c032bc856745a90fe0bab07db0e43aae06686fb50f237d6b9bcc8d527ae"
+    },
+    {
+      "path": "data/geography/reference/mulhouse.json.gz",
+      "sha256": "ae3c704eeba5cc5ac4fe1e2df685da2b7357b69d601e1e19bd616ab820614856"
+    },
+    {
+      "path": "data/geography/reference/nantes.json.gz",
+      "sha256": "952275ec4225a35e0919d5ebbf62767a3174c8b509fb1450264d209a14585a1b"
+    },
+    {
+      "path": "data/geography/reference/nice.json.gz",
+      "sha256": "d353fc7bc3ae844054ce4d789cc7bc889e4733aad0832e0442f3049a11273566"
+    },
+    {
+      "path": "data/geography/reference/orleans.json.gz",
+      "sha256": "78aa490d0fb47a33dc39120db28eb48efa6c9c7e84559c0148668cfebcab7080"
+    },
+    {
+      "path": "data/geography/reference/reims.json.gz",
+      "sha256": "9cbb97aaa028a81aa7a4b7afe40dd5f6fd65a1351ecbb13f798e1b2977b0a1e4"
+    },
+    {
+      "path": "data/geography/reference/rouen.json.gz",
+      "sha256": "f7c8408ee491e268a2b357ed09364d242196495ba6bf69395e6645884152bbe3"
+    },
+    {
+      "path": "data/geography/reference/saintetienne.json.gz",
+      "sha256": "018712cef6dd705f444f8778d57a0196c8928ba2583c26ca3dcb0e5a265f8478"
+    },
+    {
+      "path": "data/geography/reference/strasbourg.json.gz",
+      "sha256": "5fe13d0b77ccf8b6246ad9c62bcd7d67ad0b0bce6bb9b1907183347e22677bab"
+    },
+    {
+      "path": "data/geography/reference/toulouse.json.gz",
+      "sha256": "accacab6a7618dfff1ced30712e8d27ec916435713373de3539ca6be54e56958"
+    },
+    {
+      "path": "data/geography/reference/tours.json.gz",
+      "sha256": "84da5aea43eace7eeb22736d1e9692ccd08ff37d402e4c0da56f28fa6fb3fb52"
+    },
+    {
+      "path": "data/geography/reference/valenciennes.json.gz",
+      "sha256": "0d7855db2292b13f343815ad1e9d69beef934083fd82da8f666290075b6a5002"
+    }
+  ],
+  "limitations": [
+    "Les axes des missions restent les tracés GTFS ; leur profil vertical est raccordé au réseau physique.",
+    "Les altitudes interpolées, rampes lissées, hauteurs de quai et vitesses par défaut sont estimées.",
+    "Un faisceau de remisage ne représente pas nécessairement un dépôt distinct.",
+    "Les façades et ouvertures des hangars sont stylisées ; emprises et hauteurs proviennent des données source.",
+    "La signalisation et le trafic réel ne sont pas cartographiés dans ces jeux de données."
+  ]
+}

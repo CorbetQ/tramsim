@@ -9,5 +9,10 @@
  "stats": {
   "ponts": 37,
   "niveaux_eau": 25
- }
+ },
+ "terrain_format": "TTR2",
+ "height_encoding": "float32 metres",
+ "shared_vertices": true,
+ "ground_profile_signature": "fd0008ba0c48d15e168d4d99677a0c694cf21101491296ef5fdaf450fd6af3d4",
+ "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
 }

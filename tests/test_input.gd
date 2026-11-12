@@ -28,6 +28,8 @@ func _press(b: Control) -> void:
 	for i in 3: await process_frame
 
 func _init() -> void:
+	# Les entrées et la physique sont testées ici ; le rendu 3D est vérifié par visual_review.gd.
+	root.disable_3d = true
 	var main = load("res://src/ui/main.tscn").instantiate()
 	root.add_child(main)
 	await process_frame
@@ -37,7 +39,7 @@ func _init() -> void:
 	main.vehicle = VehicleLibrary.default_for(net.meta)
 	main.free_mode = false
 	main.mission = net.missions()[2]
-	main._start()
+	main._start(); main.view.day_night.sun.shadow_enabled = false
 	for i in 5: await process_frame
 	# portes (on est à quai)
 	var b := _find(main, "Portes")
@@ -94,7 +96,7 @@ func _init() -> void:
 	main.net_path = "res://data/free/angers.json"
 	var fn := NetworkLoader.new(); fn.load_file(main.net_path)
 	main.start_station = fn.stations[0]
-	main._start()
+	main._start(); main.view.day_night.sun.shadow_enabled = false
 	for i in 5: await process_frame
 	var ab := _find(main, "Aiguillages")
 	check(ab != null, "mode libre : bouton Aiguillages")

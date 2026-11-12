@@ -13,6 +13,8 @@ var supplies: Array = []
 
 ## Retourne la liste des erreurs (vide = OK).
 func load_file(path: String) -> PackedStringArray:
+	graph = TrackGraph.new()
+	meta = {}; edge_info.clear(); stations.clear(); signals.clear(); supplies.clear()
 	var errs := PackedStringArray()
 	var f := FileAccess.open(path, FileAccess.READ)
 	if f == null:
@@ -40,11 +42,15 @@ func load_file(path: String) -> PackedStringArray:
 		var pts: PackedVector2Array = []
 		for q in e.get("pts", []):
 			pts.append(Vector2(float(q[0]), float(q[1])))
+		var arc := PackedFloat64Array([0.0])
+		for i in range(1, pts.size()): arc.append(arc[-1] + pts[i - 1].distance_to(pts[i]))
 		var ys := PackedFloat32Array()
 		for v in e.get("y", []): ys.append(float(v))
 		if ys.size() != pts.size(): ys = PackedFloat32Array()
 		edge_info[e.id] = {"limit_ms": lim, "zones": zones, "grade": float(e.get("grade", 0.0)), "supply": sup, "pts": pts, "raw": bool(e.get("raw", false)),
-			"ys": ys, "bridge": e.get("bridge", []), "tunnel": e.get("tunnel", []), "trench": e.get("trench", [])}
+			"physical": bool(e.get("physical", false)), "structure_left": bool(e.get("structure_left", true)), "structure_right": bool(e.get("structure_right", true)),
+			"gauge_mm": int(e.get("gauge_mm", 1435)), "service": str(e.get("service", "")), "name": str(e.get("name", "")), "source": e.get("source", {}),
+			"arc": arc, "ys": ys, "bridge": e.get("bridge", []), "tunnel": e.get("tunnel", []), "trench": e.get("trench", [])}
 	for s in data.get("stations", []):
 		if not graph.edges.has(s.edge):
 			errs.append("station sur arête inconnue: " + s.name)
@@ -81,25 +87,21 @@ func has_geometry() -> bool:
 func point_on(edge_id: String, offset: float) -> Dictionary:
 	var pts: PackedVector2Array = edge_info[edge_id].pts
 	var L: float = graph.edges[edge_id].length
-	var total := 0.0
-	for i in range(pts.size() - 1):
-		total += pts[i].distance_to(pts[i + 1])
-	# l'abscisse de jeu est ramenée sur la longueur géométrique de la polyligne
+	if pts.size() < 2:
+		return {"p": pts[0] if pts.size() > 0 else Vector2.ZERO, "dir": Vector2.RIGHT, "y": 0.0, "grade": 0.0}
+	var arc: PackedFloat64Array = edge_info[edge_id].arc
+	var total: float = arc[-1]
 	var s := clampf(offset, 0.0, L) * (total / L if L > 0.0 else 1.0)
-	var acc := 0.0
-	for i in range(pts.size() - 1):
-		var seg := pts[i].distance_to(pts[i + 1])
-		if acc + seg >= s or i == pts.size() - 2:
-			var u := 0.0 if seg == 0.0 else clampf((s - acc) / seg, 0.0, 1.0)
-			var dir := (pts[i + 1] - pts[i]).normalized()
-			var ys: PackedFloat32Array = edge_info[edge_id].get("ys", PackedFloat32Array())
-			var y := 0.0; var g := 0.0
-			if ys.size() == pts.size():
-				y = lerpf(ys[i], ys[i + 1], u)
-				g = (ys[i + 1] - ys[i]) / seg if seg > 0.01 else 0.0
-			return {"p": pts[i].lerp(pts[i + 1], u), "dir": dir, "y": y, "grade": g}
-		acc += seg
-	return {"p": pts[0] if pts.size() > 0 else Vector2.ZERO, "dir": Vector2.RIGHT, "y": 0.0, "grade": 0.0}
+	var i := clampi(arc.bsearch(s) - 1, 0, pts.size() - 2)
+	var seg: float = arc[i + 1] - arc[i]
+	var u := 0.0 if seg < 0.00001 else clampf((s - arc[i]) / seg, 0.0, 1.0)
+	var dir := (pts[i + 1] - pts[i]).normalized()
+	var ys: PackedFloat32Array = edge_info[edge_id].get("ys", PackedFloat32Array())
+	var y := 0.0; var g := 0.0
+	if ys.size() == pts.size():
+		y = lerpf(ys[i], ys[i + 1], u)
+		g = (ys[i + 1] - ys[i]) / seg if seg > 0.01 else 0.0
+	return {"p": pts[i].lerp(pts[i + 1], u), "dir": dir, "y": y, "grade": g}
 
 ## Pente locale (+ = montée dans le sens de l'arête), moyennée sur ~20 m ; pente moyenne de l'arête sans profil.
 func grade_at(edge_id: String, offset: float) -> float:

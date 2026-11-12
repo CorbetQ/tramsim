@@ -9,7 +9,7 @@
   "motor.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:motor)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Raie d'onduleur / moteur asynchrone (modes synchrones) : fondamentale 600 Hz (hauteur pilotée par pitch_scale, cf. TramAudio.motor_hz), harmoniques en 1/n^1,6 (2f, 3f, 4f) + 6f magnétique discrète, composante de bruit étroite autour de chaque raie (instabilité de la MLI), passe-bas 2,2 kHz : timbre de « sifflement chanté » doux plutôt que sinus pur.",
+   "description": "Traction synthétique : fondamentale 300 Hz, harmoniques amorties, résonance grave et bruit électromécanique large bande. Timbre de moteur, sans raie aiguë dominante. Les fréquences de régime sont interpolées par TramAudio ; aucune captation constructeur.",
    "lufs": -20.0,
    "duree_s": 4.0
   },
@@ -23,7 +23,7 @@
   "carrier.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:carrier)",
    "licence": "création du projet (même licence que le code)",
-   "description": "Porteuse de découpage MLI asynchrone (démarrage, < ~8 km/h) : raie ~1050 Hz entourée de bandes latérales ±2f et ±4f (le « bourdon » qui précède le chant de l'onduleur), adoucie (passe-bas 1,6 kHz, niveau bas).",
+   "description": "Bourdonnement de commutation à 420 Hz, bandes latérales douces, fondu après le départ. Synthèse approximative ; pas de sifflement permanent à 1 kHz.",
    "lufs": -20.0,
    "duree_s": 4.0
   },

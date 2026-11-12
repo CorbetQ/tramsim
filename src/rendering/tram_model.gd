@@ -373,6 +373,7 @@ class _Mesh:
 	func _v(p: Vector3, col: Color) -> void:
 		var u := p.z + gz
 		if ndir != 0.0: u += ndir * maxf(hw - absf(p.x), 0.0)
+		st.set_smooth_group(-1)  # normales de facette, sans lissage entre panneaux
 		st.set_color(col)
 		st.set_uv(Vector2(u, p.y))
 		var pm := 0.0
@@ -417,6 +418,7 @@ class _Mesh:
 		for i in range(1, pts.size() - 1): tri(pts[0], pts[i], pts[i + 1], col, out)
 
 	func commit() -> ArrayMesh:
+		st.generate_normals()  # nécessaires au biais normal des ombres, même avec un shader de facettes
 		return st.commit()
 
 

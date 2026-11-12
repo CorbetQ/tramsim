@@ -1,19 +1,34 @@
 #!/usr/bin/env bash
-# Usage : GODOT=/chemin/godot tests/run_all.sh
-set -u
-G="${GODOT:-godot}"; cd "$(dirname "$0")/.."
+# Usage : GODOT=/chemin/godot PYTHON=python3 tests/run_all.sh
+set -uo pipefail
+G="${GODOT:-godot}"
+P="${PYTHON:-python3}"
+cd "$(dirname "$0")/.."
 rc=0
-"$G" --headless --path . --import >/dev/null 2>&1
-for t in run_tests test_rolling_stock test_angers test_angers_real test_traffic_free test_turnback test_bidir test_audio test_save test_scene test_scene_data test_geo test_input test_all_networks; do
-  if [ "$t" = "test_input" ]; then
-    command -v xvfb-run >/dev/null || { echo "SKIP $t (xvfb-run absent)"; continue; }
-    out=$(timeout 600 xvfb-run -a -s "-screen 0 1280x720x24" "$G" --path . --rendering-driver opengl3 --resolution 1280x720 -s tests/$t.gd 2>&1); c=$?
+import_log=$(mktemp)
+if ! "$G" --headless --path . --import >"$import_log" 2>&1 || grep -Eq 'SCRIPT ERROR|Parse Error' "$import_log"; then
+  cat "$import_log"
+  rm -f "$import_log"
+  exit 1
+fi
+rm -f "$import_log"
+for t in run_tests test_rolling_stock test_angers test_angers_real test_traffic_free test_turnback test_bidir test_audio test_save test_scene test_scene_data test_geo test_input test_mobile test_physical_networks test_all_networks; do
+  if [ "$t" = "test_input" ] || [ "$t" = "test_mobile" ]; then
+    if command -v xvfb-run >/dev/null; then
+      out=$(timeout 600 xvfb-run -a -s "-screen 0 1280x720x24" "$G" --path . --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x720 -s "tests/$t.gd" 2>&1); c=$?
+    elif [ -n "${DISPLAY:-}" ]; then
+      out=$(timeout 600 "$G" --path . --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x720 -s "tests/$t.gd" 2>&1); c=$?
+    else
+      echo "SKIP $t (affichage OpenGL absent)"; continue
+    fi
   else
-    out=$(timeout 2400 "$G" --headless --path . -s tests/$t.gd 2>&1); c=$?
+    out=$(timeout 2400 "$G" --headless --path . -s "tests/$t.gd" 2>&1); c=$?
   fi
-  if [ $c -ne 0 ] || echo "$out" | grep -q "^ECHEC\|SCRIPT ERROR\|TOTAL_ECHECS|[1-9]"; then echo "FAIL $t"; echo "$out" | grep "ECHEC\|SCRIPT"; rc=1; else echo "PASS $t ($(echo "$out" | grep -c '^ok'))"; fi
+  if [ "$c" -ne 0 ] || printf '%s\n' "$out" | grep -Eq '^ECHEC|SCRIPT ERROR|TOTAL_ECHECS\|[1-9]'; then
+    echo "FAIL $t ($c)"; printf '%s\n' "$out" | tail -50; rc=1
+  else echo "PASS $t ($(printf '%s\n' "$out" | grep -c '^ok' || true))"; fi
 done
-python3 -W ignore -m unittest tests/test_import.py 2>&1 | tail -1
-python3 tools/import/validate_networks.py data/networks/*.json data/free/*.json tests/fixtures/schema_test.json > /tmp/validate.log || { cat /tmp/validate.log; rc=1; }
-grep -c " 0 erreur" /tmp/validate.log | xargs echo "réseaux valides :"
-exit $rc
+"$P" -W ignore -m unittest discover -s tests -p 'test_*.py' || rc=1
+"$P" tools/import/validate_networks.py data/networks/*.json data/free/*.json tests/fixtures/schema_test.json > /tmp/validate.log || { cat /tmp/validate.log; rc=1; }
+grep -c ' 0 erreur' /tmp/validate.log | xargs echo 'réseaux valides :'
+exit "$rc"

@@ -7,7 +7,7 @@ func check(c: bool, m: String) -> void:
 	else: print("ok: ", m)
 
 func _init() -> void:
-	var net := NetworkLoader.new(); net.load_file("res://data/free/angers.json")
+	var net := NetworkLoader.new(); net.load_file("res://tests/fixtures/angers_estimated_turnbacks.json")
 	check(net.meta.get("turnback_stations", []).size() > 0, "arrêts de retournement présents")
 	var xs: Array = net.meta.get("crossovers", [])
 	check(xs.size() > 0, "communications de voies présentes")

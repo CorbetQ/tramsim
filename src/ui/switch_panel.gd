@@ -42,6 +42,10 @@ var _dragging := false
 var _drag_moved := 0.0
 var _press_pos := Vector2.ZERO
 var _t := 0.0
+var gestures := MapGestures.new()
+var compact := false
+var _map_panel: Control
+var _side_panel: Control
 
 const LABEL_SCALE := 0.06        # px par mètre à partir duquel les noms d'arrêts s'affichent
 const PICK_R := 30.0             # rayon de sélection (px) : cible tactile ~60 px
@@ -103,17 +107,21 @@ static func label_for(s: MissionSession, edge_id: String, dir: int = 1) -> Strin
 	for i in 12:
 		if e == "" or seen.has(e): break
 		seen[e] = true
-		if s.net.edge_info[e].raw and via == "": via = "communication, "
+		var info: Dictionary = s.net.edge_info[e]
+		if str(info.get("service", "")) != "" and via == "": via = "voie de service, "
+		elif info.raw and via == "": via = "communication, "
+		for depot in s.net.meta.get("depots", []):
+			if e in depot.get("tracks", []): return "vers " + str(depot.name)
 		if sbe.has(e):
 			var st: Dictionary = sbe[e][0]
 			var ls: Array = st.get("lines", [])
-			return "%svers %s%s%s" % [via, st.name, ("  (ligne " + "/".join(ls) + ")") if ls.size() > 0 else "", "" if r > 0 else " à contre-sens"]
+			return "%svers %s%s%s" % [via, st.name, ("  (ligne " + "/".join(ls) + ")") if ls.size() > 0 else "", "" if r > 0 or s.net.meta.get("geometry_kind", "") == "physical" else " à contre-sens"]
 		var x := g.exit_of(e, r)
 		var ch := g.choices(x[0], x[1])
 		if ch.is_empty(): return via + "heurtoir"
 		if ch.size() != 1: break
 		e = ch[0][0]; r = ch[0][1]
-	return via + "vers " + edge_id
+	return via + "fin de voie"
 
 ## Destination de la branche active d'un aiguillage.
 static func branch_text(s: MissionSession, node: String, side: int) -> String:
@@ -136,25 +144,33 @@ static func line_colors(meta: Dictionary) -> Dictionary:
 
 func setup(s: FreeSession, v: LineView) -> void:
 	session = s; view = v
+	compact = get_viewport_rect().size.x < 1100.0 or get_viewport_rect().size.y < 620.0
 	name = "SwitchPanel"
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg := ColorRect.new(); bg.color = Color(0.02, 0.03, 0.05, 0.6); bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE; add_child(bg)
 	var row := HBoxContainer.new(); row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	row.offset_left = 14; row.offset_top = 14; row.offset_right = -14; row.offset_bottom = -14
+	var safe := UiLayout.safe_insets(self)
+	row.offset_left = 14 + safe.x; row.offset_top = 14 + safe.y; row.offset_right = -14 - safe.z; row.offset_bottom = -14 - safe.w
 	row.add_theme_constant_override("separation", 12); add_child(row)
 	# --- plan
 	var mp := PanelContainer.new(); mp.add_theme_stylebox_override("panel", UiTheme.box(Color(0.05, 0.065, 0.085, 0.95), 18, 0, UiTheme.BORDER, 1))
-	mp.size_flags_horizontal = Control.SIZE_EXPAND_FILL; row.add_child(mp)
+	mp.size_flags_horizontal = Control.SIZE_EXPAND_FILL; row.add_child(mp); _map_panel = mp
 	canvas = Control.new(); canvas.clip_contents = true; canvas.name = "plan"
 	canvas.draw.connect(_draw_plan); canvas.gui_input.connect(_plan_input)
 	mp.add_child(canvas)
 	_build_toolbar()
 	# --- colonne latérale
-	var side := UiTheme.panel(Color(0.07, 0.085, 0.11, 0.96), 18, 16); side.custom_minimum_size = Vector2(380, 0); row.add_child(side)
+	var side := UiTheme.panel(Color(0.07, 0.085, 0.11, 0.96), 18, 16); side.custom_minimum_size = Vector2(300 if compact else 380, 0); row.add_child(side)
+	_side_panel = side; side.visible = not compact
+	if compact: side.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var sv := VBoxContainer.new(); sv.add_theme_constant_override("separation", 10); side.add_child(sv)
 	var head := HBoxContainer.new(); head.add_theme_constant_override("separation", 10); sv.add_child(head)
+	if compact:
+		var back := UiTheme.button("Carte", "map", "normal", Vector2(0, 52))
+		back.pressed.connect(func(): side.hide(); mp.show())
+		head.add_child(back)
 	head.add_child(UiTheme.icon_rect("switch", 28, UiTheme.ACCENT))
 	var hv := VBoxContainer.new(); hv.add_theme_constant_override("separation", -4); hv.size_flags_horizontal = Control.SIZE_EXPAND_FILL; head.add_child(hv)
 	hv.add_child(UiTheme.label_("Aiguillages", UiTheme.SIZE_H2, UiTheme.TEXT, true))
@@ -169,7 +185,7 @@ func setup(s: FreeSession, v: LineView) -> void:
 		fb.size_flags_horizontal = Control.SIZE_EXPAND_FILL; fb.name = "filter_" + f[0]
 		fb.pressed.connect(func(): filter = f[0]; refresh())
 		frow.add_child(fb); filter_btns[f[0]] = fb
-	var sc := ScrollContainer.new(); sc.size_flags_vertical = Control.SIZE_EXPAND_FILL; sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var sc := TouchScroll.new(); sc.size_flags_vertical = Control.SIZE_EXPAND_FILL; sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	sv.add_child(sc)
 	list_box = VBoxContainer.new(); list_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL; list_box.add_theme_constant_override("separation", 6)
 	sc.add_child(list_box)
@@ -192,7 +208,7 @@ func _tool(icon_name: String, tip: String, cb: Callable) -> Button:
 func _build_toolbar() -> void:
 	# recherche d'arrêt (haut gauche)
 	var sb := VBoxContainer.new(); sb.position = Vector2(14, 14); sb.add_theme_constant_override("separation", 4); canvas.add_child(sb)
-	search = LineEdit.new(); search.placeholder_text = "Rechercher un arrêt…"; search.custom_minimum_size = Vector2(330, 52)
+	search = LineEdit.new(); search.placeholder_text = "Rechercher un arrêt…"; search.custom_minimum_size = Vector2(230 if compact else 330, 52)
 	search.clear_button_enabled = true; search.name = "search"
 	search.add_theme_stylebox_override("normal", UiTheme.box(Color(0.1, 0.12, 0.15, 0.94), 14, 14, UiTheme.BORDER, 1))
 	search.text_changed.connect(_on_search)
@@ -201,8 +217,16 @@ func _build_toolbar() -> void:
 	sb.add_child(search)
 	results = VBoxContainer.new(); results.add_theme_constant_override("separation", 2); sb.add_child(results)
 	# outils (haut droite)
-	var tb := VBoxContainer.new(); tb.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT); tb.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	tb.offset_right = -14; tb.offset_top = 14; tb.offset_left = -66; tb.add_theme_constant_override("separation", 8); canvas.add_child(tb)
+	var tb := BoxContainer.new(); tb.vertical = not compact
+	tb.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT if compact else Control.PRESET_TOP_RIGHT); tb.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	tb.offset_right = -14; tb.offset_top = -66 if compact else 14; tb.offset_left = -66
+	if compact: tb.offset_bottom = -14; tb.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	tb.add_theme_constant_override("separation", 8); canvas.add_child(tb)
+	if compact:
+		tb.add_child(_tool("switch", "Liste des aiguillages", func(): _side_panel.show(); _map_panel.hide()))
+		var close_map := _tool("close", "Fermer", func(): closed.emit())
+		close_map.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT); close_map.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		close_map.offset_left = -66; close_map.offset_right = -14; close_map.offset_top = 14; canvas.add_child(close_map)
 	follow_btn = _tool("follow", "Suivre la rame (F)", func(): set_follow(not follow)); follow_btn.toggle_mode = true; tb.add_child(follow_btn)
 	tb.add_child(_tool("recenter", "Vue d'ensemble", recenter))
 	tb.add_child(_tool("plus", "Zoom avant", func(): _zoom_at(canvas.size * 0.5, 1.4)))
@@ -211,6 +235,7 @@ func _build_toolbar() -> void:
 	var lg := HFlowContainer.new(); lg.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE); lg.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	lg.offset_left = 14; lg.offset_bottom = -12; lg.offset_right = -14; lg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	lg.add_theme_constant_override("h_separation", 6); canvas.add_child(lg)
+	lg.visible = not compact
 	for it in [[Color.WHITE, "Libre"], [UiTheme.HIGHLIGHT, "À manœuvrer (itinéraire)"], [UiTheme.DANGER, "Occupé : verrouillé"], [UiTheme.ACCENT, "Branche active"]]:
 		var p := PanelContainer.new(); p.add_theme_stylebox_override("panel", UiTheme.box(Color(0.08, 0.1, 0.13, 0.9), 12, 10)); p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var h := HBoxContainer.new(); h.add_theme_constant_override("separation", 6); p.add_child(h)
@@ -271,6 +296,10 @@ func _build_geometry() -> void:
 		seen[st.name] = true
 		var p3 := v.pos3(st.edge, float(st.offset))
 		_st_names.append([str(st.name), Vector2(p3.x, p3.z)])
+
+	for depot in session.net.meta.get("depots", []):
+		var p: Array = depot.position
+		_st_names.append([str(depot.name), Vector2(float(p[0]), float(p[1]))])
 
 # ----------------------------------------------------------------------------------------------- géométrie écran
 
@@ -407,14 +436,18 @@ func _build_popover() -> void:
 	var g := session.net.graph
 	var sw: Array = switch_of[selected]
 	var st := _state(selected)
-	var v := VBoxContainer.new(); v.add_theme_constant_override("separation", 8); v.custom_minimum_size = Vector2(330, 0); popover.add_child(v)
+	var scroll := TouchScroll.new(); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.custom_minimum_size = Vector2(300 if compact else 330, maxf(100.0, minf(360.0, canvas.size.y - 160.0)))
+	popover.add_child(scroll)
+	var v := VBoxContainer.new(); v.add_theme_constant_override("separation", 8); v.custom_minimum_size = Vector2(280 if compact else 310, 0)
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL; scroll.add_child(v)
 	var h := HBoxContainer.new(); h.add_theme_constant_override("separation", 8); v.add_child(h)
 	var tl := UiTheme.label_(switch_name[selected], UiTheme.SIZE_BODY, UiTheme.TEXT, true); tl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tl.clip_text = true; tl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS; h.add_child(tl)
 	var ss := _state_style(st)
 	var chip := UiTheme.label_(("Occupé · verrouillé" if st == 2 else ss[1]), UiTheme.SIZE_CAPTION, Color.BLACK, true)
 	chip.add_theme_stylebox_override("normal", UiTheme.box(ss[0], 10, 8)); chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER; h.add_child(chip)
-	var x := UiTheme.button("", "close", "ghost", Vector2(44, 44)); x.tooltip_text = "Fermer la bulle"; x.focus_mode = Control.FOCUS_NONE
+	var x := UiTheme.button("", "close", "ghost", Vector2(48, 48)); x.tooltip_text = "Fermer la bulle"; x.focus_mode = Control.FOCUS_NONE
 	x.pressed.connect(func(): selected = ""; refresh()); h.add_child(x)
 	var ch := g.choices(sw[0], sw[1])
 	var cur := g.active_branch(sw[0], sw[1])
@@ -456,6 +489,8 @@ func _place_popover() -> void:
 
 func _select(key: String, center: bool = false) -> void:
 	selected = key
+	if compact and _map_panel != null:
+		_side_panel.hide(); _map_panel.show()
 	if center and switch_pos.has(key):
 		set_follow(false)
 		if zoom < 3.0: zoom = 3.0
@@ -543,6 +578,20 @@ func _input(ev: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 func _plan_input(ev: InputEvent) -> void:
+	if ev is InputEventScreenTouch or ev is InputEventScreenDrag:
+		var action := gestures.feed(ev)
+		if action.has("zoom"):
+			set_follow(false); _zoom_at(action.anchor, action.zoom)
+		if action.has("pan"):
+			set_follow(false); pan += action.pan; canvas.queue_redraw()
+		if action.has("select"):
+			var key := _pick(action.select)
+			if key != "": _select(key)
+			elif selected != "": selected = ""; refresh()
+		canvas.accept_event()
+		return
+	# Godot synthétise également une souris depuis le doigt : ne pas l'appliquer deux fois.
+	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == -1: return
 	if ev is InputEventMouseButton and ev.pressed:
 		if ev.button_index == MOUSE_BUTTON_WHEEL_UP: _zoom_at(ev.position, 1.15); return
 		if ev.button_index == MOUSE_BUTTON_WHEEL_DOWN: _zoom_at(ev.position, 1.0 / 1.15); return
@@ -567,10 +616,6 @@ func _plan_input(ev: InputEvent) -> void:
 		if _drag_moved >= 12.0:
 			if follow: set_follow(false)
 			pan += ev.relative; canvas.queue_redraw()
-	elif ev is InputEventScreenDrag:
-		_drag_moved += ev.relative.length()
-		if follow: set_follow(false)
-		pan += ev.relative; canvas.queue_redraw()
 	elif ev is InputEventMagnifyGesture:
 		_zoom_at(ev.position, ev.factor)
 	elif ev is InputEventPanGesture:
@@ -713,7 +758,7 @@ func _draw_plan() -> void:
 	var outline := PackedVector2Array(tri); outline.append(tri[0])
 	canvas.draw_colored_polygon(tri, UiTheme.DANGER)
 	canvas.draw_polyline(outline, Color.WHITE, 2.5, true)
-	var lab := "Rame" + ("" if session.direction > 0 else " · contre-sens")
+	var lab := "Rame" + ("" if session.direction > 0 or session.net.meta.get("geometry_kind", "") == "physical" else " · contre-sens")
 	canvas.draw_string_outline(bold, tp + Vector2(22, -14), lab, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.SIZE_SMALL, 5, Color(0.04, 0.05, 0.07))
 	canvas.draw_string(bold, tp + Vector2(22, -14), lab, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.SIZE_SMALL, Color.WHITE)
 	# échelle

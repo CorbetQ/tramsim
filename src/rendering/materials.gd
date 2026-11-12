@@ -15,6 +15,12 @@ static func toon() -> ShaderMaterial:
 		_cache.toon = m
 	return _cache.toon
 
+static func foliage() -> ShaderMaterial:
+	if not _cache.has("foliage"):
+		var m := ShaderMaterial.new(); m.shader = _shader("res://src/rendering/shaders/toon.gdshader")
+		m.set_shader_parameter("wind_strength", 0.15); _cache.foliage = m
+	return _cache.foliage
+
 static func building() -> ShaderMaterial:
 	if not _cache.has("building"):
 		var m := ShaderMaterial.new(); m.shader = _shader("res://src/rendering/shaders/toon_building.gdshader")

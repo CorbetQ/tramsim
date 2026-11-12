@@ -12,7 +12,7 @@ extends Node
 
 const DIR := "res://data/audio/"
 ## Boucles : nom -> volume de référence (dB à gain 1).
-const LOOPS := {"motor": -15.0, "motor_hum": -13.0, "carrier": -24.0, "rolling": -8.0, "squeal": -26.0, "hvac": -21.0,
+const LOOPS := {"motor": -22.0, "motor_hum": -11.0, "carrier": -32.0, "rolling": -8.0, "squeal": -26.0, "hvac": -21.0,
 	"ambience": -20.0}
 ## Ponctuels : nom -> volume de référence (dB).
 const SHOTS := {"joint": -13.0, "brake_mech": -14.0, "brake_release": -20.0, "emergency": -9.0,
@@ -25,7 +25,9 @@ const CAB_DB := {"motor": -4.0, "motor_hum": 1.0, "rolling": -3.0, "squeal": -6.
 const CAB_MUFFLED := ["rolling", "squeal", "ambience", "joint", "brake_mech", "emergency", "carrier", "motor"]
 const BUS := "TramFX"
 const CAB_BUS := "TramCabin"
-const MOTOR_REF_HZ := 600.0               # fondamentale de motor.ogg à pitch_scale 1 (voir data/audio/make_audio.py)
+const TUNNEL_BUS := "TramTunnel"
+var in_tunnel := false
+const MOTOR_REF_HZ := 300.0               # fondamentale de motor.ogg à pitch_scale 1 (voir data/audio/make_audio.py)
 const HUM_REF_HZ := 120.0                 # raie 2f de motor_hum.ogg à pitch_scale 1
 const MODE_KMH := [18.0, 38.0]            # changements de mode synchrone (redescente de la raie d'onduleur)
 
@@ -74,7 +76,7 @@ static func setup_buses() -> void:
 		for b in [[1, -1.0], [3, -2.0], [4, -4.0], [5, -6.0]]: eq.set_band_gain_db(b[0], b[1])
 		AudioServer.add_bus_effect(i, eq)
 		var c := AudioEffectCompressor.new(); c.threshold = -18.0; c.ratio = 3.0; c.attack_us = 8000.0
-		c.release_ms = 250.0; c.gain = 2.0
+		c.release_ms = 250.0; c.gain = 0.0
 		AudioServer.add_bus_effect(i, c)
 		var l := AudioEffectHardLimiter.new(); l.ceiling_db = -1.0
 		AudioServer.add_bus_effect(i, l)
@@ -86,12 +88,18 @@ static func setup_buses() -> void:
 		var sh := AudioEffectLowShelfFilter.new(); sh.cutoff_hz = 180.0; sh.gain = 1.4
 		AudioServer.add_bus_effect(j, sh)
 
+	if AudioServer.get_bus_index(TUNNEL_BUS) == -1:
+		AudioServer.add_bus(); var j := AudioServer.bus_count - 1
+		AudioServer.set_bus_name(j, TUNNEL_BUS); AudioServer.set_bus_send(j, BUS)
+		var room := AudioEffectReverb.new(); room.room_size = 0.65; room.damping = 0.75
+		room.wet = 0.18; room.dry = 0.9; AudioServer.add_bus_effect(j, room)
+
 ## Bus de chaque lecteur selon la vue (3D et extérieur -> TramFX ; cabine : sources extérieures -> TramCabin).
 func _route() -> void:
 	for n in players:
 		var e: Dictionary = players[n]
 		(e.p2 as AudioStreamPlayer).bus = CAB_BUS if (not external and n in CAB_MUFFLED) else BUS
-		if e.p3 != null: (e.p3 as AudioStreamPlayer3D).bus = BUS
+		if e.p3 != null: (e.p3 as AudioStreamPlayer3D).bus = TUNNEL_BUS if in_tunnel else BUS
 
 ## Flux de data/audio/<nom>.ogg (importé, sinon lu directement).
 static func load_stream(n: String, loop: bool) -> AudioStream:
@@ -150,7 +158,10 @@ func set_external(on: bool) -> void:
 		if old.playing:
 			var pos: float = old.get_playback_position()
 			old.stop()
-			if players[n].loop: cur.play(pos)
+			cur.volume_db = old.volume_db
+			cur.pitch_scale = old.pitch_scale
+			cur.stream_paused = old.stream_paused
+			cur.play(pos)
 
 func _shot(n: String, vol: float = 1.0, pitch: float = 1.0) -> void:
 	if not players.has(n): return
@@ -162,13 +173,13 @@ func _shot(n: String, vol: float = 1.0, pitch: float = 1.0) -> void:
 
 ## Courbe de hauteur de la raie d'onduleur (Hz) en fonction de la vitesse (m/s) : MLI asynchrone au démarrage,
 ## puis modes synchrones dont la raie monte avec la fréquence statorique et redescend à chaque changement de mode
-## (MODE_KMH ; « escalier » des tramways à IGBT, plage 300-1000 Hz : chantant sans être strident).
+## (MODE_KMH ; « escalier » des tramways à IGBT, plage 140-620 Hz : chantant sans être strident).
 static func motor_hz(v: float) -> float:
 	var kmh := v * 3.6
-	if kmh < 4.0: return lerpf(300.0, 420.0, kmh / 4.0)
-	if kmh < MODE_KMH[0]: return lerpf(420.0, 820.0, (kmh - 4.0) / (MODE_KMH[0] - 4.0))
-	if kmh < MODE_KMH[1]: return lerpf(540.0, 900.0, (kmh - MODE_KMH[0]) / (MODE_KMH[1] - MODE_KMH[0]))
-	return lerpf(620.0, 1000.0, clampf((kmh - MODE_KMH[1]) / 32.0, 0.0, 1.0))
+	if kmh < 4.0: return lerpf(140.0, 230.0, kmh / 4.0)
+	if kmh < MODE_KMH[0]: return lerpf(230.0, 440.0, (kmh - 4.0) / (MODE_KMH[0] - 4.0))
+	if kmh < MODE_KMH[1]: return lerpf(280.0, 480.0, (kmh - MODE_KMH[0]) / (MODE_KMH[1] - MODE_KMH[0]))
+	return lerpf(360.0, 620.0, clampf((kmh - MODE_KMH[1]) / 32.0, 0.0, 1.0))
 
 ## Raie magnétique 2f des moteurs (Hz) : f_stator ~ 1,6 Hz par km/h + glissement.
 static func hum_hz(v: float) -> float:
@@ -179,8 +190,8 @@ func update(s: Object, notch: float, emergency: bool, ext: bool, paused: bool, d
 	if s == null: return
 	var st := {"speed": float(s.phys.speed), "max_speed": float(s.phys.profile.max_speed_ms), "notch": notch,
 		"doors_open": bool(s.doors_open), "emergency": emergency, "pantograph_up": bool(s.pantograph_up),
-		"power_ok": bool(s.power_ok), "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
-		"external": ext, "curvature": _curvature()}
+		"power_ok": bool(s.power_ok), "supply": str(s.net.edge_info[s.edge_id].supply), "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
+		"external": ext, "underground": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].tunnel, s.offset), "curvature": _curvature()}
 	update_state(st, dt)
 
 ## Courbure apparente (degrés entre caisses voisines) lue sur la rame affichée.
@@ -198,6 +209,9 @@ func _curvature() -> float:
 ## paused, external, curvature} -> gains et hauteurs des couches, déclenchement des ponctuels.
 func update_state(st: Dictionary, dt: float) -> void:
 	state = st
+	var tunnel := bool(st.get("underground", false))
+	if tunnel != in_tunnel:
+		in_tunnel = tunnel; _route()
 	set_external(bool(st.get("external", true)))
 	if view is Node3D and "modules" in view and not (view.modules as Array).is_empty():
 		var mods: Array = view.modules
@@ -213,7 +227,8 @@ func update_state(st: Dictionary, dt: float) -> void:
 	var notch := float(st.get("notch", 0.0))
 	var doors := bool(st.get("doors_open", false))
 	var emerg := bool(st.get("emergency", false))
-	var powered := bool(st.get("pantograph_up", true)) and bool(st.get("power_ok", true))
+	var contact := bool(st.get("pantograph_up", true)) or str(st.get("supply", "overhead")) in ["aps", "battery", "third_rail"]
+	var powered := contact and bool(st.get("power_ok", true))
 	var kmh := v * 3.6
 	# traction / freinage électrique : effort de l'onduleur
 	var trac := clampf(notch, 0.0, 1.0) if powered and not doors else 0.0
@@ -232,7 +247,7 @@ func update_state(st: Dictionary, dt: float) -> void:
 	t.squeal = tight * smoothstep(2.0, 4.0, v) * (1.0 - smoothstep(8.0, 12.0, v) * 0.6) if _squeal_on else 0.0
 	t.hvac = (0.6 + 0.4 * (1.0 - smoothstep(0.5, 6.0, v))) * (1.0 if powered else 0.25)
 	t.ambience = 1.0
-	var k := clampf(dt * 6.0, 0.0, 1.0)
+	var k := 1.0 - exp(-maxf(dt, 0.0) * 6.0)
 	for n in t:
 		if not players.has(n): continue
 		gain[n] = lerpf(float(gain[n]), float(t[n]), k)
@@ -242,14 +257,16 @@ func update_state(st: Dictionary, dt: float) -> void:
 		p.volume_db = db
 		if g > 0.002 and not p.playing: p.play(_rng.randf() * 0.5)
 		elif g <= 0.002 and p.playing: p.stop()
-	if players.has("motor"): _active("motor").pitch_scale = motor_hz(v) / MOTOR_REF_HZ
+	if players.has("motor"):
+		var motor: Node = _active("motor")
+		motor.pitch_scale = lerpf(motor.pitch_scale, motor_hz(v) / MOTOR_REF_HZ, 1.0 - exp(-dt / 0.12))
 	if players.has("motor_hum"): _active("motor_hum").pitch_scale = hum_hz(v) / HUM_REF_HZ
 	if players.has("rolling"): _active("rolling").pitch_scale = 0.75 + 0.5 * clampf(v / vmax, 0.0, 1.0)
 	if players.has("squeal"): _active("squeal").pitch_scale = 0.97 + 0.05 * sin(Time.get_ticks_msec() * 0.0013)
 	# joints de rail : « ta-tac » des deux essieux d'un bogie, espacement irrégulier (soudures, aiguillages)
 	_joint_left -= v * dt
 	if _joint_left <= 0.0:
-		_joint_left = _rng.randf_range(14.0, 36.0)
+		_joint_left = _rng.randf_range(80.0, 220.0)
 		if v > 1.5: _shot("joint", clampf(0.35 + kmh / 60.0, 0.0, 1.0), clampf(0.85 + v / vmax * 0.3, 0.8, 1.2))
 	# freinage mécanique final (sous ~7 km/h en freinage) et desserrage au démarrage
 	var pv := float(_prev.get("speed", v))

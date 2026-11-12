@@ -8,6 +8,7 @@ signal changed(v: float)
 var value := 0.0
 var emergency := false
 var _drag := false
+var _finger := -1
 const PAD := 18.0
 
 func _init() -> void:
@@ -28,6 +29,7 @@ func _v_of(y: float) -> float:
 	return v
 
 func _gui_input(ev: InputEvent) -> void:
+	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == -1: return
 	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT:
 		_drag = ev.pressed
 		if ev.pressed: _apply(ev.position.y)
@@ -35,10 +37,12 @@ func _gui_input(ev: InputEvent) -> void:
 	elif ev is InputEventMouseMotion and _drag:
 		_apply(ev.position.y); accept_event()
 	elif ev is InputEventScreenTouch:
-		_drag = ev.pressed
-		if ev.pressed: _apply(ev.position.y)
+		if ev.pressed and _finger == -1:
+			_finger = ev.index; _drag = true; _apply(ev.position.y)
+		elif not ev.pressed and ev.index == _finger:
+			_finger = -1; _drag = false
 		accept_event()
-	elif ev is InputEventScreenDrag:
+	elif ev is InputEventScreenDrag and ev.index == _finger:
 		_apply(ev.position.y); accept_event()
 
 func _apply(y: float) -> void:

@@ -56,7 +56,7 @@ static func ribbon(g, pts: Array[Vector3], nrm: PackedVector3Array, w: float, y:
 
 ## Plateforme d'une voie (axe `pts`, décalage `o` vers la droite) : lit coloré par tronçon, longrines si gazon,
 ## rails noyés sinon. `bed` : nature par segment de la polyligne densifiée.
-static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color) -> void:
+static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color, gauge_m: float = 1.435) -> void:
 	var pts := densify(axis)
 	if pts.size() < 2: return
 	var nrm := miter_normals(pts)
@@ -77,7 +77,7 @@ static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color
 		sl.append(SLEEPER if grassy else Color(bed[i]).darkened(0.12))
 	var rails: Array = []
 	rails.resize(kinds.size()); rails.fill(RAIL)
-	for off in [-0.72, 0.72]:
+	for off in [-gauge_m * 0.5, gauge_m * 0.5]:
 		ribbon(g, pts, nrm, 0.42, 0.11, sl, o + off)
 		ribbon(g, pts, nrm, 0.08, 0.17, rails, o + off)
 

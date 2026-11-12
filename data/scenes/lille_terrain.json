@@ -4,10 +4,17 @@
  "alt0": 26.5,
  "tile_m": 400.0,
  "grid": 41,
- "tiles": 245,
+ "tiles": 282,
  "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
  "stats": {
   "ponts": 103,
   "niveaux_eau": 136
- }
+ },
+ "terrain_format": "TTR2",
+ "height_encoding": "float32 metres",
+ "shared_vertices": true,
+ "extension_source": "IGN RGE ALTI WMS, emprise des voies physiques OSM",
+ "extended_tiles": 37,
+ "ground_profile_signature": "5b76533957d753d12084cd9375522af2c616d7a1a7b06c00e384113e74838805",
+ "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
 }

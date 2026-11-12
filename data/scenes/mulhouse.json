@@ -7,7 +7,7 @@
  ],
  "tile_m": 400.0,
  "corridor_m": 220.0,
- "tiles": 179,
+ "tiles": 184,
  "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-11",
  "stats": {
   "remarquables": 447,
@@ -32,5 +32,7 @@
   "plateforme_gazon": 1707,
   "plateforme_enrobe": 3828,
   "plateforme_paves": 252
- }
+ },
+ "physical_network_extension_tiles": 5,
+ "extension_source": "IGN BD TOPO (Licence Ouverte 2.0), import des tuiles absentes autour des voies OSM"
 }

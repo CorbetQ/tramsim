@@ -1,6 +1,9 @@
 # Crédits et licences
 
 - Moteur : Godot Engine 4.6.3 (MIT).
+- **Voies physiques, aiguillages, voies de service, emprises de quais et de dépôts** : © les contributeurs [OpenStreetMap](https://www.openstreetmap.org/copyright), [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Les bases dérivées `data/free` conservent cette attribution. Extraits Overpass, métadonnées et requêtes : `data/geography/osm`; complément d'emprise de Besançon : API OpenStreetMap. La date de la base est conservée dans chaque extrait, distincte de la date de téléchargement.
+- **Altitudes des ouvrages et bâtiments de maintenance** : IGN BD TOPO®, [Licence Ouverte 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence/), sources compressées dans `data/geography/ign_rail` et `data/geography/depot_buildings`. Les profils interpolés, hauteurs de quai estimées et limites de vitesse par défaut sont distingués des mesures source dans les métadonnées.
+
 - **Décor (bâtiments, routes, eau, végétation, terrains de sport, cimetières, voies ferrées)** : Source : IGN – BD TOPO®,
   service WFS data.geopf.fr, **Licence Ouverte 2.0** (Etalab). Fichiers dérivés : `data/scenes/*.bin` (+ `.json` : date d'extraction).
 - Modèles de rames, livrées, palettes de façades : créations originales du projet (aucune image ni marque reproduite) ;

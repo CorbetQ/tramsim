@@ -9,9 +9,11 @@ var cam: Camera3D
 var rig: TramModel.Rig
 var _cycle := 0.0
 
+func _init() -> void:
+	custom_minimum_size = Vector2(520, 380)
+
 func _ready() -> void:
 	stretch = true
-	custom_minimum_size = Vector2(520, 380)
 	var sv := SubViewport.new(); sv.own_world_3d = true; sv.msaa_3d = Viewport.MSAA_2X
 	add_child(sv)
 	world = Node3D.new(); sv.add_child(world)

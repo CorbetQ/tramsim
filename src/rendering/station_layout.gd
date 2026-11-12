@@ -114,6 +114,7 @@ func build(stations: Array, vehicle_len: float) -> void:
 	var extra: float = ISLAND_W * 0.5 + GAP - LineView.TRACK_OFFSET
 	for i in stations.size():
 		var t: String = infos[i].type
+		if view.net.meta.get("geometry_kind", "") == "physical": continue
 		if t != "central" and t != "multi": continue
 		var s: Dictionary = stations[i]
 		var R: float = LineView.WIDEN_RAMP
@@ -134,12 +135,21 @@ func build(stations: Array, vehicle_len: float) -> void:
 	platforms.clear()
 	for i in stations.size():
 		var t: String = infos[i].type
+		var station_pos: Vector3 = view.pos3(stations[i].edge, float(stations[i].offset))
+		var real_platform := false
+		for platform in view.net.meta.get("platforms", []):
+			for p in platform.pts:
+				if Vector2(float(p[0]), float(p[1])).distance_to(Vector2(station_pos.x, station_pos.z)) < L:
+					real_platform = true; break
+			if real_platform: break
+		if real_platform: continue
 		if t == "lateral" or t == "offset" or t == "multi": _platform(i, stations[i], "right", L)
 		if t == "central" or t == "multi": _platform(i, stations[i], "left", L)
 
 ## Quai d'un côté de la voie : bord intérieur à GAP du centre de la voie, sections bloquées par une autre voie omises.
 func _platform(i: int, s: Dictionary, side: String, L: float) -> void:
 	var sg := 1.0 if side == "right" else -1.0
+	if view.net.meta.get("geometry_kind", "") == "physical": sg *= float(s.get("direction", 1))
 	var inner := PackedVector3Array(); var outer := PackedVector3Array(); var center := PackedVector3Array()
 	var flush := func() -> void:
 		if inner.size() >= 4:
@@ -152,7 +162,7 @@ func _platform(i: int, s: Dictionary, side: String, L: float) -> void:
 			if k == 0 and not inner.is_empty(): continue
 			var off := b - (b - a) * k / n
 			var f: Transform3D = view._frame(piece[0], off)
-			var w: float = LAT_W if side == "right" else (view.lateral(piece[0], off) - GAP)
+			var w: float = LAT_W if side == "right" else (ISLAND_W if view.net.meta.get("geometry_kind", "") == "physical" else view.lateral(piece[0], off) - GAP)
 			var pi: Vector3 = f.origin + f.basis.x * (sg * GAP)
 			var po: Vector3 = f.origin + f.basis.x * (sg * (GAP + w))
 			var pm := (pi + po) * 0.5

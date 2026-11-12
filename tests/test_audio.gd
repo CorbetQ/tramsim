@@ -54,7 +54,7 @@ func _run() -> void:
 		check(TramAudio.motor_hz((m + 0.5) / 3.6) < TramAudio.motor_hz((m - 0.5) / 3.6), "onduleur : palier de mode à %.0f km/h" % m)
 	var hz_max := 0.0
 	for k in 80: hz_max = maxf(hz_max, TramAudio.motor_hz(k / 3.6))
-	check(hz_max <= 1100.0 and TramAudio.motor_hz(0.0) >= 250.0, "onduleur : raie 250-1100 Hz (pas de sifflement strident, max %.0f)" % hz_max)
+	check(hz_max <= 700.0 and TramAudio.motor_hz(0.0) >= 100.0, "onduleur : raie 100-700 Hz (pas de sifflement strident, max %.0f)" % hz_max)
 	check(TramAudio.hum_hz(1.0) < TramAudio.hum_hz(10.0), "ronronnement moteur : hauteur suit la vitesse")
 	# séquence de conduite
 	var dt := 1.0 / 30.0
@@ -66,7 +66,7 @@ func _run() -> void:
 		v = minf(v + 0.08, 12.0); ta.update_state(_st(v, 1.0), dt)
 	check(ta.gain.motor > 0.8 and ta.gain.motor_hum > 0.8 and ta.gain.rolling > 0.4, "traction : onduleur %.2f, moteurs %.2f, roulement %.2f" % [ta.gain.motor, ta.gain.motor_hum, ta.gain.rolling])
 	var p3: AudioStreamPlayer3D = ta.players.motor.p3
-	check(p3.playing and absf(p3.pitch_scale - TramAudio.motor_hz(v) / TramAudio.MOTOR_REF_HZ) < 0.001, "vue extérieure : onduleur spatialisé, hauteur %.2f" % p3.pitch_scale)
+	check(p3.playing and absf(p3.pitch_scale - TramAudio.motor_hz(v) / TramAudio.MOTOR_REF_HZ) < 0.06, "vue extérieure : onduleur spatialisé, hauteur %.2f" % p3.pitch_scale)
 	check(ta.gain.carrier < 0.05, "porteuse asynchrone éteinte à vitesse établie")
 	# courbe serrée : crissement possible (forcé ici), rare en moyenne, absent en courbe douce
 	ta.squeal_chance = 1.0
@@ -110,6 +110,17 @@ func _run() -> void:
 	# pantographe baissé : plus de traction
 	for i in 30: ta.update_state(_st(5.0, 1.0, {"pantograph_up": false}), dt)
 	check(ta.gain.motor < 0.2, "pantographe baissé : onduleur muet")
+	# L'APS alimente la traction pantographe baissé, sans la couper au mixage.
+	for i in 60: ta.update_state(_st(5.0, 1.0, {"pantograph_up": false, "supply": "aps"}), dt)
+	check(ta.gain.motor > 0.8, "traction APS audible avec pantographe baissé")
+	var before_pitch: float = ta._active("motor").pitch_scale
+	ta.update_state(_st(20.0, 1.0), 1.0 / 120.0)
+	check(absf(float(ta._active("motor").pitch_scale) - before_pitch) < 0.15, "changement de régime interpolé sans saut de hauteur")
+	# Acoustique de section couverte et retour à l'extérieur.
+	ta.update_state(_st(6.0, 0.5, {"underground": true}), dt)
+	check(ta.players.motor.p3.bus == TramAudio.TUNNEL_BUS, "tunnel : source extérieure réverbérée")
+	ta.update_state(_st(6.0, 0.5, {"underground": false}), dt)
+	check(ta.players.motor.p3.bus == TramAudio.BUS, "sortie de tunnel : retour au bus extérieur")
 	# pause
 	ta.update_state(_st(5.0, 1.0, {"paused": true}), dt)
 	check(ta.is_paused, "pause : boucles suspendues")

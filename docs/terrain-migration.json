@@ -1,0 +1,142 @@
+{
+  "angers": {
+    "tiles": 225,
+    "max_previous_seam_m": 0.14,
+    "max_seam_m": 0.0
+  },
+  "aubagne": {
+    "tiles": 52,
+    "max_previous_seam_m": 0.22,
+    "max_seam_m": 0.0
+  },
+  "avignon": {
+    "tiles": 68,
+    "max_previous_seam_m": 0.05,
+    "max_seam_m": 0.0
+  },
+  "besancon": {
+    "tiles": 163,
+    "max_previous_seam_m": 0.61,
+    "max_seam_m": 0.0
+  },
+  "bordeaux": {
+    "tiles": 856,
+    "max_previous_seam_m": 0.24,
+    "max_seam_m": 0.0
+  },
+  "brest": {
+    "tiles": 215,
+    "max_previous_seam_m": 0.66,
+    "max_seam_m": 0.0
+  },
+  "caen": {
+    "tiles": 164,
+    "max_previous_seam_m": 0.12,
+    "max_seam_m": 0.0
+  },
+  "clermont": {
+    "tiles": 168,
+    "max_previous_seam_m": 0.45,
+    "max_seam_m": 0.0
+  },
+  "dijon": {
+    "tiles": 213,
+    "max_previous_seam_m": 0.26,
+    "max_seam_m": 0.0
+  },
+  "grenoble": {
+    "tiles": 413,
+    "max_previous_seam_m": 1.78,
+    "max_seam_m": 0.0
+  },
+  "idf": {
+    "tiles": 2184,
+    "max_previous_seam_m": 0.29,
+    "max_seam_m": 0.0
+  },
+  "lehavre": {
+    "tiles": 150,
+    "max_previous_seam_m": 0.86,
+    "max_seam_m": 0.0
+  },
+  "lemans": {
+    "tiles": 194,
+    "max_previous_seam_m": 0.16,
+    "max_seam_m": 0.0
+  },
+  "lille": {
+    "tiles": 245,
+    "max_previous_seam_m": 0.09,
+    "max_seam_m": 0.0
+  },
+  "lyon": {
+    "tiles": 716,
+    "max_previous_seam_m": 0.38,
+    "max_seam_m": 0.0
+  },
+  "marseille": {
+    "tiles": 200,
+    "max_previous_seam_m": 0.31,
+    "max_seam_m": 0.0
+  },
+  "montpellier": {
+    "tiles": 575,
+    "max_previous_seam_m": 0.22,
+    "max_seam_m": 0.0
+  },
+  "mulhouse": {
+    "tiles": 366,
+    "max_previous_seam_m": 0.73,
+    "max_seam_m": 0.0
+  },
+  "nantes": {
+    "tiles": 436,
+    "max_previous_seam_m": 0.5,
+    "max_seam_m": 0.0
+  },
+  "nice": {
+    "tiles": 268,
+    "max_previous_seam_m": 0.95,
+    "max_seam_m": 0.0
+  },
+  "orleans": {
+    "tiles": 303,
+    "max_previous_seam_m": 0.08,
+    "max_seam_m": 0.0
+  },
+  "reims": {
+    "tiles": 138,
+    "max_previous_seam_m": 0.09,
+    "max_seam_m": 0.0
+  },
+  "rouen": {
+    "tiles": 178,
+    "max_previous_seam_m": 0.26,
+    "max_seam_m": 0.0
+  },
+  "saintetienne": {
+    "tiles": 147,
+    "max_previous_seam_m": 0.44,
+    "max_seam_m": 0.0
+  },
+  "strasbourg": {
+    "tiles": 466,
+    "max_previous_seam_m": 0.06,
+    "max_seam_m": 0.0
+  },
+  "toulouse": {
+    "tiles": 180,
+    "max_previous_seam_m": 0.12,
+    "max_seam_m": 0.0
+  },
+  "tours": {
+    "tiles": 178,
+    "max_previous_seam_m": 0.15,
+    "max_seam_m": 0.0
+  },
+  "valenciennes": {
+    "tiles": 389,
+    "max_previous_seam_m": 0.21,
+    "max_seam_m": 0.0
+  }
+}

@@ -6,6 +6,8 @@ shader_type spatial;
 render_mode cull_disabled;
 
 #include "res://src/rendering/shaders/cel.gdshaderinc"
+uniform float wind_strength = 0.0;
+
 uniform float bands : hint_range(2.0, 5.0) = 3.0;   // conservé (compatibilité) : paliers fixés par cel.gdshaderinc
 uniform float shade_floor : hint_range(0.0, 1.0) = 0.36;
 uniform float rim_strength : hint_range(0.0, 1.0) = 0.3;
@@ -146,6 +148,12 @@ vec4 tram_motif(vec2 uv) {
 }
 
 void vertex() {
+	if (wind_strength > 0.0) {
+		vec3 world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+		float weight = smoothstep(2.0, 6.0, VERTEX.y);
+		VERTEX.x += sin(TIME * 1.1 + world.x * 0.07 + world.z * 0.04) * weight * wind_strength;
+		VERTEX.z += sin(TIME * 0.8 + world.z * 0.08) * weight * wind_strength * 0.6;
+	}
 	v_paint = UV2.x;
 	POSITION = cel_layer_clip(VERTEX, MODEL_MATRIX, MODELVIEW_MATRIX, PROJECTION_MATRIX);
 }

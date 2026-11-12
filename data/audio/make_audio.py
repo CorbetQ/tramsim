@@ -136,18 +136,14 @@ def master(x, loop):
 # ------------------------------------------------------------------ boucles
 
 def motor():
-    """Raie d'onduleur / moteur asynchrone (modes synchrones) : fondamentale 600 Hz (hauteur pilotée par
-    pitch_scale, cf. TramAudio.motor_hz), harmoniques en 1/n^1,6 (2f, 3f, 4f) + 6f magnétique discrète,
-    composante de bruit étroite autour de chaque raie (instabilité de la MLI), passe-bas 2,2 kHz : timbre de
-    « sifflement chanté » doux plutôt que sinus pur."""
-    T = 4.0; t = t_axis(T); f = 600.0
-    x = np.zeros(len(t))
-    for k, a in ((1, 1.0), (2, 0.42), (3, 0.24), (4, 0.11), (6, 0.08)):
-        x += a * np.sin(2 * np.pi * f * k * t + 0.9 * k)
-        x += a * 0.35 * unit(cyc_band(noise(T), f * k * 0.985, f * k * 1.015, 2)) * 0.25
-    x *= 1 + 0.05 * np.sin(2 * np.pi * 3.0 * t) + 0.03 * np.sin(2 * np.pi * 7.5 * t)
-    x += 0.10 * unit(cyc_band(colored(T, 1), 300, 3000))
-    return cyc_lowp(x, 2200, 2)
+    """Traction synthétique : fondamentale 300 Hz, harmoniques amorties, résonance grave
+    et bruit électromécanique large bande. Timbre de moteur, sans raie aiguë dominante.
+    Les fréquences de régime sont interpolées par TramAudio ; aucune captation constructeur."""
+    T = 4.; t = t_axis(T); f = 300.
+    x = sum(a*np.sin(2*np.pi*f*k*t + .3*k) for k,a in ((1,1.),(2,.16),(3,.045),(4,.012)))
+    x *= 1 + .025*np.sin(2*np.pi*3*t)
+    x += .28*unit(cyc_band(colored(T,2),80,800))
+    return cyc_lowp(x,1000,4)
 
 
 def motor_hum():
@@ -161,15 +157,12 @@ def motor_hum():
 
 
 def carrier():
-    """Porteuse de découpage MLI asynchrone (démarrage, < ~8 km/h) : raie ~1050 Hz entourée de bandes latérales
-    ±2f et ±4f (le « bourdon » qui précède le chant de l'onduleur), adoucie (passe-bas 1,6 kHz, niveau bas)."""
-    T = 4.0; t = t_axis(T); fc = 1050.0
-    x = np.sin(2 * np.pi * fc * t)
-    for df, a in ((24, 0.5), (48, 0.3), (72, 0.15)):
-        x += a * (np.sin(2 * np.pi * (fc - df) * t + df) + np.sin(2 * np.pi * (fc + df) * t + 2 * df))
-    x += 0.3 * np.sin(2 * np.pi * fc / 2 * t)
-    x += 0.4 * unit(cyc_band(noise(T), 900, 1200)) * 0.3
-    return cyc_lowp(x, 1600, 2)
+    """Bourdonnement de commutation à 420 Hz, bandes latérales douces, fondu après le départ.
+    Synthèse approximative ; pas de sifflement permanent à 1 kHz."""
+    T = 4.; t = t_axis(T); f = 420.
+    x = .55*np.sin(2*np.pi*f*t)+.3*np.sin(2*np.pi*(f-24)*t)+.3*np.sin(2*np.pi*(f+24)*t)
+    x += .3*unit(cyc_band(colored(T,2),150,700))
+    return cyc_lowp(x,850,4)
 
 
 def rolling():
@@ -339,7 +332,7 @@ def write_sources(stats):
     for name, fn in {**LOOPS, **SHOTS}.items():
         files[name + ".ogg"] = {"origine": "synthèse (data/audio/make_audio.py:%s)" % fn.__name__,
                                 "licence": "création du projet (même licence que le code)",
-                                "description": " ".join(fn.__doc__.split()), **stats.get(name, {})}
+                                "description": " ".join(fn.__doc__.split()), **stats.get(name, {k: v for k, v in old.get("files", {}).get(name + ".ogg", {}).items() if k in ("lufs", "duree_s")})}
     d = {"generated_by": "data/audio/make_audio.py", "version": 2, "sample_rate": SR,
          "format": "OGG Vorbis mono 32 kHz, qualité 4",
          "sonie": "boucles %.0f LUFS intégrés, ponctuels %.0f LUFS momentanés max (ITU-R BS.1770) ; crête ≤ -1 dBFS"
@@ -364,7 +357,7 @@ def demo(path):
     """30 s : portes qui se ferment, gong, départ, accélération, croisière, freinage, arrêt, ouverture des portes.
     Reproduit les courbes de TramAudio (gains, hauteurs, ponctuels) à 100 Hz de contrôle, vue extérieure à 8 m."""
     # mêmes constantes que tram_audio.gd
-    LDB = {"motor": -15.0, "motor_hum": -13.0, "carrier": -24.0, "rolling": -8.0, "squeal": -26.0, "hvac": -21.0, "ambience": -20.0}
+    LDB = {"motor": -22.0, "motor_hum": -11.0, "carrier": -32.0, "rolling": -8.0, "squeal": -26.0, "hvac": -21.0, "ambience": -20.0}
     SDB = {"joint": -13.0, "brake_mech": -14.0, "brake_release": -20.0, "door_open": -15.0, "door_chime": -17.0,
            "door_close": -14.0, "gong": -11.0}
     S = {n: _decode(n) for n in list(LDB) + list(SDB)}
@@ -390,7 +383,7 @@ def demo(path):
               "hvac": 0.6 + 0.4 * (1 - np.clip(v / 6, 0, 1)), "ambience": 1.0}
         k = min(dt * 6, 1)
         for n in g: g[n] += (tg[n] - g[n]) * k
-        pitch = {"motor": motor_hz(v) / 600.0, "motor_hum": hum_hz(v) / 120.0, "carrier": 1.0,
+        pitch = {"motor": motor_hz(v) / 300.0, "motor_hum": hum_hz(v) / 120.0, "carrier": 1.0,
                  "rolling": 0.75 + 0.5 * min(v / 19.4, 1), "squeal": 1.0, "hvac": 1.0, "ambience": 1.0}
         a, b = int(tt * SR), int((tt + dt) * SR)
         for n in LDB:
@@ -421,10 +414,10 @@ def demo(path):
 def motor_hz(v):
     """Copie de TramAudio.motor_hz (paliers de modes synchrones à 18 et 38 km/h)."""
     kmh = v * 3.6
-    if kmh < 4: return 300 + 120 * kmh / 4
-    if kmh < 18: return 420 + 400 * (kmh - 4) / 14
-    if kmh < 38: return 540 + 360 * (kmh - 18) / 20
-    return 620 + 380 * min((kmh - 38) / 32, 1)
+    if kmh < 4: return 140 + 90 * kmh / 4
+    if kmh < 18: return 230 + 210 * (kmh - 4) / 14
+    if kmh < 38: return 280 + 200 * (kmh - 18) / 20
+    return 360 + 260 * min((kmh - 38) / 32, 1)
 
 
 def hum_hz(v):
@@ -448,8 +441,7 @@ def main():
         encode(name, x)
         stats[name] = {"lufs": round(lufs(x, not loop), 1), "duree_s": round(len(x) / SR, 2)}
         print("synthèse %-14s %5.1f LUFS  %.2f s" % (name, stats[name]["lufs"], len(x) / SR))
-    if not only:
-        write_sources(stats)
+    write_sources(stats)
     tot = sum(os.path.getsize(os.path.join(OUT, f)) for f in os.listdir(OUT) if f.endswith(".ogg"))
     print("total data/audio : %.1f Ko" % (tot / 1024))
 

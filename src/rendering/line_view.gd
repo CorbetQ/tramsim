@@ -13,6 +13,8 @@ var rig: TramModel.Rig                 # rame animée (portes, pantographe)
 var cam: Camera3D
 var signal_nodes: Array[MeshInstance3D] = []
 var sectors: Dictionary = {}       # edge id -> Node3D (affiché/masqué selon la distance)
+var sector_bounds: Dictionary = {} # emprise complète, y compris les arêtes courbes
+var tunnel_lights: Array[OmniLight3D] = []
 var sector_center: Dictionary = {} # edge id -> Vector3
 var view_distance := 400.0
 var car_nodes: Array[MeshInstance3D] = []
@@ -43,8 +45,21 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 			add_child(city)
 			var polys: Array = []
 			for id in net.edge_info:
+				var info: Dictionary = net.edge_info[id]
 				var pl := PackedVector2Array()
-				for q in net.edge_info[id].pts: pl.append(q)
+				var arc := 0.0
+				for i in info.pts.size():
+					if i > 0:
+						arc += info.pts[i - 1].distance_to(info.pts[i])
+						var middle: float = (arc - info.pts[i - 1].distance_to(info.pts[i]) * 0.5) * net.graph.edges[id].length / maxf(info.arc[-1], 0.01)
+						if NetworkLoader.in_spans(info.tunnel, middle):
+							var q := net.point_on(id, middle)
+							if city.height_at(Vector3(q.p.x, q.y, q.p.y)) - q.y < 6.0:
+								city.add_portal_cut(info.pts[i - 1], info.pts[i])
+					if NetworkLoader.in_spans(info.tunnel, arc):
+						if pl.size() >= 2: polys.append(pl)
+						pl = PackedVector2Array()
+					else: pl.append(info.pts[i])
 				if pl.size() >= 2: polys.append(pl)
 			city.set_tracks(polys)
 		else:
@@ -58,6 +73,12 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		var sec := Node3D.new(); add_child(sec); sectors[id] = sec
 		var a := pos3(id, 0.0); var b := pos3(id, net.graph.edges[id].length)
 		sector_center[id] = (a + b) * 0.5
+		var bounds := AABB(a, Vector3.ZERO).expand(b)
+		if geometric:
+			var info: Dictionary = net.edge_info[id]
+			for i in info.pts.size():
+				bounds = bounds.expand(Vector3(info.pts[i].x, info.ys[i] if i < info.ys.size() else 0.0, info.pts[i].y))
+		sector_bounds[id] = bounds.grow(12.0)
 		lo = Vector3(minf(lo.x, minf(a.x, b.x)), 0, minf(lo.z, minf(a.z, b.z)))
 		hi = Vector3(maxf(hi.x, maxf(a.x, b.x)), 0, maxf(hi.z, maxf(a.z, b.z)))
 		_track(sec, id)
@@ -66,6 +87,8 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		for pf in layout.platforms: _platform(sectors[net.stations[pf.station].edge], pf)
 	else:
 		for s in net.stations: _station(sectors[s.edge], s)
+	_depot_buildings()
+	_real_platforms()
 	_crossovers()
 	for s in net.signals:
 		var t2 := _frame(s.edge, float(s.offset))
@@ -90,6 +113,11 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 	headlight.spot_range = 70.0; headlight.spot_angle = 28.0; headlight.light_energy = 6.0
 	headlight.light_color = Color(1.0, 0.95, 0.85)
 	add_child(headlight)
+	# Quatre lampes proches de la rame, sans ombres : éclairage lisible à coût borné.
+	for i in 4:
+		var light := OmniLight3D.new(); light.omni_range = 22.0; light.light_energy = 2.2
+		light.light_color = Color("#ffe7c3"); light.shadow_enabled = false; light.visible = false
+		add_child(light); tunnel_lights.append(light)
 
 func set_hour(h: float) -> void:
 	day_night.set_hour(h)
@@ -126,7 +154,7 @@ func pos3(edge_id: String, offset: float) -> Vector3:
 		var p: Vector2 = q.p
 		var d: Vector2 = q.dir
 		var y: float = q.y
-		if net.edge_info[edge_id].raw:  # géométrie déjà sur l'axe de la voie (communications de voies)
+		if net.edge_info[edge_id].raw or net.edge_info[edge_id].get("physical", false):  # géométrie déjà sur l'axe de la voie (communications de voies)
 			return Vector3(p.x, y, p.y)
 		var o := lateral(edge_id, offset)
 		return Vector3(p.x - d.y * o, y, p.y + d.x * o)
@@ -134,6 +162,7 @@ func pos3(edge_id: String, offset: float) -> Vector3:
 
 ## Décalage de la voie à droite de l'axe commun : demi-entraxe, élargi progressivement au droit des quais centraux.
 func lateral(edge_id: String, offset: float) -> float:
+	if net.edge_info[edge_id].get("physical", false): return 0.0
 	var o := TRACK_OFFSET
 	for w in widen.get(edge_id, []):
 		if offset < float(w[0]) - 0.01 or offset > float(w[1]) + 0.01: continue
@@ -160,7 +189,7 @@ func _frame(edge_id: String, offset: float) -> Transform3D:
 func _track(parent: Node3D, id: String) -> void:
 	var pts: Array = []
 	var info: Dictionary = net.edge_info[id] if geometric else {}
-	var o := TRACK_OFFSET if geometric and not info.raw else 0.0
+	var o := TRACK_OFFSET if geometric and not info.raw and not info.get("physical", false) else 0.0
 	if geometric and widen.has(id):   # entraxe variable : voie échantillonnée déjà décalée
 		var L: float = net.graph.edges[id].length
 		var n := maxi(2, ceili(L / 4.0) + 1)
@@ -177,7 +206,13 @@ func _track(parent: Node3D, id: String) -> void:
 	var fallback := _bed_color(id)
 	var paved := Color("#a49a8c") if city != null and city.style.get("trees", [0])[0] == 6 else Color("#9a958d")
 	var nature := func(p: Vector3) -> int: return city.track_nature_at(p) if city != null else TrackView.BED_UNKNOWN
-	TrackView.build(g, pts, o, nature, fallback, paved)
+	if geometric and not info.get("tunnel", []).is_empty():
+		# L'orthophoto montre la surface au-dessus du tunnel : elle ne décrit pas son radier.
+		for span_ in info.tunnel:
+			if float(span_[0]) < 0.5 and float(span_[1]) > net.graph.edges[id].length - 0.5:
+				nature = func(_p): return TrackView.BED_PAVED
+				fallback = Color("#686c73"); paved = fallback; break
+	TrackView.build(g, pts, o, nature, fallback, paved, float(info.get("gauge_mm", 1435)) / 1000.0)
 	if geometric: _structures(g, id)
 	_add_geo(parent, g, Materials.building())
 
@@ -188,7 +223,7 @@ func _structures(g: _Geo, id: String) -> void:
 	if info.raw: return
 	var L: float = net.graph.edges[id].length
 	var concrete := Color("#b9b3a7")
-	var inner := -lateral(id, 0.0) - 0.05   # axe commun (moitié de l'ouvrage côté voie opposée)
+	var inner := -2.6 if info.get("physical", false) else -lateral(id, 0.0) - 0.05   # axe commun (moitié de l'ouvrage côté voie opposée)
 	for sp in info.get("bridge", []):
 		var a := clampf(float(sp[0]), 0.0, L); var b := clampf(float(sp[1]), 0.0, L)
 		var n := maxi(1, ceili((b - a) / 5.0))
@@ -198,7 +233,10 @@ func _structures(g: _Geo, id: String) -> void:
 			g.quad(p.call(f0, 2.9, 0.05), p.call(f1, 2.9, 0.05), p.call(f1, 2.9, -1.1), p.call(f0, 2.9, -1.1), concrete)
 			g.quad(p.call(f0, inner, -1.1), p.call(f0, 2.9, -1.1), p.call(f1, 2.9, -1.1), p.call(f1, inner, -1.1), concrete.darkened(0.25))
 			g.quad(p.call(f0, 1.75, 0.04), p.call(f1, 1.75, 0.04), p.call(f1, 2.9, 0.04), p.call(f0, 2.9, 0.04), Color("#8b8d90"))
-			g.quad(p.call(f0, 2.8, 0.05), p.call(f1, 2.8, 0.05), p.call(f1, 2.8, 1.15), p.call(f0, 2.8, 1.15), Color("#d6d1c6"))
+			if info.get("structure_right", true):
+				g.quad(p.call(f0, 2.8, 0.05), p.call(f1, 2.8, 0.05), p.call(f1, 2.8, 1.15), p.call(f0, 2.8, 1.15), Color("#d6d1c6"))
+			if info.get("physical", false) and info.get("structure_left", true):
+				g.quad(p.call(f0, inner, 0.05), p.call(f0, inner, 1.15), p.call(f1, inner, 1.15), p.call(f1, inner, 0.05), Color("#d6d1c6"))
 		var s := a + 14.0
 		while s < b - 6.0:
 			var f := _frame(id, s)
@@ -214,13 +252,11 @@ func _structures(g: _Geo, id: String) -> void:
 		var wall := Color("#5d5a55")
 		for i in n:
 			var f0 := _frame(id, a + (b - a) * i / n); var f1 := _frame(id, a + (b - a) * (i + 1) / n)
-			# tube seulement sous au moins 5 m de terrain (sinon voie couverte par un bâtiment ou une dalle : murs bas)
-			var cover := minf(ground_at(f0.origin) - f0.origin.y, ground_at(f1.origin) - f1.origin.y)
 			var p := func(f: Transform3D, x: float, y: float) -> Vector3: return f.origin + f.basis.x * x + Vector3(0, y, 0)
-			if cover < 5.0:
-				g.quad(p.call(f0, 2.6, -0.1), p.call(f1, 2.6, -0.1), p.call(f1, 2.6, 0.9), p.call(f0, 2.6, 0.9), concrete)
-				continue
-			g.quad(p.call(f0, 2.6, -0.1), p.call(f1, 2.6, -0.1), p.call(f1, 2.6, 4.8), p.call(f0, 2.6, 4.8), wall)
+			if info.get("structure_right", true):
+				g.quad(p.call(f0, 2.6, -0.1), p.call(f1, 2.6, -0.1), p.call(f1, 2.6, 4.8), p.call(f0, 2.6, 4.8), wall)
+			if info.get("physical", false) and info.get("structure_left", true):
+				g.quad(p.call(f0, inner, -0.1), p.call(f0, inner, 4.8), p.call(f1, inner, 4.8), p.call(f1, inner, -0.1), wall)
 			g.quad(p.call(f0, inner, 4.8), p.call(f0, 2.6, 4.8), p.call(f1, 2.6, 4.8), p.call(f1, inner, 4.8), wall.darkened(0.3))
 			if i % 3 == 0:   # éclairage de tunnel
 				g.box_basis(p.call(f0, 2.45, 4.0), Vector3(0.12, 0.12, 1.2), f0.basis, Color(1.0, 0.9, 0.7, 0.1))
@@ -243,6 +279,53 @@ func _structures(g: _Geo, id: String) -> void:
 			g.quad(p.call(f0, 2.6, -0.1), p.call(f1, 2.6, -0.1), p.call(f1, 2.6, h1), p.call(f0, 2.6, h0), concrete)
 			g.quad(p.call(f0, 2.6, h0), p.call(f1, 2.6, h1), p.call(f1, 2.9, h1), p.call(f0, 2.9, h0), concrete.lightened(0.15))
 
+## Bâtiments de remisage IGN : les passages suivent les voies réellement cartographiées.
+func _depot_buildings() -> void:
+	var seen := {}
+	for depot in net.meta.get("depots", []):
+		if not sectors.has(depot.edge): continue
+		for building in depot.get("buildings", []):
+			if seen.has(building.source_id): continue
+			seen[building.source_id] = true
+			var polygon := PackedVector2Array()
+			for p in building.pts: polygon.append(Vector2(float(p[0]), float(p[1])))
+			if city: city.replace_hangar(polygon)
+			var base := float(building.base_y); var height_ := float(building.height_m)
+			var g := _Geo.new(); var roof := Color("#687b89"); var wall := Color("#b7bdba")
+			var indices := Geometry2D.triangulate_polygon(polygon)
+			for i in range(0, indices.size(), 3):
+				var a: Vector2 = polygon[indices[i]]; var b: Vector2 = polygon[indices[i + 1]]; var c: Vector2 = polygon[indices[i + 2]]
+				g.tri(Vector3(a.x, base + height_, a.y), Vector3(b.x, base + height_, b.y), Vector3(c.x, base + height_, c.y), roof)
+			var portals := TrackView.KeepOut.new()
+			for id in building.portal_tracks:
+				if net.edge_info.has(id): portals.add_polyline(net.edge_info[id].pts, 1.9)
+			for i in polygon.size():
+				var a := polygon[i]; var b := polygon[(i + 1) % polygon.size()]
+				var count_ := maxi(1, ceili(a.distance_to(b)))
+				for j in count_:
+					var p := a.lerp(b, float(j) / count_); var q := a.lerp(b, float(j + 1) / count_)
+					var bottom := base + minf(4.5, height_ - 0.2) if portals.blocked((p + q) * 0.5) else base
+					g.quad(Vector3(p.x, bottom, p.y), Vector3(q.x, bottom, q.y), Vector3(q.x, base + height_, q.y), Vector3(p.x, base + height_, p.y), wall)
+			_add_geo(sectors[depot.edge], g, Materials.building())
+
+## Quais cartographiés OSM : l'emprise réelle remplace l'implantation estimée GTFS.
+func _real_platforms() -> void:
+	for platform in net.meta.get("platforms", []):
+		if not sectors.has(platform.edge): continue
+		var poly := PackedVector2Array(); var top: Array[Vector3] = []
+		var h := float(platform.get("height_m", 0.3))
+		for i in platform.pts.size():
+			var p: Array = platform.pts[i]; poly.append(Vector2(float(p[0]), float(p[1])))
+			top.append(Vector3(float(p[0]), float(platform.y[i]) + h, float(p[1])))
+		var triangles := Geometry2D.triangulate_polygon(poly)
+		var g := _Geo.new(); var color_ := Color("#c9c4b6")
+		for i in range(0, triangles.size(), 3): g.tri(top[triangles[i]], top[triangles[i + 1]], top[triangles[i + 2]], color_)
+		for i in top.size():
+			var j := (i + 1) % top.size()
+			g.quad(top[i] - Vector3(0, h, 0), top[j] - Vector3(0, h, 0), top[j], top[i], color_.darkened(0.18))
+			if city: city.add_keepout(poly[i], poly[j], 0.5)
+		_add_geo(sectors[platform.edge], g, Materials.building())
+
 ## Plateforme par défaut (sans analyse d'orthophoto) : engazonnée en périphérie, pavée ou en enrobé
 ## dans les quartiers denses (densité de bâti IGN).
 func _bed_color(id: String) -> Color:
@@ -255,6 +338,7 @@ func _bed_color(id: String) -> Color:
 
 ## Communications de voies (croisement en ciseaux) avant le quai des arrêts de retournement.
 func _crossovers() -> void:
+	if net.meta.get("geometry_kind", "") == "physical": return
 	var done: Array = []
 	var cand: Array = []
 	for s in net.stations:
@@ -437,8 +521,9 @@ func _ensure_modules(length_m: float) -> void:
 func update_sectors(center: Vector3) -> int:
 	var shown := 0
 	for id in sectors:
-		var len: float = net.graph.edges[id].length
-		var vis: bool = (sector_center[id] as Vector3).distance_to(center) <= view_distance + len * 0.5
+		var bounds: AABB = sector_bounds[id]
+		var closest := Vector3(clampf(center.x, bounds.position.x, bounds.end.x), clampf(center.y, bounds.position.y, bounds.end.y), clampf(center.z, bounds.position.z, bounds.end.z))
+		var vis: bool = closest.distance_to(center) <= view_distance
 		sectors[id].visible = vis
 		if vis: shown += 1
 	return shown
@@ -464,12 +549,27 @@ func update_from(s: MissionSession, external: bool) -> void:
 	var front := _frame(s.edge_id, s.offset)
 	var fwd := -front.basis.z * float(s.direction)   # sens de marche (cabine active)
 	headlight.global_transform = Transform3D(Basis.looking_at((fwd + Vector3(0, -0.12, 0)).normalized(), Vector3.UP), front.origin + fwd * 0.5 + Vector3(0, 1.0, 0))
+	var underground := NetworkLoader.in_spans(net.edge_info[s.edge_id].tunnel, s.offset)
+	for i in tunnel_lights.size():
+		tunnel_lights[i].visible = underground
+		if underground:
+			var offset_ := clampf(s.offset + float(s.direction) * (i - 1) * 18.0, 0.0, net.graph.edges[s.edge_id].length)
+			tunnel_lights[i].position = pos3(s.edge_id, offset_) + Vector3(0, 4.3, 0)
+	headlight.visible = underground or day_night.night > 0.35
+	if underground:
+		day_night.env.ambient_light_energy = 0.32
+		day_night.env.fog_density = 0.003
 	tram.visible = external
 	if external:
 		var back := fwd.rotated(Vector3.UP, orbit)
 		var k := cam_dist / 40.0
 		cam.position = front.origin - back * cam_dist + Vector3(0, 9.5 * k, 0) + back.cross(Vector3.UP) * (-11.0 * k)
-		cam.look_at(front.origin - fwd * 14.0 + Vector3(0, 2.0, 0))
+		var target := front.origin - fwd * 14.0 + Vector3(0, 2.0, 0)
+		if underground:
+			cam.position = front.origin - fwd * 10.0 + Vector3(0, 4.45, 0)
+			target = front.origin + fwd * 8.0 + Vector3(0, 2.0, 0)
+		elif city: cam.position = city.avoid_camera(target, cam.position)
+		cam.look_at(target)
 	else:  # vue cabine
 		cam.position = front.origin - fwd * 1.0 + Vector3(0, 2.6, 0)
 		cam.look_at(cam.position + fwd * 30.0 + Vector3(0, -0.8, 0))
@@ -536,6 +636,12 @@ class _Geo:
 		var arr := []
 		arr.resize(Mesh.ARRAY_MAX)
 		arr[Mesh.ARRAY_VERTEX] = v; arr[Mesh.ARRAY_COLOR] = c; arr[Mesh.ARRAY_TEX_UV] = uv
+		var normals := PackedVector3Array(); normals.resize(v.size())
+		for i in range(0, v.size() - 2, 3):
+			var normal := (v[i + 2] - v[i]).cross(v[i + 1] - v[i]).normalized()
+			if normal.y < -0.01: normal = -normal
+			for j in 3: normals[i + j] = normal
+		arr[Mesh.ARRAY_NORMAL] = normals
 		var m := ArrayMesh.new()
 		if v.size() > 0: m.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
 		return m

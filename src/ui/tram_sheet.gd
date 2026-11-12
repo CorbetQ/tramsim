@@ -26,27 +26,31 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var bg := ColorRect.new(); bg.color = Color(0.1, 0.12, 0.15); bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
-	var m := MarginContainer.new(); m.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var scroll := TouchScroll.new(); scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; add_child(scroll)
+	var m := MarginContainer.new(); m.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for side in ["left", "right", "top", "bottom"]: m.add_theme_constant_override("margin_" + side, 24)
-	add_child(m)
+	scroll.add_child(m)
 	var col := VBoxContainer.new(); col.add_theme_constant_override("separation", 12); m.add_child(col)
 	var top := HBoxContainer.new(); top.add_theme_constant_override("separation", 16); col.add_child(top)
 	var bb := Button.new(); bb.text = "← Catalogue"; bb.custom_minimum_size = Vector2(170, 52); top.add_child(bb)
 	bb.pressed.connect(func(): back.emit())
 	var title := Label.new(); title.add_theme_font_size_override("font_size", 32); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title.text = str(TramModel.plan(family).get("name", family)).replace(" [AJOUT]", ""); title.clip_text = true; top.add_child(title)
-	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 24); row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var row := BoxContainer.new(); row.vertical = UiLayout.compact(self); row.add_theme_constant_override("separation", 24); row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	col.add_child(row)
 	var left := VBoxContainer.new(); left.add_theme_constant_override("separation", 10); row.add_child(left)
 	preview = TramPreview.new(); left.add_child(preview)
-	preview.custom_minimum_size = Vector2(760, 470)
+	preview.custom_minimum_size = Vector2(0, 220) if UiLayout.compact(self) else Vector2(760, 470)
+	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var lr := HBoxContainer.new(); left.add_child(lr)
 	var ll := Label.new(); ll.text = "Livrée"; ll.custom_minimum_size = Vector2(90, 0); lr.add_child(ll)
 	livery_opt = OptionButton.new(); livery_opt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	livery_opt.custom_minimum_size = Vector2(0, 52); livery_opt.clip_text = true; lr.add_child(livery_opt)
 	drive_btn = Button.new(); drive_btn.text = "Conduire cette rame"; drive_btn.custom_minimum_size = Vector2(0, 72)
 	drive_btn.add_theme_font_size_override("font_size", 26); left.add_child(drive_btn)
-	text = RichTextLabel.new(); text.bbcode_enabled = true; text.fit_content = false; text.scroll_active = true
+	text = RichTextLabel.new(); text.bbcode_enabled = true; text.fit_content = UiLayout.compact(self); text.scroll_active = not UiLayout.compact(self)
+	text.custom_minimum_size = Vector2(0, 200)
 	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL; text.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	text.add_theme_font_size_override("normal_font_size", 17); text.add_theme_font_size_override("bold_font_size", 17)
 	text.add_theme_font_size_override("italics_font_size", 16)

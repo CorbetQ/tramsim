@@ -3,6 +3,7 @@ name: release
 on:
   push:
     branches: [main, master, "ccr-*"]
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: write
@@ -42,6 +43,10 @@ jobs:
           export/android/debug_keystore_user = "dev"
           export/android/debug_keystore_pass = "tramsim-dev"
           CFG
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Dépendances des contrôles géographiques
+        run: python -m pip install -r tools/import/requirements.txt
       - name: Tests
         run: |
           sudo apt-get install -y xvfb mesa-utils > /dev/null 2>&1 || true
@@ -55,22 +60,35 @@ jobs:
           cd build && zip -9 TramSimFrance-windows.zip TramSimFrance.exe && cd ..
           for i in 1 2 3; do sudo apt-get update > /dev/null 2>&1; sudo apt-get install -y wixl > /dev/null 2>&1 && break; sleep 20; done
           if command -v wixl > /dev/null; then
-            wixl -a x64 -D Version=0.7.${{ github.run_number }} -o build/TramSimFrance.msi installer/tramsim.wxs
+            wixl -a x64 -D Version=0.8.${{ github.run_number }} -o build/TramSimFrance.msi installer/tramsim.wxs
           else
             echo "::warning::wixl indisponible : MSI non produit"
           fi
           ls -la build
+      - name: APK de prévisualisation
+        uses: actions/upload-artifact@v4
+        with:
+          name: TramSimFrance-Android
+          path: build/TramSimFrance.apk
+          retention-days: 14
+      - name: EXE de prévisualisation
+        uses: actions/upload-artifact@v4
+        with:
+          name: TramSimFrance-Windows
+          path: build/TramSimFrance.exe
+          retention-days: 14
       - name: Release
+        if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.7.${{ github.run_number }}
-          name: Tram Sim France 0.7.${{ github.run_number }}
+          tag_name: v0.8.${{ github.run_number }}
+          name: Tram Sim France 0.8.${{ github.run_number }}
           prerelease: true
           fail_on_unmatched_files: false
           body: |
             - **Android** : TramSimFrance.apk (arm64, signature de développement : autoriser les sources inconnues).
             - **Windows** : TramSimFrance.msi (installeur, raccourcis menu Démarrer et Bureau) ou TramSimFrance-windows.zip (exécutable portable).
-            Données : GTFS des réseaux (transport.data.gouv.fr) et BD TOPO® IGN — voir CREDITS.md et docs/COUVERTURE.md.
+            Données : voies et quais OpenStreetMap (ODbL), GTFS des réseaux (transport.data.gouv.fr) et BD TOPO® IGN — voir CREDITS.md et docs/COUVERTURE.md.
           files: |
             build/TramSimFrance.apk
             build/TramSimFrance-windows.zip

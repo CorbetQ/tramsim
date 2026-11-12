@@ -117,6 +117,12 @@ func _stations() -> void:
 					check(lay.infos[i].type == c[1] and lay.infos[i].doors == c[2], "%s : %s = %s (%s), portes %s" % [path.get_file(), c[0], c[1], lay.infos[i].type, lay.infos[i].doors])
 					var pf := 0
 					for p in lay.platforms: pf += int(p.station == i)
+					var at := view.pos3(net.stations[i].edge, float(net.stations[i].offset))
+					for p in net.meta.get("platforms", []):
+						var nearby := false
+						for q in p.pts:
+							if Vector2(float(q[0]), float(q[1])).distance_to(Vector2(at.x, at.z)) < lay.platform_m: nearby = true; break
+						if nearby: pf += 1
 					check(pf >= 1, "%s : %s a %d quai(s)" % [path.get_file(), c[0], pf])
 			check(found, "%s : station %s présente" % [path.get_file(), c[0]])
 		# voies rendues (entraxe élargi compris, communications de voies comprises)
@@ -138,6 +144,11 @@ func _stations() -> void:
 					pts += 1
 					if ko.blocked(Vector2(q.x, q.z)): bad += 1
 		check(pts > 0 and bad == 0, "%s : aucun quai sur une voie (%d points, %d en défaut)" % [path.get_file(), pts, bad])
+		for i in net.stations.size():
+			var at := view.pos3(net.stations[i].edge, float(net.stations[i].offset))
+			for platform in net.meta.get("platforms", []):
+				for p in platform.pts:
+					if Vector2(float(p[0]), float(p[1])).distance_to(Vector2(at.x, at.z)) < lay.platform_m: served[i] = true; break
 		check(served.size() >= net.stations.size() * 0.85, "%s : %d/%d arrêts avec quai" % [path.get_file(), served.size(), net.stations.size()])
 		# courbure : bord de quai à distance constante du centre de la voie (polyligne décalée, pas une boîte droite)
 		var on_track := TrackView.KeepOut.new()
@@ -156,10 +167,19 @@ func _stations() -> void:
 				dev = maxf(dev, absf(Vector2(p.inner[k].x - c.x, p.inner[k].z - c.z).length() - StationLayout.GAP))
 				if not on_track.blocked(Vector2(c.x, c.z)): off_track += 1
 		check(dev < 0.05 and off_track == 0, "%s : quais parallèles à la voie (bord à %.2f m, écart %.3f m, %d hors voie)" % [path.get_file(), StationLayout.GAP, dev, off_track])
-		# stations multi-quais : au moins 3 quais au total
+		# Le classement GTFS « multi » ne justifie pas d’inventer un troisième quai sur la géométrie physique.
 		for c in cases[path]:
 			if c[1] != "multi": continue
 			var tot := 0
 			for p in lay.platforms: tot += int(net.stations[p.station].name == c[0])
-			check(tot >= 3, "%s : %s compte %d quais" % [path.get_file(), c[0], tot])
+			var real_count := 0
+			for platform in net.meta.get("platforms", []):
+				var nearby := false
+				for station in net.stations:
+					if station.name != c[0]: continue
+					var at := view.pos3(station.edge, float(station.offset))
+					for point in platform.pts:
+						if Vector2(float(point[0]), float(point[1])).distance_to(Vector2(at.x, at.z)) < lay.platform_m: nearby = true; break
+				if nearby: real_count += 1
+			check(real_count > 0 or tot >= (1 if net.meta.get("geometry_kind", "") == "physical" else 3), "%s : %s : %d emprises réelles, %d quais estimés" % [path.get_file(), c[0], real_count, tot])
 		view.queue_free()

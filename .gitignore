@@ -3,3 +3,7 @@ build/
 *.keystore
 *.apk
 android/
+
+.cache/
+__pycache__/
+*.pyc

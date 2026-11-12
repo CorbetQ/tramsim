@@ -28,13 +28,14 @@ from collections import defaultdict
 import numpy as np
 from PIL import Image
 from scipy.spatial import cKDTree
+from scipy.ndimage import distance_transform_edt
 import shapely
 from shapely.geometry import LineString, Polygon, box, shape
 from shapely.ops import unary_union, linemerge
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
-SCRATCH = os.environ.get("TERRAIN_CACHE", "/tmp/claude-0/-home-user/15938488-7e5b-5b2f-adb2-1826d968f007/scratchpad")
+SCRATCH = os.environ.get("TERRAIN_CACHE", os.path.join(ROOT, ".cache", "geography"))
 R = 6371008.8
 TILE_M = 400.0
 GRID = 41                 # sommets par côté de tuile (pas de 10 m)
@@ -54,6 +55,30 @@ class Frame:
 
     def inv(self, x, z):
         return (self.lat0 - np.degrees(np.asarray(z) / R), self.lon0 + np.degrees(np.asarray(x) / (R * self.k)))
+
+
+def fill_nodata(a):
+    """Ne jamais confondre une absence de mesure avec une altitude au niveau de la mer.
+
+    Petits trous réparés par la mesure valide la plus proche ; dalle majoritairement
+    absente refusée. Les plans d'eau ont leur propre altitude BD TOPO.
+    """
+    a = np.array(a, dtype=np.float64, copy=True)
+    missing = ~np.isfinite(a) | (a < -500) | (a > 9000)
+    if missing.mean() > 0.2:
+        raise ValueError("MNT : plus de 20 % de mesures absentes ; import interrompu")
+    if missing.any():
+        nearest = distance_transform_edt(missing, return_distances=False, return_indices=True)
+        a[missing] = a[tuple(nearest[:, missing])]
+    return a
+
+
+def interpolate_elevation(vertices, samples):
+    """Altitude interpolée selon les mètres parcourus, jamais l'indice des sommets."""
+    arc = np.r_[0., np.cumsum(np.linalg.norm(np.diff(vertices[:, :2], axis=0), axis=1))]
+    dst = np.r_[0., np.cumsum(np.linalg.norm(np.diff(samples, axis=0), axis=1))]
+    valid = np.isfinite(vertices[:, 2]) & (vertices[:, 2] > -500)
+    return np.interp(dst, arc[valid], vertices[valid, 2]) if valid.any() else np.full(len(samples), np.nan)
 
 
 # ------------------------------------------------------------------------------------------------ MNT
@@ -85,7 +110,7 @@ class Dem:
             else:
                 raise RuntimeError("MNT indisponible : " + r.stderr.decode()[:200])
         a = np.array(Image.open(path), dtype=np.float64)
-        a[(a < -500) | ~np.isfinite(a)] = 0.0       # hors données (mer) : niveau 0
+        a = fill_nodata(a)
         self.blocks[k] = (bb, a)
         return self.blocks[k]
 
@@ -318,7 +343,7 @@ def build_field(city, frame, dem, cache, alt0=None):
                 if ps > 0:
                     bridges.append(ls.buffer(6.0, cap_style=2))
                     q = densify([tuple(v) for v in l[:, :2]], 4.0)
-                    zz = np.interp(np.linspace(0, len(l) - 1, len(q)), np.arange(len(l)), l[:, 2])
+                    zz = interpolate_elevation(l, np.asarray(q))
                     zpts += [(a[0], a[1], b) for a, b in zip(q, zz) if np.isfinite(b)]
                 else:
                     tunnels.append(ls.buffer(6.0, cap_style=2))
@@ -341,7 +366,8 @@ def build_field(city, frame, dem, cache, alt0=None):
     if water:
         bmask |= shapely.contains_xy(unary_union([w[0].buffer(3.0) for w in water]), P[:, 0], P[:, 1])
     if tunnels:
-        tmask = shapely.contains_xy(unary_union(tunnels), P[:, 0], P[:, 1]) & ~bmask
+        tmask = shapely.contains_xy(unary_union(tunnels), P[:, 0], P[:, 1])
+        bmask &= ~tmask   # un tunnel documenté peut passer sous une rivière
     zt = cKDTree(np.array([(a, b) for a, b, _ in zpts])) if zpts else None
     zv = np.array([c for _, _, c in zpts]) if zpts else None
     Rw = H.copy()
@@ -415,7 +441,7 @@ def build_field(city, frame, dem, cache, alt0=None):
     # trémies : voie nettement sous le terrain hors tunnel
     depth = H - Y
     K[(K == 0) & (depth > 0.8)] = 3
-    K[(K == 3) & (depth > 6.0)] = 2
+    # Un déblai profond ne prouve pas la présence d’un tunnel.
     f = Field(P, Y - alt0, H - alt0, K, [np.array(q) for q in seqs])
     f.by_key = {k: np.array(q) for k, q in zip(keys, seqs)}
     return f, alt0, water, seqs
@@ -583,12 +609,7 @@ def write_scene(city, frame, dem, field, alt0, water, cache):
         wgt = np.where(ok, np.clip((18.0 - d) / 10.0, 0.0, 1.0), 0.0)
         Hf = Hg.ravel() * (1 - wgt) + yb * wgt
         Hg = Hf.reshape(Hg.shape)
-        base = math.floor(float(Hg.min()) * 10.0) / 10.0
-        span = float(Hg.max()) - base
-        step = max(5, int(math.ceil(span * 100.0 / 255.0)))
-        qv = np.clip(np.round((Hg - base) * 100.0 / step), 0, 255).astype(np.uint8)
-        out = bytearray(struct.pack("<hB", int(round(base * 10)), step))
-        out += qv.tobytes()
+        out = bytearray(Hg.astype("<f4").tobytes())
         levels = levels[:255]
         out += struct.pack("<B", len(levels))
         for x, z, lv in levels:
@@ -603,7 +624,7 @@ def write_scene(city, frame, dem, field, alt0, water, cache):
         st["ponts"] += len(dl)
         st["niveaux_eau"] += len(levels)
         blobs.append(bytes(out))
-    head = b"TTR1" + struct.pack("<I", len(keys))
+    head = b"TTR2" + struct.pack("<I", len(keys))
     off = len(head) + 16 * len(keys)
     table = bytearray()
     for t, b in zip(keys, blobs):

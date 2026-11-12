@@ -15,7 +15,7 @@ const KEYS := [
 const KEYS_HELP := "F1 : aide clavier · Z/S traction-freinage · Espace urgence · O portes · A aiguillages · Échap pause"
 
 const TUTO := [
-	["Manipulateur", "À gauche (ou Z / S) : vers le haut = traction, vers le bas = freinage. N = neutre."],
+	["Manipulateur", "À gauche (ou Z / S) : vers le haut = traction, vers le bas = freinage. X = neutre."],
 	["Portes et horaire", "À quai : « Portes » (O). Départ portes fermées, à l'heure : aucune avance, 60 s de retard au maximum."],
 	["Sécurité", "Signal rouge ou fin de voie dépassés = échec. URGENCE (Espace) = freinage maximal."],
 	["Caméra", "« Caméra » (C) : cabine / extérieur ; glisser pour tourner autour de la rame, molette pour zoomer."]]
@@ -60,11 +60,18 @@ var tuto_step := 0
 var bell: AudioStreamPlayer
 var _alert_box: PanelContainer
 var _hud_t := 0.0
+var _compact := false
+var _resize_pending := false
+var camera_gestures := MapGestures.new()
 
 func _ready() -> void:
+	UiLayout.configure(get_window())
+	_compact = UiLayout.compact(self)
+	get_window().size_changed.connect(func(): UiLayout.configure(get_window()))
+	resized.connect(_layout_changed)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	theme = UiTheme.build()
-	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS   # icônes SVG nettes à toutes les échelles
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR   # icônes SVG nettes à toutes les échelles
 	save = SaveGame.load_data()
 	bell = AudioStreamPlayer.new(); bell.stream = _bell_sound(); add_child(bell)
 	_build_menu()
@@ -98,6 +105,7 @@ func _persist() -> void:
 	SaveGame.save_data(save)
 
 func _clear() -> void:
+	camera_gestures.reset()
 	for c in get_children():
 		if c != bell: c.queue_free()
 	view = null; session = null; free = null; map = null; tuto = null; switch_panel = null; pause_layer = null; debrief_layer = null
@@ -116,14 +124,35 @@ func _backdrop() -> void:
 
 ## Marges horizontales adaptées (contenu centré, largeur max) : 16:9 à 21:9, téléphone à PC.
 func _page() -> MarginContainer:
-	var m := MarginContainer.new(); m.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var scroll := TouchScroll.new(); scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; add_child(scroll)
+	var m := MarginContainer.new(); m.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(m)
 	var fit := func():
-		var side := maxf(28.0, (m.size.x - 1640.0) * 0.5)
-		m.add_theme_constant_override("margin_left", int(side)); m.add_theme_constant_override("margin_right", int(side))
-		m.add_theme_constant_override("margin_top", 24); m.add_theme_constant_override("margin_bottom", 22)
-	m.resized.connect(fit)
-	add_child(m); fit.call()
+		var safe := UiLayout.safe_insets(self)
+		var side := maxf(12.0 if UiLayout.compact(self) else 28.0, (scroll.size.x - 1640.0) * 0.5)
+		m.add_theme_constant_override("margin_left", int(side + safe.x)); m.add_theme_constant_override("margin_right", int(side + safe.z))
+		m.add_theme_constant_override("margin_top", int(safe.y) + (12 if UiLayout.compact(self) else 24))
+		m.add_theme_constant_override("margin_bottom", int(safe.w) + (12 if UiLayout.compact(self) else 22))
+		m.custom_minimum_size.y = scroll.size.y
+	scroll.resized.connect(fit); fit.call()
 	return m
+
+func _layout_changed() -> void:
+	if not is_node_ready() or _resize_pending: return
+	if UiLayout.compact(self) == _compact: return
+	_resize_pending = true
+	_reflow.call_deferred()
+
+func _reflow() -> void:
+	_resize_pending = false; _compact = UiLayout.compact(self)
+	if session == null:
+		_build_menu()
+	else:
+		for c in get_children():
+			if c.is_in_group("driving_hud"):
+				remove_child(c); c.queue_free()
+		lamps.clear(); _build_hud(); _hud_t = 0.0
 
 func _build_menu() -> void:
 	_clear()
@@ -157,7 +186,7 @@ func _build_home() -> void:
 	hint.add_child(UiTheme.keycap("F11")); hint.add_child(UiTheme.label_("plein écran", UiTheme.SIZE_SMALL, UiTheme.MUTED))
 	# vitrine : aperçu 3D d'une rame
 	var right := VBoxContainer.new(); right.size_flags_horizontal = Control.SIZE_EXPAND_FILL; right.size_flags_stretch_ratio = 1.05
-	right.alignment = BoxContainer.ALIGNMENT_CENTER; row.add_child(right)
+	right.alignment = BoxContainer.ALIGNMENT_CENTER; row.add_child(right); right.visible = not UiLayout.compact(self)
 	var pc := UiTheme.panel(Color(0, 0, 0, 0.25), 22, 6); right.add_child(pc)
 	var preview := TramPreview.new(); pc.add_child(preview); preview.custom_minimum_size = Vector2(480, 400)
 	var entries := NetworkRegistry.entries()
@@ -216,12 +245,12 @@ func _build_setup() -> void:
 	var back := UiTheme.button("Accueil", "back", "ghost", Vector2(0, 52)); top.add_child(back)
 	back.pressed.connect(func(): menu_page = "home"; _build_menu())
 	var title := UiTheme.label_("Préparer le service", UiTheme.SIZE_H1, UiTheme.TEXT, true)
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; top.add_child(title)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; top.add_child(title); title.visible = not UiLayout.compact(self)
 	var seg := PanelContainer.new(); seg.add_theme_stylebox_override("panel", UiTheme.box(Color(0, 0, 0, 0.3), 14, 4)); top.add_child(seg)
 	var modes := HBoxContainer.new(); modes.add_theme_constant_override("separation", 4); seg.add_child(modes)
 	var grp := ButtonGroup.new()
-	var b_mis := UiTheme.button("Mission horaire", "mission", "chip", Vector2(0, 48)); b_mis.toggle_mode = true; b_mis.button_group = grp
-	var b_free := UiTheme.button("Mode libre", "free", "chip", Vector2(0, 48)); b_free.toggle_mode = true; b_free.button_group = grp
+	var b_mis := UiTheme.button("Mission" if UiLayout.compact(self) else "Mission horaire", "mission", "chip", Vector2(0, 48)); b_mis.toggle_mode = true; b_mis.button_group = grp
+	var b_free := UiTheme.button("Libre" if UiLayout.compact(self) else "Mode libre", "free", "chip", Vector2(0, 48)); b_free.toggle_mode = true; b_free.button_group = grp
 	modes.add_child(b_mis); modes.add_child(b_free)
 	b_free.button_pressed = free_mode; b_mis.button_pressed = not free_mode
 	var cities := NetworkRegistry.cities()
@@ -232,7 +261,7 @@ func _build_setup() -> void:
 	# corps : étapes à gauche, aperçu et départ à droite
 	var body := HBoxContainer.new(); body.add_theme_constant_override("separation", 22); body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	col.add_child(body)
-	var sc := ScrollContainer.new(); sc.size_flags_horizontal = Control.SIZE_EXPAND_FILL; sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var sc := TouchScroll.new(); sc.size_flags_horizontal = Control.SIZE_EXPAND_FILL; sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	body.add_child(sc)
 	var box := VBoxContainer.new(); box.size_flags_horizontal = Control.SIZE_EXPAND_FILL; box.add_theme_constant_override("separation", 12)
 	sc.add_child(box)
@@ -258,7 +287,7 @@ func _build_setup() -> void:
 	var right := VBoxContainer.new(); right.add_theme_constant_override("separation", 12); right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	right.size_flags_stretch_ratio = 0.9; body.add_child(right)
 	var pc := UiTheme.panel(Color(0, 0, 0, 0.28), 20, 6); pc.size_flags_vertical = Control.SIZE_EXPAND_FILL; right.add_child(pc)
-	var preview := TramPreview.new(); pc.add_child(preview); preview.custom_minimum_size = Vector2(420, 240)
+	var preview := TramPreview.new(); pc.add_child(preview); preview.custom_minimum_size = Vector2(240, 140) if UiLayout.compact(self) else Vector2(420, 240)
 	var sum := HBoxContainer.new(); sum.add_theme_constant_override("separation", 10); right.add_child(sum)
 	var badge := UiTheme.line_badge("", UiTheme.INFO, UiTheme.SIZE_H2); badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER; sum.add_child(badge)
 	var sheet := UiTheme.label_("", UiTheme.SIZE_SMALL, UiTheme.TEXT); sheet.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -304,6 +333,9 @@ func _build_setup() -> void:
 			seen[key + str(k)] = true
 			st_list.append(s)
 			st_opt.add_item("%s%s — quai %d" % [s.name, ("  (ligne " + "/".join(s.get("lines", [])) + ")") if s.has("lines") else "", k])
+		if is_free:
+			for depot in n.meta.get("depots", []):
+				st_list.append(depot); st_opt.add_item("Remisage — " + str(depot.name))
 		# matériels : flotte du réseau, puis autres (mode d'adaptation si incompatibles)
 		vehicles.clear(); veh_opt.clear()
 		for f in TramModel.fleet_for(n.meta):
@@ -434,6 +466,8 @@ func _start() -> void:
 		if not start_station.is_empty():
 			e = start_station.edge; o = float(start_station.offset)
 		free = FreeSession.new(net, vehicle, e, o, save.settings.traffic)
+		if int(start_station.get("direction", 1)) < 0:
+			free.direction = -1; free.route_dir = [-1]; free.checkpoint_dir = -1; free.update_spans()
 		session = free
 		first = e
 	else:
@@ -454,9 +488,8 @@ func _start() -> void:
 	add_child(view); view.build(net, first, vehicle)
 	hour0 = _start_hour()
 	view.set_hour(hour0)
-	if OS.has_feature("mobile"):
-		view.day_night.sun.shadow_enabled = false
-		if view.city: view.city.radius = 450.0
+	# DayNight applique déjà le budget d’ombres mobile.
+	if OS.has_feature("mobile") and view.city: view.city.radius = 450.0
 	view.update_from(session, true)
 	if view.city: view.city.warm(view.cam.global_position)
 	view.cam.current = true
@@ -480,10 +513,13 @@ func _line_meta_color() -> Color:
 	return UiTheme.color_of(net.meta.get("color", ""), UiTheme.INFO)
 
 func _build_hud() -> void:
+	var before := get_children()
+	var compact := UiLayout.compact(self)
+	var safe := UiLayout.safe_insets(self)
 	var lc := _line_meta_color()
 	# --- carte de trajet (haut gauche) : ligne, prochain arrêt, horaire, voyants
 	var trip := _hud_panel(); trip.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-	trip.position = Vector2(14, 14); trip.custom_minimum_size = Vector2(430, 0); trip.name = "trip"
+	trip.position = Vector2(14 + safe.x, 14 + safe.y); trip.custom_minimum_size = Vector2(300 if compact else 430, 0); trip.name = "trip"
 	add_child(trip)
 	var tv := VBoxContainer.new(); tv.add_theme_constant_override("separation", 6); trip.add_child(tv)
 	var r1 := HBoxContainer.new(); r1.add_theme_constant_override("separation", 12); tv.add_child(r1)
@@ -491,29 +527,30 @@ func _build_hud() -> void:
 	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER; r1.add_child(badge)
 	var sv := VBoxContainer.new(); sv.add_theme_constant_override("separation", -2); sv.size_flags_horizontal = Control.SIZE_EXPAND_FILL; r1.add_child(sv)
 	sv.add_child(UiTheme.label_("PROCHAIN ARRÊT", UiTheme.SIZE_CAPTION, UiTheme.MUTED, true))
-	hud_info = UiTheme.label_("—", UiTheme.SIZE_H2, UiTheme.TEXT, true)
-	hud_info.clip_text = true; hud_info.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS; hud_info.custom_minimum_size = Vector2(300, 0)
+	hud_info = UiTheme.label_("—", UiTheme.SIZE_BODY if compact else UiTheme.SIZE_H2, UiTheme.TEXT, true)
+	hud_info.clip_text = true; hud_info.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS; hud_info.custom_minimum_size = Vector2(170 if compact else 300, 0)
 	sv.add_child(hud_info)
 	hud_sub = UiTheme.label_("", UiTheme.SIZE_SMALL, UiTheme.MUTED); hud_sub.clip_text = true; sv.add_child(hud_sub)
-	var lr := HBoxContainer.new(); lr.add_theme_constant_override("separation", 6); tv.add_child(lr)
+	var lr := HBoxContainer.new(); lr.add_theme_constant_override("separation", 6); tv.add_child(lr); lr.visible = not compact
 	for spec in [["doors", "doors", "Portes"], ["panto", "pantograph", "Panto"], ["power", "power", "Alim."], ["emerg", "emergency", "Urgence"]]:
 		lr.add_child(_lamp(spec[0], spec[1], spec[2]))
 	if free_mode:
 		hud_switch = Button.new(); hud_switch.icon = UiTheme.icon("switch"); hud_switch.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		hud_switch.custom_minimum_size = Vector2(0, 46); hud_switch.clip_text = true; hud_switch.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		hud_switch.custom_minimum_size = Vector2(0, 48); hud_switch.clip_text = true; hud_switch.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		hud_switch.add_theme_font_size_override("font_size", UiTheme.SIZE_SMALL); hud_switch.focus_mode = Control.FOCUS_NONE
 		hud_switch.tooltip_text = "Prochain aiguillage sur l'itinéraire : ouvrir le panneau (A)"
+		hud_switch.visible = not compact
 		hud_switch.name = "next_switch"; hud_switch.pressed.connect(_toggle_switches); tv.add_child(hud_switch)
 	# --- horloge, écart, boutons (haut droite)
 	var tr := HBoxContainer.new(); tr.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	tr.grow_horizontal = Control.GROW_DIRECTION_BEGIN; tr.offset_right = -14; tr.offset_top = 14; tr.offset_left = -14
+	tr.grow_horizontal = Control.GROW_DIRECTION_BEGIN; tr.offset_right = -14 - safe.z; tr.offset_top = 14 + safe.y; tr.offset_left = -14 - safe.z
 	tr.add_theme_constant_override("separation", 8); add_child(tr)
 	var cp := _hud_panel(); tr.add_child(cp)
 	var ch := HBoxContainer.new(); ch.add_theme_constant_override("separation", 10); cp.add_child(ch)
-	ch.add_child(UiTheme.icon_rect("clock", 24, UiTheme.MUTED))
+	var clock_icon := UiTheme.icon_rect("clock", 24, UiTheme.MUTED); clock_icon.visible = not compact; ch.add_child(clock_icon)
 	var cv := VBoxContainer.new(); cv.add_theme_constant_override("separation", -4); ch.add_child(cv)
 	hud_clock = UiTheme.label_("--:--", UiTheme.SIZE_H2, UiTheme.TEXT, true); cv.add_child(hud_clock)
-	hud_sched = UiTheme.label_("", UiTheme.SIZE_CAPTION, UiTheme.MUTED, true); cv.add_child(hud_sched)
+	hud_sched = UiTheme.label_("", UiTheme.SIZE_CAPTION, UiTheme.MUTED, true); cv.add_child(hud_sched); hud_sched.visible = not compact
 	tr.add_child(_icon_btn("help", "Aide clavier (F1)", _toggle_help))
 	tr.add_child(_icon_btn("pause", "Pause (Échap)", func(): _set_paused(not paused)))
 	tr.add_child(_icon_btn("home", "Menu principal", func(): _persist(); _build_menu()))
@@ -531,18 +568,18 @@ func _build_hud() -> void:
 	toasts.size_flags_horizontal = Control.SIZE_SHRINK_CENTER; mid.add_child(toasts)
 	# --- manipulateur (gauche)
 	var lp := _hud_panel(); lp.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT); lp.name = "lever"
-	lp.grow_vertical = Control.GROW_DIRECTION_BEGIN; lp.offset_left = 14; lp.offset_bottom = -14
+	lp.grow_vertical = Control.GROW_DIRECTION_BEGIN; lp.offset_left = 14 + safe.x; lp.offset_bottom = -14 - safe.w
 	add_child(lp)
 	var lv := VBoxContainer.new(); lv.add_theme_constant_override("separation", 6); lp.add_child(lv)
 	var plus := UiTheme.button("", "plus", "normal", Vector2(130, 50)); plus.tooltip_text = "Traction (Z)"; plus.name = "traction"
-	plus.focus_mode = Control.FOCUS_NONE; lv.add_child(plus)
-	lever = NotchLever.new(); lever.size_flags_horizontal = Control.SIZE_EXPAND_FILL; lever.custom_minimum_size = Vector2(130, 250)
+	plus.focus_mode = Control.FOCUS_NONE; lv.add_child(plus); plus.visible = not compact
+	lever = NotchLever.new(); lever.size_flags_horizontal = Control.SIZE_EXPAND_FILL; lever.custom_minimum_size = Vector2(80, 140) if compact else Vector2(130, 250)
 	lever.changed.connect(func(v): notch = v; if v > -0.99: emergency = false)
 	lv.add_child(lever)
 	var minus := UiTheme.button("", "minus", "normal", Vector2(130, 50)); minus.tooltip_text = "Freinage (S)"; minus.name = "brake"
-	minus.focus_mode = Control.FOCUS_NONE; lv.add_child(minus)
+	minus.focus_mode = Control.FOCUS_NONE; lv.add_child(minus); minus.visible = not compact
 	notch_label = UiTheme.label_("N", UiTheme.SIZE_SMALL, UiTheme.TEXT, true); notch_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	notch_label.custom_minimum_size = Vector2(0, 34); notch_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	notch_label.custom_minimum_size = Vector2(0, 48 if compact else 34); notch_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	notch_label.mouse_filter = Control.MOUSE_FILTER_STOP; notch_label.tooltip_text = "Toucher : neutre (X)"
 	notch_label.gui_input.connect(func(ev): if (ev is InputEventMouseButton or ev is InputEventScreenTouch) and ev.pressed: _set_notch(0.0))
 	lv.add_child(notch_label)
@@ -551,30 +588,36 @@ func _build_hud() -> void:
 	# --- tachymètre et urgence (droite)
 	var rp := VBoxContainer.new(); rp.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
 	rp.grow_horizontal = Control.GROW_DIRECTION_BEGIN; rp.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	rp.offset_right = -14; rp.offset_bottom = -14; rp.offset_left = -14; rp.offset_top = -14
+	rp.offset_right = -14 - safe.z; rp.offset_bottom = -14 - safe.w; rp.offset_left = -14 - safe.z; rp.offset_top = -14 - safe.w
 	rp.add_theme_constant_override("separation", 10); rp.alignment = BoxContainer.ALIGNMENT_END; add_child(rp)
-	var eb := UiTheme.button("URGENCE", "emergency", "danger", Vector2(212, 64)); eb.name = "emergency"
-	eb.add_theme_font_size_override("font_size", UiTheme.SIZE_H2); eb.tooltip_text = "Freinage d'urgence (Espace)"; eb.focus_mode = Control.FOCUS_NONE
+	var eb := UiTheme.button("URGENCE", "emergency", "danger", Vector2(144, 52) if compact else Vector2(212, 64)); eb.name = "emergency"
+	eb.add_theme_font_size_override("font_size", 18 if compact else UiTheme.SIZE_H2); eb.tooltip_text = "Freinage d'urgence (Espace)"; eb.focus_mode = Control.FOCUS_NONE
 	eb.pressed.connect(_emergency); rp.add_child(eb)
 	hud_speed = Speedometer.new(); rp.add_child(hud_speed)
+	if compact: hud_speed.custom_minimum_size = Vector2(144, 144)
 	# --- barre d'outils (bas, centrée ; passe sur deux rangées si l'écran est étroit)
-	var dock := HFlowContainer.new(); dock.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	dock.offset_left = 180; dock.offset_right = -244; dock.offset_bottom = -14; dock.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	dock.alignment = FlowContainer.ALIGNMENT_CENTER; dock.add_theme_constant_override("h_separation", 8); dock.add_theme_constant_override("v_separation", 8)
-	dock.mouse_filter = Control.MOUSE_FILTER_IGNORE; dock.name = "dock"; add_child(dock)
+	var dock := TouchScroll.new(); dock.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	dock.offset_left = (134 if compact else 180) + safe.x; dock.offset_right = (-172 if compact else -244) - safe.z
+	dock.offset_top = -90 - safe.w; dock.offset_bottom = -8 - safe.w
+	dock.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; dock.name = "dock"; add_child(dock)
+	var tools := HBoxContainer.new(); tools.add_theme_constant_override("separation", 8)
+	tools.size_flags_horizontal = Control.SIZE_EXPAND_FILL; tools.alignment = BoxContainer.ALIGNMENT_CENTER; dock.add_child(tools)
 	var specs := [["Portes", "doors", "O", _doors], ["Cloche", "bell", "K", _horn], ["Caméra", "camera", "C", _camera], ["Carte", "map", "M", _toggle_map], ["Pantographe", "pantograph", "P", _panto]]
 	if free_mode:
 		specs += [["Aiguillages", "switch", "A", _toggle_switches], ["Changer de sens", "reverse", "V", _reverse], ["Remise sur voie", "rerail", "R", _rerail], ["Trafic", "traffic", "T", _traffic]]
 	for spec in specs:
-		var b := UiTheme.tool_button(spec[0], spec[1], spec[2], 88.0); b.pressed.connect(spec[3])
+		var b := UiTheme.tool_button(spec[0], spec[1], "" if compact else spec[2], 72.0 if compact else 88.0); b.pressed.connect(spec[3])
 		b.add_theme_stylebox_override("normal", UiTheme.box(Color(UiTheme.SURFACE, 0.82), 14, 8, UiTheme.BORDER, 1))
-		dock.add_child(b)
+		tools.add_child(b)
 	# --- carte (droite, au-dessus de l'urgence)
 	map = MapView.new(); map.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
-	map.offset_left = -414; map.offset_right = -14; map.offset_top = 96; map.offset_bottom = -376
+	map.offset_left = -minf(400.0, size.x - 28.0); map.offset_right = -14
+	map.offset_top = 96; map.offset_bottom = -240 if compact else -376
 	map.visible = false; map.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	map.setup(session, view); add_child(map)
 	for c in [trip, tr, lp, rp, dock]: UiTheme.fade_in(c, 0.35)
+	for c in get_children():
+		if not c in before: c.add_to_group("driving_hud")
 
 func _lamp(id: String, icon_name: String, text: String) -> PanelContainer:
 	var p := PanelContainer.new(); p.name = "lamp_" + id; p.tooltip_text = text
@@ -629,7 +672,7 @@ func _emergency() -> void:
 func _reverse() -> void:  # changement de cabine : même voie, sens de marche inversé
 	if free:
 		var err := free.reverse()
-		_log(err if err != "" else ("Changement de cabine : " + ("sens de la voie" if free.direction > 0 else "marche à contre-sens")), "warn" if err != "" else "info", "reverse")
+		_log(err if err != "" else ("Changement de cabine : " + ("cabine avant" if free.direction > 0 else "cabine arrière")), "warn" if err != "" else "info", "reverse")
 		if switch_panel: switch_panel.refresh()
 
 func _rerail() -> void:
@@ -682,6 +725,7 @@ func _tick_toasts(dt: float) -> void:
 		if ttl < 0.0 and ttl + dt >= 0.0: UiTheme.fade_out_free(c, 0.35)
 
 func _set_paused(on: bool) -> void:
+	camera_gestures.reset()
 	paused = on
 	if pause_layer: pause_layer.queue_free(); pause_layer = null
 	if on:
@@ -692,17 +736,25 @@ func _set_paused(on: bool) -> void:
 			["Aide clavier  (F1)", "keyboard", "normal", _toggle_help], ["Menu principal", "home", "normal", func(): _persist(); _build_menu()]], "", stats)
 
 ## Calque modal : fond assombri + carte centrée (titre, statistiques, texte, boutons).
-func _overlay(title: String, icon_name: String, col: Color, buttons: Array, body: String = "", stats: Array = [], extra: Control = null) -> Control:
+func _overlay(title: String, icon_name: String, col: Color, buttons: Array, body: String = "", stats: Array = [], extra: Control = null, panel_width: float = 520.0) -> Control:
 	var layer := ColorRect.new(); layer.color = Color(0.02, 0.03, 0.05, 0.62); layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(layer)
 	var c := CenterContainer.new(); c.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); layer.add_child(c)
 	var p := UiTheme.panel(Color(0.08, 0.1, 0.13, 0.96), 22, 26); c.add_child(p)
-	var v := VBoxContainer.new(); v.custom_minimum_size = Vector2(520, 0); v.add_theme_constant_override("separation", 14); p.add_child(v)
+	var scroll := TouchScroll.new(); scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO; p.add_child(scroll)
+	var v := VBoxContainer.new(); v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	v.add_theme_constant_override("separation", 14); scroll.add_child(v)
+	var fit := func():
+		var safe := UiLayout.safe_insets(self)
+		var width_ := maxf(240.0, minf(panel_width, size.x - safe.x - safe.z - 84.0))
+		v.custom_minimum_size.x = width_ - 20.0
+		scroll.custom_minimum_size = Vector2(width_, maxf(100.0, minf(v.get_combined_minimum_size().y, size.y - safe.y - safe.w - 84.0)))
+	v.minimum_size_changed.connect(fit); layer.resized.connect(fit); fit.call_deferred()
 	var h := HBoxContainer.new(); h.add_theme_constant_override("separation", 14); v.add_child(h)
 	var ib := PanelContainer.new(); ib.add_theme_stylebox_override("panel", UiTheme.box(Color(col, 0.2), 14, 10)); h.add_child(ib)
 	ib.add_child(UiTheme.icon_rect(icon_name, 32, col))
 	var t := UiTheme.label_(title, UiTheme.SIZE_H1, UiTheme.TEXT, true); t.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	t.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; t.custom_minimum_size = Vector2(380, 0); h.add_child(t)
+	t.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; t.custom_minimum_size = Vector2(0, 0); h.add_child(t)
 	if not stats.is_empty():
 		var g := GridContainer.new(); g.columns = mini(stats.size(), 4); g.add_theme_constant_override("h_separation", 22); v.add_child(g)
 		for s in stats:
@@ -720,13 +772,15 @@ func _overlay(title: String, icon_name: String, col: Color, buttons: Array, body
 
 func _toggle_help() -> void:
 	if help_layer:
-		help_layer.queue_free(); help_layer = null; return
-	var g := GridContainer.new(); g.columns = 4; g.add_theme_constant_override("h_separation", 14); g.add_theme_constant_override("v_separation", 8)
+		help_layer.queue_free(); help_layer = null
+		paused = bool(get_meta("help_previous_paused", false)); return
+	set_meta("help_previous_paused", paused); paused = session != null
+	var g := GridContainer.new(); g.columns = 2 if UiLayout.compact(self) else 4; g.add_theme_constant_override("h_separation", 14); g.add_theme_constant_override("v_separation", 8)
 	for k in KEYS:
 		var kc := UiTheme.keycap(k[0]); kc.size_flags_horizontal = Control.SIZE_SHRINK_END; g.add_child(kc)
-		var l := UiTheme.label_(k[1], UiTheme.SIZE_SMALL, UiTheme.TEXT); l.custom_minimum_size = Vector2(250, 0); g.add_child(l)
-	help_layer = _overlay("Commandes", "keyboard", UiTheme.INFO, [["Fermer  (F1)", "close", "normal", _toggle_help]], "", [], g)
-	help_layer.get_child(0).get_child(0).get_child(0).custom_minimum_size = Vector2(760, 0)
+		var l := UiTheme.label_(k[1], UiTheme.SIZE_SMALL, UiTheme.TEXT); l.custom_minimum_size = Vector2(0 if UiLayout.compact(self) else 250, 0)
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; l.size_flags_horizontal = Control.SIZE_EXPAND_FILL; g.add_child(l)
+	help_layer = _overlay("Commandes", "keyboard", UiTheme.INFO, [["Fermer  (F1)", "close", "normal", _toggle_help]], "© OpenStreetMap : ODbL 1.0 · IGN BD TOPO/RGE ALTI : Licence Ouverte 2.0 · Godot : MIT. Crédits complets : CREDITS.md.", [], g, 960.0)
 	help_layer.name = "help"
 
 func _show_tuto() -> void:
@@ -782,9 +836,12 @@ func _next_stop() -> Dictionary:
 # ----------------------------------------------------------------------------------------------- entrées
 
 func _unhandled_input(ev: InputEvent) -> void:
-	if view == null: return
-	if ev is InputEventScreenDrag:
-		view.orbit -= ev.relative.x * 0.006
+	if view == null or paused or switch_panel != null or help_layer != null: return
+	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == -1: return
+	if ev is InputEventScreenTouch or ev is InputEventScreenDrag:
+		var action := camera_gestures.feed(ev)
+		if action.has("zoom"): view.cam_dist = clampf(view.cam_dist / float(action.zoom), 14.0, 160.0)
+		elif action.has("pan"): view.orbit -= action.pan.x * 0.006
 	elif ev is InputEventMouseMotion and (ev.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
 		view.orbit -= ev.relative.x * 0.006
 	elif ev is InputEventMouseButton and ev.pressed:
@@ -794,6 +851,7 @@ func _unhandled_input(ev: InputEvent) -> void:
 		view.cam_dist = clampf(view.cam_dist / ev.factor, 14.0, 160.0)
 
 func _input(ev: InputEvent) -> void:
+	if ev is InputEventScreenTouch and not ev.pressed: camera_gestures.feed(ev)
 	if not (ev is InputEventKey) or not ev.pressed or ev.echo:
 		return
 	var k: int = ev.physical_keycode if ev.physical_keycode != 0 else ev.keycode
@@ -888,7 +946,7 @@ func _process(dt: float) -> void:
 			hud_sched.text = "départ %s · retard +%d s" % [at, roundi(-rest)]
 			hud_sched.add_theme_color_override("font_color", UiTheme.WARNING if rest > -60.0 else UiTheme.DANGER)
 	elif free_mode:
-		hud_sched.text = "mode libre" + ("" if session.direction > 0 else " · contre-sens")
+		hud_sched.text = "mode libre" + ("" if session.direction > 0 or net.meta.get("geometry_kind", "") == "physical" else " · contre-sens")
 		hud_sched.add_theme_color_override("font_color", UiTheme.MUTED)
 	if hud_switch:
 		var up := SwitchPanel.upcoming(free, 2500.0)
@@ -912,7 +970,7 @@ func _show_debrief(d: Dictionary) -> void:
 	for s in d.stops: counts[clampi(int(s.result), 0, 3)] += 1
 	var stats := [["Durée", "%d min %02d s" % [int(d.time_s) / 60, int(d.time_s) % 60]]]
 	for i in 4: stats.append([names[i], str(counts[i]), cols[i] if counts[i] > 0 else UiTheme.TEXT])
-	var sc := ScrollContainer.new(); sc.custom_minimum_size = Vector2(0, 220); sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var sc := TouchScroll.new(); sc.custom_minimum_size = Vector2(0, 220); sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	var lst := VBoxContainer.new(); lst.size_flags_horizontal = Control.SIZE_EXPAND_FILL; sc.add_child(lst)
 	for s in d.stops:
 		var h := HBoxContainer.new(); h.add_theme_constant_override("separation", 10); lst.add_child(h)

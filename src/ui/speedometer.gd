@@ -29,8 +29,10 @@ func _ang(v: float) -> float:
 	return A0 + SWEEP * clampf(v / max_kmh, 0.0, 1.0)
 
 func _draw() -> void:
-	var c := size * 0.5
-	var r := minf(size.x, size.y) * 0.5 - 4.0
+	var scale_ := minf(size.x, size.y) / 212.0
+	draw_set_transform((size - Vector2.ONE * 212.0 * scale_) * 0.5, 0.0, Vector2.ONE * scale_)
+	var c := Vector2(106, 106)
+	var r := 102.0
 	var font := UiTheme.font(); var bold := UiTheme.font(true)
 	draw_circle(c, r, Color(0.05, 0.065, 0.085, 0.82))
 	draw_arc(c, r, 0, TAU, 64, Color(1, 1, 1, 0.08), 1.5, true)
