@@ -50,7 +50,7 @@ func load_file(path: String) -> PackedStringArray:
 		for v in e.get("y", []): ys.append(float(v))
 		if ys.size() != pts.size(): ys = PackedFloat32Array()
 		edge_info[e.id] = {"limit_ms": lim, "zones": zones, "grade": float(e.get("grade", 0.0)), "supply": sup, "pts": pts, "raw": bool(e.get("raw", false)),
-			"supply_zones": e.get("supply_zones", []), "preferred_direction": int(e.get("preferred_direction", 1 if e.get("source", {}).get("oneway", "") == "yes" else 0)), "physical": bool(e.get("physical", false)), "structure_left": bool(e.get("structure_left", true)), "structure_right": bool(e.get("structure_right", true)),
+			"supply_zones": e.get("supply_zones", []), "power_overlaps": e.get("power_overlaps", []), "preferred_direction": int(e.get("preferred_direction", 1 if e.get("source", {}).get("oneway", "") == "yes" else 0)), "physical": bool(e.get("physical", false)), "structure_left": bool(e.get("structure_left", true)), "structure_right": bool(e.get("structure_right", true)),
 			"gauge_mm": int(e.get("gauge_mm", 1435)), "service": str(e.get("service", "")), "name": str(e.get("name", "")), "source": e.get("source", {}),
 			"arc": arc, "ys": ys, "bridge": e.get("bridge", []), "tunnel": e.get("tunnel", []), "trench": e.get("trench", [])}
 	_derive_curve_limits()
@@ -131,6 +131,21 @@ func supply_at(edge_id: String, offset: float) -> String:
 	for zone in info.get("supply_zones", []):
 		if offset >= float(zone[0]) and offset < float(zone[1]): return str(zone[2])
 	return str(info.supply)
+
+## Infrastructure simultanément disponible dans une station de transition.
+## supply_at garde le profil d'origine pour connaître le mode de sortie.
+func supplies_at(edge_id: String, offset: float) -> PackedStringArray:
+	if in_spans(edge_info[edge_id].get("power_overlaps", []), offset):
+		return PackedStringArray(["overhead", "aps"])
+	return PackedStringArray([supply_at(edge_id, offset)])
+
+func station_contains(station: Dictionary, edge_id: String, offset: float) -> bool:
+	var segments: Array = station.get("stop_area", {}).get("segments", [])
+	if segments.is_empty():
+		return station.edge == edge_id and absf(float(station.offset) - offset) <= MissionSession.STOP_TOLERANCE_M
+	for segment in segments:
+		if str(segment[0]) == edge_id and offset >= float(segment[1]) and offset <= float(segment[2]): return true
+	return false
 
 ## Rayon circonscrit sur une fenêtre de 16 m : évite de mesurer le bruit
 ## centimétrique des points OSM comme une courbe. Les restrictions restent locales.

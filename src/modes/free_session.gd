@@ -29,6 +29,10 @@ func _fail(reason: String) -> void:
 func _check_station_passed() -> void:
 	pass
 
+func _station_here() -> Dictionary:
+	var station := next_station_ahead()
+	return station if not station.is_empty() and net.station_contains(station, edge_id, offset) else {}
+
 func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	super.tick(dt, notch, emergency)
 	update_spans()

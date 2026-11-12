@@ -945,13 +945,14 @@ func _process(dt: float) -> void:
 	hud_info.text = str(st.get("name", "—"))
 	var sub := PackedStringArray()
 	if not st.is_empty():
-		var d := session.dist_to_point(str(st.edge), float(st.offset), 3000.0)
+		var d := session.station_distance(st)
 		if d >= 0.0 and d < 2999.0: sub.append("dans %d m" % roundi(d) if d >= 15.0 else "à quai")
-	sub.append("%d voyageurs" % session.phys.passengers)
 	var gradient := net.grade_at(session.edge_id, session.offset) * session.direction * 1000.0
 	hud_grade.text = "%s %+.1f ‰" % ["Montée" if gradient > 0.5 else ("Descente" if gradient < -0.5 else "Palier"), gradient]
-	var supply := net.supply_at(session.edge_id, session.offset)
-	sub.append("LAC" if supply == "overhead" else supply.to_upper())
+	var modes := PackedStringArray()
+	for mode in net.supplies_at(session.edge_id, session.offset): modes.append(MissionSession.power_label(mode))
+	sub.append(" + ".join(modes))
+	sub.append("%d voyageurs" % session.phys.passengers)
 	hud_sub.text = "  ·  ".join(sub)
 	hud_sched.text = ""
 	if not free_mode and not session.finished and session.next_station < session.schedule.size():

@@ -2,9 +2,11 @@
 
 Simulateur de tramway 3D (Godot 4.6.3, GDScript, Android 10+, paysage, hors ligne).
 
-## Version 0.9.2
+## Version 0.9.3
 
-La version 0.9.2 réunit carte et aiguillages dans **Plan**, rend les contacts APS visibles au-dessus de la plateforme et ajoute le sélecteur **Alimentation** (LAC / APS / autonomie selon le matériel). La commutation se fait à l’arrêt. Les parcours libres commencent dans le sens normal connu des voies, avec des aiguillages prépositionnés. Voir [les changements](docs/CHANGEMENTS_0_9_2.md).
+La version 0.9.3 ajoute des zones d’arrêt couvrant les quais OSM et des quais de transition **LAC + APS**, notamment dans les deux sens à Foch–Maison Bleue. L’arrêt reste actif jusqu’au bout du quai, y compris lorsqu’il traverse plusieurs segments de voie. Voir [les changements et leurs limites](docs/CHANGEMENTS_0_9_3.md).
+
+Le **Plan** réunit carte et aiguillages ; **Alimentation** sélectionne LAC / APS / autonomie à l’arrêt selon le matériel. Les aiguillages libres sont prépositionnés selon le sens normal connu. Voir [les changements 0.9.2](docs/CHANGEMENTS_0_9_2.md).
 
 Les 28 réseaux libres utilisent les voies physiques OpenStreetMap, leurs nœuds de connexion, les voies de service et les emprises de quais disponibles. Le décor IGN est étendu autour des nouveaux tracés ; les bâtiments de maintenance suivent les emprises BD TOPO. Les missions conservent leur graphe et leurs horaires GTFS, avec une altimétrie raccordée aux ouvrages cartographiés.
 

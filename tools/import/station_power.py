@@ -112,3 +112,7 @@ if __name__=='__main__':
   report[city]={str(p.relative_to(ROOT)):enrich(p,osm) for p in paths if p.exists()}
   print(city,report[city],flush=True)
  (ROOT/'docs/station-power-import.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+ # Les emprises et les modes viennent d'être réimportés : recaler aussi les
+ # zones opérationnelles pour éviter un ancien recouvrement devenu incohérent.
+ from platform_zones import main as rebuild_platform_zones
+ rebuild_platform_zones()

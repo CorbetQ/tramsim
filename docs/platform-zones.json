@@ -1,0 +1,1038 @@
+[
+  {
+    "file": "data/networks/angers_a.json",
+    "stations": 50,
+    "platform_stop_areas": 44,
+    "transition_stations": 4,
+    "dual_track_segments": 8
+  },
+  {
+    "file": "data/networks/angers_b.json",
+    "stations": 36,
+    "platform_stop_areas": 34,
+    "transition_stations": 4,
+    "dual_track_segments": 8
+  },
+  {
+    "file": "data/networks/angers_c.json",
+    "stations": 38,
+    "platform_stop_areas": 38,
+    "transition_stations": 3,
+    "dual_track_segments": 6
+  },
+  {
+    "file": "data/networks/aubagne_t.json",
+    "stations": 14,
+    "platform_stop_areas": 9,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/avignon_t1.json",
+    "stations": 20,
+    "platform_stop_areas": 20,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/besancon_t1.json",
+    "stations": 58,
+    "platform_stop_areas": 6,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/besancon_t2.json",
+    "stations": 40,
+    "platform_stop_areas": 4,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/bordeaux_a.json",
+    "stations": 80,
+    "platform_stop_areas": 78,
+    "transition_stations": 16,
+    "dual_track_segments": 30
+  },
+  {
+    "file": "data/networks/bordeaux_a_2.json",
+    "stations": 58,
+    "platform_stop_areas": 58,
+    "transition_stations": 8,
+    "dual_track_segments": 16
+  },
+  {
+    "file": "data/networks/bordeaux_b.json",
+    "stations": 64,
+    "platform_stop_areas": 58,
+    "transition_stations": 2,
+    "dual_track_segments": 4
+  },
+  {
+    "file": "data/networks/bordeaux_b_2.json",
+    "stations": 68,
+    "platform_stop_areas": 62,
+    "transition_stations": 2,
+    "dual_track_segments": 4
+  },
+  {
+    "file": "data/networks/bordeaux_b_3.json",
+    "stations": 70,
+    "platform_stop_areas": 64,
+    "transition_stations": 2,
+    "dual_track_segments": 4
+  },
+  {
+    "file": "data/networks/bordeaux_c.json",
+    "stations": 60,
+    "platform_stop_areas": 57,
+    "transition_stations": 2,
+    "dual_track_segments": 4
+  },
+  {
+    "file": "data/networks/bordeaux_d.json",
+    "stations": 48,
+    "platform_stop_areas": 48,
+    "transition_stations": 4,
+    "dual_track_segments": 8
+  },
+  {
+    "file": "data/networks/bordeaux_e.json",
+    "stations": 58,
+    "platform_stop_areas": 56,
+    "transition_stations": 2,
+    "dual_track_segments": 4
+  },
+  {
+    "file": "data/networks/bordeaux_e_2.json",
+    "stations": 6,
+    "platform_stop_areas": 6,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/bordeaux_f.json",
+    "stations": 68,
+    "platform_stop_areas": 68,
+    "transition_stations": 8,
+    "dual_track_segments": 16
+  },
+  {
+    "file": "data/networks/brest_a.json",
+    "stations": 50,
+    "platform_stop_areas": 48,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/brest_a_2.json",
+    "stations": 50,
+    "platform_stop_areas": 48,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/brest_b.json",
+    "stations": 24,
+    "platform_stop_areas": 22,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/caen_t1.json",
+    "stations": 50,
+    "platform_stop_areas": 50,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/caen_t2.json",
+    "stations": 17,
+    "platform_stop_areas": 17,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/caen_t2_2.json",
+    "stations": 17,
+    "platform_stop_areas": 17,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/caen_t3.json",
+    "stations": 30,
+    "platform_stop_areas": 29,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/clermont_a.json",
+    "stations": 68,
+    "platform_stop_areas": 60,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/dijon_t1.json",
+    "stations": 34,
+    "platform_stop_areas": 32,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/dijon_t2.json",
+    "stations": 42,
+    "platform_stop_areas": 42,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/grenoble_a.json",
+    "stations": 62,
+    "platform_stop_areas": 47,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/grenoble_b.json",
+    "stations": 44,
+    "platform_stop_areas": 12,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/grenoble_b_2.json",
+    "stations": 36,
+    "platform_stop_areas": 22,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/grenoble_c.json",
+    "stations": 38,
+    "platform_stop_areas": 2,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/grenoble_c_2.json",
+    "stations": 44,
+    "platform_stop_areas": 4,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/grenoble_d.json",
+    "stations": 32,
+    "platform_stop_areas": 8,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/grenoble_d_2.json",
+    "stations": 24,
+    "platform_stop_areas": 2,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/grenoble_e.json",
+    "stations": 34,
+    "platform_stop_areas": 18,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/grenoble_e_2.json",
+    "stations": 56,
+    "platform_stop_areas": 18,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t1.json",
+    "stations": 74,
+    "platform_stop_areas": 67,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t10.json",
+    "stations": 26,
+    "platform_stop_areas": 6,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t11.json",
+    "stations": 14,
+    "platform_stop_areas": 0,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t12.json",
+    "stations": 32,
+    "platform_stop_areas": 1,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t13.json",
+    "stations": 24,
+    "platform_stop_areas": 0,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t14.json",
+    "stations": 10,
+    "platform_stop_areas": 0,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t2.json",
+    "stations": 24,
+    "platform_stop_areas": 10,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t2_2.json",
+    "stations": 24,
+    "platform_stop_areas": 10,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t3a.json",
+    "stations": 50,
+    "platform_stop_areas": 45,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t3b.json",
+    "stations": 66,
+    "platform_stop_areas": 47,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t3b_2.json",
+    "stations": 33,
+    "platform_stop_areas": 24,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t4.json",
+    "stations": 22,
+    "platform_stop_areas": 0,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t4_2.json",
+    "stations": 30,
+    "platform_stop_areas": 13,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t5.json",
+    "stations": 32,
+    "platform_stop_areas": 27,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t6.json",
+    "stations": 42,
+    "platform_stop_areas": 37,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t7.json",
+    "stations": 36,
+    "platform_stop_areas": 25,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t8.json",
+    "stations": 18,
+    "platform_stop_areas": 16,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t8_2.json",
+    "stations": 26,
+    "platform_stop_areas": 23,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/idf_t9.json",
+    "stations": 38,
+    "platform_stop_areas": 38,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lehavre_a.json",
+    "stations": 30,
+    "platform_stop_areas": 27,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lehavre_b.json",
+    "stations": 30,
+    "platform_stop_areas": 28,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lemans_t1.json",
+    "stations": 48,
+    "platform_stop_areas": 9,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lemans_t2.json",
+    "stations": 36,
+    "platform_stop_areas": 13,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lille_tram.json",
+    "stations": 46,
+    "platform_stop_areas": 42,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lille_tram_2.json",
+    "stations": 44,
+    "platform_stop_areas": 40,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lyon_rhonexpress.json",
+    "stations": 8,
+    "platform_stop_areas": 4,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lyon_t1.json",
+    "stations": 54,
+    "platform_stop_areas": 45,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lyon_t2.json",
+    "stations": 64,
+    "platform_stop_areas": 44,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lyon_t3.json",
+    "stations": 26,
+    "platform_stop_areas": 23,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lyon_t4.json",
+    "stations": 64,
+    "platform_stop_areas": 53,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lyon_t5.json",
+    "stations": 24,
+    "platform_stop_areas": 17,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lyon_t6.json",
+    "stations": 48,
+    "platform_stop_areas": 43,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/lyon_t7.json",
+    "stations": 10,
+    "platform_stop_areas": 9,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/marseille_t1.json",
+    "stations": 28,
+    "platform_stop_areas": 28,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/marseille_t2.json",
+    "stations": 30,
+    "platform_stop_areas": 26,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/marseille_t3.json",
+    "stations": 44,
+    "platform_stop_areas": 29,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/montpellier_1.json",
+    "stations": 62,
+    "platform_stop_areas": 56,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/montpellier_2.json",
+    "stations": 48,
+    "platform_stop_areas": 38,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/montpellier_2_2.json",
+    "stations": 48,
+    "platform_stop_areas": 37,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/montpellier_2_3.json",
+    "stations": 56,
+    "platform_stop_areas": 45,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/montpellier_3.json",
+    "stations": 48,
+    "platform_stop_areas": 36,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/montpellier_3_2.json",
+    "stations": 50,
+    "platform_stop_areas": 37,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/montpellier_3_3.json",
+    "stations": 52,
+    "platform_stop_areas": 39,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/montpellier_4.json",
+    "stations": 38,
+    "platform_stop_areas": 27,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/montpellier_5.json",
+    "stations": 52,
+    "platform_stop_areas": 49,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/mulhouse_1.json",
+    "stations": 24,
+    "platform_stop_areas": 17,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/mulhouse_2.json",
+    "stations": 28,
+    "platform_stop_areas": 26,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/mulhouse_2_2.json",
+    "stations": 4,
+    "platform_stop_areas": 3,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/mulhouse_3.json",
+    "stations": 22,
+    "platform_stop_areas": 18,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/mulhouse_tt.json",
+    "stations": 36,
+    "platform_stop_areas": 30,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nantes_1.json",
+    "stations": 64,
+    "platform_stop_areas": 60,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nantes_1_2.json",
+    "stations": 44,
+    "platform_stop_areas": 42,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nantes_1_3.json",
+    "stations": 64,
+    "platform_stop_areas": 61,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nantes_2.json",
+    "stations": 50,
+    "platform_stop_areas": 45,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nantes_2_2.json",
+    "stations": 58,
+    "platform_stop_areas": 54,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nantes_2_3.json",
+    "stations": 66,
+    "platform_stop_areas": 62,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nantes_3.json",
+    "stations": 64,
+    "platform_stop_areas": 57,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nice_b.json",
+    "stations": 12,
+    "platform_stop_areas": 10,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nice_l1.json",
+    "stations": 44,
+    "platform_stop_areas": 44,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nice_l2.json",
+    "stations": 34,
+    "platform_stop_areas": 32,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nice_l3.json",
+    "stations": 46,
+    "platform_stop_areas": 42,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nice_l3_2.json",
+    "stations": 36,
+    "platform_stop_areas": 34,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/nice_l3_3.json",
+    "stations": 14,
+    "platform_stop_areas": 12,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/orleans_a.json",
+    "stations": 54,
+    "platform_stop_areas": 25,
+    "transition_stations": 1,
+    "dual_track_segments": 2
+  },
+  {
+    "file": "data/networks/orleans_b.json",
+    "stations": 50,
+    "platform_stop_areas": 44,
+    "transition_stations": 6,
+    "dual_track_segments": 12
+  },
+  {
+    "file": "data/networks/reims_tram.json",
+    "stations": 42,
+    "platform_stop_areas": 0,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/reims_tram_2.json",
+    "stations": 44,
+    "platform_stop_areas": 0,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/rouen_metro.json",
+    "stations": 40,
+    "platform_stop_areas": 32,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/rouen_metro_2.json",
+    "stations": 36,
+    "platform_stop_areas": 28,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/saintetienne_t1.json",
+    "stations": 50,
+    "platform_stop_areas": 39,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/saintetienne_t2.json",
+    "stations": 21,
+    "platform_stop_areas": 17,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/saintetienne_t3.json",
+    "stations": 43,
+    "platform_stop_areas": 27,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/saintetienne_t3_2.json",
+    "stations": 53,
+    "platform_stop_areas": 34,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/strasbourg_a.json",
+    "stations": 54,
+    "platform_stop_areas": 54,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/strasbourg_b.json",
+    "stations": 54,
+    "platform_stop_areas": 52,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/strasbourg_c.json",
+    "stations": 34,
+    "platform_stop_areas": 34,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/strasbourg_d.json",
+    "stations": 48,
+    "platform_stop_areas": 46,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/strasbourg_e.json",
+    "stations": 52,
+    "platform_stop_areas": 51,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/strasbourg_f.json",
+    "stations": 40,
+    "platform_stop_areas": 38,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/toulouse_t1.json",
+    "stations": 50,
+    "platform_stop_areas": 48,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/tours_a.json",
+    "stations": 58,
+    "platform_stop_areas": 52,
+    "transition_stations": 4,
+    "dual_track_segments": 8
+  },
+  {
+    "file": "data/networks/valenciennes_t1.json",
+    "stations": 56,
+    "platform_stop_areas": 54,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/valenciennes_t2.json",
+    "stations": 58,
+    "platform_stop_areas": 54,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/networks/valenciennes_t2_2.json",
+    "stations": 70,
+    "platform_stop_areas": 66,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/angers.json",
+    "stations": 84,
+    "platform_stop_areas": 78,
+    "transition_stations": 10,
+    "dual_track_segments": 18
+  },
+  {
+    "file": "data/free/aubagne.json",
+    "stations": 14,
+    "platform_stop_areas": 10,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/avignon.json",
+    "stations": 20,
+    "platform_stop_areas": 20,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/besancon.json",
+    "stations": 62,
+    "platform_stop_areas": 6,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/bordeaux.json",
+    "stations": 281,
+    "platform_stop_areas": 271,
+    "transition_stations": 22,
+    "dual_track_segments": 24
+  },
+  {
+    "file": "data/free/brest.json",
+    "stations": 80,
+    "platform_stop_areas": 76,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/caen.json",
+    "stations": 94,
+    "platform_stop_areas": 94,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/clermont.json",
+    "stations": 67,
+    "platform_stop_areas": 65,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/dijon.json",
+    "stations": 71,
+    "platform_stop_areas": 69,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/grenoble.json",
+    "stations": 171,
+    "platform_stop_areas": 75,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/idf.json",
+    "stations": 600,
+    "platform_stop_areas": 394,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/lehavre.json",
+    "stations": 46,
+    "platform_stop_areas": 45,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/lemans.json",
+    "stations": 72,
+    "platform_stop_areas": 18,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/lille.json",
+    "stations": 71,
+    "platform_stop_areas": 69,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/lyon.json",
+    "stations": 257,
+    "platform_stop_areas": 216,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/marseille.json",
+    "stations": 91,
+    "platform_stop_areas": 73,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/montpellier.json",
+    "stations": 240,
+    "platform_stop_areas": 205,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/mulhouse.json",
+    "stations": 77,
+    "platform_stop_areas": 67,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/nantes.json",
+    "stations": 174,
+    "platform_stop_areas": 162,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/nice.json",
+    "stations": 101,
+    "platform_stop_areas": 95,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/orleans.json",
+    "stations": 104,
+    "platform_stop_areas": 71,
+    "transition_stations": 7,
+    "dual_track_segments": 9
+  },
+  {
+    "file": "data/free/reims.json",
+    "stations": 49,
+    "platform_stop_areas": 0,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/rouen.json",
+    "stations": 62,
+    "platform_stop_areas": 54,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/saintetienne.json",
+    "stations": 80,
+    "platform_stop_areas": 63,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/strasbourg.json",
+    "stations": 199,
+    "platform_stop_areas": 195,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/toulouse.json",
+    "stations": 50,
+    "platform_stop_areas": 48,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  },
+  {
+    "file": "data/free/tours.json",
+    "stations": 58,
+    "platform_stop_areas": 52,
+    "transition_stations": 4,
+    "dual_track_segments": 8
+  },
+  {
+    "file": "data/free/valenciennes.json",
+    "stations": 96,
+    "platform_stop_areas": 92,
+    "transition_stations": 0,
+    "dual_track_segments": 0
+  }
+]

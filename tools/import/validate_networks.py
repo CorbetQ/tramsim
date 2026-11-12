@@ -28,6 +28,9 @@ def validate(net):
             warns.append(f"limite suspecte sur {e['id']}")
         if abs(e.get("grade", 0)) > 0.12:
             warns.append(f"pente suspecte sur {e['id']}")
+        for span in e.get('power_overlaps', []):
+            if len(span) != 2 or not 0 <= span[0] < span[1] <= e['length'] + .002:
+                errs.append(f"recouvrement électrique hors arête: {e['id']}")
     ins = {e["to"] for e in edges.values()}; outs = {e["from"] for e in edges.values()}
     for n in nodes - ins - outs:
         errs.append(f"nœud isolé {n}")
@@ -37,6 +40,11 @@ def validate(net):
             errs.append(f"station {s['name']}: arête inconnue")
         elif not 0 <= s["offset"] <= e["length"]:
             errs.append(f"station {s['name']}: offset hors arête")
+        for segment in s.get('stop_area', {}).get('segments', []):
+            if len(segment) != 3 or segment[0] not in edges:
+                errs.append(f"zone de quai {s['name']}: arête inconnue")
+            elif not 0 <= segment[1] < segment[2] <= edges[segment[0]]['length'] + .002:
+                errs.append(f"zone de quai {s['name']}: bornes hors arête")
     for s in net.get("signals", []):
         if s["edge"] not in edges:
             errs.append("signal sur arête inconnue")

@@ -191,6 +191,6 @@ func _platform(i: int, s: Dictionary, side: String, L: float) -> void:
 func doors_at(stations: Array, edge: String, offset: float) -> String:
 	for i in stations.size():
 		var s: Dictionary = stations[i]
-		if s.edge == edge and absf(float(s.offset) - offset) < 25.0 and i < infos.size():
+		if i < infos.size() and (view.net.station_contains(s, edge, offset) or (not s.has("stop_area") and s.edge == edge and absf(float(s.offset) - offset) < 25.0)):
 			return infos[i].doors
 	return "right"

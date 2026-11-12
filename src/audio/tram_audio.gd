@@ -216,7 +216,7 @@ func update(s: Object, notch: float, emergency: bool, ext: bool, paused: bool, d
 	if s == null: return
 	var st := {"speed": float(s.phys.speed), "max_speed": float(s.phys.profile.max_speed_ms), "notch": notch,
 		"doors_open": bool(s.doors_open), "emergency": emergency, "pantograph_up": bool(s.pantograph_up),
-		"power_ok": bool(s.power_ok), "supply": s.net.supply_at(s.edge_id, s.offset), "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
+		"power_ok": bool(s.power_ok), "supply": s.power_mode, "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
 		"external": ext, "bridge": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].bridge, s.offset), "underground": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].tunnel, s.offset), "curvature": _curvature()}
 	update_state(st, dt)
 

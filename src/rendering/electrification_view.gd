@@ -8,21 +8,28 @@ static func build(view, id: String) -> void:
 	var g := LineView._Geo.new()
 	var wires := LineView._Geo.new()
 	var count := maxi(1, ceili(length_ / 5.0))
+	var cuts: Array[float] = [0.0, length_]
+	for i in range(1, count): cuts.append(length_ * i / count)
+	for zone in net.edge_info[id].get("supply_zones", []) + net.edge_info[id].get("power_overlaps", []):
+		for at in [float(zone[0]), float(zone[1])]:
+			if at > 0.0 and at < length_ and not at in cuts: cuts.append(at)
+	cuts.sort()
 	var last_mode := ""
 	var pole_distance := 36.0
-	for i in count:
-		var a := length_ * i / count
-		var b := length_ * (i + 1) / count
+	for i in cuts.size() - 1:
+		var a := cuts[i]
+		var b := cuts[i + 1]
 		var mode := net.supply_at(id, (a + b) * 0.5)
+		var modes := net.supplies_at(id, (a + b) * 0.5)
 		var pa: Vector3 = view.pos3(id, a); var pb: Vector3 = view.pos3(id, b)
 		var frame: Transform3D = view._frame(id, a)
-		if mode == "aps":
+		if "aps" in modes:
 			# Segments de contact séparés par les joints isolants, au centre des rails.
-			var delta := (pb - pa).normalized() * 0.08
+			var delta := (pb - pa).normalized() * minf(0.08, pa.distance_to(pb) * 0.2)
 			var rail: Array[Vector3] = [pa + delta, pb - delta]
 			g.ribbon(rail, 0.30, TrackView.BED_TOP_M + 0.008, Color("#383d3f"))
 			g.ribbon(rail, 0.12, TrackView.APS_TOP_M, Color("#b3b8b5"))
-		elif mode == "overhead":
+		if "overhead" in modes:
 			var wire: Array[Vector3] = [pa, pb]
 			wires.ribbon(wire, 0.035, 5.45, Color("#353a3d"))
 			wires.ribbon(wire, 0.025, 6.05, Color("#535757"))
@@ -49,7 +56,7 @@ static func junctions(view) -> void:
 		if connected.size() < 3: continue
 		var id := str(connected[0]); var edge: TrackGraph.Edge = net.graph.edges[id]
 		var offset := 0.0 if edge.from_node == node else edge.length
-		if net.supply_at(id, offset) != "overhead": continue
+		if not "overhead" in net.supplies_at(id, offset): continue
 		var frame: Transform3D = view._frame(id, offset)
 		var p := frame.origin
 		var g := LineView._Geo.new()
@@ -65,7 +72,7 @@ static func junctions(view) -> void:
 		for branch in connected:
 			var e: TrackGraph.Edge = net.graph.edges[branch]
 			var at := 0.0 if e.from_node == node else e.length
-			if net.supply_at(branch, at) != "overhead": continue
+			if not "overhead" in net.supplies_at(branch, at): continue
 			var f: Transform3D = view._frame(branch, at)
 			g.box_basis(p + Vector3.UP * 5.45, Vector3(0.13, 0.035, 0.65), f.basis, Color("#857b5e"))
 		view._add_geo(view.sectors[id], g, Materials.building())

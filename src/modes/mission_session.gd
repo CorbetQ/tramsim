@@ -27,6 +27,7 @@ var next_station := 0
 var dwell_left := 0.0
 var served := false                  # arrêt courant desservi
 var door_cycle_done := false
+var _departure_time := -1.0
 var pantograph_up := true
 var power_ok := true
 var power_mode := "overhead"
@@ -92,6 +93,7 @@ func set_doors(open: bool) -> void:
 	if open and phys.speed > 0.1:
 		return  # interdit en marche
 	if open and not doors_open:
+		_departure_time = -1.0
 		var st := _station_here()
 		if not st.is_empty():
 			served = true
@@ -104,7 +106,7 @@ func _station_here() -> Dictionary:
 	if next_station >= stops.size():
 		return {}
 	var s: Dictionary = stops[next_station]
-	if absf(dist_to_point(str(s.edge), float(s.offset), 50.0)) <= STOP_TOLERANCE_M:
+	if net.station_contains(s, edge_id, offset) or (not s.has("stop_area") and absf(dist_to_point(str(s.edge), float(s.offset), 50.0)) <= STOP_TOLERANCE_M):
 		return s
 	return {}
 
@@ -180,21 +182,48 @@ func next_station_ahead(max_edges: int = 10) -> Dictionary:
 		for st in net.stations:
 			if not _st_index.has(st.edge): _st_index[st.edge] = []
 			_st_index[st.edge].append(st)
+			for segment in st.get("stop_area", {}).get("segments", []):
+				var id := str(segment[0])
+				if id == str(st.edge): continue
+				if not _st_index.has(id): _st_index[id] = []
+				if not st in _st_index[id]: _st_index[id].append(st)
 	var e := edge_id
 	var r := direction
 	var off := offset
 	for i in max_edges:
 		var best: Dictionary = {}
+		var best_distance := INF
 		for st in _st_index.get(e, []):
-			var ahead := (float(st.offset) - off) * r
-			if ahead >= -3.0 and (best.is_empty() or ahead < (float(best.offset) - off) * r):
-				best = st
+			var start := float(st.offset); var end := start
+			var segments: Array = st.get("stop_area", {}).get("segments", [])
+			if not segments.is_empty():
+				start = INF; end = -INF
+				for segment in segments:
+					if str(segment[0]) == e:
+						start = minf(start, float(segment[1])); end = maxf(end, float(segment[2]))
+			if start == INF: continue
+			var ahead := (start - off) if r > 0 else (off - end)
+			var exit_distance := (end - off) if r > 0 else (off - start)
+			if exit_distance >= (-3.0 if segments.is_empty() else 0.0) and maxf(ahead, 0.0) < best_distance:
+				best = st; best_distance = maxf(ahead, 0.0)
 		if not best.is_empty(): return best
 		var nx := net.graph.next_step(e, r)
 		if nx.is_empty(): break
 		e = nx[0]; r = nx[1]
 		off = -1.0 if r > 0 else net.graph.edges[e].length + 1.0
 	return {}
+
+## Distance à l'entrée de la zone ; zéro pendant toute la présence à quai.
+func station_distance(station: Dictionary, horizon: float = 3000.0) -> float:
+	if net.station_contains(station, edge_id, offset): return 0.0
+	var segments: Array = station.get("stop_area", {}).get("segments", [])
+	if segments.is_empty(): return dist_to_point(str(station.edge), float(station.offset), horizon)
+	var nearest := INF
+	for segment in segments:
+		for at in [segment[1], segment[2]]:
+			var d := dist_to_point(str(segment[0]), float(at), horizon)
+			if d >= 0.0: nearest = minf(nearest, d)
+	return nearest
 
 func _dist_cb(_e: String, _o: float, to_edge: String, to_offset: float) -> float:
 	return dist_to_point(to_edge, to_offset)
@@ -264,9 +293,9 @@ func set_power_mode(mode: String) -> String:
 	event.emit("power", "Commutation vers " + power_label(mode))
 	return ""
 
-func _update_power(edge_supply: String) -> void:
+func _update_power(_edge_supply: String) -> void:
 	var contact := pantograph_up if power_mode == "overhead" else not pantograph_up
-	var ok := power_transition_left <= 0.0 and power_mode == edge_supply and contact and power_mode in available_power_modes()
+	var ok := power_transition_left <= 0.0 and power_mode in net.supplies_at(edge_id, offset) and contact and power_mode in available_power_modes()
 	if ok != power_ok:
 		event.emit("power", "Alimentation rétablie" if ok else "Coupure d’alimentation — vérifier le mode")
 	power_ok = ok; phys.power_available = ok
@@ -342,11 +371,14 @@ func _update_dwell(dt: float) -> void:
 	# départ : portes fermées, cycle fait, rame qui repart (terminus : fermeture suffit)
 	if served and door_cycle_done and not doors_open and (phys.speed > 0.5 or last):
 		var st: Dictionary = stops[next_station]
-		var r := scorer.evaluate_departure(st.name, schedule[next_station], time_s - dt, true)
+		if _departure_time < 0.0: _departure_time = time_s - dt
+		if not last and st.has("stop_area") and net.station_contains(st, edge_id, offset): return
+		var r := scorer.evaluate_departure(st.name, schedule[next_station], _departure_time, true)
 		event.emit("departure", "%s : %s" % [st.name, ["OK", "départ anticipé", "retard > 60 s", "arrêt oublié"][r]])
 		next_station += 1
 		served = false
 		door_cycle_done = false
+		_departure_time = -1.0
 		if next_station >= stops.size():
 			finished = true
 
@@ -354,6 +386,24 @@ func _check_station_passed() -> void:
 	if next_station >= stops.size() or served:
 		return
 	var s: Dictionary = stops[next_station]
+	if net.station_contains(s, edge_id, offset): return
+	var segments: Array = s.get("stop_area", {}).get("segments", [])
+	if not segments.is_empty():
+		var was_visited := false
+		for segment in segments:
+			was_visited = was_visited or visited.has(str(segment[0]))
+		if not was_visited: return
+		var last_distance := -INF
+		for segment in segments:
+			for at in [segment[1], segment[2]]:
+				var d := dist_to_point(str(segment[0]), float(at), 500.0)
+				if d != INF: last_distance = maxf(last_distance, d)
+		if last_distance >= 0.0 or (last_distance == -INF and not was_visited): return
+		# Les bornes ont toutes été dépassées, pas seulement le repère d'arrêt OSM.
+		scorer.evaluate_departure(s.name, schedule[next_station], time_s, false)
+		event.emit("missed", "Arrêt oublié : " + s.name)
+		next_station += 1
+		return
 	var passed: bool = (s.edge == edge_id and (offset - float(s.offset)) * direction > STOP_TOLERANCE_M) or (s.edge in visited and s.edge != edge_id)
 	if passed:
 		scorer.evaluate_departure(s.name, schedule[next_station], time_s, false)
