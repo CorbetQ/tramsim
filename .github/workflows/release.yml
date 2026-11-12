@@ -85,6 +85,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
+          target_commitish: ${{ github.sha }}
           tag_name: v0.9.${{ github.run_number }}
           name: Tram Sim France 0.9.${{ github.run_number }}
           prerelease: true
