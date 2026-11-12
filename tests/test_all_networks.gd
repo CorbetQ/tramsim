@@ -6,6 +6,7 @@ func _init() -> void:
 	var dir := "res://data/networks"
 	var only: Array = OS.get_cmdline_user_args()
 	var bad := 0
+	var failed_files := PackedStringArray()
 	var files := DirAccess.get_files_at(dir)
 	for f in files:
 		if not f.ends_with(".json"): continue
@@ -30,7 +31,8 @@ func _init() -> void:
 		var c := [0, 0, 0, 0]
 		for s in d.stops: c[s.result] += 1
 		var ok: bool = m.finished and d.reason == "" and c[1] == 0 and c[3] == 0 and d.stops.size() == mi.stops.size()
-		if not ok: bad += 1
+		if not ok: bad += 1; failed_files.append(f)
 		print("RESULT|%s|%d|%d|%d|%d|%d|%d|%d|%s" % [f.get_basename(), mi.stops.size(), c[0], c[1], c[2], c[3], int(d.time_s), int(mi.departures[-1]), d.reason])
 	print("TOTAL_ECHECS|%d" % bad)
-	quit(0)
+	if not failed_files.is_empty(): printerr("ECHEC: missions : ", ", ".join(failed_files))
+	quit(1 if bad > 0 else 0)

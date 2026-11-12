@@ -73,12 +73,12 @@ def enrich(path,osm):
   platforms.append(dict(osm_way=w['id'],name=t.get('name',''),pts=[[round(x,3),round(z,3)] for x,z in coords],y=ys,height_m=.3,height_estimated=True,width_estimated=estimated and 'width' not in t,geometry_source='OSM open way, estimated width away from track' if estimated else 'OSM polygon',edge=edges[i]['id'],shelter=t.get('shelter')=='yes'))
  d['platforms']=platforms;d['platform_source']='OpenStreetMap snapshot '+osm.get('osm3s',{}).get('timestamp_osm_base','unknown')
  # Les tags électriques OSM sont prioritaires sur l'ancien profil GTFS.
- rails=[];modes=[]
+ rails=[];modes=[];services=[]
  for w in byway.values():
   t=w.get('tags',{});ids=w.get('nodes',[]);electric=t.get('electrified','')
   if t.get('railway') not in ('tram','light_rail') or len(ids)<2 or not all(n in nodes for n in ids):continue
   mode=electrical_mode(electric,d.get('source_id',''))
-  if mode:rails.append(LineString([p(nodes[n]) for n in ids]));modes.append(mode)
+  if mode:rails.append(LineString([p(nodes[n]) for n in ids]));modes.append(mode);services.append(t.get('service',''))
  rt=STRtree(rails) if rails else None
  for e,line in zip(edges,lines):
   way=byway.get(e.get('source',{}).get('way'),{});electric=way.get('tags',{}).get('electrified','')
@@ -87,7 +87,16 @@ def enrich(path,osm):
   if d.get('geometry_kind')=='physical' or rt is None:continue
   zones=[];count=max(1,math.ceil(e['length']/10))
   for a in range(count):
-   lo=e['length']*a/count;hi=e['length']*(a+1)/count;q=line.interpolate((a+.5)/count,normalized=True);j=int(rt.nearest(q));mode=modes[j] if rails[j].distance(q)<8 else e.get('supply',d.get('supply','overhead'))
+   lo=e['length']*a/count;hi=e['length']*(a+1)/count;along=(a+.5)/count*line.length;q=line.interpolate(along)
+   tangent=np.array(line.interpolate(min(line.length,along+4)).coords[0])-np.array(line.interpolate(max(0,along-4)).coords[0]);tangent/=max(1e-9,np.linalg.norm(tangent))
+   candidates=[]
+   for j in rt.query(q.buffer(8)):
+    rail=rails[j];s=rail.project(q);heading=np.array(rail.interpolate(min(rail.length,s+2)).coords[0])-np.array(rail.interpolate(max(0,s-2)).coords[0]);heading/=max(1e-9,np.linalg.norm(heading))
+    alignment=abs(float(np.dot(tangent,heading)))
+    if alignment<math.cos(math.radians(25)):continue
+    score=rail.distance(q)+5*(1-alignment)+(3 if services[j] else 0)
+    candidates.append((score,int(j)))
+   mode=modes[min(candidates)[1]] if candidates else e.get('supply',d.get('supply','overhead'))
    if zones and zones[-1][2]==mode:zones[-1][1]=round(hi,3)
    else:zones.append([round(lo,3),round(hi,3),mode])
   e['supply_zones']=zones

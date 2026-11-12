@@ -28,6 +28,13 @@ class StationPowerImport(unittest.TestCase):
    path=Path(directory)/'network.json';path.write_text(json.dumps(d));module.enrich(path,osm);result=json.loads(path.read_text())
   self.assertEqual(result['stations'][0]['edge'],'back')
   self.assertEqual(result['stations'][0]['direction'],-1)
+ def test_crossing_service_track_does_not_change_mainline_power(self):
+  def n(i,x,z):return dict(type='node',id=i,lon=math.degrees(x/module.R),lat=-math.degrees(z/module.R))
+  osm={'elements':[n(1,0,3),n(2,200,3),n(3,95,-10),n(4,95,10),dict(type='way',id=10,nodes=[1,2],tags={'railway':'tram','electrified':'contact_line'}),dict(type='way',id=11,nodes=[3,4],tags={'railway':'tram','electrified':'no','service':'crossover'})]}
+  d={'schema':1,'origin':[0,0],'source_id':'rouen','edges':[dict(id='main',length=200,pts=[[0,0],[200,0]],y=[0,0],supply='overhead')],'stations':[]}
+  with tempfile.TemporaryDirectory() as directory:
+   path=Path(directory)/'network.json';path.write_text(json.dumps(d));module.enrich(path,osm);result=json.loads(path.read_text())
+  self.assertTrue(all(z[2]=='overhead' for z in result['edges'][0]['supply_zones']))
  def test_unpowered_track_is_not_assumed_to_charge_a_battery(self):
   self.assertEqual(module.electrical_mode('no','angers'),'none')
   self.assertEqual(module.electrical_mode('ground-level_power_supply','bordeaux'),'aps')

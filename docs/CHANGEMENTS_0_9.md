@@ -27,7 +27,9 @@ des portes est déterminé à partir du quai le plus proche.
 Les tags OSM `electrified` remplacent les anciennes suppositions : notamment
 281 sections APS dans les réseaux libres. Les missions conservent des zones
 électriques locales lorsque plusieurs modes traversent une même arête GTFS.
-Une voie non électrifiée n'est pas assimilée à une alimentation APS. Nice
+Le rapprochement électrique des missions tient compte du cap de la voie et
+pénalise les voies de service : une communication voisine ne doit pas couper
+la traction sur la voie principale. Une voie non électrifiée n'est pas assimilée à une alimentation APS. Nice
 conserve ses sections autonomes sur batterie.
 
 Le pantographe est initialisé selon la section de départ. Sur les matériels
