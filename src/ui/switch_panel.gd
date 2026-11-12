@@ -226,7 +226,7 @@ func _build_toolbar() -> void:
 		tb.add_child(_tool("switch", "Liste des aiguillages", func(): _side_panel.show(); _map_panel.hide()))
 		var close_map := _tool("close", "Fermer", func(): closed.emit())
 		close_map.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT); close_map.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-		close_map.offset_left = -66; close_map.offset_right = -14; close_map.offset_top = 14; canvas.add_child(close_map)
+		close_map.offset_left = -66; close_map.offset_right = -14; close_map.offset_top = 14; close_map.offset_bottom = 66; canvas.add_child(close_map)
 	follow_btn = _tool("follow", "Suivre la rame (F)", func(): set_follow(not follow)); follow_btn.toggle_mode = true; tb.add_child(follow_btn)
 	tb.add_child(_tool("recenter", "Vue d'ensemble", recenter))
 	tb.add_child(_tool("plus", "Zoom avant", func(): _zoom_at(canvas.size * 0.5, 1.4)))

@@ -29,6 +29,8 @@ func _run() -> void:
 	main.session.phys.speed=2.0;main._power_picker();await process_frame
 	check(get_nodes_in_group("touch_choice_modal").is_empty(),"sélecteur refusé en marche")
 	main._toggle_plan();await process_frame;check(main.plan_panel!=null,"plan accessible en mode libre")
+	var plan_close:Button=main.plan_panel.canvas.get_node("tool_close")
+	check(plan_close.size==Vector2(52,52),"bouton Fermer du plan : cible compacte de 52 px")
 	main._toggle_plan();await process_frame
 	main.free_mode=false;main.mission={};main._start();main.paused=true
 	for i in 5:await process_frame
