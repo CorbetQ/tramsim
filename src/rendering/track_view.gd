@@ -4,6 +4,9 @@ extends RefCounted
 ## (gazon / enrobé / pavés-béton, analysée sur les orthophotos IGN, voir tools/import/ign_scene.py)
 ## et zones interdites au décor (KeepOut : voies, quais).
 
+const BED_TOP_M := 0.09
+const RAIL_TOP_M := 0.17
+const APS_TOP_M := BED_TOP_M + 0.015
 const BED_UNKNOWN := 0
 const BED_GRASS := 1
 const BED_ROAD := 2
@@ -70,7 +73,7 @@ static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color
 			BED_ROAD: bed.append(ASPHALT)
 			BED_PAVED: bed.append(paved)
 			_: bed.append(fallback)
-	ribbon(g, pts, nrm, 3.5, 0.09, bed, o)
+	ribbon(g, pts, nrm, 3.5, BED_TOP_M, bed, o)
 	var sl: Array = []
 	for i in kinds.size():
 		var grassy: bool = kinds[i] == BED_GRASS or (kinds[i] == BED_UNKNOWN and fallback == GRASS)
@@ -79,7 +82,7 @@ static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color
 	rails.resize(kinds.size()); rails.fill(RAIL)
 	for off in [-gauge_m * 0.5, gauge_m * 0.5]:
 		ribbon(g, pts, nrm, 0.42, 0.11, sl, o + off)
-		ribbon(g, pts, nrm, 0.08, 0.17, rails, o + off)
+		ribbon(g, pts, nrm, 0.08, RAIL_TOP_M, rails, o + off)
 
 ## Zones interdites au décor : segments (repère libre) avec distance minimale, index spatial à cellules de 16 m.
 class KeepOut:

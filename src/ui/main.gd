@@ -7,8 +7,8 @@ extends Control
 const KEYS := [
 	["Z / W / ↑", "Traction (cran suivant)"], ["S / ↓", "Freinage (cran suivant)"], ["X", "Neutre"],
 	["Espace", "Freinage d'urgence"], ["O", "Ouvrir / fermer les portes"], ["K", "Cloche"],
-	["P", "Lever / baisser le pantographe"], ["C", "Caméra cabine / extérieure"], ["M", "Carte"],
-	["A", "Aiguillages (mode libre)"], ["Tab", "Aiguillage suivant (panneau ouvert)"], ["1 – 3", "Choisir la branche"],
+	["P", "Alimentation LAC / APS (à l’arrêt)"], ["C", "Caméra cabine / extérieure"], ["M", "Plan du réseau"],
+	["A", "Plan du réseau"], ["Tab", "Aiguillage suivant (panneau ouvert)"], ["1 – 3", "Choisir la branche"],
 	["V", "Changer de sens (mode libre)"], ["R", "Remise sur voie (mode libre)"], ["T", "Trafic automobile (mode libre)"],
 	["Échap", "Pause / fermer"], ["F1", "Cette aide"], ["F11", "Plein écran"], ["Molette / pincer", "Zoom caméra"],
 	["Glisser", "Tourner autour de la rame"]]
@@ -50,8 +50,8 @@ var hud_alert: Label
 var hud_switch: Button          # prochain aiguillage (mode libre)
 var notch_label: Label
 var lever: NotchLever
-var map: MapView
-var switch_panel: SwitchPanel
+var power_button: Button
+var plan_panel: NetworkPlan
 var pause_layer: Control
 var debrief_layer: Control
 var help_layer: Control
@@ -59,6 +59,7 @@ var toasts: VBoxContainer
 var lamps: Dictionary = {}      # nom -> [PanelContainer, TextureRect, Label]
 var tuto: Control
 var tuto_step := 0
+var tram_audio: TramAudio
 var bell: AudioStreamPlayer
 var _alert_box: PanelContainer
 var _hud_t := 0.0
@@ -110,7 +111,7 @@ func _clear() -> void:
 	camera_gestures.reset()
 	for c in get_children():
 		if c != bell: c.queue_free()
-	view = null; session = null; free = null; map = null; tuto = null; switch_panel = null; pause_layer = null; debrief_layer = null
+	view = null; tram_audio = null; session = null; free = null; tuto = null; plan_panel = null; pause_layer = null; debrief_layer = null
 	help_layer = null; toasts = null; hud_switch = null; lamps.clear()
 
 # ----------------------------------------------------------------------------------------------- menu
@@ -469,8 +470,9 @@ func _start() -> void:
 		if not start_station.is_empty():
 			e = start_station.edge; o = float(start_station.offset)
 		free = FreeSession.new(net, vehicle, e, o, save.settings.traffic)
-		if int(start_station.get("direction", 1)) < 0:
-			free.direction = -1; free.route_dir = [-1]; free.checkpoint_dir = -1; free.update_spans()
+		var normal := int(net.edge_info[e].get("preferred_direction", 0))
+		free.direction = normal if normal != 0 else int(start_station.get("direction", 1))
+		free.route_dir = [free.direction]; free.checkpoint_dir = free.direction; free.update_spans()
 		session = free
 		first = e
 	else:
@@ -496,7 +498,7 @@ func _start() -> void:
 	view.update_from(session, true)
 	if view.city: view.city.warm(view.cam.global_position)
 	view.cam.current = true
-	add_child(TramAudio.new(view, bell))   # moteur sonore de la rame
+	tram_audio = TramAudio.new(view, bell); add_child(tram_audio)   # moteur sonore de la rame
 	_build_hud()
 	_set_notch(notch)
 	if free and free.adaptation_notice != "": _log(free.adaptation_notice)
@@ -544,7 +546,7 @@ func _build_hud() -> void:
 		hud_switch.add_theme_font_size_override("font_size", UiTheme.SIZE_SMALL); hud_switch.focus_mode = Control.FOCUS_NONE
 		hud_switch.tooltip_text = "Prochain aiguillage sur l'itinéraire : ouvrir le panneau (A)"
 		hud_switch.visible = not compact
-		hud_switch.name = "next_switch"; hud_switch.pressed.connect(_toggle_switches); tv.add_child(hud_switch)
+		hud_switch.name = "next_switch"; hud_switch.pressed.connect(_toggle_plan); tv.add_child(hud_switch)
 	# --- horloge, écart, boutons (haut droite)
 	var tr := HBoxContainer.new(); tr.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 	tr.grow_horizontal = Control.GROW_DIRECTION_BEGIN; tr.offset_right = -14 - safe.z; tr.offset_top = 14 + safe.y; tr.offset_left = -14 - safe.z
@@ -608,19 +610,14 @@ func _build_hud() -> void:
 	dock.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; dock.name = "dock"; add_child(dock)
 	var tools := HBoxContainer.new(); tools.add_theme_constant_override("separation", 8)
 	tools.size_flags_horizontal = Control.SIZE_EXPAND_FILL; tools.alignment = BoxContainer.ALIGNMENT_CENTER; dock.add_child(tools)
-	var specs := [["Portes", "doors", "O", _doors], ["Cloche", "bell", "K", _horn], ["Caméra", "camera", "C", _camera], ["Carte", "map", "M", _toggle_map], ["Pantographe", "pantograph", "P", _panto]]
+	var specs := [["Portes", "doors", "O", _doors], ["Cloche", "bell", "K", _horn], ["Caméra", "camera", "C", _camera], ["Plan", "map", "M", _toggle_plan], ["Alimentation", "power", "P", _power_picker]]
 	if free_mode:
-		specs += [["Aiguillages", "switch", "A", _toggle_switches], ["Changer de sens", "reverse", "V", _reverse], ["Remise sur voie", "rerail", "R", _rerail], ["Trafic", "traffic", "T", _traffic]]
+		specs += [["Changer de sens", "reverse", "V", _reverse], ["Remise sur voie", "rerail", "R", _rerail], ["Trafic", "traffic", "T", _traffic]]
 	for spec in specs:
 		var b := UiTheme.tool_button(spec[0], spec[1], "" if compact else spec[2], 72.0 if compact else 88.0); b.pressed.connect(spec[3])
 		b.add_theme_stylebox_override("normal", UiTheme.box(Color(UiTheme.SURFACE, 0.82), 14, 8, UiTheme.BORDER, 1))
 		tools.add_child(b)
-	# --- carte (droite, au-dessus de l'urgence)
-	map = MapView.new(); map.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
-	map.offset_left = -minf(400.0, size.x - 28.0); map.offset_right = -14
-	map.offset_top = 96; map.offset_bottom = -240 if compact else -376
-	map.visible = false; map.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	map.setup(session, view); add_child(map)
+		if spec[1] == "power": power_button = b
 	for c in [trip, tr, lp, rp, dock]: UiTheme.fade_in(c, 0.35)
 	for c in get_children():
 		if not c in before: c.add_to_group("driving_hud")
@@ -665,12 +662,19 @@ func _camera() -> void:
 	external_cam = not external_cam
 	_log("Caméra " + ("extérieure" if external_cam else "cabine"), "info", "camera")
 
-func _toggle_map() -> void:
-	map.visible = not map.visible
-	if map.visible: UiTheme.fade_in(map, 0.15)
-
-func _panto() -> void:
-	session.toggle_pantograph(); _log("Pantographe " + ("levé" if session.pantograph_up else "baissé"), "info", "pantograph")
+func _power_picker() -> void:
+	if session.phys.speed >= 0.1:
+		_log("Arrêtez la rame avant de changer d’alimentation", "warn"); return
+	var choice := TouchChoice.new(); choice.choice_title = "Alimentation"
+	var modes := session.available_power_modes()
+	for mode in modes: choice.add_item(MissionSession.power_label(mode))
+	choice.select(modes.find(session.power_mode)); add_child(choice)
+	choice.position = Vector2(-4096, -4096)
+	choice.item_selected.connect(func(index):
+		var error := session.set_power_mode(str(modes[index]))
+		_log(error if error != "" else "Alimentation : " + MissionSession.power_label(session.power_mode), "warn" if error != "" else "info", "power"))
+	choice.open_picker()
+	if is_instance_valid(choice.popup): choice.popup.tree_exited.connect(func(): choice.queue_free())
 
 func _emergency() -> void:
 	emergency = true; _set_notch(-1.0); _log("Freinage d'urgence", "danger", "emergency")
@@ -679,7 +683,7 @@ func _reverse() -> void:  # changement de cabine : même voie, sens de marche in
 	if free:
 		var err := free.reverse()
 		_log(err if err != "" else ("Changement de cabine : " + ("cabine avant" if free.direction > 0 else "cabine arrière")), "warn" if err != "" else "info", "reverse")
-		if switch_panel: switch_panel.refresh()
+		if plan_panel: plan_panel.refresh()
 
 func _rerail() -> void:
 	if free: free.rerail(); _log("Remise sur voie", "info", "rerail")
@@ -689,16 +693,15 @@ func _traffic() -> void:
 		free.set_traffic(not free.traffic.enabled); save.settings.traffic = free.traffic.enabled
 		_log("Trafic " + ("activé" if free.traffic.enabled else "désactivé"), "info", "traffic")
 
-func _toggle_switches() -> void:
-	if not free_mode: return
-	if switch_panel:
-		var sp := switch_panel; switch_panel = null
+func _toggle_plan() -> void:
+	if plan_panel:
+		var sp := plan_panel; plan_panel = null
 		UiTheme.fade_out_free(sp, 0.12); return
-	switch_panel = SwitchPanel.new(); add_child(switch_panel)
-	switch_panel.setup(free, view)
-	switch_panel.closed.connect(_toggle_switches)
-	switch_panel.message.connect(func(t): _log(t, "info", "switch"))
-	UiTheme.fade_in(switch_panel, 0.15)
+	plan_panel = NetworkPlan.new(); add_child(plan_panel)
+	plan_panel.setup(session, view)
+	plan_panel.closed.connect(_toggle_plan)
+	plan_panel.message.connect(func(t): _log(t, "info", "switch"))
+	UiTheme.fade_in(plan_panel, 0.15)
 
 ## Notification (toast) : apparaît en fondu, disparaît après quelques secondes ; doublons regroupés.
 func _log(t: String, kind: String = "info", icon_name: String = "") -> void:
@@ -842,7 +845,7 @@ func _next_stop() -> Dictionary:
 # ----------------------------------------------------------------------------------------------- entrées
 
 func _unhandled_input(ev: InputEvent) -> void:
-	if view == null or paused or switch_panel != null or help_layer != null: return
+	if view == null or paused or plan_panel != null or help_layer != null: return
 	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == -1: return
 	if ev is InputEventScreenTouch or ev is InputEventScreenDrag:
 		var action := camera_gestures.feed(ev)
@@ -874,16 +877,16 @@ func _input(ev: InputEvent) -> void:
 	if session == null: return
 	match k:
 		KEY_ESCAPE:
-			if switch_panel: _toggle_switches()
+			if plan_panel: _toggle_plan()
 			else: _set_paused(not paused)
 		KEY_SPACE: _emergency()
 		KEY_X: _set_notch(0.0)
 		KEY_O: _doors()
 		KEY_K: _horn()
 		KEY_C: _camera()
-		KEY_M: _toggle_map()
-		KEY_P: _panto()
-		KEY_A: _toggle_switches()
+		KEY_M: _toggle_plan()
+		KEY_P: _power_picker()
+		KEY_A: _toggle_plan()
 		KEY_R: _rerail()
 		KEY_V: _reverse()
 		KEY_T: _traffic()
@@ -906,10 +909,13 @@ func _process(dt: float) -> void:
 		if emergency and session.phys.speed < 0.05: emergency = false
 	view.set_hour(current_hour())
 	view.update_from(session, external_cam)
-	if has_node("TramAudio"): ($TramAudio as TramAudio).update(session, notch, emergency, external_cam, paused, dt)
-	if map.visible: map.queue_redraw()
-	if switch_panel and Engine.get_process_frames() % 15 == 0: switch_panel.canvas.queue_redraw()
+	if is_instance_valid(tram_audio): tram_audio.update(session, notch, emergency, external_cam, paused, dt)
+	if plan_panel and Engine.get_process_frames() % 15 == 0: plan_panel.canvas.queue_redraw()
 	_tick_toasts(dt)
+	if is_instance_valid(power_button):
+		var caption := power_button.get_child(0).get_child(1) as Label
+		caption.text = MissionSession.power_label(session.power_mode) + ("…" if session.power_transition_left > 0.0 else "")
+		power_button.tooltip_text = "Alimentation : " + caption.text + " (à l’arrêt)"
 	var lim := session.speed_limit() * 3.6
 	hud_speed.set_values(session.phys.speed * 3.6, lim, session.phys.profile.max_speed_ms * 3.6, session.overspeed)
 	if lever and lever.value != notch: lever.set_value(notch)
@@ -919,7 +925,7 @@ func _process(dt: float) -> void:
 	if not _speed_advice.is_empty() and session.phys.speed > float(_speed_advice.limit) + 0.5:
 		alerts.append("RALENTIR : %d km/h dans %d m" % [roundi(float(_speed_advice.limit) * 3.6), roundi(_speed_advice.distance)])
 	if session.overspeed: alerts.append("SURVITESSE")
-	if not session.power_ok: alerts.append("COUPURE D'ALIMENTATION")
+	if not session.power_ok: alerts.append("COMMUTATION EN COURS" if session.power_transition_left > 0.0 else "COUPURE — MODE " + MissionSession.power_label(session.power_mode))
 	if emergency: alerts.append("FREINAGE D'URGENCE")
 	if free and free.incident != "": alerts.append("INCIDENT : " + free.incident + " — remise sur voie (R)")
 	hud_alert.text = "  ·  ".join(alerts)
@@ -928,7 +934,7 @@ func _process(dt: float) -> void:
 	# voyants
 	_set_lamp("doors", 2 if session.doors_open else 1, "Portes ouvertes" if session.doors_open else "Portes")
 	_set_lamp("panto", 1 if session.pantograph_up else 0, "Panto")
-	_set_lamp("power", 1 if session.power_ok else 3, "Alim." if session.power_ok else "Coupure")
+	_set_lamp("power", 1 if session.power_ok else 3, MissionSession.power_label(session.power_mode) if session.power_ok else ("Commutation" if session.power_transition_left > 0.0 else "Coupure"))
 	_set_lamp("emerg", 3 if emergency else 0, "Urgence")
 	_hud_t -= dt
 	if _hud_t > 0.0 and not session.finished: return
@@ -962,12 +968,12 @@ func _process(dt: float) -> void:
 		hud_sched.text = "mode libre" + ("" if session.direction > 0 or net.meta.get("geometry_kind", "") == "physical" else " · contre-sens")
 		hud_sched.add_theme_color_override("font_color", UiTheme.MUTED)
 	if hud_switch:
-		var up := SwitchPanel.upcoming(free, 2500.0)
+		var up := NetworkPlan.upcoming(free, 2500.0)
 		if up.is_empty():
 			hud_switch.text = "Aucun aiguillage devant"; hud_switch.modulate = Color(1, 1, 1, 0.7)
 		else:
 			var u: Array = up[0]
-			hud_switch.text = "Aiguillage à %d m  →  %s" % [roundi(u[2]), SwitchPanel.branch_text(free, u[0], u[1])]
+			hud_switch.text = "Aiguillage à %d m  →  %s" % [roundi(u[2]), NetworkPlan.branch_text(free, u[0], u[1])]
 			hud_switch.modulate = Color.WHITE
 	if session.finished and not _result_saved:
 		_result_saved = true

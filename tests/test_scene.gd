@@ -8,10 +8,10 @@ func _run(main: Node, free: bool) -> bool:
 	var ok: bool = main.session != null and main.view != null and main.view.tram != null
 	ok = ok and main.hud_speed is Speedometer and main.lever is NotchLever and main.lamps.size() == 4
 	if free:
-		main._toggle_switches()
+		main._toggle_plan()
 		for i in 3: await process_frame
-		ok = ok and main.switch_panel != null and main.switch_panel.switch_pos.size() > 0
-		main._toggle_switches()
+		ok = ok and main.plan_panel != null and main.plan_panel.switch_pos.size() > 0
+		main._toggle_plan()
 	print("scène (libre=%s): %s | %s" % [free, ok, main.hud_info.text])
 	return ok
 func _init() -> void:

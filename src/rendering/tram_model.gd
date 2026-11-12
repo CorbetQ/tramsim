@@ -275,6 +275,7 @@ class Rig:
 	var door_right := false         # cibles par côté
 	var door_left := false
 	var panto_t := 1.0
+	var panto_transition_s := 0.0
 
 	## Ouvre les portes du côté quai : "right", "left" ou "both" (droite/gauche dans le sens de marche,
 	## nez avant vers -z) ; seules ces portes s'ouvrent. `open` = false referme toutes les portes.
@@ -285,7 +286,9 @@ class Rig:
 	func door_side_t(side: float) -> float: return door_t_right if side > 0.0 else door_t_left
 	func set_pantograph(up: bool) -> void: panto_target = up
 	func door_time() -> float: return maxf(float(door_cfg.get("open_s", 2.5)), 0.05)
-	func panto_time() -> float: return maxf(float(panto_cfg.get("raise_s", 4.0)), 0.05)
+	func panto_time() -> float:
+		if panto_transition_s > 0.0: return panto_transition_s
+		return maxf(float(panto_cfg.get("raise_s", 4.0)), 0.05)
 	func doors_open() -> bool:
 		return doors_target and (not door_right or door_t_right >= 1.0) and (not door_left or door_t_left >= 1.0) and door_t >= 1.0
 	func doors_closed() -> bool: return door_t_right <= 0.0 and door_t_left <= 0.0

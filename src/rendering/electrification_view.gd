@@ -20,8 +20,8 @@ static func build(view, id: String) -> void:
 			# Segments de contact séparés par les joints isolants, au centre des rails.
 			var delta := (pb - pa).normalized() * 0.08
 			var rail: Array[Vector3] = [pa + delta, pb - delta]
-			g.ribbon(rail, 0.30, 0.035, Color("#383d3f"))
-			g.ribbon(rail, 0.12, 0.045, Color("#b3b8b5"))
+			g.ribbon(rail, 0.30, TrackView.BED_TOP_M + 0.008, Color("#383d3f"))
+			g.ribbon(rail, 0.12, TrackView.APS_TOP_M, Color("#b3b8b5"))
 		elif mode == "overhead":
 			var wire: Array[Vector3] = [pa, pb]
 			wires.ribbon(wire, 0.035, 5.45, Color("#353a3d"))

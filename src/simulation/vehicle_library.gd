@@ -82,6 +82,7 @@ static func for_fleet(entry: Dictionary, meta: Dictionary = {}) -> VehicleProfil
 	p.family = str(entry.get("name", TramModel.plan(fam).get("name", fam)))
 	if str(meta.get("source_id", "")) in ["angers", "bordeaux", "orleans", "reims", "tours", "nice"] and fam.begins_with("citadis"):
 		p.supply = "hybrid"
+	if str(meta.get("source_id", "")) == "nice": p.electric_modes = PackedStringArray(["overhead", "battery"])
 	p.model_family = fam
 	p.fleet = entry
 	p.estimated = est

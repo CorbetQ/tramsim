@@ -68,15 +68,15 @@ func _run() -> void:
 			system_touch(touch(0,previous,false)); await process_frame
 			await create_timer(0.35).timeout
 			check(dock.scroll_horizontal > 40, "défilement du dock par glissement tactile natif (%d px)" % dock.scroll_horizontal)
-			check(not main.map.visible, "glisser le dock ne déclenche pas le bouton Carte")
+			check(main.plan_panel == null, "glisser le dock ne déclenche pas le bouton Carte")
 		main._toggle_help()
 		for i in 4: await process_frame
 		var help_panel := main.help_layer.find_children("*", "PanelContainer",true,false)[0] as Control
 		check(viewport.grow(1).encloses(help_panel.get_global_rect()), "%s : aide contenue dans l'écran" % dimensions)
 		main._toggle_help()
-		main._toggle_switches()
+		main._toggle_plan()
 		for i in 4: await process_frame
-		var sp: SwitchPanel = main.switch_panel
+		var sp: NetworkPlan = main.plan_panel
 		check(sp.canvas.size.x >= dimensions.x * 0.5, "%s : plan d'aiguillages lisible" % dimensions)
 		check(not sp.compact or not sp._side_panel.visible, "%s : liste repliée sur petit écran" % dimensions)
 		sp._plan_input(touch(0,Vector2(100,100),true))
@@ -86,7 +86,7 @@ func _run() -> void:
 		var emulated := InputEventMouseMotion.new(); emulated.device = -1; emulated.relative = Vector2(40,0)
 		before = sp.pan; sp._dragging = true; sp._plan_input(emulated)
 		check(sp.pan == before, "%s : souris tactile émulée ignorée" % dimensions)
-		main._toggle_switches()
+		main._toggle_plan()
 		main.menu_page = "setup"; main._build_menu()
 		for i in 4: await process_frame
 		var start := main.find_child("start",true,false) as Button

@@ -29,6 +29,9 @@ var served := false                  # arrêt courant desservi
 var door_cycle_done := false
 var pantograph_up := true
 var power_ok := true
+var power_mode := "overhead"
+var power_transition_left := 0.0
+const POWER_SWITCH_SECONDS := 0.6
 var traffic: RoadTraffic
 var blocked := false
 var visited: Dictionary = {}
@@ -50,7 +53,7 @@ func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, 
 	net.graph.occupy(start_edge, train_id)
 	for i in net.signals.size():
 		signal_state[i] = net.signals[i].get("default", "clear")
-	pantograph_up = net.supply_at(edge_id, offset) == "overhead"
+	initialize_power()
 	traffic = RoadTraffic.new(net.meta.get("roads", []))
 
 ## Remplace la liste d'arrêts (mission issue du GTFS) : indices dans net.stations.
@@ -213,6 +216,7 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	if doors_open:
 		n = minf(n, 0.0)  # traction coupée portes ouvertes
 	_update_signals()
+	power_transition_left = maxf(0.0, power_transition_left - dt)
 	_update_power(net.supply_at(edge_id, offset))
 	if not power_ok: n = minf(n, -0.75) # frein de sécurité, maintien même en descente
 	var before := phys.position
@@ -235,22 +239,44 @@ func _update_signals() -> void:
 			signal_state[i] = "stop" if (occ != "" and occ != train_id) else "clear"
 
 ## Alimentation selon le mode de la section et l'état du pantographe.
-func _update_power(edge_supply: String) -> void:
-	var sup := phys.profile.supply
-	var ok := true
-	if sup == "hybrid":
-		ok = (edge_supply == "overhead" and pantograph_up) or (edge_supply in ["aps", "battery"] and not pantograph_up)
-	elif sup == "overhead":
-		ok = edge_supply == "overhead" and pantograph_up
-	else:
-		ok = sup == edge_supply
-	if ok != power_ok:
-		event.emit("power", "Alimentation rétablie" if ok else "Coupure d'alimentation")
-	power_ok = ok
-	phys.power_available = ok
+func available_power_modes() -> PackedStringArray:
+	return phys.profile.power_modes()
 
+func initialize_power() -> void:
+	var modes := available_power_modes()
+	var section := net.supply_at(edge_id, offset)
+	power_mode = section if section in modes else str(modes[0])
+	pantograph_up = power_mode == "overhead"
+	power_transition_left = 0.0
+	_update_power(section)
+
+static func power_label(mode: String) -> String:
+	return {"overhead":"LAC", "aps":"APS", "battery":"Autonomie", "third_rail":"Troisième rail", "none":"Non alimentée"}.get(mode, mode)
+
+func set_power_mode(mode: String) -> String:
+	if phys.speed >= 0.1: return "Arrêtez la rame avant de changer d’alimentation"
+	if not mode in available_power_modes(): return "Alimentation incompatible avec ce matériel"
+	if power_transition_left > 0.0: return "Commutation en cours"
+	if power_mode == mode and pantograph_up == (mode == "overhead"): return ""
+	power_mode = mode; pantograph_up = mode == "overhead"
+	power_transition_left = POWER_SWITCH_SECONDS
+	power_ok = false; phys.power_available = false
+	event.emit("power", "Commutation vers " + power_label(mode))
+	return ""
+
+func _update_power(edge_supply: String) -> void:
+	var contact := pantograph_up if power_mode == "overhead" else not pantograph_up
+	var ok := power_transition_left <= 0.0 and power_mode == edge_supply and contact and power_mode in available_power_modes()
+	if ok != power_ok:
+		event.emit("power", "Alimentation rétablie" if ok else "Coupure d’alimentation — vérifier le mode")
+	power_ok = ok; phys.power_available = ok
+
+## Compatibilité des commandes internes anciennes : bascule via le même
+## interverrouillage, jamais par déduction implicite du seul pantographe.
 func toggle_pantograph() -> void:
-	pantograph_up = not pantograph_up
+	var modes := available_power_modes()
+	if modes.size() < 2: return
+	set_power_mode(str(modes[(modes.find(power_mode) + 1) % modes.size()]))
 
 func _advance(d: float) -> void:
 	_sync_dirs()

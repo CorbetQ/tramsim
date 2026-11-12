@@ -26,6 +26,10 @@ const CAB_MUFFLED := ["rolling", "squeal", "ambience", "joint", "brake_mech", "e
 const BUS := "TramFX"
 const CAB_BUS := "TramCabin"
 const TUNNEL_BUS := "TramTunnel"
+static var _family_manifest: Dictionary = {}
+var audio_family := ""
+var sound_profile: Dictionary = {}
+var sound_bank: Dictionary = {}
 var in_tunnel := false
 var on_bridge := false
 const BRIDGE_BUS := "TramBridge"
@@ -51,7 +55,8 @@ var squeal_chance := 0.35                 # probabilité qu'une courbe serrée c
 var _squeal_on := false
 var _in_curve := false
 
-func _init(line_view: Node = null, bell_player: AudioStreamPlayer = null) -> void:
+func _init(line_view: Node = null, bell_player: AudioStreamPlayer = null, family_hint: String = "") -> void:
+	audio_family = family_hint
 	name = "TramAudio"
 	view = line_view
 	bell = bell_player
@@ -62,6 +67,9 @@ func _ready() -> void:
 	if view is Node3D: view.add_child(anchor)
 	else: add_child(anchor)
 	setup_buses()
+	if audio_family == "" and view != null and "family" in view: audio_family = str(view.family)
+	sound_profile = profile_for(audio_family)
+	sound_bank = sound_profile.get("bank_data", {})
 	for n in LOOPS: _make(n, true, LOOPS[n])
 	for n in SHOTS: _make(n, false, SHOTS[n])
 	_route()
@@ -115,7 +123,9 @@ func _route() -> void:
 
 ## Flux de data/audio/<nom>.ogg (importé, sinon lu directement).
 static func load_stream(n: String, loop: bool) -> AudioStream:
-	var path := DIR + n + ".ogg"
+	return stream_path(DIR + n + ".ogg", loop)
+
+static func stream_path(path: String, loop: bool) -> AudioStream:
 	var s: AudioStream = null
 	if ResourceLoader.exists(path): s = load(path)
 	elif FileAccess.file_exists(path): s = AudioStreamOggVorbis.load_from_file(path)
@@ -123,7 +133,11 @@ static func load_stream(n: String, loop: bool) -> AudioStream:
 	return s
 
 func _make(n: String, loop: bool, db: float) -> void:
-	var s := load_stream(n, loop)
+	var overrides: Dictionary = sound_bank.get("streams", {}).duplicate()
+	overrides.merge(sound_profile.get("streams", {}), true)
+	var s := stream_path(DIR + str(overrides[n]), loop) if overrides.has(n) else load_stream(n, loop)
+	db = float(sound_bank.get("mix", {}).get(n, db))
+	if bool(sound_profile.get("rubber", false)) and n in ["real_rail", "squeal", "joint"]: db = -90.0
 	if s == null:
 		push_warning("TramAudio : flux manquant " + n); return
 	streams[n] = s
@@ -220,7 +234,9 @@ func _curvature() -> float:
 ## Cœur du mixage : état {speed, max_speed, notch, doors_open, emergency, pantograph_up, power_ok, speed_limit,
 ## paused, external, curvature} -> gains et hauteurs des couches, déclenchement des ponctuels.
 func update_state(st: Dictionary, dt: float) -> void:
-	state = st
+	state = st.duplicate()
+	state.audio_family = audio_family
+	state.audio_quality = sound_profile.get("quality", "synthetic")
 	var tunnel := bool(st.get("underground", false))
 	var bridge := bool(st.get("bridge", false))
 	if tunnel != in_tunnel or bridge != on_bridge:
@@ -258,6 +274,12 @@ func update_state(st: Dictionary, dt: float) -> void:
 	if tight > 0.3 and not _in_curve: _in_curve = true; _squeal_on = _rng.randf() < squeal_chance
 	elif tight < 0.1: _in_curve = false; _squeal_on = false
 	t.squeal = tight * smoothstep(2.0, 4.0, v) * (1.0 - smoothstep(8.0, 12.0, v) * 0.6) if _squeal_on else 0.0
+	if bool(sound_bank.get("recorded", false)):
+		var high := smoothstep(4.0, 12.0, v)
+		var drive := (0.35 + 0.65 * load) * smoothstep(0.1, 0.8, v) if load > 0.02 else 0.06 * smoothstep(1.0, 6.0, v)
+		t.motor = drive * sqrt(1.0 - high)
+		t.motor_hum = drive * sqrt(high)
+	if bool(sound_profile.get("rubber", false)): t.squeal = 0.0
 	t.hvac = (0.6 + 0.4 * (1.0 - smoothstep(0.5, 6.0, v))) * (1.0 if powered else 0.25)
 	t.real_rail = (0.30 * load * smoothstep(0.3, 3.0, v) + 0.65 * t.rolling) * (1.25 if on_bridge else 1.0)
 	t.rolling *= 1.25 if on_bridge else 1.0
@@ -274,8 +296,9 @@ func update_state(st: Dictionary, dt: float) -> void:
 		elif g <= 0.002 and p.playing: p.stop()
 	if players.has("motor"):
 		var motor: Node = _active("motor")
-		motor.pitch_scale = lerpf(motor.pitch_scale, motor_hz(v) / MOTOR_REF_HZ, 1.0 - exp(-dt / 0.12))
-	if players.has("motor_hum"): _active("motor_hum").pitch_scale = hum_hz(v) / HUM_REF_HZ
+		motor.pitch_scale = lerpf(motor.pitch_scale, (clampf(v / maxf(float(sound_bank.get("reference_speed_ms", 8.0)), 1.0), 0.88, 1.15) if bool(sound_bank.get("recorded", false)) else motor_hz(v) / MOTOR_REF_HZ * float(sound_profile.get("motor_pitch_factor", 1.0))), 1.0 - exp(-dt / 0.12))
+	if players.has("motor_hum"):
+		_active("motor_hum").pitch_scale = _active("motor").pitch_scale if bool(sound_bank.get("recorded", false)) else hum_hz(v) / HUM_REF_HZ * float(sound_profile.get("hum_pitch_factor", 1.0))
 	if players.has("real_rail"): _active("real_rail").pitch_scale = 0.85 + 0.25 * clampf(v / vmax, 0.0, 1.0)
 	if players.has("rolling"): _active("rolling").pitch_scale = 0.75 + 0.5 * clampf(v / vmax, 0.0, 1.0)
 	if players.has("squeal"): _active("squeal").pitch_scale = 0.97 + 0.05 * sin(Time.get_ticks_msec() * 0.0013)
@@ -302,3 +325,21 @@ func update_state(st: Dictionary, dt: float) -> void:
 ## Gong de tram (cloche de main.gd).
 func gong() -> void:
 	if bell: bell.play()
+
+static func profile_for(family_id: String) -> Dictionary:
+	if family_id.is_empty(): return {}
+	if _family_manifest.is_empty() and FileAccess.file_exists(DIR + "families.json"):
+		var data = JSON.parse_string(FileAccess.get_file_as_string(DIR + "families.json"))
+		if data is Dictionary: _family_manifest = data
+	var key := TramModel.family_id(family_id)
+	var profile: Dictionary = _family_manifest.get("profiles", {}).get(key, {}).duplicate(true)
+	profile.bank_data = _family_manifest.get("banks", {}).get(str(profile.get("bank", "")), {}).duplicate(true)
+	return profile
+
+static func profile_label(family_id: String) -> String:
+	var profile := profile_for(family_id)
+	var bank: Dictionary = profile.get("bank_data", {})
+	match str(profile.get("quality", "synthetic")):
+		"exact_family": return "Captation : " + str(bank.get("label", ""))
+		"related_family": return "Captation apparentée : " + str(bank.get("label", ""))
+	return "Traction estimée (son de remplacement)"

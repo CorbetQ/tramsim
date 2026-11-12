@@ -17,7 +17,7 @@ func _init() -> void:
 	for i in 100: m.tick(0.02, 1.0)
 	check(not m.power_ok and absf(m.offset - start) < 0.001, "APS avec pantographe levé : aucune dérive en descente malgré la traction")
 	m.toggle_pantograph()
-	for i in 20: m.tick(0.02, 1.0)
+	for i in 80: m.tick(0.02, 1.0)
 	check(m.power_ok and m.phys.speed > 0.1, "reprise de traction après sélection APS")
 	m.phys.speed = 5.0; m.pantograph_up = true
 	for i in 3000: m.tick(0.02, 1.0)

@@ -32,10 +32,10 @@ func _init() -> void:
 	main.external_cam = false
 	await _shot("%s/%s_cabine.png" % [out, netf])
 	main.external_cam = true
-	main.map.visible = true; main.map.queue_redraw()
+	main._toggle_plan()
 	await _shot("%s/%s_carte.png" % [out, netf])
 	if main.view.city: print("tuiles: ", main.view.city.stats)
-	main.map.visible = false
+	main._toggle_plan()
 	# mode libre + panneau des aiguillages
 	var src := str(net.meta.get("source_id", ""))
 	if FileAccess.file_exists("res://data/free/%s.json" % src):
@@ -46,6 +46,6 @@ func _init() -> void:
 		main._start()
 		main.paused = true
 		await _shot("%s/%s_libre.png" % [out, netf])
-		main._toggle_switches()
+		main._toggle_plan()
 		await _shot("%s/%s_aiguillages.png" % [out, netf])
 	quit()

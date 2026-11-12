@@ -12,7 +12,11 @@ func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, 
 	super._init(network, profile, start_edge, start_offset, [] as Array[float], 20)
 	checkpoint_edge = start_edge
 	checkpoint_offset = start_offset
+	var normal := int(net.edge_info[start_edge].get("preferred_direction", 0))
+	if normal != 0: direction = normal; route_dir = [normal]; checkpoint_dir = normal
 	adaptation_notice = Compatibility.adaptation_notice(profile, network.supplies, str(network.meta.get("guidance", "steel")))
+	initialize_power()
+	NormalRouting.initialize(network)
 	traffic.set_enabled(traffic_on)
 	update_spans()
 
@@ -112,10 +116,9 @@ func reverse() -> String:
 
 ## Adaptation libre d'un matériel étranger : conserve les interverrouillages
 ## du collecteur, même lorsque les caractéristiques de la rame sont adaptées.
-func _update_power(edge_supply: String) -> void:
-	if adaptation_notice == "":
-		super._update_power(edge_supply)
-		return
-	var ok := (edge_supply == "overhead" and pantograph_up) or (edge_supply in ["aps", "battery", "third_rail"] and not pantograph_up)
-	if ok != power_ok: event.emit("power", "Alimentation rétablie" if ok else "Coupure d'alimentation — vérifier le collecteur")
-	power_ok = ok; phys.power_available = ok
+func available_power_modes() -> PackedStringArray:
+	if adaptation_notice == "": return super.available_power_modes()
+	var modes := PackedStringArray()
+	for mode in net.supplies:
+		if mode != "none": modes.append(str(mode))
+	return modes if not modes.is_empty() else super.available_power_modes()

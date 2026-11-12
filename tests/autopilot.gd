@@ -10,9 +10,9 @@ func _drive(m: MissionSession, hold_s: float = 0.0, skip_stop: int = -1, max_t: 
 
 ## Pilote : pantographe levé sur caténaire, baissé sur APS (changement dès l'entrée en section).
 func _auto_pantograph(m: MissionSession) -> void:
-	var want_up: bool = m.net.supply_at(m.edge_id, m.offset) == "overhead"
-	if want_up != m.pantograph_up:
-		m.toggle_pantograph()
+	var section := m.net.supply_at(m.edge_id, m.offset)
+	if section != m.power_mode and m.phys.speed < 0.1 and section in m.available_power_modes():
+		m.set_power_mode(section)
 
 var _dt_state := 0.0
 func _drive_step(m: MissionSession, hold_s: float = 0.0, skip_stop: int = -1) -> void:

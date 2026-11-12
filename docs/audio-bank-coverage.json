@@ -1,0 +1,220 @@
+{
+  "profiles": {
+    "avanto": {
+      "bank": "avanto",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "breda_vlc": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.6,
+      "hum_pitch_factor": 0.6,
+      "rubber": false
+    },
+    "citadis_302": {
+      "bank": "citadis302",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_402": {
+      "bank": "citadis402",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_403_strasbourg": {
+      "bank": "citadis403",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_compact": {
+      "bank": "citadis302",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_dualis": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 1.02,
+      "hum_pitch_factor": 1.02,
+      "rubber": false
+    },
+    "citadis_reims": {
+      "bank": "citadis302",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_tours": {
+      "bank": "citadis402",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_x01": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.78,
+      "hum_pitch_factor": 0.78,
+      "rubber": false
+    },
+    "citadis_x05": {
+      "bank": "citadis403",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_x05_nantes": {
+      "bank": "citadis403",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "eurotram": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.75,
+      "hum_pitch_factor": 0.75,
+      "rubber": false
+    },
+    "flexity_marseille": {
+      "bank": "flexity",
+      "quality": "exact_family",
+      "motor_pitch_factor": 0.83,
+      "hum_pitch_factor": 0.83,
+      "rubber": false
+    },
+    "incentro": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.9,
+      "hum_pitch_factor": 0.9,
+      "rubber": false
+    },
+    "tango_rhonexpress": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.94,
+      "hum_pitch_factor": 0.94,
+      "rubber": false
+    },
+    "tfs": {
+      "bank": "tfs",
+      "quality": "exact_family",
+      "motor_pitch_factor": 0.68,
+      "hum_pitch_factor": 0.68,
+      "rubber": false
+    },
+    "translohr": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.86,
+      "hum_pitch_factor": 0.86,
+      "rubber": true,
+      "streams": {
+        "rolling": "banks/tyre_rolling.ogg"
+      }
+    },
+    "urbos": {
+      "bank": "urbos",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "vevey_saint_etienne": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.64,
+      "hum_pitch_factor": 0.64,
+      "rubber": false
+    }
+  },
+  "sources": {
+    "citadis302": {
+      "title": "File:Alstom Citadis 302 in Moscow.webm",
+      "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a3/Alstom_Citadis_302_in_Moscow.webm/Alstom_Citadis_302_in_Moscow.webm.240p.vp9.webm",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "author": "trolleway",
+      "sha256": "bf6713905f2e927e43512e014f0e7a0e8c5629161a31fdc64722d2c0937996d5",
+      "duration_s": 185.33
+    },
+    "citadis402": {
+      "title": "File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg",
+      "page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Litlok",
+      "sha256": "11fe35224fdb981bb5ff4aa8f361c1c6ce51d0bf23afa9fe454cc61014ba4231",
+      "duration_s": 24.0
+    },
+    "citadis403": {
+      "title": "File:Citadis 403 n°2040 CTS, ligne A, Langstross - Porte de l'Hôpital.ogg",
+      "page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Citadis_403_n%C2%B02040_CTS%2C_ligne_A%2C_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "Kevin.B",
+      "sha256": "3d6170e96adaa33bf9898ec89190133b4b0d5f9c9d759fef2d1fe78c9901fd58",
+      "duration_s": 20.838458
+    },
+    "avanto": {
+      "title": "File:T4 Bondy - Aulnay 07.ogv",
+      "page": "https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/T4_Bondy_-_Aulnay_07.ogv",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Clicsouris",
+      "sha256": "209f3ed65ba6072ef0f7219d139e06741fdf1e15b4bc077a75ada98a92f3adc6",
+      "duration_s": 64.48
+    },
+    "tfs": {
+      "title": "File:Arrivée du tram.webm",
+      "page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/3/33/Arriv%C3%A9e_du_tram.webm",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Clément Bucco-Lechat",
+      "sha256": "3cb2e51ed72774bfee41abac704ba6c86a30a3cff5da20cd4a2007c70f782faa",
+      "duration_s": 17.083
+    },
+    "flexity": {
+      "title": "File:Tramway de Marseille - Ligne 2 - Boulevard Philippon.ogv",
+      "page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+      "author": "Clicsouris",
+      "sha256": "860dbba99e89f939f116381e524009630f5f672137e1c8cd7b67a8790bf9ca57",
+      "duration_s": 12.024
+    },
+    "urbos": {
+      "title": "File:Luxembourg tram testing August 2017 (1).webm",
+      "page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Luxembourg_tram_testing_August_2017_%281%29.webm",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "author": "GilPe",
+      "sha256": "3c6af5715ee2f6d6109bd44cfc1216233c89895c61ab10f8c3a835f3890b3086",
+      "duration_s": 52.224
+    }
+  },
+  "unavailable": {}
+}

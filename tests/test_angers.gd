@@ -72,7 +72,10 @@ func _init() -> void:
 	var v0 := a.phys.speed
 	for i in 50: a.tick(0.1, 0.5)
 	check(a.phys.speed < v0, "la rame ralentit sans traction (coupure)")
-	a.toggle_pantograph(); a.tick(0.1, 1.0)
+	check(a.set_power_mode("aps") != "", "changement APS refusé en mouvement")
+	while a.phys.speed > 0.01: a.tick(0.1, -1.0)
+	a.set_power_mode("aps")
+	for i in 8: a.tick(0.1, -0.75)
 	check(a.power_ok, "pantographe baissé sur APS => alimentation rétablie")
 	var o := _new(); o.toggle_pantograph(); o.tick(0.1, 1.0)
 	check(not o.power_ok, "pantographe baissé sur caténaire => coupure")

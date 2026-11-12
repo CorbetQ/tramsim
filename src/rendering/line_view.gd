@@ -570,6 +570,7 @@ func update_from(s: MissionSession, external: bool) -> void:
 	var side := layout.doors_at(net.stations, s.edge_id, s.offset) if layout != null else "right"
 	if s.direction < 0 and side != "both": side = "left" if side == "right" else "right"
 	rig.set_doors(s.doors_open, side)
+	rig.panto_transition_s = MissionSession.POWER_SWITCH_SECONDS
 	rig.set_pantograph(s.pantograph_up)
 	if _rig_fresh: rig.snap()
 	else: rig.update(get_process_delta_time())

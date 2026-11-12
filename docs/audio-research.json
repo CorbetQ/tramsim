@@ -1,0 +1,873 @@
+{
+  "searched_at": "2026-11-12T14:05:11.927125+00:00",
+  "provider": "Wikimedia Commons API",
+  "families": [
+    {
+      "family": "citadis_302",
+      "query": "Citadis 302 filetype:video ; Citadis 302 filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Alstom Citadis 302 in Moscow.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Alstom_Citadis_302_in_Moscow.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 41930379,
+          "media_type": "VIDEO",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "author": "trolleway"
+        },
+        {
+          "title": "File:Alstom Citadis Spirit trains 1127 & 1126 on the Confederation Line.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_Spirit_trains_1127_%26_1126_on_the_Confederation_Line.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Alstom_Citadis_Spirit_trains_1127_%26_1126_on_the_Confederation_Line.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 42786475,
+          "media_type": "VIDEO",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "author": "Ahunt"
+        },
+        {
+          "title": "File:Citadis 403 n°3005 CTS, Sans Voyageur Langstross - Porte de l'Hôpital.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B03005_CTS,_Sans_Voyageur_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Citadis_403_n%C2%B03005_CTS%2C_Sans_Voyageur_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 17064476,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Kevin.B"
+        },
+        {
+          "title": "File:Ile-de-France - Tramway - T2 - Citadis.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:Ile-de-France_-_Tramway_-_T2_-_Citadis.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Ile-de-France_-_Tramway_-_T2_-_Citadis.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 4325673,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Greenski"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "citadis_402",
+      "query": "Citadis 402 filetype:video ; Citadis 402 filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Alstom Citadis 302 in Moscow.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Alstom_Citadis_302_in_Moscow.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 41930379,
+          "media_type": "VIDEO",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "author": "trolleway"
+        },
+        {
+          "title": "File:Alstom Citadis Spirit trains 1127 & 1126 on the Confederation Line.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_Spirit_trains_1127_%26_1126_on_the_Confederation_Line.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Alstom_Citadis_Spirit_trains_1127_%26_1126_on_the_Confederation_Line.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 42786475,
+          "media_type": "VIDEO",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "author": "Ahunt"
+        },
+        {
+          "title": "File:Arrivée d'une rame Citadis402 à la station Porte d'Ivry.flac",
+          "page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_d%27une_rame_Citadis402_%C3%A0_la_station_Porte_d%27Ivry.flac",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/7/72/Arriv%C3%A9e_d%27une_rame_Citadis402_%C3%A0_la_station_Porte_d%27Ivry.flac?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 2104113,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Litlok"
+        },
+        {
+          "title": "File:Arrivée d'une rame Citadis 402 à la station Porte d'Ivry.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_d%27une_rame_Citadis_402_%C3%A0_la_station_Porte_d%27Ivry.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/1/11/Arriv%C3%A9e_d%27une_rame_Citadis_402_%C3%A0_la_station_Porte_d%27Ivry.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 411360,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Litlok"
+        },
+        {
+          "title": "File:Citadis 403 n°2040 CTS, ligne A, Langstross - Porte de l'Hôpital.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Citadis_403_n%C2%B02040_CTS%2C_ligne_A%2C_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 11586048,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Kevin.B"
+        },
+        {
+          "title": "File:Citadis 403 n°3005 CTS, Sans Voyageur Langstross - Porte de l'Hôpital.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B03005_CTS,_Sans_Voyageur_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Citadis_403_n%C2%B03005_CTS%2C_Sans_Voyageur_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 17064476,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Kevin.B"
+        },
+        {
+          "title": "File:Départ d'une rame Citadis402 de la station Porte d'Ivry.flac",
+          "page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis402_de_la_station_Porte_d%27Ivry.flac",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/D%C3%A9part_d%27une_rame_Citadis402_de_la_station_Porte_d%27Ivry.flac?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 2071710,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Litlok"
+        },
+        {
+          "title": "File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 439108,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Litlok"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "citadis_x01",
+      "query": "Citadis 301 filetype:video ; Citadis 301 filetype:audio",
+      "candidates": [],
+      "errors": [],
+      "status": "no_reusable_capture_identified_yet"
+    },
+    {
+      "family": "citadis_x05",
+      "query": "Citadis 405 filetype:video ; Citadis 405 filetype:audio",
+      "candidates": [],
+      "errors": [],
+      "status": "no_reusable_capture_identified_yet"
+    },
+    {
+      "family": "citadis_x05_nantes",
+      "query": "Citadis Nantes filetype:video ; Citadis Nantes filetype:audio",
+      "candidates": [],
+      "errors": [],
+      "status": "no_reusable_capture_identified_yet"
+    },
+    {
+      "family": "citadis_403_strasbourg",
+      "query": "Citadis 403 filetype:video ; Citadis 403 filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Citadis 403 n°2040 CTS, ligne A, Langstross - Porte de l'Hôpital.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Citadis_403_n%C2%B02040_CTS%2C_ligne_A%2C_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 11586048,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Kevin.B"
+        },
+        {
+          "title": "File:Citadis 403 n°3005 CTS, Sans Voyageur Langstross - Porte de l'Hôpital.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B03005_CTS,_Sans_Voyageur_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Citadis_403_n%C2%B03005_CTS%2C_Sans_Voyageur_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 17064476,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Kevin.B"
+        },
+        {
+          "title": "File:Tramway Strasbourg Gare Centrale.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:Tramway_Strasbourg_Gare_Centrale.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/6/64/Tramway_Strasbourg_Gare_Centrale.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 683868,
+          "media_type": "VIDEO",
+          "license": "Public domain",
+          "license_url": "",
+          "author": "Tael"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "citadis_reims",
+      "query": "Citadis Reims filetype:video ; Citadis Reims filetype:audio",
+      "candidates": [],
+      "errors": [],
+      "status": "no_reusable_capture_identified_yet"
+    },
+    {
+      "family": "citadis_tours",
+      "query": "Citadis Tours filetype:video ; Citadis Tours filetype:audio",
+      "candidates": [],
+      "errors": [],
+      "status": "no_reusable_capture_identified_yet"
+    },
+    {
+      "family": "citadis_compact",
+      "query": "Citadis Compact filetype:video ; Citadis Compact filetype:audio",
+      "candidates": [],
+      "errors": [],
+      "status": "no_reusable_capture_identified_yet"
+    },
+    {
+      "family": "tfs",
+      "query": "Nantes tramway filetype:video ; Nantes tramway filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Arrivée du tram.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/33/Arriv%C3%A9e_du_tram.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 12137309,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Clément Bucco-Lechat"
+        },
+        {
+          "title": "File:On a la solution a Nantes version Drone.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:On_a_la_solution_a_Nantes_version_Drone.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/On_a_la_solution_a_Nantes_version_Drone.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 139943976,
+          "media_type": "VIDEO",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "author": "Damien-VICART"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "incentro",
+      "query": "Incentro filetype:video ; Incentro filetype:audio",
+      "candidates": [],
+      "errors": [],
+      "status": "no_reusable_capture_identified_yet"
+    },
+    {
+      "family": "flexity_marseille",
+      "query": "Marseille tramway filetype:video ; Marseille tramway filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Lesmiserables t2 38 hugo.mp3",
+          "page": "https://commons.wikimedia.org/wiki/File:Lesmiserables_t2_38_hugo.mp3",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/8/84/Lesmiserables_t2_38_hugo.mp3?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 7570466,
+          "media_type": "AUDIO",
+          "license": "Public Domain",
+          "license_url": "https://web.archive.org/web/20230926203737/https://creativecommons.org/licenses/publicdomain/",
+          "author": "Victor Hugo"
+        },
+        {
+          "title": "File:Monsieurlecoq t2 13 gaboriau.mp3",
+          "page": "https://commons.wikimedia.org/wiki/File:Monsieurlecoq_t2_13_gaboriau.mp3",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Monsieurlecoq_t2_13_gaboriau.mp3?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 19596652,
+          "media_type": "AUDIO",
+          "license": "Public Domain",
+          "license_url": "https://web.archive.org/web/20230926203737/https://creativecommons.org/licenses/publicdomain/",
+          "author": "Émile Gaboriau"
+        },
+        {
+          "title": "File:Monsieurlecoq t2 48 gaboriau.mp3",
+          "page": "https://commons.wikimedia.org/wiki/File:Monsieurlecoq_t2_48_gaboriau.mp3",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Monsieurlecoq_t2_48_gaboriau.mp3?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 16715242,
+          "media_type": "AUDIO",
+          "license": "Public Domain",
+          "license_url": "https://web.archive.org/web/20230926203737/https://creativecommons.org/licenses/publicdomain/",
+          "author": "Émile Gaboriau"
+        },
+        {
+          "title": "File:Monsieurlecoq t2 49 gaboriau.mp3",
+          "page": "https://commons.wikimedia.org/wiki/File:Monsieurlecoq_t2_49_gaboriau.mp3",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Monsieurlecoq_t2_49_gaboriau.mp3?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 10228933,
+          "media_type": "AUDIO",
+          "license": "Public Domain",
+          "license_url": "https://web.archive.org/web/20230926203737/https://creativecommons.org/licenses/publicdomain/",
+          "author": "Émile Gaboriau"
+        },
+        {
+          "title": "File:Tatra T3 3050.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Tatra_T3_3050.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Tatra_T3_3050.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 319424905,
+          "media_type": "VIDEO",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "author": "Akirich"
+        },
+        {
+          "title": "File:Tramway de Marseille - Ligne 2 - Boulevard Philippon.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 1347445,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Clicsouris"
+        },
+        {
+          "title": "File:Vidéo prise dans le tramway 68 de Marseille, France sur le boulevard Chave.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Vid%C3%A9o_prise_dans_le_tramway_68_de_Marseille,_France_sur_le_boulevard_Chave.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Vid%C3%A9o_prise_dans_le_tramway_68_de_Marseille%2C_France_sur_le_boulevard_Chave.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 8019591,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Jean-philippe.miconi"
+        },
+        {
+          "title": "File:Volkswagen T2.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Volkswagen_T2.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Volkswagen_T2.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 8235421,
+          "media_type": "VIDEO",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "author": "Coverr-Free-Footage"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "urbos",
+      "query": "Urbos filetype:video ; Urbos filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Creaky West Midlands Metro tram - 2020-03-05 - Andy Mabbett.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Creaky_West_Midlands_Metro_tram_-_2020-03-05_-_Andy_Mabbett.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Creaky_West_Midlands_Metro_tram_-_2020-03-05_-_Andy_Mabbett.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 567565,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Andy Mabbett"
+        },
+        {
+          "title": "File:Doble composición Urbos 3, Zaragoza.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Doble_composici%C3%B3n_Urbos_3,_Zaragoza.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Doble_composici%C3%B3n_Urbos_3%2C_Zaragoza.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 138502778,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Robot8A"
+        },
+        {
+          "title": "File:Eo-urbo.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Eo-urbo.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Eo-urbo.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 44606,
+          "media_type": "AUDIO",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "author": "Balamutick"
+        },
+        {
+          "title": "File:LL-Q143 (epo)-Remux-urbo.wav",
+          "page": "https://commons.wikimedia.org/wiki/File:LL-Q143_(epo)-Remux-urbo.wav",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/LL-Q143_%28epo%29-Remux-urbo.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 101164,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Speaker: Remux\nRecorder: Remux"
+        },
+        {
+          "title": "File:New York 1911.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:New_York_1911.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/31/New_York_1911.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 403197197,
+          "media_type": "VIDEO",
+          "license": "Public domain",
+          "license_url": "",
+          "author": "Svenska Biografteatern"
+        },
+        {
+          "title": "File:Paisaje sonoro del centro de la ciudad de México (calle 5 de Mayo e Isabel la Católica).wav",
+          "page": "https://commons.wikimedia.org/wiki/File:Paisaje_sonoro_del_centro_de_la_ciudad_de_M%C3%A9xico_(calle_5_de_Mayo_e_Isabel_la_Cat%C3%B3lica).wav",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Paisaje_sonoro_del_centro_de_la_ciudad_de_M%C3%A9xico_%28calle_5_de_Mayo_e_Isabel_la_Cat%C3%B3lica%29.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 54756908,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Luisalvaz"
+        },
+        {
+          "title": "File:Urbos 3 in Budapest.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Urbos_3_in_Budapest.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Urbos_3_in_Budapest.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 70862493,
+          "media_type": "VIDEO",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "author": "jazzcool"
+        },
+        {
+          "title": "File:Urbos 3 in Budapest (video with trip).webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Urbos_3_in_Budapest_(video_with_trip).webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Urbos_3_in_Budapest_%28video_with_trip%29.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 190821005,
+          "media_type": "VIDEO",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "author": "jazzcool"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "eurotram",
+      "query": "Eurotram filetype:video ; Eurotram filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Metro do Porto Ponte Dom Luiz I.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Metro_do_Porto_Ponte_Dom_Luiz_I.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/23/Metro_do_Porto_Ponte_Dom_Luiz_I.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 5437747,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 2.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+          "author": "Danja Vasiliev"
+        },
+        {
+          "title": "File:Porto, with a view on the Dom Luís I Bridge.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Porto,_with_a_view_on_the_Dom_Lu%C3%ADs_I_Bridge.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/6/67/Porto%2C_with_a_view_on_the_Dom_Lu%C3%ADs_I_Bridge.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 49187954,
+          "media_type": "VIDEO",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "author": "Mophidox"
+        },
+        {
+          "title": "File:Tramway de Marseille - Ligne 2 - Boulevard Philippon.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 1347445,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Clicsouris"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "avanto",
+      "query": "Avanto filetype:video ; Avanto filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Green line San Diego Trolley arriving at Gillespie Field.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:Green_line_San_Diego_Trolley_arriving_at_Gillespie_Field.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Green_line_San_Diego_Trolley_arriving_at_Gillespie_Field.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 8607385,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "cooljuno411"
+        },
+        {
+          "title": "File:T4 Marchepied Avanto.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:T4_Marchepied_Avanto.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/T4_Marchepied_Avanto.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 302283,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Clicsouris"
+        },
+        {
+          "title": "File:T4 Rougemont - Chanteloup 02.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:T4_Rougemont_-_Chanteloup_02.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/5/56/T4_Rougemont_-_Chanteloup_02.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 1694702,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Clicsouris"
+        },
+        {
+          "title": "File:Trolley Arriving at UCSD Central Campus Station.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Trolley_Arriving_at_UCSD_Central_Campus_Station.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Trolley_Arriving_at_UCSD_Central_Campus_Station.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 24847381,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "DJTechYT"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "citadis_dualis",
+      "query": "Dualis filetype:video ; Dualis filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Canal de restitution du lac du Temple à l'Aube.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:Canal_de_restitution_du_lac_du_Temple_%C3%A0_l%27Aube.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Canal_de_restitution_du_lac_du_Temple_%C3%A0_l%27Aube.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 1143298,
+          "media_type": "VIDEO",
+          "license": "Public domain",
+          "license_url": "",
+          "author": "Tangopaso"
+        },
+        {
+          "title": "File:Du, du liegst mir im Herzen.mid",
+          "page": "https://commons.wikimedia.org/wiki/File:Du,_du_liegst_mir_im_Herzen.mid",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Du%2C_du_liegst_mir_im_Herzen.mid?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 3149,
+          "media_type": "AUDIO",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "author": "Melodie: 19. Jahrhundert; Satz und Tondatei: Rabanus Flavus (Peter Gerloff)"
+        },
+        {
+          "title": "File:Du gamla du fria.mp3",
+          "page": "https://commons.wikimedia.org/wiki/File:Du_gamla_du_fria.mp3",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Du_gamla_du_fria.mp3?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 3193335,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Sofie Sigrinn / Anders Ewaldz / Harmonica"
+        },
+        {
+          "title": "File:Du gamla du fria (1938).ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Du_gamla_du_fria_(1938).ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/45/Du_gamla_du_fria_%281938%29.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 711569,
+          "media_type": "AUDIO",
+          "license": "Public domain",
+          "license_url": "",
+          "author": "Written by Richard Dybeck and composed by Edvin Kallstenius; performed by John Hilmer"
+        },
+        {
+          "title": "File:Fr-Musée du Louvre.oga",
+          "page": "https://commons.wikimedia.org/wiki/File:Fr-Mus%C3%A9e_du_Louvre.oga",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fr-Mus%C3%A9e_du_Louvre.oga?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 22077,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Environnement2100"
+        },
+        {
+          "title": "File:L'histoire du Carrousel du Louvre - Des Racines et des Ailes - YouTube.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:L%27histoire_du_Carrousel_du_Louvre_-_Des_Racines_et_des_Ailes_-_YouTube.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/d/da/L%27histoire_du_Carrousel_du_Louvre_-_Des_Racines_et_des_Ailes_-_YouTube.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 31373447,
+          "media_type": "VIDEO",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "author": "Des Racines et des Ailes"
+        },
+        {
+          "title": "File:Téléphérique du Salève.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:T%C3%A9l%C3%A9ph%C3%A9rique_du_Sal%C3%A8ve.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/T%C3%A9l%C3%A9ph%C3%A9rique_du_Sal%C3%A8ve.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 27692620,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Clément Bucco-Lechat"
+        },
+        {
+          "title": "File:Video-les-gorges-du-corong.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:Video-les-gorges-du-corong.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Video-les-gorges-du-corong.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 29975380,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Centrebretagne"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "tango_rhonexpress",
+      "query": "Stadler Tango filetype:video ; Stadler Tango filetype:audio",
+      "candidates": [
+        {
+          "title": "File:A-critical-role-for-NF2-and-the-Hippo-pathway-in-branching-morphogenesis-ncomms12309-s2.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:A-critical-role-for-NF2-and-the-Hippo-pathway-in-branching-morphogenesis-ncomms12309-s2.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/A-critical-role-for-NF2-and-the-Hippo-pathway-in-branching-morphogenesis-ncomms12309-s2.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 1089593,
+          "media_type": "VIDEO",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "author": "Reginensi A, Enderle L, Gregorieff A, Johnson R, Wrana J, McNeill H"
+        },
+        {
+          "title": "File:A-critical-role-for-NF2-and-the-Hippo-pathway-in-branching-morphogenesis-ncomms12309-s3.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:A-critical-role-for-NF2-and-the-Hippo-pathway-in-branching-morphogenesis-ncomms12309-s3.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/1/1f/A-critical-role-for-NF2-and-the-Hippo-pathway-in-branching-morphogenesis-ncomms12309-s3.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 403196,
+          "media_type": "VIDEO",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "author": "Reginensi A, Enderle L, Gregorieff A, Johnson R, Wrana J, McNeill H"
+        }
+      ],
+      "errors": [
+        "audio: Command '['curl', '-f', '-L', '-s', '--max-time', '20', 'https://commons.wikimedia.org/w/api.php?action=query&format=json&list=search&srnamespace=6&srlimit=4&srsearch=Stadler+Tango+filetype%3Aaudio']' returned non-zero exit status 22."
+      ],
+      "status": "candidates"
+    },
+    {
+      "family": "vevey_saint_etienne",
+      "query": "Saint Etienne tramway filetype:video ; Saint Etienne tramway filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Les régions dévastées - AI37946.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Les_r%C3%A9gions_d%C3%A9vast%C3%A9es_-_AI37946.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Les_r%C3%A9gions_d%C3%A9vast%C3%A9es_-_AI37946.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 39153670,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Sauvageot Camille"
+        },
+        {
+          "title": "File:Retrait d'une ancienne canalisation sur le chantier de tram.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:Retrait_d%27une_ancienne_canalisation_sur_le_chantier_de_tram.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Retrait_d%27une_ancienne_canalisation_sur_le_chantier_de_tram.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 588533239,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Touam (Hervé Agnoux)"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "breda_vlc",
+      "query": "Lille tramway filetype:video ; Lille tramway filetype:audio",
+      "candidates": [
+        {
+          "title": "File:1973-1975-tonwarenindustrie-wiesloch-feldbahn-georg-muerb.webm",
+          "page": "https://commons.wikimedia.org/wiki/File:1973-1975-tonwarenindustrie-wiesloch-feldbahn-georg-muerb.webm",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/0/07/1973-1975-tonwarenindustrie-wiesloch-feldbahn-georg-muerb.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 464118922,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Georg Mürb, Ladenburg"
+        },
+        {
+          "title": "File:Fr-Paris--tramway (un).ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Fr-Paris--tramway_(un).ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Fr-Paris--tramway_%28un%29.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 10656,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Jjackoti"
+        },
+        {
+          "title": "File:Fr-tramway (Avignon).ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Fr-tramway_(Avignon).ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Fr-tramway_%28Avignon%29.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 14385,
+          "media_type": "AUDIO",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "author": "Xic667"
+        },
+        {
+          "title": "File:Georges Brassens Tramway T3a 2026 08.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Georges_Brassens_Tramway_T3a_2026_08.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Georges_Brassens_Tramway_T3a_2026_08.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 1500100,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Idris2000"
+        },
+        {
+          "title": "File:LL-Q150 (fra)-Jérémy-Günther-Heinz Jähnick-Tramway d'Île-de-France.wav",
+          "page": "https://commons.wikimedia.org/wiki/File:LL-Q150_(fra)-J%C3%A9r%C3%A9my-G%C3%BCnther-Heinz_J%C3%A4hnick-Tramway_d%27%C3%8Ele-de-France.wav",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/b/ba/LL-Q150_%28fra%29-J%C3%A9r%C3%A9my-G%C3%BCnther-Heinz_J%C3%A4hnick-Tramway_d%27%C3%8Ele-de-France.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 140844,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Speaker: Jérémy-Günther-Heinz Jähnick\nRecorder: Jérémy-Günther-Heinz Jähnick"
+        },
+        {
+          "title": "File:LL-Q150 (fra)-Mathieu Kappler-tramway de Reims.wav",
+          "page": "https://commons.wikimedia.org/wiki/File:LL-Q150_(fra)-Mathieu_Kappler-tramway_de_Reims.wav",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/3/30/LL-Q150_%28fra%29-Mathieu_Kappler-tramway_de_Reims.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 129068,
+          "media_type": "AUDIO",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "author": "Speaker: Mathieu Kappler\nRecorder: Mathieu Kappler"
+        },
+        {
+          "title": "File:Tramway de Nice 01.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Nice_01.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Tramway_de_Nice_01.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 18548917,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Clicsouris"
+        },
+        {
+          "title": "File:Tramway de Nice 02.ogv",
+          "page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Nice_02.ogv",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Tramway_de_Nice_02.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 33569831,
+          "media_type": "VIDEO",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Clicsouris"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    },
+    {
+      "family": "translohr",
+      "query": "Translohr filetype:video ; Translohr filetype:audio",
+      "candidates": [
+        {
+          "title": "File:Entre Colombier et Mabilais dans une rame Cityval.ogg",
+          "page": "https://commons.wikimedia.org/wiki/File:Entre_Colombier_et_Mabilais_dans_une_rame_Cityval.ogg",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Entre_Colombier_et_Mabilais_dans_une_rame_Cityval.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "bytes": 3185862,
+          "media_type": "AUDIO",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "author": "Philt3r"
+        }
+      ],
+      "errors": [],
+      "status": "candidates"
+    }
+  ],
+  "integration": {
+    "avanto": {
+      "quality": "exact_family",
+      "source": "https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv",
+      "decision": "Sélection vérifiée et intégrée"
+    },
+    "breda_vlc": {
+      "quality": "synthetic",
+      "source": "",
+      "decision": "Aucune source réutilisable validée et intégrée à cette version ; synthèse identifiée"
+    },
+    "citadis_302": {
+      "quality": "exact_family",
+      "source": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "decision": "Sélection vérifiée et intégrée"
+    },
+    "citadis_402": {
+      "quality": "exact_family",
+      "source": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "decision": "Sélection vérifiée et intégrée"
+    },
+    "citadis_403_strasbourg": {
+      "quality": "exact_family",
+      "source": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+      "decision": "Sélection vérifiée et intégrée"
+    },
+    "citadis_compact": {
+      "quality": "related_family",
+      "source": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "decision": "Apparentement explicite"
+    },
+    "citadis_dualis": {
+      "quality": "synthetic",
+      "source": "",
+      "decision": "Aucune source réutilisable validée et intégrée à cette version ; synthèse identifiée"
+    },
+    "citadis_reims": {
+      "quality": "related_family",
+      "source": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "decision": "Apparentement explicite"
+    },
+    "citadis_tours": {
+      "quality": "related_family",
+      "source": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "decision": "Apparentement explicite"
+    },
+    "citadis_x01": {
+      "quality": "synthetic",
+      "source": "",
+      "decision": "Aucune source réutilisable validée et intégrée à cette version ; synthèse identifiée"
+    },
+    "citadis_x05": {
+      "quality": "related_family",
+      "source": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+      "decision": "Apparentement explicite"
+    },
+    "citadis_x05_nantes": {
+      "quality": "related_family",
+      "source": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+      "decision": "Apparentement explicite"
+    },
+    "eurotram": {
+      "quality": "synthetic",
+      "source": "",
+      "decision": "Aucune source réutilisable validée et intégrée à cette version ; synthèse identifiée"
+    },
+    "flexity_marseille": {
+      "quality": "exact_family",
+      "source": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+      "decision": "Sélection vérifiée et intégrée"
+    },
+    "incentro": {
+      "quality": "synthetic",
+      "source": "",
+      "decision": "Aucune source réutilisable validée et intégrée à cette version ; synthèse identifiée"
+    },
+    "tango_rhonexpress": {
+      "quality": "synthetic",
+      "source": "",
+      "decision": "Aucune source réutilisable validée et intégrée à cette version ; synthèse identifiée"
+    },
+    "tfs": {
+      "quality": "exact_family",
+      "source": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm",
+      "decision": "Sélection vérifiée et intégrée"
+    },
+    "translohr": {
+      "quality": "synthetic",
+      "source": "",
+      "decision": "Aucune source réutilisable validée et intégrée à cette version ; synthèse identifiée"
+    },
+    "urbos": {
+      "quality": "exact_family",
+      "source": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+      "decision": "Sélection vérifiée et intégrée"
+    },
+    "vevey_saint_etienne": {
+      "quality": "synthetic",
+      "source": "",
+      "decision": "Aucune source réutilisable validée et intégrée à cette version ; synthèse identifiée"
+    }
+  }
+}

@@ -1,10 +1,10 @@
 {
  "generated_by": "data/audio/make_audio.py",
- "version": 3,
+ "version": 4,
  "sample_rate": 32000,
  "format": "OGG Vorbis mono 32 kHz, qualité 4",
  "sonie": "boucles -20 LUFS intégrés, ponctuels -18 LUFS momentanés max (ITU-R BS.1770) ; crête ≤ -1 dBFS",
- "statut": "Synthèse procédurale complétée par une texture issue d’une captation réelle libre. Ce mixage ne prétend pas reproduire chaque série de rames.",
+ "statut": "Banques de captations par famille, apparentements et synthèses de remplacement documentés dans families.json.",
  "files": {
   "motor.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:motor)",
@@ -119,6 +119,124 @@
    "modifications": "extrait 8–12 s, passe-bande 85–1500 Hz, raccord 250 ms, mono 32 kHz, normalisation -20 LUFS",
    "lufs": -20.0,
    "duree_s": 3.75
+  },
+  "banks/citadis302_motor.ogg": {
+   "origine": "trolleway — File:Alstom Citadis 302 in Moscow.webm",
+   "licence": "CC BY 3.0 https://creativecommons.org/licenses/by/3.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -19.75,
+   "duree_s": 4.3
+  },
+  "banks/citadis302_motor_hum.ogg": {
+   "origine": "trolleway — File:Alstom Citadis 302 in Moscow.webm",
+   "licence": "CC BY 3.0 https://creativecommons.org/licenses/by/3.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -19.73,
+   "duree_s": 4.3
+  },
+  "banks/citadis402_motor.ogg": {
+   "origine": "Litlok — File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg",
+   "licence": "CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0",
+   "source": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -20.01,
+   "duree_s": 4.3
+  },
+  "banks/citadis402_motor_hum.ogg": {
+   "origine": "Litlok — File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg",
+   "licence": "CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0",
+   "source": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -20.03,
+   "duree_s": 4.3
+  },
+  "banks/citadis403_motor.ogg": {
+   "origine": "Kevin.B — File:Citadis 403 n°2040 CTS, ligne A, Langstross - Porte de l'Hôpital.ogg",
+   "licence": "CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -19.93,
+   "duree_s": 4.3
+  },
+  "banks/citadis403_motor_hum.ogg": {
+   "origine": "Kevin.B — File:Citadis 403 n°2040 CTS, ligne A, Langstross - Porte de l'Hôpital.ogg",
+   "licence": "CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -20.0,
+   "duree_s": 4.3
+  },
+  "banks/avanto_motor.ogg": {
+   "origine": "Clicsouris — File:T4 Bondy - Aulnay 07.ogv",
+   "licence": "CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0",
+   "source": "https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -20.07,
+   "duree_s": 4.3
+  },
+  "banks/avanto_motor_hum.ogg": {
+   "origine": "Clicsouris — File:T4 Bondy - Aulnay 07.ogv",
+   "licence": "CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0",
+   "source": "https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -20.05,
+   "duree_s": 4.3
+  },
+  "banks/urbos_motor.ogg": {
+   "origine": "GilPe — File:Luxembourg tram testing August 2017 (1).webm",
+   "licence": "CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -19.98,
+   "duree_s": 4.3
+  },
+  "banks/urbos_motor_hum.ogg": {
+   "origine": "GilPe — File:Luxembourg tram testing August 2017 (1).webm",
+   "licence": "CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -20.0,
+   "duree_s": 4.29
+  },
+  "banks/tyre_rolling.ogg": {
+   "origine": "Synthèse de bruit de pneus, build_audio_banks.py",
+   "licence": "Création du projet",
+   "lufs": -20.08,
+   "duree_s": 4.3
+  },
+  "banks/tfs_motor.ogg": {
+   "origine": "Clément Bucco-Lechat — File:Arrivée du tram.webm",
+   "licence": "CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -19.89,
+   "duree_s": 4.3
+  },
+  "banks/tfs_motor_hum.ogg": {
+   "origine": "Clément Bucco-Lechat — File:Arrivée du tram.webm",
+   "licence": "CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -21.43,
+   "duree_s": 4.3
+  },
+  "banks/flexity_motor.ogg": {
+   "origine": "Clicsouris — File:Tramway de Marseille - Ligne 2 - Boulevard Philippon.ogv",
+   "licence": "CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -19.89,
+   "duree_s": 4.3
+  },
+  "banks/flexity_motor_hum.ogg": {
+   "origine": "Clicsouris — File:Tramway de Marseille - Ligne 2 - Boulevard Philippon.ogv",
+   "licence": "CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0",
+   "source": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+   "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
+   "lufs": -19.9,
+   "duree_s": 4.3
   }
  },
  "references": [

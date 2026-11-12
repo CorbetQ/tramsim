@@ -50,7 +50,7 @@ func load_file(path: String) -> PackedStringArray:
 		for v in e.get("y", []): ys.append(float(v))
 		if ys.size() != pts.size(): ys = PackedFloat32Array()
 		edge_info[e.id] = {"limit_ms": lim, "zones": zones, "grade": float(e.get("grade", 0.0)), "supply": sup, "pts": pts, "raw": bool(e.get("raw", false)),
-			"supply_zones": e.get("supply_zones", []), "physical": bool(e.get("physical", false)), "structure_left": bool(e.get("structure_left", true)), "structure_right": bool(e.get("structure_right", true)),
+			"supply_zones": e.get("supply_zones", []), "preferred_direction": int(e.get("preferred_direction", 1 if e.get("source", {}).get("oneway", "") == "yes" else 0)), "physical": bool(e.get("physical", false)), "structure_left": bool(e.get("structure_left", true)), "structure_right": bool(e.get("structure_right", true)),
 			"gauge_mm": int(e.get("gauge_mm", 1435)), "service": str(e.get("service", "")), "name": str(e.get("name", "")), "source": e.get("source", {}),
 			"arc": arc, "ys": ys, "bridge": e.get("bridge", []), "tunnel": e.get("tunnel", []), "trench": e.get("trench", [])}
 	_derive_curve_limits()

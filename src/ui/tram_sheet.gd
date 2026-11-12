@@ -56,6 +56,8 @@ func _ready() -> void:
 	text.add_theme_font_size_override("italics_font_size", 16)
 	text.meta_clicked.connect(func(u): OS.shell_open(str(u)))
 	row.add_child(text)
+	var audio_note := UiTheme.label_(TramAudio.profile_label(family), UiTheme.SIZE_SMALL, UiTheme.MUTED)
+	audio_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; col.add_child(audio_note)
 	# livrées : une entrée par (réseau, ligne) où la rame circule ; lignes de même réseau et même livrée regroupées
 	var all := Catalogue.lines_for(family)
 	var first: Array = all.filter(func(l): return city != "" and l.city == city)

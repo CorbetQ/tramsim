@@ -1,0 +1,477 @@
+{
+  "schema": 1,
+  "sample_rate": 32000,
+  "profiles": {
+    "avanto": {
+      "bank": "avanto",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "breda_vlc": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.6,
+      "hum_pitch_factor": 0.6,
+      "rubber": false
+    },
+    "citadis_302": {
+      "bank": "citadis302",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_402": {
+      "bank": "citadis402",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_403_strasbourg": {
+      "bank": "citadis403",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_compact": {
+      "bank": "citadis302",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_dualis": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 1.02,
+      "hum_pitch_factor": 1.02,
+      "rubber": false
+    },
+    "citadis_reims": {
+      "bank": "citadis302",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_tours": {
+      "bank": "citadis402",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_x01": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.78,
+      "hum_pitch_factor": 0.78,
+      "rubber": false
+    },
+    "citadis_x05": {
+      "bank": "citadis403",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "citadis_x05_nantes": {
+      "bank": "citadis403",
+      "quality": "related_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "eurotram": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.75,
+      "hum_pitch_factor": 0.75,
+      "rubber": false
+    },
+    "flexity_marseille": {
+      "bank": "flexity",
+      "quality": "exact_family",
+      "motor_pitch_factor": 0.83,
+      "hum_pitch_factor": 0.83,
+      "rubber": false
+    },
+    "incentro": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.9,
+      "hum_pitch_factor": 0.9,
+      "rubber": false
+    },
+    "tango_rhonexpress": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.94,
+      "hum_pitch_factor": 0.94,
+      "rubber": false
+    },
+    "tfs": {
+      "bank": "tfs",
+      "quality": "exact_family",
+      "motor_pitch_factor": 0.68,
+      "hum_pitch_factor": 0.68,
+      "rubber": false
+    },
+    "translohr": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.86,
+      "hum_pitch_factor": 0.86,
+      "rubber": true,
+      "streams": {
+        "rolling": "banks/tyre_rolling.ogg"
+      }
+    },
+    "urbos": {
+      "bank": "urbos",
+      "quality": "exact_family",
+      "motor_pitch_factor": 1.0,
+      "hum_pitch_factor": 1.0,
+      "rubber": false
+    },
+    "vevey_saint_etienne": {
+      "bank": "",
+      "quality": "synthetic",
+      "motor_pitch_factor": 0.64,
+      "hum_pitch_factor": 0.64,
+      "rubber": false
+    }
+  },
+  "banks": {
+    "citadis302": {
+      "recorded": true,
+      "label": "Citadis 302, Moscou",
+      "recorded_family": "citadis_302",
+      "streams": {
+        "motor": "banks/citadis302_motor.ogg",
+        "motor_hum": "banks/citadis302_motor_hum.ogg"
+      },
+      "reference_speed_ms": 8.0,
+      "reference_speed_estimated": true,
+      "mix": {
+        "motor": -12.0,
+        "motor_hum": -12.0,
+        "carrier": -45.0,
+        "rolling": -14.0,
+        "real_rail": -90.0
+      },
+      "source": {
+        "title": "File:Alstom Citadis 302 in Moscow.webm",
+        "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+        "download_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a3/Alstom_Citadis_302_in_Moscow.webm/Alstom_Citadis_302_in_Moscow.webm.240p.vp9.webm",
+        "license": "CC BY 3.0",
+        "license_url": "https://creativecommons.org/licenses/by/3.0",
+        "author": "trolleway",
+        "sha256": "bf6713905f2e927e43512e014f0e7a0e8c5629161a31fdc64722d2c0937996d5",
+        "duration_s": 185.33
+      },
+      "segments": {
+        "motor": {
+          "sha256": "ef32304d49cf2a174194a87dfe4ef3589dd21a5b8fe3c9f95289bc62428507bc",
+          "start_s": 37.066,
+          "duration_s": 4.3,
+          "lufs": -19.75,
+          "true_peak_dbfs": -7.37,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        },
+        "motor_hum": {
+          "sha256": "2dfc94137bb66e867252f9de084c775bf08e8fa6644773d67a933508c99dd31a",
+          "start_s": 101.932,
+          "duration_s": 4.3,
+          "lufs": -19.73,
+          "true_peak_dbfs": -6.87,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        }
+      }
+    },
+    "citadis402": {
+      "recorded": true,
+      "label": "Citadis 402, Porte d’Ivry",
+      "recorded_family": "citadis_402",
+      "streams": {
+        "motor": "banks/citadis402_motor.ogg",
+        "motor_hum": "banks/citadis402_motor_hum.ogg"
+      },
+      "reference_speed_ms": 8.0,
+      "reference_speed_estimated": true,
+      "mix": {
+        "motor": -12.0,
+        "motor_hum": -12.0,
+        "carrier": -45.0,
+        "rolling": -14.0,
+        "real_rail": -90.0
+      },
+      "source": {
+        "title": "File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg",
+        "page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+        "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "author": "Litlok",
+        "sha256": "11fe35224fdb981bb5ff4aa8f361c1c6ce51d0bf23afa9fe454cc61014ba4231",
+        "duration_s": 24.0
+      },
+      "segments": {
+        "motor": {
+          "sha256": "525bb922a840a4d17a763ad5fb820cc2bd8e2228ee858a27671815fde14c6b2a",
+          "start_s": 4.8,
+          "duration_s": 4.3,
+          "lufs": -20.01,
+          "true_peak_dbfs": -6.85,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        },
+        "motor_hum": {
+          "sha256": "0300fb52c3043a31f8fb01def5c0d1b6f9b622c82b246655da289f494893dede",
+          "start_s": 13.2,
+          "duration_s": 4.3,
+          "lufs": -20.03,
+          "true_peak_dbfs": -5.59,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        }
+      }
+    },
+    "citadis403": {
+      "recorded": true,
+      "label": "Citadis 403, Strasbourg",
+      "recorded_family": "citadis_403_strasbourg",
+      "streams": {
+        "motor": "banks/citadis403_motor.ogg",
+        "motor_hum": "banks/citadis403_motor_hum.ogg"
+      },
+      "reference_speed_ms": 8.0,
+      "reference_speed_estimated": true,
+      "mix": {
+        "motor": -12.0,
+        "motor_hum": -12.0,
+        "carrier": -45.0,
+        "rolling": -14.0,
+        "real_rail": -90.0
+      },
+      "source": {
+        "title": "File:Citadis 403 n°2040 CTS, ligne A, Langstross - Porte de l'Hôpital.ogg",
+        "page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+        "download_url": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Citadis_403_n%C2%B02040_CTS%2C_ligne_A%2C_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "author": "Kevin.B",
+        "sha256": "3d6170e96adaa33bf9898ec89190133b4b0d5f9c9d759fef2d1fe78c9901fd58",
+        "duration_s": 20.838458
+      },
+      "segments": {
+        "motor": {
+          "sha256": "fcbfc615ed6e87949f94d520fdbe3769152cea3df5d7c90b3be27c7d24079083",
+          "start_s": 4.168,
+          "duration_s": 4.3,
+          "lufs": -19.93,
+          "true_peak_dbfs": -5.04,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        },
+        "motor_hum": {
+          "sha256": "4d7d2f07fa7b3e270cb00aad506e5e533512a82431192d93e85f3cca8d2c5ae6",
+          "start_s": 11.461,
+          "duration_s": 4.3,
+          "lufs": -20.0,
+          "true_peak_dbfs": -6.17,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        }
+      }
+    },
+    "avanto": {
+      "recorded": true,
+      "label": "Siemens Avanto, T4",
+      "recorded_family": "avanto",
+      "streams": {
+        "motor": "banks/avanto_motor.ogg",
+        "motor_hum": "banks/avanto_motor_hum.ogg"
+      },
+      "reference_speed_ms": 8.0,
+      "reference_speed_estimated": true,
+      "mix": {
+        "motor": -12.0,
+        "motor_hum": -12.0,
+        "carrier": -45.0,
+        "rolling": -14.0,
+        "real_rail": -90.0
+      },
+      "source": {
+        "title": "File:T4 Bondy - Aulnay 07.ogv",
+        "page": "https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv",
+        "download_url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/T4_Bondy_-_Aulnay_07.ogv",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "author": "Clicsouris",
+        "sha256": "209f3ed65ba6072ef0f7219d139e06741fdf1e15b4bc077a75ada98a92f3adc6",
+        "duration_s": 64.48
+      },
+      "segments": {
+        "motor": {
+          "sha256": "e27277ae4adf29e1fb6b832610dc77926ce7a2413a9455b7e6f5fb1d9fac8875",
+          "start_s": 12.896,
+          "duration_s": 4.3,
+          "lufs": -20.07,
+          "true_peak_dbfs": -6.92,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        },
+        "motor_hum": {
+          "sha256": "aa50dd415f780835ed2c0b0a34930deac6dbd60cfe651c4271b07c643d7cb2b0",
+          "start_s": 35.464,
+          "duration_s": 4.3,
+          "lufs": -20.05,
+          "true_peak_dbfs": -4.41,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        }
+      }
+    },
+    "tfs": {
+      "recorded": true,
+      "label": "Alstom TFS, Nantes — rame 324",
+      "recorded_family": "tfs",
+      "streams": {
+        "motor": "banks/tfs_motor.ogg",
+        "motor_hum": "banks/tfs_motor_hum.ogg"
+      },
+      "reference_speed_ms": 8.0,
+      "reference_speed_estimated": true,
+      "mix": {
+        "motor": -12.0,
+        "motor_hum": -12.0,
+        "carrier": -45.0,
+        "rolling": -14.0,
+        "real_rail": -90.0
+      },
+      "source": {
+        "title": "File:Arrivée du tram.webm",
+        "page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm",
+        "download_url": "https://upload.wikimedia.org/wikipedia/commons/3/33/Arriv%C3%A9e_du_tram.webm",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "author": "Clément Bucco-Lechat",
+        "sha256": "3cb2e51ed72774bfee41abac704ba6c86a30a3cff5da20cd4a2007c70f782faa",
+        "duration_s": 17.083
+      },
+      "segments": {
+        "motor": {
+          "sha256": "990c2492d35e3d3f5a805ef9171345b8e63f5fa43942ac501f4bb3850649154f",
+          "start_s": 3.417,
+          "duration_s": 4.3,
+          "lufs": -19.89,
+          "true_peak_dbfs": -5.21,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        },
+        "motor_hum": {
+          "sha256": "103211ba6db538087ac6e19ca622e5f3471f0d880b299368b0c7ea40f609c2ce",
+          "start_s": 9.396,
+          "duration_s": 4.3,
+          "lufs": -21.43,
+          "true_peak_dbfs": -1.58,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        }
+      },
+      "identification": "Rame M2 324 visible à 10 s, série TFS 301–346 de Nantes"
+    },
+    "flexity": {
+      "recorded": true,
+      "label": "Flexity Outlook, Marseille",
+      "recorded_family": "flexity_marseille",
+      "streams": {
+        "motor": "banks/flexity_motor.ogg",
+        "motor_hum": "banks/flexity_motor_hum.ogg"
+      },
+      "reference_speed_ms": 8.0,
+      "reference_speed_estimated": true,
+      "mix": {
+        "motor": -12.0,
+        "motor_hum": -12.0,
+        "carrier": -45.0,
+        "rolling": -14.0,
+        "real_rail": -90.0
+      },
+      "source": {
+        "title": "File:Tramway de Marseille - Ligne 2 - Boulevard Philippon.ogv",
+        "page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+        "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "author": "Clicsouris",
+        "sha256": "860dbba99e89f939f116381e524009630f5f672137e1c8cd7b67a8790bf9ca57",
+        "duration_s": 12.024
+      },
+      "segments": {
+        "motor": {
+          "sha256": "e4e7eda20c6123d76f88ced63d167cb441978521e7145b8642f7e6ecd65005cc",
+          "start_s": 2.405,
+          "duration_s": 4.3,
+          "lufs": -19.89,
+          "true_peak_dbfs": -6.28,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        },
+        "motor_hum": {
+          "sha256": "3baf6f0ee79e6d3ce1446e9e8efbc450c62dfe7b5a40cc8efe60a3e7037ac6b5",
+          "start_s": 6.613,
+          "duration_s": 4.3,
+          "lufs": -19.9,
+          "true_peak_dbfs": -5.07,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        }
+      },
+      "identification": "Façade Flexity Outlook Marseille visible à 3 s ; légende Commons erronée"
+    },
+    "urbos": {
+      "recorded": true,
+      "label": "CAF Urbos 3, Luxembourg",
+      "recorded_family": "urbos",
+      "streams": {
+        "motor": "banks/urbos_motor.ogg",
+        "motor_hum": "banks/urbos_motor_hum.ogg"
+      },
+      "reference_speed_ms": 8.0,
+      "reference_speed_estimated": true,
+      "mix": {
+        "motor": -12.0,
+        "motor_hum": -12.0,
+        "carrier": -45.0,
+        "rolling": -14.0,
+        "real_rail": -90.0
+      },
+      "source": {
+        "title": "File:Luxembourg tram testing August 2017 (1).webm",
+        "page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+        "download_url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Luxembourg_tram_testing_August_2017_%281%29.webm",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "author": "GilPe",
+        "sha256": "3c6af5715ee2f6d6109bd44cfc1216233c89895c61ab10f8c3a835f3890b3086",
+        "duration_s": 52.224
+      },
+      "segments": {
+        "motor": {
+          "sha256": "bfc1c9a6496e70f7485306047079a2d1b7f97841d5bc1ada63226d31f32a9440",
+          "start_s": 23.501,
+          "duration_s": 4.3,
+          "lufs": -19.98,
+          "true_peak_dbfs": -3.17,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        },
+        "motor_hum": {
+          "sha256": "8d38d80caa106bc36405afbb22209ecc88ca260670b9ae452cdc336bbdf9c1b4",
+          "start_s": 28.723,
+          "duration_s": 4.29,
+          "lufs": -20.0,
+          "true_peak_dbfs": -6.14,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        }
+      }
+    }
+  },
+  "unavailable_sources": {},
+  "note": "Exact = même famille, pas une captation de chaque réseau. Les apparentements et synthèses sont explicitement identifiés."
+}

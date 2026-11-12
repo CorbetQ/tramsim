@@ -102,8 +102,8 @@ func _init() -> void:
 	check(ab != null, "mode libre : bouton Aiguillages")
 	await _click(ab.get_global_rect().get_center())
 	for i in 3: await process_frame
-	check(main.switch_panel != null, "panneau des aiguillages ouvert")
-	var spn: SwitchPanel = main.switch_panel
+	check(main.plan_panel != null, "panneau des aiguillages ouvert")
+	var spn: NetworkPlan = main.plan_panel
 	var g: TrackGraph = main.free.net.graph
 	await _press(spn.filter_btns["all"])
 	check(spn.filter == "all" and spn.rows.size() > 0, "filtre Tous : %d aiguillages" % spn.rows.size())
@@ -135,5 +135,5 @@ func _init() -> void:
 	check(spn.selected == spn._pick(spn.canvas.get_global_transform().affine_inverse() * spn.screen_pos(key)) and spn.selected != "", "clic sur le plan : aiguillage sélectionné")
 	await _key(KEY_A)
 	for i in 3: await process_frame
-	check(main.switch_panel == null, "A : panneau fermé")
+	check(main.plan_panel == null, "A : panneau fermé")
 	quit(1 if fails > 0 else 0)

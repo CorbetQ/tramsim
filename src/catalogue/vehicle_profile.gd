@@ -17,7 +17,13 @@ var fleet: Dictionary = {}                # entrée de flotte (livrée) si maté
 @export var capacity: int = 200
 @export_enum("overhead", "aps", "third_rail", "hybrid", "battery") var supply: String = "overhead"
 @export_enum("steel", "rubber_guided") var guidance: String = "steel"
+@export var electric_modes := PackedStringArray()
 @export var estimated: PackedStringArray = []
 
 func loaded_mass(passengers: int, kg_per_pax: float = 70.0) -> float:
 	return empty_mass_kg + passengers * kg_per_pax
+
+func power_modes() -> PackedStringArray:
+	if not electric_modes.is_empty(): return electric_modes.duplicate()
+	if supply == "hybrid": return PackedStringArray(["overhead", "aps"])
+	return PackedStringArray([supply])

@@ -1,4 +1,4 @@
-class_name SwitchPanel
+class_name NetworkPlan
 extends Control
 ## Poste d'aiguillage (mode libre) : plan du réseau coloré par ligne GTFS, noms des arrêts au zoom, rame
 ## (flèche du sens de marche), itinéraire prévu et aiguillages à manœuvrer mis en évidence (numérotés).
@@ -11,7 +11,7 @@ extends Control
 signal closed
 signal message(text: String)
 
-var session: FreeSession
+var session: MissionSession
 var view: LineView
 var lines: Array = []            # [PackedVector2Array (m), arête, [couleurs]]
 var switch_pos: Dictionary = {}  # clé (TrackGraph.skey) -> Vector2 (m)
@@ -142,10 +142,10 @@ static func line_colors(meta: Dictionary) -> Dictionary:
 
 # ----------------------------------------------------------------------------------------------- construction
 
-func setup(s: FreeSession, v: LineView) -> void:
+func setup(s: MissionSession, v: LineView) -> void:
 	session = s; view = v
 	compact = get_viewport_rect().size.x < 1100.0 or get_viewport_rect().size.y < 620.0
-	name = "SwitchPanel"
+	name = "NetworkPlan"
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg := ColorRect.new(); bg.color = Color(0.02, 0.03, 0.05, 0.6); bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -173,9 +173,9 @@ func setup(s: FreeSession, v: LineView) -> void:
 		head.add_child(back)
 	head.add_child(UiTheme.icon_rect("switch", 28, UiTheme.ACCENT))
 	var hv := VBoxContainer.new(); hv.add_theme_constant_override("separation", -4); hv.size_flags_horizontal = Control.SIZE_EXPAND_FILL; head.add_child(hv)
-	hv.add_child(UiTheme.label_("Aiguillages", UiTheme.SIZE_H2, UiTheme.TEXT, true))
+	hv.add_child(UiTheme.label_("Plan du réseau", UiTheme.SIZE_H2, UiTheme.TEXT, true))
 	speed_lbl = UiTheme.label_("", UiTheme.SIZE_CAPTION, UiTheme.MUTED); hv.add_child(speed_lbl)
-	var close := UiTheme.button("", "close", "ghost", Vector2(52, 52)); close.tooltip_text = "Fermer (A / Échap)"; close.name = "close"
+	var close := UiTheme.button("", "close", "ghost", Vector2(52, 52)); close.tooltip_text = "Fermer (M / A / Échap)"; close.name = "close"
 	close.pressed.connect(func(): closed.emit()); head.add_child(close)
 	var seg := PanelContainer.new(); seg.add_theme_stylebox_override("panel", UiTheme.box(Color(0, 0, 0, 0.3), 14, 4)); sv.add_child(seg)
 	var frow := HBoxContainer.new(); frow.add_theme_constant_override("separation", 4); seg.add_child(frow)
@@ -454,7 +454,7 @@ func _build_popover() -> void:
 	var dirs: Array = switch_dirs.get(selected, [])
 	for k in ch.size():
 		var b := Button.new(); b.custom_minimum_size = Vector2(0, 60); b.focus_mode = Control.FOCUS_NONE
-		b.set_meta("branch", k); b.name = "branch_%d" % k; b.disabled = st == 2 and k != cur
+		b.set_meta("branch", k); b.name = "branch_%d" % k; b.disabled = not session is FreeSession or (st == 2 and k != cur)
 		b.tooltip_text = "Branche %d" % (k + 1)
 		var active := k == cur
 		b.add_theme_stylebox_override("normal", UiTheme.box(Color(UiTheme.ACCENT, 0.2) if active else Color(1, 1, 1, 0.05), 12, 10,
@@ -511,7 +511,9 @@ func choose(branch: int) -> void:
 	if branch < session.net.graph.choices(sw[0], sw[1]).size(): _throw(sw[0], branch, sw[1])
 
 func _throw(node: String, branch: int, side: int = 1) -> void:
-	if session.select_branch(node, branch, side):
+	if not session is FreeSession:
+		message.emit("Plan en lecture seule pendant une mission"); return
+	if (session as FreeSession).select_branch(node, branch, side):
 		var ch: Array = session.net.graph.choices(node, side)[branch]
 		message.emit("Aiguillage manœuvré : " + label_for(session, ch[0], ch[1]))
 	else:
@@ -554,7 +556,7 @@ func goto_point(p: Vector2) -> void:
 func _process(dt: float) -> void:
 	_t += dt
 	_flash_t = maxf(0.0, _flash_t - dt)
-	if speed_lbl: speed_lbl.text = "%d km/h · %s" % [roundi(session.phys.speed * 3.6), "prochain arrêt : " + str(session.next_station_ahead().get("name", "—"))]
+	if speed_lbl: speed_lbl.text = ("Libre · " if session is FreeSession else "Mission · lecture seule · ") + "%d km/h · %s" % [roundi(session.phys.speed * 3.6), "prochain arrêt : " + str(session.next_station_ahead().get("name", "—"))]
 	if Engine.get_process_frames() % 2 == 0: canvas.queue_redraw()
 	if Engine.get_process_frames() % 30 == 0:
 		var items := _items()

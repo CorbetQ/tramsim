@@ -46,26 +46,34 @@ Caen : licence non précisée sur le portail — à vérifier avant diffusion pu
 
 ## Sons
 
-Tous les sons de `data/audio/*.ogg` (raie d'onduleur IGBT, ronronnement des moteurs, porteuse de découpage, roulement,
-joints de rail, crissement en courbe, climatisation / compresseur, fin de freinage, urgence, portes et signal de
-fermeture « bip-bip », gong, ambiance urbaine) sont des **synthèses originales du projet** générées par
-`data/audio/make_audio.py` (numpy/scipy, encodage ffmpeg/libvorbis, sonie normalisée ITU-R BS.1770) ; aucun audio
-extrait de vidéos ni d'œuvres protégées, aucun échantillon externe inclus. Détail par fichier : `data/audio/sources.json`.
+Les sons de base sont des synthèses originales (`data/audio/make_audio.py`), complétées par
+les captations ci-dessous. `data/audio/sources.json` décrit chaque fichier distribué ;
+`data/audio/families.json` indique les familles exactes, apparentées ou synthétiques.
+Les extraits conservent la licence de leur source, indépendamment de celle du code.
 
-Calibrage sur la littérature publique : D. Thompson, *Railway Noise and Vibration* (Elsevier, 2009) — spectres et
-loi en 30 log v du bruit de roulement, crissement en courbe 1-5 kHz ; principes des onduleurs de traction IGBT
-(MLI asynchrone puis modes synchrones) et raies magnétiques des moteurs asynchrones ; méthode de mesure ISO 3095.
+Calibrage des synthèses : D. Thompson, *Railway Noise and Vibration* (Elsevier, 2009),
+principes publics des onduleurs de traction et méthode de mesure ISO 3095.
 
-Enregistrements libres de référence identifiés (non inclus — téléchargement refusé le 2026-11-11 : Wikimedia Commons
-HTTP 429 à trois reprises, Freesound / BigSoundBank inaccessibles depuis l'environnement de génération) :
+### Captations intégrées en 0.9.2
 
-| Fichier Commons | Auteur | Licence |
+Les sources Wikimedia Commons sont liées dans la table. Chaque banque utilise deux
+extraits, mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé de 250 ms et sonie proche
+de −20 LUFS. Les temps, mesures réelles, liens de licence, auteurs et empreintes SHA-256
+des originaux sont conservés dans `data/audio/families.json`. Les OGG transformés sont
+réutilisables sous la licence indiquée, y compris les obligations de partage à l’identique.
+Les originaux vidéo ne sont pas embarqués.
+
+| Captation / source | Auteur | Licence |
 |---|---|---|
-| Départ / Arrivée d'une rame Citadis 402 à la station Porte d'Ivry | Litlok | CC BY-SA 4.0 |
-| Tram sound in Lyon, France | Glaneur de sons | CC BY 3.0 |
-| Tram doors open and close hiss and beeping | stephan | domaine public |
-| Noodrem / Diverse bellen / Omvormer en compressor / Het rijden van een tram (Amsterdam, Den Haag) | Beeld en Geluid | CC BY-SA 3.0 |
-| Ratelend voetgangerslicht en voorbij rijdende tram | Campos | CC BY-SA 3.0 |
+| [File:Alstom Citadis 302 in Moscow.webm](https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm) | trolleway | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) |
+| [File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg](https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg) | Litlok | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
+| [File:Citadis 403 n°2040 CTS, ligne A, Langstross - Porte de l'Hôpital.ogg](https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg) | Kevin.B | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
+| [File:T4 Bondy - Aulnay 07.ogv](https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv) | Clicsouris | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
+| [File:Arrivée du tram.webm](https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm) | Clément Bucco-Lechat | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
+| [File:Tramway de Marseille - Ligne 2 - Boulevard Philippon.ogv](https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv) | Clicsouris | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
+| [File:Luxembourg tram testing August 2017 (1).webm](https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm) | GilPe | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
+
+Identification : Nantes M2 324 est un TFS ; le véhicule marseillais est un Flexity Outlook, malgré la légende Commons qui indique Citadis. Les autres profils emploient un apparentement documenté ou une synthèse ; aucune captation de Translohr n’est revendiquée.
 
 ## Images du catalogue
 
