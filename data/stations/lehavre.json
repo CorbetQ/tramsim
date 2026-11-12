@@ -1,0 +1,263 @@
+{
+"schema": 1,
+"city": "lehavre",
+"platform_m": 35.4,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 16.7,
+"stations": [
+{
+"name": "Atrium",
+"type": "lateral",
+"doors": "right",
+"lat": 49.515953,
+"lon": 0.17049,
+"quays": [
+"3951",
+"3952"
+]
+},
+{
+"name": "Bigne à Fosse",
+"type": "lateral",
+"doors": "right",
+"lat": 49.52936,
+"lon": 0.115503,
+"quays": [
+"3953",
+"3954"
+]
+},
+{
+"name": "Curie",
+"type": "lateral",
+"doors": "right",
+"lat": 49.509274,
+"lon": 0.157345,
+"quays": [
+"3955",
+"3956"
+]
+},
+{
+"name": "Frileuse",
+"type": "lateral",
+"doors": "right",
+"lat": 49.509212,
+"lon": 0.148572,
+"quays": [
+"3957",
+"3958"
+]
+},
+{
+"name": "Gares",
+"type": "lateral",
+"doors": "right",
+"lat": 49.49251,
+"lon": 0.124164,
+"quays": [
+"3959",
+"3960"
+]
+},
+{
+"name": "Grand Hameau",
+"type": "lateral",
+"doors": "right",
+"lat": 49.529917,
+"lon": 0.105829,
+"quays": [
+"4890",
+"4891"
+]
+},
+{
+"name": "Hôtel de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 49.493368,
+"lon": 0.108292,
+"quays": [
+"3964",
+"3965"
+]
+},
+{
+"name": "La Plage",
+"type": "lateral",
+"doors": "right",
+"lat": 49.494141,
+"lon": 0.095745,
+"quays": [
+"3983",
+"3984"
+]
+},
+{
+"name": "Mare Au Clerc",
+"type": "lateral",
+"doors": "right",
+"lat": 49.511263,
+"lon": 0.128206,
+"quays": [
+"3971",
+"3972"
+]
+},
+{
+"name": "Mare Rouge",
+"type": "lateral",
+"doors": "right",
+"lat": 49.518743,
+"lon": 0.116479,
+"quays": [
+"3975",
+"3976"
+]
+},
+{
+"name": "Mt Gaillard",
+"type": "lateral",
+"doors": "right",
+"lat": 49.522587,
+"lon": 0.113837,
+"quays": [
+"4003",
+"4004"
+]
+},
+{
+"name": "P. de Justice",
+"type": "lateral",
+"doors": "right",
+"lat": 49.492606,
+"lon": 0.118023,
+"quays": [
+"3980",
+"3981"
+]
+},
+{
+"name": "Place Jenner A",
+"type": "lateral",
+"doors": "right",
+"lat": 49.508568,
+"lon": 0.13679,
+"quays": [
+"3969",
+"3970"
+]
+},
+{
+"name": "Place Jenner B",
+"type": "lateral",
+"doors": "right",
+"lat": 49.508577,
+"lon": 0.137808,
+"quays": [
+"3967",
+"3968"
+]
+},
+{
+"name": "Pré Fleuri",
+"type": "lateral",
+"doors": "right",
+"lat": 49.508574,
+"lon": 0.180133,
+"quays": [
+"3978",
+"3979"
+]
+},
+{
+"name": "Queneau",
+"type": "lateral",
+"doors": "right",
+"lat": 49.525824,
+"lon": 0.115394,
+"quays": [
+"3987",
+"3988"
+]
+},
+{
+"name": "Rond-Point",
+"type": "lateral",
+"doors": "right",
+"lat": 49.499265,
+"lon": 0.129447,
+"quays": [
+"3989",
+"3990"
+]
+},
+{
+"name": "Sacré Coeur",
+"type": "lateral",
+"doors": "right",
+"lat": 49.515493,
+"lon": 0.121234,
+"quays": [
+"3991",
+"3992"
+]
+},
+{
+"name": "Schuman",
+"type": "lateral",
+"doors": "right",
+"lat": 49.513825,
+"lon": 0.163786,
+"quays": [
+"3993",
+"3994"
+]
+},
+{
+"name": "St Pierre",
+"type": "lateral",
+"doors": "right",
+"lat": 49.512152,
+"lon": 0.174712,
+"quays": [
+"3995",
+"3996"
+]
+},
+{
+"name": "St Roch",
+"type": "lateral",
+"doors": "right",
+"lat": 49.493473,
+"lon": 0.101321,
+"quays": [
+"3997",
+"3998"
+]
+},
+{
+"name": "Université",
+"type": "lateral",
+"doors": "right",
+"lat": 49.496193,
+"lon": 0.127044,
+"quays": [
+"3999",
+"4000"
+]
+},
+{
+"name": "Verlaine",
+"type": "lateral",
+"doors": "right",
+"lat": 49.509395,
+"lon": 0.163647,
+"quays": [
+"3985",
+"3986"
+]
+}
+]
+}

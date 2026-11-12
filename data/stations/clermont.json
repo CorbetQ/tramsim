@@ -1,0 +1,384 @@
+{
+"schema": 1,
+"city": "clermont",
+"platform_m": 35.0,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "1er Mai",
+"type": "lateral",
+"doors": "right",
+"lat": 45.785395,
+"lon": 3.101642,
+"quays": [
+"PRMAA",
+"PRMAR"
+]
+},
+{
+"name": "Bibliothèque de l'Hôtel-Dieu",
+"type": "lateral",
+"doors": "right",
+"lat": 45.773245,
+"lon": 3.08262,
+"quays": [
+"BIHDA",
+"BIHDR"
+]
+},
+{
+"name": "CHU G. Montpied",
+"type": "lateral",
+"doors": "right",
+"lat": 45.761351,
+"lon": 3.089557,
+"quays": [
+"CHGMA",
+"CHGMR"
+]
+},
+{
+"name": "Champratel",
+"type": "lateral",
+"doors": "right",
+"lat": 45.814877,
+"lon": 3.112319,
+"quays": [
+"CHAMA",
+"CHAMR"
+]
+},
+{
+"name": "Collège A. Camus",
+"type": "lateral",
+"doors": "right",
+"lat": 45.80744,
+"lon": 3.106698,
+"quays": [
+"COACA",
+"COACR"
+]
+},
+{
+"name": "Croix de Neyrat",
+"type": "lateral",
+"doors": "right",
+"lat": 45.814349,
+"lon": 3.10685,
+"quays": [
+"CRNEA",
+"CRNER"
+]
+},
+{
+"name": "Cézeaux Pellez",
+"type": "lateral",
+"doors": "right",
+"lat": 45.761118,
+"lon": 3.108885,
+"quays": [
+"CEPEA",
+"CEPER"
+]
+},
+{
+"name": "Delille Montlosier",
+"type": "lateral",
+"doors": "right",
+"lat": 45.781218,
+"lon": 3.090464,
+"quays": [
+"DEMOA",
+"DEMOR"
+]
+},
+{
+"name": "Fontaine du Bac",
+"type": "lateral",
+"doors": "right",
+"lat": 45.76228,
+"lon": 3.122002,
+"quays": [
+"FOBAB",
+"FOBAS"
+]
+},
+{
+"name": "Gaillard",
+"type": "lateral",
+"doors": "right",
+"lat": 45.779736,
+"lon": 3.081786,
+"quays": [
+"GAILA",
+"GAILR"
+]
+},
+{
+"name": "Gravière",
+"type": "lateral",
+"doors": "right",
+"lat": 45.789606,
+"lon": 3.110086,
+"quays": [
+"GRVIA",
+"GRVIR"
+]
+},
+{
+"name": "Hauts de Chanturgue",
+"type": "offset",
+"doors": "right",
+"lat": 45.810341,
+"lon": 3.107091,
+"quays": [
+"HACHA",
+"HACHR"
+]
+},
+{
+"name": "Hôtel de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 45.780606,
+"lon": 3.085103,
+"quays": [
+"HOVIA",
+"HOVIR"
+]
+},
+{
+"name": "Jaude",
+"type": "lateral",
+"doors": "right",
+"lat": 45.776776,
+"lon": 3.081772,
+"quays": [
+"JAUDA",
+"JAUDR"
+]
+},
+{
+"name": "La Chaux",
+"type": "lateral",
+"doors": "right",
+"lat": 45.760773,
+"lon": 3.104119,
+"quays": [
+"CHAUA",
+"CHAUR"
+]
+},
+{
+"name": "La Pardieu Gare",
+"type": "lateral",
+"doors": "right",
+"lat": 45.766734,
+"lon": 3.134262,
+"quays": [
+"PAGAA",
+"PAGAR"
+]
+},
+{
+"name": "La Plaine",
+"type": "lateral",
+"doors": "right",
+"lat": 45.811794,
+"lon": 3.114759,
+"quays": [
+"PLAIA",
+"PLAIR"
+]
+},
+{
+"name": "Les Carmes",
+"type": "lateral",
+"doors": "right",
+"lat": 45.782472,
+"lon": 3.09423,
+"quays": [
+"CARMA",
+"CARMR"
+]
+},
+{
+"name": "Les Pistes",
+"type": "lateral",
+"doors": "right",
+"lat": 45.798955,
+"lon": 3.113366,
+"quays": [
+"PISTA",
+"PISTR"
+]
+},
+{
+"name": "Les Vergnes",
+"type": "lateral",
+"doors": "right",
+"lat": 45.812786,
+"lon": 3.127627,
+"quays": [
+"VEGNA",
+"VEGNR"
+]
+},
+{
+"name": "Les Vignes",
+"type": "lateral",
+"doors": "right",
+"lat": 45.80266,
+"lon": 3.106663,
+"quays": [
+"VGNEA",
+"VGNER"
+]
+},
+{
+"name": "Lycée A. Brugière",
+"type": "lateral",
+"doors": "right",
+"lat": 45.801653,
+"lon": 3.110406,
+"quays": [
+"LYABA",
+"LYABR"
+]
+},
+{
+"name": "Lycée La Fayette",
+"type": "lateral",
+"doors": "right",
+"lat": 45.763515,
+"lon": 3.129525,
+"quays": [
+"LYLAA",
+"LYLAR"
+]
+},
+{
+"name": "Léon Blum",
+"type": "lateral",
+"doors": "right",
+"lat": 45.762799,
+"lon": 3.098466,
+"quays": [
+"LEBLA",
+"LEBLR"
+]
+},
+{
+"name": "Maison de la Culture",
+"type": "lateral",
+"doors": "right",
+"lat": 45.770876,
+"lon": 3.084966,
+"quays": [
+"MACUA",
+"MACUR"
+]
+},
+{
+"name": "Margeride",
+"type": "lateral",
+"doors": "right",
+"lat": 45.760849,
+"lon": 3.119915,
+"quays": [
+"MARGA",
+"MARGR"
+]
+},
+{
+"name": "Montferrand La Fontaine",
+"type": "lateral",
+"doors": "right",
+"lat": 45.791527,
+"lon": 3.114533,
+"quays": [
+"MTFDA",
+"MTFDR"
+]
+},
+{
+"name": "Musée d'Art Roger Quilliot",
+"type": "lateral",
+"doors": "right",
+"lat": 45.793828,
+"lon": 3.117323,
+"quays": [
+"MURQA",
+"MURQR"
+]
+},
+{
+"name": "St Jacques Dolet",
+"type": "lateral",
+"doors": "right",
+"lat": 45.764862,
+"lon": 3.089036,
+"quays": [
+"SJDOA",
+"SJDOR"
+]
+},
+{
+"name": "St Jacques Loucheur",
+"type": "lateral",
+"doors": "right",
+"lat": 45.761257,
+"lon": 3.094661,
+"quays": [
+"SJLOA",
+"SJLOR"
+]
+},
+{
+"name": "Stade G. Montpied",
+"type": "lateral",
+"doors": "right",
+"lat": 45.813102,
+"lon": 3.121098,
+"quays": [
+"STGMA",
+"STGMR"
+]
+},
+{
+"name": "Stade M. Michelin",
+"type": "lateral",
+"doors": "right",
+"lat": 45.787751,
+"lon": 3.106364,
+"quays": [
+"STMMA",
+"STMMR"
+]
+},
+{
+"name": "UCA - Campus Centre",
+"type": "lateral",
+"doors": "right",
+"lat": 45.771166,
+"lon": 3.088956,
+"quays": [
+"UCACA",
+"UCACR"
+]
+},
+{
+"name": "UCA - Campus Cézeaux",
+"type": "lateral",
+"doors": "right",
+"lat": 45.75891,
+"lon": 3.113836,
+"quays": [
+"CAMPA",
+"CAMPR"
+]
+}
+]
+}

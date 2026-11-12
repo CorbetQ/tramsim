@@ -25,7 +25,9 @@ func _drive_step(m: MissionSession, hold_s: float = 0.0, skip_stop: int = -1) ->
 		if not st.is_empty():
 			var dist := _dist_to(m, st)
 			var v := m.phys.speed
-			var vmax := minf(m.speed_limit() - 1.0, sqrt(maxf(0.0, 2.0 * 0.6 * (dist - 1.0))))
+			# courbe de freinage à 0,6 m/s², réduite en descente (pente de la voie sous la rame)
+			var dec := clampf(0.6 + 9.81 * minf(m.net.grade_at(m.edge_id, m.offset) * m.direction, 0.0), 0.2, 0.6)
+			var vmax := minf(m.speed_limit() - 1.0, sqrt(maxf(0.0, 2.0 * dec * (dist - 1.0))))
 			if i == skip_stop: vmax = m.speed_limit() - 1.0
 			notch = 1.0 if v < vmax - 0.3 else (-1.0 if v > vmax + 0.3 else 0.0)
 			if dist < 2.5 and dist > -4.0 and i != skip_stop: notch = -1.0

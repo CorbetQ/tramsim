@@ -1,0 +1,272 @@
+{
+"schema": 1,
+"city": "reims",
+"platform_m": 35.4,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "ARAGO",
+"type": "lateral",
+"doors": "right",
+"lat": 49.229653,
+"lon": 4.00786,
+"quays": [
+"38",
+"39"
+]
+},
+{
+"name": "BELGES",
+"type": "lateral",
+"doors": "right",
+"lat": 49.274186,
+"lon": 4.01875,
+"quays": [
+"88",
+"89"
+]
+},
+{
+"name": "CAMPUS CRX ROUGE",
+"type": "lateral",
+"doors": "right",
+"lat": 49.236737,
+"lon": 4.004816,
+"quays": [
+"138",
+"139"
+]
+},
+{
+"name": "COMEDIE",
+"type": "lateral",
+"doors": "right",
+"lat": 49.250473,
+"lon": 4.020412,
+"quays": [
+"149",
+"150"
+]
+},
+{
+"name": "COURLANCY",
+"type": "lateral",
+"doors": "right",
+"lat": 49.246046,
+"lon": 4.01804,
+"quays": [
+"189",
+"190"
+]
+},
+{
+"name": "DANTON-RAUSEO",
+"type": "lateral",
+"doors": "right",
+"lat": 49.270915,
+"lon": 4.021481,
+"quays": [
+"286",
+"287"
+]
+},
+{
+"name": "DE FERMAT",
+"type": "lateral",
+"doors": "right",
+"lat": 49.279733,
+"lon": 4.021452,
+"quays": [
+"336",
+"337"
+]
+},
+{
+"name": "FRANCHET ESPEREY",
+"type": "lateral",
+"doors": "right",
+"lat": 49.242694,
+"lon": 4.014831,
+"quays": [
+"302",
+"303"
+]
+},
+{
+"name": "GARE CENTRE",
+"type": "lateral",
+"doors": "right",
+"lat": 49.258577,
+"lon": 4.026637,
+"quays": [
+"348",
+"349"
+]
+},
+{
+"name": "GARE CHAMP. TGV",
+"type": "central",
+"doors": "left",
+"lat": 49.216327,
+"lon": 3.996353,
+"quays": [
+"776"
+]
+},
+{
+"name": "GEORGES HEBERT",
+"type": "lateral",
+"doors": "right",
+"lat": 49.283166,
+"lon": 4.021317,
+"quays": [
+"185",
+"186"
+]
+},
+{
+"name": "HOPITAL DEBRE",
+"type": "lateral",
+"doors": "right",
+"lat": 49.22593,
+"lon": 4.016979,
+"quays": [
+"411",
+"414"
+]
+},
+{
+"name": "JEAN MACE",
+"type": "lateral",
+"doors": "right",
+"lat": 49.276188,
+"lon": 4.021748,
+"quays": [
+"506",
+"507"
+]
+},
+{
+"name": "KENNEDY",
+"type": "lateral",
+"doors": "right",
+"lat": 49.233815,
+"lon": 4.007153,
+"quays": [
+"459",
+"460"
+]
+},
+{
+"name": "LANGLET",
+"type": "lateral",
+"doors": "right",
+"lat": 49.256495,
+"lon": 4.030515,
+"quays": [
+"466",
+"467"
+]
+},
+{
+"name": "LEON BLUM",
+"type": "lateral",
+"doors": "right",
+"lat": 49.225474,
+"lon": 4.009777,
+"quays": [
+"96",
+"97"
+]
+},
+{
+"name": "MEDIATHEQUE",
+"type": "lateral",
+"doors": "right",
+"lat": 49.2271,
+"lon": 4.013192,
+"quays": [
+"236",
+"237"
+]
+},
+{
+"name": "NEUFCHATEL",
+"type": "central",
+"doors": "left",
+"lat": 49.284578,
+"lon": 4.026968,
+"quays": [
+"582"
+]
+},
+{
+"name": "OPERA-CATHEDRALE",
+"type": "lateral",
+"doors": "right",
+"lat": 49.25427,
+"lon": 4.030762,
+"quays": [
+"596",
+"597"
+]
+},
+{
+"name": "POLYCLINIQUE",
+"type": "offset",
+"doors": "right",
+"lat": 49.218471,
+"lon": 4.000042,
+"quays": [
+"193",
+"194"
+]
+},
+{
+"name": "SAINT JOHN PERSE",
+"type": "lateral",
+"doors": "right",
+"lat": 49.240311,
+"lon": 4.009154,
+"quays": [
+"749",
+"750"
+]
+},
+{
+"name": "SCHNEITER",
+"type": "lateral",
+"doors": "right",
+"lat": 49.261248,
+"lon": 4.029075,
+"quays": [
+"107",
+"108"
+]
+},
+{
+"name": "ST THOMAS",
+"type": "lateral",
+"doors": "right",
+"lat": 49.265656,
+"lon": 4.026073,
+"quays": [
+"781",
+"782"
+]
+},
+{
+"name": "VESLE",
+"type": "offset",
+"doors": "right",
+"lat": 49.252391,
+"lon": 4.025703,
+"quays": [
+"837",
+"838"
+]
+}
+]
+}

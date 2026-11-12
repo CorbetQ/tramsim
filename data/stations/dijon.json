@@ -1,0 +1,387 @@
+{
+"schema": 1,
+"city": "dijon",
+"platform_m": 35.4,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "1er Mai",
+"type": "lateral",
+"doors": "right",
+"lat": 47.314688,
+"lon": 5.028782,
+"quays": [
+"4-1474",
+"4-1507"
+]
+},
+{
+"name": "Auditorium",
+"type": "lateral",
+"doors": "right",
+"lat": 47.328591,
+"lon": 5.051891,
+"quays": [
+"4-1542",
+"4-1562"
+]
+},
+{
+"name": "Bourroches",
+"type": "lateral",
+"doors": "right",
+"lat": 47.305334,
+"lon": 5.023468,
+"quays": [
+"4-1457",
+"4-1490"
+]
+},
+{
+"name": "CHENÔVE Centre",
+"type": "central",
+"doors": "left",
+"lat": 47.294597,
+"lon": 5.006441,
+"quays": [
+"4-1459",
+"4-1534"
+]
+},
+{
+"name": "CHU - Hôpitaux",
+"type": "lateral",
+"doors": "right",
+"lat": 47.320113,
+"lon": 5.067343,
+"quays": [
+"4-1546",
+"4-1566"
+]
+},
+{
+"name": "Cap Vert",
+"type": "lateral",
+"doors": "right",
+"lat": 47.313584,
+"lon": 5.09434,
+"quays": [
+"4-1545",
+"4-1565"
+]
+},
+{
+"name": "Carraz",
+"type": "lateral",
+"doors": "right",
+"lat": 47.300936,
+"lon": 5.021011,
+"quays": [
+"4-1469",
+"4-1502"
+]
+},
+{
+"name": "DIJON Gare",
+"type": "central",
+"doors": "left",
+"lat": 47.323296,
+"lon": 5.028205,
+"quays": [
+"4-1551",
+"4-1585"
+]
+},
+{
+"name": "DIJON Valmy",
+"type": "central",
+"doors": "left",
+"lat": 47.364641,
+"lon": 5.046522,
+"quays": [
+"4-1511",
+"4-1512"
+]
+},
+{
+"name": "Darcy",
+"type": "lateral",
+"doors": "right",
+"lat": 47.323775,
+"lon": 5.034282,
+"quays": [
+"4-1462",
+"4-1494"
+]
+},
+{
+"name": "Drapeau",
+"type": "lateral",
+"doors": "right",
+"lat": 47.333135,
+"lon": 5.043977,
+"quays": [
+"4-1465",
+"4-1497"
+]
+},
+{
+"name": "Erasme François Patriat",
+"type": "lateral",
+"doors": "right",
+"lat": 47.315442,
+"lon": 5.067154,
+"quays": [
+"4-1550",
+"4-1569"
+]
+},
+{
+"name": "Europe - Simone Veil",
+"type": "lateral",
+"doors": "right",
+"lat": 47.353299,
+"lon": 5.046193,
+"quays": [
+"4-1466",
+"4-1498"
+]
+},
+{
+"name": "Foch Gare",
+"type": "offset",
+"doors": "right",
+"lat": 47.323495,
+"lon": 5.030744,
+"quays": [
+"4-1467",
+"4-1499"
+]
+},
+{
+"name": "Giroud",
+"type": "lateral",
+"doors": "right",
+"lat": 47.365373,
+"lon": 5.049456,
+"quays": [
+"4-1531",
+"4-1538"
+]
+},
+{
+"name": "Godrans Les Halles",
+"type": "lateral",
+"doors": "right",
+"lat": 47.32535,
+"lon": 5.039111,
+"quays": [
+"4-1528",
+"4-1536"
+]
+},
+{
+"name": "Grand Marché",
+"type": "lateral",
+"doors": "right",
+"lat": 47.312405,
+"lon": 5.103423,
+"quays": [
+"4-1543",
+"4-1563"
+]
+},
+{
+"name": "Grésilles Trimolet",
+"type": "lateral",
+"doors": "right",
+"lat": 47.328907,
+"lon": 5.064191,
+"quays": [
+"4-1555",
+"4-1571"
+]
+},
+{
+"name": "Jaurès",
+"type": "lateral",
+"doors": "right",
+"lat": 47.310637,
+"lon": 5.026513,
+"quays": [
+"4-1471",
+"4-1504"
+]
+},
+{
+"name": "Junot",
+"type": "lateral",
+"doors": "right",
+"lat": 47.339261,
+"lon": 5.044593,
+"quays": [
+"4-1472",
+"4-1505"
+]
+},
+{
+"name": "Le Mail",
+"type": "lateral",
+"doors": "right",
+"lat": 47.299758,
+"lon": 5.010483,
+"quays": [
+"4-1464",
+"4-1496"
+]
+},
+{
+"name": "Mazen Sully",
+"type": "multi",
+"doors": "both",
+"lat": 47.314695,
+"lon": 5.076752,
+"quays": [
+"4-1556",
+"4-1572",
+"4-596"
+]
+},
+{
+"name": "Monge Cité de la gastronomie",
+"type": "lateral",
+"doors": "right",
+"lat": 47.317409,
+"lon": 5.031456,
+"quays": [
+"4-1530",
+"4-1537"
+]
+},
+{
+"name": "Nation",
+"type": "lateral",
+"doors": "right",
+"lat": 47.346578,
+"lon": 5.045308,
+"quays": [
+"4-1475",
+"4-1508"
+]
+},
+{
+"name": "Parc des Sports",
+"type": "lateral",
+"doors": "right",
+"lat": 47.322707,
+"lon": 5.065263,
+"quays": [
+"4-1557",
+"4-1573"
+]
+},
+{
+"name": "Piscine Olympique",
+"type": "lateral",
+"doors": "right",
+"lat": 47.314993,
+"lon": 5.081733,
+"quays": [
+"4-1580",
+"4-1581"
+]
+},
+{
+"name": "Poincaré",
+"type": "lateral",
+"doors": "right",
+"lat": 47.328883,
+"lon": 5.058603,
+"quays": [
+"4-1558",
+"4-1574"
+]
+},
+{
+"name": "Pôle Santé",
+"type": "lateral",
+"doors": "right",
+"lat": 47.361341,
+"lon": 5.050969,
+"quays": [
+"4-1532",
+"4-1539"
+]
+},
+{
+"name": "QUETIGNY Centre La Parenthèse",
+"type": "central",
+"doors": "left",
+"lat": 47.313863,
+"lon": 5.109788,
+"quays": [
+"4-1559",
+"4-1575"
+]
+},
+{
+"name": "République",
+"type": "lateral",
+"doors": "right",
+"lat": 47.326353,
+"lon": 5.045746,
+"quays": [
+"4-1477",
+"4-1510",
+"4-1560",
+"4-1576"
+]
+},
+{
+"name": "Toison d'Or",
+"type": "lateral",
+"doors": "right",
+"lat": 47.355403,
+"lon": 5.052409,
+"quays": [
+"4-1484",
+"4-1514"
+]
+},
+{
+"name": "Université",
+"type": "lateral",
+"doors": "right",
+"lat": 47.311657,
+"lon": 5.072845,
+"quays": [
+"4-1544",
+"4-1564"
+]
+},
+{
+"name": "Valendons",
+"type": "lateral",
+"doors": "right",
+"lat": 47.301825,
+"lon": 5.015177,
+"quays": [
+"4-1533",
+"4-1540"
+]
+},
+{
+"name": "Zénith",
+"type": "lateral",
+"doors": "right",
+"lat": 47.356564,
+"lon": 5.05685,
+"quays": [
+"4-1487",
+"4-1518"
+]
+}
+]
+}

@@ -55,7 +55,7 @@ jobs:
           cd build && zip -9 TramSimFrance-windows.zip TramSimFrance.exe && cd ..
           for i in 1 2 3; do sudo apt-get update > /dev/null 2>&1; sudo apt-get install -y wixl > /dev/null 2>&1 && break; sleep 20; done
           if command -v wixl > /dev/null; then
-            wixl -a x64 -D Version=0.6.${{ github.run_number }} -o build/TramSimFrance.msi installer/tramsim.wxs
+            wixl -a x64 -D Version=0.7.${{ github.run_number }} -o build/TramSimFrance.msi installer/tramsim.wxs
           else
             echo "::warning::wixl indisponible : MSI non produit"
           fi
@@ -63,8 +63,8 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.6.${{ github.run_number }}
-          name: Tram Sim France 0.6.${{ github.run_number }}
+          tag_name: v0.7.${{ github.run_number }}
+          name: Tram Sim France 0.7.${{ github.run_number }}
           prerelease: true
           fail_on_unmatched_files: false
           body: |

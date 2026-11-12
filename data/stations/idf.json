@@ -1,0 +1,3084 @@
+{
+"schema": 1,
+"city": "idf",
+"platform_m": 46.7,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Adrienne Bolland",
+"type": "offset",
+"doors": "right",
+"lat": 48.872427,
+"lon": 2.408503,
+"quays": [
+"IDFM:24421",
+"IDFM:24422"
+]
+},
+{
+"name": "Alcide d'Orbigny",
+"type": "offset",
+"doors": "right",
+"lat": 48.965818,
+"lon": 2.363577,
+"quays": [
+"IDFM:28856",
+"IDFM:28859"
+]
+},
+{
+"name": "Alexandra David-Néel",
+"type": "lateral",
+"doors": "right",
+"lat": 48.843708,
+"lon": 2.410026,
+"quays": [
+"IDFM:24107",
+"IDFM:24139"
+]
+},
+{
+"name": "Allée Royale",
+"type": "lateral",
+"doors": "right",
+"lat": 48.814688,
+"lon": 2.078626,
+"quays": [
+"IDFM:480934",
+"IDFM:481074"
+]
+},
+{
+"name": "Allée de la Tour-Rendez-vous",
+"type": "lateral",
+"doors": "right",
+"lat": 48.897185,
+"lon": 2.506365,
+"quays": [
+"IDFM:471757",
+"IDFM:472172"
+]
+},
+{
+"name": "Amédée Gordini",
+"type": "lateral",
+"doors": "right",
+"lat": 48.658727,
+"lon": 2.373829,
+"quays": [
+"IDFM:486973",
+"IDFM:486975"
+]
+},
+{
+"name": "Angélique Compoint",
+"type": "lateral",
+"doors": "right",
+"lat": 48.897769,
+"lon": 2.338173,
+"quays": [
+"IDFM:462437",
+"IDFM:462443"
+]
+},
+{
+"name": "Anna de Noailles",
+"type": "lateral",
+"doors": "right",
+"lat": 48.874403,
+"lon": 2.278179,
+"quays": [
+"IDFM:490879",
+"IDFM:490881"
+]
+},
+{
+"name": "Anny Flore",
+"type": "lateral",
+"doors": "right",
+"lat": 48.881162,
+"lon": 2.285593,
+"quays": [
+"IDFM:490884",
+"IDFM:490886"
+]
+},
+{
+"name": "Arboretum",
+"type": "lateral",
+"doors": "right",
+"lat": 48.897968,
+"lon": 2.561754,
+"quays": [
+"IDFM:478646",
+"IDFM:478651"
+]
+},
+{
+"name": "Asnières - Quatre Routes",
+"type": "lateral",
+"doors": "right",
+"lat": 48.927282,
+"lon": 2.274595,
+"quays": [
+"IDFM:477913",
+"IDFM:477914"
+]
+},
+{
+"name": "Auguste Delaune",
+"type": "lateral",
+"doors": "right",
+"lat": 48.906665,
+"lon": 2.460484,
+"quays": [
+"IDFM:22257",
+"IDFM:22258"
+]
+},
+{
+"name": "Auguste Perret",
+"type": "lateral",
+"doors": "right",
+"lat": 48.763398,
+"lon": 2.367711,
+"quays": [
+"IDFM:29897",
+"IDFM:35931"
+]
+},
+{
+"name": "Aulnay-sous-Bois",
+"type": "multi",
+"doors": "both",
+"lat": 48.931901,
+"lon": 2.496233,
+"quays": [
+"IDFM:472147",
+"IDFM:472363"
+]
+},
+{
+"name": "Avenue de France",
+"type": "lateral",
+"doors": "right",
+"lat": 48.825569,
+"lon": 2.380924,
+"quays": [
+"IDFM:24123",
+"IDFM:24137"
+]
+},
+{
+"name": "Aéroport d'Orly",
+"type": "lateral",
+"doors": "right",
+"lat": 48.729566,
+"lon": 2.36822,
+"quays": [
+"IDFM:29894",
+"IDFM:35927"
+]
+},
+{
+"name": "Bailly",
+"type": "lateral",
+"doors": "right",
+"lat": 48.836948,
+"lon": 2.074676,
+"quays": [
+"IDFM:480932",
+"IDFM:481073"
+]
+},
+{
+"name": "Balard",
+"type": "offset",
+"doors": "right",
+"lat": 48.836323,
+"lon": 2.277385,
+"quays": [
+"IDFM:24103",
+"IDFM:24108"
+]
+},
+{
+"name": "Baron le Roy",
+"type": "lateral",
+"doors": "right",
+"lat": 48.830438,
+"lon": 2.393445,
+"quays": [
+"IDFM:36482",
+"IDFM:460561"
+]
+},
+{
+"name": "Basilique de Saint-Denis",
+"type": "lateral",
+"doors": "right",
+"lat": 48.938028,
+"lon": 2.360718,
+"quays": [
+"IDFM:22633",
+"IDFM:22634"
+]
+},
+{
+"name": "Baudelaire",
+"type": "lateral",
+"doors": "right",
+"lat": 48.942152,
+"lon": 2.356757,
+"quays": [
+"IDFM:28866",
+"IDFM:28867"
+]
+},
+{
+"name": "Beethoven - Concorde",
+"type": "lateral",
+"doors": "right",
+"lat": 48.798854,
+"lon": 2.381563,
+"quays": [
+"IDFM:478993",
+"IDFM:478996"
+]
+},
+{
+"name": "Belvédère",
+"type": "lateral",
+"doors": "right",
+"lat": 48.875943,
+"lon": 2.225991,
+"quays": [
+"IDFM:22303",
+"IDFM:22304"
+]
+},
+{
+"name": "Blumenthal",
+"type": "lateral",
+"doors": "right",
+"lat": 48.947765,
+"lon": 2.339104,
+"quays": [
+"IDFM:42105",
+"IDFM:42116"
+]
+},
+{
+"name": "Bobigny - Pablo Picasso",
+"type": "lateral",
+"doors": "right",
+"lat": 48.906501,
+"lon": 2.448482,
+"quays": [
+"IDFM:22624",
+"IDFM:22625"
+]
+},
+{
+"name": "Bois Briard",
+"type": "lateral",
+"doors": "right",
+"lat": 48.621997,
+"lon": 2.415775,
+"quays": [
+"IDFM:486963",
+"IDFM:486988"
+]
+},
+{
+"name": "Bois de Saint-Eutrope",
+"type": "offset",
+"doors": "right",
+"lat": 48.634277,
+"lon": 2.395629,
+"quays": [
+"IDFM:486967",
+"IDFM:486969"
+]
+},
+{
+"name": "Bondy",
+"type": "multi",
+"doors": "both",
+"lat": 48.894097,
+"lon": 2.480397,
+"quays": [
+"IDFM:471982",
+"IDFM:479491"
+]
+},
+{
+"name": "Brancion",
+"type": "lateral",
+"doors": "right",
+"lat": 48.828704,
+"lon": 2.300876,
+"quays": [
+"IDFM:24104",
+"IDFM:24121"
+]
+},
+{
+"name": "Bretagne",
+"type": "lateral",
+"doors": "right",
+"lat": 48.768218,
+"lon": 2.367959,
+"quays": [
+"IDFM:29902",
+"IDFM:413057"
+]
+},
+{
+"name": "Brimborion",
+"type": "lateral",
+"doors": "right",
+"lat": 48.822183,
+"lon": 2.231548,
+"quays": [
+"IDFM:23441",
+"IDFM:27464"
+]
+},
+{
+"name": "Butte Pinson",
+"type": "lateral",
+"doors": "right",
+"lat": 48.973612,
+"lon": 2.36612,
+"quays": [
+"IDFM:28850",
+"IDFM:28853"
+]
+},
+{
+"name": "Butte du Chapeau Rouge",
+"type": "lateral",
+"doors": "right",
+"lat": 48.885038,
+"lon": 2.396677,
+"quays": [
+"IDFM:24404",
+"IDFM:24416"
+]
+},
+{
+"name": "Camille Groult",
+"type": "lateral",
+"doors": "right",
+"lat": 48.785674,
+"lon": 2.392031,
+"quays": [
+"IDFM:478992",
+"IDFM:479013"
+]
+},
+{
+"name": "Camp des Loges",
+"type": "lateral",
+"doors": "right",
+"lat": 48.913975,
+"lon": 2.081676,
+"quays": [
+"IDFM:480925",
+"IDFM:481068"
+]
+},
+{
+"name": "Canal Saint-Denis",
+"type": "lateral",
+"doors": "right",
+"lat": 48.89866,
+"lon": 2.380442,
+"quays": [
+"IDFM:24401",
+"IDFM:24402"
+]
+},
+{
+"name": "Carle - Darthé",
+"type": "lateral",
+"doors": "right",
+"lat": 48.759284,
+"lon": 2.408871,
+"quays": [
+"IDFM:479010",
+"IDFM:479012"
+]
+},
+{
+"name": "Caroline Aigle",
+"type": "lateral",
+"doors": "right",
+"lat": 48.738743,
+"lon": 2.369803,
+"quays": [
+"IDFM:29898",
+"IDFM:29899"
+]
+},
+{
+"name": "Centre de Châtillon",
+"type": "lateral",
+"doors": "right",
+"lat": 48.804158,
+"lon": 2.28906,
+"quays": [
+"IDFM:2337",
+"IDFM:41952"
+]
+},
+{
+"name": "Champlan",
+"type": "lateral",
+"doors": "right",
+"lat": 48.707975,
+"lon": 2.280785,
+"quays": [
+"IDFM:486957",
+"IDFM:486990"
+]
+},
+{
+"name": "Charlebourg",
+"type": "lateral",
+"doors": "right",
+"lat": 48.907579,
+"lon": 2.238465,
+"quays": [
+"IDFM:23436",
+"IDFM:23437"
+]
+},
+{
+"name": "Chemin des Reniers",
+"type": "lateral",
+"doors": "right",
+"lat": 48.934558,
+"lon": 2.321503,
+"quays": [
+"IDFM:23289",
+"IDFM:23293"
+]
+},
+{
+"name": "Chevilly-Larue",
+"type": "lateral",
+"doors": "right",
+"lat": 48.759559,
+"lon": 2.366399,
+"quays": [
+"IDFM:35929",
+"IDFM:35930"
+]
+},
+{
+"name": "Chilly-Mazarin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.700573,
+"lon": 2.307951,
+"quays": [
+"IDFM:486892",
+"IDFM:486894"
+]
+},
+{
+"name": "Christophe Colomb",
+"type": "lateral",
+"doors": "right",
+"lat": 48.752152,
+"lon": 2.416998,
+"quays": [
+"IDFM:479008",
+"IDFM:479009"
+]
+},
+{
+"name": "Châteaudun - Barbès",
+"type": "lateral",
+"doors": "right",
+"lat": 48.815374,
+"lon": 2.368573,
+"quays": [
+"IDFM:479006",
+"IDFM:479007"
+]
+},
+{
+"name": "Châtillon - Montrouge",
+"type": "lateral",
+"doors": "right",
+"lat": 48.810728,
+"lon": 2.30017,
+"quays": [
+"IDFM:2336",
+"IDFM:482428"
+]
+},
+{
+"name": "Cimetière Parisien d'Ivry",
+"type": "lateral",
+"doors": "right",
+"lat": 48.812684,
+"lon": 2.370703,
+"quays": [
+"IDFM:479004",
+"IDFM:479005"
+]
+},
+{
+"name": "Cimetière de Saint-Denis",
+"type": "offset",
+"doors": "right",
+"lat": 48.936542,
+"lon": 2.36335,
+"quays": [
+"IDFM:23312",
+"IDFM:23314"
+]
+},
+{
+"name": "Cité Universitaire",
+"type": "offset",
+"doors": "right",
+"lat": 48.820507,
+"lon": 2.338147,
+"quays": [
+"IDFM:24100",
+"IDFM:24115"
+]
+},
+{
+"name": "Cité-Jardin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.765465,
+"lon": 2.259684,
+"quays": [
+"IDFM:486824",
+"IDFM:486846"
+]
+},
+{
+"name": "Clichy - Montfermeil",
+"type": "lateral",
+"doors": "right",
+"lat": 48.904592,
+"lon": 2.555045,
+"quays": [
+"IDFM:478661",
+"IDFM:478664"
+]
+},
+{
+"name": "Clichy-sous-Bois - Mairie",
+"type": "lateral",
+"doors": "right",
+"lat": 48.907863,
+"lon": 2.546429,
+"quays": [
+"IDFM:477286",
+"IDFM:478663"
+]
+},
+{
+"name": "Coeur d'Orly",
+"type": "offset",
+"doors": "right",
+"lat": 48.734069,
+"lon": 2.371174,
+"quays": [
+"IDFM:35932",
+"IDFM:460558"
+]
+},
+{
+"name": "Colette Besson",
+"type": "lateral",
+"doors": "right",
+"lat": 48.89844,
+"lon": 2.363603,
+"quays": [
+"IDFM:24412",
+"IDFM:24420"
+]
+},
+{
+"name": "Constant Coquelin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.783093,
+"lon": 2.39383,
+"quays": [
+"IDFM:479002",
+"IDFM:479003"
+]
+},
+{
+"name": "Cosmonautes",
+"type": "lateral",
+"doors": "right",
+"lat": 48.931697,
+"lon": 2.378165,
+"quays": [
+"IDFM:22628",
+"IDFM:22632"
+]
+},
+{
+"name": "Coteaux de l'Orge",
+"type": "lateral",
+"doors": "right",
+"lat": 48.665317,
+"lon": 2.36272,
+"quays": [
+"IDFM:486976",
+"IDFM:486991"
+]
+},
+{
+"name": "Couilly - Saint-Germain - Quincy",
+"type": "central",
+"doors": "left",
+"lat": 48.882785,
+"lon": 2.854168,
+"quays": [
+"IDFM:492420"
+]
+},
+{
+"name": "Crécy-la-Chapelle",
+"type": "central",
+"doors": "left",
+"lat": 48.859555,
+"lon": 2.905216,
+"quays": [
+"IDFM:492424"
+]
+},
+{
+"name": "César",
+"type": "lateral",
+"doors": "right",
+"lat": 48.949608,
+"lon": 2.342455,
+"quays": [
+"IDFM:42132",
+"IDFM:42133"
+]
+},
+{
+"name": "Danton",
+"type": "lateral",
+"doors": "right",
+"lat": 48.922669,
+"lon": 2.406596,
+"quays": [
+"IDFM:23302",
+"IDFM:24427"
+]
+},
+{
+"name": "Delaunay - Belleville",
+"type": "lateral",
+"doors": "right",
+"lat": 48.945604,
+"lon": 2.347233,
+"quays": [
+"IDFM:42117",
+"IDFM:42125"
+]
+},
+{
+"name": "Delphine Seyrig",
+"type": "lateral",
+"doors": "right",
+"lat": 48.893906,
+"lon": 2.39761,
+"quays": [
+"IDFM:24533",
+"IDFM:460562"
+]
+},
+{
+"name": "Desnouettes",
+"type": "offset",
+"doors": "right",
+"lat": 48.83459,
+"lon": 2.283503,
+"quays": [
+"IDFM:24101",
+"IDFM:24116"
+]
+},
+{
+"name": "Dewoitine",
+"type": "lateral",
+"doors": "right",
+"lat": 48.78356,
+"lon": 2.214417,
+"quays": [
+"IDFM:2328",
+"IDFM:2335"
+]
+},
+{
+"name": "Diane Arbus",
+"type": "lateral",
+"doors": "right",
+"lat": 48.898299,
+"lon": 2.351693,
+"quays": [
+"IDFM:462415",
+"IDFM:462444"
+]
+},
+{
+"name": "Didot",
+"type": "lateral",
+"doors": "right",
+"lat": 48.825965,
+"lon": 2.313387,
+"quays": [
+"IDFM:24105",
+"IDFM:24130"
+]
+},
+{
+"name": "Division Leclerc",
+"type": "lateral",
+"doors": "right",
+"lat": 48.79443,
+"lon": 2.272687,
+"quays": [
+"IDFM:41855",
+"IDFM:41856"
+]
+},
+{
+"name": "Domaine Chérioux",
+"type": "lateral",
+"doors": "right",
+"lat": 48.778938,
+"lon": 2.367339,
+"quays": [
+"IDFM:29895",
+"IDFM:29896"
+]
+},
+{
+"name": "Drancy - Avenir",
+"type": "lateral",
+"doors": "right",
+"lat": 48.917759,
+"lon": 2.417646,
+"quays": [
+"IDFM:23306",
+"IDFM:24424"
+]
+},
+{
+"name": "Dugny - La Courneuve",
+"type": "lateral",
+"doors": "right",
+"lat": 48.943961,
+"lon": 2.411117,
+"quays": [
+"IDFM:470721",
+"IDFM:472210"
+]
+},
+{
+"name": "Ella Fitzgerald",
+"type": "lateral",
+"doors": "right",
+"lat": 48.89736,
+"lon": 2.395053,
+"quays": [
+"IDFM:24398",
+"IDFM:24417"
+]
+},
+{
+"name": "Epinettes - Pouchet",
+"type": "lateral",
+"doors": "right",
+"lat": 48.897474,
+"lon": 2.324894,
+"quays": [
+"IDFM:462439",
+"IDFM:462442"
+]
+},
+{
+"name": "Esbly",
+"type": "multi",
+"doors": "both",
+"lat": 48.902897,
+"lon": 2.809828,
+"quays": [
+"IDFM:492416"
+]
+},
+{
+"name": "Escadrille Normandie-Niémen",
+"type": "lateral",
+"doors": "right",
+"lat": 48.912672,
+"lon": 2.435373,
+"quays": [
+"IDFM:22626",
+"IDFM:22627"
+]
+},
+{
+"name": "Faubourg de l'Arche",
+"type": "lateral",
+"doors": "right",
+"lat": 48.896803,
+"lon": 2.240106,
+"quays": [
+"IDFM:23433",
+"IDFM:24432"
+]
+},
+{
+"name": "Ferme Neuve",
+"type": "lateral",
+"doors": "right",
+"lat": 48.652152,
+"lon": 2.383499,
+"quays": [
+"IDFM:486970",
+"IDFM:486972"
+]
+},
+{
+"name": "Four - Peary",
+"type": "lateral",
+"doors": "right",
+"lat": 48.754543,
+"lon": 2.411989,
+"quays": [
+"IDFM:479000",
+"IDFM:479001"
+]
+},
+{
+"name": "Fourqueux - Bel Air",
+"type": "lateral",
+"doors": "right",
+"lat": 48.894649,
+"lon": 2.07012,
+"quays": [
+"IDFM:480940",
+"IDFM:481070"
+]
+},
+{
+"name": "Freinville - Sevran",
+"type": "lateral",
+"doors": "right",
+"lat": 48.926655,
+"lon": 2.519015,
+"quays": [
+"IDFM:472197",
+"IDFM:472316"
+]
+},
+{
+"name": "Gare de Gennevilliers",
+"type": "lateral",
+"doors": "right",
+"lat": 48.933407,
+"lon": 2.307063,
+"quays": [
+"IDFM:23281",
+"IDFM:23287"
+]
+},
+{
+"name": "Gare de Noisy-le-Sec",
+"type": "lateral",
+"doors": "right",
+"lat": 48.895974,
+"lon": 2.460306,
+"quays": [
+"IDFM:22262",
+"IDFM:23310"
+]
+},
+{
+"name": "Gare de Saint-Denis",
+"type": "lateral",
+"doors": "right",
+"lat": 48.93591,
+"lon": 2.344062,
+"quays": [
+"IDFM:22635",
+"IDFM:24431"
+]
+},
+{
+"name": "Gargan",
+"type": "multi",
+"doors": "both",
+"lat": 48.907401,
+"lon": 2.516472,
+"quays": [
+"IDFM:471825",
+"IDFM:472211",
+"IDFM:472857"
+]
+},
+{
+"name": "Garges - Sarcelles",
+"type": "lateral",
+"doors": "right",
+"lat": 48.977136,
+"lon": 2.390604,
+"quays": [
+"IDFM:479383",
+"IDFM:479384"
+]
+},
+{
+"name": "Gaston Roulaud",
+"type": "lateral",
+"doors": "right",
+"lat": 48.914067,
+"lon": 2.431235,
+"quays": [
+"IDFM:22261",
+"IDFM:23307"
+]
+},
+{
+"name": "Georges Brassens",
+"type": "offset",
+"doors": "right",
+"lat": 48.830074,
+"lon": 2.295046,
+"quays": [
+"IDFM:24113",
+"IDFM:24131"
+]
+},
+{
+"name": "Georges Millandy",
+"type": "offset",
+"doors": "right",
+"lat": 48.783383,
+"lon": 2.230532,
+"quays": [
+"IDFM:41673",
+"IDFM:41674"
+]
+},
+{
+"name": "Georges Pompidou",
+"type": "lateral",
+"doors": "right",
+"lat": 48.784854,
+"lon": 2.237074,
+"quays": [
+"IDFM:2343",
+"IDFM:2346"
+]
+},
+{
+"name": "Germaine Tailleferre",
+"type": "lateral",
+"doors": "right",
+"lat": 48.803304,
+"lon": 2.377873,
+"quays": [
+"IDFM:478998",
+"IDFM:478999"
+]
+},
+{
+"name": "Gilbert Bonnemaison",
+"type": "lateral",
+"doors": "right",
+"lat": 48.955412,
+"lon": 2.307902,
+"quays": [
+"IDFM:42111",
+"IDFM:42113"
+]
+},
+{
+"name": "Gravigny Balizy",
+"type": "lateral",
+"doors": "right",
+"lat": 48.685469,
+"lon": 2.317704,
+"quays": [
+"IDFM:486889",
+"IDFM:486891"
+]
+},
+{
+"name": "Guynemer",
+"type": "lateral",
+"doors": "right",
+"lat": 48.948172,
+"lon": 2.357518,
+"quays": [
+"IDFM:28864",
+"IDFM:28865"
+]
+},
+{
+"name": "Henri Farman",
+"type": "lateral",
+"doors": "right",
+"lat": 48.834783,
+"lon": 2.271425,
+"quays": [
+"IDFM:460556",
+"IDFM:460557"
+]
+},
+{
+"name": "Honoré De Balzac",
+"type": "lateral",
+"doors": "right",
+"lat": 48.896251,
+"lon": 2.318826,
+"quays": [
+"IDFM:462438",
+"IDFM:462445"
+]
+},
+{
+"name": "Hélène Boucher",
+"type": "lateral",
+"doors": "right",
+"lat": 48.739937,
+"lon": 2.359465,
+"quays": [
+"IDFM:29893",
+"IDFM:35928"
+]
+},
+{
+"name": "Hôpital Avicenne",
+"type": "lateral",
+"doors": "right",
+"lat": 48.915797,
+"lon": 2.424965,
+"quays": [
+"IDFM:23297",
+"IDFM:23304"
+]
+},
+{
+"name": "Hôpital Béclère",
+"type": "lateral",
+"doors": "right",
+"lat": 48.787228,
+"lon": 2.253057,
+"quays": [
+"IDFM:2342",
+"IDFM:2344",
+"IDFM:486812",
+"IDFM:486839"
+]
+},
+{
+"name": "Hôpital Delafontaine",
+"type": "lateral",
+"doors": "right",
+"lat": 48.933559,
+"lon": 2.371066,
+"quays": [
+"IDFM:460549",
+"IDFM:460550"
+]
+},
+{
+"name": "Hôpital Robert Debré",
+"type": "lateral",
+"doors": "right",
+"lat": 48.879468,
+"lon": 2.401141,
+"quays": [
+"IDFM:24410",
+"IDFM:24418"
+]
+},
+{
+"name": "Hôpital de Montfermeil",
+"type": "central",
+"doors": "left",
+"lat": 48.900908,
+"lon": 2.570664,
+"quays": [
+"IDFM:478656",
+"IDFM:478660"
+]
+},
+{
+"name": "Hôtel de Ville de Bobigny",
+"type": "lateral",
+"doors": "right",
+"lat": 48.906512,
+"lon": 2.443783,
+"quays": [
+"IDFM:24425",
+"IDFM:37466"
+]
+},
+{
+"name": "Hôtel de ville de la Courneuve",
+"type": "lateral",
+"doors": "right",
+"lat": 48.927448,
+"lon": 2.392156,
+"quays": [
+"IDFM:23301",
+"IDFM:24428"
+]
+},
+{
+"name": "Inovel Parc Nord",
+"type": "lateral",
+"doors": "right",
+"lat": 48.781349,
+"lon": 2.209091,
+"quays": [
+"IDFM:2327",
+"IDFM:2333"
+]
+},
+{
+"name": "Issy - Val de Seine",
+"type": "multi",
+"doors": "both",
+"lat": 48.82976,
+"lon": 2.263017,
+"quays": [
+"IDFM:25635",
+"IDFM:25638"
+]
+},
+{
+"name": "Jacqueline Auriol",
+"type": "lateral",
+"doors": "right",
+"lat": 48.910717,
+"lon": 2.234218,
+"quays": [
+"IDFM:23428",
+"IDFM:23430"
+]
+},
+{
+"name": "Jacques Prévert",
+"type": "lateral",
+"doors": "right",
+"lat": 48.970833,
+"lon": 2.36604,
+"quays": [
+"IDFM:28855",
+"IDFM:28861"
+]
+},
+{
+"name": "Jacques-Henri Lartigue",
+"type": "lateral",
+"doors": "right",
+"lat": 48.824907,
+"lon": 2.260564,
+"quays": [
+"IDFM:23438",
+"IDFM:23439"
+]
+},
+{
+"name": "Jardin Parisien",
+"type": "lateral",
+"doors": "right",
+"lat": 48.790068,
+"lon": 2.252607,
+"quays": [
+"IDFM:486810",
+"IDFM:486840"
+]
+},
+{
+"name": "Jean Moulin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.824754,
+"lon": 2.318856,
+"quays": [
+"IDFM:24109",
+"IDFM:24132"
+]
+},
+{
+"name": "Jean Rostand",
+"type": "lateral",
+"doors": "right",
+"lat": 48.907767,
+"lon": 2.454303,
+"quays": [
+"IDFM:22259",
+"IDFM:22260"
+]
+},
+{
+"name": "Jean Vilar",
+"type": "lateral",
+"doors": "right",
+"lat": 48.952768,
+"lon": 2.343398,
+"quays": [
+"IDFM:42128",
+"IDFM:42131"
+]
+},
+{
+"name": "Joncherolles",
+"type": "lateral",
+"doors": "right",
+"lat": 48.955542,
+"lon": 2.358368,
+"quays": [
+"IDFM:28849",
+"IDFM:28858"
+]
+},
+{
+"name": "L'Abbaye",
+"type": "lateral",
+"doors": "right",
+"lat": 48.921967,
+"lon": 2.51638,
+"quays": [
+"IDFM:472077",
+"IDFM:472657"
+]
+},
+{
+"name": "L'Etang - Les Sablons",
+"type": "lateral",
+"doors": "right",
+"lat": 48.872269,
+"lon": 2.068952,
+"quays": [
+"IDFM:480930",
+"IDFM:481071"
+]
+},
+{
+"name": "L'Onde",
+"type": "lateral",
+"doors": "right",
+"lat": 48.781947,
+"lon": 2.180491,
+"quays": [
+"IDFM:2329",
+"IDFM:41852"
+]
+},
+{
+"name": "L'Île-Saint-Denis",
+"type": "lateral",
+"doors": "right",
+"lat": 48.935709,
+"lon": 2.339603,
+"quays": [
+"IDFM:23308",
+"IDFM:23309"
+]
+},
+{
+"name": "La Belle Epine",
+"type": "lateral",
+"doors": "right",
+"lat": 48.756706,
+"lon": 2.368309,
+"quays": [
+"IDFM:35937",
+"IDFM:35941"
+]
+},
+{
+"name": "La Briqueterie",
+"type": "lateral",
+"doors": "right",
+"lat": 48.807314,
+"lon": 2.374912,
+"quays": [
+"IDFM:478991",
+"IDFM:478995"
+]
+},
+{
+"name": "La Courneuve - 8 Mai 1945",
+"type": "lateral",
+"doors": "right",
+"lat": 48.920771,
+"lon": 2.410478,
+"quays": [
+"IDFM:22629",
+"IDFM:24426"
+]
+},
+{
+"name": "La Courneuve - Six Routes",
+"type": "lateral",
+"doors": "right",
+"lat": 48.929957,
+"lon": 2.384685,
+"quays": [
+"IDFM:22630",
+"IDFM:22631"
+]
+},
+{
+"name": "La Croix de Berny",
+"type": "central",
+"doors": "left",
+"lat": 48.762687,
+"lon": 2.302933,
+"quays": [
+"IDFM:486834",
+"IDFM:486841"
+]
+},
+{
+"name": "La Défense",
+"type": "lateral",
+"doors": "right",
+"lat": 48.892673,
+"lon": 2.237693,
+"quays": [
+"IDFM:25641",
+"IDFM:25642"
+]
+},
+{
+"name": "La Ferme",
+"type": "lateral",
+"doors": "right",
+"lat": 48.909686,
+"lon": 2.437429,
+"quays": [
+"IDFM:23298",
+"IDFM:23299"
+]
+},
+{
+"name": "La Fraternelle",
+"type": "lateral",
+"doors": "right",
+"lat": 48.741698,
+"lon": 2.35273,
+"quays": [
+"IDFM:29900",
+"IDFM:35942"
+]
+},
+{
+"name": "La Noue",
+"type": "lateral",
+"doors": "right",
+"lat": 48.934948,
+"lon": 2.326923,
+"quays": [
+"IDFM:23294",
+"IDFM:460552"
+]
+},
+{
+"name": "LaVallée",
+"type": "lateral",
+"doors": "right",
+"lat": 48.761425,
+"lon": 2.290403,
+"quays": [
+"IDFM:486832",
+"IDFM:486842"
+]
+},
+{
+"name": "Lacépède",
+"type": "lateral",
+"doors": "right",
+"lat": 48.955886,
+"lon": 2.311413,
+"quays": [
+"IDFM:42106",
+"IDFM:42115"
+]
+},
+{
+"name": "Lamartine",
+"type": "lateral",
+"doors": "right",
+"lat": 48.783158,
+"lon": 2.367079,
+"quays": [
+"IDFM:35945",
+"IDFM:460559"
+]
+},
+{
+"name": "Le Bourget",
+"type": "multi",
+"doors": "both",
+"lat": 48.930296,
+"lon": 2.423306,
+"quays": [
+"IDFM:470688",
+"IDFM:472194"
+]
+},
+{
+"name": "Le Hameau",
+"type": "lateral",
+"doors": "right",
+"lat": 48.782688,
+"lon": 2.253069,
+"quays": [
+"IDFM:486814",
+"IDFM:486838"
+]
+},
+{
+"name": "Le Luth",
+"type": "lateral",
+"doors": "right",
+"lat": 48.931762,
+"lon": 2.288645,
+"quays": [
+"IDFM:23279",
+"IDFM:23285"
+]
+},
+{
+"name": "Le Village",
+"type": "lateral",
+"doors": "right",
+"lat": 48.933319,
+"lon": 2.294615,
+"quays": [
+"IDFM:23280",
+"IDFM:23288"
+]
+},
+{
+"name": "Les Béatus",
+"type": "offset",
+"doors": "right",
+"lat": 48.951447,
+"lon": 2.321285,
+"quays": [
+"IDFM:42110",
+"IDFM:42114"
+]
+},
+{
+"name": "Les Cholettes",
+"type": "lateral",
+"doors": "right",
+"lat": 48.977438,
+"lon": 2.37216,
+"quays": [
+"IDFM:28874",
+"IDFM:28876"
+]
+},
+{
+"name": "Les Coquetiers",
+"type": "multi",
+"doors": "both",
+"lat": 48.892563,
+"lon": 2.499379,
+"quays": [
+"IDFM:471005",
+"IDFM:471008"
+]
+},
+{
+"name": "Les Coteaux",
+"type": "lateral",
+"doors": "right",
+"lat": 48.857282,
+"lon": 2.220641,
+"quays": [
+"IDFM:22300",
+"IDFM:22301"
+]
+},
+{
+"name": "Les Courtilles",
+"type": "lateral",
+"doors": "right",
+"lat": 48.930142,
+"lon": 2.283715,
+"quays": [
+"IDFM:23277",
+"IDFM:23278"
+]
+},
+{
+"name": "Les Fauvelles",
+"type": "lateral",
+"doors": "right",
+"lat": 48.902612,
+"lon": 2.239632,
+"quays": [
+"IDFM:23434",
+"IDFM:23435"
+]
+},
+{
+"name": "Les Flanades",
+"type": "lateral",
+"doors": "right",
+"lat": 48.976644,
+"lon": 2.377453,
+"quays": [
+"IDFM:28868",
+"IDFM:28872"
+]
+},
+{
+"name": "Les Milons",
+"type": "lateral",
+"doors": "right",
+"lat": 48.849942,
+"lon": 2.221242,
+"quays": [
+"IDFM:23442",
+"IDFM:23443"
+]
+},
+{
+"name": "Les Mobiles",
+"type": "offset",
+"doors": "right",
+"lat": 48.949695,
+"lon": 2.329814,
+"quays": [
+"IDFM:42103",
+"IDFM:42107"
+]
+},
+{
+"name": "Les Moulineaux",
+"type": "lateral",
+"doors": "right",
+"lat": 48.821629,
+"lon": 2.251524,
+"quays": [
+"IDFM:22297",
+"IDFM:23440"
+]
+},
+{
+"name": "Les Pavillons-sous-Bois",
+"type": "lateral",
+"doors": "right",
+"lat": 48.902495,
+"lon": 2.511675,
+"quays": [
+"IDFM:471878",
+"IDFM:472503"
+]
+},
+{
+"name": "Les Peintres",
+"type": "lateral",
+"doors": "right",
+"lat": 48.764673,
+"lon": 2.266053,
+"quays": [
+"IDFM:486826",
+"IDFM:486845"
+]
+},
+{
+"name": "Les Portes de Saint-Cyr",
+"type": "multi",
+"doors": "both",
+"lat": 48.806338,
+"lon": 2.077263,
+"quays": [
+"IDFM:480936",
+"IDFM:481075"
+]
+},
+{
+"name": "Les Saules",
+"type": "lateral",
+"doors": "right",
+"lat": 48.746884,
+"lon": 2.416284,
+"quays": [
+"IDFM:478983",
+"IDFM:478985"
+]
+},
+{
+"name": "Libération",
+"type": "lateral",
+"doors": "right",
+"lat": 48.906947,
+"lon": 2.438573,
+"quays": [
+"IDFM:23296",
+"IDFM:23300"
+]
+},
+{
+"name": "Lisière Pereire",
+"type": "lateral",
+"doors": "right",
+"lat": 48.903086,
+"lon": 2.073073,
+"quays": [
+"IDFM:480928",
+"IDFM:481069"
+]
+},
+{
+"name": "Lochères",
+"type": "lateral",
+"doors": "right",
+"lat": 48.978494,
+"lon": 2.385023,
+"quays": [
+"IDFM:28869",
+"IDFM:28870"
+]
+},
+{
+"name": "Longjumeau",
+"type": "lateral",
+"doors": "right",
+"lat": 48.702339,
+"lon": 2.293938,
+"quays": [
+"IDFM:486895",
+"IDFM:486897"
+]
+},
+{
+"name": "Louvois",
+"type": "lateral",
+"doors": "right",
+"lat": 48.780033,
+"lon": 2.196483,
+"quays": [
+"IDFM:2330",
+"IDFM:2334"
+]
+},
+{
+"name": "Lycée Henri Sellier",
+"type": "lateral",
+"doors": "right",
+"lat": 48.916108,
+"lon": 2.514995,
+"quays": [
+"IDFM:470693",
+"IDFM:472642"
+]
+},
+{
+"name": "Léon Blum",
+"type": "lateral",
+"doors": "right",
+"lat": 48.908548,
+"lon": 2.532358,
+"quays": [
+"IDFM:478653",
+"IDFM:478658"
+]
+},
+{
+"name": "Mail de la Plaine",
+"type": "lateral",
+"doors": "right",
+"lat": 48.78365,
+"lon": 2.247017,
+"quays": [
+"IDFM:2340",
+"IDFM:2341"
+]
+},
+{
+"name": "Mairie de Pierrefitte",
+"type": "lateral",
+"doors": "right",
+"lat": 48.963459,
+"lon": 2.360251,
+"quays": [
+"IDFM:28852",
+"IDFM:28854"
+]
+},
+{
+"name": "Mairie de Villeneuve-la-Garenne",
+"type": "lateral",
+"doors": "right",
+"lat": 48.935558,
+"lon": 2.334323,
+"quays": [
+"IDFM:23290",
+"IDFM:23291"
+]
+},
+{
+"name": "Mairie de Vitry-sur-Seine",
+"type": "offset",
+"doors": "right",
+"lat": 48.789804,
+"lon": 2.388802,
+"quays": [
+"IDFM:478977",
+"IDFM:478997"
+]
+},
+{
+"name": "Mairie de Vélizy",
+"type": "lateral",
+"doors": "right",
+"lat": 48.780414,
+"lon": 2.191373,
+"quays": [
+"IDFM:2331",
+"IDFM:2332"
+]
+},
+{
+"name": "Malabry",
+"type": "lateral",
+"doors": "right",
+"lat": 48.769358,
+"lon": 2.249641,
+"quays": [
+"IDFM:486820",
+"IDFM:486848"
+]
+},
+{
+"name": "Marché de Saint-Denis",
+"type": "central",
+"doors": "left",
+"lat": 48.938551,
+"lon": 2.355843,
+"quays": [
+"IDFM:22267",
+"IDFM:22268",
+"IDFM:28846",
+"IDFM:490553"
+]
+},
+{
+"name": "Mareil-Marly",
+"type": "lateral",
+"doors": "right",
+"lat": 48.881306,
+"lon": 2.079349,
+"quays": [
+"IDFM:480942",
+"IDFM:481038"
+]
+},
+{
+"name": "Marguerite Long",
+"type": "lateral",
+"doors": "right",
+"lat": 48.889612,
+"lon": 2.303105,
+"quays": [
+"IDFM:462430",
+"IDFM:462440"
+]
+},
+{
+"name": "Marie de Miribel",
+"type": "lateral",
+"doors": "right",
+"lat": 48.858678,
+"lon": 2.409607,
+"quays": [
+"IDFM:24394",
+"IDFM:24405"
+]
+},
+{
+"name": "Maryse Bastié",
+"type": "lateral",
+"doors": "right",
+"lat": 48.824388,
+"lon": 2.377574,
+"quays": [
+"IDFM:24124",
+"IDFM:24141"
+]
+},
+{
+"name": "Massy - Palaiseau",
+"type": "multi",
+"doors": "both",
+"lat": 48.725995,
+"lon": 2.258506,
+"quays": [
+"IDFM:486883",
+"IDFM:496039"
+]
+},
+{
+"name": "Massy Europe",
+"type": "lateral",
+"doors": "right",
+"lat": 48.723453,
+"lon": 2.272599,
+"quays": [
+"IDFM:486960",
+"IDFM:486962"
+]
+},
+{
+"name": "Maurice Audin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.908478,
+"lon": 2.539227,
+"quays": [
+"IDFM:478654",
+"IDFM:478657"
+]
+},
+{
+"name": "Maurice Lachâtre",
+"type": "lateral",
+"doors": "right",
+"lat": 48.919161,
+"lon": 2.413788,
+"quays": [
+"IDFM:23295",
+"IDFM:23305"
+]
+},
+{
+"name": "Meudon-la-Forêt",
+"type": "lateral",
+"doors": "right",
+"lat": 48.783578,
+"lon": 2.225155,
+"quays": [
+"IDFM:2347",
+"IDFM:2348"
+]
+},
+{
+"name": "Meudon-sur-Seine",
+"type": "lateral",
+"doors": "right",
+"lat": 48.819245,
+"lon": 2.238636,
+"quays": [
+"IDFM:25639",
+"IDFM:25640"
+]
+},
+{
+"name": "Montempoivre",
+"type": "lateral",
+"doors": "right",
+"lat": 48.839898,
+"lon": 2.408815,
+"quays": [
+"IDFM:24125",
+"IDFM:40067"
+]
+},
+{
+"name": "Montry - Condé",
+"type": "central",
+"doors": "left",
+"lat": 48.891075,
+"lon": 2.825628,
+"quays": [
+"IDFM:492418"
+]
+},
+{
+"name": "Montsouris",
+"type": "lateral",
+"doors": "right",
+"lat": 48.821544,
+"lon": 2.333416,
+"quays": [
+"IDFM:24119",
+"IDFM:24122"
+]
+},
+{
+"name": "Moulin Vert",
+"type": "lateral",
+"doors": "right",
+"lat": 48.772058,
+"lon": 2.367737,
+"quays": [
+"IDFM:29904",
+"IDFM:29905"
+]
+},
+{
+"name": "Musée MAC VAL",
+"type": "lateral",
+"doors": "right",
+"lat": 48.792854,
+"lon": 2.386313,
+"quays": [
+"IDFM:478975",
+"IDFM:478976"
+]
+},
+{
+"name": "Musée de Sèvres",
+"type": "lateral",
+"doors": "right",
+"lat": 48.828805,
+"lon": 2.225457,
+"quays": [
+"IDFM:22302",
+"IDFM:23444"
+]
+},
+{
+"name": "Noisy-le-Roi",
+"type": "multi",
+"doors": "both",
+"lat": 48.841337,
+"lon": 2.061573,
+"quays": [
+"IDFM:480938",
+"IDFM:481065"
+]
+},
+{
+"name": "Notre-Dame-des-Anges",
+"type": "lateral",
+"doors": "right",
+"lat": 48.900924,
+"lon": 2.556156,
+"quays": [
+"IDFM:478649",
+"IDFM:478652"
+]
+},
+{
+"name": "Noveos",
+"type": "lateral",
+"doors": "right",
+"lat": 48.776756,
+"lon": 2.249933,
+"quays": [
+"IDFM:486818",
+"IDFM:486836"
+]
+},
+{
+"name": "Orly - Gaston Viens",
+"type": "lateral",
+"doors": "right",
+"lat": 48.745014,
+"lon": 2.408654,
+"quays": [
+"IDFM:478974",
+"IDFM:478981"
+]
+},
+{
+"name": "Pablo Neruda",
+"type": "lateral",
+"doors": "right",
+"lat": 48.956627,
+"lon": 2.343122,
+"quays": [
+"IDFM:42130",
+"IDFM:42134"
+]
+},
+{
+"name": "Parc André Malraux",
+"type": "lateral",
+"doors": "right",
+"lat": 48.799848,
+"lon": 2.28197,
+"quays": [
+"IDFM:2338",
+"IDFM:41670"
+]
+},
+{
+"name": "Parc Pierre Lagravère",
+"type": "lateral",
+"doors": "right",
+"lat": 48.917687,
+"lon": 2.224648,
+"quays": [
+"IDFM:23427",
+"IDFM:23429"
+]
+},
+{
+"name": "Parc de Saint-Cloud",
+"type": "lateral",
+"doors": "right",
+"lat": 48.843002,
+"lon": 2.221875,
+"quays": [
+"IDFM:25643",
+"IDFM:25644"
+]
+},
+{
+"name": "Parc des Chanteraines",
+"type": "lateral",
+"doors": "right",
+"lat": 48.933908,
+"lon": 2.313263,
+"quays": [
+"IDFM:23286",
+"IDFM:460554"
+]
+},
+{
+"name": "Parc des Sports",
+"type": "lateral",
+"doors": "right",
+"lat": 48.779807,
+"lon": 2.251857,
+"quays": [
+"IDFM:486816",
+"IDFM:486837"
+]
+},
+{
+"name": "Parc du Château",
+"type": "lateral",
+"doors": "right",
+"lat": 48.667971,
+"lon": 2.354724,
+"quays": [
+"IDFM:486978",
+"IDFM:486980"
+]
+},
+{
+"name": "Paul Valéry",
+"type": "lateral",
+"doors": "right",
+"lat": 48.979215,
+"lon": 2.380174,
+"quays": [
+"IDFM:28873",
+"IDFM:28875"
+]
+},
+{
+"name": "Paul Éluard",
+"type": "lateral",
+"doors": "right",
+"lat": 48.939729,
+"lon": 2.345157,
+"quays": [
+"IDFM:42119",
+"IDFM:42124"
+]
+},
+{
+"name": "Pavé Blanc",
+"type": "lateral",
+"doors": "right",
+"lat": 48.780766,
+"lon": 2.239988,
+"quays": [
+"IDFM:2339",
+"IDFM:2345"
+]
+},
+{
+"name": "Petit Noisy",
+"type": "offset",
+"doors": "right",
+"lat": 48.900145,
+"lon": 2.465086,
+"quays": [
+"IDFM:22263",
+"IDFM:23311"
+]
+},
+{
+"name": "Petit Pierrefitte",
+"type": "lateral",
+"doors": "right",
+"lat": 48.952672,
+"lon": 2.358028,
+"quays": [
+"IDFM:28851",
+"IDFM:28860"
+]
+},
+{
+"name": "Petit Vaux",
+"type": "lateral",
+"doors": "right",
+"lat": 48.67684,
+"lon": 2.331923,
+"quays": [
+"IDFM:486886",
+"IDFM:486888"
+]
+},
+{
+"name": "Petit-Châtenay",
+"type": "lateral",
+"doors": "right",
+"lat": 48.762713,
+"lon": 2.280643,
+"quays": [
+"IDFM:486830",
+"IDFM:486843"
+]
+},
+{
+"name": "Pierre de Geyter",
+"type": "lateral",
+"doors": "right",
+"lat": 48.931993,
+"lon": 2.352671,
+"quays": [
+"IDFM:42118",
+"IDFM:42121"
+]
+},
+{
+"name": "Pierrefitte - Stains",
+"type": "lateral",
+"doors": "right",
+"lat": 48.960149,
+"lon": 2.367722,
+"quays": [
+"IDFM:471675",
+"IDFM:471933"
+]
+},
+{
+"name": "Place de la Logistique",
+"type": "lateral",
+"doors": "right",
+"lat": 48.752872,
+"lon": 2.361935,
+"quays": [
+"IDFM:35936",
+"IDFM:35940"
+]
+},
+{
+"name": "Pont de Bezons",
+"type": "lateral",
+"doors": "right",
+"lat": 48.923346,
+"lon": 2.217637,
+"quays": [
+"IDFM:23445",
+"IDFM:25647"
+]
+},
+{
+"name": "Pont de Bondy",
+"type": "lateral",
+"doors": "right",
+"lat": 48.904695,
+"lon": 2.469894,
+"quays": [
+"IDFM:22264",
+"IDFM:24430"
+]
+},
+{
+"name": "Pont du Garigliano",
+"type": "central",
+"doors": "left",
+"lat": 48.838063,
+"lon": 2.271345,
+"quays": [
+"IDFM:24102",
+"IDFM:480964"
+]
+},
+{
+"name": "Porte Dauphine",
+"type": "central",
+"doors": "left",
+"lat": 48.870354,
+"lon": 2.274877,
+"quays": [
+"IDFM:490878"
+]
+},
+{
+"name": "Porte Dauphine (Avenue Foch)",
+"type": "lateral",
+"doors": "right",
+"lat": 48.870356,
+"lon": 2.274643,
+"quays": [
+"IDFM:490876"
+]
+},
+{
+"name": "Porte Dorée",
+"type": "offset",
+"doors": "right",
+"lat": 48.835153,
+"lon": 2.405901,
+"quays": [
+"IDFM:24134",
+"IDFM:24135"
+]
+},
+{
+"name": "Porte Maillot",
+"type": "lateral",
+"doors": "right",
+"lat": 48.87782,
+"lon": 2.283933,
+"quays": [
+"IDFM:490882",
+"IDFM:490892"
+]
+},
+{
+"name": "Porte d'Aubervilliers",
+"type": "lateral",
+"doors": "right",
+"lat": 48.898518,
+"lon": 2.368892,
+"quays": [
+"IDFM:24407",
+"IDFM:24413"
+]
+},
+{
+"name": "Porte d'Issy",
+"type": "lateral",
+"doors": "right",
+"lat": 48.831735,
+"lon": 2.281467,
+"quays": [
+"IDFM:25636",
+"IDFM:25637"
+]
+},
+{
+"name": "Porte d'Italie",
+"type": "lateral",
+"doors": "right",
+"lat": 48.81907,
+"lon": 2.360047,
+"quays": [
+"IDFM:24106",
+"IDFM:24117"
+]
+},
+{
+"name": "Porte d'Ivry",
+"type": "lateral",
+"doors": "right",
+"lat": 48.821868,
+"lon": 2.369984,
+"quays": [
+"IDFM:24110",
+"IDFM:24133"
+]
+},
+{
+"name": "Porte d'Orléans",
+"type": "offset",
+"doors": "right",
+"lat": 48.823344,
+"lon": 2.324946,
+"quays": [
+"IDFM:24118",
+"IDFM:460547"
+]
+},
+{
+"name": "Porte de Bagnolet",
+"type": "lateral",
+"doors": "right",
+"lat": 48.863418,
+"lon": 2.408771,
+"quays": [
+"IDFM:24414",
+"IDFM:24419"
+]
+},
+{
+"name": "Porte de Champerret",
+"type": "lateral",
+"doors": "right",
+"lat": 48.886007,
+"lon": 2.29229,
+"quays": [
+"IDFM:490890",
+"IDFM:490895"
+]
+},
+{
+"name": "Porte de Charenton",
+"type": "lateral",
+"doors": "right",
+"lat": 48.832029,
+"lon": 2.398273,
+"quays": [
+"IDFM:24138",
+"IDFM:24142"
+]
+},
+{
+"name": "Porte de Choisy",
+"type": "lateral",
+"doors": "right",
+"lat": 48.819779,
+"lon": 2.363954,
+"quays": [
+"IDFM:24120",
+"IDFM:24126",
+"IDFM:478979",
+"IDFM:478980"
+]
+},
+{
+"name": "Porte de Clichy",
+"type": "lateral",
+"doors": "right",
+"lat": 48.89458,
+"lon": 2.314287,
+"quays": [
+"IDFM:462429",
+"IDFM:462441"
+]
+},
+{
+"name": "Porte de Clignancourt",
+"type": "lateral",
+"doors": "right",
+"lat": 48.897989,
+"lon": 2.345083,
+"quays": [
+"IDFM:462414",
+"IDFM:462431"
+]
+},
+{
+"name": "Porte de Montreuil",
+"type": "lateral",
+"doors": "right",
+"lat": 48.853008,
+"lon": 2.410666,
+"quays": [
+"IDFM:24406",
+"IDFM:24408"
+]
+},
+{
+"name": "Porte de Pantin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.889048,
+"lon": 2.395602,
+"quays": [
+"IDFM:24403",
+"IDFM:24423"
+]
+},
+{
+"name": "Porte de Rungis",
+"type": "lateral",
+"doors": "right",
+"lat": 48.752621,
+"lon": 2.355247,
+"quays": [
+"IDFM:29901",
+"IDFM:35934"
+]
+},
+{
+"name": "Porte de Saint-Ouen",
+"type": "lateral",
+"doors": "right",
+"lat": 48.897609,
+"lon": 2.329823,
+"quays": [
+"IDFM:462436",
+"IDFM:462446"
+]
+},
+{
+"name": "Porte de Vanves",
+"type": "lateral",
+"doors": "right",
+"lat": 48.827444,
+"lon": 2.306706,
+"quays": [
+"IDFM:24128",
+"IDFM:24129"
+]
+},
+{
+"name": "Porte de Versailles",
+"type": "lateral",
+"doors": "right",
+"lat": 48.830865,
+"lon": 2.285714,
+"quays": [
+"IDFM:25631"
+]
+},
+{
+"name": "Porte de Versailles - Parc des Expositions",
+"type": "lateral",
+"doors": "right",
+"lat": 48.830915,
+"lon": 2.285646,
+"quays": [
+"IDFM:24111",
+"IDFM:24114",
+"IDFM:25633"
+]
+},
+{
+"name": "Porte de Vincennes",
+"type": "multi",
+"doors": "both",
+"lat": 48.846998,
+"lon": 2.409537,
+"quays": [
+"IDFM:24396",
+"IDFM:26534",
+"IDFM:460560",
+"IDFM:460563"
+]
+},
+{
+"name": "Porte de l'Essonne",
+"type": "central",
+"doors": "left",
+"lat": 48.714508,
+"lon": 2.371666,
+"quays": [
+"IDFM:35926",
+"IDFM:462937"
+]
+},
+{
+"name": "Porte de la Chapelle",
+"type": "lateral",
+"doors": "right",
+"lat": 48.89834,
+"lon": 2.358433,
+"quays": [
+"IDFM:412987",
+"IDFM:412988"
+]
+},
+{
+"name": "Porte de la Villette",
+"type": "lateral",
+"doors": "right",
+"lat": 48.897426,
+"lon": 2.386474,
+"quays": [
+"IDFM:24399",
+"IDFM:29379"
+]
+},
+{
+"name": "Porte des Lilas",
+"type": "lateral",
+"doors": "right",
+"lat": 48.876686,
+"lon": 2.406863,
+"quays": [
+"IDFM:24409",
+"IDFM:24415"
+]
+},
+{
+"name": "Poterne des Peupliers",
+"type": "offset",
+"doors": "right",
+"lat": 48.820727,
+"lon": 2.350089,
+"quays": [
+"IDFM:24127",
+"IDFM:24136"
+]
+},
+{
+"name": "Puteaux",
+"type": "lateral",
+"doors": "right",
+"lat": 48.883376,
+"lon": 2.233992,
+"quays": [
+"IDFM:22298",
+"IDFM:22299"
+]
+},
+{
+"name": "Remise à Jorelle",
+"type": "lateral",
+"doors": "right",
+"lat": 48.893169,
+"lon": 2.487807,
+"quays": [
+"IDFM:471837",
+"IDFM:472376"
+]
+},
+{
+"name": "Robert Schuman",
+"type": "lateral",
+"doors": "right",
+"lat": 48.746617,
+"lon": 2.352789,
+"quays": [
+"IDFM:35938",
+"IDFM:35943"
+]
+},
+{
+"name": "Robert Wagner",
+"type": "lateral",
+"doors": "right",
+"lat": 48.785187,
+"lon": 2.178872,
+"quays": [
+"IDFM:41850",
+"IDFM:41853"
+]
+},
+{
+"name": "Roger Semât",
+"type": "lateral",
+"doors": "right",
+"lat": 48.944802,
+"lon": 2.357068,
+"quays": [
+"IDFM:28862",
+"IDFM:28863"
+]
+},
+{
+"name": "Romain Rolland",
+"type": "lateral",
+"doors": "right",
+"lat": 48.904769,
+"lon": 2.547987,
+"quays": [
+"IDFM:478655",
+"IDFM:478659"
+]
+},
+{
+"name": "Rosa Parks",
+"type": "lateral",
+"doors": "right",
+"lat": 48.897513,
+"lon": 2.373363,
+"quays": [
+"IDFM:24530",
+"IDFM:24531"
+]
+},
+{
+"name": "Rose Bertin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.953195,
+"lon": 2.315303,
+"quays": [
+"IDFM:42104",
+"IDFM:42108"
+]
+},
+{
+"name": "Rougemont Chanteloup",
+"type": "lateral",
+"doors": "right",
+"lat": 48.930891,
+"lon": 2.514983,
+"quays": [
+"IDFM:471289",
+"IDFM:472618"
+]
+},
+{
+"name": "Rouget de Lisle",
+"type": "lateral",
+"doors": "right",
+"lat": 48.763903,
+"lon": 2.405891,
+"quays": [
+"IDFM:478978",
+"IDFM:478986"
+]
+},
+{
+"name": "République - Marx Dormoy",
+"type": "lateral",
+"doors": "right",
+"lat": 48.906601,
+"lon": 2.523956,
+"quays": [
+"IDFM:478650",
+"IDFM:478662"
+]
+},
+{
+"name": "Saarinen",
+"type": "lateral",
+"doors": "right",
+"lat": 48.750237,
+"lon": 2.354346,
+"quays": [
+"IDFM:35935",
+"IDFM:35939"
+]
+},
+{
+"name": "Saint-Cyr",
+"type": "central",
+"doors": "left",
+"lat": 48.799037,
+"lon": 2.074267,
+"quays": [
+"IDFM:480908",
+"IDFM:494486"
+]
+},
+{
+"name": "Saint-Denis - Gare",
+"type": "lateral",
+"doors": "right",
+"lat": 48.935269,
+"lon": 2.347733,
+"quays": [
+"IDFM:42122",
+"IDFM:42126"
+]
+},
+{
+"name": "Saint-Denis - Porte de Paris",
+"type": "lateral",
+"doors": "right",
+"lat": 48.929761,
+"lon": 2.357228,
+"quays": [
+"IDFM:42120",
+"IDFM:42123"
+]
+},
+{
+"name": "Saint-Germain-en-Laye",
+"type": "central",
+"doors": "left",
+"lat": 48.901495,
+"lon": 2.095336,
+"quays": [
+"IDFM:480904",
+"IDFM:481067"
+]
+},
+{
+"name": "Saint-Nom-la-Bretèche - Forêt de Marly",
+"type": "lateral",
+"doors": "right",
+"lat": 48.867407,
+"lon": 2.050765,
+"quays": [
+"IDFM:480906",
+"IDFM:481072"
+]
+},
+{
+"name": "Soleil Levant",
+"type": "lateral",
+"doors": "right",
+"lat": 48.790271,
+"lon": 2.263337,
+"quays": [
+"IDFM:41857",
+"IDFM:41858"
+]
+},
+{
+"name": "Square Sainte-Odile",
+"type": "lateral",
+"doors": "right",
+"lat": 48.887541,
+"lon": 2.296356,
+"quays": [
+"IDFM:490893",
+"IDFM:490896"
+]
+},
+{
+"name": "Stade Charléty",
+"type": "lateral",
+"doors": "right",
+"lat": 48.819554,
+"lon": 2.345735,
+"quays": [
+"IDFM:24112",
+"IDFM:28847"
+]
+},
+{
+"name": "Stade Géo André",
+"type": "lateral",
+"doors": "right",
+"lat": 48.924338,
+"lon": 2.402045,
+"quays": [
+"IDFM:23303",
+"IDFM:24429"
+]
+},
+{
+"name": "Stains - La Cerisaie",
+"type": "lateral",
+"doors": "right",
+"lat": 48.954774,
+"lon": 2.391782,
+"quays": [
+"IDFM:471887",
+"IDFM:472968"
+]
+},
+{
+"name": "Suresnes - Longchamp",
+"type": "lateral",
+"doors": "right",
+"lat": 48.868082,
+"lon": 2.22154,
+"quays": [
+"IDFM:25645",
+"IDFM:25646"
+]
+},
+{
+"name": "Suzanne Lenglen",
+"type": "lateral",
+"doors": "right",
+"lat": 48.833341,
+"lon": 2.276914,
+"quays": [
+"IDFM:22295",
+"IDFM:22296"
+]
+},
+{
+"name": "Suzanne Valadon",
+"type": "lateral",
+"doors": "right",
+"lat": 48.959112,
+"lon": 2.358818,
+"quays": [
+"IDFM:28848",
+"IDFM:28857"
+]
+},
+{
+"name": "Séverine",
+"type": "lateral",
+"doors": "right",
+"lat": 48.867518,
+"lon": 2.408899,
+"quays": [
+"IDFM:24397",
+"IDFM:24400"
+]
+},
+{
+"name": "Thérèse Pierre",
+"type": "lateral",
+"doors": "right",
+"lat": 48.883515,
+"lon": 2.288184,
+"quays": [
+"IDFM:490887",
+"IDFM:490889"
+]
+},
+{
+"name": "Théâtre Gérard Philipe",
+"type": "lateral",
+"doors": "right",
+"lat": 48.937494,
+"lon": 2.350444,
+"quays": [
+"IDFM:22269",
+"IDFM:23313"
+]
+},
+{
+"name": "Théâtre La Piscine",
+"type": "lateral",
+"doors": "right",
+"lat": 48.763734,
+"lon": 2.272743,
+"quays": [
+"IDFM:486828",
+"IDFM:486844"
+]
+},
+{
+"name": "Timbaud",
+"type": "offset",
+"doors": "right",
+"lat": 48.932813,
+"lon": 2.301243,
+"quays": [
+"IDFM:23283",
+"IDFM:23284"
+]
+},
+{
+"name": "Traité de Rome",
+"type": "lateral",
+"doors": "right",
+"lat": 48.625142,
+"lon": 2.407395,
+"quays": [
+"IDFM:486965",
+"IDFM:486994"
+]
+},
+{
+"name": "Trois Communes",
+"type": "lateral",
+"doors": "right",
+"lat": 48.773004,
+"lon": 2.399502,
+"quays": [
+"IDFM:478982",
+"IDFM:478990"
+]
+},
+{
+"name": "Vallée aux Loups",
+"type": "lateral",
+"doors": "right",
+"lat": 48.766375,
+"lon": 2.254831,
+"quays": [
+"IDFM:486822",
+"IDFM:486847"
+]
+},
+{
+"name": "Vauban",
+"type": "lateral",
+"doors": "right",
+"lat": 48.807208,
+"lon": 2.29428,
+"quays": [
+"IDFM:41671",
+"IDFM:41672"
+]
+},
+{
+"name": "Verdun - Hoche",
+"type": "lateral",
+"doors": "right",
+"lat": 48.768413,
+"lon": 2.402931,
+"quays": [
+"IDFM:478988",
+"IDFM:478989"
+]
+},
+{
+"name": "Victor Basch",
+"type": "lateral",
+"doors": "right",
+"lat": 48.914016,
+"lon": 2.229688,
+"quays": [
+"IDFM:23431",
+"IDFM:23432"
+]
+},
+{
+"name": "Villejuif - Louis Aragon",
+"type": "lateral",
+"doors": "right",
+"lat": 48.787308,
+"lon": 2.366879,
+"quays": [
+"IDFM:29903",
+"IDFM:35946"
+]
+},
+{
+"name": "Villetaneuse - Université",
+"type": "central",
+"doors": "left",
+"lat": 48.960048,
+"lon": 2.342333,
+"quays": [
+"IDFM:42127",
+"IDFM:42129",
+"IDFM:470851",
+"IDFM:472820"
+]
+},
+{
+"name": "Villiers Montbarbin",
+"type": "central",
+"doors": "left",
+"lat": 48.86353,
+"lon": 2.882561,
+"quays": [
+"IDFM:492422"
+]
+},
+{
+"name": "Viroflay - Rive Droite",
+"type": "multi",
+"doors": "both",
+"lat": 48.805627,
+"lon": 2.168661,
+"quays": [
+"IDFM:422039",
+"IDFM:422040"
+]
+},
+{
+"name": "Viroflay - Rive Gauche",
+"type": "lateral",
+"doors": "right",
+"lat": 48.801017,
+"lon": 2.171191,
+"quays": [
+"IDFM:422037",
+"IDFM:422038"
+]
+},
+{
+"name": "Vélizy 2",
+"type": "lateral",
+"doors": "right",
+"lat": 48.784892,
+"lon": 2.219962,
+"quays": [
+"IDFM:41851",
+"IDFM:41854"
+]
+},
+{
+"name": "Watteau - Rondenay",
+"type": "lateral",
+"doors": "right",
+"lat": 48.778623,
+"lon": 2.396449,
+"quays": [
+"IDFM:478973",
+"IDFM:478987"
+]
+},
+{
+"name": "Épinay - Orgemont",
+"type": "central",
+"doors": "left",
+"lat": 48.955419,
+"lon": 2.295353,
+"quays": [
+"IDFM:42101",
+"IDFM:42109"
+]
+},
+{
+"name": "Épinay - Villetaneuse",
+"type": "lateral",
+"doors": "right",
+"lat": 48.959025,
+"lon": 2.328223,
+"quays": [
+"IDFM:470874",
+"IDFM:472969"
+]
+},
+{
+"name": "Épinay-sur-Orge",
+"type": "multi",
+"doors": "both",
+"lat": 48.670576,
+"lon": 2.335137,
+"quays": [
+"IDFM:486878",
+"IDFM:486898",
+"IDFM:486899"
+]
+},
+{
+"name": "Épinay-sur-Seine",
+"type": "multi",
+"doors": "both",
+"lat": 48.954616,
+"lon": 2.302313,
+"quays": [
+"IDFM:472920",
+"IDFM:472986"
+]
+},
+{
+"name": "Épinay-sur-Seine - Gare",
+"type": "lateral",
+"doors": "right",
+"lat": 48.955729,
+"lon": 2.301833,
+"quays": [
+"IDFM:42102",
+"IDFM:42112"
+]
+},
+{
+"name": "Évry - Courcouronnes",
+"type": "central",
+"doors": "left",
+"lat": 48.624958,
+"lon": 2.425515,
+"quays": [
+"IDFM:486900",
+"IDFM:486902"
+]
+}
+]
+}

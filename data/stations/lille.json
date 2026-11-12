@@ -1,0 +1,410 @@
+{
+"schema": 1,
+"city": "lille",
+"platform_m": 35.5,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 62.7,
+"stations": [
+{
+"name": "Acacias",
+"type": "lateral",
+"doors": "right",
+"lat": 50.664805,
+"lon": 3.110667,
+"quays": [
+"ACA001",
+"ACA012"
+]
+},
+{
+"name": "Alfred Mongy",
+"type": "lateral",
+"doors": "right",
+"lat": 50.687835,
+"lon": 3.175337,
+"quays": [
+"MAM021",
+"MAM032"
+]
+},
+{
+"name": "Bol D'Air",
+"type": "offset",
+"doors": "right",
+"lat": 50.67213,
+"lon": 3.156067,
+"quays": [
+"BOA001",
+"BOA012"
+]
+},
+{
+"name": "Botanique",
+"type": "lateral",
+"doors": "right",
+"lat": 50.649223,
+"lon": 3.079172,
+"quays": [
+"BOT001",
+"BOT012"
+]
+},
+{
+"name": "Brossolette",
+"type": "lateral",
+"doors": "right",
+"lat": 50.660532,
+"lon": 3.094509,
+"quays": [
+"OSS001",
+"OSS012"
+]
+},
+{
+"name": "Buisson",
+"type": "multi",
+"doors": "both",
+"lat": 50.656817,
+"lon": 3.089103,
+"quays": [
+"MAB021",
+"MAB032"
+]
+},
+{
+"name": "Cartelot",
+"type": "offset",
+"doors": "right",
+"lat": 50.683555,
+"lon": 3.119509,
+"quays": [
+"TEL001",
+"TEL012"
+]
+},
+{
+"name": "Cerisaie",
+"type": "offset",
+"doors": "right",
+"lat": 50.677228,
+"lon": 3.111421,
+"quays": [
+"CDA001",
+"CDA012"
+]
+},
+{
+"name": "Chateau Rouge",
+"type": "offset",
+"doors": "right",
+"lat": 50.679613,
+"lon": 3.114435,
+"quays": [
+"CTR021",
+"CTR032"
+]
+},
+{
+"name": "Clemenceau Hippodrome",
+"type": "offset",
+"doors": "right",
+"lat": 50.661982,
+"lon": 3.096618,
+"quays": [
+"MCL031",
+"MCL032"
+]
+},
+{
+"name": "Croise Laroche",
+"type": "offset",
+"doors": "right",
+"lat": 50.664607,
+"lon": 3.101993,
+"quays": [
+"CRL021",
+"CRL032"
+]
+},
+{
+"name": "Eurotéléport",
+"type": "multi",
+"doors": "both",
+"lat": 50.691021,
+"lon": 3.178976,
+"quays": [
+"ROU021",
+"ROU121",
+"ROU122"
+]
+},
+{
+"name": "Faidherbe",
+"type": "lateral",
+"doors": "right",
+"lat": 50.703753,
+"lon": 3.14315,
+"quays": [
+"DAI001",
+"DAI012"
+]
+},
+{
+"name": "Foch",
+"type": "lateral",
+"doors": "right",
+"lat": 50.666671,
+"lon": 3.10378,
+"quays": [
+"OCH021",
+"OCH032"
+]
+},
+{
+"name": "Gare Lille Europe",
+"type": "offset",
+"doors": "right",
+"lat": 50.639575,
+"lon": 3.074118,
+"quays": [
+"EUR021",
+"EUR032"
+]
+},
+{
+"name": "Gare Lille Flandres",
+"type": "multi",
+"doors": "both",
+"lat": 50.63639,
+"lon": 3.071127,
+"quays": [
+"LIG011",
+"LIG022",
+"LIG061",
+"LIG111"
+]
+},
+{
+"name": "Grand Cottignies",
+"type": "lateral",
+"doors": "right",
+"lat": 50.687293,
+"lon": 3.124393,
+"quays": [
+"GDC001",
+"GDC012"
+]
+},
+{
+"name": "Hopital Victor Provo",
+"type": "offset",
+"doors": "right",
+"lat": 50.680975,
+"lon": 3.167635,
+"quays": [
+"BDC001",
+"BDC012"
+]
+},
+{
+"name": "Jean Moulin",
+"type": "offset",
+"doors": "right",
+"lat": 50.685048,
+"lon": 3.172353,
+"quays": [
+"QUI021",
+"QUI032"
+]
+},
+{
+"name": "La Marque",
+"type": "lateral",
+"doors": "right",
+"lat": 50.666525,
+"lon": 3.149824,
+"quays": [
+"ARQ001",
+"ARQ012"
+]
+},
+{
+"name": "La Terrasse",
+"type": "lateral",
+"doors": "right",
+"lat": 50.663906,
+"lon": 3.126599,
+"quays": [
+"LAT001",
+"LAT012"
+]
+},
+{
+"name": "Le Quesne",
+"type": "lateral",
+"doors": "right",
+"lat": 50.673485,
+"lon": 3.106998,
+"quays": [
+"LQS001",
+"LQS012"
+]
+},
+{
+"name": "Le Sart",
+"type": "lateral",
+"doors": "right",
+"lat": 50.663191,
+"lon": 3.139417,
+"quays": [
+"SNO031",
+"SNO042"
+]
+},
+{
+"name": "Ma Campagne",
+"type": "lateral",
+"doors": "right",
+"lat": 50.709988,
+"lon": 3.153286,
+"quays": [
+"CAM021",
+"CAM032"
+]
+},
+{
+"name": "Parc Barbieux",
+"type": "lateral",
+"doors": "right",
+"lat": 50.678046,
+"lon": 3.162229,
+"quays": [
+"PBA021",
+"PBA032"
+]
+},
+{
+"name": "Planche Epinoy",
+"type": "lateral",
+"doors": "right",
+"lat": 50.664494,
+"lon": 3.146239,
+"quays": [
+"PLE001",
+"PLE012"
+]
+},
+{
+"name": "Pont De Wasquehal",
+"type": "offset",
+"doors": "right",
+"lat": 50.664364,
+"lon": 3.118436,
+"quays": [
+"PDW001",
+"PDW012"
+]
+},
+{
+"name": "Pont Hydraulique",
+"type": "offset",
+"doors": "right",
+"lat": 50.712568,
+"lon": 3.156179,
+"quays": [
+"PHY001",
+"PHY012"
+]
+},
+{
+"name": "Romarin",
+"type": "lateral",
+"doors": "right",
+"lat": 50.645877,
+"lon": 3.075626,
+"quays": [
+"ROM021",
+"ROM032"
+]
+},
+{
+"name": "Saint Maur",
+"type": "offset",
+"doors": "right",
+"lat": 50.651888,
+"lon": 3.081992,
+"quays": [
+"SMA001",
+"SMA012"
+]
+},
+{
+"name": "Tourcoing Centre",
+"type": "multi",
+"doors": "both",
+"lat": 50.720843,
+"lon": 3.1589,
+"quays": [
+"TOU111",
+"TOU202",
+"TOU222"
+]
+},
+{
+"name": "Triez",
+"type": "lateral",
+"doors": "right",
+"lat": 50.692753,
+"lon": 3.131529,
+"quays": [
+"TRI021",
+"TRI032"
+]
+},
+{
+"name": "Trois Suisses",
+"type": "lateral",
+"doors": "right",
+"lat": 50.699279,
+"lon": 3.139048,
+"quays": [
+"3SU021",
+"3SU032"
+]
+},
+{
+"name": "Victoire",
+"type": "offset",
+"doors": "right",
+"lat": 50.717742,
+"lon": 3.157091,
+"quays": [
+"ICT021",
+"ICT032"
+]
+},
+{
+"name": "Villa Cavrois",
+"type": "lateral",
+"doors": "right",
+"lat": 50.66909,
+"lon": 3.154334,
+"quays": [
+"CLD001",
+"CLD012"
+]
+},
+{
+"name": "Wasquehal Pavé De Lille",
+"type": "lateral",
+"doors": "right",
+"lat": 50.663677,
+"lon": 3.130704,
+"quays": [
+"PVL021",
+"PVL032"
+]
+}
+]
+}

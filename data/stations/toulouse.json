@@ -1,0 +1,286 @@
+{
+"schema": 1,
+"city": "toulouse",
+"platform_m": 35.4,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": true,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Ancely",
+"type": "lateral",
+"doors": "right",
+"lat": 43.618184,
+"lon": 1.396933,
+"quays": [
+"stop_point:SP_1187",
+"stop_point:SP_144"
+]
+},
+{
+"name": "Andromède-Lycée",
+"type": "lateral",
+"doors": "right",
+"lat": 43.654804,
+"lon": 1.373622,
+"quays": [
+"stop_point:SP_3119",
+"stop_point:SP_81"
+]
+},
+{
+"name": "Arènes",
+"type": "multi",
+"doors": "both",
+"lat": 43.592839,
+"lon": 1.417965,
+"quays": [
+"stop_point:SP_3178",
+"stop_point:SP_3485"
+]
+},
+{
+"name": "Arènes Romaines",
+"type": "lateral",
+"doors": "right",
+"lat": 43.614101,
+"lon": 1.398339,
+"quays": [
+"stop_point:SP_1845",
+"stop_point:SP_3707"
+]
+},
+{
+"name": "Avenue Muret Marcel Cavaillé",
+"type": "central",
+"doors": "left",
+"lat": 43.589323,
+"lon": 1.431747,
+"quays": [
+"stop_point:SP_1387",
+"stop_point:SP_1946"
+]
+},
+{
+"name": "Aéroconstellation",
+"type": "lateral",
+"doors": "right",
+"lat": 43.663437,
+"lon": 1.362649,
+"quays": [
+"stop_point:SP_1268",
+"stop_point:SP_605"
+]
+},
+{
+"name": "Beauzelle  - Aeroscopia",
+"type": "lateral",
+"doors": "right",
+"lat": 43.660228,
+"lon": 1.369551,
+"quays": [
+"stop_point:SP_1792",
+"stop_point:SP_3690"
+]
+},
+{
+"name": "Cartoucherie",
+"type": "lateral",
+"doors": "right",
+"lat": 43.603124,
+"lon": 1.407731,
+"quays": [
+"stop_point:SP_4943",
+"stop_point:SP_4946"
+]
+},
+{
+"name": "Croix de Pierre",
+"type": "lateral",
+"doors": "right",
+"lat": 43.585642,
+"lon": 1.427856,
+"quays": [
+"stop_point:SP_2123",
+"stop_point:SP_988"
+]
+},
+{
+"name": "Déodat de Séverac",
+"type": "lateral",
+"doors": "right",
+"lat": 43.589678,
+"lon": 1.421635,
+"quays": [
+"stop_point:SP_1217",
+"stop_point:SP_2925"
+]
+},
+{
+"name": "Fer à Cheval",
+"type": "lateral",
+"doors": "right",
+"lat": 43.59264,
+"lon": 1.435511,
+"quays": [
+"stop_point:SP_1132",
+"stop_point:SP_3020"
+]
+},
+{
+"name": "Grand Noble",
+"type": "lateral",
+"doors": "right",
+"lat": 43.644755,
+"lon": 1.377511,
+"quays": [
+"stop_point:SP_3229",
+"stop_point:SP_695"
+]
+},
+{
+"name": "Guyenne-Berry",
+"type": "lateral",
+"doors": "right",
+"lat": 43.630831,
+"lon": 1.391749,
+"quays": [
+"stop_point:SP_2471",
+"stop_point:SP_412"
+]
+},
+{
+"name": "Hippodrome",
+"type": "lateral",
+"doors": "right",
+"lat": 43.594845,
+"lon": 1.40943,
+"quays": [
+"stop_point:SP_4944",
+"stop_point:SP_4948"
+]
+},
+{
+"name": "Ile du Ramier",
+"type": "lateral",
+"doors": "right",
+"lat": 43.592217,
+"lon": 1.440455,
+"quays": [
+"stop_point:SP_1106",
+"stop_point:SP_3971"
+]
+},
+{
+"name": "MEETT",
+"type": "lateral",
+"doors": "right",
+"lat": 43.667629,
+"lon": 1.359977,
+"quays": [
+"stop_point:SP_4947",
+"stop_point:SP_4949"
+]
+},
+{
+"name": "Odyssud-Ritouret",
+"type": "multi",
+"doors": "both",
+"lat": 43.636258,
+"lon": 1.385367,
+"quays": [
+"stop_point:SP_3482",
+"stop_point:SP_494",
+"stop_point:SP_5236"
+]
+},
+{
+"name": "Palais de Justice",
+"type": "multi",
+"doors": "both",
+"lat": 43.592765,
+"lon": 1.444039,
+"quays": [
+"stop_point:SP_115",
+"stop_point:SP_1889"
+]
+},
+{
+"name": "Pasteur-Mairie de Blagnac",
+"type": "offset",
+"doors": "right",
+"lat": 43.633998,
+"lon": 1.391351,
+"quays": [
+"stop_point:SP_1681",
+"stop_point:SP_2567"
+]
+},
+{
+"name": "Patinoire-Barradels",
+"type": "offset",
+"doors": "right",
+"lat": 43.640733,
+"lon": 1.382043,
+"quays": [
+"stop_point:SP_1097",
+"stop_point:SP_3526"
+]
+},
+{
+"name": "Place Georges Brassens",
+"type": "lateral",
+"doors": "right",
+"lat": 43.648501,
+"lon": 1.37567,
+"quays": [
+"stop_point:SP_1150",
+"stop_point:SP_3470"
+]
+},
+{
+"name": "Place du Relais",
+"type": "lateral",
+"doors": "right",
+"lat": 43.636773,
+"lon": 1.390077,
+"quays": [
+"stop_point:SP_2261",
+"stop_point:SP_612"
+]
+},
+{
+"name": "Purpan",
+"type": "lateral",
+"doors": "right",
+"lat": 43.609066,
+"lon": 1.402025,
+"quays": [
+"stop_point:SP_1384",
+"stop_point:SP_1751"
+]
+},
+{
+"name": "Servanty Airbus",
+"type": "lateral",
+"doors": "right",
+"lat": 43.625456,
+"lon": 1.393516,
+"quays": [
+"stop_point:SP_1271",
+"stop_point:SP_3001"
+]
+},
+{
+"name": "Zénith",
+"type": "lateral",
+"doors": "right",
+"lat": 43.600815,
+"lon": 1.411401,
+"quays": [
+"stop_point:SP_4942",
+"stop_point:SP_4945"
+]
+}
+]
+}

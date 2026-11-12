@@ -1,0 +1,935 @@
+{
+"schema": 1,
+"city": "nantes",
+"platform_m": 48.6,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 37.5,
+"stations": [
+{
+"name": "50 Otages",
+"type": "lateral",
+"doors": "right",
+"lat": 47.22016,
+"lon": -1.55548,
+"quays": [
+"FR_NAOLIB:Quay:801",
+"FR_NAOLIB:Quay:803"
+]
+},
+{
+"name": "8 Mai",
+"type": "lateral",
+"doors": "right",
+"lat": 47.189487,
+"lon": -1.551318,
+"quays": [
+"FR_NAOLIB:Quay:1288",
+"FR_NAOLIB:Quay:1290"
+]
+},
+{
+"name": "Aimé Delrue",
+"type": "lateral",
+"doors": "right",
+"lat": 47.209296,
+"lon": -1.550348,
+"quays": [
+"FR_NAOLIB:Quay:1309",
+"FR_NAOLIB:Quay:1311"
+]
+},
+{
+"name": "Alexandre Vincent - Ste-Thérèse",
+"type": "lateral",
+"doors": "right",
+"lat": 47.232913,
+"lon": -1.577662,
+"quays": [
+"FR_NAOLIB:Quay:1471",
+"FR_NAOLIB:Quay:1472"
+]
+},
+{
+"name": "Babinière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.259252,
+"lon": -1.546643,
+"quays": [
+"FR_NAOLIB:Quay:2769",
+"FR_NAOLIB:Quay:2770"
+]
+},
+{
+"name": "Balinière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.186253,
+"lon": -1.55382,
+"quays": [
+"FR_NAOLIB:Quay:1261",
+"FR_NAOLIB:Quay:1264"
+]
+},
+{
+"name": "Bd de Doulon",
+"type": "lateral",
+"doors": "right",
+"lat": 47.224334,
+"lon": -1.520165,
+"quays": [
+"FR_NAOLIB:Quay:1",
+"FR_NAOLIB:Quay:5"
+]
+},
+{
+"name": "Beaujoire",
+"type": "lateral",
+"doors": "right",
+"lat": 47.258804,
+"lon": -1.525711,
+"quays": [
+"FR_NAOLIB:Quay:46",
+"FR_NAOLIB:Quay:49"
+]
+},
+{
+"name": "Beauséjour",
+"type": "lateral",
+"doors": "right",
+"lat": 47.238284,
+"lon": -1.587247,
+"quays": [
+"FR_NAOLIB:Quay:839",
+"FR_NAOLIB:Quay:845"
+]
+},
+{
+"name": "Bignon",
+"type": "lateral",
+"doors": "right",
+"lat": 47.249368,
+"lon": -1.597984,
+"quays": [
+"FR_NAOLIB:Quay:1481",
+"FR_NAOLIB:Quay:1482"
+]
+},
+{
+"name": "Boissière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.255282,
+"lon": -1.565872,
+"quays": [
+"FR_NAOLIB:Quay:889",
+"FR_NAOLIB:Quay:890"
+]
+},
+{
+"name": "Bouffay",
+"type": "lateral",
+"doors": "right",
+"lat": 47.214573,
+"lon": -1.552576,
+"quays": [
+"FR_NAOLIB:Quay:16",
+"FR_NAOLIB:Quay:17"
+]
+},
+{
+"name": "Bourgeonnière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.253255,
+"lon": -1.560016,
+"quays": [
+"FR_NAOLIB:Quay:639",
+"FR_NAOLIB:Quay:641"
+]
+},
+{
+"name": "Bretagne",
+"type": "lateral",
+"doors": "right",
+"lat": 47.217415,
+"lon": -1.558576,
+"quays": [
+"FR_NAOLIB:Quay:1477",
+"FR_NAOLIB:Quay:1478"
+]
+},
+{
+"name": "Chantiers Navals",
+"type": "offset",
+"doors": "right",
+"lat": 47.20866,
+"lon": -1.568364,
+"quays": [
+"FR_NAOLIB:Quay:96",
+"FR_NAOLIB:Quay:99"
+]
+},
+{
+"name": "Château de Rezé",
+"type": "lateral",
+"doors": "right",
+"lat": 47.184689,
+"lon": -1.55929,
+"quays": [
+"FR_NAOLIB:Quay:1279",
+"FR_NAOLIB:Quay:1280"
+]
+},
+{
+"name": "Chêne des Anglais",
+"type": "lateral",
+"doors": "right",
+"lat": 47.261473,
+"lon": -1.573492,
+"quays": [
+"FR_NAOLIB:Quay:910",
+"FR_NAOLIB:Quay:912"
+]
+},
+{
+"name": "Commerce",
+"type": "multi",
+"doors": "both",
+"lat": 47.213553,
+"lon": -1.556208,
+"quays": [
+"FR_NAOLIB:Quay:90",
+"FR_NAOLIB:Quay:91",
+"FR_NAOLIB:Quay:93",
+"FR_NAOLIB:Quay:94"
+]
+},
+{
+"name": "Croix Bonneau",
+"type": "lateral",
+"doors": "right",
+"lat": 47.209631,
+"lon": -1.595767,
+"quays": [
+"FR_NAOLIB:Quay:19",
+"FR_NAOLIB:Quay:24"
+]
+},
+{
+"name": "Du Chaffault",
+"type": "lateral",
+"doors": "right",
+"lat": 47.207644,
+"lon": -1.581958,
+"quays": [
+"FR_NAOLIB:Quay:54",
+"FR_NAOLIB:Quay:57"
+]
+},
+{
+"name": "Duchesse Anne - Château",
+"type": "lateral",
+"doors": "right",
+"lat": 47.216209,
+"lon": -1.547536,
+"quays": [
+"FR_NAOLIB:Quay:133",
+"FR_NAOLIB:Quay:134"
+]
+},
+{
+"name": "Espace Diderot",
+"type": "lateral",
+"doors": "right",
+"lat": 47.184462,
+"lon": -1.562321,
+"quays": [
+"FR_NAOLIB:Quay:1292",
+"FR_NAOLIB:Quay:1294"
+]
+},
+{
+"name": "Facultés",
+"type": "lateral",
+"doors": "right",
+"lat": 47.24583,
+"lon": -1.55502,
+"quays": [
+"FR_NAOLIB:Quay:1269",
+"FR_NAOLIB:Quay:1270"
+]
+},
+{
+"name": "Ferrière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.243396,
+"lon": -1.591514,
+"quays": [
+"FR_NAOLIB:Quay:470",
+"FR_NAOLIB:Quay:471"
+]
+},
+{
+"name": "Frachon",
+"type": "lateral",
+"doors": "right",
+"lat": 47.219154,
+"lon": -1.620719,
+"quays": [
+"FR_NAOLIB:Quay:129",
+"FR_NAOLIB:Quay:130"
+]
+},
+{
+"name": "François Mitterrand",
+"type": "lateral",
+"doors": "right",
+"lat": 47.222134,
+"lon": -1.638207,
+"quays": [
+"FR_NAOLIB:Quay:10",
+"FR_NAOLIB:Quay:7"
+]
+},
+{
+"name": "Félix Faure",
+"type": "lateral",
+"doors": "right",
+"lat": 47.227305,
+"lon": -1.569743,
+"quays": [
+"FR_NAOLIB:Quay:829",
+"FR_NAOLIB:Quay:831"
+]
+},
+{
+"name": "Gare Maritime",
+"type": "lateral",
+"doors": "right",
+"lat": 47.207079,
+"lon": -1.573357,
+"quays": [
+"FR_NAOLIB:Quay:34",
+"FR_NAOLIB:Quay:35"
+]
+},
+{
+"name": "Gare Nord - Jardin des Plantes",
+"type": "lateral",
+"doors": "right",
+"lat": 47.217864,
+"lon": -1.542762,
+"quays": [
+"FR_NAOLIB:Quay:151",
+"FR_NAOLIB:Quay:152"
+]
+},
+{
+"name": "Gare de Pont Rousseau",
+"type": "central",
+"doors": "left",
+"lat": 47.192949,
+"lon": -1.548887,
+"quays": [
+"FR_NAOLIB:Quay:1272"
+]
+},
+{
+"name": "Grande Ouche",
+"type": "lateral",
+"doors": "right",
+"lat": 47.181358,
+"lon": -1.579206,
+"quays": [
+"FR_NAOLIB:Quay:1259",
+"FR_NAOLIB:Quay:1260"
+]
+},
+{
+"name": "Haluchère - Batignolles",
+"type": "multi",
+"doors": "both",
+"lat": 47.248739,
+"lon": -1.52222,
+"quays": [
+"FR_NAOLIB:Quay:144",
+"FR_NAOLIB:Quay:149"
+]
+},
+{
+"name": "Halvêque",
+"type": "offset",
+"doors": "right",
+"lat": 47.257224,
+"lon": -1.520577,
+"quays": [
+"FR_NAOLIB:Quay:113",
+"FR_NAOLIB:Quay:114"
+]
+},
+{
+"name": "Hôpital Bellier",
+"type": "lateral",
+"doors": "right",
+"lat": 47.221145,
+"lon": -1.524731,
+"quays": [
+"FR_NAOLIB:Quay:32",
+"FR_NAOLIB:Quay:33"
+]
+},
+{
+"name": "Hôtel Dieu",
+"type": "multi",
+"doors": "both",
+"lat": 47.212098,
+"lon": -1.553476,
+"quays": [
+"FR_NAOLIB:Quay:1234",
+"FR_NAOLIB:Quay:1238"
+]
+},
+{
+"name": "Jamet",
+"type": "lateral",
+"doors": "right",
+"lat": 47.210108,
+"lon": -1.603135,
+"quays": [
+"FR_NAOLIB:Quay:50",
+"FR_NAOLIB:Quay:52"
+]
+},
+{
+"name": "Jean Jaurès",
+"type": "lateral",
+"doors": "right",
+"lat": 47.218742,
+"lon": -1.560503,
+"quays": [
+"FR_NAOLIB:Quay:1475",
+"FR_NAOLIB:Quay:1476"
+]
+},
+{
+"name": "Jean Moulin",
+"type": "lateral",
+"doors": "right",
+"lat": 47.206807,
+"lon": -1.600521,
+"quays": [
+"FR_NAOLIB:Quay:119",
+"FR_NAOLIB:Quay:121"
+]
+},
+{
+"name": "Jean Rostand",
+"type": "lateral",
+"doors": "right",
+"lat": 47.246193,
+"lon": -1.59403,
+"quays": [
+"FR_NAOLIB:Quay:1473",
+"FR_NAOLIB:Quay:1474"
+]
+},
+{
+"name": "Landreau",
+"type": "lateral",
+"doors": "right",
+"lat": 47.232192,
+"lon": -1.516234,
+"quays": [
+"FR_NAOLIB:Quay:82",
+"FR_NAOLIB:Quay:83"
+]
+},
+{
+"name": "Lauriers",
+"type": "lateral",
+"doors": "right",
+"lat": 47.204935,
+"lon": -1.60519,
+"quays": [
+"FR_NAOLIB:Quay:122",
+"FR_NAOLIB:Quay:123"
+]
+},
+{
+"name": "Le Cardo",
+"type": "lateral",
+"doors": "right",
+"lat": 47.261745,
+"lon": -1.584522,
+"quays": [
+"FR_NAOLIB:Quay:500",
+"FR_NAOLIB:Quay:503"
+]
+},
+{
+"name": "Les Couëts",
+"type": "lateral",
+"doors": "right",
+"lat": 47.180806,
+"lon": -1.586238,
+"quays": [
+"FR_NAOLIB:Quay:1274",
+"FR_NAOLIB:Quay:1275"
+]
+},
+{
+"name": "Longchamp",
+"type": "lateral",
+"doors": "right",
+"lat": 47.23511,
+"lon": -1.582539,
+"quays": [
+"FR_NAOLIB:Quay:1483",
+"FR_NAOLIB:Quay:1484"
+]
+},
+{
+"name": "Mairie de Doulon",
+"type": "lateral",
+"doors": "right",
+"lat": 47.226667,
+"lon": -1.518805,
+"quays": [
+"FR_NAOLIB:Quay:154",
+"FR_NAOLIB:Quay:156"
+]
+},
+{
+"name": "Mangin",
+"type": "lateral",
+"doors": "right",
+"lat": 47.201906,
+"lon": -1.545125,
+"quays": [
+"FR_NAOLIB:Quay:1300",
+"FR_NAOLIB:Quay:1302"
+]
+},
+{
+"name": "Manufacture",
+"type": "lateral",
+"doors": "right",
+"lat": 47.21874,
+"lon": -1.537689,
+"quays": [
+"FR_NAOLIB:Quay:106",
+"FR_NAOLIB:Quay:107"
+]
+},
+{
+"name": "Marcel Paul",
+"type": "central",
+"doors": "left",
+"lat": 47.245803,
+"lon": -1.615979,
+"quays": [
+"FR_NAOLIB:Quay:791",
+"FR_NAOLIB:Quay:792"
+]
+},
+{
+"name": "Mendès France - Bellevue",
+"type": "lateral",
+"doors": "right",
+"lat": 47.208877,
+"lon": -1.611301,
+"quays": [
+"FR_NAOLIB:Quay:28",
+"FR_NAOLIB:Quay:30"
+]
+},
+{
+"name": "Michelet - Sciences",
+"type": "lateral",
+"doors": "right",
+"lat": 47.235341,
+"lon": -1.556531,
+"quays": [
+"FR_NAOLIB:Quay:171",
+"FR_NAOLIB:Quay:174"
+]
+},
+{
+"name": "Morrhonnière - Petit Port",
+"type": "lateral",
+"doors": "right",
+"lat": 47.241658,
+"lon": -1.556405,
+"quays": [
+"FR_NAOLIB:Quay:1281",
+"FR_NAOLIB:Quay:1283"
+]
+},
+{
+"name": "Motte Rouge",
+"type": "lateral",
+"doors": "right",
+"lat": 47.227921,
+"lon": -1.553901,
+"quays": [
+"FR_NAOLIB:Quay:1265",
+"FR_NAOLIB:Quay:1266"
+]
+},
+{
+"name": "Moutonnerie",
+"type": "lateral",
+"doors": "right",
+"lat": 47.21956,
+"lon": -1.533389,
+"quays": [
+"FR_NAOLIB:Quay:42",
+"FR_NAOLIB:Quay:43"
+]
+},
+{
+"name": "Médiathèque",
+"type": "lateral",
+"doors": "right",
+"lat": 47.211109,
+"lon": -1.561065,
+"quays": [
+"FR_NAOLIB:Quay:66",
+"FR_NAOLIB:Quay:68"
+]
+},
+{
+"name": "Neruda",
+"type": "lateral",
+"doors": "right",
+"lat": 47.217692,
+"lon": -1.61385,
+"quays": [
+"FR_NAOLIB:Quay:100",
+"FR_NAOLIB:Quay:104"
+]
+},
+{
+"name": "Neustrie",
+"type": "multi",
+"doors": "both",
+"lat": 47.177309,
+"lon": -1.592518,
+"quays": [
+"FR_NAOLIB:Quay:1244",
+"FR_NAOLIB:Quay:1247"
+]
+},
+{
+"name": "Orvault Grand Val",
+"type": "lateral",
+"doors": "right",
+"lat": 47.261962,
+"lon": -1.592343,
+"quays": [
+"FR_NAOLIB:Quay:492",
+"FR_NAOLIB:Quay:497"
+]
+},
+{
+"name": "Orvault Morlière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.246901,
+"lon": -1.603501,
+"quays": [
+"FR_NAOLIB:Quay:991",
+"FR_NAOLIB:Quay:992"
+]
+},
+{
+"name": "Pin Sec",
+"type": "lateral",
+"doors": "right",
+"lat": 47.243413,
+"lon": -1.518085,
+"quays": [
+"FR_NAOLIB:Quay:12",
+"FR_NAOLIB:Quay:14"
+]
+},
+{
+"name": "Pirmil",
+"type": "multi",
+"doors": "both",
+"lat": 47.196183,
+"lon": -1.542582,
+"quays": [
+"FR_NAOLIB:Quay:744",
+"FR_NAOLIB:Quay:748"
+]
+},
+{
+"name": "Place du Cirque",
+"type": "lateral",
+"doors": "right",
+"lat": 47.217099,
+"lon": -1.557082,
+"quays": [
+"FR_NAOLIB:Quay:514",
+"FR_NAOLIB:Quay:517"
+]
+},
+{
+"name": "Plaisance",
+"type": "lateral",
+"doors": "right",
+"lat": 47.240316,
+"lon": -1.591445,
+"quays": [
+"FR_NAOLIB:Quay:1479",
+"FR_NAOLIB:Quay:1480"
+]
+},
+{
+"name": "Poitou",
+"type": "lateral",
+"doors": "right",
+"lat": 47.224388,
+"lon": -1.565537,
+"quays": [
+"FR_NAOLIB:Quay:822",
+"FR_NAOLIB:Quay:823"
+]
+},
+{
+"name": "Pont Rousseau - Martyrs",
+"type": "lateral",
+"doors": "right",
+"lat": 47.191877,
+"lon": -1.548219,
+"quays": [
+"FR_NAOLIB:Quay:1307",
+"FR_NAOLIB:Quay:1308"
+]
+},
+{
+"name": "Ranzay",
+"type": "lateral",
+"doors": "right",
+"lat": 47.253182,
+"lon": -1.530162,
+"quays": [
+"FR_NAOLIB:Quay:137",
+"FR_NAOLIB:Quay:138"
+]
+},
+{
+"name": "Recteur Schmitt",
+"type": "lateral",
+"doors": "right",
+"lat": 47.252173,
+"lon": -1.552981,
+"quays": [
+"FR_NAOLIB:Quay:697",
+"FR_NAOLIB:Quay:700"
+]
+},
+{
+"name": "René Cassin",
+"type": "lateral",
+"doors": "right",
+"lat": 47.264195,
+"lon": -1.576435,
+"quays": [
+"FR_NAOLIB:Quay:894",
+"FR_NAOLIB:Quay:898"
+]
+},
+{
+"name": "Romain Rolland",
+"type": "lateral",
+"doors": "right",
+"lat": 47.20679,
+"lon": -1.609842,
+"quays": [
+"FR_NAOLIB:Quay:64",
+"FR_NAOLIB:Quay:65"
+]
+},
+{
+"name": "Romanet",
+"type": "lateral",
+"doors": "right",
+"lat": 47.211865,
+"lon": -1.608874,
+"quays": [
+"FR_NAOLIB:Quay:108",
+"FR_NAOLIB:Quay:109"
+]
+},
+{
+"name": "Rond-Point de Vannes",
+"type": "lateral",
+"doors": "right",
+"lat": 47.230089,
+"lon": -1.572927,
+"quays": [
+"FR_NAOLIB:Quay:196",
+"FR_NAOLIB:Quay:198"
+]
+},
+{
+"name": "Santos Dumont",
+"type": "lateral",
+"doors": "right",
+"lat": 47.259561,
+"lon": -1.568333,
+"quays": [
+"FR_NAOLIB:Quay:903",
+"FR_NAOLIB:Quay:905"
+]
+},
+{
+"name": "Schoelcher",
+"type": "lateral",
+"doors": "right",
+"lat": 47.220615,
+"lon": -1.628151,
+"quays": [
+"FR_NAOLIB:Quay:79",
+"FR_NAOLIB:Quay:81"
+]
+},
+{
+"name": "Sillon de Bretagne",
+"type": "lateral",
+"doors": "right",
+"lat": 47.245594,
+"lon": -1.608878,
+"quays": [
+"FR_NAOLIB:Quay:1001",
+"FR_NAOLIB:Quay:998"
+]
+},
+{
+"name": "Souillarderie",
+"type": "lateral",
+"doors": "right",
+"lat": 47.238142,
+"lon": -1.516051,
+"quays": [
+"FR_NAOLIB:Quay:126",
+"FR_NAOLIB:Quay:127"
+]
+},
+{
+"name": "St-Félix",
+"type": "lateral",
+"doors": "right",
+"lat": 47.231555,
+"lon": -1.556504,
+"quays": [
+"FR_NAOLIB:Quay:1276",
+"FR_NAOLIB:Quay:1278"
+]
+},
+{
+"name": "St-Mihiel",
+"type": "lateral",
+"doors": "right",
+"lat": 47.223487,
+"lon": -1.553407,
+"quays": [
+"FR_NAOLIB:Quay:1296",
+"FR_NAOLIB:Quay:1297"
+]
+},
+{
+"name": "Tertre",
+"type": "lateral",
+"doors": "right",
+"lat": 47.214734,
+"lon": -1.608314,
+"quays": [
+"FR_NAOLIB:Quay:71",
+"FR_NAOLIB:Quay:74"
+]
+},
+{
+"name": "Tourmaline",
+"type": "lateral",
+"doors": "right",
+"lat": 47.221499,
+"lon": -1.632761,
+"quays": [
+"FR_NAOLIB:Quay:87",
+"FR_NAOLIB:Quay:88"
+]
+},
+{
+"name": "Trocardière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.183219,
+"lon": -1.569731,
+"quays": [
+"FR_NAOLIB:Quay:1315",
+"FR_NAOLIB:Quay:1316"
+]
+},
+{
+"name": "Viarme - Talensac",
+"type": "lateral",
+"doors": "right",
+"lat": 47.221534,
+"lon": -1.562781,
+"quays": [
+"FR_NAOLIB:Quay:858",
+"FR_NAOLIB:Quay:860"
+]
+},
+{
+"name": "Vincent Gâche",
+"type": "lateral",
+"doors": "right",
+"lat": 47.206653,
+"lon": -1.548404,
+"quays": [
+"FR_NAOLIB:Quay:1256",
+"FR_NAOLIB:Quay:1257"
+]
+},
+{
+"name": "Wattignies",
+"type": "lateral",
+"doors": "right",
+"lat": 47.20413,
+"lon": -1.546536,
+"quays": [
+"FR_NAOLIB:Quay:1312",
+"FR_NAOLIB:Quay:1314"
+]
+},
+{
+"name": "École Centrale - Audencia",
+"type": "multi",
+"doors": "both",
+"lat": 47.248774,
+"lon": -1.551059,
+"quays": [
+"FR_NAOLIB:Quay:1249",
+"FR_NAOLIB:Quay:1251"
+]
+},
+{
+"name": "Égalité",
+"type": "lateral",
+"doors": "right",
+"lat": 47.209465,
+"lon": -1.588792,
+"quays": [
+"FR_NAOLIB:Quay:60",
+"FR_NAOLIB:Quay:61"
+]
+}
+]
+}

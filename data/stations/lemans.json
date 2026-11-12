@@ -1,0 +1,395 @@
+{
+"schema": 1,
+"city": "lemans",
+"platform_m": 35.4,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 24.7,
+"stations": [
+{
+"name": "Antarès-Stade Marie Marvingt",
+"type": "lateral",
+"doors": "right",
+"lat": 47.955904,
+"lon": 0.222781,
+"quays": [
+"1001",
+"1002"
+]
+},
+{
+"name": "Atlantides-Sablons",
+"type": "lateral",
+"doors": "right",
+"lat": 47.99058,
+"lon": 0.222178,
+"quays": [
+"1003",
+"1004"
+]
+},
+{
+"name": "Bellevue-Hauts de Coulaines",
+"type": "lateral",
+"doors": "right",
+"lat": 48.020306,
+"lon": 0.211527,
+"quays": [
+"1005",
+"1006"
+]
+},
+{
+"name": "Cadran-Épine",
+"type": "lateral",
+"doors": "right",
+"lat": 48.01891,
+"lon": 0.172498,
+"quays": [
+"1007",
+"1008"
+]
+},
+{
+"name": "Campus-Ribay",
+"type": "lateral",
+"doors": "right",
+"lat": 48.01594,
+"lon": 0.161396,
+"quays": [
+"1009",
+"1011"
+]
+},
+{
+"name": "Churchill",
+"type": "offset",
+"doors": "right",
+"lat": 47.989364,
+"lon": 0.215928,
+"quays": [
+"1012",
+"1013"
+]
+},
+{
+"name": "Comtes du Maine-Off. de Tourisme",
+"type": "lateral",
+"doors": "right",
+"lat": 48.004679,
+"lon": 0.199922,
+"quays": [
+"1014",
+"1015"
+]
+},
+{
+"name": "Croix de Pierre",
+"type": "lateral",
+"doors": "right",
+"lat": 48.012198,
+"lon": 0.20551,
+"quays": [
+"1016",
+"1017"
+]
+},
+{
+"name": "Durand-Vaillant",
+"type": "lateral",
+"doors": "right",
+"lat": 47.979516,
+"lon": 0.212716,
+"quays": [
+"1018",
+"1019"
+]
+},
+{
+"name": "Espal-Arche de la Nature",
+"type": "lateral",
+"doors": "right",
+"lat": 47.994802,
+"lon": 0.233798,
+"quays": [
+"1023",
+"1024"
+]
+},
+{
+"name": "Gambetta-Mûriers",
+"type": "offset",
+"doors": "right",
+"lat": 48.009469,
+"lon": 0.184536,
+"quays": [
+"1025",
+"1026"
+]
+},
+{
+"name": "Gares",
+"type": "lateral",
+"doors": "right",
+"lat": 47.995476,
+"lon": 0.193611,
+"quays": [
+"1027",
+"1028"
+]
+},
+{
+"name": "Glonnières-Centre Sud",
+"type": "lateral",
+"doors": "right",
+"lat": 47.972261,
+"lon": 0.216756,
+"quays": [
+"1098",
+"1099"
+]
+},
+{
+"name": "Goya",
+"type": "lateral",
+"doors": "right",
+"lat": 47.975356,
+"lon": 0.215046,
+"quays": [
+"1029",
+"1030"
+]
+},
+{
+"name": "Guetteloup-Pôle Santé Sud",
+"type": "lateral",
+"doors": "right",
+"lat": 47.964288,
+"lon": 0.221188,
+"quays": [
+"1031",
+"1032"
+]
+},
+{
+"name": "Haute Venelle-Clinique du Pré",
+"type": "lateral",
+"doors": "right",
+"lat": 48.019845,
+"lon": 0.16301,
+"quays": [
+"1033",
+"1034"
+]
+},
+{
+"name": "Hôpital",
+"type": "lateral",
+"doors": "right",
+"lat": 48.01355,
+"lon": 0.175552,
+"quays": [
+"1035",
+"1036"
+]
+},
+{
+"name": "Jacobins-Quinconces",
+"type": "lateral",
+"doors": "right",
+"lat": 48.008851,
+"lon": 0.200318,
+"quays": [
+"1039",
+"1040"
+]
+},
+{
+"name": "Jaurès-Pavillon",
+"type": "lateral",
+"doors": "right",
+"lat": 47.989755,
+"lon": 0.206874,
+"quays": [
+"1041",
+"1042"
+]
+},
+{
+"name": "Jules Raimu",
+"type": "lateral",
+"doors": "right",
+"lat": 47.968637,
+"lon": 0.218788,
+"quays": [
+"1043",
+"1044"
+]
+},
+{
+"name": "Lafayette",
+"type": "lateral",
+"doors": "right",
+"lat": 48.006906,
+"lon": 0.190068,
+"quays": [
+"1045",
+"1046"
+]
+},
+{
+"name": "Leclerc-Fleurus",
+"type": "lateral",
+"doors": "right",
+"lat": 47.998399,
+"lon": 0.195163,
+"quays": [
+"1047",
+"1048"
+]
+},
+{
+"name": "Maillets-Banjan",
+"type": "lateral",
+"doors": "right",
+"lat": 48.015325,
+"lon": 0.212554,
+"quays": [
+"1049",
+"1050"
+]
+},
+{
+"name": "Maillets-Zamenhof",
+"type": "lateral",
+"doors": "right",
+"lat": 48.017188,
+"lon": 0.217394,
+"quays": [
+"1065",
+"1066"
+]
+},
+{
+"name": "Pontlieue",
+"type": "lateral",
+"doors": "right",
+"lat": 47.982617,
+"lon": 0.210979,
+"quays": [
+"1051",
+"1052"
+]
+},
+{
+"name": "Préfecture",
+"type": "lateral",
+"doors": "right",
+"lat": 48.00103,
+"lon": 0.197464,
+"quays": [
+"1053",
+"1054"
+]
+},
+{
+"name": "République",
+"type": "lateral",
+"doors": "right",
+"lat": 48.00414,
+"lon": 0.1962,
+"quays": [
+"1055",
+"1056"
+]
+},
+{
+"name": "St-Martin",
+"type": "lateral",
+"doors": "right",
+"lat": 47.98597,
+"lon": 0.209475,
+"quays": [
+"1057",
+"1058"
+]
+},
+{
+"name": "Théodore Monod",
+"type": "lateral",
+"doors": "right",
+"lat": 48.011524,
+"lon": 0.181724,
+"quays": [
+"1059",
+"1060"
+]
+},
+{
+"name": "Université",
+"type": "lateral",
+"doors": "right",
+"lat": 48.016991,
+"lon": 0.1522,
+"quays": [
+"1061",
+"1062"
+]
+},
+{
+"name": "Viaducs",
+"type": "lateral",
+"doors": "right",
+"lat": 47.992764,
+"lon": 0.203612,
+"quays": [
+"1063",
+"1064"
+]
+},
+{
+"name": "Zola",
+"type": "lateral",
+"doors": "right",
+"lat": 47.994009,
+"lon": 0.198118,
+"quays": [
+"1067",
+"1068"
+]
+},
+{
+"name": "Épau-Gué Bernisson",
+"type": "lateral",
+"doors": "right",
+"lat": 47.992,
+"lon": 0.234567,
+"quays": [
+"1020",
+"1021"
+]
+},
+{
+"name": "Éperon-Cité Plantagenêt",
+"type": "lateral",
+"doors": "right",
+"lat": 48.00522,
+"lon": 0.193756,
+"quays": [
+"1022",
+"1077"
+]
+},
+{
+"name": "Île aux Sports",
+"type": "lateral",
+"doors": "right",
+"lat": 47.99112,
+"lon": 0.229541,
+"quays": [
+"1037",
+"1038"
+]
+}
+]
+}

@@ -49,6 +49,10 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 			city.set_tracks(polys)
 		else:
 			city.free(); city = null
+	if geometric:   # types de stations, entraxe élargi au droit des quais centraux, quais
+		layout = StationLayout.new(self)
+		layout.load_city(src, net.meta.get("origin", [0, 0]))
+		layout.build(net.stations, vehicle.length_m if vehicle != null else 32.0)
 	var lo := Vector3(INF, 0, INF); var hi := Vector3(-INF, 0, -INF)
 	for id in net.graph.edges:
 		var sec := Node3D.new(); add_child(sec); sectors[id] = sec
@@ -58,8 +62,10 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		hi = Vector3(maxf(hi.x, maxf(a.x, b.x)), 0, maxf(hi.z, maxf(a.z, b.z)))
 		_track(sec, id)
 		if geometric and city == null: _generic_buildings(sec, id)
-	for s in net.stations:
-		_station(sectors[s.edge], s)
+	if layout != null:
+		for pf in layout.platforms: _platform(sectors[net.stations[pf.station].edge], pf)
+	else:
+		for s in net.stations: _station(sectors[s.edge], s)
 	_crossovers()
 	for s in net.signals:
 		var t2 := _frame(s.edge, float(s.offset))
@@ -76,7 +82,8 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 	# sol au-delà du corridor
 	var c := (lo + hi) * 0.5; var ext := (hi - lo) + Vector3(3000, 0, 3000)
 	var ground := _Geo.new()
-	ground.box(Vector3(0, -0.3, 0), Vector3(ext.x, 0.2, ext.z), Color("#97b46f"))
+	var gy := (city.min_height - 2.0) if city != null and city.has_terrain else -0.3
+	ground.box(Vector3(0, gy, 0), Vector3(ext.x, 0.2, ext.z), Color("#97b46f"))
 	_add_geo(self, ground, Materials.building(), Transform3D(Basis.IDENTITY, c))
 	cam = Camera3D.new(); cam.far = 1600.0; cam.fov = 62.0; add_child(cam)
 	headlight = SpotLight3D.new()
@@ -109,16 +116,36 @@ func _unfold(start_edge: String) -> void:
 
 ## Position 3D d'un point de voie.
 const TRACK_OFFSET := 1.75   # demi-entraxe : chaque sens roule à droite de l'axe commun
+const WIDEN_RAMP := 35.0     # m : transition d'entraxe de part et d'autre d'un quai central
+var widen: Dictionary = {}   # edge id -> [[o_bas, o_haut, élargissement, distance en o_haut, rampe, longueur pleine]]
+var layout: StationLayout
 
 func pos3(edge_id: String, offset: float) -> Vector3:
 	if geometric:
 		var q: Dictionary = net.point_on(edge_id, offset)
 		var p: Vector2 = q.p
 		var d: Vector2 = q.dir
+		var y: float = q.y
 		if net.edge_info[edge_id].raw:  # géométrie déjà sur l'axe de la voie (communications de voies)
-			return Vector3(p.x, 0.0, p.y)
-		return Vector3(p.x - d.y * TRACK_OFFSET, 0.0, p.y + d.x * TRACK_OFFSET)
+			return Vector3(p.x, y, p.y)
+		var o := lateral(edge_id, offset)
+		return Vector3(p.x - d.y * o, y, p.y + d.x * o)
 	return edge_origin[edge_id] + Vector3(offset, 0, 0)
+
+## Décalage de la voie à droite de l'axe commun : demi-entraxe, élargi progressivement au droit des quais centraux.
+func lateral(edge_id: String, offset: float) -> float:
+	var o := TRACK_OFFSET
+	for w in widen.get(edge_id, []):
+		if offset < float(w[0]) - 0.01 or offset > float(w[1]) + 0.01: continue
+		var d: float = float(w[3]) + float(w[1]) - offset
+		var r: float = w[4]
+		var t := clampf(minf(d, r * 2.0 + float(w[5]) - d) / r, 0.0, 1.0)
+		if t > 0.0: o = maxf(o, TRACK_OFFSET + float(w[2]) * smoothstep(0.0, 1.0, t))
+	return o
+
+## Altitude du sol sous un point (relief IGN si disponible).
+func ground_at(p: Vector3) -> float:
+	return city.height_at(p) if city != null and city.has_terrain else 0.0
 
 ## Repère local : origine sur la voie, -Z = sens de marche, X = droite.
 func _frame(edge_id: String, offset: float) -> Transform3D:
@@ -132,18 +159,89 @@ func _frame(edge_id: String, offset: float) -> Transform3D:
 ## Plateforme (nature réelle par tronçon si la scène IGN la fournit), longrines ou rails noyés ; rubans en onglet.
 func _track(parent: Node3D, id: String) -> void:
 	var pts: Array = []
-	if geometric:
-		for q in net.edge_info[id].pts: pts.append(Vector3(q.x, 0.0, q.y))
+	var info: Dictionary = net.edge_info[id] if geometric else {}
+	var o := TRACK_OFFSET if geometric and not info.raw else 0.0
+	if geometric and widen.has(id):   # entraxe variable : voie échantillonnée déjà décalée
+		var L: float = net.graph.edges[id].length
+		var n := maxi(2, ceili(L / 4.0) + 1)
+		for i in n: pts.append(pos3(id, L * i / (n - 1)))
+		o = 0.0
+	elif geometric:
+		var ys: PackedFloat32Array = info.get("ys", PackedFloat32Array())
+		var pl: PackedVector2Array = info.pts
+		for i in pl.size(): pts.append(Vector3(pl[i].x, ys[i] if ys.size() == pl.size() else 0.0, pl[i].y))
 	else:
 		pts = [pos3(id, 0.0), pos3(id, net.graph.edges[id].length)]
 	if pts.size() < 2: return
 	var g := _Geo.new()
-	var o := TRACK_OFFSET if geometric and not net.edge_info[id].raw else 0.0
 	var fallback := _bed_color(id)
 	var paved := Color("#a49a8c") if city != null and city.style.get("trees", [0])[0] == 6 else Color("#9a958d")
 	var nature := func(p: Vector3) -> int: return city.track_nature_at(p) if city != null else TrackView.BED_UNKNOWN
 	TrackView.build(g, pts, o, nature, fallback, paved)
+	if geometric: _structures(g, id)
 	_add_geo(parent, g, Materials.building())
+
+## Ouvrages d'une voie (intervalles calculés par tools/import/terrain.py) : pont (dalle, garde-corps, piles),
+## tunnel (tube, portails), trémie (murs de soutènement).
+func _structures(g: _Geo, id: String) -> void:
+	var info: Dictionary = net.edge_info[id]
+	if info.raw: return
+	var L: float = net.graph.edges[id].length
+	var concrete := Color("#b9b3a7")
+	var inner := -lateral(id, 0.0) - 0.05   # axe commun (moitié de l'ouvrage côté voie opposée)
+	for sp in info.get("bridge", []):
+		var a := clampf(float(sp[0]), 0.0, L); var b := clampf(float(sp[1]), 0.0, L)
+		var n := maxi(1, ceili((b - a) / 5.0))
+		for i in n:
+			var f0 := _frame(id, a + (b - a) * i / n); var f1 := _frame(id, a + (b - a) * (i + 1) / n)
+			var p := func(f: Transform3D, x: float, y: float) -> Vector3: return f.origin + f.basis.x * x + Vector3(0, y, 0)
+			g.quad(p.call(f0, 2.9, 0.05), p.call(f1, 2.9, 0.05), p.call(f1, 2.9, -1.1), p.call(f0, 2.9, -1.1), concrete)
+			g.quad(p.call(f0, inner, -1.1), p.call(f0, 2.9, -1.1), p.call(f1, 2.9, -1.1), p.call(f1, inner, -1.1), concrete.darkened(0.25))
+			g.quad(p.call(f0, 1.75, 0.04), p.call(f1, 1.75, 0.04), p.call(f1, 2.9, 0.04), p.call(f0, 2.9, 0.04), Color("#8b8d90"))
+			g.quad(p.call(f0, 2.8, 0.05), p.call(f1, 2.8, 0.05), p.call(f1, 2.8, 1.15), p.call(f0, 2.8, 1.15), Color("#d6d1c6"))
+		var s := a + 14.0
+		while s < b - 6.0:
+			var f := _frame(id, s)
+			var top := f.origin + f.basis.x * 1.0
+			var gh := ground_at(top)
+			if top.y - gh > 2.5:
+				var hgt := top.y - 1.1 - gh + 1.5
+				g.box_basis(Vector3(top.x, gh - 1.5 + hgt * 0.5, top.z), Vector3(1.6, hgt, 1.2), f.basis, concrete.darkened(0.1))
+			s += 30.0
+	for sp in info.get("tunnel", []):
+		var a := clampf(float(sp[0]), 0.0, L); var b := clampf(float(sp[1]), 0.0, L)
+		var n := maxi(1, ceili((b - a) / 6.0))
+		var wall := Color("#5d5a55")
+		for i in n:
+			var f0 := _frame(id, a + (b - a) * i / n); var f1 := _frame(id, a + (b - a) * (i + 1) / n)
+			# tube seulement sous au moins 5 m de terrain (sinon voie couverte par un bâtiment ou une dalle : murs bas)
+			var cover := minf(ground_at(f0.origin) - f0.origin.y, ground_at(f1.origin) - f1.origin.y)
+			var p := func(f: Transform3D, x: float, y: float) -> Vector3: return f.origin + f.basis.x * x + Vector3(0, y, 0)
+			if cover < 5.0:
+				g.quad(p.call(f0, 2.6, -0.1), p.call(f1, 2.6, -0.1), p.call(f1, 2.6, 0.9), p.call(f0, 2.6, 0.9), concrete)
+				continue
+			g.quad(p.call(f0, 2.6, -0.1), p.call(f1, 2.6, -0.1), p.call(f1, 2.6, 4.8), p.call(f0, 2.6, 4.8), wall)
+			g.quad(p.call(f0, inner, 4.8), p.call(f0, 2.6, 4.8), p.call(f1, 2.6, 4.8), p.call(f1, inner, 4.8), wall.darkened(0.3))
+			if i % 3 == 0:   # éclairage de tunnel
+				g.box_basis(p.call(f0, 2.45, 4.0), Vector3(0.12, 0.12, 1.2), f0.basis, Color(1.0, 0.9, 0.7, 0.1))
+		for s in [a, b]:   # portails (si le tunnel débouche sur cette arête)
+			if (s == a and a <= 0.5) or (s == b and b >= L - 0.5): continue
+			var f := _frame(id, s)
+			var top := ground_at(f.origin) - f.origin.y + 0.6
+			if top < 5.6: continue
+			var p := func(x: float, y: float) -> Vector3: return f.origin + f.basis.x * x + Vector3(0, y, 0)
+			g.quad(p.call(inner, 4.8), p.call(3.6, 4.8), p.call(3.6, top), p.call(inner, top), concrete)
+			g.quad(p.call(2.6, -0.1), p.call(3.6, -0.1), p.call(3.6, 4.8), p.call(2.6, 4.8), concrete)
+	for sp in info.get("trench", []):
+		var a := clampf(float(sp[0]), 0.0, L); var b := clampf(float(sp[1]), 0.0, L)
+		var n := maxi(1, ceili((b - a) / 6.0))
+		for i in n:
+			var u0 := float(i) / n; var u1 := float(i + 1) / n
+			var f0 := _frame(id, lerpf(a, b, u0)); var f1 := _frame(id, lerpf(a, b, u1))
+			var h0 := lerpf(float(sp[2]), float(sp[3]), u0) + 0.4; var h1 := lerpf(float(sp[2]), float(sp[3]), u1) + 0.4
+			var p := func(f: Transform3D, x: float, y: float) -> Vector3: return f.origin + f.basis.x * x + Vector3(0, y, 0)
+			g.quad(p.call(f0, 2.6, -0.1), p.call(f1, 2.6, -0.1), p.call(f1, 2.6, h1), p.call(f0, 2.6, h0), concrete)
+			g.quad(p.call(f0, 2.6, h0), p.call(f1, 2.6, h1), p.call(f1, 2.9, h1), p.call(f0, 2.9, h0), concrete.lightened(0.15))
 
 ## Plateforme par défaut (sans analyse d'orthophoto) : engazonnée en périphérie, pavée ou en enrobé
 ## dans les quartiers denses (densité de bâti IGN).
@@ -217,6 +315,60 @@ func _station(parent: Node3D, s: Dictionary) -> void:
 	lbl.outline_size = 12
 	lbl.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
 	lbl.position = t * Vector3(3.5, 3.15, zc + 6.5)
+	parent.add_child(lbl)
+
+## Quai (StationLayout) : prisme suivant la voie, bordure blanche, rampe d'accès, abri, banc, totem et mobilier.
+func _platform(parent: Node3D, pf: Dictionary) -> void:
+	var inn: PackedVector3Array = pf.inner; var out: PackedVector3Array = pf.outer
+	var n := inn.size()
+	var g := _Geo.new()
+	var top := Vector3(0, StationLayout.HEIGHT, 0); var bot := Vector3(0, -0.15, 0)
+	var slab := Color("#d9d4c8"); var edge := Color("#f2f2ee")
+	var lft: bool = pf.side == "left"
+	for i in n - 1:
+		var a := inn[i]; var b := inn[i + 1]; var c := out[i + 1]; var d := out[i]
+		g.quad(a + top, b + top, c + top, d + top, slab)
+		g.quad(a + bot, b + bot, b + top, a + top, slab.darkened(0.12))
+		g.quad(d + top, c + top, c + bot, d + bot, slab.darkened(0.12))
+		var ea := a.lerp(d, 0.25 / maxf(a.distance_to(d), 0.3)); var eb := b.lerp(c, 0.25 / maxf(b.distance_to(c), 0.3))
+		g.quad(a + top + Vector3(0, 0.01, 0), b + top + Vector3(0, 0.01, 0), eb + top + Vector3(0, 0.01, 0), ea + top + Vector3(0, 0.01, 0), edge)
+	g.quad(inn[0] + bot, out[0] + bot, out[0] + top, inn[0] + top, slab.darkened(0.12))
+	# rampe d'accès à l'arrière du quai (pente 1/12)
+	var tail := (inn[n - 1] - inn[n - 2]).normalized()
+	var ra := inn[n - 1].lerp(out[n - 1], 0.15); var rb := inn[n - 1].lerp(out[n - 1], 0.85)
+	g.quad(ra + top, rb + top, rb + tail * 3.6 + Vector3(0, -0.05, 0), ra + tail * 3.6 + Vector3(0, -0.05, 0), slab.darkened(0.05))
+	# mobilier au milieu du quai
+	var m := n / 2
+	var t := (inn[mini(m + 1, n - 1)] - inn[maxi(m - 1, 0)]); t.y = 0.0; t = t.normalized()
+	var o := out[m] - inn[m]; var w := Vector2(o.x, o.z).length(); o.y = 0.0; o = o.normalized()
+	var basis := Basis(o, Vector3.UP, t)
+	var y := inn[m].y + StationLayout.HEIGHT
+	var at := func(x: float, h: float, z: float) -> Vector3: return Vector3(inn[m].x, y + h, inn[m].z) + o * x + t * z
+	var acc: Color = livery.get("accent", Color("#c8102e"))
+	var sx := w - 0.75 if not lft else w * 0.62
+	for k in [-1.0, 1.0]:
+		g.box_basis(at.call(sx + 0.45, 1.25, k * 2.8), Vector3(0.1, 2.5, 0.1), basis, Color("#4a4f55"))
+	g.box_basis(at.call(sx, 2.55, 0.0), Vector3(1.6, 0.08, 6.6), basis, Color("#5d646b"))
+	g.box_basis(at.call(sx + 0.5, 1.35, 0.0), Vector3(0.05, 2.0, 6.2), basis, Color(0.6, 0.75, 0.82, 0.5))
+	g.box_basis(at.call(sx + 0.15, 0.45, 0.0), Vector3(0.45, 0.08, 2.4), basis, Color("#7a6a58"))
+	var tz := 6.0 if n * StationLayout.STEP > 16.0 else 0.0
+	g.box_basis(at.call(sx, 1.35, tz), Vector3(0.3, 2.7, 0.6), basis, acc)                         # totem
+	g.box_basis(at.call(sx, 0.8, -tz - 1.2), Vector3(0.6, 1.6, 0.45), basis, Color("#3d4a57"))    # distributeur
+	g.box_basis(at.call(sx + 0.2, 0.45, -tz + 3.6), Vector3(0.4, 0.9, 0.4), basis, Color("#56606a")) # corbeille
+	for k in [-1.0, 1.0]:  # candélabres
+		g.box_basis(at.call(sx + 0.3, 2.1, k * (n * StationLayout.STEP * 0.32)), Vector3(0.12, 4.2, 0.12), basis, Color("#4a4f55"))
+		g.box_basis(at.call(sx + 0.15, 4.2, k * (n * StationLayout.STEP * 0.32)), Vector3(0.4, 0.12, 0.25), basis, Color(1.0, 0.92, 0.7, 0.1))
+	_add_geo(parent, g, Materials.building())
+	if city != null:  # quai et mobilier : interdits aux arbres et lampadaires du décor
+		for i in range(0, n - 1, 2):
+			var q := inn[i].lerp(out[i], 0.5); var r := inn[mini(i + 2, n - 1)].lerp(out[mini(i + 2, n - 1)], 0.5)
+			city.add_keepout(Vector2(q.x, q.z), Vector2(r.x, r.z), w * 0.5 + 0.8)
+	var lbl := Label3D.new()
+	lbl.text = str(net.stations[pf.station].name)
+	lbl.font_size = 64; lbl.pixel_size = 0.006
+	lbl.outline_size = 12
+	lbl.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+	lbl.position = at.call(sx, 3.05, tz)
 	parent.add_child(lbl)
 
 func _post(parent: Node3D, p: Vector3, h: float) -> void:
@@ -301,7 +453,10 @@ func update_from(s: MissionSession, external: bool) -> void:
 		var dir := pf - pb
 		if dir.length() < 0.01: dir = Vector3(1, 0, 0)
 		modules[i].transform = Transform3D(Basis.looking_at(dir.normalized(), Vector3.UP), (pf + pb) * 0.5)
-	rig.set_doors(s.doors_open, "right" if s.direction >= 0 else "left")   # quais à droite du sens de l'arête
+	# côté du quai réel (StationLayout : latéral à droite, central à gauche, multi-quais des deux côtés), selon le sens de marche
+	var side := layout.doors_at(net.stations, s.edge_id, s.offset) if layout != null else "right"
+	if s.direction < 0 and side != "both": side = "left" if side == "right" else "right"
+	rig.set_doors(s.doors_open, side)
 	rig.set_pantograph(s.pantograph_up)
 	if _rig_fresh: rig.snap()
 	else: rig.update(get_process_delta_time())

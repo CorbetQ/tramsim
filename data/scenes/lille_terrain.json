@@ -1,0 +1,13 @@
+{
+ "schema": 1,
+ "city": "lille",
+ "alt0": 26.5,
+ "tile_m": 400.0,
+ "grid": 41,
+ "tiles": 245,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "stats": {
+  "ponts": 103,
+  "niveaux_eau": 136
+ }
+}

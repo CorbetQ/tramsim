@@ -1,0 +1,527 @@
+{
+"schema": 1,
+"city": "nice",
+"platform_m": 46.7,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Alsace-Lorraine",
+"type": "lateral",
+"doors": "right",
+"lat": 43.697768,
+"lon": 7.257227,
+"quays": [
+"2609",
+"2610"
+]
+},
+{
+"name": "Aéroport Terminal 1",
+"type": "lateral",
+"doors": "right",
+"lat": 43.665302,
+"lon": 7.210894,
+"quays": [
+"2629",
+"2630"
+]
+},
+{
+"name": "Aéroport Terminal 2",
+"type": "central",
+"doors": "left",
+"lat": 43.660634,
+"lon": 7.205179,
+"quays": [
+"2812"
+]
+},
+{
+"name": "Borriglione",
+"type": "lateral",
+"doors": "right",
+"lat": 43.71188,
+"lon": 7.26177,
+"quays": [
+"2503",
+"2504"
+]
+},
+{
+"name": "CADAM / Centre Administratif",
+"type": "multi",
+"doors": "both",
+"lat": 43.676746,
+"lon": 7.199167,
+"quays": [
+"2637",
+"2645"
+]
+},
+{
+"name": "Carras",
+"type": "lateral",
+"doors": "right",
+"lat": 43.680713,
+"lon": 7.230623,
+"quays": [
+"2768",
+"2776"
+]
+},
+{
+"name": "Cassin / Kirchner",
+"type": "lateral",
+"doors": "right",
+"lat": 43.672274,
+"lon": 7.224096,
+"quays": [
+"2623",
+"2624"
+]
+},
+{
+"name": "Cathédrale - Vieille Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 43.698448,
+"lon": 7.276499,
+"quays": [
+"2505",
+"2506"
+]
+},
+{
+"name": "Centre Universitaire Méditerranéen",
+"type": "lateral",
+"doors": "right",
+"lat": 43.693006,
+"lon": 7.249522,
+"quays": [
+"2770",
+"2774"
+]
+},
+{
+"name": "Comte de Falicon",
+"type": "lateral",
+"doors": "right",
+"lat": 43.725998,
+"lon": 7.255713,
+"quays": [
+"2507",
+"2508"
+]
+},
+{
+"name": "Digue des Français",
+"type": "lateral",
+"doors": "right",
+"lat": 43.676635,
+"lon": 7.205922,
+"quays": [
+"2635",
+"2636"
+]
+},
+{
+"name": "Durandy",
+"type": "lateral",
+"doors": "right",
+"lat": 43.701418,
+"lon": 7.272305,
+"quays": [
+"2605",
+"2606"
+]
+},
+{
+"name": "Eco-Parc",
+"type": "lateral",
+"doors": "right",
+"lat": 43.69779,
+"lon": 7.196471,
+"quays": [
+"2794",
+"2795"
+]
+},
+{
+"name": "Fabron",
+"type": "lateral",
+"doors": "right",
+"lat": 43.686812,
+"lon": 7.237074,
+"quays": [
+"2617",
+"2618"
+]
+},
+{
+"name": "Ferber",
+"type": "lateral",
+"doors": "right",
+"lat": 43.676888,
+"lon": 7.228324,
+"quays": [
+"2621",
+"2622"
+]
+},
+{
+"name": "Gare Thiers",
+"type": "lateral",
+"doors": "right",
+"lat": 43.705546,
+"lon": 7.26498,
+"quays": [
+"2509",
+"2510"
+]
+},
+{
+"name": "Garibaldi",
+"type": "lateral",
+"doors": "right",
+"lat": 43.701542,
+"lon": 7.280547,
+"quays": [
+"1407",
+"2511"
+]
+},
+{
+"name": "Garibaldi / Le Château",
+"type": "lateral",
+"doors": "right",
+"lat": 43.700082,
+"lon": 7.280705,
+"quays": [
+"2603",
+"2604"
+]
+},
+{
+"name": "Gorbella",
+"type": "lateral",
+"doors": "right",
+"lat": 43.717865,
+"lon": 7.256921,
+"quays": [
+"2512",
+"2513"
+]
+},
+{
+"name": "Grand Arénas",
+"type": "multi",
+"doors": "both",
+"lat": 43.66897,
+"lon": 7.211307,
+"quays": [
+"2767",
+"2778",
+"2779"
+]
+},
+{
+"name": "Henri Sappia",
+"type": "lateral",
+"doors": "right",
+"lat": 43.730433,
+"lon": 7.254175,
+"quays": [
+"2516",
+"2517"
+]
+},
+{
+"name": "Hôpital Pasteur",
+"type": "central",
+"doors": "left",
+"lat": 43.723309,
+"lon": 7.285453,
+"quays": [
+"2643"
+]
+},
+{
+"name": "Jean Médecin",
+"type": "lateral",
+"doors": "right",
+"lat": 43.701689,
+"lon": 7.267243,
+"quays": [
+"2514",
+"2515",
+"2607",
+"2608"
+]
+},
+{
+"name": "La Plaine",
+"type": "lateral",
+"doors": "right",
+"lat": 43.687504,
+"lon": 7.201571,
+"quays": [
+"2798",
+"2799"
+]
+},
+{
+"name": "Le Ray",
+"type": "lateral",
+"doors": "right",
+"lat": 43.721516,
+"lon": 7.256385,
+"quays": [
+"2518",
+"2519"
+]
+},
+{
+"name": "Lenval Hôpital",
+"type": "lateral",
+"doors": "right",
+"lat": 43.689544,
+"lon": 7.241186,
+"quays": [
+"2615",
+"2616"
+]
+},
+{
+"name": "Les Arboras/Université",
+"type": "lateral",
+"doors": "right",
+"lat": 43.69273,
+"lon": 7.199255,
+"quays": [
+"2796",
+"2797"
+]
+},
+{
+"name": "Libération",
+"type": "lateral",
+"doors": "right",
+"lat": 43.709093,
+"lon": 7.2626,
+"quays": [
+"2520",
+"2521"
+]
+},
+{
+"name": "Magnan",
+"type": "multi",
+"doors": "both",
+"lat": 43.691675,
+"lon": 7.245742,
+"quays": [
+"2613",
+"2614"
+]
+},
+{
+"name": "Masséna",
+"type": "lateral",
+"doors": "right",
+"lat": 43.698397,
+"lon": 7.269347,
+"quays": [
+"2522",
+"2523"
+]
+},
+{
+"name": "Méridia",
+"type": "lateral",
+"doors": "right",
+"lat": 43.682807,
+"lon": 7.203122,
+"quays": [
+"2800",
+"2801"
+]
+},
+{
+"name": "Opéra - Vieille Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 43.697243,
+"lon": 7.272935,
+"quays": [
+"2524",
+"2525"
+]
+},
+{
+"name": "Palais des Expositions",
+"type": "lateral",
+"doors": "right",
+"lat": 43.70731,
+"lon": 7.283842,
+"quays": [
+"2526",
+"2527"
+]
+},
+{
+"name": "Parc Phoenix",
+"type": "lateral",
+"doors": "right",
+"lat": 43.669419,
+"lon": 7.219073,
+"quays": [
+"2771",
+"2777"
+]
+},
+{
+"name": "Paul Montel / Les Moulins",
+"type": "lateral",
+"doors": "right",
+"lat": 43.673435,
+"lon": 7.208522,
+"quays": [
+"2632",
+"2633"
+]
+},
+{
+"name": "Pont Michel",
+"type": "lateral",
+"doors": "right",
+"lat": 43.722725,
+"lon": 7.290868,
+"quays": [
+"2528",
+"2529"
+]
+},
+{
+"name": "Port Lympia",
+"type": "lateral",
+"doors": "right",
+"lat": 43.698325,
+"lon": 7.28443,
+"quays": [
+"2602",
+"2644"
+]
+},
+{
+"name": "République",
+"type": "lateral",
+"doors": "right",
+"lat": 43.704583,
+"lon": 7.282285,
+"quays": [
+"2501",
+"2502"
+]
+},
+{
+"name": "Saint-Charles",
+"type": "lateral",
+"doors": "right",
+"lat": 43.718457,
+"lon": 7.291756,
+"quays": [
+"2531",
+"2532"
+]
+},
+{
+"name": "Saint-Isidore",
+"type": "central",
+"doors": "left",
+"lat": 43.710451,
+"lon": 7.194598,
+"quays": [
+"2790"
+]
+},
+{
+"name": "Saint-Jean-d'Angely Université",
+"type": "lateral",
+"doors": "right",
+"lat": 43.709526,
+"lon": 7.290325,
+"quays": [
+"2533",
+"2534"
+]
+},
+{
+"name": "Saint-Roch",
+"type": "lateral",
+"doors": "right",
+"lat": 43.711706,
+"lon": 7.2928,
+"quays": [
+"2535",
+"2536"
+]
+},
+{
+"name": "Sainte-Hélène",
+"type": "lateral",
+"doors": "right",
+"lat": 43.683572,
+"lon": 7.233595,
+"quays": [
+"2769",
+"2775"
+]
+},
+{
+"name": "Stade",
+"type": "lateral",
+"doors": "right",
+"lat": 43.705218,
+"lon": 7.196558,
+"quays": [
+"2792",
+"2793"
+]
+},
+{
+"name": "Valrose Université",
+"type": "lateral",
+"doors": "right",
+"lat": 43.715523,
+"lon": 7.261489,
+"quays": [
+"2538",
+"2539"
+]
+},
+{
+"name": "Vauban",
+"type": "lateral",
+"doors": "right",
+"lat": 43.710023,
+"lon": 7.286582,
+"quays": [
+"2540",
+"2541"
+]
+},
+{
+"name": "Virgile Barel",
+"type": "lateral",
+"doors": "right",
+"lat": 43.714912,
+"lon": 7.292831,
+"quays": [
+"2542",
+"2543"
+]
+}
+]
+}

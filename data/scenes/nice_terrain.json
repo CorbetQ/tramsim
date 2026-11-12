@@ -1,0 +1,13 @@
+{
+ "schema": 1,
+ "city": "nice",
+ "alt0": 7.0,
+ "tile_m": 400.0,
+ "grid": 41,
+ "tiles": 268,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "stats": {
+  "ponts": 121,
+  "niveaux_eau": 164
+ }
+}

@@ -1,0 +1,1495 @@
+{
+"schema": 1,
+"city": "bordeaux",
+"platform_m": 46.7,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Alfred de Vigny",
+"type": "lateral",
+"doors": "right",
+"lat": 44.830242,
+"lon": -0.633971,
+"quays": [
+"5234",
+"5235"
+]
+},
+{
+"name": "Arts & Métiers",
+"type": "lateral",
+"doors": "right",
+"lat": 44.805982,
+"lon": -0.60231,
+"quays": [
+"3737",
+"3738"
+]
+},
+{
+"name": "Ausone",
+"type": "offset",
+"doors": "right",
+"lat": 44.879297,
+"lon": -0.602986,
+"quays": [
+"7713",
+"7714"
+]
+},
+{
+"name": "Aéroport",
+"type": "central",
+"doors": "left",
+"lat": 44.830583,
+"lon": -0.700898,
+"quays": [
+"9098"
+]
+},
+{
+"name": "Barrière Saint-Genès",
+"type": "offset",
+"doors": "right",
+"lat": 44.820756,
+"lon": -0.583151,
+"quays": [
+"3747",
+"3748"
+]
+},
+{
+"name": "Barrière du Médoc",
+"type": "offset",
+"doors": "right",
+"lat": 44.85365,
+"lon": -0.59318,
+"quays": [
+"8325",
+"8326"
+]
+},
+{
+"name": "Belcier",
+"type": "lateral",
+"doors": "right",
+"lat": 44.82255,
+"lon": -0.552111,
+"quays": [
+"5434",
+"5435"
+]
+},
+{
+"name": "Berges de la Garonne",
+"type": "central",
+"doors": "left",
+"lat": 44.885564,
+"lon": -0.541534,
+"quays": [
+"7172"
+]
+},
+{
+"name": "Berges du Lac",
+"type": "lateral",
+"doors": "right",
+"lat": 44.879048,
+"lon": -0.57077,
+"quays": [
+"7131",
+"7132"
+]
+},
+{
+"name": "Bergonié",
+"type": "lateral",
+"doors": "right",
+"lat": 44.825017,
+"lon": -0.578232,
+"quays": [
+"3749",
+"3750"
+]
+},
+{
+"name": "Bois Fleuri",
+"type": "lateral",
+"doors": "right",
+"lat": 44.876004,
+"lon": -0.519331,
+"quays": [
+"3685",
+"3686"
+]
+},
+{
+"name": "Bougnard",
+"type": "lateral",
+"doors": "right",
+"lat": 44.794073,
+"lon": -0.633987,
+"quays": [
+"3724",
+"5244"
+]
+},
+{
+"name": "Brandenburg",
+"type": "lateral",
+"doors": "right",
+"lat": 44.874465,
+"lon": -0.545657,
+"quays": [
+"5532",
+"5533"
+]
+},
+{
+"name": "Buttinière",
+"type": "lateral",
+"doors": "right",
+"lat": 44.864103,
+"lon": -0.524923,
+"quays": [
+"3691",
+"3692"
+]
+},
+{
+"name": "Béthanie",
+"type": "lateral",
+"doors": "right",
+"lat": 44.805991,
+"lon": -0.598027,
+"quays": [
+"3739",
+"3740"
+]
+},
+{
+"name": "CAPC Musée d'Art Contemporain",
+"type": "lateral",
+"doors": "right",
+"lat": 44.849112,
+"lon": -0.570434,
+"quays": [
+"5252",
+"5253"
+]
+},
+{
+"name": "Cadera Issartier",
+"type": "lateral",
+"doors": "right",
+"lat": 44.835698,
+"lon": -0.68199,
+"quays": [
+"9094",
+"9095"
+]
+},
+{
+"name": "Calais - Centujean",
+"type": "lateral",
+"doors": "right",
+"lat": 44.802892,
+"lon": -0.551991,
+"quays": [
+"7395",
+"7396"
+]
+},
+{
+"name": "Calypso",
+"type": "offset",
+"doors": "right",
+"lat": 44.861338,
+"lon": -0.600863,
+"quays": [
+"8329",
+"8330"
+]
+},
+{
+"name": "Camille Godard",
+"type": "lateral",
+"doors": "right",
+"lat": 44.854686,
+"lon": -0.574461,
+"quays": [
+"5398",
+"5399"
+]
+},
+{
+"name": "Camponac Médiathèque",
+"type": "lateral",
+"doors": "right",
+"lat": 44.800307,
+"lon": -0.634789,
+"quays": [
+"5245",
+"5246"
+]
+},
+{
+"name": "Cantinolle",
+"type": "central",
+"doors": "left",
+"lat": 44.892007,
+"lon": -0.667446,
+"quays": [
+"8358"
+]
+},
+{
+"name": "Cap Métiers",
+"type": "lateral",
+"doors": "right",
+"lat": 44.789238,
+"lon": -0.65162,
+"quays": [
+"7433",
+"7434"
+]
+},
+{
+"name": "Carle Vernet",
+"type": "multi",
+"doors": "both",
+"lat": 44.819839,
+"lon": -0.550414,
+"quays": [
+"5436",
+"5437",
+"7351"
+]
+},
+{
+"name": "Carnot - Mairie de Cenon",
+"type": "lateral",
+"doors": "right",
+"lat": 44.857768,
+"lon": -0.531565,
+"quays": [
+"3698",
+"3699"
+]
+},
+{
+"name": "Caroline Aigle",
+"type": "lateral",
+"doors": "right",
+"lat": 44.835193,
+"lon": -0.689686,
+"quays": [
+"9096",
+"9097"
+]
+},
+{
+"name": "Carriet",
+"type": "lateral",
+"doors": "right",
+"lat": 44.882201,
+"lon": -0.5239,
+"quays": [
+"5443",
+"5444"
+]
+},
+{
+"name": "Cenon Gare",
+"type": "lateral",
+"doors": "right",
+"lat": 44.855868,
+"lon": -0.534493,
+"quays": [
+"5130",
+"5131"
+]
+},
+{
+"name": "Champ de Courses - Treulon",
+"type": "offset",
+"doors": "right",
+"lat": 44.876523,
+"lon": -0.621832,
+"quays": [
+"8345",
+"8346"
+]
+},
+{
+"name": "Chartrons",
+"type": "lateral",
+"doors": "right",
+"lat": 44.852813,
+"lon": -0.567575,
+"quays": [
+"5254",
+"5255"
+]
+},
+{
+"name": "Chataigneraie",
+"type": "lateral",
+"doors": "right",
+"lat": 44.793007,
+"lon": -0.646577,
+"quays": [
+"7431",
+"7432"
+]
+},
+{
+"name": "Chemin Long",
+"type": "lateral",
+"doors": "right",
+"lat": 44.834071,
+"lon": -0.669176,
+"quays": [
+"9092",
+"9093"
+]
+},
+{
+"name": "Claveau",
+"type": "central",
+"doors": "left",
+"lat": 44.877849,
+"lon": -0.543818,
+"quays": [
+"5534",
+"5535"
+]
+},
+{
+"name": "Courbet",
+"type": "offset",
+"doors": "right",
+"lat": 44.856934,
+"lon": -0.597093,
+"quays": [
+"8327",
+"8328"
+]
+},
+{
+"name": "Cours du Médoc",
+"type": "lateral",
+"doors": "right",
+"lat": 44.855878,
+"lon": -0.563213,
+"quays": [
+"5256",
+"5257"
+]
+},
+{
+"name": "Cracovie",
+"type": "lateral",
+"doors": "right",
+"lat": 44.871005,
+"lon": -0.576228,
+"quays": [
+"7343",
+"7344"
+]
+},
+{
+"name": "Croix de seguey",
+"type": "offset",
+"doors": "right",
+"lat": 44.850077,
+"lon": -0.58593,
+"quays": [
+"8323",
+"8324"
+]
+},
+{
+"name": "Doyen Brus",
+"type": "lateral",
+"doors": "right",
+"lat": 44.800261,
+"lon": -0.609631,
+"quays": [
+"3733",
+"3734"
+]
+},
+{
+"name": "Emile Counord",
+"type": "lateral",
+"doors": "right",
+"lat": 44.858656,
+"lon": -0.574876,
+"quays": [
+"5400",
+"5401"
+]
+},
+{
+"name": "Eysines Centre",
+"type": "offset",
+"doors": "right",
+"lat": 44.884039,
+"lon": -0.650044,
+"quays": [
+"8354",
+"8355"
+]
+},
+{
+"name": "Floirac Dravemont",
+"type": "central",
+"doors": "left",
+"lat": 44.84588,
+"lon": -0.510419,
+"quays": [
+"5217"
+]
+},
+{
+"name": "Fondaudège - Muséum",
+"type": "offset",
+"doors": "right",
+"lat": 44.846759,
+"lon": -0.580262,
+"quays": [
+"8321",
+"8322"
+]
+},
+{
+"name": "Fontaine d'Arlac",
+"type": "lateral",
+"doors": "right",
+"lat": 44.82667,
+"lon": -0.625631,
+"quays": [
+"5232",
+"5233"
+]
+},
+{
+"name": "France Alouette",
+"type": "central",
+"doors": "left",
+"lat": 44.798636,
+"lon": -0.663099,
+"quays": [
+"7440"
+]
+},
+{
+"name": "Frankton",
+"type": "offset",
+"doors": "right",
+"lat": 44.907444,
+"lon": -0.619112,
+"quays": [
+"7717",
+"7718"
+]
+},
+{
+"name": "François Bordes",
+"type": "lateral",
+"doors": "right",
+"lat": 44.803486,
+"lon": -0.606726,
+"quays": [
+"3735",
+"3736"
+]
+},
+{
+"name": "François Mitterrand",
+"type": "lateral",
+"doors": "right",
+"lat": 44.827165,
+"lon": -0.614245,
+"quays": [
+"5228",
+"5229"
+]
+},
+{
+"name": "Frères Robinson",
+"type": "lateral",
+"doors": "right",
+"lat": 44.85004,
+"lon": -0.655899,
+"quays": [
+"7333",
+"7334"
+]
+},
+{
+"name": "Galin",
+"type": "lateral",
+"doors": "right",
+"lat": 44.849768,
+"lon": -0.544373,
+"quays": [
+"3704",
+"3705"
+]
+},
+{
+"name": "Gambetta - madd",
+"type": "offset",
+"doors": "right",
+"lat": 44.841039,
+"lon": -0.57845,
+"quays": [
+"3759",
+"3760"
+]
+},
+{
+"name": "Gare Pessac Alouette",
+"type": "lateral",
+"doors": "right",
+"lat": 44.793125,
+"lon": -0.657762,
+"quays": [
+"7437",
+"7438"
+]
+},
+{
+"name": "Gare Saint-Jean",
+"type": "lateral",
+"doors": "right",
+"lat": 44.8259,
+"lon": -0.556809,
+"quays": [
+"3765",
+"5433"
+]
+},
+{
+"name": "Gare de Blanquefort",
+"type": "central",
+"doors": "left",
+"lat": 44.916781,
+"lon": -0.623554,
+"quays": [
+"7719"
+]
+},
+{
+"name": "Gare de Bruges",
+"type": "offset",
+"doors": "right",
+"lat": 44.887738,
+"lon": -0.609846,
+"quays": [
+"7715",
+"7716"
+]
+},
+{
+"name": "Gare de bègles",
+"type": "lateral",
+"doors": "right",
+"lat": 44.798205,
+"lon": -0.551862,
+"quays": [
+"7397",
+"7398"
+]
+},
+{
+"name": "Gaviniès",
+"type": "lateral",
+"doors": "right",
+"lat": 44.833112,
+"lon": -0.593135,
+"quays": [
+"4583",
+"4584"
+]
+},
+{
+"name": "Grand Parc",
+"type": "lateral",
+"doors": "right",
+"lat": 44.862311,
+"lon": -0.575295,
+"quays": [
+"5402",
+"5403"
+]
+},
+{
+"name": "Grand Théâtre",
+"type": "lateral",
+"doors": "right",
+"lat": 44.842034,
+"lon": -0.575296,
+"quays": [
+"3761",
+"3762"
+]
+},
+{
+"name": "Gravières",
+"type": "lateral",
+"doors": "right",
+"lat": 44.872758,
+"lon": -0.520221,
+"quays": [
+"3687",
+"3688"
+]
+},
+{
+"name": "Hippodrome",
+"type": "multi",
+"doors": "both",
+"lat": 44.873943,
+"lon": -0.628654,
+"quays": [
+"8347",
+"8348",
+"8349"
+]
+},
+{
+"name": "Hôpital Haut-Lévêque",
+"type": "lateral",
+"doors": "right",
+"lat": 44.787678,
+"lon": -0.655408,
+"quays": [
+"7435",
+"7436"
+]
+},
+{
+"name": "Hôpital Pellegrin",
+"type": "lateral",
+"doors": "right",
+"lat": 44.830195,
+"lon": -0.604546,
+"quays": [
+"4587",
+"4588"
+]
+},
+{
+"name": "Hôtel de Police",
+"type": "lateral",
+"doors": "right",
+"lat": 44.834899,
+"lon": -0.588843,
+"quays": [
+"4581",
+"4582"
+]
+},
+{
+"name": "Hôtel de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 44.837339,
+"lon": -0.577164,
+"quays": [
+"3718",
+"3719",
+"3757",
+"3758"
+]
+},
+{
+"name": "Hôtel de Ville Mérignac",
+"type": "lateral",
+"doors": "right",
+"lat": 44.844215,
+"lon": -0.658286,
+"quays": [
+"7331",
+"7332"
+]
+},
+{
+"name": "Iris",
+"type": "lateral",
+"doors": "right",
+"lat": 44.868538,
+"lon": -0.522711,
+"quays": [
+"3689",
+"3690"
+]
+},
+{
+"name": "Jardin Botanique",
+"type": "lateral",
+"doors": "right",
+"lat": 44.842999,
+"lon": -0.555411,
+"quays": [
+"3708",
+"3709"
+]
+},
+{
+"name": "Jardin Public",
+"type": "lateral",
+"doors": "right",
+"lat": 44.848205,
+"lon": -0.575319,
+"quays": [
+"5394",
+"5395"
+]
+},
+{
+"name": "Jean Jaurès",
+"type": "lateral",
+"doors": "right",
+"lat": 44.853797,
+"lon": -0.537834,
+"quays": [
+"3702",
+"3703"
+]
+},
+{
+"name": "Jean Zay",
+"type": "lateral",
+"doors": "right",
+"lat": 44.854117,
+"lon": -0.513221,
+"quays": [
+"5213",
+"5214"
+]
+},
+{
+"name": "La Belle Rose",
+"type": "lateral",
+"doors": "right",
+"lat": 44.811127,
+"lon": -0.55124,
+"quays": [
+"7391",
+"7392"
+]
+},
+{
+"name": "La Cité du Vin",
+"type": "lateral",
+"doors": "right",
+"lat": 44.860724,
+"lon": -0.553182,
+"quays": [
+"5260",
+"5261"
+]
+},
+{
+"name": "La Gardette - Bassens - Carbon-Blanc",
+"type": "central",
+"doors": "left",
+"lat": 44.887679,
+"lon": -0.51727,
+"quays": [
+"7091"
+]
+},
+{
+"name": "La Marègue",
+"type": "lateral",
+"doors": "right",
+"lat": 44.850751,
+"lon": -0.508909,
+"quays": [
+"5215",
+"5216"
+]
+},
+{
+"name": "La Morlette",
+"type": "lateral",
+"doors": "right",
+"lat": 44.855039,
+"lon": -0.518163,
+"quays": [
+"3693",
+"5212"
+]
+},
+{
+"name": "La Vache",
+"type": "offset",
+"doors": "right",
+"lat": 44.872331,
+"lon": -0.590965,
+"quays": [
+"7711",
+"7712"
+]
+},
+{
+"name": "Lauriers",
+"type": "lateral",
+"doors": "right",
+"lat": 44.879121,
+"lon": -0.517906,
+"quays": [
+"3684",
+"5488"
+]
+},
+{
+"name": "Le Haillan Rostand",
+"type": "central",
+"doors": "left",
+"lat": 44.858523,
+"lon": -0.668282,
+"quays": [
+"7337"
+]
+},
+{
+"name": "Les Aubiers",
+"type": "lateral",
+"doors": "right",
+"lat": 44.87399,
+"lon": -0.574227,
+"quays": [
+"5414",
+"5415"
+]
+},
+{
+"name": "Les Ecus",
+"type": "offset",
+"doors": "right",
+"lat": 44.869144,
+"lon": -0.60933,
+"quays": [
+"8341",
+"8342"
+]
+},
+{
+"name": "Les Hangars",
+"type": "lateral",
+"doors": "right",
+"lat": 44.857957,
+"lon": -0.558796,
+"quays": [
+"5258",
+"5259"
+]
+},
+{
+"name": "Les Pins",
+"type": "lateral",
+"doors": "right",
+"lat": 44.856939,
+"lon": -0.659801,
+"quays": [
+"7335",
+"7336"
+]
+},
+{
+"name": "Les Sources",
+"type": "offset",
+"doors": "right",
+"lat": 44.888131,
+"lon": -0.660108,
+"quays": [
+"8356",
+"8357"
+]
+},
+{
+"name": "Lycée Vaclav Havel",
+"type": "lateral",
+"doors": "right",
+"lat": 44.786611,
+"lon": -0.566213,
+"quays": [
+"7401",
+"7402"
+]
+},
+{
+"name": "Lycées de Mérignac",
+"type": "lateral",
+"doors": "right",
+"lat": 44.834979,
+"lon": -0.647428,
+"quays": [
+"5240",
+"5241"
+]
+},
+{
+"name": "Mairie de Lormont",
+"type": "lateral",
+"doors": "right",
+"lat": 44.879834,
+"lon": -0.523514,
+"quays": [
+"5441",
+"5442"
+]
+},
+{
+"name": "Mairie du Bouscat",
+"type": "offset",
+"doors": "right",
+"lat": 44.865594,
+"lon": -0.605206,
+"quays": [
+"8331",
+"8332"
+]
+},
+{
+"name": "Montaigne - Montesquieu",
+"type": "multi",
+"doors": "both",
+"lat": 44.796785,
+"lon": -0.617392,
+"quays": [
+"3729",
+"3730",
+"7463"
+]
+},
+{
+"name": "Musée d'Aquitaine",
+"type": "lateral",
+"doors": "right",
+"lat": 44.835526,
+"lon": -0.575318,
+"quays": [
+"3755",
+"3756"
+]
+},
+{
+"name": "Mériadeck",
+"type": "lateral",
+"doors": "right",
+"lat": 44.838172,
+"lon": -0.584298,
+"quays": [
+"3722",
+"3723"
+]
+},
+{
+"name": "Mérignac Centre",
+"type": "lateral",
+"doors": "right",
+"lat": 44.841445,
+"lon": -0.646802,
+"quays": [
+"5242",
+"5243"
+]
+},
+{
+"name": "Mérignac Soleil",
+"type": "lateral",
+"doors": "right",
+"lat": 44.831159,
+"lon": -0.656824,
+"quays": [
+"9090",
+"9091"
+]
+},
+{
+"name": "New York",
+"type": "lateral",
+"doors": "right",
+"lat": 44.870923,
+"lon": -0.547334,
+"quays": [
+"5530",
+"5531"
+]
+},
+{
+"name": "Palais de Justice",
+"type": "lateral",
+"doors": "right",
+"lat": 44.836305,
+"lon": -0.581468,
+"quays": [
+"3720",
+"3721"
+]
+},
+{
+"name": "Palais des congrès",
+"type": "lateral",
+"doors": "right",
+"lat": 44.889286,
+"lon": -0.567148,
+"quays": [
+"7325",
+"7326"
+]
+},
+{
+"name": "Palmer",
+"type": "lateral",
+"doors": "right",
+"lat": 44.862201,
+"lon": -0.519741,
+"quays": [
+"3696",
+"3697"
+]
+},
+{
+"name": "Parc de Mussonville",
+"type": "lateral",
+"doors": "right",
+"lat": 44.793952,
+"lon": -0.559601,
+"quays": [
+"7399",
+"7400"
+]
+},
+{
+"name": "Parc des Expositions",
+"type": "lateral",
+"doors": "right",
+"lat": 44.893323,
+"lon": -0.565788,
+"quays": [
+"7327",
+"7328"
+]
+},
+{
+"name": "Paul Doumer",
+"type": "lateral",
+"doors": "right",
+"lat": 44.85195,
+"lon": -0.574075,
+"quays": [
+"5396",
+"5397"
+]
+},
+{
+"name": "Peixotto",
+"type": "lateral",
+"doors": "right",
+"lat": 44.807238,
+"lon": -0.592616,
+"quays": [
+"3741",
+"3742"
+]
+},
+{
+"name": "Pelletan",
+"type": "lateral",
+"doors": "right",
+"lat": 44.85869,
+"lon": -0.51971,
+"quays": [
+"3694",
+"3695"
+]
+},
+{
+"name": "Pessac Centre",
+"type": "central",
+"doors": "left",
+"lat": 44.804302,
+"lon": -0.632525,
+"quays": [
+"5247"
+]
+},
+{
+"name": "Peychotte",
+"type": "lateral",
+"doors": "right",
+"lat": 44.826606,
+"lon": -0.619932,
+"quays": [
+"5230",
+"5231"
+]
+},
+{
+"name": "Picot",
+"type": "offset",
+"doors": "right",
+"lat": 44.881453,
+"lon": -0.641395,
+"quays": [
+"8352",
+"8353"
+]
+},
+{
+"name": "Pierre Mendès France",
+"type": "lateral",
+"doors": "right",
+"lat": 44.830164,
+"lon": -0.639822,
+"quays": [
+"5236",
+"5237"
+]
+},
+{
+"name": "Pin Galant",
+"type": "lateral",
+"doors": "right",
+"lat": 44.844259,
+"lon": -0.651339,
+"quays": [
+"7329",
+"7330"
+]
+},
+{
+"name": "Place Ravezies - le Bouscat",
+"type": "lateral",
+"doors": "right",
+"lat": 44.867108,
+"lon": -0.575802,
+"quays": [
+"5412",
+"5413"
+]
+},
+{
+"name": "Place de la Bourse",
+"type": "lateral",
+"doors": "right",
+"lat": 44.841567,
+"lon": -0.569643,
+"quays": [
+"3774",
+"3775"
+]
+},
+{
+"name": "Place du Palais",
+"type": "lateral",
+"doors": "right",
+"lat": 44.837935,
+"lon": -0.569323,
+"quays": [
+"3714",
+"3715"
+]
+},
+{
+"name": "Porte de Bourgogne",
+"type": "multi",
+"doors": "both",
+"lat": 44.837236,
+"lon": -0.56627,
+"quays": [
+"3712",
+"3713",
+"3772",
+"3773"
+]
+},
+{
+"name": "Quarante Journaux",
+"type": "lateral",
+"doors": "right",
+"lat": 44.883112,
+"lon": -0.570436,
+"quays": [
+"7323",
+"7324"
+]
+},
+{
+"name": "Quatre Chemins",
+"type": "lateral",
+"doors": "right",
+"lat": 44.83262,
+"lon": -0.644917,
+"quays": [
+"5238",
+"5239"
+]
+},
+{
+"name": "Quinconces",
+"type": "lateral",
+"doors": "right",
+"lat": 44.844474,
+"lon": -0.573818,
+"quays": [
+"3763",
+"3764",
+"3776",
+"5404",
+"7346"
+]
+},
+{
+"name": "Roustaing",
+"type": "lateral",
+"doors": "right",
+"lat": 44.816925,
+"lon": -0.585651,
+"quays": [
+"3745",
+"3746"
+]
+},
+{
+"name": "Rue Achard",
+"type": "lateral",
+"doors": "right",
+"lat": 44.866645,
+"lon": -0.54866,
+"quays": [
+"5528",
+"5529"
+]
+},
+{
+"name": "Saige",
+"type": "lateral",
+"doors": "right",
+"lat": 44.79398,
+"lon": -0.628511,
+"quays": [
+"3725",
+"3726"
+]
+},
+{
+"name": "Saint-Augustin",
+"type": "lateral",
+"doors": "right",
+"lat": 44.828815,
+"lon": -0.610263,
+"quays": [
+"4589",
+"4590"
+]
+},
+{
+"name": "Saint-Bruno - Hôtel de Région",
+"type": "lateral",
+"doors": "right",
+"lat": 44.837473,
+"lon": -0.589282,
+"quays": [
+"4579",
+"4580"
+]
+},
+{
+"name": "Saint-Michel",
+"type": "lateral",
+"doors": "right",
+"lat": 44.834485,
+"lon": -0.563355,
+"quays": [
+"3770",
+"3771"
+]
+},
+{
+"name": "Saint-Nicolas",
+"type": "lateral",
+"doors": "right",
+"lat": 44.828975,
+"lon": -0.573975,
+"quays": [
+"3751",
+"3752"
+]
+},
+{
+"name": "Sainte-Catherine",
+"type": "lateral",
+"doors": "right",
+"lat": 44.837642,
+"lon": -0.573307,
+"quays": [
+"3716",
+"3717"
+]
+},
+{
+"name": "Sainte-Croix",
+"type": "lateral",
+"doors": "right",
+"lat": 44.831862,
+"lon": -0.559416,
+"quays": [
+"3768",
+"3769"
+]
+},
+{
+"name": "Sainte-Germaine",
+"type": "offset",
+"doors": "right",
+"lat": 44.871683,
+"lon": -0.614612,
+"quays": [
+"8343",
+"8344"
+]
+},
+{
+"name": "Simone Veil",
+"type": "offset",
+"doors": "right",
+"lat": 44.879764,
+"lon": -0.636964,
+"quays": [
+"8350",
+"8351"
+]
+},
+{
+"name": "Stade Chaban Delmas",
+"type": "offset",
+"doors": "right",
+"lat": 44.831611,
+"lon": -0.597876,
+"quays": [
+"4585",
+"4586"
+]
+},
+{
+"name": "Stade Musard",
+"type": "lateral",
+"doors": "right",
+"lat": 44.808001,
+"lon": -0.551518,
+"quays": [
+"7393",
+"7394"
+]
+},
+{
+"name": "Stalingrad",
+"type": "lateral",
+"doors": "right",
+"lat": 44.840328,
+"lon": -0.559763,
+"quays": [
+"3710",
+"3711"
+]
+},
+{
+"name": "Talence Centre-Forum",
+"type": "lateral",
+"doors": "right",
+"lat": 44.81193,
+"lon": -0.59094,
+"quays": [
+"3743",
+"3744"
+]
+},
+{
+"name": "Tauzia",
+"type": "lateral",
+"doors": "right",
+"lat": 44.829078,
+"lon": -0.558532,
+"quays": [
+"3766",
+"3767"
+]
+},
+{
+"name": "Terres Neuves",
+"type": "lateral",
+"doors": "right",
+"lat": 44.815328,
+"lon": -0.550866,
+"quays": [
+"5438",
+"5439"
+]
+},
+{
+"name": "Thiers-Benauge",
+"type": "lateral",
+"doors": "right",
+"lat": 44.845795,
+"lon": -0.550852,
+"quays": [
+"3706",
+"3707"
+]
+},
+{
+"name": "Unitec",
+"type": "lateral",
+"doors": "right",
+"lat": 44.796269,
+"lon": -0.621542,
+"quays": [
+"3727",
+"3728"
+]
+},
+{
+"name": "Victoire",
+"type": "lateral",
+"doors": "right",
+"lat": 44.831175,
+"lon": -0.573022,
+"quays": [
+"3753",
+"3754"
+]
+},
+{
+"name": "Villenave Pyrénées",
+"type": "central",
+"doors": "left",
+"lat": 44.774328,
+"lon": -0.564893,
+"quays": [
+"7723"
+]
+},
+{
+"name": "Villenave-Centre Pont de la Maye",
+"type": "offset",
+"doors": "right",
+"lat": 44.782374,
+"lon": -0.566208,
+"quays": [
+"7721",
+"7722"
+]
+}
+]
+}

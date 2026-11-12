@@ -1,0 +1,350 @@
+{
+"schema": 1,
+"city": "rouen",
+"platform_m": 46.7,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": true,
+"gtfs_head_bias_m": 28.7,
+"stations": [
+{
+"name": "14-Juillet",
+"type": "lateral",
+"doors": "right",
+"lat": 49.409095,
+"lon": 1.083098,
+"quays": [
+"TCAR:JUILL0",
+"TCAR:JUILL1"
+]
+},
+{
+"name": "Avenue de Caen",
+"type": "lateral",
+"doors": "right",
+"lat": 49.429749,
+"lon": 1.075341,
+"quays": [
+"TCAR:AVCAE0",
+"TCAR:AVCAE1"
+]
+},
+{
+"name": "Beauvoisine",
+"type": "lateral",
+"doors": "right",
+"lat": 49.448447,
+"lon": 1.100342,
+"quays": [
+"TCAR:BEAUV0",
+"TCAR:BEAUV1"
+]
+},
+{
+"name": "Boulingrin",
+"type": "multi",
+"doors": "both",
+"lat": 49.447084,
+"lon": 1.105132,
+"quays": [
+"TCAR:BBOU"
+]
+},
+{
+"name": "Champ de Courses",
+"type": "lateral",
+"doors": "right",
+"lat": 49.401442,
+"lon": 1.075699,
+"quays": [
+"TCAR:COURS0",
+"TCAR:COURS1"
+]
+},
+{
+"name": "Charles de Gaulle",
+"type": "lateral",
+"doors": "right",
+"lat": 49.416789,
+"lon": 1.055526,
+"quays": [
+"TCAR:CHGAU0",
+"TCAR:CHGAU1"
+]
+},
+{
+"name": "Ernest Renan",
+"type": "lateral",
+"doors": "right",
+"lat": 49.398414,
+"lon": 1.072794,
+"quays": [
+"TCAR:RENAN0",
+"TCAR:RENAN1"
+]
+},
+{
+"name": "Europe",
+"type": "offset",
+"doors": "right",
+"lat": 49.427947,
+"lon": 1.081594,
+"quays": [
+"TCAR:EUROP0",
+"TCAR:EUROP1"
+]
+},
+{
+"name": "François Truffaut",
+"type": "lateral",
+"doors": "right",
+"lat": 49.426547,
+"lon": 1.062377,
+"quays": [
+"TCAR:TRUFF0",
+"TCAR:TRUFF1"
+]
+},
+{
+"name": "Gare-Rue Verte",
+"type": "lateral",
+"doors": "right",
+"lat": 49.448485,
+"lon": 1.094627,
+"quays": [
+"TCAR:GAREV0",
+"TCAR:GAREV1"
+]
+},
+{
+"name": "Garibaldi",
+"type": "lateral",
+"doors": "right",
+"lat": 49.418755,
+"lon": 1.090871,
+"quays": [
+"TCAR:GARIB0",
+"TCAR:GARIB1"
+]
+},
+{
+"name": "Georges Braque",
+"type": "lateral",
+"doors": "right",
+"lat": 49.400514,
+"lon": 1.042283,
+"quays": [
+"TCAR:BRAQU0",
+"TCAR:BRAQU1"
+]
+},
+{
+"name": "Honoré de Balzac",
+"type": "lateral",
+"doors": "right",
+"lat": 49.426094,
+"lon": 1.086826,
+"quays": [
+"TCAR:BALZA0",
+"TCAR:BALZA1"
+]
+},
+{
+"name": "Hôtel de Ville de Sotteville",
+"type": "lateral",
+"doors": "right",
+"lat": 49.414148,
+"lon": 1.090195,
+"quays": [
+"TCAR:SOTTE0",
+"TCAR:SOTTE1"
+]
+},
+{
+"name": "JF Kennedy",
+"type": "lateral",
+"doors": "right",
+"lat": 49.409608,
+"lon": 1.049476,
+"quays": [
+"TCAR:KENNE0",
+"TCAR:KENNE1"
+]
+},
+{
+"name": "Jean Jaurès",
+"type": "lateral",
+"doors": "right",
+"lat": 49.427604,
+"lon": 1.066714,
+"quays": [
+"TCAR:JAURE0",
+"TCAR:JAURE1"
+]
+},
+{
+"name": "Jean Zay",
+"type": "lateral",
+"doors": "right",
+"lat": 49.404128,
+"lon": 1.08451,
+"quays": [
+"TCAR:JEZAY0",
+"TCAR:JEZAY1"
+]
+},
+{
+"name": "Joffre-Mutualité",
+"type": "lateral",
+"doors": "right",
+"lat": 49.435323,
+"lon": 1.08664,
+"quays": [
+"TCAR:JOFFR0",
+"TCAR:JOFFR1"
+]
+},
+{
+"name": "Le Parc",
+"type": "lateral",
+"doors": "right",
+"lat": 49.395239,
+"lon": 1.069349,
+"quays": [
+"TCAR:PARC0",
+"TCAR:PARC1"
+]
+},
+{
+"name": "Léon Blum",
+"type": "offset",
+"doors": "right",
+"lat": 49.407325,
+"lon": 1.045474,
+"quays": [
+"TCAR:LBLUM0",
+"TCAR:LBLUM1"
+]
+},
+{
+"name": "Maryse Bastié",
+"type": "lateral",
+"doors": "right",
+"lat": 49.391838,
+"lon": 1.070041,
+"quays": [
+"TCAR:BASTI0",
+"TCAR:BASTI1"
+]
+},
+{
+"name": "Palais de Justice - Gisèle Halimi",
+"type": "lateral",
+"doors": "right",
+"lat": 49.442701,
+"lon": 1.090929,
+"quays": [
+"TCAR:JUSTI0",
+"TCAR:JUSTI1"
+]
+},
+{
+"name": "Paul Cézanne",
+"type": "lateral",
+"doors": "right",
+"lat": 49.403561,
+"lon": 1.042158,
+"quays": [
+"TCAR:CEZAN0",
+"TCAR:CEZAN1"
+]
+},
+{
+"name": "Place du 8-Mai",
+"type": "lateral",
+"doors": "right",
+"lat": 49.423903,
+"lon": 1.059321,
+"quays": [
+"TCAR:08MAI0",
+"TCAR:08MAI1"
+]
+},
+{
+"name": "Provinces",
+"type": "lateral",
+"doors": "right",
+"lat": 49.411692,
+"lon": 1.053217,
+"quays": [
+"TCAR:PROVI0",
+"TCAR:PROVI1"
+]
+},
+{
+"name": "Saint-Julien",
+"type": "lateral",
+"doors": "right",
+"lat": 49.420273,
+"lon": 1.059525,
+"quays": [
+"TCAR:JULIE0",
+"TCAR:JULIE1"
+]
+},
+{
+"name": "Saint-Sever",
+"type": "lateral",
+"doors": "right",
+"lat": 49.431223,
+"lon": 1.08142,
+"quays": [
+"TCAR:STSEV0",
+"TCAR:STSEV1"
+]
+},
+{
+"name": "Technopôle",
+"type": "lateral",
+"doors": "right",
+"lat": 49.386714,
+"lon": 1.070809,
+"quays": [
+"TCAR:UNIV20",
+"TCAR:UNIV21"
+]
+},
+{
+"name": "Théâtre des Arts",
+"type": "lateral",
+"doors": "right",
+"lat": 49.439907,
+"lon": 1.089324,
+"quays": [
+"TCAR:TARTS0",
+"TCAR:TARTS1"
+]
+},
+{
+"name": "Toit Familial",
+"type": "lateral",
+"doors": "right",
+"lat": 49.40115,
+"lon": 1.081409,
+"quays": [
+"TCAR:FAMIL0",
+"TCAR:FAMIL1"
+]
+},
+{
+"name": "Voltaire",
+"type": "lateral",
+"doors": "right",
+"lat": 49.422979,
+"lon": 1.089028,
+"quays": [
+"TCAR:VOLTA0",
+"TCAR:VOLTA1"
+]
+}
+]
+}

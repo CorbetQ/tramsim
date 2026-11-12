@@ -1,0 +1,13 @@
+{
+ "schema": 1,
+ "city": "saintetienne",
+ "alt0": 506.8,
+ "tile_m": 400.0,
+ "grid": 41,
+ "tiles": 147,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "stats": {
+  "ponts": 50,
+  "niveaux_eau": 28
+ }
+}

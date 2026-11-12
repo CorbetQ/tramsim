@@ -1,0 +1,13 @@
+{
+ "schema": 1,
+ "city": "strasbourg",
+ "alt0": 140.4,
+ "tile_m": 400.0,
+ "grid": 41,
+ "tiles": 466,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "stats": {
+  "ponts": 305,
+  "niveaux_eau": 482
+ }
+}

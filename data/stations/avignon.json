@@ -1,0 +1,120 @@
+{
+"schema": 1,
+"city": "avignon",
+"platform_m": 35.0,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": true,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Arrousaire",
+"type": "lateral",
+"doors": "right",
+"lat": 43.940624,
+"lon": 4.809629,
+"quays": [
+"82788",
+"82789"
+]
+},
+{
+"name": "Barbiere",
+"type": "lateral",
+"doors": "right",
+"lat": 43.930447,
+"lon": 4.83412,
+"quays": [
+"82775",
+"82776"
+]
+},
+{
+"name": "Gare Centre",
+"type": "lateral",
+"doors": "right",
+"lat": 43.942621,
+"lon": 4.806061,
+"quays": [
+"82790",
+"82791"
+]
+},
+{
+"name": "Jouveau",
+"type": "offset",
+"doors": "right",
+"lat": 43.931547,
+"lon": 4.809651,
+"quays": [
+"82784",
+"82785"
+]
+},
+{
+"name": "Les Sources",
+"type": "lateral",
+"doors": "right",
+"lat": 43.930906,
+"lon": 4.826071,
+"quays": [
+"82777",
+"82778"
+]
+},
+{
+"name": "Olivades",
+"type": "lateral",
+"doors": "right",
+"lat": 43.92873,
+"lon": 4.813394,
+"quays": [
+"82781",
+"82783"
+]
+},
+{
+"name": "Place St Ruf",
+"type": "lateral",
+"doors": "right",
+"lat": 43.936368,
+"lon": 4.810275,
+"quays": [
+"82786",
+"82787"
+]
+},
+{
+"name": "St Chamand",
+"type": "central",
+"doors": "left",
+"lat": 43.930747,
+"lon": 4.841001,
+"quays": [
+"82773",
+"82774"
+]
+},
+{
+"name": "St Roch",
+"type": "lateral",
+"doors": "right",
+"lat": 43.94329,
+"lon": 4.799945,
+"quays": [
+"82792",
+"82794"
+]
+},
+{
+"name": "Trillade",
+"type": "offset",
+"doors": "right",
+"lat": 43.929343,
+"lon": 4.819363,
+"quays": [
+"82779",
+"82780"
+]
+}
+]
+}

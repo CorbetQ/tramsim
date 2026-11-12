@@ -1,0 +1,1238 @@
+{
+"schema": 1,
+"city": "montpellier",
+"platform_m": 46.7,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Agropolis",
+"type": "lateral",
+"doors": "right",
+"lat": 43.645941,
+"lon": 3.868489,
+"quays": [
+"45103",
+"45218"
+]
+},
+{
+"name": "Aiguelongue",
+"type": "lateral",
+"doors": "right",
+"lat": 43.626238,
+"lon": 3.883134,
+"quays": [
+"42147",
+"42223"
+]
+},
+{
+"name": "Albert 1er - Jardin des Plantes",
+"type": "lateral",
+"doors": "right",
+"lat": 43.614743,
+"lon": 3.873666,
+"quays": [
+"44102",
+"44202"
+]
+},
+{
+"name": "Albert 1er - Saint-Charles",
+"type": "lateral",
+"doors": "right",
+"lat": 43.616491,
+"lon": 3.873994,
+"quays": [
+"41127",
+"41229"
+]
+},
+{
+"name": "Antigone",
+"type": "lateral",
+"doors": "right",
+"lat": 43.608563,
+"lon": 3.88658,
+"quays": [
+"41139",
+"41217"
+]
+},
+{
+"name": "Astruc",
+"type": "lateral",
+"doors": "right",
+"lat": 43.610266,
+"lon": 3.854878,
+"quays": [
+"43117",
+"43241"
+]
+},
+{
+"name": "Aube Rouge",
+"type": "lateral",
+"doors": "right",
+"lat": 43.638538,
+"lon": 3.924771,
+"quays": [
+"42163",
+"42207"
+]
+},
+{
+"name": "Beaux-Arts",
+"type": "lateral",
+"doors": "right",
+"lat": 43.616954,
+"lon": 3.883441,
+"quays": [
+"42143",
+"42227"
+]
+},
+{
+"name": "Boirargues",
+"type": "lateral",
+"doors": "right",
+"lat": 43.585384,
+"lon": 3.920144,
+"quays": [
+"43147",
+"43211"
+]
+},
+{
+"name": "Boutonnet - Cité des Arts",
+"type": "lateral",
+"doors": "right",
+"lat": 43.622601,
+"lon": 3.868009,
+"quays": [
+"41123",
+"41233"
+]
+},
+{
+"name": "CNRS - Zoo de Lunaret",
+"type": "lateral",
+"doors": "right",
+"lat": 43.638193,
+"lon": 3.865818,
+"quays": [
+"45105",
+"45216"
+]
+},
+{
+"name": "Celleneuve",
+"type": "lateral",
+"doors": "right",
+"lat": 43.615557,
+"lon": 3.825794,
+"quays": [
+"43105",
+"43253"
+]
+},
+{
+"name": "Centurions",
+"type": "lateral",
+"doors": "right",
+"lat": 43.632758,
+"lon": 3.91562,
+"quays": [
+"42157",
+"42213"
+]
+},
+{
+"name": "Chamberte - Les Roses",
+"type": "lateral",
+"doors": "right",
+"lat": 43.602578,
+"lon": 3.854495,
+"quays": [
+"45112",
+"45208"
+]
+},
+{
+"name": "Charles de Gaulle",
+"type": "lateral",
+"doors": "right",
+"lat": 43.628593,
+"lon": 3.897686,
+"quays": [
+"42151",
+"42219"
+]
+},
+{
+"name": "Château d'Ô",
+"type": "lateral",
+"doors": "right",
+"lat": 43.631619,
+"lon": 3.842987,
+"quays": [
+"41113",
+"41243"
+]
+},
+{
+"name": "Cité Créative - Parc Montcalm",
+"type": "lateral",
+"doors": "right",
+"lat": 43.60164,
+"lon": 3.861894,
+"quays": [
+"45111",
+"45209"
+]
+},
+{
+"name": "Clairval",
+"type": "lateral",
+"doors": "right",
+"lat": 43.630135,
+"lon": 3.902505,
+"quays": [
+"42153",
+"42217"
+]
+},
+{
+"name": "Clapiers",
+"type": "central",
+"doors": "left",
+"lat": 43.653688,
+"lon": 3.872656,
+"quays": [
+"45101"
+]
+},
+{
+"name": "Comédie",
+"type": "lateral",
+"doors": "right",
+"lat": 43.608413,
+"lon": 3.879696,
+"quays": [
+"41133",
+"41223"
+]
+},
+{
+"name": "Corum",
+"type": "multi",
+"doors": "both",
+"lat": 43.614192,
+"lon": 3.881705,
+"quays": [
+"41131",
+"41225",
+"42141",
+"42229"
+]
+},
+{
+"name": "Cougourlude",
+"type": "lateral",
+"doors": "right",
+"lat": 43.571309,
+"lon": 3.913935,
+"quays": [
+"43161",
+"43261"
+]
+},
+{
+"name": "Croix d'Argent",
+"type": "lateral",
+"doors": "right",
+"lat": 43.592387,
+"lon": 3.866384,
+"quays": [
+"42115",
+"42255"
+]
+},
+{
+"name": "Du Guesclin",
+"type": "lateral",
+"doors": "right",
+"lat": 43.607109,
+"lon": 3.883173,
+"quays": [
+"41138",
+"41218"
+]
+},
+{
+"name": "EcoPôle",
+"type": "lateral",
+"doors": "right",
+"lat": 43.578061,
+"lon": 3.935101,
+"quays": [
+"43151",
+"43207"
+]
+},
+{
+"name": "Estanove",
+"type": "lateral",
+"doors": "right",
+"lat": 43.600661,
+"lon": 3.849261,
+"quays": [
+"45113",
+"45207"
+]
+},
+{
+"name": "Euromédecine",
+"type": "lateral",
+"doors": "right",
+"lat": 43.638959,
+"lon": 3.827615,
+"quays": [
+"41109",
+"41247"
+]
+},
+{
+"name": "Gambetta",
+"type": "lateral",
+"doors": "right",
+"lat": 43.605558,
+"lon": 3.873913,
+"quays": [
+"43123"
+]
+},
+{
+"name": "Gambetta - Chaptal",
+"type": "lateral",
+"doors": "right",
+"lat": 43.606279,
+"lon": 3.872612,
+"quays": [
+"43235"
+]
+},
+{
+"name": "Gambetta - Saint-Denis",
+"type": "lateral",
+"doors": "right",
+"lat": 43.604988,
+"lon": 3.874366,
+"quays": [
+"45212"
+]
+},
+{
+"name": "Garcia Lorca",
+"type": "multi",
+"doors": "both",
+"lat": 43.591005,
+"lon": 3.89073,
+"quays": [
+"44105",
+"44106",
+"44201",
+"44205"
+]
+},
+{
+"name": "Gare Saint-Roch",
+"type": "lateral",
+"doors": "right",
+"lat": 43.60577,
+"lon": 3.880081,
+"quays": [
+"41135",
+"41221"
+]
+},
+{
+"name": "Gare Saint-Roch - République",
+"type": "lateral",
+"doors": "right",
+"lat": 43.605228,
+"lon": 3.879643,
+"quays": [
+"43127",
+"43231"
+]
+},
+{
+"name": "Gare Sud de France",
+"type": "lateral",
+"doors": "right",
+"lat": 43.597043,
+"lon": 3.92202,
+"quays": [
+"41169",
+"41269"
+]
+},
+{
+"name": "Georges Frêche - Hôtel de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 43.599469,
+"lon": 3.894912,
+"quays": [
+"43141",
+"43217"
+]
+},
+{
+"name": "Georges Pompidou",
+"type": "lateral",
+"doors": "right",
+"lat": 43.649307,
+"lon": 3.920984,
+"quays": [
+"42167",
+"42203"
+]
+},
+{
+"name": "Grés de Montpellier",
+"type": "lateral",
+"doors": "right",
+"lat": 43.592916,
+"lon": 3.823417,
+"quays": [
+"45119",
+"45201"
+]
+},
+{
+"name": "Halles de la Paillade",
+"type": "lateral",
+"doors": "right",
+"lat": 43.627535,
+"lon": 3.817463,
+"quays": [
+"41103",
+"41253"
+]
+},
+{
+"name": "Hauts de Massane",
+"type": "lateral",
+"doors": "right",
+"lat": 43.636245,
+"lon": 3.822637,
+"quays": [
+"41107",
+"41249"
+]
+},
+{
+"name": "Hôpital Lapeyronie",
+"type": "lateral",
+"doors": "right",
+"lat": 43.631661,
+"lon": 3.852487,
+"quays": [
+"41117",
+"41239"
+]
+},
+{
+"name": "Hôtel du Département",
+"type": "lateral",
+"doors": "right",
+"lat": 43.621951,
+"lon": 3.834951,
+"quays": [
+"43109",
+"43249"
+]
+},
+{
+"name": "Jacou",
+"type": "central",
+"doors": "left",
+"lat": 43.654501,
+"lon": 3.912743,
+"quays": [
+"42169"
+]
+},
+{
+"name": "Jeu de Mail des Abbés",
+"type": "lateral",
+"doors": "right",
+"lat": 43.620392,
+"lon": 3.884008,
+"quays": [
+"42145",
+"42225"
+]
+},
+{
+"name": "Jules Guesde",
+"type": "lateral",
+"doors": "right",
+"lat": 43.611383,
+"lon": 3.846678,
+"quays": [
+"43115",
+"43243"
+]
+},
+{
+"name": "Juvignac",
+"type": "central",
+"doors": "left",
+"lat": 43.617451,
+"lon": 3.809992,
+"quays": [
+"43101"
+]
+},
+{
+"name": "La Condamine",
+"type": "lateral",
+"doors": "right",
+"lat": 43.57199,
+"lon": 3.844342,
+"quays": [
+"42105",
+"42265"
+]
+},
+{
+"name": "La Galine",
+"type": "lateral",
+"doors": "right",
+"lat": 43.631421,
+"lon": 3.908928,
+"quays": [
+"42155",
+"42215"
+]
+},
+{
+"name": "La Rauze",
+"type": "lateral",
+"doors": "right",
+"lat": 43.593553,
+"lon": 3.89586,
+"quays": [
+"43139",
+"43219"
+]
+},
+{
+"name": "Lattes Centre",
+"type": "central",
+"doors": "left",
+"lat": 43.570669,
+"lon": 3.905044,
+"quays": [
+"43259"
+]
+},
+{
+"name": "Lemasson",
+"type": "lateral",
+"doors": "right",
+"lat": 43.593634,
+"lon": 3.872993,
+"quays": [
+"42119",
+"42251"
+]
+},
+{
+"name": "Les Arceaux",
+"type": "offset",
+"doors": "right",
+"lat": 43.609998,
+"lon": 3.861517,
+"quays": [
+"43119",
+"43239"
+]
+},
+{
+"name": "Les Aubes",
+"type": "lateral",
+"doors": "right",
+"lat": 43.613945,
+"lon": 3.888127,
+"quays": [
+"42139",
+"42231"
+]
+},
+{
+"name": "Louis Blanc - Agora de la Danse",
+"type": "lateral",
+"doors": "right",
+"lat": 43.614728,
+"lon": 3.87803,
+"quays": [
+"41129",
+"41227"
+]
+},
+{
+"name": "Léon Blum",
+"type": "lateral",
+"doors": "right",
+"lat": 43.608891,
+"lon": 3.890049,
+"quays": [
+"41141",
+"41215"
+]
+},
+{
+"name": "Malbosc - Domaine d'Ô",
+"type": "lateral",
+"doors": "right",
+"lat": 43.634608,
+"lon": 3.833108,
+"quays": [
+"41111",
+"41245"
+]
+},
+{
+"name": "Mas Drevon",
+"type": "lateral",
+"doors": "right",
+"lat": 43.595461,
+"lon": 3.867799,
+"quays": [
+"42117",
+"42253"
+]
+},
+{
+"name": "Millénaire",
+"type": "lateral",
+"doors": "right",
+"lat": 43.603339,
+"lon": 3.909873,
+"quays": [
+"41153",
+"41203"
+]
+},
+{
+"name": "Mondial 98",
+"type": "lateral",
+"doors": "right",
+"lat": 43.60274,
+"lon": 3.903971,
+"quays": [
+"41151",
+"41205"
+]
+},
+{
+"name": "Montferrier-sur-Lez",
+"type": "lateral",
+"doors": "right",
+"lat": 43.651345,
+"lon": 3.867242,
+"quays": [
+"45102",
+"45219"
+]
+},
+{
+"name": "Mosson",
+"type": "multi",
+"doors": "both",
+"lat": 43.616256,
+"lon": 3.819721,
+"quays": [
+"41101",
+"43103",
+"43255"
+]
+},
+{
+"name": "Moularès (Hôtel de Ville)",
+"type": "lateral",
+"doors": "right",
+"lat": 43.600606,
+"lon": 3.895436,
+"quays": [
+"41147",
+"41209"
+]
+},
+{
+"name": "Notre-Dame de Sablassou",
+"type": "lateral",
+"doors": "right",
+"lat": 43.634206,
+"lon": 3.922178,
+"quays": [
+"42159",
+"42211"
+]
+},
+{
+"name": "Nouveau Saint-Roch",
+"type": "lateral",
+"doors": "right",
+"lat": 43.599334,
+"lon": 3.875601,
+"quays": [
+"42123",
+"42247"
+]
+},
+{
+"name": "Observatoire",
+"type": "lateral",
+"doors": "right",
+"lat": 43.606371,
+"lon": 3.876716,
+"quays": [
+"43125",
+"43233"
+]
+},
+{
+"name": "Occitanie Hôpitaux - Facultés",
+"type": "lateral",
+"doors": "right",
+"lat": 43.634607,
+"lon": 3.848385,
+"quays": [
+"41115",
+"41241"
+]
+},
+{
+"name": "Odysseum",
+"type": "lateral",
+"doors": "right",
+"lat": 43.603793,
+"lon": 3.920273,
+"quays": [
+"41155",
+"41201"
+]
+},
+{
+"name": "Ovalie",
+"type": "lateral",
+"doors": "right",
+"lat": 43.591387,
+"lon": 3.847563,
+"quays": [
+"45115",
+"45205"
+]
+},
+{
+"name": "Pablo Picasso",
+"type": "lateral",
+"doors": "right",
+"lat": 43.59778,
+"lon": 3.903561,
+"quays": [
+"43145",
+"43213"
+]
+},
+{
+"name": "Parc Bagatelle",
+"type": "lateral",
+"doors": "right",
+"lat": 43.593619,
+"lon": 3.842141,
+"quays": [
+"45116",
+"45204"
+]
+},
+{
+"name": "Parc Clemenceau",
+"type": "offset",
+"doors": "right",
+"lat": 43.603103,
+"lon": 3.871642,
+"quays": [
+"45109",
+"45211"
+]
+},
+{
+"name": "Parc Expo",
+"type": "lateral",
+"doors": "right",
+"lat": 43.572867,
+"lon": 3.945688,
+"quays": [
+"43153",
+"43205"
+]
+},
+{
+"name": "Parc Font-Colombe",
+"type": "lateral",
+"doors": "right",
+"lat": 43.595397,
+"lon": 3.837021,
+"quays": [
+"45117",
+"45203"
+]
+},
+{
+"name": "Parc des Bouisses",
+"type": "lateral",
+"doors": "right",
+"lat": 43.593009,
+"lon": 3.829404,
+"quays": [
+"45118",
+"45202"
+]
+},
+{
+"name": "Pergola",
+"type": "offset",
+"doors": "right",
+"lat": 43.618215,
+"lon": 3.839061,
+"quays": [
+"43111",
+"43247"
+]
+},
+{
+"name": "Peyrou - Arc de Triomphe",
+"type": "lateral",
+"doors": "right",
+"lat": 43.611626,
+"lon": 3.872276,
+"quays": [
+"44103",
+"44203"
+]
+},
+{
+"name": "Pilory",
+"type": "lateral",
+"doors": "right",
+"lat": 43.619563,
+"lon": 3.831967,
+"quays": [
+"43107",
+"43251"
+]
+},
+{
+"name": "Place Carnot",
+"type": "lateral",
+"doors": "right",
+"lat": 43.603698,
+"lon": 3.884236,
+"quays": [
+"42129",
+"42241"
+]
+},
+{
+"name": "Place de France",
+"type": "lateral",
+"doors": "right",
+"lat": 43.603714,
+"lon": 3.915639,
+"quays": [
+"41161",
+"41261"
+]
+},
+{
+"name": "Place de l'Europe",
+"type": "lateral",
+"doors": "right",
+"lat": 43.607355,
+"lon": 3.893859,
+"quays": [
+"41143",
+"41213"
+]
+},
+{
+"name": "Place du 8 Mai 1945",
+"type": "lateral",
+"doors": "right",
+"lat": 43.601257,
+"lon": 3.86796,
+"quays": [
+"45110",
+"45210"
+]
+},
+{
+"name": "Plan Cabanes",
+"type": "lateral",
+"doors": "right",
+"lat": 43.608546,
+"lon": 3.868059,
+"quays": [
+"43121",
+"43237"
+]
+},
+{
+"name": "Plan des 4 Seigneurs",
+"type": "lateral",
+"doors": "right",
+"lat": 43.644168,
+"lon": 3.861061,
+"quays": [
+"45104",
+"45217"
+]
+},
+{
+"name": "Pompignane",
+"type": "lateral",
+"doors": "right",
+"lat": 43.612585,
+"lon": 3.894821,
+"quays": [
+"42137",
+"42233"
+]
+},
+{
+"name": "Port Marianne",
+"type": "offset",
+"doors": "right",
+"lat": 43.601649,
+"lon": 3.899759,
+"quays": [
+"41149",
+"41207"
+]
+},
+{
+"name": "Pérols Centre",
+"type": "lateral",
+"doors": "right",
+"lat": 43.565405,
+"lon": 3.957333,
+"quays": [
+"43155",
+"43203"
+]
+},
+{
+"name": "Pérols Étang de l'Or",
+"type": "central",
+"doors": "left",
+"lat": 43.557865,
+"lon": 3.963608,
+"quays": [
+"43201"
+]
+},
+{
+"name": "Pôle Chimie Balard",
+"type": "lateral",
+"doors": "right",
+"lat": 43.633964,
+"lon": 3.86789,
+"quays": [
+"45106",
+"45215"
+]
+},
+{
+"name": "Restanque",
+"type": "lateral",
+"doors": "right",
+"lat": 43.590377,
+"lon": 3.885067,
+"quays": [
+"43135",
+"43223"
+]
+},
+{
+"name": "Rives du Lez",
+"type": "lateral",
+"doors": "right",
+"lat": 43.604231,
+"lon": 3.894793,
+"quays": [
+"41145",
+"41211"
+]
+},
+{
+"name": "Rives du Lez - Consuls de Mer",
+"type": "lateral",
+"doors": "right",
+"lat": 43.604,
+"lon": 3.893891,
+"quays": [
+"42133",
+"42237"
+]
+},
+{
+"name": "Rondelet",
+"type": "lateral",
+"doors": "right",
+"lat": 43.60305,
+"lon": 3.875994,
+"quays": [
+"42125",
+"42245"
+]
+},
+{
+"name": "Sabines",
+"type": "lateral",
+"doors": "right",
+"lat": 43.583776,
+"lon": 3.860078,
+"quays": [
+"42111",
+"42259"
+]
+},
+{
+"name": "Saint-Cléophas",
+"type": "lateral",
+"doors": "right",
+"lat": 43.59488,
+"lon": 3.875874,
+"quays": [
+"42121",
+"42249"
+]
+},
+{
+"name": "Saint-Eloi - Docteur Pezet",
+"type": "lateral",
+"doors": "right",
+"lat": 43.626968,
+"lon": 3.866545,
+"quays": [
+"45108",
+"45213"
+]
+},
+{
+"name": "Saint-Guilhem - Courreau",
+"type": "lateral",
+"doors": "right",
+"lat": 43.607981,
+"lon": 3.873637,
+"quays": [
+"44104",
+"44204"
+]
+},
+{
+"name": "Saint-Jean de Védas Centre",
+"type": "central",
+"doors": "left",
+"lat": 43.574927,
+"lon": 3.830557,
+"quays": [
+"42101"
+]
+},
+{
+"name": "Saint-Jean le Sec",
+"type": "lateral",
+"doors": "right",
+"lat": 43.570829,
+"lon": 3.837809,
+"quays": [
+"42103",
+"42267"
+]
+},
+{
+"name": "Saint-Lazare",
+"type": "lateral",
+"doors": "right",
+"lat": 43.62674,
+"lon": 3.888578,
+"quays": [
+"42149",
+"42221"
+]
+},
+{
+"name": "Saint-Martin - Le Jam",
+"type": "lateral",
+"doors": "right",
+"lat": 43.592167,
+"lon": 3.880331,
+"quays": [
+"43133",
+"43225"
+]
+},
+{
+"name": "Saint-Paul",
+"type": "lateral",
+"doors": "right",
+"lat": 43.630637,
+"lon": 3.820996,
+"quays": [
+"41105",
+"41251"
+]
+},
+{
+"name": "Saint-Éloi",
+"type": "lateral",
+"doors": "right",
+"lat": 43.626996,
+"lon": 3.865592,
+"quays": [
+"41121",
+"41235"
+]
+},
+{
+"name": "Soriech",
+"type": "lateral",
+"doors": "right",
+"lat": 43.582638,
+"lon": 3.925676,
+"quays": [
+"43149",
+"43209"
+]
+},
+{
+"name": "Stade Philippidès",
+"type": "lateral",
+"doors": "right",
+"lat": 43.619007,
+"lon": 3.869408,
+"quays": [
+"41125",
+"41231"
+]
+},
+{
+"name": "Stade de la Mosson",
+"type": "lateral",
+"doors": "right",
+"lat": 43.621235,
+"lon": 3.817329,
+"quays": [
+"41163",
+"41263"
+]
+},
+{
+"name": "Tonnelles",
+"type": "lateral",
+"doors": "right",
+"lat": 43.613503,
+"lon": 3.839594,
+"quays": [
+"43113",
+"43245"
+]
+},
+{
+"name": "Université Montpellier - Triolet",
+"type": "lateral",
+"doors": "right",
+"lat": 43.629132,
+"lon": 3.8615,
+"quays": [
+"41119",
+"41237"
+]
+},
+{
+"name": "Université Paul Valéry",
+"type": "lateral",
+"doors": "right",
+"lat": 43.629956,
+"lon": 3.869543,
+"quays": [
+"45107",
+"45214"
+]
+},
+{
+"name": "Via Domitia",
+"type": "lateral",
+"doors": "right",
+"lat": 43.646713,
+"lon": 3.929419,
+"quays": [
+"42165",
+"42205"
+]
+},
+{
+"name": "Victoire 2",
+"type": "lateral",
+"doors": "right",
+"lat": 43.575153,
+"lon": 3.849786,
+"quays": [
+"42107",
+"42263"
+]
+},
+{
+"name": "Villeneuve d'Angoulême",
+"type": "lateral",
+"doors": "right",
+"lat": 43.588756,
+"lon": 3.86559,
+"quays": [
+"42113",
+"42257"
+]
+},
+{
+"name": "Voltaire",
+"type": "lateral",
+"doors": "right",
+"lat": 43.60372,
+"lon": 3.889048,
+"quays": [
+"42131",
+"42239"
+]
+},
+{
+"name": "Yves du Manoir",
+"type": "lateral",
+"doors": "right",
+"lat": 43.595043,
+"lon": 3.849822,
+"quays": [
+"45114",
+"45206"
+]
+}
+]
+}

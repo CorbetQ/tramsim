@@ -1,0 +1,929 @@
+{
+"schema": 1,
+"city": "grenoble",
+"platform_m": 46.7,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 39.9,
+"stations": [
+{
+"name": "Fontaine, Charles Michels",
+"type": "lateral",
+"doors": "right",
+"lat": 45.193919,
+"lon": 5.680021,
+"quays": [
+"2040",
+"2041"
+]
+},
+{
+"name": "Fontaine, Fontaine Hôtel de Ville – La Source",
+"type": "lateral",
+"doors": "right",
+"lat": 45.191342,
+"lon": 5.687313,
+"quays": [
+"2038",
+"2039"
+]
+},
+{
+"name": "Fontaine, La Poya",
+"type": "multi",
+"doors": "both",
+"lat": 45.197246,
+"lon": 5.672146,
+"quays": [
+"2109",
+"2215"
+]
+},
+{
+"name": "Fontaine, Les Fontainades – Le Vog",
+"type": "lateral",
+"doors": "right",
+"lat": 45.18911,
+"lon": 5.698135,
+"quays": [
+"2034",
+"2035"
+]
+},
+{
+"name": "Fontaine, Louis Maisonnat",
+"type": "lateral",
+"doors": "right",
+"lat": 45.189219,
+"lon": 5.693946,
+"quays": [
+"2036",
+"2037"
+]
+},
+{
+"name": "Fontanil-Cornillon, Palluel",
+"type": "lateral",
+"doors": "right",
+"lat": 45.255031,
+"lon": 5.661591,
+"quays": [
+"3235",
+"3236"
+]
+},
+{
+"name": "Fontanil-Cornillon, Rafour",
+"type": "lateral",
+"doors": "right",
+"lat": 45.248391,
+"lon": 5.666504,
+"quays": [
+"3233",
+"3234"
+]
+},
+{
+"name": "Gières, Gières Gare – Université",
+"type": "lateral",
+"doors": "right",
+"lat": 45.185399,
+"lon": 5.785394,
+"quays": [
+"3062",
+"3063"
+]
+},
+{
+"name": "Gières, Plaine des Sports",
+"type": "central",
+"doors": "left",
+"lat": 45.187641,
+"lon": 5.784578,
+"quays": [
+"3059"
+]
+},
+{
+"name": "Gières, Université – Bibliothèques",
+"type": "lateral",
+"doors": "right",
+"lat": 45.192692,
+"lon": 5.77094,
+"quays": [
+"2059",
+"3068"
+]
+},
+{
+"name": "Grenoble, Albert 1er de Belgique",
+"type": "lateral",
+"doors": "right",
+"lat": 45.181742,
+"lon": 5.731754,
+"quays": [
+"2014",
+"2015"
+]
+},
+{
+"name": "Grenoble, Alliés",
+"type": "lateral",
+"doors": "right",
+"lat": 45.174144,
+"lon": 5.714385,
+"quays": [
+"3203",
+"3204"
+]
+},
+{
+"name": "Grenoble, Alsace-Lorraine",
+"type": "multi",
+"doors": "both",
+"lat": 45.189436,
+"lon": 5.720152,
+"quays": [
+"2026",
+"2027",
+"3209",
+"3210"
+]
+},
+{
+"name": "Grenoble, Annie Fratellini – Esplanade",
+"type": "lateral",
+"doors": "right",
+"lat": 45.195811,
+"lon": 5.716813,
+"quays": [
+"3211",
+"3212"
+]
+},
+{
+"name": "Grenoble, Arlequin",
+"type": "lateral",
+"doors": "right",
+"lat": 45.163621,
+"lon": 5.730532,
+"quays": [
+"2004",
+"2005"
+]
+},
+{
+"name": "Grenoble, Berriat – Le Magasin",
+"type": "lateral",
+"doors": "right",
+"lat": 45.18881,
+"lon": 5.706566,
+"quays": [
+"2032",
+"2033"
+]
+},
+{
+"name": "Grenoble, Casamaures – Village",
+"type": "lateral",
+"doors": "right",
+"lat": 45.198977,
+"lon": 5.716977,
+"quays": [
+"3213",
+"3214"
+]
+},
+{
+"name": "Grenoble, Chavant",
+"type": "multi",
+"doors": "both",
+"lat": 45.184672,
+"lon": 5.731757,
+"quays": [
+"2254",
+"2255",
+"2272",
+"2273"
+]
+},
+{
+"name": "Grenoble, Cité Internationale",
+"type": "lateral",
+"doors": "right",
+"lat": 45.195043,
+"lon": 5.711222,
+"quays": [
+"2219",
+"2220"
+]
+},
+{
+"name": "Grenoble, Estacade – Condorcet",
+"type": "lateral",
+"doors": "right",
+"lat": 45.185035,
+"lon": 5.71805,
+"quays": [
+"3207",
+"3208"
+]
+},
+{
+"name": "Grenoble, Flandrin – Valmy",
+"type": "lateral",
+"doors": "right",
+"lat": 45.186916,
+"lon": 5.744289,
+"quays": [
+"2243",
+"2244"
+]
+},
+{
+"name": "Grenoble, Foch – Ferrié",
+"type": "lateral",
+"doors": "right",
+"lat": 45.180803,
+"lon": 5.722358,
+"quays": [
+"2237",
+"2238"
+]
+},
+{
+"name": "Grenoble, Gares",
+"type": "lateral",
+"doors": "right",
+"lat": 45.189954,
+"lon": 5.715152,
+"quays": [
+"2214",
+"2216"
+]
+},
+{
+"name": "Grenoble, Grand'place",
+"type": "multi",
+"doors": "both",
+"lat": 45.15908,
+"lon": 5.731945,
+"quays": [
+"2212",
+"2218"
+]
+},
+{
+"name": "Grenoble, Grenoble Hôtel de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 45.187358,
+"lon": 5.737459,
+"quays": [
+"2241",
+"2242"
+]
+},
+{
+"name": "Grenoble, Gustave Rivet",
+"type": "lateral",
+"doors": "right",
+"lat": 45.182273,
+"lon": 5.727927,
+"quays": [
+"2239",
+"2240"
+]
+},
+{
+"name": "Grenoble, Hubert Dubedout – Maison du Tourisme",
+"type": "lateral",
+"doors": "right",
+"lat": 45.190199,
+"lon": 5.728025,
+"quays": [
+"2020",
+"2021"
+]
+},
+{
+"name": "Grenoble, Hôpital Couple Enfant",
+"type": "lateral",
+"doors": "right",
+"lat": 45.200466,
+"lon": 5.740999,
+"quays": [
+"2049",
+"2050"
+]
+},
+{
+"name": "Grenoble, Ile Verte",
+"type": "lateral",
+"doors": "right",
+"lat": 45.197175,
+"lon": 5.73662,
+"quays": [
+"2047",
+"2048"
+]
+},
+{
+"name": "Grenoble, La Bruyère – Parc Jean Verlhac",
+"type": "lateral",
+"doors": "right",
+"lat": 45.166372,
+"lon": 5.731335,
+"quays": [
+"2006",
+"2007"
+]
+},
+{
+"name": "Grenoble, Louise Michel",
+"type": "lateral",
+"doors": "right",
+"lat": 45.169593,
+"lon": 5.712841,
+"quays": [
+"3201",
+"3202"
+]
+},
+{
+"name": "Grenoble, MC2: Maison de la Culture",
+"type": "lateral",
+"doors": "right",
+"lat": 45.173632,
+"lon": 5.73202,
+"quays": [
+"2010",
+"2011"
+]
+},
+{
+"name": "Grenoble, Malherbe",
+"type": "lateral",
+"doors": "right",
+"lat": 45.169622,
+"lon": 5.73224,
+"quays": [
+"2008",
+"2009"
+]
+},
+{
+"name": "Grenoble, Marie-Louise Paris – CEA",
+"type": "offset",
+"doors": "right",
+"lat": 45.202913,
+"lon": 5.703562,
+"quays": [
+"4019",
+"4020"
+]
+},
+{
+"name": "Grenoble, Mounier",
+"type": "lateral",
+"doors": "right",
+"lat": 45.179072,
+"lon": 5.73183,
+"quays": [
+"2012",
+"2013"
+]
+},
+{
+"name": "Grenoble, Notre-Dame – Musée",
+"type": "lateral",
+"doors": "right",
+"lat": 45.193504,
+"lon": 5.732056,
+"quays": [
+"2045",
+"2046"
+]
+},
+{
+"name": "Grenoble, Oxford",
+"type": "multi",
+"doors": "both",
+"lat": 45.206087,
+"lon": 5.699427,
+"quays": [
+"4021",
+"4022"
+]
+},
+{
+"name": "Grenoble, Palais de Justice – Gare",
+"type": "lateral",
+"doors": "right",
+"lat": 45.191338,
+"lon": 5.711523,
+"quays": [
+"2076",
+"2077"
+]
+},
+{
+"name": "Grenoble, Polesud – Alpexpo",
+"type": "lateral",
+"doors": "right",
+"lat": 45.157181,
+"lon": 5.732914,
+"quays": [
+"2060",
+"2061"
+]
+},
+{
+"name": "Grenoble, Saint-Bruno",
+"type": "lateral",
+"doors": "right",
+"lat": 45.188389,
+"lon": 5.713605,
+"quays": [
+"2030",
+"2031"
+]
+},
+{
+"name": "Grenoble, Sainte-Claire – Les Halles",
+"type": "lateral",
+"doors": "right",
+"lat": 45.191237,
+"lon": 5.73057,
+"quays": [
+"2043",
+"2044"
+]
+},
+{
+"name": "Grenoble, Vallier – Catane",
+"type": "lateral",
+"doors": "right",
+"lat": 45.18008,
+"lon": 5.705936,
+"quays": [
+"2231",
+"2232"
+]
+},
+{
+"name": "Grenoble, Vallier – Docteur Calmette",
+"type": "lateral",
+"doors": "right",
+"lat": 45.18015,
+"lon": 5.710535,
+"quays": [
+"2233",
+"2234"
+]
+},
+{
+"name": "Grenoble, Vallier – Libération",
+"type": "multi",
+"doors": "both",
+"lat": 45.180309,
+"lon": 5.715386,
+"quays": [
+"2235",
+"2236",
+"3205",
+"3206"
+]
+},
+{
+"name": "Grenoble, Verdun – Préfecture",
+"type": "lateral",
+"doors": "right",
+"lat": 45.188374,
+"lon": 5.731432,
+"quays": [
+"2018",
+"2019"
+]
+},
+{
+"name": "Grenoble, Victor Hugo",
+"type": "lateral",
+"doors": "right",
+"lat": 45.189774,
+"lon": 5.724927,
+"quays": [
+"2213",
+"2217"
+]
+},
+{
+"name": "La Tronche, Grand Sablon",
+"type": "lateral",
+"doors": "right",
+"lat": 45.199126,
+"lon": 5.749585,
+"quays": [
+"2053",
+"2054"
+]
+},
+{
+"name": "La Tronche, Hôpital Couple Enfant",
+"type": "lateral",
+"doors": "right",
+"lat": 45.20075,
+"lon": 5.741418,
+"quays": [
+"2049",
+"2050"
+]
+},
+{
+"name": "La Tronche, Hôpital Michallon – Grésivaudan",
+"type": "lateral",
+"doors": "right",
+"lat": 45.200294,
+"lon": 5.745268,
+"quays": [
+"2051",
+"2052"
+]
+},
+{
+"name": "Le Pont-de-Claix, Edmée Chandon",
+"type": "lateral",
+"doors": "right",
+"lat": 45.136694,
+"lon": 5.708273,
+"quays": [
+"4381",
+"4382"
+]
+},
+{
+"name": "Le Pont-de-Claix, L'Étoile",
+"type": "central",
+"doors": "left",
+"lat": 45.137823,
+"lon": 5.703665,
+"quays": [
+"3393"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Gabriel Fauré – MUSE",
+"type": "offset",
+"doors": "right",
+"lat": 45.192291,
+"lon": 5.764127,
+"quays": [
+"2057",
+"2058"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Maison Communale",
+"type": "lateral",
+"doors": "right",
+"lat": 45.18459,
+"lon": 5.754379,
+"quays": [
+"3092",
+"3093"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Mayencin – Champ Roman",
+"type": "lateral",
+"doors": "right",
+"lat": 45.184833,
+"lon": 5.779022,
+"quays": [
+"3064",
+"3065"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Neyrpic – Belledonne",
+"type": "multi",
+"doors": "both",
+"lat": 45.186883,
+"lon": 5.756349,
+"quays": [
+"2245",
+"2246"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Parc Jo Blanchon",
+"type": "lateral",
+"doors": "right",
+"lat": 45.175308,
+"lon": 5.757227,
+"quays": [
+"3096",
+"3097"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Péri – Brossolette",
+"type": "lateral",
+"doors": "right",
+"lat": 45.187757,
+"lon": 5.751134,
+"quays": [
+"2247",
+"2248"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Université – Bibliothèques",
+"type": "lateral",
+"doors": "right",
+"lat": 45.191978,
+"lon": 5.77093,
+"quays": [
+"2059",
+"3068"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Université – Condillac",
+"type": "offset",
+"doors": "right",
+"lat": 45.189328,
+"lon": 5.774101,
+"quays": [
+"3066",
+"3067",
+"3102"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Université – Les Taillées",
+"type": "lateral",
+"doors": "right",
+"lat": 45.19237,
+"lon": 5.757722,
+"quays": [
+"2055",
+"2056",
+"2249",
+"3200"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Édouard Vaillant",
+"type": "lateral",
+"doors": "right",
+"lat": 45.179551,
+"lon": 5.75516,
+"quays": [
+"3094",
+"3095"
+]
+},
+{
+"name": "Saint-Martin-d'Hères, Étienne Grappe",
+"type": "central",
+"doors": "left",
+"lat": 45.17211,
+"lon": 5.757769,
+"quays": [
+"3107"
+]
+},
+{
+"name": "Saint-Martin-le-Vinoux, Horloge",
+"type": "lateral",
+"doors": "right",
+"lat": 45.213991,
+"lon": 5.698172,
+"quays": [
+"3217",
+"3218"
+]
+},
+{
+"name": "Saint-Martin-le-Vinoux, Néron",
+"type": "lateral",
+"doors": "right",
+"lat": 45.217811,
+"lon": 5.693517,
+"quays": [
+"3219",
+"3220"
+]
+},
+{
+"name": "Saint-Martin-le-Vinoux, Saint-Martin-le-Vinoux Hôtel de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 45.207922,
+"lon": 5.706668,
+"quays": [
+"3215",
+"3216"
+]
+},
+{
+"name": "Saint-Égrève, Fiancey – Prédieu",
+"type": "lateral",
+"doors": "right",
+"lat": 45.223058,
+"lon": 5.688961,
+"quays": [
+"3221",
+"3222"
+]
+},
+{
+"name": "Saint-Égrève, Karben",
+"type": "lateral",
+"doors": "right",
+"lat": 45.242429,
+"lon": 5.671099,
+"quays": [
+"3231",
+"3232"
+]
+},
+{
+"name": "Saint-Égrève, La Pinéa – Saint-Robert",
+"type": "lateral",
+"doors": "right",
+"lat": 45.235592,
+"lon": 5.675827,
+"quays": [
+"3227",
+"3228"
+]
+},
+{
+"name": "Saint-Égrève, Muret",
+"type": "lateral",
+"doors": "right",
+"lat": 45.225828,
+"lon": 5.68653,
+"quays": [
+"3223",
+"3224"
+]
+},
+{
+"name": "Saint-Égrève, Pont de Vence",
+"type": "lateral",
+"doors": "right",
+"lat": 45.230045,
+"lon": 5.682446,
+"quays": [
+"3225",
+"3226"
+]
+},
+{
+"name": "Seyssinet-Pariset, Fauconnière",
+"type": "lateral",
+"doors": "right",
+"lat": 45.176317,
+"lon": 5.69422,
+"quays": [
+"2227",
+"2228"
+]
+},
+{
+"name": "Seyssinet-Pariset, Grand Pré",
+"type": "lateral",
+"doors": "right",
+"lat": 45.171959,
+"lon": 5.694178,
+"quays": [
+"2225",
+"2226"
+]
+},
+{
+"name": "Seyssinet-Pariset, Seyssinet-Pariset Hôtel de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 45.180269,
+"lon": 5.696026,
+"quays": [
+"2229",
+"2230"
+]
+},
+{
+"name": "Seyssins, Le Prisme",
+"type": "multi",
+"doors": "both",
+"lat": 45.166191,
+"lon": 5.690503,
+"quays": [
+"2221",
+"2222"
+]
+},
+{
+"name": "Seyssins, Mas des Îles",
+"type": "lateral",
+"doors": "right",
+"lat": 45.167458,
+"lon": 5.69424,
+"quays": [
+"2223",
+"2224"
+]
+},
+{
+"name": "Échirolles, Auguste Delaune",
+"type": "lateral",
+"doors": "right",
+"lat": 45.142513,
+"lon": 5.715432,
+"quays": [
+"2072",
+"2073"
+]
+},
+{
+"name": "Échirolles, Denis Papin",
+"type": "lateral",
+"doors": "right",
+"lat": 45.138742,
+"lon": 5.713325,
+"quays": [
+"2074",
+"2075"
+]
+},
+{
+"name": "Échirolles, Echirolles Gare",
+"type": "lateral",
+"doors": "right",
+"lat": 45.153162,
+"lon": 5.718495,
+"quays": [
+"2207",
+"2208"
+]
+},
+{
+"name": "Échirolles, Essarts – La Butte",
+"type": "lateral",
+"doors": "right",
+"lat": 45.156062,
+"lon": 5.719255,
+"quays": [
+"2066",
+"2067"
+]
+},
+{
+"name": "Échirolles, La Rampe – Centre-Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 45.148883,
+"lon": 5.718022,
+"quays": [
+"2068",
+"2069"
+]
+},
+{
+"name": "Échirolles, Les Granges",
+"type": "lateral",
+"doors": "right",
+"lat": 45.15693,
+"lon": 5.728025,
+"quays": [
+"2062",
+"2063"
+]
+},
+{
+"name": "Échirolles, Marie Curie",
+"type": "lateral",
+"doors": "right",
+"lat": 45.145782,
+"lon": 5.717158,
+"quays": [
+"2070",
+"2071"
+]
+},
+{
+"name": "Échirolles, Surieux",
+"type": "lateral",
+"doors": "right",
+"lat": 45.158262,
+"lon": 5.72222,
+"quays": [
+"2064",
+"2065"
+]
+}
+]
+}

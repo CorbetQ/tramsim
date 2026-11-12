@@ -1,0 +1,1044 @@
+{
+"schema": 1,
+"city": "strasbourg",
+"platform_m": 48.0,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": true,
+"gtfs_head_bias_m": 34.5,
+"stations": [
+{
+"name": "Alt Winmärik-Vieux Marché aux Vins",
+"type": "lateral",
+"doors": "right",
+"lat": 48.583459,
+"lon": 7.740361,
+"quays": [
+"ALWIN_01",
+"ALWIN_02"
+]
+},
+{
+"name": "Ancienne Synagogue / Les Halles",
+"type": "lateral",
+"doors": "right",
+"lat": 48.585319,
+"lon": 7.742364,
+"quays": [
+"ANSYN_01",
+"ANSYN_02"
+]
+},
+{
+"name": "Aristide Briand",
+"type": "lateral",
+"doors": "right",
+"lat": 48.568622,
+"lon": 7.776891,
+"quays": [
+"ARBRI_05",
+"ARBRI_06"
+]
+},
+{
+"name": "Baggersee",
+"type": "lateral",
+"doors": "right",
+"lat": 48.544869,
+"lon": 7.737789,
+"quays": [
+"BAGGE_03",
+"BAGGE_04"
+]
+},
+{
+"name": "Boecklin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.598011,
+"lon": 7.777904,
+"quays": [
+"BOECK_01",
+"BOECK_02"
+]
+},
+{
+"name": "Bohrie",
+"type": "lateral",
+"doors": "right",
+"lat": 48.549924,
+"lon": 7.702949,
+"quays": [
+"BORIE_01",
+"BORIE_02"
+]
+},
+{
+"name": "Bois Romain",
+"type": "lateral",
+"doors": "right",
+"lat": 48.587153,
+"lon": 7.681903,
+"quays": [
+"BOROM_01",
+"BOROM_02"
+]
+},
+{
+"name": "Broglie",
+"type": "lateral",
+"doors": "right",
+"lat": 48.584775,
+"lon": 7.749452,
+"quays": [
+"BROGL_01",
+"BROGL_02"
+]
+},
+{
+"name": "Campus d'Illkirch",
+"type": "lateral",
+"doors": "right",
+"lat": 48.529314,
+"lon": 7.73275,
+"quays": [
+"CAILL_03",
+"CAILL_04"
+]
+},
+{
+"name": "Cervantès",
+"type": "lateral",
+"doors": "right",
+"lat": 48.593108,
+"lon": 7.698534,
+"quays": [
+"CERVA_01",
+"CERVA_02"
+]
+},
+{
+"name": "Citadelle",
+"type": "lateral",
+"doors": "right",
+"lat": 48.571543,
+"lon": 7.780173,
+"quays": [
+"CITAD_01",
+"CITAD_02"
+]
+},
+{
+"name": "Colonne",
+"type": "lateral",
+"doors": "right",
+"lat": 48.53803,
+"lon": 7.733534,
+"quays": [
+"COLON_03",
+"COLON_04"
+]
+},
+{
+"name": "Comtes",
+"type": "central",
+"doors": "left",
+"lat": 48.579737,
+"lon": 7.716702,
+"quays": [
+"COMTE_01",
+"COMTE_07"
+]
+},
+{
+"name": "Cours de l'Illiade",
+"type": "lateral",
+"doors": "right",
+"lat": 48.527765,
+"lon": 7.710381,
+"quays": [
+"COILL_01",
+"COILL_02"
+]
+},
+{
+"name": "Dante",
+"type": "lateral",
+"doors": "right",
+"lat": 48.591375,
+"lon": 7.703002,
+"quays": [
+"DANTE_01",
+"DANTE_02"
+]
+},
+{
+"name": "Droits de l'Homme",
+"type": "lateral",
+"doors": "right",
+"lat": 48.596314,
+"lon": 7.773869,
+"quays": [
+"DRHOM_03",
+"DRHOM_04"
+]
+},
+{
+"name": "Ducs d'Alsace",
+"type": "lateral",
+"doors": "right",
+"lat": 48.590187,
+"lon": 7.715402,
+"quays": [
+"DUALS_01",
+"DUALS_02"
+]
+},
+{
+"name": "Eckelse",
+"type": "lateral",
+"doors": "right",
+"lat": 48.585028,
+"lon": 7.686572,
+"quays": [
+"ECKEL_01",
+"ECKEL_02"
+]
+},
+{
+"name": "Elmerforst",
+"type": "lateral",
+"doors": "right",
+"lat": 48.563143,
+"lon": 7.711726,
+"quays": [
+"ELMER_03",
+"ELMER_04"
+]
+},
+{
+"name": "Elsau",
+"type": "lateral",
+"doors": "right",
+"lat": 48.567744,
+"lon": 7.726404,
+"quays": [
+"ELSAU_03",
+"ELSAU_04"
+]
+},
+{
+"name": "Emile Mathis",
+"type": "lateral",
+"doors": "right",
+"lat": 48.55307,
+"lon": 7.744164,
+"quays": [
+"EMMAT_03",
+"EMMAT_04"
+]
+},
+{
+"name": "Esplanade",
+"type": "lateral",
+"doors": "right",
+"lat": 48.578182,
+"lon": 7.769386,
+"quays": [
+"ESPLA_03",
+"ESPLA_04"
+]
+},
+{
+"name": "Etoile Bourse",
+"type": "lateral",
+"doors": "right",
+"lat": 48.574614,
+"lon": 7.753469,
+"quays": [
+"ETOIL_01",
+"ETOIL_02"
+]
+},
+{
+"name": "Etoile Polygone",
+"type": "lateral",
+"doors": "right",
+"lat": 48.571502,
+"lon": 7.755785,
+"quays": [
+"ETPOL_01",
+"ETPOL_02"
+]
+},
+{
+"name": "Faubourg National Gare Centrale",
+"type": "lateral",
+"doors": "right",
+"lat": 48.582408,
+"lon": 7.736774,
+"quays": [
+"FANAG_01",
+"FANAG_02"
+]
+},
+{
+"name": "Faubourg de Saverne Les Halles",
+"type": "lateral",
+"doors": "right",
+"lat": 48.585291,
+"lon": 7.740395,
+"quays": [
+"FASAV_04",
+"FASAV_05"
+]
+},
+{
+"name": "Futura Glacière",
+"type": "central",
+"doors": "left",
+"lat": 48.605113,
+"lon": 7.759509,
+"quays": [
+"FUGLA_01",
+"FUGLA_02"
+]
+},
+{
+"name": "Gallia",
+"type": "lateral",
+"doors": "right",
+"lat": 48.584274,
+"lon": 7.758563,
+"quays": [
+"GALLI_03",
+"GALLI_04"
+]
+},
+{
+"name": "Gare Centrale",
+"type": "central",
+"doors": "left",
+"lat": 48.584877,
+"lon": 7.7355,
+"quays": [
+"GACEN_09",
+"GACEN_10",
+"GACEN_11"
+]
+},
+{
+"name": "Graffenstaden",
+"type": "central",
+"doors": "left",
+"lat": 48.524873,
+"lon": 7.70804,
+"quays": [
+"ILGRA_01"
+]
+},
+{
+"name": "Gravière Stade de la Meinau",
+"type": "lateral",
+"doors": "right",
+"lat": 48.56129,
+"lon": 7.764233,
+"quays": [
+"GRAVI_01",
+"GRAVI_02"
+]
+},
+{
+"name": "Gruber",
+"type": "lateral",
+"doors": "right",
+"lat": 48.578975,
+"lon": 7.708212,
+"quays": [
+"GRUBE_03",
+"GRUBE_04"
+]
+},
+{
+"name": "Général de Gaulle",
+"type": "lateral",
+"doors": "right",
+"lat": 48.621613,
+"lon": 7.763832,
+"quays": [
+"GEGAU_01",
+"GEGAU_02"
+]
+},
+{
+"name": "Hochschule / Läger",
+"type": "lateral",
+"doors": "right",
+"lat": 48.575283,
+"lon": 7.815866,
+"quays": [
+"KEHOC_01",
+"KEHOC_02"
+]
+},
+{
+"name": "Hoenheim Gare",
+"type": "lateral",
+"doors": "right",
+"lat": 48.628069,
+"lon": 7.758595,
+"quays": [
+"HOGAR_05",
+"HOGAR_06"
+]
+},
+{
+"name": "Hohberg",
+"type": "lateral",
+"doors": "right",
+"lat": 48.581954,
+"lon": 7.704403,
+"quays": [
+"HOHBE_01",
+"HOHBE_02"
+]
+},
+{
+"name": "Hohwart",
+"type": "lateral",
+"doors": "right",
+"lat": 48.549187,
+"lon": 7.741513,
+"quays": [
+"HOHWA_01",
+"HOHWA_02"
+]
+},
+{
+"name": "Homme de Fer",
+"type": "multi",
+"doors": "both",
+"lat": 48.583982,
+"lon": 7.744582,
+"quays": [
+"HOFER_04",
+"HOFER_05",
+"HOFER_13",
+"HOFER_14"
+]
+},
+{
+"name": "Hôpital de Hautepierre",
+"type": "lateral",
+"doors": "right",
+"lat": 48.591515,
+"lon": 7.70709,
+"quays": [
+"HOHAU_01",
+"HOHAU_02"
+]
+},
+{
+"name": "Illkirch Lixenbuhl",
+"type": "lateral",
+"doors": "right",
+"lat": 48.529912,
+"lon": 7.724428,
+"quays": [
+"ILLIX_04",
+"ILLIX_05"
+]
+},
+{
+"name": "Jardiniers",
+"type": "lateral",
+"doors": "right",
+"lat": 48.599387,
+"lon": 7.782905,
+"quays": [
+"JARDI_03",
+"JARDI_04"
+]
+},
+{
+"name": "Jean Jaures",
+"type": "lateral",
+"doors": "right",
+"lat": 48.567133,
+"lon": 7.77247,
+"quays": [
+"JAURE_01",
+"JAURE_02"
+]
+},
+{
+"name": "Kehl Bahnhof",
+"type": "lateral",
+"doors": "right",
+"lat": 48.576027,
+"lon": 7.807699,
+"quays": [
+"KEBAH_03",
+"KEBAH_04"
+]
+},
+{
+"name": "Kehl Rathaus",
+"type": "central",
+"doors": "left",
+"lat": 48.572221,
+"lon": 7.813819,
+"quays": [
+"KERAT_01"
+]
+},
+{
+"name": "Kibitzenau",
+"type": "lateral",
+"doors": "right",
+"lat": 48.554971,
+"lon": 7.767153,
+"quays": [
+"KIBIT_01",
+"KIBIT_02"
+]
+},
+{
+"name": "Krimmeri Stade de la Meinau",
+"type": "lateral",
+"doors": "right",
+"lat": 48.563051,
+"lon": 7.752606,
+"quays": [
+"KRIMM_07",
+"KRIMM_08"
+]
+},
+{
+"name": "Laiterie",
+"type": "lateral",
+"doors": "right",
+"lat": 48.57602,
+"lon": 7.73163,
+"quays": [
+"LAITE_03",
+"LAITE_04"
+]
+},
+{
+"name": "Landsberg",
+"type": "offset",
+"doors": "right",
+"lat": 48.569318,
+"lon": 7.764143,
+"quays": [
+"LANDS_05",
+"LANDS_06",
+"LANDS_07"
+]
+},
+{
+"name": "Langstross/Grand Rue",
+"type": "lateral",
+"doors": "right",
+"lat": 48.581316,
+"lon": 7.746292,
+"quays": [
+"LAGRR_01",
+"LAGRR_02"
+]
+},
+{
+"name": "Le Galet",
+"type": "central",
+"doors": "left",
+"lat": 48.596086,
+"lon": 7.698629,
+"quays": [
+"LEGAL_01",
+"LEGAL_02"
+]
+},
+{
+"name": "Le Marais",
+"type": "central",
+"doors": "left",
+"lat": 48.609895,
+"lon": 7.765739,
+"quays": [
+"LEMAR_03",
+"LEMAR_04"
+]
+},
+{
+"name": "Le Ried",
+"type": "lateral",
+"doors": "right",
+"lat": 48.621452,
+"lon": 7.767574,
+"quays": [
+"LERIE_01",
+"LERIE_02"
+]
+},
+{
+"name": "Leclerc",
+"type": "lateral",
+"doors": "right",
+"lat": 48.534296,
+"lon": 7.734401,
+"quays": [
+"LECLE_01",
+"LECLE_02"
+]
+},
+{
+"name": "Lingolsheim Alouettes",
+"type": "lateral",
+"doors": "right",
+"lat": 48.551221,
+"lon": 7.692923,
+"quays": [
+"ALOUT_01",
+"ALOUT_02"
+]
+},
+{
+"name": "Lingolsheim Tiergaertel",
+"type": "central",
+"doors": "left",
+"lat": 48.553737,
+"lon": 7.689395,
+"quays": [
+"LITIE_01"
+]
+},
+{
+"name": "Lycée Couffignal",
+"type": "lateral",
+"doors": "right",
+"lat": 48.558712,
+"lon": 7.749043,
+"quays": [
+"LYCOU_03",
+"LYCOU_04"
+]
+},
+{
+"name": "Lycée Jean Monnet",
+"type": "lateral",
+"doors": "right",
+"lat": 48.564347,
+"lon": 7.769303,
+"quays": [
+"LYJMO_01",
+"LYJMO_02"
+]
+},
+{
+"name": "Lycée Kléber",
+"type": "lateral",
+"doors": "right",
+"lat": 48.594231,
+"lon": 7.757772,
+"quays": [
+"LYKLE_05",
+"LYKLE_06"
+]
+},
+{
+"name": "Lycée Marc Bloch",
+"type": "offset",
+"doors": "right",
+"lat": 48.616591,
+"lon": 7.767995,
+"quays": [
+"LYMAB_01",
+"LYMAB_02"
+]
+},
+{
+"name": "Marcel Rudloff",
+"type": "lateral",
+"doors": "right",
+"lat": 48.587562,
+"lon": 7.697732,
+"quays": [
+"MARUD_01",
+"MARUD_02"
+]
+},
+{
+"name": "Martin Schongauer",
+"type": "lateral",
+"doors": "right",
+"lat": 48.566331,
+"lon": 7.720186,
+"quays": [
+"MSCHO_01",
+"MSCHO_02"
+]
+},
+{
+"name": "Montagne Verte",
+"type": "central",
+"doors": "left",
+"lat": 48.574449,
+"lon": 7.727463,
+"quays": [
+"MOVER_03",
+"MOVER_04"
+]
+},
+{
+"name": "Musée d'Art Moderne",
+"type": "lateral",
+"doors": "right",
+"lat": 48.577986,
+"lon": 7.734154,
+"quays": [
+"MAARM_04",
+"MAARM_05"
+]
+},
+{
+"name": "Mélanie",
+"type": "lateral",
+"doors": "right",
+"lat": 48.603161,
+"lon": 7.784846,
+"quays": [
+"MELAN_01",
+"MELAN_02"
+]
+},
+{
+"name": "Neuhof Rodolphe Reuss",
+"type": "lateral",
+"doors": "right",
+"lat": 48.546116,
+"lon": 7.766812,
+"quays": [
+"ROREU_01",
+"ROREU_02"
+]
+},
+{
+"name": "Observatoire",
+"type": "central",
+"doors": "left",
+"lat": 48.581339,
+"lon": 7.768938,
+"quays": [
+"OBSER_05",
+"OBSER_06"
+]
+},
+{
+"name": "Octroi",
+"type": "lateral",
+"doors": "right",
+"lat": 48.580967,
+"lon": 7.696392,
+"quays": [
+"OCTRO_03",
+"OCTRO_05"
+]
+},
+{
+"name": "Ostwald Hôtel de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 48.550966,
+"lon": 7.710285,
+"quays": [
+"OSHVI_01",
+"OSHVI_02"
+]
+},
+{
+"name": "Parc Malraux",
+"type": "lateral",
+"doors": "right",
+"lat": 48.526938,
+"lon": 7.720358,
+"quays": [
+"PAMAL_01",
+"PAMAL_02"
+]
+},
+{
+"name": "Parc d'activités d'Eckbolsheim Zénith",
+"type": "lateral",
+"doors": "right",
+"lat": 48.588899,
+"lon": 7.677953,
+"quays": [
+"PAACE_01",
+"PAACE_02"
+]
+},
+{
+"name": "Parc des Romains",
+"type": "lateral",
+"doors": "right",
+"lat": 48.580728,
+"lon": 7.722809,
+"quays": [
+"PAROM_01",
+"PAROM_02"
+]
+},
+{
+"name": "Parc des Sports Zénith",
+"type": "lateral",
+"doors": "right",
+"lat": 48.598533,
+"lon": 7.694353,
+"quays": [
+"PASPO_01",
+"PASPO_02"
+]
+},
+{
+"name": "Parc du Contades",
+"type": "lateral",
+"doors": "right",
+"lat": 48.590412,
+"lon": 7.756066,
+"quays": [
+"PACON_01",
+"PACON_02"
+]
+},
+{
+"name": "Parlement Européen",
+"type": "lateral",
+"doors": "right",
+"lat": 48.599312,
+"lon": 7.766642,
+"quays": [
+"PARLE_01",
+"PARLE_02"
+]
+},
+{
+"name": "Paul Eluard",
+"type": "lateral",
+"doors": "right",
+"lat": 48.590221,
+"lon": 7.698114,
+"quays": [
+"PAELU_03",
+"PAELU_04"
+]
+},
+{
+"name": "Place d'Islande",
+"type": "central",
+"doors": "left",
+"lat": 48.58033,
+"lon": 7.776065,
+"quays": [
+"PLISL_01"
+]
+},
+{
+"name": "Pont Phario",
+"type": "central",
+"doors": "left",
+"lat": 48.612968,
+"lon": 7.767201,
+"quays": [
+"POPHA_03",
+"POPHA_04"
+]
+},
+{
+"name": "Port du Rhin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.572734,
+"lon": 7.795402,
+"quays": [
+"PRRHI_03",
+"PRRHI_04"
+]
+},
+{
+"name": "Porte Blanche",
+"type": "offset",
+"doors": "right",
+"lat": 48.579977,
+"lon": 7.731168,
+"quays": [
+"PTBLA_01",
+"PTBLA_02"
+]
+},
+{
+"name": "Porte de l'Hôpital",
+"type": "lateral",
+"doors": "right",
+"lat": 48.577993,
+"lon": 7.750374,
+"quays": [
+"PTHOP_03",
+"PTHOP_04"
+]
+},
+{
+"name": "Poteries",
+"type": "central",
+"doors": "left",
+"lat": 48.583609,
+"lon": 7.692365,
+"quays": [
+"POTER_01",
+"POTER_02",
+"POTER_05"
+]
+},
+{
+"name": "Rives de l'Aar",
+"type": "lateral",
+"doors": "right",
+"lat": 48.600891,
+"lon": 7.754593,
+"quays": [
+"RIAAR_03",
+"RIAAR_04"
+]
+},
+{
+"name": "Robertsau L'Escale",
+"type": "central",
+"doors": "left",
+"lat": 48.609097,
+"lon": 7.785133,
+"quays": [
+"ROESC_01"
+]
+},
+{
+"name": "Rotonde",
+"type": "lateral",
+"doors": "right",
+"lat": 48.591817,
+"lon": 7.725193,
+"quays": [
+"ROTON_05",
+"ROTON_06"
+]
+},
+{
+"name": "République",
+"type": "offset",
+"doors": "right",
+"lat": 48.586601,
+"lon": 7.754784,
+"quays": [
+"REPUB_05",
+"REPUB_06",
+"REPUB_07"
+]
+},
+{
+"name": "Saint Christophe",
+"type": "lateral",
+"doors": "right",
+"lat": 48.55099,
+"lon": 7.766242,
+"quays": [
+"STCHR_01",
+"STCHR_02"
+]
+},
+{
+"name": "Saint Florent",
+"type": "lateral",
+"doors": "right",
+"lat": 48.591617,
+"lon": 7.720463,
+"quays": [
+"STFLO_03",
+"STFLO_04"
+]
+},
+{
+"name": "Schluthfeld",
+"type": "lateral",
+"doors": "right",
+"lat": 48.568453,
+"lon": 7.751647,
+"quays": [
+"SCHLU_01",
+"SCHLU_02"
+]
+},
+{
+"name": "Starcoop",
+"type": "lateral",
+"doors": "right",
+"lat": 48.574124,
+"lon": 7.785925,
+"quays": [
+"STARC_01",
+"STARC_02"
+]
+},
+{
+"name": "Université",
+"type": "central",
+"doors": "left",
+"lat": 48.582651,
+"lon": 7.764115,
+"quays": [
+"UNIVE_01",
+"UNIVE_02"
+]
+},
+{
+"name": "Wacken",
+"type": "lateral",
+"doors": "right",
+"lat": 48.598666,
+"lon": 7.760703,
+"quays": [
+"WACKE_05",
+"WACKE_06"
+]
+},
+{
+"name": "Wihrel",
+"type": "lateral",
+"doors": "right",
+"lat": 48.554894,
+"lon": 7.712803,
+"quays": [
+"WIHRE_01",
+"WIHRE_02"
+]
+},
+{
+"name": "Winston Churchill",
+"type": "lateral",
+"doors": "right",
+"lat": 48.573582,
+"lon": 7.766612,
+"quays": [
+"WICHU_01",
+"WICHU_02"
+]
+},
+{
+"name": "Wolfisheim Henri Rendu",
+"type": "central",
+"doors": "left",
+"lat": 48.591307,
+"lon": 7.672803,
+"quays": [
+"WOHER_01"
+]
+}
+]
+}

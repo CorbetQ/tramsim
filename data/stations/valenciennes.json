@@ -1,0 +1,548 @@
+{
+"schema": 1,
+"city": "valenciennes",
+"platform_m": 35.4,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 29.7,
+"stations": [
+{
+"name": "ANDRE PARENT",
+"type": "lateral",
+"doors": "right",
+"lat": 50.369977,
+"lon": 3.513068,
+"quays": [
+"2934",
+"3934"
+]
+},
+{
+"name": "ANZIN HOTEL DE VILLE",
+"type": "offset",
+"doors": "right",
+"lat": 50.368584,
+"lon": 3.502296,
+"quays": [
+"0069",
+"1069"
+]
+},
+{
+"name": "BELLEVUE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.336254,
+"lon": 3.402764,
+"quays": [
+"4565",
+"5565"
+]
+},
+{
+"name": "BLEUSE BORNE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.384175,
+"lon": 3.523808,
+"quays": [
+"2113",
+"3113"
+]
+},
+{
+"name": "BOIS DES MONTAGNES",
+"type": "lateral",
+"doors": "right",
+"lat": 50.355941,
+"lon": 3.471951,
+"quays": [
+"2605",
+"3605"
+]
+},
+{
+"name": "BRUAY PLACE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.396185,
+"lon": 3.537772,
+"quays": [
+"11083",
+"12083"
+]
+},
+{
+"name": "BRUNEHAUT",
+"type": "offset",
+"doors": "right",
+"lat": 50.414855,
+"lon": 3.55855,
+"quays": [
+"4123",
+"5123"
+]
+},
+{
+"name": "CAMPUS MONT HOUY",
+"type": "lateral",
+"doors": "right",
+"lat": 50.328379,
+"lon": 3.514671,
+"quays": [
+"2518",
+"3518"
+]
+},
+{
+"name": "CARNOT",
+"type": "lateral",
+"doors": "right",
+"lat": 50.436866,
+"lon": 3.583672,
+"quays": [
+"2913",
+"3913"
+]
+},
+{
+"name": "CENTRE DES CONGRES",
+"type": "lateral",
+"doors": "right",
+"lat": 50.374871,
+"lon": 3.516815,
+"quays": [
+"2933",
+"3933"
+]
+},
+{
+"name": "CHEMIN VERT",
+"type": "lateral",
+"doors": "right",
+"lat": 50.330907,
+"lon": 3.513704,
+"quays": [
+"0040",
+"1040"
+]
+},
+{
+"name": "CLEMENCEAU",
+"type": "lateral",
+"doors": "right",
+"lat": 50.360735,
+"lon": 3.520509,
+"quays": [
+"2093",
+"3093"
+]
+},
+{
+"name": "CONDE HOTEL DE VILLE",
+"type": "offset",
+"doors": "right",
+"lat": 50.447771,
+"lon": 3.594665,
+"quays": [
+"2918",
+"3918"
+]
+},
+{
+"name": "CROIX D'ANZIN",
+"type": "lateral",
+"doors": "right",
+"lat": 50.367365,
+"lon": 3.508455,
+"quays": [
+"4043",
+"5043"
+]
+},
+{
+"name": "DUTEMPLE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.358198,
+"lon": 3.484495,
+"quays": [
+"3015",
+"4015"
+]
+},
+{
+"name": "ESCAUTPONT PLACE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.423811,
+"lon": 3.563174,
+"quays": [
+"2125",
+"3125"
+]
+},
+{
+"name": "ESPACE VILLARS",
+"type": "multi",
+"doors": "both",
+"lat": 50.326381,
+"lon": 3.392781,
+"quays": [
+"3241",
+"4241"
+]
+},
+{
+"name": "FRESNES MAIRIE",
+"type": "offset",
+"doors": "right",
+"lat": 50.432837,
+"lon": 3.579028,
+"quays": [
+"2919",
+"3919"
+]
+},
+{
+"name": "FRUITIER",
+"type": "lateral",
+"doors": "right",
+"lat": 50.401726,
+"lon": 3.545352,
+"quays": [
+"2120",
+"3120"
+]
+},
+{
+"name": "HAMEAU DE MACOU",
+"type": "lateral",
+"doors": "right",
+"lat": 50.460466,
+"lon": 3.593234,
+"quays": [
+"2916",
+"3916"
+]
+},
+{
+"name": "HOTEL DE VILLE",
+"type": "offset",
+"doors": "right",
+"lat": 50.357888,
+"lon": 3.522064,
+"quays": [
+"2248",
+"3248"
+]
+},
+{
+"name": "JAURES",
+"type": "lateral",
+"doors": "right",
+"lat": 50.331984,
+"lon": 3.392169,
+"quays": [
+"2581",
+"3581"
+]
+},
+{
+"name": "JEAN DULIEU",
+"type": "lateral",
+"doors": "right",
+"lat": 50.326759,
+"lon": 3.385437,
+"quays": [
+"2564",
+"3564"
+]
+},
+{
+"name": "JULES CHEVALIER",
+"type": "lateral",
+"doors": "right",
+"lat": 50.333937,
+"lon": 3.518437,
+"quays": [
+"4515",
+"5515"
+]
+},
+{
+"name": "LA BRIQUETTE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.339785,
+"lon": 3.520809,
+"quays": [
+"4464",
+"5464"
+]
+},
+{
+"name": "LA PLAINE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.360718,
+"lon": 3.488248,
+"quays": [
+"2629",
+"3629"
+]
+},
+{
+"name": "LE BOULON",
+"type": "central",
+"doors": "left",
+"lat": 50.457559,
+"lon": 3.575183,
+"quays": [
+"8911"
+]
+},
+{
+"name": "LE GALIBOT",
+"type": "lateral",
+"doors": "right",
+"lat": 50.352987,
+"lon": 3.452604,
+"quays": [
+"4582",
+"7582"
+]
+},
+{
+"name": "LES HAUTS CHAMPS",
+"type": "lateral",
+"doors": "right",
+"lat": 50.404944,
+"lon": 3.549659,
+"quays": [
+"2121",
+"3121"
+]
+},
+{
+"name": "LES TERRILS D'ANZIN",
+"type": "lateral",
+"doors": "right",
+"lat": 50.37864,
+"lon": 3.519579,
+"quays": [
+"2932",
+"3932"
+]
+},
+{
+"name": "LYCEE PAYS DE CONDE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.460807,
+"lon": 3.582419,
+"quays": [
+"5634",
+"6634"
+]
+},
+{
+"name": "MORIAMEZ RECHERCHE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.324671,
+"lon": 3.514229,
+"quays": [
+"2541",
+"3541"
+]
+},
+{
+"name": "NUNGESSER",
+"type": "offset",
+"doors": "right",
+"lat": 50.348201,
+"lon": 3.519044,
+"quays": [
+"4339",
+"5339"
+]
+},
+{
+"name": "PONT DE BRUAY",
+"type": "lateral",
+"doors": "right",
+"lat": 50.389045,
+"lon": 3.528089,
+"quays": [
+"2931",
+"3931"
+]
+},
+{
+"name": "PONT JACOB",
+"type": "lateral",
+"doors": "right",
+"lat": 50.36566,
+"lon": 3.514427,
+"quays": [
+"2042",
+"5042"
+]
+},
+{
+"name": "PORTE DE PARIS",
+"type": "lateral",
+"doors": "right",
+"lat": 50.353237,
+"lon": 3.516729,
+"quays": [
+"4294",
+"5294"
+]
+},
+{
+"name": "RUELLES",
+"type": "lateral",
+"doors": "right",
+"lat": 50.392214,
+"lon": 3.532398,
+"quays": [
+"2118",
+"3118"
+]
+},
+{
+"name": "SAINT-WAAST HOPITAL",
+"type": "multi",
+"doors": "both",
+"lat": 50.363931,
+"lon": 3.492164,
+"quays": [
+"2036",
+"7036"
+]
+},
+{
+"name": "SAINTE-CATHERINE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.3512,
+"lon": 3.517049,
+"quays": [
+"2326",
+"3326"
+]
+},
+{
+"name": "SALLE POLYVALENTE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.419735,
+"lon": 3.558575,
+"quays": [
+"2930",
+"3930"
+]
+},
+{
+"name": "SOLANGE TONINI",
+"type": "lateral",
+"doors": "right",
+"lat": 50.339878,
+"lon": 3.413045,
+"quays": [
+"4621",
+"5621"
+]
+},
+{
+"name": "SOUS PREFECTURE",
+"type": "lateral",
+"doors": "right",
+"lat": 50.356045,
+"lon": 3.519578,
+"quays": [
+"3284",
+"4284"
+]
+},
+{
+"name": "TAFFIN",
+"type": "lateral",
+"doors": "right",
+"lat": 50.329574,
+"lon": 3.386302,
+"quays": [
+"4566",
+"5566"
+]
+},
+{
+"name": "THIERS",
+"type": "lateral",
+"doors": "right",
+"lat": 50.409237,
+"lon": 3.555496,
+"quays": [
+"3122",
+"6122"
+]
+},
+{
+"name": "TOURNIQUET",
+"type": "lateral",
+"doors": "right",
+"lat": 50.453866,
+"lon": 3.589603,
+"quays": [
+"2917",
+"3917"
+]
+},
+{
+"name": "UNIVERSITE",
+"type": "multi",
+"doors": "both",
+"lat": 50.32,
+"lon": 3.512583,
+"quays": [
+"0542",
+"1542"
+]
+},
+{
+"name": "VALENCIENNES GARE - QUAI A",
+"type": "lateral",
+"doors": "right",
+"lat": 50.363734,
+"lon": 3.517896,
+"quays": [
+"7003",
+"8003"
+]
+},
+{
+"name": "VALENCIENNES GARE - QUAI B",
+"type": "lateral",
+"doors": "right",
+"lat": 50.364038,
+"lon": 3.518323,
+"quays": [
+"7003",
+"8003"
+]
+},
+{
+"name": "VOSGES",
+"type": "offset",
+"doors": "right",
+"lat": 50.341881,
+"lon": 3.517511,
+"quays": [
+"2412",
+"5412"
+]
+}
+]
+}

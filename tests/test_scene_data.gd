@@ -22,7 +22,7 @@ func _init() -> void:
 	var fails := 0
 	var cities := 0
 	for f in DirAccess.get_files_at("res://data/scenes"):
-		if not f.ends_with(".bin"): continue
+		if not f.ends_with(".bin") or f.ends_with("_terrain.bin"): continue
 		var c := f.get_basename()
 		if only.size() > 0 and not c in only: continue
 		cities += 1

@@ -1,0 +1,85 @@
+{
+"schema": 1,
+"city": "aubagne",
+"platform_m": 35.0,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": true,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Château Blanc",
+"type": "lateral",
+"doors": "right",
+"lat": 43.281775,
+"lon": 5.55006,
+"quays": [
+"AUB-29085",
+"AUB-29086"
+]
+},
+{
+"name": "Gare",
+"type": "central",
+"doors": "left",
+"lat": 43.295714,
+"lon": 5.565786,
+"quays": [
+"AUB-29087"
+]
+},
+{
+"name": "La Tourtelle",
+"type": "lateral",
+"doors": "right",
+"lat": 43.28559,
+"lon": 5.554521,
+"quays": [
+"AUB-29095",
+"AUB-29096"
+]
+},
+{
+"name": "Le Charrel",
+"type": "central",
+"doors": "left",
+"lat": 43.279136,
+"lon": 5.551248,
+"quays": [
+"AUB-29097"
+]
+},
+{
+"name": "Martin Luther King",
+"type": "lateral",
+"doors": "right",
+"lat": 43.292928,
+"lon": 5.562784,
+"quays": [
+"AUB-29099",
+"AUB-29100"
+]
+},
+{
+"name": "Piscine Alain Bernard / Oasis du Charrel",
+"type": "lateral",
+"doors": "right",
+"lat": 43.284572,
+"lon": 5.548028,
+"quays": [
+"AUB-29103",
+"AUB-29104"
+]
+},
+{
+"name": "Ravel Decroix",
+"type": "lateral",
+"doors": "right",
+"lat": 43.290414,
+"lon": 5.559933,
+"quays": [
+"AUB-29106",
+"AUB-29107"
+]
+}
+]
+}

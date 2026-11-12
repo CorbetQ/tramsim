@@ -1,0 +1,351 @@
+{
+"schema": 1,
+"city": "tours",
+"platform_m": 46.0,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 25.9,
+"stations": [
+{
+"name": "Beffroi",
+"type": "lateral",
+"doors": "right",
+"lat": 47.421728,
+"lon": 0.683491,
+"quays": [
+"TTR:BEFF-1T",
+"TTR:BEFF-2T"
+]
+},
+{
+"name": "Bulle D'o",
+"type": "lateral",
+"doors": "right",
+"lat": 47.342064,
+"lon": 0.660397,
+"quays": [
+"TTR:BUDO-1T",
+"TTR:BUDO-2T"
+]
+},
+{
+"name": "Charcot",
+"type": "lateral",
+"doors": "right",
+"lat": 47.377593,
+"lon": 0.693959,
+"quays": [
+"TTR:CHAR-1T",
+"TTR:CHAR-2T"
+]
+},
+{
+"name": "Charles Barrier",
+"type": "lateral",
+"doors": "right",
+"lat": 47.405207,
+"lon": 0.682767,
+"quays": [
+"TTR:CHBA-1T",
+"TTR:CHBA-2T"
+]
+},
+{
+"name": "Christ Roi",
+"type": "lateral",
+"doors": "right",
+"lat": 47.412173,
+"lon": 0.684943,
+"quays": [
+"TTR:CHRI-1T",
+"TTR:CHRI-2T"
+]
+},
+{
+"name": "Coppée",
+"type": "lateral",
+"doors": "right",
+"lat": 47.423384,
+"lon": 0.690985,
+"quays": [
+"TTR:COPP-1T",
+"TTR:COPP-2T"
+]
+},
+{
+"name": "Fac 2 Lions",
+"type": "lateral",
+"doors": "right",
+"lat": 47.367135,
+"lon": 0.684309,
+"quays": [
+"TTR:UNIV-1T",
+"TTR:UNIV-2T"
+]
+},
+{
+"name": "Gare de Tours 1",
+"type": "lateral",
+"doors": "right",
+"lat": 47.389081,
+"lon": 0.693356,
+"quays": [
+"TTR:GATO-1T",
+"TTR:GATO-2T"
+]
+},
+{
+"name": "Gare de Tours 2",
+"type": "lateral",
+"doors": "right",
+"lat": 47.389263,
+"lon": 0.693217,
+"quays": [
+"TTR:GATO-1T",
+"TTR:GATO-2T"
+]
+},
+{
+"name": "Heure Tranquille",
+"type": "lateral",
+"doors": "right",
+"lat": 47.367219,
+"lon": 0.677937,
+"quays": [
+"TTR:HETR-1T",
+"TTR:HETR-2T"
+]
+},
+{
+"name": "Jean Jaurès 1",
+"type": "lateral",
+"doors": "right",
+"lat": 47.389331,
+"lon": 0.68919,
+"quays": [
+"TTR:JJAU-1T",
+"TTR:JJAU-2T"
+]
+},
+{
+"name": "Jean Jaurès 2",
+"type": "lateral",
+"doors": "right",
+"lat": 47.38901,
+"lon": 0.689382,
+"quays": [
+"TTR:JJAU-1T",
+"TTR:JJAU-2T"
+]
+},
+{
+"name": "Joué H. de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 47.351468,
+"lon": 0.662783,
+"quays": [
+"TTR:JHDV-1T",
+"TTR:JHDV-2T"
+]
+},
+{
+"name": "Liberté",
+"type": "lateral",
+"doors": "right",
+"lat": 47.379919,
+"lon": 0.693808,
+"quays": [
+"TTR:LIBE-1T",
+"TTR:LIBE-2T"
+]
+},
+{
+"name": "Lycée J. Monnet",
+"type": "lateral",
+"doors": "right",
+"lat": 47.338107,
+"lon": 0.657858,
+"quays": [
+"TTR:LYJM-1T",
+"TTR:LYJM-2T"
+]
+},
+{
+"name": "Marne",
+"type": "lateral",
+"doors": "right",
+"lat": 47.423707,
+"lon": 0.697468,
+"quays": [
+"TTR:MARN-1T",
+"TTR:MARN-2T"
+]
+},
+{
+"name": "Monconseil",
+"type": "lateral",
+"doors": "right",
+"lat": 47.421161,
+"lon": 0.700254,
+"quays": [
+"TTR:MONC-1T",
+"TTR:MONC-2T"
+]
+},
+{
+"name": "Nationale",
+"type": "lateral",
+"doors": "right",
+"lat": 47.393311,
+"lon": 0.687592,
+"quays": [
+"TTR:NATI-1T",
+"TTR:NATI-2T"
+]
+},
+{
+"name": "Palais Sports",
+"type": "lateral",
+"doors": "right",
+"lat": 47.38388,
+"lon": 0.696298,
+"quays": [
+"TTR:PASP-1T",
+"TTR:PASP-2T"
+]
+},
+{
+"name": "Place Choiseul",
+"type": "lateral",
+"doors": "right",
+"lat": 47.401933,
+"lon": 0.684086,
+"quays": [
+"TTR:CHOI-1T",
+"TTR:CHOI-2T"
+]
+},
+{
+"name": "Pont Volant",
+"type": "lateral",
+"doors": "right",
+"lat": 47.362638,
+"lon": 0.673802,
+"quays": [
+"TTR:POVO-1T",
+"TTR:POVO-2T"
+]
+},
+{
+"name": "Porte de Loire",
+"type": "lateral",
+"doors": "right",
+"lat": 47.396003,
+"lon": 0.686488,
+"quays": [
+"TTR:PODL-1T",
+"TTR:PODL-2T"
+]
+},
+{
+"name": "Rabière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.344696,
+"lon": 0.662358,
+"quays": [
+"TTR:RABI-1T",
+"TTR:RABI-2T"
+]
+},
+{
+"name": "Rotière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.348227,
+"lon": 0.663281,
+"quays": [
+"TTR:ROTI-1T",
+"TTR:ROTI-2T"
+]
+},
+{
+"name": "République",
+"type": "lateral",
+"doors": "right",
+"lat": 47.355161,
+"lon": 0.664504,
+"quays": [
+"TTR:REPB-1T",
+"TTR:REPB-2T"
+]
+},
+{
+"name": "Saint Paul",
+"type": "lateral",
+"doors": "right",
+"lat": 47.381187,
+"lon": 0.697384,
+"quays": [
+"TTR:STPA-1T",
+"TTR:STPA-2T"
+]
+},
+{
+"name": "Suzanne Valadon",
+"type": "lateral",
+"doors": "right",
+"lat": 47.373027,
+"lon": 0.689438,
+"quays": [
+"TTR:VALA-1T",
+"TTR:VALA-2T"
+]
+},
+{
+"name": "Tranchée",
+"type": "lateral",
+"doors": "right",
+"lat": 47.408213,
+"lon": 0.681526,
+"quays": [
+"TTR:TRAN-1T",
+"TTR:TRAN-2T"
+]
+},
+{
+"name": "Trois Rivières",
+"type": "lateral",
+"doors": "right",
+"lat": 47.416216,
+"lon": 0.683696,
+"quays": [
+"TTR:TRRI-1T",
+"TTR:TRRI-2T"
+]
+},
+{
+"name": "Vaucanson",
+"type": "lateral",
+"doors": "right",
+"lat": 47.423437,
+"lon": 0.709623,
+"quays": [
+"TTR:LYVA-1T",
+"TTR:LYVA-2T"
+]
+},
+{
+"name": "Verdun",
+"type": "lateral",
+"doors": "right",
+"lat": 47.373782,
+"lon": 0.694356,
+"quays": [
+"TTR:VERD-1T",
+"TTR:VERD-2T"
+]
+}
+]
+}

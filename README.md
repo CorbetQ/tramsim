@@ -40,7 +40,7 @@ avec livrées par réseau et par ligne. Décor réel BD TOPO IGN chargé par tui
 
 ## État actuel
 - Réseaux livrés : **120 lignes et variantes de 29 réseaux français** importées des GTFS officiels — voir `docs/COUVERTURE.md`, `CREDITS.md`, `docs/SOURCES.md`.
-- Import complet : `tools/import/fetch_gtfs.py`, `import_catalogue.py`, `build_index.py`, `merge_city.py` (réseaux libres), `turnbacks.py` (arrêts de retournement GTFS), `ign_scene.py` (décor BD TOPO v2 : bâtiments typés, monuments nommés, clochers), `coverage_report.py`.
+- Import complet : `tools/import/fetch_gtfs.py`, `import_catalogue.py`, `build_index.py`, `merge_city.py` (réseaux libres), `turnbacks.py` (arrêts de retournement GTFS), `ign_scene.py` (décor BD TOPO v2 : bâtiments typés, monuments nommés, clochers), `stations.py` (types de stations et quais centrés, data/stations), `terrain.py` (relief RGE ALTI, profil en long des voies, ponts, plans d'eau ; ordre : stations.py, terrain.py, merge_city.py, turnbacks.py, terrain.py --free), `coverage_report.py`.
 - Rames : `data/rolling_stock/` (recherche sourcée, plans, livrées) → `src/rendering/tram_model.gd` ; schéma `docs/rolling_stock_schema.md`.
 - `tests/fixtures/schema_test.json` : petit réseau inventé servant uniquement aux tests.
 - Tests : `GODOT=/chemin/godot tests/run_all.sh`. Captures : `xvfb-run godot --path . --rendering-driver opengl3 -s tests/screenshot.gd -- <dossier>`.

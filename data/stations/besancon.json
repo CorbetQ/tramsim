@@ -1,0 +1,350 @@
+{
+"schema": 1,
+"city": "besancon",
+"platform_m": 35.5,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 17.8,
+"stations": [
+{
+"name": "Allende",
+"type": "lateral",
+"doors": "right",
+"lat": 47.219725,
+"lon": 5.973647,
+"quays": [
+"t_allen1",
+"t_allen2"
+]
+},
+{
+"name": "Battant",
+"type": "lateral",
+"doors": "right",
+"lat": 47.239492,
+"lon": 6.019565,
+"quays": [
+"t_batt1",
+"t_batt2"
+]
+},
+{
+"name": "Brulard",
+"type": "lateral",
+"doors": "right",
+"lat": 47.228471,
+"lon": 6.005887,
+"quays": [
+"t_brula1",
+"t_brula2"
+]
+},
+{
+"name": "Brûlefoin",
+"type": "lateral",
+"doors": "right",
+"lat": 47.249876,
+"lon": 6.042434,
+"quays": [
+"t_brule1",
+"t_brule2"
+]
+},
+{
+"name": "CHU Minjoz",
+"type": "lateral",
+"doors": "right",
+"lat": 47.226462,
+"lon": 5.963772,
+"quays": [
+"t_chr1",
+"t_chr2"
+]
+},
+{
+"name": "Canot",
+"type": "lateral",
+"doors": "right",
+"lat": 47.236107,
+"lon": 6.016081,
+"quays": [
+"t_cano1",
+"t_cano2"
+]
+},
+{
+"name": "Chalezeule - Chalezeule",
+"type": "central",
+"doors": "left",
+"lat": 47.261344,
+"lon": 6.060979,
+"quays": [
+"t_chal"
+]
+},
+{
+"name": "Chalezeule - Marnières",
+"type": "lateral",
+"doors": "right",
+"lat": 47.263387,
+"lon": 6.055747,
+"quays": [
+"t_marn1",
+"t_marn2"
+]
+},
+{
+"name": "Chamars",
+"type": "lateral",
+"doors": "right",
+"lat": 47.233721,
+"lon": 6.020333,
+"quays": [
+"t_cham1",
+"t_cham2"
+]
+},
+{
+"name": "Croix de Palente",
+"type": "lateral",
+"doors": "right",
+"lat": 47.257334,
+"lon": 6.042191,
+"quays": [
+"t_cdp1",
+"t_cdp2"
+]
+},
+{
+"name": "Epoisses",
+"type": "lateral",
+"doors": "right",
+"lat": 47.222365,
+"lon": 5.97275,
+"quays": [
+"t_epo1",
+"t_epo2"
+]
+},
+{
+"name": "Flore",
+"type": "lateral",
+"doors": "right",
+"lat": 47.245518,
+"lon": 6.028047,
+"quays": [
+"t_flo1",
+"t_flo2"
+]
+},
+{
+"name": "Fontaine Argent",
+"type": "lateral",
+"doors": "right",
+"lat": 47.245963,
+"lon": 6.033776,
+"quays": [
+"t_farg1",
+"t_farg2"
+]
+},
+{
+"name": "Fort Benoît",
+"type": "lateral",
+"doors": "right",
+"lat": 47.262086,
+"lon": 6.050676,
+"quays": [
+"t_fben1",
+"t_fben2"
+]
+},
+{
+"name": "Gare Viotte",
+"type": "lateral",
+"doors": "right",
+"lat": 47.246347,
+"lon": 6.022024,
+"quays": [
+"t_gvio1",
+"t_gvio2"
+]
+},
+{
+"name": "Hauts du Chazal",
+"type": "lateral",
+"doors": "right",
+"lat": 47.221607,
+"lon": 5.951533,
+"quays": [
+"t_hdc1",
+"t_hdc2"
+]
+},
+{
+"name": "Ile de France",
+"type": "lateral",
+"doors": "right",
+"lat": 47.221843,
+"lon": 5.967347,
+"quays": [
+"t_idf1",
+"t_idf2"
+]
+},
+{
+"name": "Les Vaîtes",
+"type": "lateral",
+"doors": "right",
+"lat": 47.253239,
+"lon": 6.04321,
+"quays": [
+"t_lvai1",
+"t_lvai2"
+]
+},
+{
+"name": "Lilas",
+"type": "lateral",
+"doors": "right",
+"lat": 47.260722,
+"lon": 6.04184,
+"quays": [
+"t_lila1",
+"t_lila2"
+]
+},
+{
+"name": "Maison des Familles",
+"type": "lateral",
+"doors": "right",
+"lat": 47.225965,
+"lon": 5.960171,
+"quays": [
+"t_psan1",
+"t_psan2"
+]
+},
+{
+"name": "Malcombe",
+"type": "lateral",
+"doors": "right",
+"lat": 47.222603,
+"lon": 5.982605,
+"quays": [
+"t_malc1",
+"t_malc2"
+]
+},
+{
+"name": "Micropolis",
+"type": "lateral",
+"doors": "right",
+"lat": 47.220666,
+"lon": 5.978382,
+"quays": [
+"t_micro1",
+"t_micro2"
+]
+},
+{
+"name": "Orchamps",
+"type": "lateral",
+"doors": "right",
+"lat": 47.262981,
+"lon": 6.045351,
+"quays": [
+"t_orc1",
+"t_orc2"
+]
+},
+{
+"name": "Parc Micaud",
+"type": "lateral",
+"doors": "right",
+"lat": 47.24287,
+"lon": 6.029907,
+"quays": [
+"t_pmic1",
+"t_pmic2"
+]
+},
+{
+"name": "Polygone",
+"type": "lateral",
+"doors": "right",
+"lat": 47.229923,
+"lon": 6.0108,
+"quays": [
+"t_poly1",
+"t_poly2"
+]
+},
+{
+"name": "Rosemont",
+"type": "lateral",
+"doors": "right",
+"lat": 47.225023,
+"lon": 5.99521,
+"quays": [
+"t_rose1",
+"t_rose2"
+]
+},
+{
+"name": "République",
+"type": "lateral",
+"doors": "right",
+"lat": 47.240883,
+"lon": 6.027116,
+"quays": [
+"t_repu1",
+"t_repu2"
+]
+},
+{
+"name": "Révolution",
+"type": "lateral",
+"doors": "right",
+"lat": 47.2405,
+"lon": 6.023057,
+"quays": [
+"t_revo1",
+"t_revo2"
+]
+},
+{
+"name": "Schweitzer",
+"type": "lateral",
+"doors": "right",
+"lat": 47.25606,
+"lon": 6.044825,
+"quays": [
+"t_schw1",
+"t_schw2"
+]
+},
+{
+"name": "Tristan Bernard",
+"type": "lateral",
+"doors": "right",
+"lat": 47.248236,
+"lon": 6.03732,
+"quays": [
+"t_tbern1",
+"t_tbern2"
+]
+},
+{
+"name": "UFR Santé",
+"type": "lateral",
+"doors": "right",
+"lat": 47.223581,
+"lon": 5.955941,
+"quays": [
+"t_ufr1",
+"t_ufr2"
+]
+}
+]
+}

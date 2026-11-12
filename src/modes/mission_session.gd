@@ -198,7 +198,7 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	_update_signals()
 	_update_power(info.supply)
 	var before := phys.position
-	phys.step(dt, n, info.grade, emergency or doors_open and phys.speed > 0.1)
+	phys.step(dt, n, net.grade_at(edge_id, offset) * direction, emergency or doors_open and phys.speed > 0.1)
 	var d := phys.position - before
 	overspeed = phys.speed > speed_limit() + 0.5
 	_advance(d)

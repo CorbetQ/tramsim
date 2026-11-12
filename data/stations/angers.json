@@ -1,0 +1,473 @@
+{
+"schema": 1,
+"city": "angers",
+"platform_m": 35.5,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": true,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Acacias",
+"type": "lateral",
+"doors": "right",
+"lat": 47.503666,
+"lon": -0.586316,
+"quays": [
+"1ACAS",
+"2ACAS"
+]
+},
+{
+"name": "Allonneau-Dunant",
+"type": "lateral",
+"doors": "right",
+"lat": 47.483849,
+"lon": -0.526823,
+"quays": [
+"1DUNA",
+"2DUNA"
+]
+},
+{
+"name": "Avrillé-Ardenne",
+"type": "central",
+"doors": "left",
+"lat": 47.511504,
+"lon": -0.595953,
+"quays": [
+"1AARD",
+"2AARD"
+]
+},
+{
+"name": "Bamako",
+"type": "lateral",
+"doors": "right",
+"lat": 47.45212,
+"lon": -0.556435,
+"quays": [
+"1BAMA",
+"2BAMA"
+]
+},
+{
+"name": "Bascule",
+"type": "lateral",
+"doors": "right",
+"lat": 47.508737,
+"lon": -0.591521,
+"quays": [
+"1BASC",
+"2BASC"
+]
+},
+{
+"name": "Beaussier",
+"type": "lateral",
+"doors": "right",
+"lat": 47.476457,
+"lon": -0.599238,
+"quays": [
+"1BEAU",
+"2BEAU"
+]
+},
+{
+"name": "Belle-Beille Campus",
+"type": "multi",
+"doors": "both",
+"lat": 47.477929,
+"lon": -0.603169,
+"quays": [
+"1BBCA",
+"2BBCA",
+"3BBCA"
+]
+},
+{
+"name": "Berges de Maine",
+"type": "lateral",
+"doors": "right",
+"lat": 47.479394,
+"lon": -0.549381,
+"quays": [
+"1BMAI",
+"2BMAI"
+]
+},
+{
+"name": "Bois du Roy",
+"type": "lateral",
+"doors": "right",
+"lat": 47.499627,
+"lon": -0.583101,
+"quays": [
+"1BROY",
+"2BROY"
+]
+},
+{
+"name": "Brisepotière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.47852,
+"lon": -0.528239,
+"quays": [
+"1BRIS",
+"2BRIS"
+]
+},
+{
+"name": "CHU-Hôpital",
+"type": "lateral",
+"doors": "right",
+"lat": 47.481324,
+"lon": -0.554127,
+"quays": [
+"1HOPA",
+"2HOPA"
+]
+},
+{
+"name": "Capucins",
+"type": "lateral",
+"doors": "right",
+"lat": 47.486827,
+"lon": -0.55521,
+"quays": [
+"1CAPU",
+"2CAPU"
+]
+},
+{
+"name": "Centre de Congrès",
+"type": "lateral",
+"doors": "right",
+"lat": 47.474218,
+"lon": -0.546113,
+"quays": [
+"1CECO",
+"2CECO"
+]
+},
+{
+"name": "Conservatoire",
+"type": "lateral",
+"doors": "right",
+"lat": 47.471424,
+"lon": -0.53818,
+"quays": [
+"1CONS",
+"2CONS"
+]
+},
+{
+"name": "Deux-Croix",
+"type": "lateral",
+"doors": "right",
+"lat": 47.475125,
+"lon": -0.528961,
+"quays": [
+"1CROI",
+"2CROI"
+]
+},
+{
+"name": "Doutre-Maine",
+"type": "lateral",
+"doors": "right",
+"lat": 47.474126,
+"lon": -0.560713,
+"quays": [
+"1DOUT",
+"2DOUT"
+]
+},
+{
+"name": "Europe",
+"type": "lateral",
+"doors": "right",
+"lat": 47.486645,
+"lon": -0.527109,
+"quays": [
+"1EURO",
+"2EURO"
+]
+},
+{
+"name": "Farcy",
+"type": "lateral",
+"doors": "right",
+"lat": 47.473341,
+"lon": -0.577388,
+"quays": [
+"1FARC",
+"2FARC"
+]
+},
+{
+"name": "Foch-Haras",
+"type": "lateral",
+"doors": "right",
+"lat": 47.466765,
+"lon": -0.552634,
+"quays": [
+"1HARA",
+"2HARA"
+]
+},
+{
+"name": "Foch-Maison Bleue",
+"type": "lateral",
+"doors": "right",
+"lat": 47.468949,
+"lon": -0.549723,
+"quays": [
+"1FMBL",
+"2FMBL"
+]
+},
+{
+"name": "Hauts de St-Aubin",
+"type": "lateral",
+"doors": "right",
+"lat": 47.492197,
+"lon": -0.560435,
+"quays": [
+"1HSAU",
+"2HSAU"
+]
+},
+{
+"name": "Hôtel de Ville",
+"type": "lateral",
+"doors": "right",
+"lat": 47.471665,
+"lon": -0.54674,
+"quays": [
+"1HDVA",
+"2HDVA"
+]
+},
+{
+"name": "Jean Moulin",
+"type": "lateral",
+"doors": "right",
+"lat": 47.49042,
+"lon": -0.552147,
+"quays": [
+"1JMOU",
+"2JMOU"
+]
+},
+{
+"name": "Jean Vilar",
+"type": "lateral",
+"doors": "right",
+"lat": 47.444869,
+"lon": -0.562319,
+"quays": [
+"1JVIL",
+"2JVIL"
+]
+},
+{
+"name": "Jean XXIII",
+"type": "lateral",
+"doors": "right",
+"lat": 47.448561,
+"lon": -0.562907,
+"quays": [
+"1JE23",
+"2JE23"
+]
+},
+{
+"name": "La Barre",
+"type": "lateral",
+"doors": "right",
+"lat": 47.473207,
+"lon": -0.598855,
+"quays": [
+"1BARR",
+"2BARR"
+]
+},
+{
+"name": "La Fayette",
+"type": "lateral",
+"doors": "right",
+"lat": 47.46081,
+"lon": -0.554666,
+"quays": [
+"1LAFA",
+"2LAFA"
+]
+},
+{
+"name": "Le Quai",
+"type": "lateral",
+"doors": "right",
+"lat": 47.472245,
+"lon": -0.566558,
+"quays": [
+"1QUAI",
+"2QUAI"
+]
+},
+{
+"name": "Les Gares",
+"type": "lateral",
+"doors": "right",
+"lat": 47.46447,
+"lon": -0.555407,
+"quays": [
+"1LGAR",
+"2LGAR"
+]
+},
+{
+"name": "Molière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.474069,
+"lon": -0.555592,
+"quays": [
+"1MOLIE",
+"2MOLIE"
+]
+},
+{
+"name": "Monplaisir",
+"type": "central",
+"doors": "left",
+"lat": 47.48892,
+"lon": -0.526918,
+"quays": [
+"1MONP",
+"2MONP"
+]
+},
+{
+"name": "Montaigne",
+"type": "lateral",
+"doors": "right",
+"lat": 47.46927,
+"lon": -0.532861,
+"quays": [
+"1MTAI",
+"2MTAI"
+]
+},
+{
+"name": "Patton",
+"type": "lateral",
+"doors": "right",
+"lat": 47.473402,
+"lon": -0.592701,
+"quays": [
+"1PATT",
+"2PATT"
+]
+},
+{
+"name": "Plateau Mayenne",
+"type": "lateral",
+"doors": "right",
+"lat": 47.495723,
+"lon": -0.579987,
+"quays": [
+"1PMAY",
+"2PMAY"
+]
+},
+{
+"name": "Ralliement",
+"type": "lateral",
+"doors": "right",
+"lat": 47.471182,
+"lon": -0.551639,
+"quays": [
+"1RALL",
+"2RALL"
+]
+},
+{
+"name": "Roseraie",
+"type": "lateral",
+"doors": "right",
+"lat": 47.443883,
+"lon": -0.554004,
+"quays": [
+"1ANRO",
+"2ANRO"
+]
+},
+{
+"name": "St-Gilles",
+"type": "offset",
+"doors": "right",
+"lat": 47.506187,
+"lon": -0.589025,
+"quays": [
+"1STGI",
+"2STGI"
+]
+},
+{
+"name": "St-Serge Université",
+"type": "lateral",
+"doors": "right",
+"lat": 47.476202,
+"lon": -0.550701,
+"quays": [
+"1STSE",
+"2STSE"
+]
+},
+{
+"name": "Strasbourg",
+"type": "offset",
+"doors": "right",
+"lat": 47.457494,
+"lon": -0.554122,
+"quays": [
+"1STRA",
+"2STRA"
+]
+},
+{
+"name": "Terra Botanica",
+"type": "lateral",
+"doors": "right",
+"lat": 47.494185,
+"lon": -0.574818,
+"quays": [
+"1BOTA",
+"2BOTA"
+]
+},
+{
+"name": "Verneau",
+"type": "lateral",
+"doors": "right",
+"lat": 47.492481,
+"lon": -0.567298,
+"quays": [
+"1VERN",
+"2VERN"
+]
+},
+{
+"name": "Élysée",
+"type": "lateral",
+"doors": "right",
+"lat": 47.473621,
+"lon": -0.58551,
+"quays": [
+"1ELYS",
+"2ELYS"
+]
+}
+]
+}

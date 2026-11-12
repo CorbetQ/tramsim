@@ -40,7 +40,11 @@ func load_file(path: String) -> PackedStringArray:
 		var pts: PackedVector2Array = []
 		for q in e.get("pts", []):
 			pts.append(Vector2(float(q[0]), float(q[1])))
-		edge_info[e.id] = {"limit_ms": lim, "zones": zones, "grade": float(e.get("grade", 0.0)), "supply": sup, "pts": pts, "raw": bool(e.get("raw", false))}
+		var ys := PackedFloat32Array()
+		for v in e.get("y", []): ys.append(float(v))
+		if ys.size() != pts.size(): ys = PackedFloat32Array()
+		edge_info[e.id] = {"limit_ms": lim, "zones": zones, "grade": float(e.get("grade", 0.0)), "supply": sup, "pts": pts, "raw": bool(e.get("raw", false)),
+			"ys": ys, "bridge": e.get("bridge", []), "tunnel": e.get("tunnel", []), "trench": e.get("trench", [])}
 	for s in data.get("stations", []):
 		if not graph.edges.has(s.edge):
 			errs.append("station sur arête inconnue: " + s.name)
@@ -88,6 +92,30 @@ func point_on(edge_id: String, offset: float) -> Dictionary:
 		if acc + seg >= s or i == pts.size() - 2:
 			var u := 0.0 if seg == 0.0 else clampf((s - acc) / seg, 0.0, 1.0)
 			var dir := (pts[i + 1] - pts[i]).normalized()
-			return {"p": pts[i].lerp(pts[i + 1], u), "dir": dir}
+			var ys: PackedFloat32Array = edge_info[edge_id].get("ys", PackedFloat32Array())
+			var y := 0.0; var g := 0.0
+			if ys.size() == pts.size():
+				y = lerpf(ys[i], ys[i + 1], u)
+				g = (ys[i + 1] - ys[i]) / seg if seg > 0.01 else 0.0
+			return {"p": pts[i].lerp(pts[i + 1], u), "dir": dir, "y": y, "grade": g}
 		acc += seg
-	return {"p": pts[0] if pts.size() > 0 else Vector2.ZERO, "dir": Vector2.RIGHT}
+	return {"p": pts[0] if pts.size() > 0 else Vector2.ZERO, "dir": Vector2.RIGHT, "y": 0.0, "grade": 0.0}
+
+## Pente locale (+ = montée dans le sens de l'arête), moyennée sur ~20 m ; pente moyenne de l'arête sans profil.
+func grade_at(edge_id: String, offset: float) -> float:
+	var info: Dictionary = edge_info[edge_id]
+	if (info.get("ys", PackedFloat32Array()) as PackedFloat32Array).size() < 2: return float(info.get("grade", 0.0))
+	var L: float = graph.edges[edge_id].length
+	var a := clampf(offset - 10.0, 0.0, L); var b := clampf(offset + 10.0, 0.0, L)
+	if b - a < 1.0: return float(point_on(edge_id, offset).grade)
+	return (float(point_on(edge_id, b).y) - float(point_on(edge_id, a).y)) / (b - a)
+
+## Altitude de l'axe de la voie (m, relative à "alt0" du réseau).
+func height_at(edge_id: String, offset: float) -> float:
+	return float(point_on(edge_id, offset).y)
+
+## Vrai si l'abscisse est dans un des intervalles [s0, s1, ...] de la liste.
+static func in_spans(spans: Array, offset: float) -> bool:
+	for sp in spans:
+		if offset >= float(sp[0]) and offset <= float(sp[1]): return true
+	return false

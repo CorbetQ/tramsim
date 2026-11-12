@@ -1,0 +1,449 @@
+{
+"schema": 1,
+"city": "mulhouse",
+"platform_m": 40.0,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "BEL AIR",
+"type": "lateral",
+"doors": "right",
+"lat": 47.733312,
+"lon": 7.304004,
+"quays": [
+"3076",
+"3077"
+]
+},
+{
+"name": "CERNAY",
+"type": "lateral",
+"doors": "right",
+"lat": 47.801796,
+"lon": 7.173415,
+"quays": [
+"3028",
+"3029"
+]
+},
+{
+"name": "CHATAIGNIER",
+"type": "multi",
+"doors": "both",
+"lat": 47.776821,
+"lon": 7.328842,
+"quays": [
+"3148",
+"3149"
+]
+},
+{
+"name": "CITE ADMINISTRATIVE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.756251,
+"lon": 7.336075,
+"quays": [
+"3090",
+"3091"
+]
+},
+{
+"name": "COTEAUX",
+"type": "lateral",
+"doors": "right",
+"lat": 47.734881,
+"lon": 7.297577,
+"quays": [
+"3080",
+"3081"
+]
+},
+{
+"name": "DAGUERRE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.742519,
+"lon": 7.32435,
+"quays": [
+"3014",
+"3015"
+]
+},
+{
+"name": "DOLLER",
+"type": "lateral",
+"doors": "right",
+"lat": 47.762815,
+"lon": 7.325799,
+"quays": [
+"3086",
+"3087"
+]
+},
+{
+"name": "DORNACH GARE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.746402,
+"lon": 7.309119,
+"quays": [
+"3020",
+"3021"
+]
+},
+{
+"name": "GARE CENTRALE",
+"type": "multi",
+"doors": "both",
+"lat": 47.742845,
+"lon": 7.343066,
+"quays": [
+"3113",
+"3114"
+]
+},
+{
+"name": "GRAFFENWALD",
+"type": "lateral",
+"doors": "right",
+"lat": 47.780651,
+"lon": 7.225144,
+"quays": [
+"3026",
+"3027"
+]
+},
+{
+"name": "GRAND REX",
+"type": "lateral",
+"doors": "right",
+"lat": 47.7525,
+"lon": 7.337448,
+"quays": [
+"3092",
+"3093"
+]
+},
+{
+"name": "ILLBERG",
+"type": "lateral",
+"doors": "right",
+"lat": 47.732104,
+"lon": 7.310398,
+"quays": [
+"3074",
+"3075"
+]
+},
+{
+"name": "LEFEBVRE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.756336,
+"lon": 7.348085,
+"quays": [
+"3062",
+"3063"
+]
+},
+{
+"name": "LUTTERBACH GARE",
+"type": "multi",
+"doors": "both",
+"lat": 47.757961,
+"lon": 7.276586,
+"quays": [
+"3024",
+"3025",
+"3044",
+"3045"
+]
+},
+{
+"name": "MAIRIE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.749272,
+"lon": 7.33549,
+"quays": [
+"3008",
+"3009"
+]
+},
+{
+"name": "MUSEE DE L'AUTO",
+"type": "lateral",
+"doors": "right",
+"lat": 47.76034,
+"lon": 7.332239,
+"quays": [
+"3088",
+"3089"
+]
+},
+{
+"name": "MUSEES",
+"type": "lateral",
+"doors": "right",
+"lat": 47.75017,
+"lon": 7.298498,
+"quays": [
+"3022",
+"3023"
+]
+},
+{
+"name": "NATIONS",
+"type": "lateral",
+"doors": "right",
+"lat": 47.73633,
+"lon": 7.301344,
+"quays": [
+"3078",
+"3079"
+]
+},
+{
+"name": "NORDFELD",
+"type": "lateral",
+"doors": "right",
+"lat": 47.752556,
+"lon": 7.345796,
+"quays": [
+"3064",
+"3065"
+]
+},
+{
+"name": "NOUVEAU BASSIN",
+"type": "lateral",
+"doors": "right",
+"lat": 47.75953,
+"lon": 7.350961,
+"quays": [
+"3060",
+"3061"
+]
+},
+{
+"name": "PALAIS DES SPORTS",
+"type": "lateral",
+"doors": "right",
+"lat": 47.737433,
+"lon": 7.319263,
+"quays": [
+"3070",
+"3071"
+]
+},
+{
+"name": "PORTE HAUTE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.74656,
+"lon": 7.331818,
+"quays": [
+"3010",
+"3011"
+]
+},
+{
+"name": "PORTE JEUNE - Q1",
+"type": "multi",
+"doors": "both",
+"lat": 47.749471,
+"lon": 7.340333,
+"quays": [
+"3066",
+"3067",
+"3068",
+"3069"
+]
+},
+{
+"name": "PORTE JEUNE - Q2",
+"type": "multi",
+"doors": "both",
+"lat": 47.749653,
+"lon": 7.340029,
+"quays": [
+"3066",
+"3067",
+"3068",
+"3069"
+]
+},
+{
+"name": "PORTE JEUNE - Q3",
+"type": "multi",
+"doors": "both",
+"lat": 47.749587,
+"lon": 7.340019,
+"quays": [
+"3066",
+"3067",
+"3068",
+"3069"
+]
+},
+{
+"name": "PORTE JEUNE - Q4",
+"type": "multi",
+"doors": "both",
+"lat": 47.749535,
+"lon": 7.340344,
+"quays": [
+"3066",
+"3067",
+"3068",
+"3069"
+]
+},
+{
+"name": "RATTACHEMENT",
+"type": "lateral",
+"doors": "right",
+"lat": 47.769831,
+"lon": 7.321167,
+"quays": [
+"3083",
+"3143"
+]
+},
+{
+"name": "REPUBLIQUE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.746052,
+"lon": 7.341357,
+"quays": [
+"3004",
+"3005"
+]
+},
+{
+"name": "SAINT-NAZAIRE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.773103,
+"lon": 7.329525,
+"quays": [
+"3095",
+"3147"
+]
+},
+{
+"name": "STADE DE BOURTZWILLER",
+"type": "lateral",
+"doors": "right",
+"lat": 47.767393,
+"lon": 7.321993,
+"quays": [
+"3084",
+"3085"
+]
+},
+{
+"name": "THANN CENTRE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.809877,
+"lon": 7.101334,
+"quays": [
+"3036",
+"3037"
+]
+},
+{
+"name": "THANN GARE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.809011,
+"lon": 7.107386,
+"quays": [
+"3034",
+"3035"
+]
+},
+{
+"name": "THANN SAINT-JACQUES",
+"type": "lateral",
+"doors": "right",
+"lat": 47.8133,
+"lon": 7.093485,
+"quays": [
+"3038",
+"3039"
+]
+},
+{
+"name": "TOUR NESSEL",
+"type": "lateral",
+"doors": "right",
+"lat": 47.745016,
+"lon": 7.328576,
+"quays": [
+"3012",
+"3013"
+]
+},
+{
+"name": "TUILERIE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.770945,
+"lon": 7.325544,
+"quays": [
+"3094",
+"3146"
+]
+},
+{
+"name": "UNIVERSITE",
+"type": "lateral",
+"doors": "right",
+"lat": 47.733512,
+"lon": 7.315121,
+"quays": [
+"3072",
+"3073"
+]
+},
+{
+"name": "VIEUX THANN",
+"type": "lateral",
+"doors": "right",
+"lat": 47.80574,
+"lon": 7.119552,
+"quays": [
+"3032",
+"3033"
+]
+},
+{
+"name": "VIEUX THANN ZI",
+"type": "lateral",
+"doors": "right",
+"lat": 47.802032,
+"lon": 7.132909,
+"quays": [
+"3030",
+"3031"
+]
+},
+{
+"name": "ZU RHEIN",
+"type": "offset",
+"doors": "right",
+"lat": 47.74364,
+"lon": 7.31692,
+"quays": [
+"3018",
+"3019"
+]
+}
+]
+}

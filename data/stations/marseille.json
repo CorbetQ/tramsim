@@ -1,0 +1,486 @@
+{
+"schema": 1,
+"city": "marseille",
+"platform_m": 35.5,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": true,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Air Bel",
+"type": "lateral",
+"doors": "right",
+"lat": 43.294285,
+"lon": 5.429034,
+"quays": [
+"RTM-00003236",
+"RTM-00003251"
+]
+},
+{
+"name": "Arenc Euroméditerranée",
+"type": "lateral",
+"doors": "right",
+"lat": 43.313336,
+"lon": 5.368083,
+"quays": [
+"RTM-00003554",
+"RTM-00003556"
+]
+},
+{
+"name": "Aubert Ganay",
+"type": "lateral",
+"doors": "right",
+"lat": 43.266039,
+"lon": 5.403099,
+"quays": [
+"RTM-00004763",
+"RTM-00004764"
+]
+},
+{
+"name": "Belsunce Alcazar",
+"type": "lateral",
+"doors": "right",
+"lat": 43.298509,
+"lon": 5.376613,
+"quays": [
+"RTM-00003213",
+"RTM-00003275"
+]
+},
+{
+"name": "Camas",
+"type": "lateral",
+"doors": "right",
+"lat": 43.295363,
+"lon": 5.393143,
+"quays": [
+"RTM-00003413",
+"RTM-00003421"
+]
+},
+{
+"name": "Canebière Capucins",
+"type": "lateral",
+"doors": "right",
+"lat": 43.296764,
+"lon": 5.378931,
+"quays": [
+"RTM-00004119",
+"RTM-00004128"
+]
+},
+{
+"name": "Cantini Rouet",
+"type": "lateral",
+"doors": "right",
+"lat": 43.279865,
+"lon": 5.39486,
+"quays": [
+"RTM-00004757",
+"RTM-00004758"
+]
+},
+{
+"name": "Castellane",
+"type": "lateral",
+"doors": "right",
+"lat": 43.285437,
+"lon": 5.384648,
+"quays": [
+"RTM-00004124",
+"RTM-00004129"
+]
+},
+{
+"name": "Cinq Avenues",
+"type": "lateral",
+"doors": "right",
+"lat": 43.302307,
+"lon": 5.397069,
+"quays": [
+"RTM-00003267",
+"RTM-00003285"
+]
+},
+{
+"name": "Cours Saint-Louis",
+"type": "lateral",
+"doors": "right",
+"lat": 43.295919,
+"lon": 5.378074,
+"quays": [
+"RTM-00004120",
+"RTM-00004133"
+]
+},
+{
+"name": "Eugène Pierre",
+"type": "lateral",
+"doors": "right",
+"lat": 43.295153,
+"lon": 5.389687,
+"quays": [
+"RTM-00003411",
+"RTM-00003464"
+]
+},
+{
+"name": "Euroméditerranée Le Silo",
+"type": "lateral",
+"doors": "right",
+"lat": 43.30872,
+"lon": 5.36816,
+"quays": [
+"RTM-00003206",
+"RTM-00003281"
+]
+},
+{
+"name": "Foch Boisson",
+"type": "lateral",
+"doors": "right",
+"lat": 43.298124,
+"lon": 5.403282,
+"quays": [
+"RTM-00003223",
+"RTM-00003265"
+]
+},
+{
+"name": "Foch Sakakini",
+"type": "lateral",
+"doors": "right",
+"lat": 43.300311,
+"lon": 5.400072,
+"quays": [
+"RTM-00003222",
+"RTM-00003266"
+]
+},
+{
+"name": "George",
+"type": "lateral",
+"doors": "right",
+"lat": 43.295623,
+"lon": 5.397414,
+"quays": [
+"RTM-00003414",
+"RTM-00003420"
+]
+},
+{
+"name": "Gèze",
+"type": "lateral",
+"doors": "right",
+"lat": 43.327034,
+"lon": 5.366199,
+"quays": [
+"RTM-00004749",
+"RTM-00004750"
+]
+},
+{
+"name": "Hôpital Sainte-Marguerite",
+"type": "lateral",
+"doors": "right",
+"lat": 43.259441,
+"lon": 5.408716,
+"quays": [
+"RTM-00004767",
+"RTM-00004768"
+]
+},
+{
+"name": "Jean Martin",
+"type": "lateral",
+"doors": "right",
+"lat": 43.295867,
+"lon": 5.401736,
+"quays": [
+"RTM-00003415",
+"RTM-00003419"
+]
+},
+{
+"name": "Joliette",
+"type": "lateral",
+"doors": "right",
+"lat": 43.305486,
+"lon": 5.367192,
+"quays": [
+"RTM-00003209",
+"RTM-00003279"
+]
+},
+{
+"name": "La Blancarde",
+"type": "central",
+"doors": "left",
+"lat": 43.295729,
+"lon": 5.40625,
+"quays": [
+"RTM-00003227",
+"RTM-00003292",
+"RTM-00003416",
+"RTM-00003417"
+]
+},
+{
+"name": "La Boiseraie",
+"type": "lateral",
+"doors": "right",
+"lat": 43.29494,
+"lon": 5.422536,
+"quays": [
+"RTM-00003234",
+"RTM-00003253"
+]
+},
+{
+"name": "La Gaye",
+"type": "central",
+"doors": "left",
+"lat": 43.256558,
+"lon": 5.411185,
+"quays": [
+"RTM-00004770"
+]
+},
+{
+"name": "La Grognarde",
+"type": "lateral",
+"doors": "right",
+"lat": 43.294596,
+"lon": 5.432294,
+"quays": [
+"RTM-00003237",
+"RTM-00003250"
+]
+},
+{
+"name": "La Parette",
+"type": "lateral",
+"doors": "right",
+"lat": 43.294988,
+"lon": 5.419219,
+"quays": [
+"RTM-00003233",
+"RTM-00003254"
+]
+},
+{
+"name": "Les Caillols",
+"type": "lateral",
+"doors": "right",
+"lat": 43.294735,
+"lon": 5.444081,
+"quays": [
+"RTM-00003240",
+"RTM-00003247"
+]
+},
+{
+"name": "Longchamp National",
+"type": "lateral",
+"doors": "right",
+"lat": 43.301533,
+"lon": 5.388638,
+"quays": [
+"RTM-00003220",
+"RTM-00003269"
+]
+},
+{
+"name": "Noailles",
+"type": "central",
+"doors": "left",
+"lat": 43.297183,
+"lon": 5.381117,
+"quays": [
+"RTM-00003217",
+"RTM-00003272",
+"RTM-00003459"
+]
+},
+{
+"name": "Palais Longchamp",
+"type": "lateral",
+"doors": "right",
+"lat": 43.303272,
+"lon": 5.392391,
+"quays": [
+"RTM-00003221",
+"RTM-00003268"
+]
+},
+{
+"name": "Parc Sévigné",
+"type": "lateral",
+"doors": "right",
+"lat": 43.261854,
+"lon": 5.404837,
+"quays": [
+"RTM-00004765",
+"RTM-00004766"
+]
+},
+{
+"name": "Parc du 26ème Centenaire",
+"type": "lateral",
+"doors": "right",
+"lat": 43.282371,
+"lon": 5.390289,
+"quays": [
+"RTM-00004755",
+"RTM-00004756"
+]
+},
+{
+"name": "Place Ferrié",
+"type": "lateral",
+"doors": "right",
+"lat": 43.276976,
+"lon": 5.399243,
+"quays": [
+"RTM-00004759",
+"RTM-00004760"
+]
+},
+{
+"name": "Place de Rome",
+"type": "lateral",
+"doors": "right",
+"lat": 43.291448,
+"lon": 5.38062,
+"quays": [
+"RTM-00004122",
+"RTM-00004131"
+]
+},
+{
+"name": "Rome Davso",
+"type": "lateral",
+"doors": "right",
+"lat": 43.293603,
+"lon": 5.379378,
+"quays": [
+"RTM-00004121",
+"RTM-00004132"
+]
+},
+{
+"name": "Rome Dragon",
+"type": "lateral",
+"doors": "right",
+"lat": 43.289121,
+"lon": 5.381929,
+"quays": [
+"RTM-00004123",
+"RTM-00004130"
+]
+},
+{
+"name": "Réformés Canebière",
+"type": "lateral",
+"doors": "right",
+"lat": 43.30003,
+"lon": 5.38552,
+"quays": [
+"RTM-00003218",
+"RTM-00003271"
+]
+},
+{
+"name": "République Dames",
+"type": "lateral",
+"doors": "right",
+"lat": 43.302189,
+"lon": 5.369285,
+"quays": [
+"RTM-00003210",
+"RTM-00003278"
+]
+},
+{
+"name": "Sadi Carnot",
+"type": "lateral",
+"doors": "right",
+"lat": 43.299874,
+"lon": 5.371185,
+"quays": [
+"RTM-00003211",
+"RTM-00003277"
+]
+},
+{
+"name": "Saint-Pierre",
+"type": "multi",
+"doors": "both",
+"lat": 43.291822,
+"lon": 5.414193,
+"quays": [
+"RTM-00003232",
+"RTM-00003255",
+"RTM-00004312"
+]
+},
+{
+"name": "Sainte-Marguerite Dromel",
+"type": "lateral",
+"doors": "right",
+"lat": 43.271223,
+"lon": 5.402049,
+"quays": [
+"RTM-00004761",
+"RTM-00004762"
+]
+},
+{
+"name": "Sainte-Thérèse",
+"type": "lateral",
+"doors": "right",
+"lat": 43.294158,
+"lon": 5.409558,
+"quays": [
+"RTM-00003229",
+"RTM-00003258"
+]
+},
+{
+"name": "Salengro Bachas",
+"type": "lateral",
+"doors": "right",
+"lat": 43.317226,
+"lon": 5.368777,
+"quays": [
+"RTM-00004753",
+"RTM-00004754"
+]
+},
+{
+"name": "Salengro Cougit",
+"type": "lateral",
+"doors": "right",
+"lat": 43.321553,
+"lon": 5.367552,
+"quays": [
+"RTM-00004751",
+"RTM-00004752"
+]
+},
+{
+"name": "William Booth",
+"type": "lateral",
+"doors": "right",
+"lat": 43.292644,
+"lon": 5.43684,
+"quays": [
+"RTM-00003238",
+"RTM-00003249"
+]
+}
+]
+}

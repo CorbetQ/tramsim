@@ -1,0 +1,419 @@
+{
+"schema": 1,
+"city": "caen",
+"platform_m": 35.5,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": true,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Aviation",
+"type": "offset",
+"doors": "right",
+"lat": 49.163131,
+"lon": -0.349797,
+"quays": [
+"av01",
+"av02"
+]
+},
+{
+"name": "Bernières",
+"type": "lateral",
+"doors": "right",
+"lat": 49.18245,
+"lon": -0.357743,
+"quays": [
+"be01",
+"be02"
+]
+},
+{
+"name": "CHU",
+"type": "lateral",
+"doors": "right",
+"lat": 49.204257,
+"lon": -0.359516,
+"quays": [
+"ch01",
+"ch02"
+]
+},
+{
+"name": "CITIS",
+"type": "lateral",
+"doors": "right",
+"lat": 49.211398,
+"lon": -0.356621,
+"quays": [
+"ci01",
+"ci02"
+]
+},
+{
+"name": "CROUS-SUAPS",
+"type": "lateral",
+"doors": "right",
+"lat": 49.193745,
+"lon": -0.363631,
+"quays": [
+"cs01",
+"cs02"
+]
+},
+{
+"name": "Café des Images",
+"type": "lateral",
+"doors": "right",
+"lat": 49.202474,
+"lon": -0.332524,
+"quays": [
+"cim01",
+"cim02"
+]
+},
+{
+"name": "Calvaire Saint-Pierre",
+"type": "lateral",
+"doors": "right",
+"lat": 49.197899,
+"lon": -0.36402,
+"quays": [
+"csp01",
+"csp02"
+]
+},
+{
+"name": "Campus 2",
+"type": "lateral",
+"doors": "right",
+"lat": 49.21261,
+"lon": -0.364462,
+"quays": [
+"ca01",
+"ca02"
+]
+},
+{
+"name": "Campus 4",
+"type": "lateral",
+"doors": "right",
+"lat": 49.209045,
+"lon": -0.358813,
+"quays": [
+"cb01",
+"cb02"
+]
+},
+{
+"name": "Château Quatrans",
+"type": "multi",
+"doors": "both",
+"lat": 49.185212,
+"lon": -0.363784,
+"quays": [
+"qu01",
+"qu02",
+"qu03",
+"qu04"
+]
+},
+{
+"name": "Château d'Eau",
+"type": "lateral",
+"doors": "right",
+"lat": 49.202756,
+"lon": -0.3403,
+"quays": [
+"che01",
+"che02"
+]
+},
+{
+"name": "Cité U Lebisey",
+"type": "lateral",
+"doors": "right",
+"lat": 49.199652,
+"lon": -0.354224,
+"quays": [
+"cule01",
+"cule02"
+]
+},
+{
+"name": "Collège Hawking",
+"type": "lateral",
+"doors": "right",
+"lat": 49.157854,
+"lon": -0.360851,
+"quays": [
+"cp01",
+"cp02"
+]
+},
+{
+"name": "Concorde",
+"type": "lateral",
+"doors": "right",
+"lat": 49.156858,
+"lon": -0.341761,
+"quays": [
+"con01",
+"con02"
+]
+},
+{
+"name": "Copernic",
+"type": "lateral",
+"doors": "right",
+"lat": 49.19845,
+"lon": -0.35942,
+"quays": [
+"co01",
+"co02"
+]
+},
+{
+"name": "Côte de Nacre",
+"type": "lateral",
+"doors": "right",
+"lat": 49.210963,
+"lon": -0.362065,
+"quays": [
+"cdn01",
+"cdn02"
+]
+},
+{
+"name": "Gare - Rives de l'Orne",
+"type": "lateral",
+"doors": "right",
+"lat": 49.178375,
+"lon": -0.350694,
+"quays": [
+"rdo01",
+"rdo02"
+]
+},
+{
+"name": "Gare SNCF",
+"type": "lateral",
+"doors": "right",
+"lat": 49.175889,
+"lon": -0.348318,
+"quays": [
+"gs01",
+"gs02"
+]
+},
+{
+"name": "Grâce de Dieu",
+"type": "lateral",
+"doors": "right",
+"lat": 49.161363,
+"lon": -0.36026,
+"quays": [
+"gdd01",
+"gdd02"
+]
+},
+{
+"name": "Guynemer",
+"type": "lateral",
+"doors": "right",
+"lat": 49.168384,
+"lon": -0.343927,
+"quays": [
+"gu01",
+"gu02"
+]
+},
+{
+"name": "Hauts de l'Orne",
+"type": "central",
+"doors": "left",
+"lat": 49.152939,
+"lon": -0.361138,
+"quays": [
+"zac01",
+"zac02"
+]
+},
+{
+"name": "Jean Vilar",
+"type": "lateral",
+"doors": "right",
+"lat": 49.150103,
+"lon": -0.351001,
+"quays": [
+"jv01",
+"jv02"
+]
+},
+{
+"name": "Leroy",
+"type": "lateral",
+"doors": "right",
+"lat": 49.173339,
+"lon": -0.344374,
+"quays": [
+"bl01",
+"bl02"
+]
+},
+{
+"name": "Liberté",
+"type": "lateral",
+"doors": "right",
+"lat": 49.160705,
+"lon": -0.343205,
+"quays": [
+"li01",
+"li02"
+]
+},
+{
+"name": "Lux-Lépine",
+"type": "central",
+"doors": "left",
+"lat": 49.17106,
+"lon": -0.342036,
+"quays": [
+"vl01",
+"vl02"
+]
+},
+{
+"name": "Modigliani",
+"type": "lateral",
+"doors": "right",
+"lat": 49.154358,
+"lon": -0.346233,
+"quays": [
+"mo01",
+"mo02"
+]
+},
+{
+"name": "Pierre Heuzé",
+"type": "lateral",
+"doors": "right",
+"lat": 49.199267,
+"lon": -0.347148,
+"quays": [
+"ph01",
+"ph02"
+]
+},
+{
+"name": "Place de l'Europe",
+"type": "lateral",
+"doors": "right",
+"lat": 49.202596,
+"lon": -0.336439,
+"quays": [
+"ac01",
+"ac02"
+]
+},
+{
+"name": "Place de la Mare",
+"type": "lateral",
+"doors": "right",
+"lat": 49.187119,
+"lon": -0.366191,
+"quays": [
+"plm01",
+"plm02"
+]
+},
+{
+"name": "Poincaré",
+"type": "lateral",
+"doors": "right",
+"lat": 49.165471,
+"lon": -0.342808,
+"quays": [
+"po01",
+"po02"
+]
+},
+{
+"name": "Presqu'île",
+"type": "lateral",
+"doors": "right",
+"lat": 49.181661,
+"lon": -0.348024,
+"quays": [
+"pr01",
+"pr02"
+]
+},
+{
+"name": "Quai de Juillet",
+"type": "lateral",
+"doors": "right",
+"lat": 49.178541,
+"lon": -0.353624,
+"quays": [
+"qdj01",
+"qdj02"
+]
+},
+{
+"name": "Rostand Fresnel",
+"type": "lateral",
+"doors": "right",
+"lat": 49.162091,
+"lon": -0.354192,
+"quays": [
+"rf01",
+"rf02"
+]
+},
+{
+"name": "Résistance Saint-Jean",
+"type": "lateral",
+"doors": "right",
+"lat": 49.180806,
+"lon": -0.356006,
+"quays": [
+"re01",
+"re02"
+]
+},
+{
+"name": "Saint-Clair",
+"type": "lateral",
+"doors": "right",
+"lat": 49.203622,
+"lon": -0.329332,
+"quays": [
+"sc01",
+"sc02"
+]
+},
+{
+"name": "Saint-Pierre",
+"type": "lateral",
+"doors": "right",
+"lat": 49.183769,
+"lon": -0.360023,
+"quays": [
+"stpi01",
+"stpi02"
+]
+},
+{
+"name": "Université",
+"type": "lateral",
+"doors": "right",
+"lat": 49.188891,
+"lon": -0.363914,
+"quays": [
+"un01",
+"un02"
+]
+}
+]
+}

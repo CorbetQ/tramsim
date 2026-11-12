@@ -1,0 +1,572 @@
+{
+"schema": 1,
+"city": "orleans",
+"platform_m": 35.4,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": false,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Ambert",
+"type": "lateral",
+"doors": "right",
+"lat": 47.908785,
+"lon": 1.93702,
+"quays": [
+"ORLEANS:StopArea:TAMBER1",
+"ORLEANS:StopArea:TAMBER2"
+]
+},
+{
+"name": "Beaumonts",
+"type": "lateral",
+"doors": "right",
+"lat": 47.900665,
+"lon": 1.887093,
+"quays": [
+"ORLEANS:StopArea:TBEAUM1",
+"ORLEANS:StopArea:TBEAUM2"
+]
+},
+{
+"name": "Bolière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.831582,
+"lon": 1.929003,
+"quays": [
+"ORLEANS:StopArea:TBOLIE1",
+"ORLEANS:StopArea:TBOLIE2"
+]
+},
+{
+"name": "Bustière",
+"type": "lateral",
+"doors": "right",
+"lat": 47.929243,
+"lon": 1.912908,
+"quays": [
+"ORLEANS:StopArea:TBUSTI1",
+"ORLEANS:StopArea:TBUSTI2"
+]
+},
+{
+"name": "CO'Met",
+"type": "lateral",
+"doors": "right",
+"lat": 47.87481,
+"lon": 1.913144,
+"quays": [
+"ORLEANS:StopArea:TCOMET1",
+"ORLEANS:StopArea:TCOMET2"
+]
+},
+{
+"name": "Cathédrale",
+"type": "offset",
+"doors": "right",
+"lat": 47.902923,
+"lon": 1.90867,
+"quays": [
+"ORLEANS:StopArea:TCAHDV1",
+"ORLEANS:StopArea:TCAHDV2"
+]
+},
+{
+"name": "Chèques Postaux - Michel Ricoud",
+"type": "lateral",
+"doors": "right",
+"lat": 47.835998,
+"lon": 1.932269,
+"quays": [
+"ORLEANS:StopArea:TPOSTA1",
+"ORLEANS:StopArea:TPOSTA2"
+]
+},
+{
+"name": "Clos de l'Arche",
+"type": "lateral",
+"doors": "right",
+"lat": 47.909886,
+"lon": 1.96437,
+"quays": [
+"ORLEANS:StopArea:TCLARC1",
+"ORLEANS:StopArea:TCLARC2"
+]
+},
+{
+"name": "Clos du Hameau",
+"type": "central",
+"doors": "left",
+"lat": 47.911009,
+"lon": 1.976302,
+"quays": [
+"ORLEANS:StopArea:THAMEA1",
+"ORLEANS:StopArea:THAMEA2"
+]
+},
+{
+"name": "Coligny",
+"type": "offset",
+"doors": "right",
+"lat": 47.915736,
+"lon": 1.900435,
+"quays": [
+"ORLEANS:StopArea:TCOLIG1",
+"ORLEANS:StopArea:TCOLIG2"
+]
+},
+{
+"name": "Croix Morin",
+"type": "lateral",
+"doors": "right",
+"lat": 47.901839,
+"lon": 1.897254,
+"quays": [
+"ORLEANS:StopArea:TCXMOR1",
+"ORLEANS:StopArea:TCXMOR2"
+]
+},
+{
+"name": "De Gaulle",
+"type": "multi",
+"doors": "both",
+"lat": 47.901448,
+"lon": 1.902873,
+"quays": [
+"ORLEANS:StopArea:TGAULA1",
+"ORLEANS:StopArea:TGAULA2",
+"ORLEANS:StopArea:TGAULB1",
+"ORLEANS:StopArea:TGAULB2"
+]
+},
+{
+"name": "Droits de l'Homme",
+"type": "lateral",
+"doors": "right",
+"lat": 47.911784,
+"lon": 1.922376,
+"quays": [
+"ORLEANS:StopArea:TDRHOM1",
+"ORLEANS:StopArea:TDRHOM2"
+]
+},
+{
+"name": "Eugène Vignat",
+"type": "lateral",
+"doors": "right",
+"lat": 47.909491,
+"lon": 1.911185,
+"quays": [
+"ORLEANS:StopArea:TVIGNA1",
+"ORLEANS:StopArea:TVIGNA2"
+]
+},
+{
+"name": "Gare d'Orléans",
+"type": "lateral",
+"doors": "right",
+"lat": 47.906785,
+"lon": 1.905313,
+"quays": [
+"ORLEANS:StopArea:TGARDO1",
+"ORLEANS:StopArea:TGARDO2"
+]
+},
+{
+"name": "Gare des Aubrais",
+"type": "lateral",
+"doors": "right",
+"lat": 47.92651,
+"lon": 1.907024,
+"quays": [
+"ORLEANS:StopArea:TAUBRA1",
+"ORLEANS:StopArea:TAUBRA2"
+]
+},
+{
+"name": "Gaudier-Brzeska",
+"type": "lateral",
+"doors": "right",
+"lat": 47.910231,
+"lon": 1.945969,
+"quays": [
+"ORLEANS:StopArea:TGAUBR1",
+"ORLEANS:StopArea:TGAUBR2"
+]
+},
+{
+"name": "Georges Pompidou",
+"type": "central",
+"doors": "left",
+"lat": 47.896798,
+"lon": 1.854178,
+"quays": [
+"ORLEANS:StopArea:TPOMPI2"
+]
+},
+{
+"name": "Grand Villiers",
+"type": "lateral",
+"doors": "right",
+"lat": 47.910289,
+"lon": 1.932877,
+"quays": [
+"ORLEANS:StopArea:TGVILL1",
+"ORLEANS:StopArea:TGVILL2"
+]
+},
+{
+"name": "Guy-Marie Riobé",
+"type": "lateral",
+"doors": "right",
+"lat": 47.912714,
+"lon": 1.913177,
+"quays": [
+"ORLEANS:StopArea:TRIOBE1",
+"ORLEANS:StopArea:TRIOBE2"
+]
+},
+{
+"name": "Halmagrand",
+"type": "lateral",
+"doors": "right",
+"lat": 47.904902,
+"lon": 1.909484,
+"quays": [
+"ORLEANS:StopArea:THALMA1",
+"ORLEANS:StopArea:THALMA2"
+]
+},
+{
+"name": "Hôpital de La Source",
+"type": "central",
+"doors": "left",
+"lat": 47.837497,
+"lon": 1.919277,
+"quays": [
+"ORLEANS:StopArea:THOPIT1",
+"ORLEANS:StopArea:THOPIT2"
+]
+},
+{
+"name": "Hôpital-Accueil",
+"type": "lateral",
+"doors": "right",
+"lat": 47.832019,
+"lon": 1.919641,
+"quays": [
+"ORLEANS:StopArea:THOPAC1",
+"ORLEANS:StopArea:THOPAC2"
+]
+},
+{
+"name": "Jeanne d'Arc",
+"type": "lateral",
+"doors": "right",
+"lat": 47.901618,
+"lon": 1.906289,
+"quays": [
+"ORLEANS:StopArea:TJDARC1",
+"ORLEANS:StopArea:TJDARC2"
+]
+},
+{
+"name": "Jules Verne",
+"type": "central",
+"doors": "left",
+"lat": 47.928199,
+"lon": 1.925009,
+"quays": [
+"ORLEANS:StopArea:TVERNE1",
+"ORLEANS:StopArea:TVERNE2"
+]
+},
+{
+"name": "L'Indien",
+"type": "lateral",
+"doors": "right",
+"lat": 47.839683,
+"lon": 1.934894,
+"quays": [
+"ORLEANS:StopArea:TINDIE1",
+"ORLEANS:StopArea:TINDIE2"
+]
+},
+{
+"name": "Lamballe",
+"type": "lateral",
+"doors": "right",
+"lat": 47.928091,
+"lon": 1.919354,
+"quays": [
+"ORLEANS:StopArea:TLAMBA1",
+"ORLEANS:StopArea:TLAMBA2"
+]
+},
+{
+"name": "Larry - Saint Fiacre",
+"type": "lateral",
+"doors": "right",
+"lat": 47.854183,
+"lon": 1.909517,
+"quays": [
+"ORLEANS:StopArea:TLARRY1",
+"ORLEANS:StopArea:TLARRY2"
+]
+},
+{
+"name": "Les Aulnaies",
+"type": "lateral",
+"doors": "right",
+"lat": 47.846422,
+"lon": 1.916966,
+"quays": [
+"ORLEANS:StopArea:TAULNA1",
+"ORLEANS:StopArea:TAULNA2"
+]
+},
+{
+"name": "Libération-Interives",
+"type": "lateral",
+"doors": "right",
+"lat": 47.91954,
+"lon": 1.903471,
+"quays": [
+"ORLEANS:StopArea:TLIBER1",
+"ORLEANS:StopArea:TLIBER2"
+]
+},
+{
+"name": "Lorette",
+"type": "lateral",
+"doors": "right",
+"lat": 47.849725,
+"lon": 1.925393,
+"quays": [
+"ORLEANS:StopArea:TLORET1",
+"ORLEANS:StopArea:TLORET2"
+]
+},
+{
+"name": "Louis Braille",
+"type": "lateral",
+"doors": "right",
+"lat": 47.911126,
+"lon": 1.903896,
+"quays": [
+"ORLEANS:StopArea:TLBRAL1",
+"ORLEANS:StopArea:TLBRAL2"
+]
+},
+{
+"name": "Léon Blum",
+"type": "lateral",
+"doors": "right",
+"lat": 47.910328,
+"lon": 1.96906,
+"quays": [
+"ORLEANS:StopArea:TLBLUM1",
+"ORLEANS:StopArea:TLBLUM2"
+]
+},
+{
+"name": "Madeleine",
+"type": "lateral",
+"doors": "right",
+"lat": 47.901276,
+"lon": 1.892662,
+"quays": [
+"ORLEANS:StopArea:TMADEL1",
+"ORLEANS:StopArea:TMADEL2"
+]
+},
+{
+"name": "Martin Luther King",
+"type": "lateral",
+"doors": "right",
+"lat": 47.901774,
+"lon": 1.866871,
+"quays": [
+"ORLEANS:StopArea:TMLKIN1",
+"ORLEANS:StopArea:TMLKIN2"
+]
+},
+{
+"name": "Mouillère",
+"type": "lateral",
+"doors": "right",
+"lat": 47.883535,
+"lon": 1.909361,
+"quays": [
+"ORLEANS:StopArea:TMOUIL1",
+"ORLEANS:StopArea:TMOUIL2"
+]
+},
+{
+"name": "Mozart",
+"type": "lateral",
+"doors": "right",
+"lat": 47.911431,
+"lon": 1.928542,
+"quays": [
+"ORLEANS:StopArea:TMOZAR1",
+"ORLEANS:StopArea:TMOZAR2"
+]
+},
+{
+"name": "Parc Floral",
+"type": "lateral",
+"doors": "right",
+"lat": 47.845369,
+"lon": 1.936261,
+"quays": [
+"ORLEANS:StopArea:TFLORA1",
+"ORLEANS:StopArea:TFLORA2"
+]
+},
+{
+"name": "Pont Bordeau",
+"type": "lateral",
+"doors": "right",
+"lat": 47.909022,
+"lon": 1.953022,
+"quays": [
+"ORLEANS:StopArea:TPTBOR1",
+"ORLEANS:StopArea:TPTBOR2"
+]
+},
+{
+"name": "Pont de L'Europe",
+"type": "lateral",
+"doors": "right",
+"lat": 47.899149,
+"lon": 1.876493,
+"quays": [
+"ORLEANS:StopArea:TPEURO1",
+"ORLEANS:StopArea:TPEURO2"
+]
+},
+{
+"name": "Porte Dunoise",
+"type": "lateral",
+"doors": "right",
+"lat": 47.89986,
+"lon": 1.881248,
+"quays": [
+"ORLEANS:StopArea:TPTDUN1",
+"ORLEANS:StopArea:TPTDUN2"
+]
+},
+{
+"name": "Rol Tanguy",
+"type": "lateral",
+"doors": "right",
+"lat": 47.902576,
+"lon": 1.871687,
+"quays": [
+"ORLEANS:StopArea:TTANGU1",
+"ORLEANS:StopArea:TTANGU2"
+]
+},
+{
+"name": "Royale-Châtelet",
+"type": "lateral",
+"doors": "right",
+"lat": 47.898721,
+"lon": 1.904199,
+"quays": [
+"ORLEANS:StopArea:TROYAL1",
+"ORLEANS:StopArea:TROYAL2"
+]
+},
+{
+"name": "République",
+"type": "offset",
+"doors": "right",
+"lat": 47.903925,
+"lon": 1.904285,
+"quays": [
+"ORLEANS:StopArea:TREPUB1",
+"ORLEANS:StopArea:TREPUB2"
+]
+},
+{
+"name": "Saint-Marceau",
+"type": "lateral",
+"doors": "right",
+"lat": 47.88848,
+"lon": 1.905451,
+"quays": [
+"ORLEANS:StopArea:TCSMAR1",
+"ORLEANS:StopArea:TCSMAR2"
+]
+},
+{
+"name": "Tourelles-Dauphine",
+"type": "lateral",
+"doors": "right",
+"lat": 47.894338,
+"lon": 1.904588,
+"quays": [
+"ORLEANS:StopArea:TTOURE1",
+"ORLEANS:StopArea:TTOURE2"
+]
+},
+{
+"name": "Trois Fontaines",
+"type": "lateral",
+"doors": "right",
+"lat": 47.901937,
+"lon": 1.860252,
+"quays": [
+"ORLEANS:StopArea:TTFONT1",
+"ORLEANS:StopArea:TTFONT2"
+]
+},
+{
+"name": "Université",
+"type": "lateral",
+"doors": "right",
+"lat": 47.846874,
+"lon": 1.931812,
+"quays": [
+"ORLEANS:StopArea:TCAMPU1",
+"ORLEANS:StopArea:TCAMPU2"
+]
+},
+{
+"name": "Verville",
+"type": "lateral",
+"doors": "right",
+"lat": 47.909224,
+"lon": 1.958519,
+"quays": [
+"ORLEANS:StopArea:TVERVI1",
+"ORLEANS:StopArea:TVERVI2"
+]
+},
+{
+"name": "Victor Hugo",
+"type": "lateral",
+"doors": "right",
+"lat": 47.857256,
+"lon": 1.905106,
+"quays": [
+"ORLEANS:StopArea:TVHUGO1",
+"ORLEANS:StopArea:TVHUGO2"
+]
+},
+{
+"name": "Zénith",
+"type": "lateral",
+"doors": "right",
+"lat": 47.869192,
+"lon": 1.912377,
+"quays": [
+"ORLEANS:StopArea:TZENIT1",
+"ORLEANS:StopArea:TZENIT2"
+]
+}
+]
+}

@@ -32,6 +32,18 @@ var v3 := false                 # TSC3 : toits, houppiers et sol vert analysés 
 var _ortho_tile := false
 var _track_nat: Dictionary = {} # Vector2i (cellule) -> nature de plateforme (TrackView.BED_*)
 var _track_cell := 8.0
+# relief (data/scenes/<ville>_terrain.bin, tools/import/terrain.py) : grilles 41 x 41 par tuile, altitudes relatives à alt0
+var has_terrain := false
+var alt0 := 0.0
+var min_height := 0.0
+var _ter: PackedByteArray
+var _ter_table: Dictionary = {}     # Vector2i -> offset de la tuile
+var _ter_grid: Dictionary = {}      # Vector2i -> PackedFloat32Array (41 x 41, [iz * 41 + ix])
+var _water_lv: Dictionary = {}      # Vector2i -> Array de Vector3 (x, niveau, z) repère tuile
+var _decks: Array = []              # [type, largeur, PackedVector3Array repère ville, Vector2i tuile]
+var _deck_cells: Dictionary = {}    # Vector2i (cellules de 32 m) -> Array de [pont, segment]
+const TG := 41
+const TSTEP := 10.0
 var debug_props := false        # tests : mémorise la position (repère ville) des arbres et lampadaires posés
 var placed_props: Array[Vector2] = []
 var placed_trees: Array[Vector2] = []
@@ -71,7 +83,122 @@ func open(c: String, net_origin: Array) -> bool:
 	position = Vector3(deg_to_rad(lon_c - lon_n) * R * cos(deg_to_rad(lat_n)), 0.0, -deg_to_rad(lat_c - lat_n) * R)
 	_load_style(c)
 	_load_track_nature(c)
+	_load_terrain(c)
 	return true
+
+func _load_terrain(c: String) -> void:
+	var path := "res://data/scenes/%s_terrain.bin" % c
+	if not FileAccess.file_exists(path): return
+	_ter = FileAccess.get_file_as_bytes(path)
+	if _ter.size() < 8 or _ter.slice(0, 4).get_string_from_ascii() != "TTR1": return
+	var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s_terrain.json" % c))
+	if typeof(meta) == TYPE_DICTIONARY: alt0 = float(meta.get("alt0", 0.0))
+	var n := _ter.decode_u32(4)
+	min_height = INF
+	for i in n:
+		var o := 8 + i * 16
+		var k := Vector2i(_ter.decode_s32(o), _ter.decode_s32(o + 4))
+		var to := int(_ter.decode_u32(o + 8))
+		_ter_table[k] = to
+		min_height = minf(min_height, _ter.decode_s16(to) * 0.1)
+		var q := to + 3 + TG * TG
+		var nw := _ter.decode_u8(q); q += 1
+		var lv: Array = []
+		for j in nw:
+			lv.append(Vector3(_ter.decode_s16(q) * 0.1, _ter.decode_s16(q + 4) * 0.1, _ter.decode_s16(q + 2) * 0.1)); q += 6
+		_water_lv[k] = lv
+		var nd := _ter.decode_u16(q); q += 2
+		for j in nd:
+			var kd := _ter.decode_u8(q); var w := _ter.decode_u8(q + 1) / 5.0; var np := _ter.decode_u8(q + 2); q += 3
+			var pl := PackedVector3Array()
+			for m in np:
+				pl.append(Vector3(k.x * tile_m + _ter.decode_s16(q) * 0.1, _ter.decode_s16(q + 4) * 0.1, k.y * tile_m + _ter.decode_s16(q + 2) * 0.1)); q += 6
+			var di := _decks.size()
+			_decks.append([kd, w, pl, k])
+			for m in range(pl.size() - 1):
+				var lo := Vector2(minf(pl[m].x, pl[m + 1].x), minf(pl[m].z, pl[m + 1].z)) - Vector2.ONE * w
+				var hi := Vector2(maxf(pl[m].x, pl[m + 1].x), maxf(pl[m].z, pl[m + 1].z)) + Vector2.ONE * w
+				for cx in range(floori(lo.x / 32.0), floori(hi.x / 32.0) + 1):
+					for cz in range(floori(lo.y / 32.0), floori(hi.y / 32.0) + 1):
+						var ck := Vector2i(cx, cz)
+						if not _deck_cells.has(ck): _deck_cells[ck] = []
+						_deck_cells[ck].append([di, m])
+	has_terrain = not _ter_table.is_empty()
+	if not has_terrain: min_height = 0.0
+
+func _grid(k: Vector2i) -> PackedFloat32Array:
+	if _ter_grid.has(k): return _ter_grid[k]
+	var g := PackedFloat32Array()
+	if _ter_table.has(k):
+		var o: int = _ter_table[k]
+		var base := _ter.decode_s16(o) * 0.1; var step := _ter.decode_u8(o + 2) * 0.01
+		g.resize(TG * TG)
+		for i in TG * TG: g[i] = base + _ter.decode_u8(o + 3 + i) * step
+	_ter_grid[k] = g
+	return g
+
+## Altitude du terrain (repère ville), interpolation sur les triangles du maillage (diagonale 00-11).
+func height_city(x: float, z: float) -> float:
+	if not has_terrain: return 0.0
+	var k := Vector2i(floori(x / tile_m), floori(z / tile_m))
+	var g := _grid(k)
+	if g.is_empty(): return min_height
+	var fx := clampf((x - k.x * tile_m) / TSTEP, 0.0, TG - 1.0001); var fz := clampf((z - k.y * tile_m) / TSTEP, 0.0, TG - 1.0001)
+	var ix := mini(int(fx), TG - 2); var iz := mini(int(fz), TG - 2)
+	var u := fx - ix; var v := fz - iz
+	var h00 := g[iz * TG + ix]; var h10 := g[iz * TG + ix + 1]; var h01 := g[(iz + 1) * TG + ix]; var h11 := g[(iz + 1) * TG + ix + 1]
+	if u >= v: return h00 + (h10 - h00) * u + (h11 - h10) * v
+	return h00 + (h11 - h01) * u + (h01 - h00) * v
+
+## Altitude du terrain sous un point du repère de la ligne.
+func height_at(p_net: Vector3) -> float:
+	return height_city(p_net.x - position.x, p_net.z - position.z)
+
+## Altitude d'un tablier de pont (route ou voie ferrée BD TOPO) au point (repère ville), NAN hors pont.
+func deck_city(x: float, z: float) -> float:
+	var best := NAN
+	var p := Vector2(x, z)
+	for it in _deck_cells.get(Vector2i(floori(x / 32.0), floori(z / 32.0)), []):
+		var d: Array = _decks[it[0]]
+		var pl: PackedVector3Array = d[2]
+		var a := Vector2(pl[it[1]].x, pl[it[1]].z); var b := Vector2(pl[it[1] + 1].x, pl[it[1] + 1].z)
+		var ab := b - a
+		var t := clampf((p - a).dot(ab) / maxf(ab.length_squared(), 0.0001), 0.0, 1.0)
+		if (a + ab * t).distance_to(p) <= float(d[1]) * 0.5 + 0.4:
+			var y := lerpf(pl[it[1]].y, pl[it[1] + 1].y, t)
+			if is_nan(best) or y > best: best = y
+	return best
+
+## Sommets [i0, fin[ de S posés sur le terrain (repère tuile) ; `decks` : sur les tabliers de ponts s'il y en a.
+func _drape(S: _Arrays, i0: int, decks: bool = false) -> void:
+	if not has_terrain: return
+	for i in range(i0, S.v.size()):
+		var q := S.v[i]
+		var x := q.x + _tile_origin.x; var z := q.z + _tile_origin.y
+		var h := height_city(x, z)
+		if decks and not _decks.is_empty():
+			var dh := deck_city(x, z)
+			if not is_nan(dh): h = dh
+		S.v[i] = Vector3(q.x, q.y + h + 0.04, q.z)
+
+## Vrai si la polyligne (repère tuile) suit un tablier de pont sur plus de la moitié de sa longueur.
+func _line_on_deck(pts: PackedVector2Array) -> bool:
+	if _decks.is_empty(): return false
+	var on := 0.0; var tot := 0.0
+	for i in range(pts.size() - 1):
+		var len := pts[i].distance_to(pts[i + 1])
+		var m := (pts[i] + pts[i + 1]) * 0.5 + _tile_origin
+		tot += len
+		if not is_nan(deck_city(m.x, m.y)): on += len
+	return tot > 0.0 and on > tot * 0.5
+
+func _lift(S: _Arrays, i0: int, dy: float) -> void:
+	if dy == 0.0: return
+	for i in range(i0, S.v.size()):
+		S.v[i] += Vector3(0, dy, 0)
+
+func _ground_h(p_tile: Vector2) -> float:
+	return height_city(p_tile.x + _tile_origin.x, p_tile.y + _tile_origin.y)
 
 ## Nature des plateformes (data/scenes/<ville>_track.json, cellules de 8 m le long de l'axe des voies).
 func _load_track_nature(c: String) -> void:
@@ -113,7 +240,7 @@ func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 	for tx in range(t0.x, t1.x + 1):
 		for tz in range(t0.y, t1.y + 1):
 			var k := Vector2i(tx, tz)
-			if table.has(k) and not built.has(k) and not k in queue:
+			if (table.has(k) or _ter_table.has(k)) and not built.has(k) and not k in queue:
 				queue.append(k)
 	var ctile := Vector2(c.x, c.z) / tile_m
 	queue.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
@@ -137,15 +264,24 @@ func warm(center_net: Vector3) -> void:
 func _build_tile(k: Vector2i) -> Node3D:
 	var node := Node3D.new()
 	node.position = Vector3(k.x * tile_m, 0, k.y * tile_m)
-	var e: Vector2i = table[k]
-	var o := e.x
 	var S := _Arrays.new()
 	var W := _Arrays.new()
 	_trees_cur = []
 	for i in TREE_KINDS: _trees_cur.append([])
 	_tile_origin = Vector2(k.x * tile_m, k.y * tile_m)
 	var seed := hash(k)
-	S.quad(Vector3(0, 0, 0), Vector3(tile_m, 0, 0), Vector3(tile_m, 0, tile_m), Vector3(0, 0, tile_m), Color.from_string(str(style.get("ground", "#cfcac0")), Color.GRAY), -1.0)
+	var ground := Color.from_string(str(style.get("ground", "#cfcac0")), Color.GRAY)
+	if has_terrain and _ter_table.has(k): _terrain_mesh(S, k, ground)
+	else: S.quad(Vector3(0, 0, 0), Vector3(tile_m, 0, 0), Vector3(tile_m, 0, tile_m), Vector3(0, 0, tile_m), ground, -1.0)
+	for di in _decks.size():
+		if _decks[di][3] == k: _deck(S, _decks[di])
+	if not table.has(k):   # couronne de relief autour du décor
+		var gi := MeshInstance3D.new(); gi.mesh = S.mesh(); gi.material_override = Materials.building()
+		node.add_child(gi)
+		stats.tiles += 1
+		return node
+	var e: Vector2i = table[k]
+	var o := e.x
 	# 1re passe : lecture de la tuile
 	var blds: Array = []
 	var nb := buf.decode_u16(o); o += 2
@@ -194,9 +330,13 @@ func _build_tile(k: Vector2i) -> Node3D:
 	_ortho_tile = not otrees.is_empty() or not runs.is_empty()
 	# sol vert réel (cellules de 4 m, orthophoto), sous les surfaces BD TOPO et les routes
 	var lawn := Color("#8db463")
+	var i0 := S.count()
+	S.sub = TSTEP
 	for r in runs:
 		var z0: float = r.x * 4.0; var x0: float = r.y * 4.0; var x1: float = x0 + r.z * 4.0
 		S.quad(Vector3(x0, 0.012, z0), Vector3(x1, 0.012, z0), Vector3(x1, 0.012, z0 + 4.0), Vector3(x0, 0.012, z0 + 4.0), lawn, -1.0)
+	S.sub = 0.0
+	_drape(S, i0)
 	# houppiers réels détectés (essence selon le style de la ville, taille selon le houppier)
 	var trng := RandomNumberGenerator.new(); trng.seed = seed * 13
 	for t in otrees:
@@ -211,7 +351,12 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var rc := Color(0, 0, 0, 0)
 		if i < roofs.size() and roofs[i] & 0x8000:
 			rc = Color(((roofs[i] >> 8) & 15) / 15.0, ((roofs[i] >> 4) & 15) / 15.0, (roofs[i] & 15) / 15.0)
+		var j0 := S.count()
 		_building(S, b[0], b[1], b[2], b[3], b[4], seed + i, points, rc)
+		if has_terrain:  # posé au sol : base à l'altitude minimale de l'emprise
+			var base := INF
+			for q in b[0]: base = minf(base, _ground_h(q))
+			_lift(S, j0, base)
 	stats.buildings += nb
 	# surfaces
 	o = polys_start
@@ -224,6 +369,9 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var y: float = {P_WATER: 0.03, P_FOREST: 0.025, P_GRASS: 0.02, P_SPORT: 0.03, P_CEMETERY: 0.025}.get(cls, 0.02)
 		var col: Color = {P_FOREST: Color("#5e9448"), P_GRASS: Color("#8cbd5b"), P_SPORT: Color("#a9cf6c"), P_CEMETERY: Color("#9cb487")}.get(cls, Color("#8cbd5b"))
 		var rng := RandomNumberGenerator.new(); rng.seed = seed * 31 + p
+		if cls == P_WATER and has_terrain: y = _water_level(k, v) + 0.03
+		var p0 := S.count()
+		S.sub = TSTEP
 		for t in ntr:
 			var a := v[buf.decode_u16(o)]; var b := v[buf.decode_u16(o + 2)]; var c := v[buf.decode_u16(o + 4)]; o += 6
 			if cls == P_WATER:
@@ -239,6 +387,8 @@ func _build_tile(k: Vector2i) -> Node3D:
 						var q := a * (1.0 - r1) + b * (r1 * (1.0 - r2)) + c * (r1 * r2)
 						var kind := 1 if (cls == P_CEMETERY and rng.randf() < 0.6) else _pick_tree(rng)
 						_add_tree(kind, Vector3(q.x, y, q.y), rng)
+		S.sub = 0.0
+		_drape(S, p0)
 	# lignes (routes avec arbres d'alignement, voies ferrées)
 	o = lines_start
 	nl = buf.decode_u16(o); o += 2
@@ -247,12 +397,18 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var pts := PackedVector2Array(); pts.resize(n)
 		for i in n:
 			pts[i] = Vector2(buf.decode_s16(o) * 0.1, buf.decode_s16(o + 2) * 0.1); o += 4
+		var l0 := S.count()
+		S.sub = TSTEP
 		_line(S, pts, cls, w, seed + l)
+		S.sub = 0.0
+		_drape(S, l0, _line_on_deck(pts))
 	# éléments ponctuels (clochers isolés, tours, cheminées)
 	for p in points:
 		if p[0] == 1 and p.size() > 3: continue  # clocher déjà rattaché à une église
 		if _keepout != null and _keepout.blocked(_tile_origin + p[2], 3.0): continue
+		var q0 := S.count()
 		_point(S, p[0], p[1], p[2])
+		_lift(S, q0, _ground_h(p[2]) if has_terrain else 0.0)
 	# maillages
 	var mi := MeshInstance3D.new(); mi.mesh = S.mesh(); mi.material_override = Materials.building()
 	node.add_child(mi)
@@ -272,11 +428,80 @@ func _build_tile(k: Vector2i) -> Node3D:
 		l3.font_size = 72; l3.pixel_size = 0.03; l3.outline_size = 14
 		l3.billboard = BaseMaterial3D.BILLBOARD_ENABLED; l3.no_depth_test = false
 		l3.modulate = Color(1, 0.96, 0.85)
-		l3.position = Vector3(lb[1].x, 34.0, lb[1].y)
+		l3.position = Vector3(lb[1].x, 34.0 + (_ground_h(lb[1]) if has_terrain else 0.0), lb[1].y)
 		l3.visibility_range_end = 700.0
 		node.add_child(l3)
 	stats.tiles += 1
 	return node
+
+## Sol en relief : grille de 10 m, facettes plates (low poly), teinte légèrement assombrie dans les pentes.
+func _terrain_mesh(S: _Arrays, k: Vector2i, ground: Color) -> void:
+	var g := _grid(k)
+	var steep := ground.lerp(Color("#8d9a6a"), 0.45)
+	for iz in TG - 1:
+		for ix in TG - 1:
+			var h00 := g[iz * TG + ix]; var h10 := g[iz * TG + ix + 1]; var h01 := g[(iz + 1) * TG + ix]; var h11 := g[(iz + 1) * TG + ix + 1]
+			var x0 := ix * TSTEP; var z0 := iz * TSTEP
+			var a := Vector3(x0, h00, z0); var b := Vector3(x0 + TSTEP, h10, z0)
+			var c := Vector3(x0 + TSTEP, h11, z0 + TSTEP); var d := Vector3(x0, h01, z0 + TSTEP)
+			var s1 := clampf((absf(h10 - h00) + absf(h11 - h10)) / TSTEP * 2.0 - 0.3, 0.0, 1.0)
+			var s2 := clampf((absf(h11 - h01) + absf(h01 - h00)) / TSTEP * 2.0 - 0.3, 0.0, 1.0)
+			S.tri(a, b, c, ground.lerp(steep, s1), -1.0)
+			S.tri(a, c, d, ground.lerp(steep, s2), -1.0)
+
+## Niveau d'un plan d'eau (repère tuile) : échantillon BD TOPO le plus proche, sinon berge la plus basse.
+func _water_level(k: Vector2i, verts: PackedVector2Array) -> float:
+	var c := Vector2.ZERO
+	for q in verts: c += q
+	c /= maxf(verts.size(), 1)
+	var best := INF; var lv := NAN
+	for w in _water_lv.get(k, []):
+		var d := Vector2(w.x, w.z).distance_squared_to(c)
+		if d < best: best = d; lv = w.y
+	if not is_nan(lv): return lv
+	var m := INF
+	for q in verts: m = minf(m, _ground_h(q))
+	return m + 1.2
+
+## Tablier de pont BD TOPO (route ou voie ferrée) : dalle, garde-corps, piles jusqu'au sol (ou au lit de la rivière).
+func _deck(S: _Arrays, d: Array) -> void:
+	var pl: PackedVector3Array = d[2]
+	var hw: float = float(d[1]) * 0.5
+	var o := Vector3(_tile_origin.x, 0, _tile_origin.y)
+	var concrete := Color("#b9b3a7"); var rail := Color("#d6d1c6")
+	var acc := 0.0
+	for i in range(pl.size() - 1):
+		var a := pl[i] - o; var b := pl[i + 1] - o
+		var dir := Vector3(b.x - a.x, 0, b.z - a.z)
+		var len := dir.length()
+		if len < 0.05: continue
+		dir /= len
+		var n := Vector3(-dir.z, 0, dir.x) * hw
+		var dn := Vector3(0, -1.1, 0)
+		# dalle : rives et sous-face
+		S.quad(a + n, b + n, b + n + dn, a + n + dn, concrete, -1.0)
+		S.quad(b - n, a - n, a - n + dn, b - n + dn, concrete, -1.0)
+		S.quad(a + n + dn, b + n + dn, b - n + dn, a - n + dn, concrete.darkened(0.25), -1.0)
+		S.quad(a - n, b - n, b + n, a + n, Color("#7d7f83"), -1.0)
+		# garde-corps
+		for side in [-1.0, 1.0]:
+			var e: Vector3 = n * side * 0.97
+			var up := Vector3(0, 1.05, 0)
+			S.quad(a + e, b + e, b + e + up, a + e + up, rail, -1.0)
+			S.quad(b + e * 0.94, a + e * 0.94, a + e * 0.94 + up, b + e * 0.94 + up, rail, -1.0)
+			S.quad(a + e + up, b + e + up, b + e * 0.94 + up, a + e * 0.94 + up, rail.lightened(0.1), -1.0)
+		# piles
+		var s := fposmod(-acc, 28.0)
+		while s < len:
+			var p := a + (b - a) * (s / len)
+			var gh := _ground_h(Vector2(p.x, p.z))
+			if p.y - gh > 3.0:
+				var hgt := p.y - 1.1 - gh + 1.5
+				for side in ([-0.5, 0.5] if hw > 4.0 else [0.0]):
+					var c: Vector3 = p + n * side
+					S.box(Vector3(c.x, gh - 1.5 + hgt * 0.5, c.z), Vector3(1.3, hgt, 1.3), concrete.darkened(0.08))
+			s += 28.0
+		acc += len
 
 # ----------------------------------------------------------------------------------------------- bâtiments
 
@@ -704,6 +929,7 @@ func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float
 		if lim <= 1.2 and _keepout.blocked(w, lim * 0.8): return
 		sc *= lim / crown
 	var b := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * sc)
+	if has_terrain: pos.y += _ground_h(Vector2(pos.x, pos.z))
 	_trees_cur[kind].append(Transform3D(b, pos))
 	if debug_props: placed_trees.append(w)
 
@@ -754,11 +980,25 @@ class _Arrays:
 	var v := PackedVector3Array()
 	var c := PackedColorArray()
 	var uv := PackedVector2Array()
+	var sub := 0.0     # > 0 : triangles coupés (bissection du plus grand côté) jusqu'à cette taille, pour le drapé
 
 	func count() -> int:
 		return v.size()
 
 	func tri(a: Vector3, b: Vector3, d: Vector3, col: Color, _u: float = -1.0) -> void:
+		if sub > 0.0:
+			var lab := Vector2(a.x - b.x, a.z - b.z).length_squared()
+			var lbd := Vector2(b.x - d.x, b.z - d.z).length_squared()
+			var lda := Vector2(d.x - a.x, d.z - a.z).length_squared()
+			var m := maxf(lab, maxf(lbd, lda))
+			if m > sub * sub:
+				if m == lab:
+					var q := (a + b) * 0.5; tri(a, q, d, col); tri(q, b, d, col)
+				elif m == lbd:
+					var q := (b + d) * 0.5; tri(a, b, q, col); tri(a, q, d, col)
+				else:
+					var q := (d + a) * 0.5; tri(a, b, q, col); tri(q, b, d, col)
+				return
 		v.append(a); v.append(b); v.append(d)
 		c.append(col); c.append(col); c.append(col)
 		uv.append(Vector2(-1, -1)); uv.append(Vector2(-1, -1)); uv.append(Vector2(-1, -1))

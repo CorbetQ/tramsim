@@ -1,0 +1,445 @@
+{
+"schema": 1,
+"city": "brest",
+"platform_m": 35.4,
+"source": "Quais GTFS (stops.txt, parent_station, stop_times des lignes de tram) et tracés des lignes ; tools/import/stations.py",
+"lateral_info": true,
+"gtfs_head_bias_m": 0.0,
+"stations": [
+{
+"name": "Aiguillage Ligne B vers A",
+"type": "central",
+"doors": "left",
+"lat": 48.390553,
+"lon": -4.486636,
+"quays": [
+"FIC_LIB2"
+]
+},
+{
+"name": "Albert 1er",
+"type": "central",
+"doors": "left",
+"lat": 48.396418,
+"lon": -4.488762,
+"quays": [
+"ALB1E_TA",
+"ALB1E_TR"
+]
+},
+{
+"name": "CHU La Cavale",
+"type": "central",
+"doors": "left",
+"lat": 48.401317,
+"lon": -4.524764,
+"quays": [
+"CHU_C_TA"
+]
+},
+{
+"name": "CHU Morvan",
+"type": "central",
+"doors": "left",
+"lat": 48.392399,
+"lon": -4.487683,
+"quays": [
+"CHU_M_TA",
+"CHU_M_TR"
+]
+},
+{
+"name": "Château",
+"type": "lateral",
+"doors": "right",
+"lat": 48.385377,
+"lon": -4.49263,
+"quays": [
+"CHAT_TA",
+"CHAT_TR"
+]
+},
+{
+"name": "Coat Tan",
+"type": "lateral",
+"doors": "right",
+"lat": 48.386005,
+"lon": -4.533633,
+"quays": [
+"COAT_TA",
+"COAT_TR"
+]
+},
+{
+"name": "Dupuy de Lôme",
+"type": "lateral",
+"doors": "right",
+"lat": 48.390593,
+"lon": -4.510168,
+"quays": [
+"DUPUY_TA",
+"DUPUY_TR"
+]
+},
+{
+"name": "Eau Blanche",
+"type": "lateral",
+"doors": "right",
+"lat": 48.416918,
+"lon": -4.459691,
+"quays": [
+"EAU_B_TA",
+"EAU_B_TR"
+]
+},
+{
+"name": "Europe",
+"type": "lateral",
+"doors": "right",
+"lat": 48.411226,
+"lon": -4.471115,
+"quays": [
+"EUROP_TA",
+"EUROP_TR"
+]
+},
+{
+"name": "Fort Montbarey",
+"type": "lateral",
+"doors": "right",
+"lat": 48.37861,
+"lon": -4.544128,
+"quays": [
+"FMONT_TA",
+"FMONT_TR"
+]
+},
+{
+"name": "Gares",
+"type": "central",
+"doors": "left",
+"lat": 48.387915,
+"lon": -4.48107,
+"quays": [
+"GAR_G_TR"
+]
+},
+{
+"name": "Jean Jaurès",
+"type": "lateral",
+"doors": "right",
+"lat": 48.392313,
+"lon": -4.48284,
+"quays": [
+"JJAUR_TA",
+"JJAUR_TR"
+]
+},
+{
+"name": "Keranroux",
+"type": "lateral",
+"doors": "right",
+"lat": 48.382264,
+"lon": -4.539555,
+"quays": [
+"KROUX_TA",
+"KROUX_TR"
+]
+},
+{
+"name": "Kergaradec",
+"type": "lateral",
+"doors": "right",
+"lat": 48.424452,
+"lon": -4.466905,
+"quays": [
+"KERGA_TA",
+"KERGA_TR"
+]
+},
+{
+"name": "Kergoat",
+"type": "central",
+"doors": "left",
+"lat": 48.40121,
+"lon": -4.506615,
+"quays": [
+"KERGO_TA",
+"KERGO_TR"
+]
+},
+{
+"name": "Kerlaurent",
+"type": "lateral",
+"doors": "right",
+"lat": 48.418725,
+"lon": -4.453212,
+"quays": [
+"KERLA_TA",
+"KERLA_TR"
+]
+},
+{
+"name": "Le Bergot",
+"type": "central",
+"doors": "left",
+"lat": 48.407645,
+"lon": -4.514135,
+"quays": [
+"BERGO_TA",
+"BERGO_TR"
+]
+},
+{
+"name": "Les Capucins",
+"type": "lateral",
+"doors": "right",
+"lat": 48.390676,
+"lon": -4.504695,
+"quays": [
+"CAPUC_TA",
+"CAPUC_TR"
+]
+},
+{
+"name": "Liberté",
+"type": "lateral",
+"doors": "right",
+"lat": 48.390248,
+"lon": -4.485246,
+"quays": [
+"LIBE_TA",
+"LIBE_TR"
+]
+},
+{
+"name": "Liberté Quartz",
+"type": "lateral",
+"doors": "right",
+"lat": 48.389849,
+"lon": -4.485373,
+"quays": [
+"LIBQZ_TA",
+"LIBQZ_TR"
+]
+},
+{
+"name": "Mac Orlan",
+"type": "lateral",
+"doors": "right",
+"lat": 48.384759,
+"lon": -4.503883,
+"quays": [
+"MAC_O_TA",
+"MAC_O_TR"
+]
+},
+{
+"name": "Menez Paul",
+"type": "lateral",
+"doors": "right",
+"lat": 48.406744,
+"lon": -4.467796,
+"quays": [
+"MENEZ_TA",
+"MENEZ_TR"
+]
+},
+{
+"name": "Mesmerrien",
+"type": "lateral",
+"doors": "right",
+"lat": 48.419638,
+"lon": -4.467657,
+"quays": [
+"MESME_TA",
+"MESME_TR"
+]
+},
+{
+"name": "Octroi",
+"type": "lateral",
+"doors": "right",
+"lat": 48.39654,
+"lon": -4.476385,
+"quays": [
+"OCTRO_TA",
+"OCTRO_TR"
+]
+},
+{
+"name": "Patinoire",
+"type": "central",
+"doors": "left",
+"lat": 48.404152,
+"lon": -4.50923,
+"quays": [
+"PATIN_TA",
+"PATIN_TR"
+]
+},
+{
+"name": "Pilier Rouge",
+"type": "lateral",
+"doors": "right",
+"lat": 48.39882,
+"lon": -4.472931,
+"quays": [
+"PILIE_TA",
+"PILIE_TR"
+]
+},
+{
+"name": "Place de Strasbourg",
+"type": "lateral",
+"doors": "right",
+"lat": 48.401995,
+"lon": -4.468093,
+"quays": [
+"PLSTR_TA",
+"PLSTR_TR"
+]
+},
+{
+"name": "Polygone Arena",
+"type": "lateral",
+"doors": "right",
+"lat": 48.387166,
+"lon": -4.518849,
+"quays": [
+"POLYG_TA",
+"POLYG_TR"
+]
+},
+{
+"name": "Pontanézen",
+"type": "lateral",
+"doors": "right",
+"lat": 48.415032,
+"lon": -4.471679,
+"quays": [
+"PONTA_TA",
+"PONTA_TR"
+]
+},
+{
+"name": "Porte de Gouesnou",
+"type": "central",
+"doors": "left",
+"lat": 48.430855,
+"lon": -4.468033,
+"quays": [
+"PTGOU_TR"
+]
+},
+{
+"name": "Porte de Guipavas",
+"type": "central",
+"doors": "left",
+"lat": 48.419158,
+"lon": -4.444221,
+"quays": [
+"PTGUI_TA"
+]
+},
+{
+"name": "Porte de Plouzané",
+"type": "central",
+"doors": "left",
+"lat": 48.376191,
+"lon": -4.553692,
+"quays": [
+"PTPLZ_TR",
+"P_PLZ_3"
+]
+},
+{
+"name": "Recouvrance",
+"type": "lateral",
+"doors": "right",
+"lat": 48.384199,
+"lon": -4.499465,
+"quays": [
+"RECOU_TA",
+"RECOU_TR"
+]
+},
+{
+"name": "Rives de Penfeld",
+"type": "central",
+"doors": "left",
+"lat": 48.406978,
+"lon": -4.520579,
+"quays": [
+"RIVES_TA",
+"RIVES_TR"
+]
+},
+{
+"name": "Saint-Exupéry",
+"type": "lateral",
+"doors": "right",
+"lat": 48.387385,
+"lon": -4.504369,
+"quays": [
+"ST_EX_TA",
+"ST_EX_TR"
+]
+},
+{
+"name": "Saint-Martin",
+"type": "lateral",
+"doors": "right",
+"lat": 48.394096,
+"lon": -4.480091,
+"quays": [
+"SMART_TA",
+"SMART_TR"
+]
+},
+{
+"name": "Siam",
+"type": "lateral",
+"doors": "right",
+"lat": 48.388181,
+"lon": -4.488993,
+"quays": [
+"SIAM_TA",
+"SIAM_TR"
+]
+},
+{
+"name": "Université",
+"type": "central",
+"doors": "left",
+"lat": 48.400975,
+"lon": -4.500686,
+"quays": [
+"UNIVE_TA",
+"UNIVE_TR"
+]
+},
+{
+"name": "Vali Hir",
+"type": "lateral",
+"doors": "right",
+"lat": 48.386954,
+"lon": -4.52688,
+"quays": [
+"VALI_TA",
+"VALI_TR"
+]
+},
+{
+"name": "Yves Le Gallo - Cité U",
+"type": "central",
+"doors": "left",
+"lat": 48.399016,
+"lon": -4.495087,
+"quays": [
+"CITEU_TA",
+"CITEU_TR"
+]
+}
+]
+}
