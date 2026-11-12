@@ -31,7 +31,12 @@ func _drive_step(m: MissionSession, hold_s: float = 0.0, skip_stop: int = -1) ->
 			if i == skip_stop: vmax = m.speed_limit() - 1.0
 			notch = 1.0 if v < vmax - 0.3 else (-1.0 if v > vmax + 0.3 else 0.0)
 			if dist < 2.5 and dist > -4.0 and i != skip_stop: notch = -1.0
-			if v < 0.05 and absf(dist) < 4.0 and i != skip_stop:
+			var at_platform := absf(dist) < 4.0 and not m._station_here().is_empty()
+			# Quelques repères GTFS/OSM précèdent l'emprise : approcher à très
+			# basse vitesse plutôt qu'ouvrir les portes avant la zone valide.
+			if absf(dist) < 4.0 and not at_platform and not m.served and i != skip_stop:
+				notch = 1.0 if v < 0.25 else -0.75
+			if v < 0.05 and at_platform and i != skip_stop:
 				if not m.doors_open and not m.served:
 					m.set_doors(true); door_timer = 0.0
 				elif m.doors_open:
