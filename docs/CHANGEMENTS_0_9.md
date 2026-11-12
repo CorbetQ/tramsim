@@ -35,6 +35,8 @@ hybrides, levé = LAC, abaissé = APS ou alimentation autonome. Une incompatibil
 coupe la traction et applique au moins F3 jusqu'à l'arrêt : la rame en mouvement
 freine progressivement ; à l'arrêt elle reste immobilisée dans une pente de
 8 %. L'adaptation du matériel en mode libre garde cet interverrouillage.
+Au début d’une ligne sans historique derrière la rame, le modèle prolonge
+visuellement la tangente pour garder les caisses espacées, sans ajouter de voie.
 Le manipulateur apparaît en F3 (-75 %) ; la pente signée dans le sens de marche
 est affichée séparément à côté du compteur, en ‰.
 

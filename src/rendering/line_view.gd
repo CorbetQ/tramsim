@@ -562,9 +562,7 @@ func update_from(s: MissionSession, external: bool) -> void:
 	cam.fov = lerpf(cam.fov, 62.0 + smoothstep(4.0, 22.0, s.phys.speed) * 7.0, 1.0 - exp(-get_process_delta_time() * 2.0))
 	var n := modules.size()
 	for i in n:
-		var f: Array = s.locate_behind(rig.module_starts[i])
-		var b: Array = s.locate_behind(rig.module_starts[i] + rig.module_lengths[i])
-		var pf := pos3(f[0], f[1]); var pb := pos3(b[0], b[1])
+		var pf := body_point(s, rig.module_starts[i]); var pb := body_point(s, rig.module_starts[i] + rig.module_lengths[i])
 		var dir := pf - pb
 		if dir.length() < 0.01: dir = Vector3(1, 0, 0)
 		modules[i].transform = Transform3D(Basis.looking_at(dir.normalized(), Vector3.UP), (pf + pb) * 0.5)
@@ -675,3 +673,18 @@ class _Geo:
 		var m := ArrayMesh.new()
 		if v.size() > 0: m.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
 		return m
+
+## Au chargement, aucun historique n'existe encore derrière la rame. Prolonger
+## la tangente d'entrée pour le modèle évite d'empiler les caisses au point 0.
+## Ce prolongement visuel ne modifie ni la voie ni la position de simulation.
+func body_point(s: MissionSession, behind: float) -> Vector3:
+	var location := s.locate_behind(behind)
+	var point := pos3(str(location[0]), float(location[1]))
+	if int(location[3]) != 0: return point
+	var available: float = s.offset if s.direction > 0 else net.graph.edges[s.edge_id].length - s.offset
+	for i in range(s.route.size() - 1): available += net.graph.edges[s.route[i]].length
+	if behind <= available: return point
+	var id := str(location[0]); var off := float(location[1]); var r := int(location[2])
+	var frame := _frame(id, off)
+	var tangent := -frame.basis.z * float(r)
+	return point - tangent * (behind - available)

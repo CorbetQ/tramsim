@@ -51,4 +51,9 @@ func _init() -> void:
 	check(layout.info_for(station, Vector3.ZERO).doors == "left", "empreinte à gauche : portes à gauche indépendamment du type GTFS")
 	n.meta.platforms[0].pts = [[2,-10],[4,-10],[4,10],[2,10]]
 	check(layout.info_for(station, Vector3.ZERO).doors == "right", "empreinte à droite : portes à droite")
+	var visual := LineView.new(); visual.net = n; visual.geometric = false
+	visual.edge_origin["e0"] = Vector3.ZERO
+	var start_session := MissionSession.new(n, VehicleLibrary.citadis_302_hybride(), "e0", 0.0, [] as Array[float])
+	check(visual.body_point(start_session, 0.0).distance_to(visual.body_point(start_session, 30.0)) > 29.9, "départ au point zéro : les caisses gardent leur espacement")
+	visual.free()
 	print("TOTAL_ECHECS|",failures); quit(1 if failures else 0)
