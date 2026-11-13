@@ -124,9 +124,9 @@ func _process(_dt: float) -> void:
 	var visible_ := is_visible_in_tree()
 	for L in _layers:
 		if L.vp == null: continue
-		L.vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS if visible_ else SubViewport.UPDATE_DISABLED
-		if L.still: continue
-		_place(L)
+		if bool(L.get("visible", false)) != visible_:
+			L.vp.render_target_update_mode = SubViewport.UPDATE_ONCE if visible_ else SubViewport.UPDATE_DISABLED
+			L["visible"] = visible_
 
 func _place(L: Dictionary) -> void:
 	var d: float = L.dist
@@ -136,7 +136,7 @@ func _place(L: Dictionary) -> void:
 
 func _install(job: Dictionary) -> void:
 	var vp := SubViewport.new(); vp.own_world_3d = true; vp.msaa_3d = Viewport.MSAA_2X if not still_mode else Viewport.MSAA_DISABLED
-	vp.size = _vp_size(); vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	vp.size = _vp_size(); vp.render_target_update_mode = SubViewport.UPDATE_ONCE
 	add_child(vp)
 	var world := Node3D.new(); vp.add_child(world)
 	var day := DayNight.new(); world.add_child(day); day.setup(world); day.set_hour(HOUR)
@@ -186,7 +186,9 @@ func _vp_size() -> Vector2i:
 
 func _fit() -> void:
 	for L in _layers:
-		if L.vp != null: L.vp.size = _vp_size()
+		if L.vp != null:
+			L.vp.size = _vp_size()
+			L.vp.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 ## Lignes de tram en surbrillance : ruban coloré + liseré sombre, toujours visibles (sans test de profondeur).
 static func _line_mesh(lines: Array, dist: float) -> Node3D:

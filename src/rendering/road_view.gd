@@ -88,7 +88,17 @@ class _Out:
 	var cut: TrackView.KeepOut
 	var openings := {}
 
+	func emit_triangle(p: Vector3, q: Vector3, r: Vector3, nrm: Vector3, col: Color, id: Vector2) -> void:
+		var fn := (r - p).cross(q - p)
+		if fn.length_squared() < 1e-12: return
+		if fn.dot(nrm) < 0.0:
+			var temp := q; q = r; r = temp
+		add(p, nrm, col, id); add(q, nrm, col, id); add(r, nrm, col, id)
+
 	func triangle(a: Vector3, b: Vector3, d: Vector3, nrm: Vector3, col: Color, id: Vector2) -> void:
+		if cut == null or cut.cells.is_empty():
+			emit_triangle(a, b, d, nrm, col, id)
+			return
 		var polygons: Array = [PackedVector3Array([a, b, d])]
 		if cut != null and not cut.cells.is_empty():
 			var lo := Vector2(minf(a.x, minf(b.x, d.x)), minf(a.z, minf(b.z, d.z))) + origin
@@ -108,12 +118,7 @@ class _Out:
 						if polygons.is_empty(): return
 		for polygon: PackedVector3Array in polygons:
 			for j in range(1, polygon.size() - 1):
-				var p := polygon[0]; var q := polygon[j]; var r := polygon[j + 1]
-				var fn := (r - p).cross(q - p)
-				if fn.length_squared() < 1e-12: continue
-				if fn.dot(nrm) < 0.0:
-					var temp := q; q = r; r = temp
-				add(p, nrm, col, id); add(q, nrm, col, id); add(r, nrm, col, id)
+				emit_triangle(polygon[0], polygon[j], polygon[j + 1], nrm, col, id)
 
 	func add(p: Vector3, nrm: Vector3, col: Color, id: Vector2) -> void:
 		v.append(p); n.append(nrm); c.append(col); uv.append(Vector2(p.x + origin.x, p.z + origin.y)); uv2.append(id)
