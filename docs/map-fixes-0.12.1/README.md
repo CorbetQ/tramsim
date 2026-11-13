@@ -41,6 +41,8 @@ Le départ libre suit **Ville → Ligne → Arrêt**, avec une entrée **Dépôt
 
 Sources : [Nantes–Clisson, relation 19513724](https://www.openstreetmap.org/relation/19513724), [Nantes–Châteaubriant, relation 19515572](https://www.openstreetmap.org/relation/19515572), [coordonnées et provenance](../../data/sources/nantes_tram_train.json). OSM © contributeurs, ODbL ; relief IGN RGE ALTI, Licence Ouverte 2.0.
 
+[Résultats de validation](VALIDATION.md)
+
 ## Vérification reproductible
 
 ```sh

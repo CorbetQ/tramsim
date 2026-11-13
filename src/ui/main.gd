@@ -653,7 +653,7 @@ func _open_settings() -> void:
 	var hour := _opt(v, "Heure")
 	for t in ["Heure réelle du service", "Jour (12 h)", "Coucher de soleil (20 h)", "Nuit (23 h)", "Cycle accéléré (1 h = 1 min)"]: hour.add_item(t)
 	hour.selected = int(save.settings.get("time_mode", 0)); hour.item_selected.connect(func(i): save.settings.time_mode = i)
-	var checks := [["Trafic automobile", "traffic", true], ["Ville animée en fond d'accueil", "home_bg", true], ["Intro de lancement (zoom)", "intro", true]]
+	var checks := [["Trafic automobile", "traffic", true], ["Vue aérienne en fond d'accueil", "home_bg", true], ["Intro de lancement (zoom)", "intro", true]]
 	for c in checks:
 		var cb := CheckButton.new(); cb.text = c[0]; cb.custom_minimum_size = Vector2(0, 48)
 		cb.button_pressed = bool(save.settings.get(c[1], c[2])); v.add_child(cb)
