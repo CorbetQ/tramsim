@@ -1,0 +1,70 @@
+name: rolling-stock-preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: rolling-stock-preview
+  cancel-in-progress: false
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Godot et modèles d’export
+        run: |
+          curl --fail -sSL -o godot.zip https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          unzip -q godot.zip
+          chmod +x Godot_v4.6.3-stable_linux.x86_64
+          mkdir -p "$RUNNER_TEMP/godot-bin"
+          mv Godot_v4.6.3-stable_linux.x86_64 "$RUNNER_TEMP/godot-bin/godot"
+          echo "$RUNNER_TEMP/godot-bin" >> "$GITHUB_PATH"
+          curl --fail -sSL -o templates.tpz https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_export_templates.tpz
+          unzip -q templates.tpz
+          mkdir -p "$HOME/.local/share/godot/export_templates/4.6.3.stable"
+          mv templates/* "$HOME/.local/share/godot/export_templates/4.6.3.stable/"
+      - name: SDK et réglages Android
+        run: |
+          SDKM=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
+          yes | "$SDKM" "platform-tools" "build-tools;36.0.0" "platforms;android-36" > /dev/null || test -d "$ANDROID_HOME/platforms/android-36"
+          mkdir -p "$HOME/.config/godot"
+          cat > "$HOME/.config/godot/editor_settings-4.6.tres" <<CFG
+          [gd_resource type="EditorSettings" format=3]
+          [resource]
+          export/android/android_sdk_path = "$ANDROID_HOME"
+          export/android/java_sdk_path = "$JAVA_HOME"
+          CFG
+      - name: Exports d’aperçu isolés
+        run: python3 tools/stock/build_preview.py
+      - name: Vérification et galerie
+        run: |
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify build/stock-preview/TramSim-Rames-Preview.apk
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile,hashlib,json
+          root=Path('docs/rolling-stock-rebuild');out=Path('build/stock-preview')
+          with zipfile.ZipFile(out/'TramSim-Rames-Galerie.zip','w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file(): archive.write(p,Path('TramSim-Rames-Galerie')/p.relative_to(root))
+          hashes={p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in out.iterdir() if p.suffix in ['.apk','.exe','.zip']}
+          (out/'SHA256.json').write_text(json.dumps(hashes,indent=2)+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TramSim-Rames-Preview
+          path: |
+            build/stock-preview/*.apk
+            build/stock-preview/*.exe
+            build/stock-preview/*.zip
+            build/stock-preview/BUILD.json
+            build/stock-preview/SHA256.json
+      - name: Déposer les fichiers dans la release en brouillon
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release edit v0.12.0-stock-preview.1 --target "$GITHUB_SHA"
+          gh release upload v0.12.0-stock-preview.1 build/stock-preview/TramSim-Rames-Preview.apk build/stock-preview/TramSim-Rames-Preview.exe build/stock-preview/TramSim-Rames-Galerie.zip build/stock-preview/BUILD.json build/stock-preview/SHA256.json --clobber
