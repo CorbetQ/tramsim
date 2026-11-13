@@ -1,0 +1,284 @@
+{
+  "cities": [
+    {
+      "city": "angers",
+      "tiles": 225,
+      "triangles": 372259,
+      "max_area_error_m2": 0.023193359375,
+      "max_seam_m": 0.009571879748539347,
+      "min_altitude_m": 12.699999237060545,
+      "max_altitude_m": 60.61000009536743,
+      "errors": []
+    },
+    {
+      "city": "aubagne",
+      "tiles": 82,
+      "triangles": 118040,
+      "max_area_error_m2": 0.02197265625,
+      "max_seam_m": 0.009298324584960938,
+      "min_altitude_m": 81.70000091552735,
+      "max_altitude_m": 211.96000045776367,
+      "errors": []
+    },
+    {
+      "city": "avignon",
+      "tiles": 68,
+      "triangles": 97560,
+      "max_area_error_m2": 0.141357421875,
+      "max_seam_m": 0.009937557220459192,
+      "min_altitude_m": 14.5,
+      "max_altitude_m": 32.37000007629395,
+      "errors": []
+    },
+    {
+      "city": "besancon",
+      "tiles": 163,
+      "triangles": 238145,
+      "max_area_error_m2": 0.01318359375,
+      "max_seam_m": 0.010000286102294531,
+      "min_altitude_m": 236.89999999999998,
+      "max_altitude_m": 461.9199996566772,
+      "errors": []
+    },
+    {
+      "city": "bordeaux",
+      "tiles": 869,
+      "triangles": 1120745,
+      "max_area_error_m2": 0.242431640625,
+      "max_seam_m": 0.009500028610229805,
+      "min_altitude_m": -8.999999237060546,
+      "max_altitude_m": 85.86999954223633,
+      "errors": []
+    },
+    {
+      "city": "brest",
+      "tiles": 215,
+      "triangles": 358653,
+      "max_area_error_m2": 0.276123046875,
+      "max_seam_m": 0.010006103515628695,
+      "min_altitude_m": -9.280003356933591,
+      "max_altitude_m": 103.42000007629395,
+      "errors": []
+    },
+    {
+      "city": "caen",
+      "tiles": 164,
+      "triangles": 271746,
+      "max_area_error_m2": 0.076171875,
+      "max_seam_m": 0.009112627053564637,
+      "min_altitude_m": 1.1999999999999993,
+      "max_altitude_m": 69.66999938964844,
+      "errors": []
+    },
+    {
+      "city": "clermont",
+      "tiles": 168,
+      "triangles": 227399,
+      "max_area_error_m2": 0.109619140625,
+      "max_seam_m": 0.009777410325362723,
+      "min_altitude_m": 325.98999938964846,
+      "max_altitude_m": 483.09999954223633,
+      "errors": []
+    },
+    {
+      "city": "dijon",
+      "tiles": 221,
+      "triangles": 319265,
+      "max_area_error_m2": 0.0087890625,
+      "max_seam_m": 0.009437528610229534,
+      "min_altitude_m": 213.99000091552733,
+      "max_altitude_m": 367.23000183105466,
+      "errors": []
+    },
+    {
+      "city": "grenoble",
+      "tiles": 420,
+      "triangles": 678539,
+      "max_area_error_m2": 0.177978515625,
+      "max_seam_m": 0.009875000000000078,
+      "min_altitude_m": 189.30000038146972,
+      "max_altitude_m": 911.3899951171875,
+      "errors": []
+    },
+    {
+      "city": "idf",
+      "tiles": 2291,
+      "triangles": 3234998,
+      "max_area_error_m2": 0.498779296875,
+      "max_seam_m": 0.009781669616698352,
+      "min_altitude_m": 22.800000762939455,
+      "max_altitude_m": 183.53000244140625,
+      "errors": []
+    },
+    {
+      "city": "lehavre",
+      "tiles": 150,
+      "triangles": 220968,
+      "max_area_error_m2": 0.086669921875,
+      "max_seam_m": 0.010004119873052275,
+      "min_altitude_m": -18.13999786376953,
+      "max_altitude_m": 94.45999908447266,
+      "errors": []
+    },
+    {
+      "city": "lemans",
+      "tiles": 194,
+      "triangles": 316847,
+      "max_area_error_m2": 0.080810546875,
+      "max_seam_m": 0.009874427795409702,
+      "min_altitude_m": 39.900000381469724,
+      "max_altitude_m": 136.15999816894532,
+      "errors": []
+    },
+    {
+      "city": "lille",
+      "tiles": 293,
+      "triangles": 359355,
+      "max_area_error_m2": 0.08984375,
+      "max_seam_m": 0.00923443222045961,
+      "min_altitude_m": 11.280000457763672,
+      "max_altitude_m": 58.67999931335449,
+      "errors": []
+    },
+    {
+      "city": "lyon",
+      "tiles": 814,
+      "triangles": 1107047,
+      "max_area_error_m2": 0.31591796875,
+      "max_seam_m": 0.00959392166137718,
+      "min_altitude_m": 153.7599998474121,
+      "max_altitude_m": 304.60999977111817,
+      "errors": []
+    },
+    {
+      "city": "marseille",
+      "tiles": 200,
+      "triangles": 341684,
+      "max_area_error_m2": 0.120361328125,
+      "max_seam_m": 0.009530029296868747,
+      "min_altitude_m": -6.059999847412108,
+      "max_altitude_m": 143.89000038146972,
+      "errors": []
+    },
+    {
+      "city": "montpellier",
+      "tiles": 584,
+      "triangles": 1074101,
+      "max_area_error_m2": 0.1376953125,
+      "max_seam_m": 0.009100126675667397,
+      "min_altitude_m": -2.1999992370605455,
+      "max_altitude_m": 123.12000030517578,
+      "errors": []
+    },
+    {
+      "city": "mulhouse",
+      "tiles": 383,
+      "triangles": 485194,
+      "max_area_error_m2": 0.17333984375,
+      "max_seam_m": 0.009665808979020696,
+      "min_altitude_m": 226.10000038146973,
+      "max_altitude_m": 607.1800024414063,
+      "errors": []
+    },
+    {
+      "city": "nantes",
+      "tiles": 1403,
+      "triangles": 1311906,
+      "max_area_error_m2": 0.1142578125,
+      "max_seam_m": 0.010003662109376421,
+      "min_altitude_m": -19.960000457763673,
+      "max_altitude_m": 100.3099998474121,
+      "errors": []
+    },
+    {
+      "city": "nice",
+      "tiles": 268,
+      "triangles": 494185,
+      "max_area_error_m2": 0.087890625,
+      "max_seam_m": 0.010009155273451142,
+      "min_altitude_m": -17.000000228881834,
+      "max_altitude_m": 375.2200073242187,
+      "errors": []
+    },
+    {
+      "city": "orleans",
+      "tiles": 303,
+      "triangles": 404379,
+      "max_area_error_m2": 0.1953125,
+      "max_seam_m": 0.009626149150812946,
+      "min_altitude_m": 86.86999946594239,
+      "max_altitude_m": 131.61999980926512,
+      "errors": []
+    },
+    {
+      "city": "reims",
+      "tiles": 138,
+      "triangles": 253407,
+      "max_area_error_m2": 0.101806640625,
+      "max_seam_m": 0.008901139432257565,
+      "min_altitude_m": 70.50000038146973,
+      "max_altitude_m": 117.89999997138978,
+      "errors": []
+    },
+    {
+      "city": "rouen",
+      "tiles": 178,
+      "triangles": 277537,
+      "max_area_error_m2": 0.068115234375,
+      "max_seam_m": 0.009062271118160936,
+      "min_altitude_m": -2.1200006866455077,
+      "max_altitude_m": 148.2499966430664,
+      "errors": []
+    },
+    {
+      "city": "saintetienne",
+      "tiles": 147,
+      "triangles": 244444,
+      "max_area_error_m2": 0.2109375,
+      "max_seam_m": 0.008921221661310597,
+      "min_altitude_m": 430.43999725341797,
+      "max_altitude_m": 800.6000061035156,
+      "errors": []
+    },
+    {
+      "city": "strasbourg",
+      "tiles": 475,
+      "triangles": 905013,
+      "max_area_error_m2": 0.295654296875,
+      "max_seam_m": 0.0099404627570574,
+      "min_altitude_m": 130.4399997329712,
+      "max_altitude_m": 158.19000004768372,
+      "errors": []
+    },
+    {
+      "city": "toulouse",
+      "tiles": 180,
+      "triangles": 239445,
+      "max_area_error_m2": 0.144287109375,
+      "max_seam_m": 0.008817166154102551,
+      "min_altitude_m": 87.79999923706055,
+      "max_altitude_m": 156.05,
+      "errors": []
+    },
+    {
+      "city": "tours",
+      "tiles": 183,
+      "triangles": 258581,
+      "max_area_error_m2": 0.076904296875,
+      "max_seam_m": 0.009250534057617443,
+      "min_altitude_m": 40.8,
+      "max_altitude_m": 110.32999893188476,
+      "errors": []
+    },
+    {
+      "city": "valenciennes",
+      "tiles": 389,
+      "triangles": 419312,
+      "max_area_error_m2": 0.10986328125,
+      "max_seam_m": 0.009999847412110796,
+      "min_altitude_m": 12.700000190734862,
+      "max_altitude_m": 86.75999997138976,
+      "errors": []
+    }
+  ]
+}

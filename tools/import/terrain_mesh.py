@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sol continu d'une ville : relief et voirie dans un seul maillage par tuile (data/scenes/<ville>_ground.bin, « TGR1 »).
+"""Sol continu d'une ville : relief et voirie dans un seul maillage par tuile (data/scenes/<ville>_ground.bin, « TGR2 »).
 
 Chaque tuile de 400 m est une triangulation de Delaunay contrainte (Triangle, J. R. Shewchuk) dont les arêtes
 contraintes sont les limites des surfaces de tools/import/road_mesh.py (chaussées, carrefours, trottoirs, îlots,
@@ -17,10 +17,10 @@ Couronne lointaine : grille de 100 m sur l'emprise des tuiles élargie de 8 km (
 l'horizon (src/rendering/terrain_view.gd).
 
 Format (little endian) :
-  "TGR1", u32 version (1), f32 tile_m, u32 n, u32 far_off, u32 far_csize, u32 far_raw, u32 meta_off, u32 meta_csize,
+  "TGR2", u32 version (2), f32 tile_m, u32 n, u32 far_off, u32 far_csize, u32 far_raw, u32 meta_off, u32 meta_csize,
   u32 meta_raw, puis n x [i32 tx, i32 tz, u32 off, u32 csize, u32 raw, f32 ymin].
   Tuile (Brotli) : f32 base, u32 nv, u32 nt ; i16[nv] x, i16[nv] z (1/64 m, repère tuile, codage delta) ;
-  i16[nv] y (cm au-dessus de base, delta) ; i16[nt] a (delta), i16[nt] b - a, i16[nt] c - b (a < b < c :
+  i32[nv] y (cm au-dessus de base, delta ; évite les débordements sur les reliefs) ; i16[nt] a (delta), i16[nt] b - a, i16[nt] c - b (a < b < c :
   orientation recalculée à la lecture) ; u8[nt] matériau (bits 0-4, road_mesh.MAT) | bordure (bit 5 + k : arête (k, k+1 mod 3)
   bordée d'une surface non surélevée).
   Méta (Brotli), par tuile dans l'ordre de la table : u8 nb niveaux d'eau [i16 x, i16 z, i16 niveau] (dm, repère
@@ -57,12 +57,14 @@ FAR_BLOCK = 25600.0                     # m par requête WMS de la couronne (264
 
 def _fill_nodata(a):
     """Comme terrain.fill_nodata, mais une dalle surtout en mer (Brest, Le Havre, Nice) n'interrompt pas l'import :
-    les mesures absentes y valent le niveau de la mer (0 m), sinon la mesure valide la plus proche."""
+    les mesures absentes y valent le niveau de la mer (0 m), sinon la mesure valide la plus proche.
+    Les valeurs sous -20 m sont des anomalies littorales pour ce MNT de surface de France métropolitaine."""
     a = np.array(a, dtype=np.float64, copy=True)
-    missing = ~np.isfinite(a) | (a < -500) | (a > 9000)
+    missing = ~np.isfinite(a) | (a < -20) | (a > 9000)
     if missing.mean() > 0.2:
         a[missing] = 0.0
         return a
+    a[missing] = np.nan
     return _strict_fill(a)
 
 
@@ -100,7 +102,7 @@ class Height:
         self.dem, self.alt0 = dem, alt0
         self.tp, self.ty = tracks           # échantillons des voies au sol (x, z), altitude du rail
         self.tree = cKDTree(self.tp) if len(self.tp) else None
-        self.water = [(p, lv - alt0) for p, lv in water if np.isfinite(lv)]
+        self.water = [(p, lv - alt0) for p, lv in water if np.isfinite(lv) and lv >= -20]
         self.wtree = shapely.STRtree([p for p, _ in self.water]) if self.water else None
 
     def __call__(self, x, z):
@@ -335,7 +337,7 @@ def encode_decals(t, decals):
 
 def encode_tile(V, Tt, M):
     """Tuile -> octets (avant compression). Sommets ordonnés en bandes de 16 m ; sommets de chaque triangle triés
-    (a < b < c, l'orientation se recalcule) ; triangles triés par a. Plans i16 en codage delta."""
+    (a < b < c, l'orientation se recalcule) ; triangles triés par a. Plans i16 et altitudes i32 en codage delta."""
     assert len(V) < 32768, "tuile trop dense"
     xq = np.round(V[:, 0] * Q).astype(np.int64); zq = np.round(V[:, 2] * Q).astype(np.int64)
     order = np.lexsort((xq, zq // int(16 * Q)))
@@ -358,8 +360,11 @@ def encode_tile(V, Tt, M):
     Tr, Mr = Tr[o], Mr[o]
     d = lambda a: np.diff(np.concatenate([[0], a]))
     out = struct.pack("<fII", base, len(V), len(Tr))
-    for arr in (d(xq), d(zq), d(yq), d(Tr[:, 0]), Tr[:, 1] - Tr[:, 0], Tr[:, 2] - Tr[:, 1]):
-        out += np.asarray(arr, dtype="<i2").tobytes()
+    for arr, dtype in ((d(xq), "<i2"), (d(zq), "<i2"), (d(yq), "<i4"),
+                       (d(Tr[:, 0]), "<i2"), (Tr[:, 1] - Tr[:, 0], "<i2"), (Tr[:, 2] - Tr[:, 1], "<i2")):
+        limits = np.iinfo(dtype)
+        assert np.all((arr >= limits.min) & (arr <= limits.max)), "débordement terrain : " + dtype
+        out += np.asarray(arr, dtype=dtype).tobytes()
     out += Mr.astype(np.uint8).tobytes()
     return out, base + (yq.min() / 100.0 if len(yq) else 0.0)
 
@@ -371,7 +376,7 @@ def tile_keys(city):
 
 
 def meta_blob(keys, decks, water, alt0):
-    wl = [(p, lv - alt0) for p, lv in water if np.isfinite(lv)]
+    wl = [(p, lv - alt0) for p, lv in water if np.isfinite(lv) and lv >= -20]
     wtree = shapely.STRtree([p for p, _ in wl]) if wl else None
     tile_decks = defaultdict(list)
     for kd, w, q, y in decks:
@@ -468,7 +473,7 @@ def build(city, workers=1):
     mz, fz = brotli.compress(mraw, quality=11), brotli.compress(fraw, quality=11)
     head_len = 40 + 24 * len(keys)
     far_off = head_len; meta_off = far_off + len(fz); off = meta_off + len(mz)
-    head = b"TGR1" + struct.pack("<IfIIIIIII", 1, TILE_M, len(keys), far_off, len(fz), len(fraw), meta_off, len(mz), len(mraw))
+    head = b"TGR2" + struct.pack("<IfIIIIIII", 2, TILE_M, len(keys), far_off, len(fz), len(fraw), meta_off, len(mz), len(mraw))
     table = bytearray()
     for t, (n, b), ym in zip(keys, blobs, ymins):
         table += struct.pack("<iiIIIf", t[0], t[1], off, len(b), n, ym)
@@ -476,7 +481,7 @@ def build(city, workers=1):
     path = os.path.join(ROOT, "data/scenes", city + "_ground.bin")
     with open(path, "wb") as f:
         f.write(head + bytes(table) + fz + mz + b"".join(b for _, b in blobs))
-    tmeta.update({"tiles": len(keys), "terrain_format": "TGR1", "ground_file": city + "_ground.bin",
+    tmeta.update({"tiles": len(keys), "terrain_format": "TGR2", "ground_file": city + "_ground.bin",
                   "height_encoding": "TIN contraint par la voirie, cm", "shared_vertices": True,
                   "far_ring_m": FAR_MARGIN, "far_step_m": FAR_STEP,
                   "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du " + time.strftime("%Y-%m-%d"),

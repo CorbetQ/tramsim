@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "networks": [
+    {
+      "id": "nantes_tt_t1",
+      "city": "Nantes",
+      "line": "TER T1",
+      "long_name": "Nantes – Châteaubriant Tram-Train",
+      "path": "res://data/free/nantes.json",
+      "kind": "tram-train",
+      "free_only": true,
+      "guidance": "steel",
+      "supply": "overhead",
+      "stations": 11,
+      "length_km": 63.6,
+      "missions": 0,
+      "source_relation": 19515572
+    },
+    {
+      "id": "nantes_tt_t2",
+      "city": "Nantes",
+      "line": "TER T2",
+      "long_name": "Nantes – Clisson",
+      "path": "res://data/free/nantes.json",
+      "kind": "tram-train",
+      "free_only": true,
+      "guidance": "steel",
+      "supply": "overhead",
+      "stations": 8,
+      "length_km": 26.2,
+      "missions": 0,
+      "source_relation": 19513724
+    }
+  ]
+}

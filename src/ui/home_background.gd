@@ -1,7 +1,7 @@
 class_name HomeBackground
 extends Control
 ## Arrière-plan de l'accueil : la ville sélectionnée vue du ciel (décor CityScene réel, rayon réduit),
-## survol orbital lent à 600-1500 m, lignes de tram aux couleurs GTFS, fin d'après-midi.
+## vue verticale orthographique, nord en haut, lignes de tram aux couleurs GTFS, fin d'après-midi.
 ## Changement de ville : chargement en tâche de fond (WorkerThreadPool), puis fondu enchaîné.
 ## Mobile (`still_mode`) : rayon minimal, une seule image rendue puis 3D libérée (image fixe).
 
@@ -9,17 +9,27 @@ signal city_ready(city: String)
 
 static var still_mode := OS.has_feature("mobile")
 const HOUR := 17.3                      # lumière rasante, ciel encore clair
-const ORBIT_PERIOD := 240.0             # s par tour complet
 const FADE := 0.9
 const R := 6371008.8
 
 var city := ""                          # ville demandée (nom affiché)
 var shown := ""                         # ville affichée
 var render_scale := 0.6 if still_mode else 0.85
-var _layers: Array[Dictionary] = []     # {vp, rect, cam, center, dist, angle, city, still}
+var _layers: Array[Dictionary] = []     # {vp, rect, cam, center, dist, city, still}
 var _task := -1
 var _job: Dictionary = {}               # résultat du thread en cours
 var _shade: TextureRect
+var _control: LoadControl
+
+class LoadControl:
+	extends RefCounted
+	var mutex := Mutex.new()
+	var _cancelled := false
+	func cancel() -> void:
+		mutex.lock(); _cancelled = true; mutex.unlock()
+	func cancelled() -> bool:
+		mutex.lock(); var result := _cancelled; mutex.unlock()
+		return result
 
 func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -42,6 +52,7 @@ func show_city(name_: String) -> void:
 	if name_ == city: return
 	city = name_
 	if _task < 0: _launch()
+	elif _control != null: _control.cancel()
 
 func is_loading() -> bool:
 	return _task >= 0
@@ -53,7 +64,8 @@ func _launch() -> void:
 	var entries := NetworkRegistry.entries().filter(func(e): return e.city == city)
 	if entries.is_empty(): return
 	var radius := 450.0 if still_mode else 1100.0
-	_job = {"city": city, "entries": entries, "radius": radius}
+	_control = LoadControl.new()
+	_job = {"city": city, "entries": entries, "radius": radius, "control": _control}
 	_task = WorkerThreadPool.add_task(_load.bind(_job), false, "home_background")
 
 ## Thread : réseau (tracés + couleurs), scène de la ville, tuiles autour du centre.
@@ -63,6 +75,7 @@ static func _load(job: Dictionary) -> void:
 	var src := ""; var origin := []
 	var seen := {}
 	for e in job.entries:
+		if job.control.cancelled(): return
 		if seen.has(str(e.line)): continue   # variantes de service d'une même ligne : tracé déjà couvert
 		seen[str(e.line)] = true
 		var d = JSON.parse_string(FileAccess.get_file_as_string(e.path))
@@ -71,6 +84,7 @@ static func _load(job: Dictionary) -> void:
 			src = str(d.get("source_id", "")); origin = d.origin
 		var polys: Array = []
 		for ed in d.get("edges", []):
+			if e.get("free_only", false) and not str(e.line) in ed.get("lines", []): continue
 			var pts: Array = ed.get("pts", [])
 			if pts.size() < 2: continue
 			var ys: Array = ed.get("y", [])
@@ -80,12 +94,14 @@ static func _load(job: Dictionary) -> void:
 				pl.append(Vector3(p.x, float(ys[i]) if i < ys.size() else NAN, p.y))
 				lo = lo.min(p); hi = hi.max(p)
 			polys.append(pl)
-		lines.append({"color": UiTheme.color_of(d.get("color", ""), UiTheme.INFO), "polys": polys})
+		lines.append({"color": UiTheme.color_of(d.get("color", ""), UiTheme.INFO), "polys": polys, "urban": e.get("kind", "tram") != "tram-train"})
 	job.lines = lines
 	if lines.is_empty() or not lo.is_finite(): return
 	# centre = médiane des tracés (cœur du réseau, là où les lignes se croisent), pas le centre de l'emprise
 	var xs: Array[float] = []; var zs: Array[float] = []
-	for ln in lines:
+	var central: Array = lines.filter(func(ln): return ln.urban)
+	if central.is_empty(): central = lines
+	for ln in central:
 		for pl: PackedVector3Array in ln.polys:
 			for q in pl: xs.append(q.x); zs.append(q.z)
 	xs.sort(); zs.sort()
@@ -98,7 +114,8 @@ static func _load(job: Dictionary) -> void:
 		var cs := CityScene.new()
 		if meta is Dictionary and cs.open(src, origin):
 			cs.radius = minf(job.radius, job.dist * 1.1)
-			cs.warm(job.center)
+			if not cs.warm(job.center, job.control):
+				cs.free(); return
 			if cs.has_terrain: job.center.y = cs.height_at(job.center)
 			job.scene = cs
 		else:
@@ -112,46 +129,48 @@ static func _to_city(p: Vector2, o_line: Array, o_city: Array) -> Vector2:
 	var dz := -deg_to_rad(float(o_line[0]) - float(o_city[0])) * R
 	return Vector2(dx + p.x * cos(deg_to_rad(float(o_line[0]))) / cos(lat_c), dz + p.y)
 
-func _process(dt: float) -> void:
+func _process(_dt: float) -> void:
 	if _task >= 0 and WorkerThreadPool.is_task_completed(_task):
 		WorkerThreadPool.wait_for_task_completion(_task); _task = -1
 		var job := _job; _job = {}
-		if job.city == city and job.has("dist"): _install(job)
+		if job.city == city and job.has("dist") and not job.control.cancelled(): _install(job)
 		elif job.has("scene"): (job.scene as Node).free()
-		if city != shown and city != job.city: _launch()   # la ville a changé pendant le chargement
+		if city != shown and (city != job.city or job.control.cancelled()): _launch()
 	var visible_ := is_visible_in_tree()
 	for L in _layers:
 		if L.vp == null: continue
-		L.vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS if visible_ else SubViewport.UPDATE_DISABLED
-		if L.still: continue
-		L.angle += dt * TAU / ORBIT_PERIOD
-		_place(L)
+		if bool(L.get("visible", false)) != visible_:
+			L.vp.render_target_update_mode = SubViewport.UPDATE_ONCE if visible_ else SubViewport.UPDATE_DISABLED
+			L["visible"] = visible_
 
 func _place(L: Dictionary) -> void:
 	var d: float = L.dist
-	var dir := Vector3(cos(L.angle), 0.0, sin(L.angle))
 	var look: Vector3 = L.center
-	L.cam.position = look + dir * d + Vector3(0, d * 0.62, 0)
-	L.cam.look_at(look + dir * d * 0.12, Vector3.UP)
+	L.cam.position = look + Vector3.UP * d * 2.0
+	L.cam.look_at(look, Vector3.FORWARD)
 
 func _install(job: Dictionary) -> void:
 	var vp := SubViewport.new(); vp.own_world_3d = true; vp.msaa_3d = Viewport.MSAA_2X if not still_mode else Viewport.MSAA_DISABLED
-	vp.size = _vp_size(); vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	vp.size = _vp_size(); vp.render_target_update_mode = SubViewport.UPDATE_ONCE
 	add_child(vp)
 	var world := Node3D.new(); vp.add_child(world)
 	var day := DayNight.new(); world.add_child(day); day.setup(world); day.set_hour(HOUR)
 	if day.edges: day.edges.visible = false             # contours encrés : prévus pour la vue rapprochée
 	day.sun.shadow_enabled = false                         # vue lointaine : ombres inutiles
-	day.env.fog_density = 0.00018; day.env.fog_height_density = 0.0
+	# Vue cartographique orthographique : la distance verticale ne doit pas décolorer toute la ville.
+	day.env.fog_enabled = false
+	day.env.fog_height_density = 0.0
 	if job.has("scene"): world.add_child(job.scene)
 	world.add_child(_line_mesh(job.lines, job.dist))
 	var cam := Camera3D.new(); cam.fov = 50.0; cam.near = 2.0; cam.far = job.dist * 5.0; world.add_child(cam); cam.current = true
+	cam.projection = Camera3D.PROJECTION_ORTHOGONAL
+	cam.size = job.dist * 1.65
 	var rect := TextureRect.new(); rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE; rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED; rect.texture = vp.get_texture(); rect.modulate.a = 0.0
 	add_child(rect); move_child(rect, _shade.get_index())
 	var L := {"vp": vp, "rect": rect, "cam": cam, "center": job.center, "dist": job.dist,
-		"angle": randf() * TAU if not still_mode else 0.8, "city": job.city, "still": still_mode, "day": day}
+		"city": job.city, "still": still_mode, "day": day}
 	_place(L)
 	_layers.append(L)
 	shown = job.city
@@ -182,7 +201,9 @@ func _vp_size() -> Vector2i:
 
 func _fit() -> void:
 	for L in _layers:
-		if L.vp != null: L.vp.size = _vp_size()
+		if L.vp != null:
+			L.vp.size = _vp_size()
+			L.vp.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 ## Lignes de tram en surbrillance : ruban coloré + liseré sombre, toujours visibles (sans test de profondeur).
 static func _line_mesh(lines: Array, dist: float) -> Node3D:
@@ -212,6 +233,7 @@ static func _line_mesh(lines: Array, dist: float) -> Node3D:
 
 func _exit_tree() -> void:
 	if _task >= 0:
+		if _control != null: _control.cancel()
 		WorkerThreadPool.wait_for_task_completion(_task); _task = -1
 		if _job.has("scene"): (_job.scene as Node).free()
 		_job = {}

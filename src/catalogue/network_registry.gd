@@ -11,7 +11,12 @@ static func entries() -> Array:
 	if f != null:
 		var d = JSON.parse_string(f.get_as_text())
 		if typeof(d) == TYPE_DICTIONARY and d.has("networks"):
-			return d.networks
+			var result: Array = d.networks.duplicate()
+			var extra := "res://data/catalogue/free_lines.json"
+			if FileAccess.file_exists(extra):
+				var free_lines: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(extra))
+				result.append_array(free_lines.get("networks", []))
+			return result
 	var out: Array = []
 	for name in DirAccess.get_files_at("res://data/networks"):
 		if not name.ends_with(".json"): continue
