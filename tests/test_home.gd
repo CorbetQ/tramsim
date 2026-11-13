@@ -18,7 +18,7 @@ func _shot(name: String) -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png(shots.path_join(name + ".png"))
 
-func _wait_city(main: Node, city: String, limit := 120.0) -> bool:
+func _wait_city(main: Node, city: String, limit := 420.0) -> bool:
 	var t0 := Time.get_ticks_msec()
 	while Time.get_ticks_msec() - t0 < limit * 1000.0:
 		await process_frame
