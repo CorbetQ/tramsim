@@ -10,10 +10,13 @@ def copy(source,target):
  return shutil.copy2(source,target)
 shutil.copytree(ROOT,STAGE,ignore=shutil.ignore_patterns('.git','.godot','.cache','docs','tools','tests','build','android'),copy_function=copy)
 OUT.mkdir(parents=True,exist_ok=True)
-p=STAGE/'project.godot';s=p.read_text().replace('config/name="Tram Sim France"','config/name="TramSim — Aperçu des rames"').replace('config/version="0.10.0"','config/version="0.10.0-stock.1"');p.write_text(s)
-p=STAGE/'export_presets.cfg';s=p.read_text().replace('version/code=13','version/code=1').replace('version/name="0.10.0"','version/name="0.10.0-stock.1"').replace('package/unique_name="fr.tramsim.game"','package/unique_name="fr.tramsim.stockpreview"').replace('package/name="Tram Sim France"','package/name="TramSim Rames — Aperçu"')
+p=STAGE/'project.godot';s=p.read_text().replace('config/name="Tram Sim France"','config/name="TramSim — Aperçu des rames"').replace('config/version="0.10.0"','config/version="0.11.0-stock.1"');p.write_text(s)
+p=STAGE/'export_presets.cfg';s=p.read_text().replace('version/code=13','version/code=1').replace('version/name="0.10.0"','version/name="0.11.0-stock.1"').replace('package/unique_name="fr.tramsim.game"','package/unique_name="fr.tramsim.stockpreview"').replace('package/name="Tram Sim France"','package/name="TramSim Rames — Aperçu"')
 key=Path('/workspace/tramsim/.cache/signing/tramsim-debug.keystore')
-if not key.exists():raise FileNotFoundError('Clé de développement manquante')
+key=Path(os.environ.get('TRAMSIM_PREVIEW_KEYSTORE',str(key)))
+if not key.exists():
+ key=ROOT/'.cache/signing/tramsim-stock-preview.keystore';key.parent.mkdir(parents=True,exist_ok=True)
+ subprocess.run(['keytool','-genkeypair','-keystore',str(key),'-alias','tramsim-dev','-keyalg','RSA','-keysize','2048','-validity','10000','-storepass','android','-keypass','android','-dname','CN=TramSim Rames Preview Development'],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
 s=s.replace('keystore/debug=""','keystore/debug="'+str(key)+'"').replace('keystore/debug_user=""','keystore/debug_user="tramsim-dev"').replace('keystore/debug_password=""','keystore/debug_password="android"')
 p.write_text(s)
 for name,args in [('import',['--editor','--import']),('android',['--export-debug','Android',str(OUT/'TramSim-Rames-Preview.apk')]),('windows',['--export-release','Windows',str(OUT/'TramSim-Rames-Preview.exe')])]:
@@ -22,4 +25,6 @@ for name,args in [('import',['--editor','--import']),('android',['--export-debug
  if result.returncode:raise RuntimeError(name+' : consulter '+str(OUT/(name+'.log')))
  print('BUILT',name,flush=True)
 artifacts={p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in OUT.iterdir() if p.suffix in ['.apk','.exe']}
-(OUT/'SHA256.json').write_text(json.dumps(artifacts,indent=2)+'\n');print(json.dumps(artifacts),flush=True)
+(OUT/'SHA256.json').write_text(json.dumps(artifacts,indent=2)+'\n')
+metadata={'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'version':'0.11.0-stock.1','android_package':'fr.tramsim.stockpreview','artifacts':artifacts}
+(OUT/'BUILD.json').write_text(json.dumps(metadata,indent=2)+'\n');print(json.dumps(artifacts),flush=True)

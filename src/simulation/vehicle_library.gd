@@ -101,7 +101,6 @@ static func default_for(meta: Dictionary) -> VehicleProfile:
 		var fl: Array = TramModel.fleet_for(meta)
 		if not fl.is_empty():
 			var v := for_fleet(fl[0], meta)
-			if meta.get("guidance", "steel") == "rubber_guided": v.guidance = "rubber_guided"
 			return v
 	return _default_generic(meta)
 

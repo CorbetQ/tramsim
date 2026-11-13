@@ -1,0 +1,3552 @@
+[
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "angers__citadis_302",
+    "image": "before/angers__citadis_302-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 5022.0,
+    "pixel_sha256": "3bfb3e4b1da15edf9625893212bd8221d6350b61163edad4a99441d1195dfaf8",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "angers__citadis_302",
+    "image": "before/angers__citadis_302-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 5022.0,
+    "pixel_sha256": "169f218f4816af713af6f6264d43dd61915b4547485e580a400d325869494fad",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.75,
+      9.60000038146973,
+      -26.7600002288818
+    ],
+    "id": "angers__citadis_x05",
+    "image": "before/angers__citadis_x05-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.32000005245209
+    ],
+    "triangles": 5102.0,
+    "pixel_sha256": "dae01ed5fd49fd8f373e32d6cdec23e97fb55b806068c023c9b6929a0d3b5f38",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.5
+    ],
+    "id": "angers__citadis_x05",
+    "image": "before/angers__citadis_x05-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -16.0
+    ],
+    "triangles": 5102.0,
+    "pixel_sha256": "b44891e6e23851cba1fb0061ebbb1dbe133aa17a245db6c2ae7b64459ccd36aa",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      30.2999992370605,
+      10.2799997329712,
+      -29.2080001831055
+    ],
+    "id": "nantes__incentro",
+    "image": "before/nantes__incentro-threequarter.webp",
+    "length": 36.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.4559999704361
+    ],
+    "triangles": 4194.0,
+    "pixel_sha256": "6f3a34209b3493ab98f72ddd1dc3cb4da3f045ea49b35eb7df272b7da996e72a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -26.2000007629395
+    ],
+    "id": "nantes__incentro",
+    "image": "before/nantes__incentro-front.webp",
+    "length": 36.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -17.7000007629395
+    ],
+    "triangles": 4194.0,
+    "pixel_sha256": "0a6146f2a2c52dd8d650a0191c92a4f1826995339e3a4b7e687a8dd4830236d3",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      37.2000007629395,
+      12.1199998855591,
+      -35.8320007324219
+    ],
+    "id": "nantes__citadis_x05_nantes",
+    "image": "before/nantes__citadis_x05_nantes-threequarter.webp",
+    "length": 45.6,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.82400000095367
+    ],
+    "triangles": 5806.0,
+    "pixel_sha256": "6749c400571b41590d219ff9a5a67be29d5014c11b88ef477d7d8ea89a085087",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.7999992370605
+    ],
+    "id": "nantes__citadis_x05_nantes",
+    "image": "before/nantes__citadis_x05_nantes-front.webp",
+    "length": 45.6,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -22.2999992370605
+    ],
+    "triangles": 5806.0,
+    "pixel_sha256": "90669f82e5011661f5f41e803b67c20c67f8f55704083e5941eed9dbc4330c5d",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      32.3624992370605,
+      10.8299999237061,
+      -31.1879997253418
+    ],
+    "id": "nantes__tfs",
+    "image": "before/nantes__tfs-threequarter.webp",
+    "length": 39.15,
+    "modules": 6.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.56599998474121
+    ],
+    "triangles": 4958.0,
+    "pixel_sha256": "45c7463dfc05b15e0aedd6ac4fdb54650a5f6bfddc3c58026db183d9425b1843",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -27.5750007629395
+    ],
+    "id": "nantes__tfs",
+    "image": "before/nantes__tfs-front.webp",
+    "length": 39.15,
+    "modules": 6.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -19.0750007629395
+    ],
+    "triangles": 4958.0,
+    "pixel_sha256": "4fd752d4bced00624708bb26897c86f38969abb12bca059c9366085a8d93a9ed",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      31.4745006561279,
+      10.5931997299194,
+      -30.3355197906494
+    ],
+    "id": "nantes__urbos",
+    "image": "before/nantes__urbos-threequarter.webp",
+    "length": 37.966,
+    "modules": 6.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.51864004135132
+    ],
+    "triangles": 6314.0,
+    "pixel_sha256": "6c50f3fab3b5ffb3a4931c16b7eb8a3b18e52e795451cbb683b76ebdfe8f5a00",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -26.9829998016357
+    ],
+    "id": "nantes__urbos",
+    "image": "before/nantes__urbos-front.webp",
+    "length": 37.966,
+    "modules": 6.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -18.4829998016357
+    ],
+    "triangles": 6314.0,
+    "pixel_sha256": "58c7ae17c076c0e537abcfa207f00b84a3d842c8de80d2734551ed2d0ea8c04d",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      36.0,
+      11.8000001907349,
+      -34.6800003051758
+    ],
+    "id": "bordeaux__citadis_402",
+    "image": "before/bordeaux__citadis_402-threequarter.webp",
+    "length": 44.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.75999999046326
+    ],
+    "triangles": 5308.0,
+    "pixel_sha256": "04f0dc01e2078ed91f05e5b8e001a9f0e362ba0b34a6f1dc378bf64dd645a703",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.0
+    ],
+    "id": "bordeaux__citadis_402",
+    "image": "before/bordeaux__citadis_402-front.webp",
+    "length": 44.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.5
+    ],
+    "triangles": 5308.0,
+    "pixel_sha256": "4e048bd437b6b52425e0bafa5319ae70a48174bd58c3f275984f712bc23bba43",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "bordeaux__citadis_302",
+    "image": "before/bordeaux__citadis_302-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "3d46d3b632a7ebe267c749cfe37d744ade312f53c7cac25099297c0ff4b44c6e",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "bordeaux__citadis_302",
+    "image": "before/bordeaux__citadis_302-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "878105d819a6cee807d745e25d97a8f32d935d026113b7d5268bd2f06f343f2a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.0,
+      9.39999961853027,
+      -26.0400009155273
+    ],
+    "id": "clermont__translohr",
+    "image": "before/clermont__translohr-threequarter.webp",
+    "length": 32.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.27999997138977
+    ],
+    "triangles": 4722.0,
+    "pixel_sha256": "03e184350b92edd2c2715053836a5d7d7964f1004ecb0040cec7e4b2f88558cf",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.0
+    ],
+    "id": "clermont__translohr",
+    "image": "before/clermont__translohr-front.webp",
+    "length": 32.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.5
+    ],
+    "triangles": 4722.0,
+    "pixel_sha256": "c7fc6483e58f78baea1d2470929eae9097735a541c48c74133e03bebdc7bbfdc",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.375,
+      9.5,
+      -26.3999996185303
+    ],
+    "id": "mulhouse__citadis_302",
+    "image": "before/mulhouse__citadis_302-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.29999995231628
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "3cde28e27b3085c3bfcb591397838ca4ab07a9c55341a5850cbc364932fd2b18",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.25
+    ],
+    "id": "mulhouse__citadis_302",
+    "image": "before/mulhouse__citadis_302-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.75
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "17b88d15e3c628d5530ce2016eccff2c343c322ca8c768de0cf62c4946a4c012",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      30.7275009155273,
+      10.3940000534058,
+      -29.6184005737305
+    ],
+    "id": "mulhouse__avanto",
+    "image": "before/mulhouse__avanto-threequarter.webp",
+    "length": 36.97,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.47880005836487
+    ],
+    "triangles": 4010.0,
+    "pixel_sha256": "29d5c9adcd67972212713504c291cd1212a3c54817aae20f70acd9cfbde645e8",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -26.4850006103516
+    ],
+    "id": "mulhouse__avanto",
+    "image": "before/mulhouse__avanto-front.webp",
+    "length": 36.97,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -17.9850006103516
+    ],
+    "triangles": 4010.0,
+    "pixel_sha256": "930d57e51ac925ef1d386ea301ee78683e6a4f6fdefb08c1e4fdbef391d46f0f",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      30.7275009155273,
+      10.3940000534058,
+      -29.6184005737305
+    ],
+    "id": "mulhouse__avanto__tt",
+    "image": "before/mulhouse__avanto__tt-threequarter.webp",
+    "length": 36.97,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.47880005836487
+    ],
+    "triangles": 3978.0,
+    "pixel_sha256": "a93b93f49f15c02adcad2307c3ef76e4e115055be228b0addada156ef0d5c07b",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -26.4850006103516
+    ],
+    "id": "mulhouse__avanto__tt",
+    "image": "before/mulhouse__avanto__tt-front.webp",
+    "length": 36.97,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -17.9850006103516
+    ],
+    "triangles": 3978.0,
+    "pixel_sha256": "addb70e3e27615100ca6bc59d17495491a69e6464bed3cfa9a376513faf14d0a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      35.7750015258789,
+      11.7399997711182,
+      -34.4640007019043
+    ],
+    "id": "grenoble__citadis_402",
+    "image": "before/grenoble__citadis_402-threequarter.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.74800002574921
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "c1e311e624882dcaa80194d9199d21035fa8d883b020cd6dfb2d0b4858057eda",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.8500003814697
+    ],
+    "id": "grenoble__citadis_402",
+    "image": "before/grenoble__citadis_402-front.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.3500003814697
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "6fd46fadac9f2599b44db09155db63bbb1c2ae4f6e2395b8d07840789b0a45bd",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      25.0499992370605,
+      8.88000011444092,
+      -24.1679992675781
+    ],
+    "id": "grenoble__tfs",
+    "image": "before/grenoble__tfs-threequarter.webp",
+    "length": 29.4,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.17599999904633
+    ],
+    "triangles": 4230.0,
+    "pixel_sha256": "461b9ecd79e20cc654ecb886548bec1c57cede3379009243dee192039eab83a5",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -22.7000007629395
+    ],
+    "id": "grenoble__tfs",
+    "image": "before/grenoble__tfs-front.webp",
+    "length": 29.4,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -14.1999998092651
+    ],
+    "triangles": 4230.0,
+    "pixel_sha256": "2707d9022517bac7fc359c6410b59d3c5011fac1f09f10fb220a3c6a0ca749d1",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "toulouse__citadis_302",
+    "image": "before/toulouse__citadis_302-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "ff11ca42bd5f9d06b91e14d1412d0e76272253b49b6adf30ba5bae7413386c8a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "toulouse__citadis_302",
+    "image": "before/toulouse__citadis_302-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "00a08cc03e1369bdd40c8632cd3ce62bac920b525a2f50b4cc5769f43727d92c",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "toulouse__citadis_302__ae",
+    "image": "before/toulouse__citadis_302__ae-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "95353abfe22f0a26fb56478e835827eb1347b461d1ed9a3f316ec311bb4f7b42",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "toulouse__citadis_302__ae",
+    "image": "before/toulouse__citadis_302__ae-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "00a08cc03e1369bdd40c8632cd3ce62bac920b525a2f50b4cc5769f43727d92c",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      36.75,
+      12.0,
+      -35.4000015258789
+    ],
+    "id": "strasbourg__citadis_403_strasbourg",
+    "image": "before/strasbourg__citadis_403_strasbourg-threequarter.webp",
+    "length": 45.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.79999995231628
+    ],
+    "triangles": 5518.0,
+    "pixel_sha256": "229320f8ffa7663550cba0c50084e755b9b1897aff6e09a527de80864cc1b16a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.5
+    ],
+    "id": "strasbourg__citadis_403_strasbourg",
+    "image": "before/strasbourg__citadis_403_strasbourg-front.webp",
+    "length": 45.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -22.0
+    ],
+    "triangles": 5518.0,
+    "pixel_sha256": "51b2ea97c9a94031dd548c237e188f72816183dfca92d571b7ef6964ec8d7e8b",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.8250007629395,
+      9.61999988555908,
+      -26.8320007324219
+    ],
+    "id": "strasbourg__eurotram",
+    "image": "before/strasbourg__eurotram-threequarter.webp",
+    "length": 33.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.32400000095367
+    ],
+    "triangles": 5120.0,
+    "pixel_sha256": "da32c7386a7a63a82239e918b7b9df90045df4dff590c9ea9aec3bbea9506d85",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.5499992370605
+    ],
+    "id": "strasbourg__eurotram",
+    "image": "before/strasbourg__eurotram-front.webp",
+    "length": 33.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -16.0499992370605
+    ],
+    "triangles": 5120.0,
+    "pixel_sha256": "b967c8f578501c3f40ecad85fdd94dacd458cdbccaa51886be1f61e24621efb2",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      36.75,
+      12.0,
+      -35.4000015258789
+    ],
+    "id": "strasbourg__citadis_x05",
+    "image": "before/strasbourg__citadis_x05-threequarter.webp",
+    "length": 45.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.79999995231628
+    ],
+    "triangles": 5904.0,
+    "pixel_sha256": "0a18e2f03f4b02a129d75fba15c94d5ceaae357bb26ff844b5717002572865fc",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.5
+    ],
+    "id": "strasbourg__citadis_x05",
+    "image": "before/strasbourg__citadis_x05-front.webp",
+    "length": 45.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -22.0
+    ],
+    "triangles": 5904.0,
+    "pixel_sha256": "a3b9f9e42701aaf4013a1af07a2edccfc96ed860378945bbd491887648a116de",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      35.7750015258789,
+      11.7399997711182,
+      -34.4640007019043
+    ],
+    "id": "montpellier__citadis_402",
+    "image": "before/montpellier__citadis_402-threequarter.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.74800002574921
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "75b2095644d4e3f2a136fa851b6c519c6db461a0205981d8c92e006d15e329dc",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.8500003814697
+    ],
+    "id": "montpellier__citadis_402",
+    "image": "before/montpellier__citadis_402-front.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.3500003814697
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "cf8284dc873a2feb170df5c80f39f05bb620d72b773726561814b5b027ad86f4",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "montpellier__citadis_302",
+    "image": "before/montpellier__citadis_302-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "2ea4233a70d955259cef7d48347fd8712d98de14b2ba72057b09fbb9e8f29c59",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "montpellier__citadis_302",
+    "image": "before/montpellier__citadis_302-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "cd3f9a114e5d750c32ea64dfe2ce0b4e9441393c376368282804fc400564674e",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      33.6749992370605,
+      11.1800003051758,
+      -32.4480018615723
+    ],
+    "id": "montpellier__citadis_x01",
+    "image": "before/montpellier__citadis_x01-threequarter.webp",
+    "length": 40.9,
+    "modules": 4.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.6360000371933
+    ],
+    "triangles": 3938.0,
+    "pixel_sha256": "ab869007dbda4ef56430ec4f7d8569d48725bd4181d444707ecccdaf65580f07",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -28.4500007629395
+    ],
+    "id": "montpellier__citadis_x01",
+    "image": "before/montpellier__citadis_x01-front.webp",
+    "length": 40.9,
+    "modules": 4.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -19.9500007629395
+    ],
+    "triangles": 3938.0,
+    "pixel_sha256": "a95d4f80c3257dd8702d7c6a9a00cb153f1c851402b320c591547aa5b6bbc992",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      20.2657508850098,
+      7.60419988632202,
+      -19.5751209259033
+    ],
+    "id": "montpellier__urbos",
+    "image": "before/montpellier__urbos-threequarter.webp",
+    "length": 23.021,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -0.92084002494812
+    ],
+    "triangles": 3582.0,
+    "pixel_sha256": "57ba2fbb06047a3b089c8fa09d0854eb1f6e426eb676bdea0c5ac3209529ab95",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -19.5104999542236
+    ],
+    "id": "montpellier__urbos",
+    "image": "before/montpellier__urbos-front.webp",
+    "length": 23.021,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -11.0104999542236
+    ],
+    "triangles": 3582.0,
+    "pixel_sha256": "39776dbcf88d6091f737b394d113129bcb1a1defca87ea13b8900e867931a192",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      35.7750015258789,
+      11.7399997711182,
+      -34.4640007019043
+    ],
+    "id": "montpellier__citadis_402__1",
+    "image": "before/montpellier__citadis_402__1-threequarter.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.74800002574921
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "9b7e8ab0f4ad34200179f984985f83171ad17a4f7937231a218a2bfb5b1abd82",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.8500003814697
+    ],
+    "id": "montpellier__citadis_402__1",
+    "image": "before/montpellier__citadis_402__1-front.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.3500003814697
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "2cb5c1e758022c86ee26bae6dce9f34b81178f967a26911e8a200fa9631895d9",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "montpellier__citadis_302__2",
+    "image": "before/montpellier__citadis_302__2-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "e47f38c849f223eaf17cbfde2e810a759497039c224248d3cfdeb5cb62104768",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "montpellier__citadis_302__2",
+    "image": "before/montpellier__citadis_302__2-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "09d16088c0190a35c5402e34fc78dfefed1657f8099787f673e782c6a3111e61",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      35.7750015258789,
+      11.7399997711182,
+      -34.4640007019043
+    ],
+    "id": "montpellier__citadis_402__3",
+    "image": "before/montpellier__citadis_402__3-threequarter.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.74800002574921
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "fb66fa0abf040fa568edcf7d7d4f1bc782695bd81e33ddcaf405f76cf68870a2",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.8500003814697
+    ],
+    "id": "montpellier__citadis_402__3",
+    "image": "before/montpellier__citadis_402__3-front.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.3500003814697
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "27570b6145cada45fc875f2c7d4daab1ab4d154f732e2ff5a9f151faf7f6d59a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "montpellier__citadis_302__4",
+    "image": "before/montpellier__citadis_302__4-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "f11c6413f575d0349bb176ed0e413d33123bdafd75ea8eaec5a4b3126f2deb0d",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "montpellier__citadis_302__4",
+    "image": "before/montpellier__citadis_302__4-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "dab860d468c0afb9433a6e3c618daebfbf0f4864f5bb79d90f87a0b595caea6a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.75,
+      9.60000038146973,
+      -26.7600002288818
+    ],
+    "id": "montpellier__urbos__5",
+    "image": "before/montpellier__urbos__5-threequarter.webp",
+    "length": 33.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.32000005245209
+    ],
+    "triangles": 5182.0,
+    "pixel_sha256": "0251a8e20aca8998233d678c9b71a8ee4ee6e2b0485c786ad6f8a008f75b3930",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.5
+    ],
+    "id": "montpellier__urbos__5",
+    "image": "before/montpellier__urbos__5-front.webp",
+    "length": 33.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -16.0
+    ],
+    "triangles": 5182.0,
+    "pixel_sha256": "d091e2a9513ec95cfa66417d2bbc89542e9a90769c0b3c091442584f7ea1ff39",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      25.4249992370605,
+      8.97999954223633,
+      -24.5279998779297
+    ],
+    "id": "lille__breda_vlc",
+    "image": "before/lille__breda_vlc-threequarter.webp",
+    "length": 29.9,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.19599997997284
+    ],
+    "triangles": 4090.0,
+    "pixel_sha256": "c075dde3ecf21efe7674c4bbef51f2eb93446f54268f90f8e48e891ec7eccecd",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -22.9500007629395
+    ],
+    "id": "lille__breda_vlc",
+    "image": "before/lille__breda_vlc-front.webp",
+    "length": 29.9,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -14.4499998092651
+    ],
+    "triangles": 4090.0,
+    "pixel_sha256": "dae132cae5c4bd3c5a3848e863315bd1a5245af93924ae24b3e7cb8010609f53",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.375,
+      9.5,
+      -26.3999996185303
+    ],
+    "id": "lille__citadis_x05",
+    "image": "before/lille__citadis_x05-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.29999995231628
+    ],
+    "triangles": 4790.0,
+    "pixel_sha256": "a9a7fc8f026dcd9ff647d621d8b2f7def1b16325f58ac0818a895886025fd5cf",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.25
+    ],
+    "id": "lille__citadis_x05",
+    "image": "before/lille__citadis_x05-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.75
+    ],
+    "triangles": 4790.0,
+    "pixel_sha256": "3522f2b130100bbfc6356787be4285d5d8c07b83df6bedad588da82220435023",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "lyon__citadis_302",
+    "image": "before/lyon__citadis_302-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4494.0,
+    "pixel_sha256": "1e654894972e2c0909dd5728c23f3017d031767ae8c671e4046f2ada00112143",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "lyon__citadis_302",
+    "image": "before/lyon__citadis_302-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4494.0,
+    "pixel_sha256": "a22a779f49b73eb9762ad7dc95f9b44b07c2fda389b046d7a8531c965dc44c17",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      35.7750015258789,
+      11.7399997711182,
+      -34.4640007019043
+    ],
+    "id": "lyon__citadis_402",
+    "image": "before/lyon__citadis_402-threequarter.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.74800002574921
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "15ed433f63e6ff833ebb2a952053c19cb1728bcaec55d3fb3678560ee43a8273",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.8500003814697
+    ],
+    "id": "lyon__citadis_402",
+    "image": "before/lyon__citadis_402-front.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.3500003814697
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "b6a8cec44962a630b5891949923486f7a4de1fa818b112c7e5b2f0aac7f8ac53",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.375,
+      9.5,
+      -26.3999996185303
+    ],
+    "id": "lyon__citadis_x05",
+    "image": "before/lyon__citadis_x05-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.29999995231628
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "058098df26a1e6b3a165e16afef2014fb700160c7d02369a1ecf6ac6fdf2c1de",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.25
+    ],
+    "id": "lyon__citadis_x05",
+    "image": "before/lyon__citadis_x05-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.75
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "24f4f9da92d05fb433a3214a871c35c288375cfa0ca7e3113cb4ef03bce67dbf",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      23.25,
+      8.39999961853027,
+      -22.4400005340576
+    ],
+    "id": "lyon__tango_rhonexpress",
+    "image": "before/lyon__tango_rhonexpress-threequarter.webp",
+    "length": 27.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.08000004291534
+    ],
+    "triangles": 3786.0,
+    "pixel_sha256": "fbb32dc1accb85d0822180b3f46594669a560c78e127e9213e0416a2ca6d72eb",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -21.5
+    ],
+    "id": "lyon__tango_rhonexpress",
+    "image": "before/lyon__tango_rhonexpress-front.webp",
+    "length": 27.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -13.0
+    ],
+    "triangles": 3786.0,
+    "pixel_sha256": "4cf59b5d9729b93632b07e661ce806f78726ebcccb991082facbc68fd58314a3",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      23.25,
+      8.39999961853027,
+      -22.4400005340576
+    ],
+    "id": "lyon__tango_rhonexpress__rhonexpress",
+    "image": "before/lyon__tango_rhonexpress__rhonexpress-threequarter.webp",
+    "length": 27.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.08000004291534
+    ],
+    "triangles": 3786.0,
+    "pixel_sha256": "c8143df2e046ad5757deba84e25fcaedc7b4cf37227ce8fe52273acfd7add6c7",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -21.5
+    ],
+    "id": "lyon__tango_rhonexpress__rhonexpress",
+    "image": "before/lyon__tango_rhonexpress__rhonexpress-front.webp",
+    "length": 27.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -13.0
+    ],
+    "triangles": 3786.0,
+    "pixel_sha256": "4cf59b5d9729b93632b07e661ce806f78726ebcccb991082facbc68fd58314a3",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.375,
+      9.5,
+      -26.3999996185303
+    ],
+    "id": "marseille__flexity_marseille",
+    "image": "before/marseille__flexity_marseille-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.29999995231628
+    ],
+    "triangles": 5130.0,
+    "pixel_sha256": "b23ba00efb7c9afadd968306e834de5866c4243210bd9308b8935edb8b320517",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.25
+    ],
+    "id": "marseille__flexity_marseille",
+    "image": "before/marseille__flexity_marseille-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.75
+    ],
+    "triangles": 5130.0,
+    "pixel_sha256": "d1c130bbb789d99fcf561a3c15f301f1446bc925714ff8ef7a9df61033534110",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.75,
+      9.60000038146973,
+      -26.7600002288818
+    ],
+    "id": "marseille__urbos",
+    "image": "before/marseille__urbos-threequarter.webp",
+    "length": 33.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.32000005245209
+    ],
+    "triangles": 6178.0,
+    "pixel_sha256": "a3b53a8960423991f52887db67d9a8cbf52ddc0c2bb5e06b706cd9b175e3dbc4",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.5
+    ],
+    "id": "marseille__urbos",
+    "image": "before/marseille__urbos-front.webp",
+    "length": 33.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -16.0
+    ],
+    "triangles": 6178.0,
+    "pixel_sha256": "7a6a487ce2c543cb48824f95304bdd80c9b0373b90f34536f588af73f7dd5c9b",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      36.0,
+      11.8000001907349,
+      -34.6800003051758
+    ],
+    "id": "nice__citadis_402",
+    "image": "before/nice__citadis_402-threequarter.webp",
+    "length": 44.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.75999999046326
+    ],
+    "triangles": 5308.0,
+    "pixel_sha256": "ad8819f086dcc334ff3827f42e15a0eeaf98e9a1c2c89c2a6be458847fb57627",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.0
+    ],
+    "id": "nice__citadis_402",
+    "image": "before/nice__citadis_402-front.webp",
+    "length": 44.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.5
+    ],
+    "triangles": 5308.0,
+    "pixel_sha256": "071e1a70c1f2d3216e270a0b5a529f186ed645c13b279ed0f280b110f2e432cf",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      36.0,
+      11.8000001907349,
+      -34.6800003051758
+    ],
+    "id": "nice__citadis_x05",
+    "image": "before/nice__citadis_x05-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.75999999046326
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "81aad578c59eb8259b00d9a4c194b61ef98c3e89f57de1cab89fe8e989568056",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.0
+    ],
+    "id": "nice__citadis_x05",
+    "image": "before/nice__citadis_x05-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.5
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "7a326c6d3d91abe1e7a4d848e493e47f2f5b477c15792ba376324ee0db36a52a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      36.0,
+      11.8000001907349,
+      -34.6800003051758
+    ],
+    "id": "nice__citadis_x05__t2",
+    "image": "before/nice__citadis_x05__t2-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.75999999046326
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "40cc927e6bb587106947b61559bc520120bb35fbb14b55313f202bf0899d67c6",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.0
+    ],
+    "id": "nice__citadis_x05__t2",
+    "image": "before/nice__citadis_x05__t2-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.5
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "7a326c6d3d91abe1e7a4d848e493e47f2f5b477c15792ba376324ee0db36a52a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      35.7750015258789,
+      11.7399997711182,
+      -34.4640007019043
+    ],
+    "id": "rouen__citadis_402",
+    "image": "before/rouen__citadis_402-threequarter.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.74800002574921
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "ba43fbe17bbec1befe950b8c3d580cb10505a5b4b3fcb1c90a01d639025e1c39",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.8500003814697
+    ],
+    "id": "rouen__citadis_402",
+    "image": "before/rouen__citadis_402-front.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.3500003814697
+    ],
+    "triangles": 5276.0,
+    "pixel_sha256": "35a4d936aa32d490fb26f45bfb51b9a7cba7d04f9ab1b5322fb353544574354c",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "reims__citadis_reims",
+    "image": "before/reims__citadis_reims-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 5402.0,
+    "pixel_sha256": "d28ecd71679b2dd825bc961370cc8c7e029377c5b2a6f78ff16243e0b249f19f",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "reims__citadis_reims",
+    "image": "before/reims__citadis_reims-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 5402.0,
+    "pixel_sha256": "cf27bf61909128738ff42bedef65f9d1af2f5309eeaf8e91fa6e397d60935673",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "dijon__citadis_302",
+    "image": "before/dijon__citadis_302-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "8cee9543f0aa4b49156b2cab0e8f1563d3e453179d238247af349a45be851707",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "dijon__citadis_302",
+    "image": "before/dijon__citadis_302-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "7ac62d1afb8e9977e33885bb43704f4c6ef3f9f8f26a44cb03ddc07c71213337",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      35.25,
+      11.6000003814697,
+      -33.9599990844727
+    ],
+    "id": "tours__citadis_tours",
+    "image": "before/tours__citadis_tours-threequarter.webp",
+    "length": 43.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.72000002861023
+    ],
+    "triangles": 4252.0,
+    "pixel_sha256": "42337ef956cfbaa73d473a3ac95f44cbbcf9b5c5d897efc4bc546d01c5e2f971",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.5
+    ],
+    "id": "tours__citadis_tours",
+    "image": "before/tours__citadis_tours-front.webp",
+    "length": 43.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.0
+    ],
+    "triangles": 4252.0,
+    "pixel_sha256": "ae7ebd7246f3d5e5b744f94d45b7d7769a13d04327a0421aa868df2ba349ecb6",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "orleans__citadis_302",
+    "image": "before/orleans__citadis_302-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "f5097c7b54988b632442e1e03d652276bc7b385e493e6a9d33ffa193eea18c50",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "orleans__citadis_302",
+    "image": "before/orleans__citadis_302-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "2c41a79cb958511cbb41139bda143f3dac8b79128e0c83e5becfa76c4b4e8a2e",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      25.5,
+      9.0,
+      -24.6000003814697
+    ],
+    "id": "orleans__citadis_x01",
+    "image": "before/orleans__citadis_x01-threequarter.webp",
+    "length": 30.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.20000004768372
+    ],
+    "triangles": 3598.0,
+    "pixel_sha256": "301e96ac0295f439fc79311f70f9e2249784bd6b7faddc83ccf9c280df12e8ea",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -23.0
+    ],
+    "id": "orleans__citadis_x01",
+    "image": "before/orleans__citadis_x01-front.webp",
+    "length": 30.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -14.5
+    ],
+    "triangles": 3598.0,
+    "pixel_sha256": "4561474657cff172886013792fb0e5e06b2902b1c42a781c04bf7c70665f77c1",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      25.5,
+      9.0,
+      -24.6000003814697
+    ],
+    "id": "orleans__citadis_x01__a",
+    "image": "before/orleans__citadis_x01__a-threequarter.webp",
+    "length": 30.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.20000004768372
+    ],
+    "triangles": 3598.0,
+    "pixel_sha256": "ab291a99c2633258ff9ac554e0b8b1a9470a40eea46135b66b3a7d42b9839563",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -23.0
+    ],
+    "id": "orleans__citadis_x01__a",
+    "image": "before/orleans__citadis_x01__a-front.webp",
+    "length": 30.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -14.5
+    ],
+    "triangles": 3598.0,
+    "pixel_sha256": "b1d839ac2c06691db8cb67d748d6575adc010a92c01bd2d7b628564d23fefad7",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.0,
+      9.39999961853027,
+      -26.0400009155273
+    ],
+    "id": "lemans__citadis_302",
+    "image": "before/lemans__citadis_302-threequarter.webp",
+    "length": 32.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.27999997138977
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "e97c9338e9bb1aca02f800bda678100f300cfc650d1a1bee5994e0d3dd290b16",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.0
+    ],
+    "id": "lemans__citadis_302",
+    "image": "before/lemans__citadis_302-front.webp",
+    "length": 32.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.5
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "fb69751e17079137fc71830d2ad3a4b9154ea528389fad8480d8f09eae95b11c",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.375,
+      9.5,
+      -26.3999996185303
+    ],
+    "id": "caen__citadis_x05",
+    "image": "before/caen__citadis_x05-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.29999995231628
+    ],
+    "triangles": 5262.0,
+    "pixel_sha256": "d6e8c0a98a49a113cb16733cef122a1eaf0df851d7f0354050f02e1e56c589c3",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.25
+    ],
+    "id": "caen__citadis_x05",
+    "image": "before/caen__citadis_x05-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.75
+    ],
+    "triangles": 5262.0,
+    "pixel_sha256": "0051d64bfc2eca4b0817b9f104c3fd9de1e86656cace14886dd61f6dcc163090",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "brest__citadis_302",
+    "image": "before/brest__citadis_302-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "a98eee65c93b7183a9e1fb74fda64208387bb5d03b58fb5ead6d80245338d057",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "brest__citadis_302",
+    "image": "before/brest__citadis_302-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4082.0,
+    "pixel_sha256": "77652a2b7c83c3c1aa609aaf0fc006e0e7e72ffe28a212843c18afd447b80c1e",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.0,
+      9.39999961853027,
+      -26.0400009155273
+    ],
+    "id": "lehavre__citadis_302",
+    "image": "before/lehavre__citadis_302-threequarter.webp",
+    "length": 32.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.27999997138977
+    ],
+    "triangles": 4318.0,
+    "pixel_sha256": "77bce6099bae185a72b8158f61e0650704d7d4b919eb727f0687848425786506",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.0
+    ],
+    "id": "lehavre__citadis_302",
+    "image": "before/lehavre__citadis_302-front.webp",
+    "length": 32.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.5
+    ],
+    "triangles": 4318.0,
+    "pixel_sha256": "bf3b872f87e4ceb061c24754c869c5adab1bc8d9dbf527df4fad0dbcd65e5642",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.75,
+      9.60000038146973,
+      -26.7600002288818
+    ],
+    "id": "saintetienne__urbos",
+    "image": "before/saintetienne__urbos-threequarter.webp",
+    "length": 33.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.32000005245209
+    ],
+    "triangles": 5474.0,
+    "pixel_sha256": "48513da8610a3c94233ab666874fa49211a342c24227bf1c8d09d43430a04e5b",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.5
+    ],
+    "id": "saintetienne__urbos",
+    "image": "before/saintetienne__urbos-front.webp",
+    "length": 33.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -16.0
+    ],
+    "triangles": 5474.0,
+    "pixel_sha256": "e2051f98efb029f5869cf1b715d09da6b076945faaadc999d9a94d9db9229a89",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      20.4300003051758,
+      7.64799976348877,
+      -19.7327995300293
+    ],
+    "id": "saintetienne__vevey_saint_etienne",
+    "image": "before/saintetienne__vevey_saint_etienne-threequarter.webp",
+    "length": 23.24,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -0.92960000038147
+    ],
+    "triangles": 3866.0,
+    "pixel_sha256": "1583dae24bc40be0ea9de3341fe7002d891ac73859d6b7e89c5d45443ba09128",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -19.6200008392334
+    ],
+    "id": "saintetienne__vevey_saint_etienne",
+    "image": "before/saintetienne__vevey_saint_etienne-front.webp",
+    "length": 23.24,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -11.1199998855591
+    ],
+    "triangles": 3866.0,
+    "pixel_sha256": "2ddbc63831e4a76fe6611240a7bdae2c4e98f24b00ef5bcae3707caa4c93adac",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      20.2657508850098,
+      7.60419988632202,
+      -19.5751209259033
+    ],
+    "id": "besancon__urbos",
+    "image": "before/besancon__urbos-threequarter.webp",
+    "length": 23.021,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -0.92084002494812
+    ],
+    "triangles": 3582.0,
+    "pixel_sha256": "761788b06447e373fb696d3db082ffee087586cf334666dfe34c3d8bfe5a1976",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -19.5104999542236
+    ],
+    "id": "besancon__urbos",
+    "image": "before/besancon__urbos-front.webp",
+    "length": 23.021,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -11.0104999542236
+    ],
+    "triangles": 3582.0,
+    "pixel_sha256": "81685b1879f4390bbdda533b666ebe382ade598133348273c99621cc318451ec",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.375,
+      9.5,
+      -26.3999996185303
+    ],
+    "id": "besancon__citadis_x05",
+    "image": "before/besancon__citadis_x05-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.29999995231628
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "4597ce36771c69bd9b390be971e4635966a5e92c933aeea944b260ad04ffd439",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.25
+    ],
+    "id": "besancon__citadis_x05",
+    "image": "before/besancon__citadis_x05-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.75
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "b5847f3601c045d59c920209c15651002411f552cdadf96650f028f550720615",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      21.0,
+      7.80000019073486,
+      -20.2800006866455
+    ],
+    "id": "avignon__citadis_compact",
+    "image": "before/avignon__citadis_compact-threequarter.webp",
+    "length": 24.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -0.959999978542328
+    ],
+    "triangles": 4190.0,
+    "pixel_sha256": "10cd2be469ba90ddbf9eed3d33d9aa2f799c897aaa1bc1e732aabdf96b7ef139",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -20.0
+    ],
+    "id": "avignon__citadis_compact",
+    "image": "before/avignon__citadis_compact-front.webp",
+    "length": 24.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -11.5
+    ],
+    "triangles": 4190.0,
+    "pixel_sha256": "0dc9a26f34518d922d41c61a4c3b572ee283b3c7df2438763616acc4a8e0fd89",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.75,
+      9.60000038146973,
+      -26.7600002288818
+    ],
+    "id": "valenciennes__citadis_302",
+    "image": "before/valenciennes__citadis_302-threequarter.webp",
+    "length": 33.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.32000005245209
+    ],
+    "triangles": 4106.0,
+    "pixel_sha256": "4d74f01904ab45c9c30fc4839e429160141c93c7d0f122e95591aa89605f92c6",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.5
+    ],
+    "id": "valenciennes__citadis_302",
+    "image": "before/valenciennes__citadis_302-front.webp",
+    "length": 33.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -16.0
+    ],
+    "triangles": 4106.0,
+    "pixel_sha256": "db5c9f38ad2f70331c1c0b8f4d48faf13b164b7ed86cfca97b5dfe435f8f7dd1",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      19.5,
+      7.40000009536743,
+      -18.8400001525879
+    ],
+    "id": "aubagne__citadis_compact",
+    "image": "before/aubagne__citadis_compact-threequarter.webp",
+    "length": 22.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -0.879999995231628
+    ],
+    "triangles": 3554.0,
+    "pixel_sha256": "54c2c75c514e193cef40e5ec8205c8d0af7bd863f094a1a31c208f54dd556905",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -19.0
+    ],
+    "id": "aubagne__citadis_compact",
+    "image": "before/aubagne__citadis_compact-front.webp",
+    "length": 22.0,
+    "modules": 3.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -10.5
+    ],
+    "triangles": 3554.0,
+    "pixel_sha256": "81d8d573b5012fdef3e141384e5ddc35cf28056cbf9e56f086dae3d645f6f356",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.75,
+      9.60000038146973,
+      -26.7600002288818
+    ],
+    "id": "idf__citadis_x05__t1",
+    "image": "before/idf__citadis_x05__t1-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.32000005245209
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "3b06f03576af47cba1fa1d4b0705b25789bb8595380f222ce5e882fd7413b7c3",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.5
+    ],
+    "id": "idf__citadis_x05__t1",
+    "image": "before/idf__citadis_x05__t1-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -16.0
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "cdd7ab85930661252c120053ebcb2173f2ba7583380e5ecd026b073001e970dc",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.1499996185303,
+      9.4399995803833,
+      -26.1840000152588
+    ],
+    "id": "idf__citadis_302__t2",
+    "image": "before/idf__citadis_302__t2-threequarter.webp",
+    "length": 32.2,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.28799998760223
+    ],
+    "triangles": 4334.0,
+    "pixel_sha256": "9a56c375bf60dd90caef6e1ec9e930bdef4e44201bcd80fee9258deeb3dd51f2",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.1000003814697
+    ],
+    "id": "idf__citadis_302__t2",
+    "image": "before/idf__citadis_302__t2-front.webp",
+    "length": 32.2,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6000003814697
+    ],
+    "triangles": 4334.0,
+    "pixel_sha256": "56df93f4bad182a252064728761267b59fb3874b2a356a7789762a49f98ba0e6",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      35.7750015258789,
+      11.7399997711182,
+      -34.4640007019043
+    ],
+    "id": "idf__citadis_402__t3a",
+    "image": "before/idf__citadis_402__t3a-threequarter.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.74800002574921
+    ],
+    "triangles": 5560.0,
+    "pixel_sha256": "8ced325e1780116876c9d80d883fe7a6d5383361b86c22b5df29328f4ac2530c",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.8500003814697
+    ],
+    "id": "idf__citadis_402__t3a",
+    "image": "before/idf__citadis_402__t3a-front.webp",
+    "length": 43.7,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.3500003814697
+    ],
+    "triangles": 5560.0,
+    "pixel_sha256": "458fec246256a41236bbfdc911485d80390b0b9b5bfee9eaf2f47e7e949bf50a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      30.7275009155273,
+      10.3940000534058,
+      -29.6184005737305
+    ],
+    "id": "idf__avanto__t4",
+    "image": "before/idf__avanto__t4-threequarter.webp",
+    "length": 36.97,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.47880005836487
+    ],
+    "triangles": 3846.0,
+    "pixel_sha256": "c1d3605181855eb88fb241c2e9b6ca002cef8aa07e1aeef94b83760e446a6de7",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -26.4850006103516
+    ],
+    "id": "idf__avanto__t4",
+    "image": "before/idf__avanto__t4-front.webp",
+    "length": 36.97,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -17.9850006103516
+    ],
+    "triangles": 3846.0,
+    "pixel_sha256": "f3d977f9d7c54d6d0fc0ddd29f72019f143f7271746e5e9327cef2d45cee4fe1",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      21.75,
+      8.0,
+      -21.0
+    ],
+    "id": "idf__translohr__t5",
+    "image": "before/idf__translohr__t5-threequarter.webp",
+    "length": 25.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.0
+    ],
+    "triangles": 4196.0,
+    "pixel_sha256": "df979eab95478ad15855d6aa49155fd91fb55de3886833fa3253a87cd3e12585",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -20.5
+    ],
+    "id": "idf__translohr__t5",
+    "image": "before/idf__translohr__t5-front.webp",
+    "length": 25.0,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -12.0
+    ],
+    "triangles": 4196.0,
+    "pixel_sha256": "4efa67a3458bf6832a3579db0c5f84667a5a72086143b81422480f3a90adcc13",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      37.5,
+      12.1999998092651,
+      -36.1199989318848
+    ],
+    "id": "idf__translohr__t6",
+    "image": "before/idf__translohr__t6-threequarter.webp",
+    "length": 46.0,
+    "modules": 11.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.8400000333786
+    ],
+    "triangles": 6602.0,
+    "pixel_sha256": "01c80a2b6c130212010c0a42256b58c589a82f8bc08d786cf384740657391873",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -31.0
+    ],
+    "id": "idf__translohr__t6",
+    "image": "before/idf__translohr__t6-front.webp",
+    "length": 46.0,
+    "modules": 11.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -22.5
+    ],
+    "triangles": 6602.0,
+    "pixel_sha256": "b727955f58346ba8247063cb4725031d610c0be6ef97a8f554a854d8f3af60ca",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.5249996185303,
+      9.53999996185303,
+      -26.5440006256104
+    ],
+    "id": "idf__citadis_302__t7",
+    "image": "before/idf__citadis_302__t7-threequarter.webp",
+    "length": 32.7,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.30799996852875
+    ],
+    "triangles": 4358.0,
+    "pixel_sha256": "2de301c821545134a33cdedafcb9e9106b62c1610b802ef6270b57d4222ba060",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.3500003814697
+    ],
+    "id": "idf__citadis_302__t7",
+    "image": "before/idf__citadis_302__t7-front.webp",
+    "length": 32.7,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.8500003814697
+    ],
+    "triangles": 4358.0,
+    "pixel_sha256": "179971f01c89882b60a5d90d9501ffe34281d4acaa29720a11480ea661e5cf88",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      27.2999992370605,
+      9.47999954223633,
+      -26.3279991149902
+    ],
+    "id": "idf__citadis_302__t8",
+    "image": "before/idf__citadis_302__t8-threequarter.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.2960000038147
+    ],
+    "triangles": 4334.0,
+    "pixel_sha256": "1669a08951cd03dbca16299ab1369bc495f3265a7fb54f9dac992d0a942bb185",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -24.2000007629395
+    ],
+    "id": "idf__citadis_302__t8",
+    "image": "before/idf__citadis_302__t8-front.webp",
+    "length": 32.4,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -15.6999998092651
+    ],
+    "triangles": 4334.0,
+    "pixel_sha256": "c48bfbcdf5bc299da045cfcee9a0b73a38f431abfc94307ef24f274510a4fc2a",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      36.75,
+      12.0,
+      -35.4000015258789
+    ],
+    "id": "idf__citadis_x05__t9",
+    "image": "before/idf__citadis_x05__t9-threequarter.webp",
+    "length": 45.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.79999995231628
+    ],
+    "triangles": 5320.0,
+    "pixel_sha256": "de98d34e543492ef59030ad0cfe35b77007b48380f75b1b9c36ace333e879576",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.5
+    ],
+    "id": "idf__citadis_x05__t9",
+    "image": "before/idf__citadis_x05__t9-front.webp",
+    "length": 45.0,
+    "modules": 7.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -22.0
+    ],
+    "triangles": 5320.0,
+    "pixel_sha256": "8bda60bbc6ac90250565156a675977fd89b70a42f91d5681c600e34e0e7d7c27",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      36.75,
+      12.0,
+      -35.4000015258789
+    ],
+    "id": "idf__citadis_x05__t10",
+    "image": "before/idf__citadis_x05__t10-threequarter.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.79999995231628
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "99108a5c57f605be253111928030c67becd68e927b7787b5a3b3b6832d14e66b",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.5
+    ],
+    "id": "idf__citadis_x05__t10",
+    "image": "before/idf__citadis_x05__t10-front.webp",
+    "length": 32.5,
+    "modules": 5.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -22.0
+    ],
+    "triangles": 4530.0,
+    "pixel_sha256": "128954ba17c0b887222baf5f51c478b2e3b134de6700d0d1d1893c9af97c7178",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      34.5,
+      11.3999996185303,
+      -33.2400016784668
+    ],
+    "id": "idf__citadis_dualis__t11",
+    "image": "before/idf__citadis_dualis__t11-threequarter.webp",
+    "length": 42.0,
+    "modules": 4.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.67999994754791
+    ],
+    "triangles": 4270.0,
+    "pixel_sha256": "858f4018712f6027171d315eff48a7379fe959b56a7d6d6272ff8b059269a420",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.0
+    ],
+    "id": "idf__citadis_dualis__t11",
+    "image": "before/idf__citadis_dualis__t11-front.webp",
+    "length": 42.0,
+    "modules": 4.0,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -20.5
+    ],
+    "triangles": 4270.0,
+    "pixel_sha256": "a6413657fd2b6335c1f269e276fd44e5850c32e026ac271eedd8a015adb3851b",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      36.0,
+      11.8000001907349,
+      -34.6800003051758
+    ],
+    "id": "annemasse__tango_tpg",
+    "image": "before/annemasse__tango_tpg-threequarter.webp",
+    "length": 27.0,
+    "modules": 3,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.75999999046326
+    ],
+    "triangles": 3542,
+    "pixel_sha256": "0dddd0071c2bad2d24ad43b87f44a2100c6fc82c023d78c704c8538129bd8c0f",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -30.0
+    ],
+    "id": "annemasse__tango_tpg",
+    "image": "before/annemasse__tango_tpg-front.webp",
+    "length": 27.0,
+    "modules": 3,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -21.5
+    ],
+    "triangles": 3542,
+    "pixel_sha256": "f42b8b943faa7fddfe87ddf0ecc15e95f4a1d3acdffba31d4f943be01c39bdf3",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "threequarter",
+    "camera": [
+      34.5345001220703,
+      11.4091997146606,
+      -33.273120880127
+    ],
+    "id": "annemasse__cityrunner_tpg",
+    "image": "before/annemasse__cityrunner_tpg-threequarter.webp",
+    "length": 32.5,
+    "modules": 5,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.5,
+      -1.68183994293213
+    ],
+    "triangles": 4534,
+    "pixel_sha256": "e999f5aa53353a202a019a12f816b9db290c71f30ca5ff84ac92ecd0ed40b302",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  },
+  {
+    "angle": "front",
+    "camera": [
+      0.0,
+      1.85000002384186,
+      -29.0230007171631
+    ],
+    "id": "annemasse__cityrunner_tpg",
+    "image": "before/annemasse__cityrunner_tpg-front.webp",
+    "length": 32.5,
+    "modules": 5,
+    "phase": "before",
+    "target": [
+      0.0,
+      1.70000004768372,
+      -20.5230007171631
+    ],
+    "triangles": 4534,
+    "pixel_sha256": "ec249ad77b47c337550f9a3ae0eaba8ca5d8be9fd137a00e3a5db31765e0b5b8",
+    "resolution": [
+      1280,
+      720
+    ],
+    "encoding": "WebP sans perte ; pixels identiques à la capture PNG"
+  }
+]

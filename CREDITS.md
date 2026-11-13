@@ -104,3 +104,7 @@ Les textures procédurales et détails architecturaux de 0.10 sont des création
 ### Captation de tram du Mans
 
 [TRAM - 1, SamuelGremaud](https://freesound.org/people/SamuelGremaud/sounds/458858/), [CC0](https://creativecommons.org/publicdomain/zero/1.0/). Source : aperçu public haute qualité, captation extérieure de passage. Extraits filtrés et bouclés ; niveaux et régime de simulation estimés. Métadonnées, empreintes et points de coupe dans `data/audio/families.json`, reproduction avec `tools/stock/import_lemans_audio.py`.
+
+### Photographies de référence des rames
+
+Les photographies du dossier documentaire sont créditées individuellement dans [PHOTO-CREDITS.md](docs/rolling-stock-rebuild/PHOTO-CREDITS.md). Elles sont distinctes des maillages du jeu et exclues de ses exports. Les références externes restent hébergées sur leurs sites sources.

@@ -27,6 +27,8 @@ func _init()->void:
  check(not Compatibility.mission_allowed(profile,["overhead","aps"],"steel"),"Incentro refusé sur réseau APS")
  for stock in StockCatalog.for_network(angers,["overhead","aps"]):
   check("aps" in stock.electric_modes and stock.guidance=="steel","filtre électrique et guidage : "+str(stock.id))
+ var unchanged:=VehicleLibrary.default_for({"source_id":"angers","id":"angers_a","guidance":"rubber_guided"})
+ check(unchanged.guidance=="steel","le choix d'un réseau ne transforme pas non plus le guidage de la rame")
  var irigo:=StockCatalog.find("angers__citadis_302")
  var native_paint:=TramModel.livery_for(angers,irigo)
  var foreign_paint:=TramModel.livery_for({"source_id":"nantes","id":"nantes_1","color":"#ff0000"},irigo)
