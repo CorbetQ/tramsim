@@ -1,11 +1,13 @@
 # Vérification de l’aperçu des rames
 
-Intégration sur les cartes de Claude : commit `67bde9395be3eabd06ea645ccc0d9f0f5f6af06f`. Les fichiers de terrain, voirie et scènes géographiques de cette version sont conservés.
+Intégration des cartes, de l’accueil et des missions 0.12 de Claude : commit `3cbcc494ba53defbc3bc98741ab4044bb6b7d07b`. Les fichiers de terrain, voirie et scènes géographiques de cette version sont conservés.
+
+Les contrôles ci-dessous décrivent le premier passage sur la version 0.11 (`67bde93`). La suite complète, incluant les nouveaux tests accueil et missions de 0.12, est ensuite rejouée ; le journal de ce passage est fourni avec les binaires d’aperçu.
 
 - 25 scripts de test applicatifs réussis lors du passage complet ; catalogue et modèles rejoués après la dernière correction du guidage.
 - Nouveau parcours graphique du catalogue : 8 contrôles réussis à 640 × 360, sélection de la variante et du réseau, filtrage pneus/rails et disposition mobile.
 - 21 tests Python réussis et 149 fichiers réseau validés.
-- Gabarit : 28 villes, 2 634 970 contrôles sans échec. Le premier passage global avait dépassé sa limite de quatre minutes ; le contrôle a été repris ville par ville, avec le même échantillonnage, les mêmes assertions et la même limite interne par exécution.
+- Gabarit : 28 villes, 2 634 970 contrôles sans échec. Le premier passage global avait dépassé sa limite de quatre minutes ; le contrôle a été repris ville par ville, avec le même échantillonnage et les mêmes assertions. La limite interne de Claude passe à quinze minutes dans 0.12 ; le lanceur par ville la conserve.
 - Galerie : 76 entrées, 272 fichiers de captures référencés vérifiés ; recherche, filtres et changement de vue testés sous Chromium, sans erreur de page ni débordement horizontal à 390 px.
 - Captures WebP sans perte, comparaison des pixels décodés avec les PNG de capture.
 

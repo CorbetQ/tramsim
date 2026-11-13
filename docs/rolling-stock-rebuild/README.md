@@ -10,6 +10,8 @@ Le mode libre conserve la livrée d’origine et filtre le guidage et les alimen
 
 Les concepts sont **Citadis 405 Irigo**, **Citadis 405 Divia** et **Citadis 305 Naolib**, réservés au choix libre.
 
+Les exports d’aperçu intègrent les cartes, l’accueil et les missions 0.12 de Claude sans modifier ses fichiers géographiques.
+
 Une captation CC0 du Mans complète les banques existantes. Les sons des modèles apparentés sont identifiés comme tels ; plusieurs familles gardent un son de remplacement.
 
 ## Comparaisons
