@@ -23,6 +23,8 @@ var switch_state: Dictionary = {}       # clé (nœud, côté) -> index de branc
 var spans: Dictionary = {}              # arête -> Vector2(a, b) : partie réellement couverte par l'occupant
 										# (absente : toute l'arête est considérée occupée)
 const FOUL_M := 20.0                    # zone d'aiguillage : rame à moins de FOUL_M du nœud => verrouillé
+var locks: Dictionary = {}              # clé (nœud, côté) -> propriétaire de l'itinéraire (poste d'aiguillage)
+var reserved: Dictionary = {}           # arête -> propriétaire de l'itinéraire tracé
 
 func add_edge(id: String, from_node: String, to_node: String, length: float, from_side: int = 1, to_side: int = -1) -> void:
 	var e := Edge.new()
@@ -104,10 +106,39 @@ func throw_switch(node: String, branch: int, side: int = 1) -> bool:
 	var lst := choices(node, side)
 	if branch < 0 or branch >= lst.size():
 		return false
-	if switch_occupied(node):
+	if switch_occupied(node) or locks.has(skey(node, side)):
 		return false
 	switch_state[skey(node, side)] = branch
 	return true
+
+## Poste d'aiguillage : réserve une arête et verrouille un aiguillage pour un itinéraire.
+func reserve(edge_id: String, owner: String) -> bool:
+	var e: Edge = edges[edge_id]
+	if (e.occupied_by != "" and e.occupied_by != owner) or str(reserved.get(edge_id, owner)) != owner:
+		return false
+	reserved[edge_id] = owner
+	return true
+
+func unreserve(edge_id: String, owner: String) -> void:
+	if str(reserved.get(edge_id, "")) == owner: reserved.erase(edge_id)
+
+## Positionne et verrouille un aiguillage (refus si verrouillé par un autre itinéraire ou occupé par une autre rame).
+func lock_switch(node: String, side: int, branch: int, owner: String) -> bool:
+	var key := skey(node, side)
+	if str(locks.get(key, owner)) != owner: return false
+	var lst := choices(node, side)
+	if branch < 0 or branch >= lst.size(): return false
+	if lst.size() > 1 and active_branch(node, side) != branch:
+		for id in incident.get(node, []):
+			var occ: String = edges[id].occupied_by
+			if occ != "" and occ != owner: return false
+	switch_state[key] = branch
+	if lst.size() > 1: locks[key] = owner
+	return true
+
+func unlock_switch(node: String, side: int, owner: String) -> void:
+	var key := skey(node, side)
+	if str(locks.get(key, "")) == owner: locks.erase(key)
 
 func occupy(edge_id: String, train_id: String) -> bool:
 	var e: Edge = edges[edge_id]

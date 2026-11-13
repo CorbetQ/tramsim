@@ -39,6 +39,16 @@ var visited: Dictionary = {}
 var _board_acc := 0.0
 var _alight_acc := 0.0
 var signal_state: Dictionary = {}    # idx -> "clear"/"stop"
+# Mode mission sur réseau complet (MissionCatalog) : poste d'aiguillage, événements, objectifs.
+var interlocking: Interlocking = null
+var events: MissionEvents = null
+var mission: Dictionary = {}
+var target: Dictionary = {}          # {edge, offset, tolerance} : immobilisation finale (dépôt)
+var achieved: Dictionary = {}        # objectifs atteints (mise sous tension, débarquement, cible…)
+var overspeed_s := 0.0
+var sand_left_s := 0.0
+const SAND_RESERVE_S := 90.0
+const ALIGHT_RATE_PER_S := 6.0
 
 func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, start_offset: float, sched: Array[float], pax: int = 40) -> void:
 	net = network
@@ -82,6 +92,7 @@ func speed_limit() -> float:
 		v = minf(v, net.edge_info[previous].limit_ms)
 		for zone in net.edge_info[previous].zones:
 			if float(zone[1]) >= minf(from_, end_) and float(zone[0]) <= maxf(from_, end_): v = minf(v, zone[2])
+	if events != null: v = minf(v, events.speed_cap(self))
 	var remaining: float = net.graph.edges[edge_id].length - offset if direction > 0 else offset
 	if remaining < 10.0: v = minf(v, net.junction_limit(edge_id, direction))
 	# La queue conserve la restriction du raccord jusqu'à sa sortie complète.
@@ -245,6 +256,11 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	if doors_open:
 		n = minf(n, -0.75)  # interverrouillage de portes : traction coupée et frein de maintien
 	_update_signals()
+	if events != null:
+		phys.adhesion = events.adhesion_at(self)
+		if phys.sanding:
+			sand_left_s = maxf(0.0, sand_left_s - dt)
+			if sand_left_s <= 0.0: phys.sanding = false; event.emit("sand", "Réserve de sable épuisée")
 	power_transition_left = maxf(0.0, power_transition_left - dt)
 	_update_power(net.supply_at(edge_id, offset))
 	if not power_ok: n = minf(n, -0.75) # frein de sécurité, maintien même en descente
@@ -252,11 +268,25 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	phys.step(dt, n, net.grade_at(edge_id, offset) * direction, emergency or doors_open and phys.speed > 0.1)
 	var d := phys.position - before
 	overspeed = phys.speed > speed_limit() + 0.5
+	if overspeed: overspeed_s += dt
 	_advance(d)
 	if finished:
 		return
+	if power_ok and pantograph_up: achieved["powered"] = true
+	if interlocking != null:
+		interlocking.update(self)
+		if interlocking.error == "Sortie d'itinéraire": _fail("Sortie de l'itinéraire tracé"); return
+		if interlocking.authority_passed(self):
+			_fail("Point d'arrêt de fin d'itinéraire dépassé" if bool(interlocking.authority.get("final", false)) else "Signal d'arrêt franchi (itinéraire non tracé)")
+			return
+	if events != null:
+		var reason := events.tick(self, dt)
+		if reason != "": _fail(reason); return
+	if mission.has("time_limit_s") and time_s > float(mission.time_limit_s) and not finished:
+		_fail("Délai dépassé"); return
 	_update_dwell(dt)
 	_check_station_passed()
+	_check_target()
 
 ## Cantonnement automatique : un signal portant `protects` passe à l'arrêt si la section
 ## protégée est occupée par un autre mobile ; sans `protects`, l'état est celui fixé à la main.
@@ -295,7 +325,9 @@ func set_power_mode(mode: String) -> String:
 
 func _update_power(_edge_supply: String) -> void:
 	var contact := pantograph_up if power_mode == "overhead" else not pantograph_up
-	var ok := power_transition_left <= 0.0 and power_mode in net.supplies_at(edge_id, offset) and contact and power_mode in available_power_modes()
+	var here := net.supplies_at(edge_id, offset)
+	if events != null: here = events.filter_supplies(self, here)
+	var ok := power_transition_left <= 0.0 and power_mode in here and contact and power_mode in available_power_modes()
 	if ok != power_ok:
 		event.emit("power", "Alimentation rétablie" if ok else "Coupure d’alimentation — vérifier le mode")
 	power_ok = ok; phys.power_available = ok
@@ -388,14 +420,26 @@ func _release_tail() -> void:
 	route_dir = route_dir.slice(keep)
 
 func _update_dwell(dt: float) -> void:
+	var here: Dictionary = stops[next_station] if next_station < stops.size() else {}
 	if doors_open and served:
-		_board_acc += BOARD_RATE_PER_S * dt
-		_alight_acc += BOARD_RATE_PER_S * 0.8 * dt
+		var board_rate := BOARD_RATE_PER_S
+		var alight_rate := BOARD_RATE_PER_S * 0.8
+		if bool(here.get("alight_all", false)):
+			board_rate = 0.0; alight_rate = ALIGHT_RATE_PER_S
+		elif events != null:
+			var crowd := events.crowd_at(str(here.get("name", "")))
+			if not crowd.is_empty():
+				board_rate *= float(crowd.get("factor", 3.0))
+				if not crowd.has("announced"): crowd["announced"] = true; event.emit("crowd", "Affluence à " + str(here.name) + " : embarquement prolongé")
+		_board_acc += board_rate * dt
+		_alight_acc += alight_rate * dt
 		var on := int(_board_acc)
 		var off := int(_alight_acc)
 		_board_acc -= on
 		_alight_acc -= off
 		phys.passengers = clampi(phys.passengers + on - off, 0, phys.profile.capacity)
+		if bool(here.get("alight_all", false)) and phys.passengers == 0 and not achieved.has("alighted"):
+			achieved["alighted"] = true; event.emit("alight", "Tous les voyageurs sont descendus")
 		dwell_left = maxf(0.0, dwell_left - dt)
 	var last := next_station == stops.size() - 1
 	# départ : portes fermées, cycle fait, rame qui repart (terminus : fermeture suffit)
@@ -403,14 +447,17 @@ func _update_dwell(dt: float) -> void:
 		var st: Dictionary = stops[next_station]
 		if _departure_time < 0.0: _departure_time = time_s - dt
 		if not last and st.has("stop_area") and net.station_contains(st, edge_id, offset): return
-		var r := scorer.evaluate_departure(st.name, schedule[next_station], _departure_time, true)
+		if bool(st.get("alight_all", false)) and phys.passengers > 0:
+			_fail("Départ avec des voyageurs à bord (terminus : tout le monde descend)"); return
+		var planned: float = _departure_time if bool(st.get("free_time", false)) else schedule[next_station]
+		var r := scorer.evaluate_departure(st.name, planned, _departure_time, true)
 		event.emit("departure", "%s : %s" % [st.name, ["OK", "départ anticipé", "retard > 60 s", "arrêt oublié"][r]])
 		next_station += 1
 		served = false
 		door_cycle_done = false
 		_departure_time = -1.0
 		if next_station >= stops.size():
-			finished = true
+			finished = target.is_empty()
 
 func _check_station_passed() -> void:
 	if next_station >= stops.size() or served:
@@ -441,7 +488,130 @@ func _check_station_passed() -> void:
 		next_station += 1
 
 func debrief() -> Dictionary:
-	return {"success": scorer.success(), "reason": scorer.fail_reason, "stops": scorer.stops, "time_s": time_s}
+	var out := {"success": scorer.success(), "reason": scorer.fail_reason, "stops": scorer.stops, "time_s": time_s}
+	if mission.is_empty(): return out
+	var objectives := _objectives()
+	var ok: bool = out.success and finished
+	for o in objectives: ok = ok and bool(o.done) and not bool(o.failed)
+	var score := 100.0
+	for st in scorer.stops:
+		score -= {MissionScorer.Result.OK: 0.0, MissionScorer.Result.EARLY: 10.0, MissionScorer.Result.LATE: 8.0, MissionScorer.Result.MISSED_STOP: 25.0}[int(st.result)]
+	score -= minf(overspeed_s * 1.5, 30.0)
+	if events != null: score -= minf(events.flood_overspeed_s * 3.0 + events.slide_s * 0.5, 30.0)
+	score = clampf(score, 0.0, 100.0) if ok else 0.0
+	out.success = ok
+	out["score"] = roundi(score)
+	out["stars"] = 0 if not ok else (3 if score >= 85.0 else (2 if score >= 65.0 else 1))
+	out["objectives"] = objectives
+	return out
+
+## Immobilisation finale sur la cible (voie de remisage) une fois les arrêts desservis.
+func _check_target() -> void:
+	if target.is_empty() or finished or next_station < stops.size(): return
+	var d := dist_to_point(str(target.edge), float(target.offset), 300.0)
+	if d != INF and absf(d) <= float(target.get("tolerance", 20.0)) and phys.speed < 0.1 and not doors_open:
+		achieved["target"] = true
+		finished = true
+		event.emit("target", "Rame immobilisée : " + str(target.get("name", "fin de mission")))
+
+## Aiguillages verrouillés et gérés par le poste : jamais manœuvrables en mission.
+func locked_switches() -> bool:
+	return true
+
+## Manœuvre manuelle refusée en mission (le panneau des aiguillages est en lecture seule).
+func select_branch(_node: String, _branch: int, _side: int = 1) -> bool:
+	event.emit("switch", "Aiguillages verrouillés : itinéraire tracé par le poste")
+	return false
+
+## Sablage (missions à adhérence réduite) : réserve limitée.
+func set_sanding(on: bool) -> bool:
+	if on and sand_left_s <= 0.0: return false
+	phys.sanding = on
+	return true
+
+## Changement de cabine : en mission, seulement au point de retournement tracé par le poste.
+func reverse() -> String:
+	if phys.speed > 0.1: return "Arrêtez la rame avant de changer de cabine"
+	if interlocking == null: return "Changement de cabine non prévu par la mission"
+	if not interlocking.can_reverse(self): return "Changement de cabine refusé : rejoignez le point de retournement"
+	_swap_cab()
+	if not interlocking.after_reverse(self): _fail("Aucun itinéraire de retour disponible")
+	return ""
+
+## Bascule de cabine : la queue devient la tête, la rame repart en sens inverse sur la même voie.
+func _swap_cab() -> void:
+	var tail: Array = locate_behind(phys.profile.length_m)
+	var i: int = tail[3]
+	var nr: Array[String] = []
+	var nd: Array[int] = []
+	for k in range(route.size() - 1, i - 1, -1):
+		nr.append(route[k]); nd.append(-route_dir[k])
+	route = nr
+	route_dir = nd
+	edge_id = tail[0]
+	offset = tail[1]
+	direction = -int(tail[2])
+	phys.velocity = -phys.velocity
+	for id in route:
+		net.graph.occupy(id, train_id)
+	doors_open = false
+	event.emit("reverse", "Changement de cabine : marche " + ("dans le sens de la voie" if direction > 0 else "à contre-sens de la voie"))
+
+## Objectifs en cours de la mission (catalogue) : [{id, text, done, failed}].
+func _objectives() -> Array:
+	var out: Array = []
+	var kind := str(mission.get("type", ""))
+	var bad := false
+	for st in scorer.stops: bad = bad or int(st.result) != MissionScorer.Result.OK
+	if kind == "depot_exit":
+		out.append({"id": "power", "text": "Mettre sous tension : lever le pantographe", "done": achieved.has("powered"), "failed": false})
+	if kind in ["depot_return", "turnback"]:
+		var terminus := ""
+		for st in stops: if bool(st.get("alight_all", false)): terminus = str(st.name)
+		out.append({"id": "alight", "text": "Faire descendre tous les voyageurs à " + terminus, "done": achieved.has("alighted"), "failed": false})
+	if kind == "turnback":
+		out.append({"id": "reverse", "text": "Changer de cabine au point de retournement", "done": interlocking != null and interlocking.legs_done > 0, "failed": false})
+	if not stops.is_empty():
+		out.append({"id": "stops", "text": "Desservir les arrêts à l’heure (%d/%d)" % [mini(next_station, stops.size()), stops.size()], "done": next_station >= stops.size(), "failed": bad})
+	if kind == "depot_return":
+		out.append({"id": "depot", "text": "Rentrer au dépôt et s’immobiliser : " + str(target.get("name", "")), "done": achieved.has("target"), "failed": false})
+	if events != null:
+		var skipped := events.skipped_stops()
+		if not skipped.is_empty():
+			out.append({"id": "detour", "text": "Suivre la déviation (non desservis : %s)" % ", ".join(PackedStringArray(skipped)), "done": finished and next_station >= stops.size(), "failed": false})
+		if not events.of_kind("flood").is_empty():
+			out.append({"id": "flood", "text": "Traverser la zone inondée à 10 km/h au plus", "done": events.flags.has("flood_crossed"), "failed": events.flood_overspeed_s > 3.0})
+		if not events.of_kind("leaves").is_empty():
+			out.append({"id": "adhesion", "text": "Maîtriser patinage et enrayage (sablage : %d s)" % roundi(sand_left_s), "done": finished, "failed": false})
+		if not events.of_kind("pantograph_fault").is_empty():
+			out.append({"id": "fault", "text": "Défaut pantographe : s’arrêter, réarmer, relever", "done": events.flags.has("fault_cleared"), "failed": false})
+		if not events.of_kind("power_cut").is_empty():
+			out.append({"id": "power_cut", "text": "Coupure d’alimentation : attendre le rétablissement ou basculer sur batterie", "done": events.flags.has("power_restored") or finished, "failed": false})
+		if not events.of_kind("obstacle").is_empty():
+			out.append({"id": "obstacle", "text": "Véhicule sur la voie : s’arrêter avant et attendre le dégagement", "done": events.flags.has("obstacle_cleared"), "failed": false})
+		for c in events.of_kind("crowd"):
+			out.append({"id": "crowd", "text": "Affluence à %s : tolérance de retard %d s" % [str(c.station), roundi(scorer.max_late_s)], "done": next_station >= stops.size(), "failed": bad})
+	if mission.has("time_limit_s"):
+		out.append({"id": "time", "text": "Terminer avant %d min" % ceili(float(mission.time_limit_s) / 60.0), "done": finished and time_s <= float(mission.time_limit_s), "failed": time_s > float(mission.time_limit_s)})
+	return out
+
+## Fiche de mission pour l'interface : titre, objectifs en cours, contraintes, état.
+func mission_brief() -> Dictionary:
+	var status := "en cours"
+	if finished: status = "réussie" if debrief().success else "échouée"
+	var next_text := ""
+	if next_station < stops.size(): next_text = "Prochain arrêt : " + str(stops[next_station].name)
+	elif not target.is_empty(): next_text = "Destination : " + str(target.get("name", ""))
+	if interlocking != null and interlocking.awaiting_reverse() and interlocking.remaining_length(self) < 300.0 and (next_station >= stops.size() or not stops[next_station].get("alight_all", false) or achieved.has("alighted")):
+		next_text = "Rejoindre le point de retournement puis changer de cabine"
+	var signal_text := ""
+	if interlocking != null:
+		var sig := interlocking.signals_ahead(self, 800.0)
+		if not sig.is_empty(): signal_text = "%s à %d m" % ["Voie libre" if sig[0].state == "clear" else "Arrêt", roundi(float(sig[0].distance))]
+	return {"id": str(mission.get("id", "")), "title": str(mission.get("title", "")), "type": str(mission.get("type", "")),
+		"line": str(mission.get("line", "")), "objectives": _objectives(), "conditions": mission.get("conditions", []),
+		"constraints": mission.get("constraints", []), "next": next_text, "signal": signal_text, "status": status,
+		"time_s": time_s, "reason": scorer.fail_reason, "locked_switches": locked_switches()}
 
 ## Première restriction devant la rame, sur l'itinéraire réellement sélectionné.
 func next_restriction(horizon: float = 220.0) -> Dictionary:
@@ -467,4 +637,7 @@ func next_restriction(horizon: float = 220.0) -> Dictionary:
 		var next := net.graph.next_step(e, r)
 		if next.is_empty(): break
 		e = str(next[0]); r = int(next[1]); off = 0.0 if r > 0 else net.graph.edges[e].length
+	if events != null:
+		var ev := events.next_restriction(self, horizon)
+		if not ev.is_empty() and float(ev.distance) < nearest and float(ev.limit) < current - 0.5: best = ev
 	return best

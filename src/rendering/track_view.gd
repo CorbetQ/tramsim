@@ -57,26 +57,93 @@ static func ribbon(g, pts: Array[Vector3], nrm: PackedVector3Array, w: float, y:
 		var a := pts[i] + nrm[i] * offset + up; var b := pts[i + 1] + nrm[i + 1] * offset + up
 		g.quad(a - nrm[i] * hw, a + nrm[i] * hw, b + nrm[i + 1] * hw, b - nrm[i + 1] * hw, cols[i])
 
-## Plateforme d'une voie (axe `pts`, décalage `o` vers la droite) : lit coloré par tronçon, longrines si gazon,
-## rails noyés sinon. `bed` : nature par segment de la polyligne densifiée.
+const SMOOTH_WIN := 12.0      # m : demi-fenêtre du vote majoritaire le long de la voie
+const MIN_RUN := 30.0         # m : longueur minimale d'un tronçon de même nature (sinon fondu dans le voisin)
+const CURB := Color("#c9c5bb")
+const GUTTER := Color("#6e7176")
+
+## Nature de plateforme lissée le long de la voie (pas de damier gazon / enrobé / pavés) : natures inconnues comblées
+## par la plus proche connue, vote majoritaire pondéré par la longueur sur ± SMOOTH_WIN, puis fusion des tronçons
+## plus courts que MIN_RUN dans le voisin le plus long. `lens` : longueur de chaque segment.
+static func smooth_kinds(kinds: Array, lens: Array) -> Array:
+	var n := kinds.size()
+	var k := kinds.duplicate()
+	if n == 0: return k
+	# 1. inconnues : plus proche connue (le long de la voie)
+	var last := -1
+	for i in n:
+		if int(k[i]) != BED_UNKNOWN: last = i
+		elif last >= 0: k[i] = k[last]
+	last = -1
+	for i in range(n - 1, -1, -1):
+		if int(kinds[i]) != BED_UNKNOWN: last = i
+		elif int(k[i]) == BED_UNKNOWN and last >= 0: k[i] = k[last]
+	# 2. vote majoritaire
+	var pos: Array = []; var acc := 0.0
+	for i in n: pos.append(acc + float(lens[i]) * 0.5); acc += float(lens[i])
+	var voted := k.duplicate()
+	var j0 := 0
+	for i in n:
+		var votes := {}
+		while float(pos[j0]) < float(pos[i]) - SMOOTH_WIN: j0 += 1
+		var j := j0
+		while j < n and float(pos[j]) <= float(pos[i]) + SMOOTH_WIN:
+			votes[k[j]] = float(votes.get(k[j], 0.0)) + float(lens[j]); j += 1
+		var best: int = int(k[i]); var bv := -1.0
+		for key in votes:
+			if float(votes[key]) > bv or (float(votes[key]) == bv and int(key) == int(k[i])): bv = float(votes[key]); best = int(key)
+		voted[i] = best
+	k = voted
+	# 3. longueur minimale de tronçon
+	for _pass in 8:
+		var runs: Array = []   # [début, fin (exclue), nature, longueur]
+		var s0 := 0
+		for i in range(1, n + 1):
+			if i == n or int(k[i]) != int(k[s0]):
+				var L := 0.0
+				for q in range(s0, i): L += float(lens[q])
+				runs.append([s0, i, int(k[s0]), L]); s0 = i
+		if runs.size() < 2: break
+		var shortest := -1; var sl := MIN_RUN
+		for r in runs.size():
+			if float(runs[r][3]) < sl: sl = float(runs[r][3]); shortest = r
+		if shortest < 0: break
+		var left: Array = runs[shortest - 1] if shortest > 0 else []
+		var right: Array = runs[shortest + 1] if shortest < runs.size() - 1 else []
+		var into: int = int(left[2]) if right.is_empty() or (not left.is_empty() and float(left[3]) >= float(right[3])) else int(right[2])
+		for q in range(int(runs[shortest][0]), int(runs[shortest][1])): k[q] = into
+	return k
+
+## Plateforme d'une voie (axe `pts`, décalage `o` vers la droite) : lit coloré par tronçon (nature lissée), bordures
+## de plateforme côté extérieur (gazon) ou caniveau (enrobé, pavés), longrines si gazon, rails noyés sinon.
 static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color, gauge_m: float = 1.435) -> void:
 	var pts := densify(axis)
 	if pts.size() < 2: return
 	var nrm := miter_normals(pts)
-	var kinds: Array = []
-	var bed: Array = []
+	var raw: Array = []; var lens: Array = []
 	for i in range(pts.size() - 1):
-		var k: int = nature_fn.call((pts[i] + pts[i + 1]) * 0.5)
-		kinds.append(k)
-		match k:
+		raw.append(nature_fn.call((pts[i] + pts[i + 1]) * 0.5))
+		lens.append(pts[i].distance_to(pts[i + 1]))
+	var kinds := smooth_kinds(raw, lens)
+	var bed: Array = []
+	for k in kinds:
+		match int(k):
 			BED_GRASS: bed.append(GRASS)
 			BED_ROAD: bed.append(ASPHALT)
 			BED_PAVED: bed.append(paved)
 			_: bed.append(fallback)
 	ribbon(g, pts, nrm, 3.5, BED_TOP_M, bed, o)
+	# bordures (gazon : bordure béton surélevée) ou caniveau (enrobé, pavés) sur le(s) côté(s) extérieur(s)
+	var edge_cols: Array = []
+	for i in kinds.size():
+		var grassy: bool = int(kinds[i]) == BED_GRASS or (int(kinds[i]) == BED_UNKNOWN and fallback == GRASS)
+		edge_cols.append(CURB if grassy else GUTTER)
+	for side in [-1.0, 1.0]:
+		if o != 0.0 and signf(o) != side: continue
+		ribbon(g, pts, nrm, 0.22, BED_TOP_M + 0.035, edge_cols, o + side * 1.64)
 	var sl: Array = []
 	for i in kinds.size():
-		var grassy: bool = kinds[i] == BED_GRASS or (kinds[i] == BED_UNKNOWN and fallback == GRASS)
+		var grassy: bool = int(kinds[i]) == BED_GRASS or (int(kinds[i]) == BED_UNKNOWN and fallback == GRASS)
 		sl.append(SLEEPER if grassy else Color(bed[i]).darkened(0.12))
 	var rails: Array = []
 	rails.resize(kinds.size()); rails.fill(RAIL)

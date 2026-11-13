@@ -7,8 +7,8 @@
  "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
   "décalques": 1549,
-  "sommets": 213538,
-  "triangles": 362370,
+  "sommets": 212002,
+  "triangles": 359355,
   "ponts": 105,
   "niveaux_eau": 144
  },

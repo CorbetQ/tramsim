@@ -17,6 +17,9 @@ var adhesion := 0.26 # rail sec, coefficient estimé ; 0,14 représente un rail 
 var driven_mass_fraction := 0.55
 var slip_ratio := 0.0
 var wheel_slip := false
+var wheel_slide := false   # enrayage : freinage de service supérieur à l'adhérence disponible
+var sanding := false       # sablage : améliore l'adhérence tant qu'il est actif
+const SAND_GAIN := 0.08
 var rollback: bool:
 	get: return velocity < -0.05
 var _slip_time := 0.0
@@ -41,7 +44,7 @@ func step(dt: float, notch: float, grade: float, emergency: bool = false) -> voi
 	var demand := 0.0
 	if notch > 0.0 and power_available and not emergency:
 		demand = clampf(notch,0.0,1.0) * minf(profile.max_tractive_effort_n,profile.power_kw*1000.0/maxf(speed,1.0))
-	var mu := maxf(adhesion,0.02) if profile.guidance != "rubber_guided" else maxf(adhesion,0.55)
+	var mu := maxf(effective_adhesion(),0.02) if profile.guidance != "rubber_guided" else maxf(adhesion,0.55)
 	var grip := mu * m * G * driven_mass_fraction
 	wheel_slip = demand > grip * 1.02
 	_slip_time += dt
@@ -49,6 +52,11 @@ func step(dt: float, notch: float, grade: float, emergency: bool = false) -> voi
 	slip_ratio = move_toward(slip_ratio,target,dt*3.0)
 	var traction := minf(demand,grip*(0.90+0.04*sin(_slip_time*19.0))) if wheel_slip else demand
 	var brake := (profile.emergency_brake_ms2 if emergency else maxf(-notch,0.0)*profile.service_brake_ms2)*m
+	# Frein de service limité par l'adhérence (tous essieux freinés) ; le frein d'urgence
+	# conserve les patins électromagnétiques, indépendants de l'adhérence roue-rail.
+	var brake_grip := mu * m * G
+	wheel_slide = not emergency and speed > 0.3 and brake > brake_grip * 1.02
+	if wheel_slide: brake = brake_grip * 0.85
 	var drive := traction-m*G*grade
 	var drag := resistance(speed)
 	var force := drive
@@ -64,8 +72,12 @@ func step(dt: float, notch: float, grade: float, emergency: bool = false) -> voi
 	velocity=clampf(next,-profile.max_speed_ms,profile.max_speed_ms)
 	position += velocity*dt
 
+## Adhérence disponible, sablage compris.
+func effective_adhesion() -> float:
+	return minf(adhesion + (SAND_GAIN if sanding else 0.0), 0.30) if sanding else adhesion
+
 func braking_distance(v: float, emergency: bool = false) -> float:
-	var a := profile.emergency_brake_ms2 if emergency else profile.service_brake_ms2
+	var a := profile.emergency_brake_ms2 if emergency else minf(profile.service_brake_ms2, effective_adhesion() * G * 0.85)
 	return v * v / (2.0 * a)
 
 ## Vitesse max en courbe (m/s) pour un rayon donné et une accélération latérale tolérée.

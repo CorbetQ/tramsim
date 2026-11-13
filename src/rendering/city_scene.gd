@@ -57,6 +57,8 @@ var debug_props := false        # tests : mémorise la position (repère ville) 
 var placed_props: Array[Vector2] = []
 var placed_trees: Array[Vector2] = []
 var _trees_cur: Array = []
+var _D: _Arrays = null              # détails de façade de la tuile en cours (maillage LOD)
+var _props: Array = []              # par modèle StreetProps : [transformations, couleurs] de la tuile en cours
 var _street_keepout := TrackView.KeepOut.new()
 var _camera_boxes: Array = []    # obstacles caméra de la tuile : [0, emprise, y0, y1, Rect2] ou [1, centre, rayon, demi-hauteur]
 var _portal_cut := TrackView.KeepOut.new()
@@ -395,6 +397,9 @@ func _build_tile(k: Vector2i) -> Node3D:
 	var W := _Arrays.new()
 	_trees_cur = []; _camera_boxes = []
 	for i in TREE_KINDS: _trees_cur.append([])
+	_D = _Arrays.new(); _props = []
+	for i in StreetProps.KINDS: _props.append([[], []])
+	_bld_cells = {}; _old_town = 0.0
 	_tile_origin = Vector2(k.x * tile_m, k.y * tile_m)
 	var seed := hash(k)
 	var ground := Color.from_string(str(style.get("ground", "#cfcac0")), Color.GRAY)
@@ -428,6 +433,15 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var nt := buf.decode_u8(o); o += 1
 		blds.append([ring, buf.slice(o, o + nt * 3), cls, h, kind])
 		o += nt * 3
+		var bb := Rect2(ring[0], Vector2.ZERO)
+		for q in ring: bb = bb.expand(q)
+		for cx in range(floori(bb.position.x / 16.0), floori(bb.end.x / 16.0) + 1):
+			for cz in range(floori(bb.position.y / 16.0), floori(bb.end.y / 16.0) + 1):
+				var ck := Vector2i(cx, cz)
+				if not _bld_cells.has(ck): _bld_cells[ck] = []
+				_bld_cells[ck].append(ring)
+		if cls == 0 and h <= 20.0: _old_town += 1.0
+	_old_town /= maxf(1.0, float(nb))
 	var polys_start := o
 	var np := buf.decode_u16(o); o += 2
 	_water_cur = []
@@ -445,12 +459,15 @@ func _build_tile(k: Vector2i) -> Node3D:
 	var lines_start := o
 	var nl := buf.decode_u16(o); o += 2
 	_street_keepout=TrackView.KeepOut.new()
+	var roads: Array = []
 	for l in nl:
 		var cls:=buf.decode_u8(o);var width_:=buf.decode_u8(o+1)/5.0;var count:=buf.decode_u16(o+2);o+=4
 		var road:=PackedVector2Array()
 		for j in count:
 			road.append(Vector2(buf.decode_s16(o)*0.1,buf.decode_s16(o+2)*0.1));o+=4
 		_street_keepout.add_polyline(road,maxf(width_*0.5,1.2)+0.35)
+		roads.append([cls, width_, road])
+	_nodes = _road_nodes(roads)
 	var points: Array = []
 	var labels: Array = []
 	if v2:
@@ -515,12 +532,12 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var rc := Color(0, 0, 0, 0)
 		if i < roofs.size() and roofs[i] & 0x8000:
 			rc = _ortho_roof(roofs[i])
-		var j0 := S.count()
+		var j0 := S.count(); var d0 := _D.count()
 		_building(S, b[0], b[1], b[2], b[3], b[4], seed + i, points, rc)
 		if has_terrain:  # posé au sol : base à l'altitude minimale de l'emprise
 			var base := INF
 			for q in b[0]: base = minf(base, _ground_h(q))
-			_lift(S, j0, base)
+			_lift(S, j0, base); _lift(_D, d0, base)
 		var bounds := AABB(S.v[j0], Vector3.ZERO)
 		for j in range(j0, S.count()): bounds = bounds.expand(S.v[j])
 		var rect := Rect2(b[0][0], Vector2.ZERO)
@@ -574,9 +591,11 @@ func _build_tile(k: Vector2i) -> Node3D:
 			pts[i] = Vector2(buf.decode_s16(o) * 0.1, buf.decode_s16(o + 2) * 0.1); o += 4
 		var l0 := S.count()
 		S.sub = TSTEP
-		_line(S, pts, cls, w, seed + l)
+		var deck := _deck_for_line(pts, cls == L_RAIL)
+		_line(S, pts, cls, w, seed + l, deck)
 		S.sub = 0.0
-		_drape(S, l0, _deck_for_line(pts, cls == L_RAIL))
+		_drape(S, l0, deck)
+	_crossroads(seed)
 	# éléments ponctuels (clochers isolés, tours, cheminées)
 	for p in points:
 		if p[0] == 1 and p.size() > 3: continue  # clocher déjà rattaché à une église
@@ -598,6 +617,19 @@ func _build_tile(k: Vector2i) -> Node3D:
 	if W.count() > 0:
 		var wi := MeshInstance3D.new(); wi.mesh = W.mesh(); wi.material_override = Materials.water()
 		node.add_child(wi)
+	# détails de façade (balcons, stores, lucarnes, soubassements) : LOD par distance
+	if _D.count() > 0:
+		var di := MeshInstance3D.new(); di.mesh = _D.mesh(); di.material_override = Materials.building()
+		di.visibility_range_end = DETAIL_RANGE * (0.6 if DayNight.low_quality else 1.0)
+		di.visibility_range_end_margin = 20.0
+		if DayNight.low_quality: di.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		node.add_child(di)
+	# mobilier, voitures en stationnement, halos : instances par modèle
+	for kind in StreetProps.KINDS:
+		if _props[kind][0].is_empty(): continue
+		stats["props_%d" % kind] = int(stats.get("props_%d" % kind, 0)) + _props[kind][0].size()
+		node.add_child(StreetProps.instances(kind, _props[kind][0], _props[kind][1]))
+	_D = null
 	for v in TREE_KINDS:
 		if _trees_cur[v].is_empty(): continue
 		var mm := MultiMesh.new(); mm.transform_format = MultiMesh.TRANSFORM_3D
@@ -1019,18 +1051,28 @@ func _deck(S: _Arrays, d: Array) -> void:
 		S.quad(b - n, a - n, a - n + dn, b - n + dn, concrete, -1.0)
 		S.quad(a + n + dn, b + n + dn, b - n + dn, a - n + dn, concrete.darkened(0.25), -1.0)
 		S.quad(a - n, b - n, b + n, a + n, Color("#7d7f83"), -1.0)
-		# garde-corps
+		# corniche en saillie, bordure basse et garde-corps métallique (lisses, montants tous les ~2,5 m)
+		var iron := Color("#4f5a61", SOLID_A)
 		for side in [-1.0, 1.0]:
-			var e: Vector3 = n * side * 0.97
-			var up := Vector3(0, 1.05, 0)
-			S.quad(a + e, b + e, b + e + up, a + e + up, rail, -1.0)
-			S.quad(b + e * 0.94, a + e * 0.94, a + e * 0.94 + up, b + e * 0.94 + up, rail, -1.0)
-			S.quad(a + e + up, b + e + up, b + e * 0.94 + up, a + e * 0.94 + up, rail.lightened(0.1), -1.0)
+			var e: Vector3 = n * side
+			var eo: Vector3 = n.normalized() * side * (hw + 0.18)
+			S.quad(a + eo + Vector3(0, -0.5, 0), b + eo + Vector3(0, -0.5, 0), b + eo + Vector3(0, 0.3, 0), a + eo + Vector3(0, 0.3, 0), Color("#d9d3c6", SOLID_A), -1.0)
+			S.quad(a + e * 0.96 + Vector3(0, 0.3, 0), b + e * 0.96 + Vector3(0, 0.3, 0), b + eo + Vector3(0, 0.3, 0), a + eo + Vector3(0, 0.3, 0), Color("#e2ddd2", SOLID_A), -1.0)
+			S.quad(a + eo + Vector3(0, -0.5, 0), b + eo + Vector3(0, -0.5, 0), b + e + Vector3(0, -0.65, 0), a + e + Vector3(0, -0.65, 0), Color("#a9a396", SOLID_A), -1.0)
+			S.quad(a + e * 0.96, b + e * 0.96, b + e * 0.96 + Vector3(0, 0.3, 0), a + e * 0.96 + Vector3(0, 0.3, 0), rail, -1.0)
+			for yy in [0.62, 1.05]:
+				var y3 := Vector3(0, yy, 0)
+				S.quad(a + e * 0.98 + y3, b + e * 0.98 + y3, b + e * 0.98 + y3 + Vector3(0, 0.06, 0), a + e * 0.98 + y3 + Vector3(0, 0.06, 0), iron, -1.0)
+			var posts := maxi(1, int(len / 2.5))
+			for k in posts:
+				var m := a.lerp(b, (k + 0.5) / posts) + e * 0.98
+				S.box(m + Vector3(0, 0.7, 0), Vector3(0.05, 0.8, 0.05), iron)
 	# piles (hors gabarit des voies)
 	for pile in deck_piles(d):
 		var c: Vector3 = pile[0] - o; var gh: float = pile[1]
 		var hgt: float = c.y - 1.1 - gh + 1.5
-		S.box(Vector3(c.x, gh - 1.5 + hgt * 0.5, c.z), Vector3(1.3, hgt, 1.3), concrete.darkened(0.08))
+		S.box(Vector3(c.x, gh - 1.5 + hgt * 0.5, c.z), Vector3(1.5, hgt - 0.6, 1.5), concrete.darkened(0.08))
+		S.box(Vector3(c.x, c.y - 1.1 - 0.3, c.z), Vector3(2.4, 0.6, 2.0), concrete.darkened(0.03))   # chevêtre
 
 # ----------------------------------------------------------------------------------------------- bâtiments
 
@@ -1228,37 +1270,50 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 			_walls(S, ring, 0.0, h, w)
 			_flat_roof(S, ring, idx, h, Color("#8d8f91"))
 			return
-	# --- bâti courant
+	# --- bâti courant : façade par époque et région (CityScene._facade_type), détails sur la façade sur rue
+	var windows := cls == 0 or cls == 1 or cls == 4
+	var ftype := _facade_type(seed, cls, h, area)
 	var wall: Color
 	match cls:
 		2: wall = Color("#c7c3ba").lerp(Color("#a9b0b5"), (seed % 7) / 7.0)
 		3: wall = STONE
 		4: wall = Color("#eee6d2")
 		5: wall = Color("#b9b6ae")
-		_: wall = _pal("walls", seed)
-	var windows := cls == 0 or cls == 1 or cls == 4
-	var paris: bool = style.get("pitched", "") == "#6f7a85"
-	var shop := (cls == 1 or (cls == 0 and h > 11.0 and rng.randf() < 0.45)) and h > 6.0
+		_: wall = _facade_color(ftype, seed)
+	var paris: bool = style.get("pitched", "") == "#6f7a85" or (city == "idf" and ftype == F_PIERRE)
+	var shop := (cls == 1 or (cls == 0 and h > 11.0 and rng.randf() < (0.6 if ftype == F_PIERRE or ftype == F_OCRE else 0.4))) and h > 6.0 and ftype != F_VERRE
 	var y0 := 0.0
-	if shop:  # rez-de-chaussée commercial : vitrines (éclairées le soir)
-		_walls(S, ring, 0.0, 3.4, Color(0.2, 0.24, 0.27, GLASS_SHOP), false)
+	if shop:  # rez-de-chaussée commercial : piliers, vitrines, bandeau d'enseigne (éclairés le soir)
+		_walls(S, ring, 0.0, 3.4, Color(wall.r * 0.92, wall.g * 0.92, wall.b * 0.92, GLASS_SHOP), true)
 		y0 = 3.4
-	if cls != 2: _facade_detail(S,ring,h,seed,shop)
-	wall.a = _wall_a(seed) if windows else SOLID_A
+	if cls != 2: _facade_detail(_D, ring, h, seed, shop, ftype, wall)
+	wall.a = _wall_code(ftype, seed) if windows else SOLID_A
 	_walls(S, ring, y0, h, wall, windows)
+	if windows and h > 5.0 and n <= 24:   # soubassement en saillie (pierre plus sombre)
+		_plinth(_D, ring, 0.75 if not shop else 0.45, Color(wall.r * 0.72, wall.g * 0.71, wall.b * 0.7))
 	if paris and cls == 0 and h > 13.0 and n <= 16:
-		# immeuble haussmannien : balcons filants aux 2e et 5e étages, mansarde en zinc
-		_ledge(S, ring, 7.4, 0.8, Color("#e9e1cf"))
-		if h > 18.0: _ledge(S, ring, h - 3.6, 0.8, Color("#e9e1cf"))
+		# immeuble haussmannien : balcons filants aux 2e et 5e étages, corniche, mansarde en zinc
+		_ledge(_D, ring, 7.4, 0.8, Color("#e9e1cf"))
+		if h > 18.0: _ledge(_D, ring, h - 3.6, 0.8, Color("#e9e1cf"))
+		_ledge(_D, ring, h, 0.45, Color("#ece5d4"))
 		_mansard(S, ring, h, ZINC)
 		return
+	var sud := ftype == F_OCRE or str(style.get("pitched", "")) in ["#b76c47", "#ad6242", "#b16946", "#b16f4e"]
 	if cls == 0 and h <= 12.0 and area < 320.0 and n == 4:
-		_gable_roof(S, ring, h, clampf(sqrt(area) * 0.35, 1.5, 4.0), pitched, wall)
+		var rise := clampf(sqrt(area) * (0.22 if sud else 0.35), 1.2, 4.0)
+		_gable_roof(S, ring, h, rise, pitched, wall)
+		if not sud and h >= 6.0 and rise > 2.2: _dormers(_D, ring, h, rise, wall, seed)
 		if rng.randf() < 0.5:  # cheminée
 			var p := ring[0].lerp(ring[2], 0.3)
 			S.box(Vector3(p.x, h + 2.2, p.y), Vector3(0.6, 1.6, 0.6), Color("#9c6a52", SOLID_A))
 	elif cls == 0 and h <= 12.0 and n <= 8 and area < 320.0:
-		_hip_roof(S, ring, h, clampf(sqrt(area) * 0.3, 1.2, 3.5), pitched)
+		_hip_roof(S, ring, h, clampf(sqrt(area) * (0.2 if sud else 0.3), 1.0, 3.5), pitched)
+	elif cls == 0 and h <= 16.0 and n == 4 and area < 600.0 and (ftype == F_PIERRE or ftype == F_TUFFEAU or ftype == F_BRIQUE or ftype == F_ANDESITE or ftype == F_BRIQUE_PIERRE):
+		# immeuble ancien de centre : toit à deux pans (ardoise ou tuile), lucarnes sur rue
+		var rise := clampf(sqrt(area) * 0.28, 2.0, 5.0)
+		_ledge(_D, ring, h, 0.32, Color(wall.r * 1.06, wall.g * 1.06, wall.b * 1.05))
+		_gable_roof(S, ring, h, rise, pitched if has_ortho or sud else SLATE, wall)
+		if not sud: _dormers(_D, ring, h, rise, wall, seed)
 	elif cls == 2 and area > 600.0:
 		_flat_roof(S, ring, idx, h, roof_ortho if has_ortho else Color("#8e9296"))
 		# lanterneaux vitrés (sheds)
@@ -1274,15 +1329,112 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 		var roof := roof_ortho if has_ortho else _pal("roofs", seed / 7)
 		_flat_roof(S, ring, idx, h, roof)
 		if h > 5.0 and n <= 16 and cls != 2:  # corniche : arête nette en tête de façade
-			_ledge(S, ring, h, 0.28, Color(wall.r * 1.08, wall.g * 1.08, wall.b * 1.06))
-		if h > 12.0 and n <= 12:
+			var stone_ := ftype == F_PIERRE or ftype == F_TUFFEAU or ftype == F_ANDESITE
+			_ledge(S, ring, h, 0.42 if stone_ else 0.28, Color(wall.r * 1.08, wall.g * 1.08, wall.b * 1.06))
+		if h > 12.0 and n <= 12:   # acrotère
 			_walls(S, ring, h, h + 0.6, Color(roof.r * 1.1, roof.g * 1.1, roof.b * 1.1, SOLID_A), false)
 		if h > 15.0 and rng.randf() < 0.6:  # édicule technique
 			S.box(Vector3(c.x, h + 1.2, c.y), Vector3(3.0, 2.4, 3.0), Color("#b3b0a8", SOLID_A))
 
-## Menuiseries et balcons en géométrie, sur la façade principale de l'emprise.
-## Détails bornés par bâtiment ; toutes les pièces restent dans le maillage de tuile.
-func _facade_detail(S: _Arrays, ring: PackedVector2Array, height_: float, seed_: int, shop: bool) -> void:
+const F_ENDUIT := 0
+const F_BRIQUE := 1
+const F_PIERRE := 2
+const F_ANDESITE := 3
+const F_TUFFEAU := 4
+const F_OCRE := 5
+const F_BETON := 6
+const F_GRAND_ENSEMBLE := 7
+const F_BRIQUE_PIERRE := 8
+const F_VERRE := 9
+const FACADE_NAMES := ["enduit", "brique", "pierre", "andesite", "tuffeau", "ocre", "beton", "grand_ensemble", "brique_pierre", "verre"]
+## Teintes apparentes par type de façade (surchargeables par ville : city_identity.json "facade_colors").
+const FACADE_COLORS := [[], ["#9b5a45", "#8e4f3e", "#a8644c", "#7f4a3d"], ["#d9cdb4", "#d3c6aa", "#e0d5be", "#cfc2a6"],
+	["#6a6866", "#5d5b5a", "#74716d"], ["#e9e1cc", "#e4dcc5", "#ede6d3"], ["#e0b98a", "#d9a877", "#e6c9a0", "#d79a6e", "#e8d2b0"],
+	["#bdb7aa", "#b3ad9f", "#c4bfb3"], ["#e0dcd2", "#d6d0c3", "#cfc8b9", "#e3d9c4"], ["#9b5a45", "#8e4f3e", "#a8644c"], ["#9aa4ab", "#8c969c", "#a7aeb1"]]
+const MASONRY_MIX := [{"pierre": 3, "enduit": 2}, {"brique": 5, "brique_pierre": 2, "enduit": 1}, {"enduit": 4, "pierre": 1}, {"andesite": 4, "enduit": 2}]
+
+## Type de façade : époque (grands ensembles, tours de bureaux, béton de la reconstruction) puis matériau régional
+## pondéré (city_identity.json "facades", sinon selon "masonry"). Stable pour une même graine.
+func _facade_type(seed_: int, cls: int, h: float, area: float) -> int:
+	var hs := absi(hash(seed_ * 31 + 7))
+	var mix_: Dictionary = style.get("facades", MASONRY_MIX[clampi(int(style.get("masonry", 2)), 0, 3)])
+	if h >= 30.0: return F_VERRE if (cls == 1 or hs % 3 == 0) else F_GRAND_ENSEMBLE
+	if (h >= 15.0 and area >= 700.0) or h >= 24.0:
+		return F_BETON if mix_.has("beton") and hs % 3 != 0 else F_GRAND_ENSEMBLE
+	if cls == 1 and area > 1500.0 and h < 15.0: return F_VERRE if hs % 2 == 0 else F_BETON
+	var total := 0.0
+	for k in mix_: total += float(mix_[k])
+	var r := float(hs % 1000) / 1000.0 * total
+	for k in mix_:
+		r -= float(mix_[k])
+		if r < 0.0: return maxi(0, FACADE_NAMES.find(str(k)))
+	return F_ENDUIT
+
+func _facade_color(ftype: int, seed_: int) -> Color:
+	var over: Dictionary = style.get("facade_colors", {})
+	var arr: Array = over.get(FACADE_NAMES[ftype], FACADE_COLORS[ftype])
+	if arr.is_empty(): return _pal("walls", seed_)
+	return Color.from_string(str(arr[absi(seed_ / 3) % arr.size()]), Color.GRAY)
+
+## Code de façade porté par l'alpha : graine 500 + type × 50 + variante (toon_building.gdshader).
+func _wall_code(ftype: int, seed_: int) -> float:
+	return float(500 + ftype * 50 + absi(seed_) % 50) / 1000.0
+
+## Soubassement : bandeau en légère saillie au pied des façades.
+func _plinth(D: _Arrays, ring: PackedVector2Array, hgt: float, col: Color) -> void:
+	var c := _centroid(ring)
+	col.a = SOLID_A
+	for i in ring.size():
+		var a := ring[i]; var b := ring[(i + 1) % ring.size()]
+		if a.distance_to(b) < 2.0: continue
+		var oa := a + (a - c).normalized() * 0.07; var ob := b + (b - c).normalized() * 0.07
+		D.quad(Vector3(oa.x, 0.0, oa.y), Vector3(ob.x, 0.0, ob.y), Vector3(ob.x, hgt, ob.y), Vector3(oa.x, hgt, oa.y), col, -1.0)
+		D.quad(Vector3(oa.x, hgt, oa.y), Vector3(ob.x, hgt, ob.y), Vector3(b.x, hgt, b.y), Vector3(a.x, hgt, a.y), col, -1.0)
+
+## Boîte orientée (repère : x = tangente, z = normale sortante).
+func _obox(D: _Arrays, ctr: Vector3, size: Vector3, t: Vector3, o: Vector3, col: Color) -> void:
+	var hx := t * size.x * 0.5; var hy := Vector3.UP * size.y * 0.5; var hz := o * size.z * 0.5
+	var p := [ctr - hx - hy - hz, ctr + hx - hy - hz, ctr + hx + hy - hz, ctr - hx + hy - hz,
+		ctr - hx - hy + hz, ctr + hx - hy + hz, ctr + hx + hy + hz, ctr - hx + hy + hz]
+	for f in [[0, 1, 2, 3], [5, 4, 7, 6], [4, 0, 3, 7], [1, 5, 6, 2], [3, 2, 6, 7]]:
+		D.quad(p[f[0]], p[f[1]], p[f[2]], p[f[3]], col, -1.0)
+
+## Lucarnes sur le long pan d'un toit à deux pans (même convention que _gable_roof).
+func _dormers(D: _Arrays, ring: PackedVector2Array, y: float, rise: float, wall: Color, seed_: int) -> void:
+	var a := ring[0]; var b := ring[1]; var c := ring[2]; var d := ring[3]
+	if a.distance_to(b) < b.distance_to(c):
+		var t := a; a = b; b = c; c = d; d = t
+	var L := a.distance_to(b)
+	if L < 5.0: return
+	var count := clampi(int(L / 4.5), 1, 4)
+	var tan2 := (b - a).normalized()
+	var depth := a.distance_to(d) * 0.5
+	for side in [0, 1]:
+		var e0 := a if side == 0 else c; var e1 := b if side == 0 else d
+		var inward := ((d if side == 0 else b) - e0).normalized()
+		if side == 1: tan2 = -tan2
+		var out3 := Vector3(-inward.x, 0, -inward.y)
+		for k in count:
+			if posmod(seed_ + k + side, 4) == 3: continue
+			var u := (k + 0.5) / count
+			var foot := e0.lerp(e1, u) + inward * depth * 0.38
+			var yy := y + rise * 0.38
+			var ctr := Vector3(foot.x, yy + 0.55, foot.y)
+			var w_ := Color(wall.r * 1.05, wall.g * 1.05, wall.b * 1.04, SOLID_A)
+			_obox(D, ctr, Vector3(1.1, 1.3, 1.2), Vector3(tan2.x, 0, tan2.y), out3, w_)
+			# fenêtre de lucarne et petit toit à deux pans
+			var front := ctr + out3 * 0.61
+			D.quad(front + Vector3(tan2.x, 0, tan2.y) * -0.32 + Vector3(0, -0.45, 0), front + Vector3(tan2.x, 0, tan2.y) * 0.32 + Vector3(0, -0.45, 0),
+				front + Vector3(tan2.x, 0, tan2.y) * 0.32 + Vector3(0, 0.4, 0), front + Vector3(tan2.x, 0, tan2.y) * -0.32 + Vector3(0, 0.4, 0), Color("#2c343c", SOLID_A), -1.0)
+			var ridge0 := ctr + Vector3(0, 0.95, 0) + out3 * 0.62; var ridge1 := ctr + Vector3(0, 0.95, 0) - out3 * 0.6
+			var tv := Vector3(tan2.x, 0, tan2.y) * 0.65
+			var rc := Color(SLATE.r, SLATE.g, SLATE.b, SOLID_A)
+			D.quad(ridge0 - tv + Vector3(0, -0.4, 0), ridge0, ridge1, ridge1 - tv + Vector3(0, -0.4, 0), rc, -1.0)
+			D.quad(ridge0, ridge0 + tv + Vector3(0, -0.4, 0), ridge1 + tv + Vector3(0, -0.4, 0), ridge1, rc, -1.0)
+
+## Menuiseries, stores, enseignes et balcons en géométrie, sur la façade principale (côté rue) de l'emprise, selon le
+## type de façade. Détails bornés par bâtiment, dans le maillage de détail de la tuile (LOD : masqué au loin).
+func _facade_detail(S: _Arrays, ring: PackedVector2Array, height_: float, seed_: int, shop: bool, ftype: int = F_ENDUIT, wall: Color = STONE) -> void:
 	if height_ < 3.5 or ring.size()<3: return
 	var building_center:=_centroid(ring)
 	var toward_street:=Vector2.ZERO;var nearest:=70.0
@@ -1304,29 +1456,66 @@ func _facade_detail(S: _Arrays, ring: PackedVector2Array, height_: float, seed_:
 	if normal.dot((a+b)*0.5-_centroid(ring))<0.0:normal=-normal
 	var accent:=Color.from_string(str(style.get("accent","#44645f")),Color.GRAY)
 	accent.a=SOLID_A
+	var iron := Color("#25292c", SOLID_A)
 	var u0:=0.0
 	for i in longest:u0+=ring[i].distance_to(ring[(i+1)%ring.size()])
-	var face_seed:=floorf(_wall_a(seed_)*1000.0+0.5)
+	# même largeur de travée que les fenêtres du shader (graine de façade)
+	var face_seed:=float(500 + ftype * 50 + absi(seed_) % 50)
 	var bay:=lerpf(2.4,4.0,fposmod(face_seed*0.6180339,1.0))
+	var fh := 3.3 if (ftype == F_PIERRE or ftype == F_TUFFEAU) else (2.75 if ftype == F_GRAND_ENSEMBLE else 3.0)
 	var first_bay:=ceili((u0+1.25)/bay-0.5)
 	var bays:=clampi(int(length_/bay),1,8)
+	var t:=Vector3(tangent.x,0,tangent.y);var out:=Vector3(normal.x,0,normal.y)
+	var floors := clampi(int((height_ - 3.4) / fh), 0, 7)
+	var hs := absi(hash(seed_ * 17 + 3))
+	# bandeaux d'étage (béton de la reconstruction) et cordon au-dessus du rez-de-chaussée (pierre)
+	if ftype == F_BETON:
+		for fl in range(1, floors + 1):
+			var yb := 0.4 + fl * fh
+			if yb > height_ - 0.5: break
+			_obox(S, Vector3((a.x+b.x)*0.5, yb, (a.y+b.y)*0.5) + out * 0.08, Vector3(length_, 0.14, 0.16), t, out, Color(wall.r*1.05, wall.g*1.05, wall.b*1.04, SOLID_A))
+	elif (ftype == F_PIERRE or ftype == F_TUFFEAU or ftype == F_ANDESITE or ftype == F_BRIQUE_PIERRE) and height_ > 7.0:
+		_obox(S, Vector3((a.x+b.x)*0.5, 3.45, (a.y+b.y)*0.5) + out * 0.08, Vector3(length_, 0.2, 0.16), t, out, Color(wall.r*1.08, wall.g*1.07, wall.b*1.05, SOLID_A))
+	var awning_cols := [accent, Color("#7a2a2a", SOLID_A), Color("#2f4f3e", SOLID_A), Color("#c9bfa6", SOLID_A), Color("#2b3540", SOLID_A)]
 	for i in bays:
 		var along:=(first_bay+i+0.5)*bay-u0
 		if along>length_-1.25:break
 		var center:=a+tangent*along+normal*0.08
-		var p:=Vector3(center.x,0,center.y);var t:=Vector3(tangent.x,0,tangent.y);var out:=Vector3(normal.x,0,normal.y)
+		var p:=Vector3(center.x,0,center.y)
+		var bh := absi(hash(Vector2i(seed_, i)))
 		if shop:
-			S.quad(p-t*1.25+Vector3.UP*2.9,p+t*1.25+Vector3.UP*2.9,p+t*1.25+out*0.9+Vector3.UP*2.65,p-t*1.25+out*0.9+Vector3.UP*2.65,accent,-1.0)
-			S.quad(p-t*1.25+out*0.9+Vector3.UP*2.65,p+t*1.25+out*0.9+Vector3.UP*2.65,p+t*1.25+out*0.9+Vector3.UP*2.4,p-t*1.25+out*0.9+Vector3.UP*2.4,accent.darkened(0.12),-1.0)
+			if bh % 5 < 3:   # store banne (couleur par commerce)
+				var ac: Color = awning_cols[(bh / 5) % awning_cols.size()]
+				S.quad(p-t*1.25+Vector3.UP*2.9,p+t*1.25+Vector3.UP*2.9,p+t*1.25+out*0.9+Vector3.UP*2.55,p-t*1.25+out*0.9+Vector3.UP*2.55,ac,-1.0)
+				S.quad(p-t*1.25+out*0.9+Vector3.UP*2.55,p+t*1.25+out*0.9+Vector3.UP*2.55,p+t*1.25+out*0.9+Vector3.UP*2.3,p-t*1.25+out*0.9+Vector3.UP*2.3,ac.darkened(0.12),-1.0)
+			elif bh % 7 == 0:   # enseigne en drapeau (générique, sans marque)
+				_obox(S, p + out * 0.45 + Vector3.UP * 3.75, Vector3(0.06, 0.6, 0.6), t, out, awning_cols[(bh / 7) % awning_cols.size()])
 		elif i==0:
 			S.quad(p-t*0.5,p+t*0.5,p+t*0.5+Vector3.UP*2.3,p-t*0.5+Vector3.UP*2.3,accent,-1.0)
-		if height_>8.0 and posmod(seed_,3)==0:
-			var y:=Vector3.UP*3.5
-			S.quad(p-t*1.0+y,p+t*1.0+y,p+t*1.0+out*0.7+y,p-t*1.0+out*0.7+y,Color("#bdb7aa",SOLID_A),-1.0)
-			for j in 7:
-				var x:=p+t*(j/3.0-1.0)+out*0.7+y
-				S.box(x+Vector3.UP*0.45,Vector3(0.035,0.9,0.035),accent)
-			S.quad(p-t+y+out*0.7+Vector3.UP*0.87,p+t+y+out*0.7+Vector3.UP*0.87,p+t+y+out*0.7+Vector3.UP*0.94,p-t+y+out*0.7+Vector3.UP*0.94,accent,-1.0)
+		if floors < 1: continue
+		match ftype:
+			F_PIERRE, F_TUFFEAU, F_OCRE, F_ANDESITE:
+				# balconnets en fer forgé : 2e étage, et étages choisis selon la graine
+				for fl in range(1, mini(floors, 5) + 1):
+					if not (fl == 1 or (hs >> fl) % 3 == 0): continue
+					var y := Vector3.UP * (3.4 + (fl - 1) * fh + (0.0 if shop else 0.2))
+					if y.y > height_ - 1.5: break
+					var dp := 0.55 if ftype == F_OCRE else 0.4
+					S.quad(p-t*0.85+y,p+t*0.85+y,p+t*0.85+out*dp+y,p-t*0.85+out*dp+y,Color(wall.r*1.05,wall.g*1.05,wall.b*1.04,SOLID_A),-1.0)
+					S.quad(p-t*0.85+out*dp+y,p+t*0.85+out*dp+y,p+t*0.85+out*dp+y+Vector3.UP*0.9,p-t*0.85+out*dp+y+Vector3.UP*0.9,iron,-1.0)
+			F_GRAND_ENSEMBLE:
+				# loggias : dalles en saillie et allèges pleines une travée sur deux
+				if (first_bay + i) % 2 == 0:
+					for fl in range(1, mini(floors, 7) + 1):
+						var y := Vector3.UP * (0.4 + fl * fh)
+						if y.y > height_ - 1.0: break
+						S.quad(p-t*1.1+y,p+t*1.1+y,p+t*1.1+out*1.0+y,p-t*1.1+out*1.0+y,Color("#c9c4b8",SOLID_A),-1.0)
+						S.quad(p-t*1.1+out*1.0+y,p+t*1.1+out*1.0+y,p+t*1.1+out*1.0+y+Vector3.UP*1.0,p-t*1.1+out*1.0+y+Vector3.UP*1.0,Color("#dcd6c8",SOLID_A).lerp(accent,0.25),-1.0)
+			_:
+				if height_>8.0 and posmod(seed_,3)==0:
+					var y:=Vector3.UP*3.5
+					S.quad(p-t*1.0+y,p+t*1.0+y,p+t*1.0+out*0.7+y,p-t*1.0+out*0.7+y,Color("#bdb7aa",SOLID_A),-1.0)
+					S.quad(p-t+y+out*0.7,p+t+y+out*0.7,p+t+y+out*0.7+Vector3.UP*0.94,p-t+y+out*0.7+Vector3.UP*0.94,iron,-1.0)
 
 func _point(S: _Arrays, kind: int, h: float, p: Vector2) -> void:
 	match kind:
@@ -1336,11 +1525,11 @@ func _point(S: _Arrays, kind: int, h: float, p: Vector2) -> void:
 		4: S.cone(Vector3(p.x, 0, p.y), 1.6, h, 8, Color("#9c6a52", SOLID_A))
 
 ## Mobilier et plantations le long d'une route (la chaussée, les trottoirs, les marquages et les voies ferrées sont
-## dans le maillage du sol : RoadView / TerrainView).
-func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -> void:
+## dans le maillage du sol : RoadView / TerrainView). Mobilier et voitures : instances (StreetProps).
+func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int, deck: int = -1) -> void:
 	if cls == L_RAIL or cls == L_PATH or cls == L_SMALL: return
 	# arbres d'alignement (essence dominante de la ville), de part et d'autre des avenues
-	if (cls == L_MAJOR or (cls == L_ROAD and w >= 7.0)) and not _ortho_tile:  # sinon arbres réels (orthophoto)
+	if (cls == L_MAJOR or (cls == L_ROAD and w >= 7.0)) and not _ortho_tile and deck < 0:  # sinon arbres réels (orthophoto)
 		var mix: Array = style.get("trees", [0])
 		var kind := int(mix[0])
 		var rng := RandomNumberGenerator.new(); rng.seed = seed * 7
@@ -1358,24 +1547,174 @@ func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -
 						_add_tree(kind, Vector3(p.x, 0.04, p.y), rng, 0.62)
 				s2 += 17.0
 			acc3 += len
-	# lampadaires sur trottoir (émissifs la nuit)
-	if cls == L_MAJOR or (cls == L_ROAD and w >= 6.0):
-		var acc2 := float(seed % 17)
-		for i in range(pts.size() - 1):
-			var a := pts[i]; var b := pts[i + 1]
-			var len := a.distance_to(b)
-			var d := (b - a) / maxf(len, 0.001)
-			var nrm := Vector2(-d.y, d.x) * (w * 0.5 + 1.2)
-			var s := fposmod(-acc2, 32.0)
-			while s < len:
-				var p := a + d * s + nrm
-				if _keepout != null and _keepout.blocked(_tile_origin + p, 0.4):
-					s += 32.0; continue
-				S.box(Vector3(p.x, 3.0, p.y), Vector3(0.18, 6.0, 0.18), Color("#4a4d52", 0.4))
-				if debug_props: placed_props.append(_tile_origin + p)
-				S.box(Vector3(p.x, 6.05, p.y), Vector3(0.5, 0.18, 0.5), Color(1.0, 0.86, 0.55, 0.1))
-				s += 32.0
-			acc2 += len
+	if not (cls == L_MAJOR or (cls == L_ROAD and w >= 6.0)): return
+	var rng := RandomNumberGenerator.new(); rng.seed = seed * 131 + 5
+	var low := DayNight.low_quality
+	# lampadaires sur trottoir (émissifs la nuit) : crosse sur les avenues, lanterne de style dans les centres anciens,
+	# en quinconce des deux côtés sur les voies larges ; halo projeté au sol
+	var lamp_kind := StreetProps.LAMP_ARM if cls == L_MAJOR else (StreetProps.LAMP_OLD if _old_town > 0.55 and w < 10.0 else StreetProps.LAMP)
+	var arm: float = [0.75, 2.4, 0.0][lamp_kind]
+	var spacing := 30.0 if lamp_kind != StreetProps.LAMP_OLD else 22.0
+	var both := w >= 13.0
+	var acc2 := float(seed % 17)
+	var acc_f := float(seed % 23)
+	for i in range(pts.size() - 1):
+		var a := pts[i]; var b := pts[i + 1]
+		var len := a.distance_to(b)
+		if len < 0.5: continue
+		var d := (b - a) / len
+		var n2 := Vector2(-d.y, d.x)
+		var s := fposmod(-acc2, spacing)
+		var k := int(acc2 / spacing)
+		while s < len:
+			var side := 1.0 if (not both or k % 2 == 0) else -1.0
+			var p := a + d * s + n2 * side * (w * 0.5 + 1.2)
+			var toward := -n2 * side
+			if _free_spot(p, 0.4, true):
+				var y := _prop_y(p, deck)
+				_prop(lamp_kind, p, toward, y, true)
+				var hp := p + toward * arm
+				_prop(StreetProps.HALO, hp, d, _prop_y(hp, deck) + 0.1, false)
+			s += spacing; k += 1
+		acc2 += len
+		if deck >= 0: continue
+		# trottoir : bancs, corbeilles, arceaux vélos ; piétons sur les trottoirs des avenues
+		if w >= (5.5 if cls == L_MAJOR else 7.0):
+			var sf := fposmod(-acc_f, 41.0)
+			while sf < len:
+				var side := -1.0 if int((acc_f + sf) / 41.0) % 2 == 0 else 1.0
+				var q := a + d * sf + n2 * side * (w * 0.5 + 2.1)
+				var r := rng.randf()
+				var kind := StreetProps.BENCH if r < 0.35 else (StreetProps.BIN if r < 0.75 else StreetProps.BIKE)
+				if _free_spot(q, 0.8, true) and _far_from_nodes(q, 8.0):
+					_prop(kind, q, d, _prop_y(q, -1), false)
+					if kind == StreetProps.BENCH and _free_spot(q + d * 1.6, 0.4, true):
+						_prop(StreetProps.BIN, q + d * 1.6, d, _prop_y(q + d * 1.6, -1), false)
+				if (cls == L_MAJOR or w >= 9.0) and rng.randf() < (0.25 if low else 0.55):
+					var pp := a + d * minf(sf + 9.0, len) - n2 * side * (w * 0.5 + rng.randf_range(1.4, 3.0))
+					if _free_spot(pp, 0.5, true):
+						var dir := d.rotated(rng.randf_range(-0.6, 0.6)) * (1.0 if rng.randf() < 0.5 else -1.0)
+						_prop(StreetProps.PED if rng.randf() < 0.6 else StreetProps.PED_B, pp, dir, _prop_y(pp, -1), false, StreetProps.clothes_color(rng))
+				sf += 41.0
+		acc_f += len
+		# voitures en stationnement le long des trottoirs (rues de desserte et avenues hors centre)
+		if w >= 7.0 and w <= 16.0 and len > 12.0:
+			for side in [-1.0, 1.0]:
+				if rng.randf() < (0.25 if cls == L_MAJOR else 0.15): continue   # côté sans stationnement
+				var sc := 3.0
+				while sc < len - 3.0:
+					var big := rng.randf() < 0.35
+					var slot := 5.9 if big else 5.3
+					if rng.randf() < (0.4 if low else 0.74):
+						var c: Vector2 = a + d * (sc + slot * 0.5 + rng.randf_range(-0.25, 0.25)) + n2 * side * (w * 0.5 - 1.15)
+						if _far_from_nodes(c, 11.0) and _free_spot(c, 1.6, false):
+							var dir := d.rotated(rng.randf_range(-0.03, 0.03)) * (1.0 if side > 0.0 else -1.0)
+							_prop(StreetProps.CAR_BIG if big else StreetProps.CAR, c, dir, _prop_y(c, -1), false, StreetProps.car_color(rng))
+					sc += slot
+
+const DETAIL_RANGE := 190.0
+var _bld_cells: Dictionary = {}     # Vector2i (cellules de 16 m, repère tuile) -> emprises des bâtiments
+var _old_town := 0.0                # part du bâti bas et résidentiel de la tuile (style des lampadaires)
+var _nodes: Array = []              # carrefours de la tuile : [position, [[direction sortante, classe, largeur], ...]]
+
+## Emplacement libre pour un objet (repère tuile) : dans la tuile, hors eau, voies tram, quais, bâtiments et, pour le
+## mobilier de trottoir (`sidewalk`), hors chaussées.
+func _free_spot(p: Vector2, r: float, sidewalk: bool) -> bool:
+	if p.x < 0.0 or p.y < 0.0 or p.x >= tile_m or p.y >= tile_m: return false
+	if _in_water(p): return false
+	if _keepout != null and _keepout.blocked(_tile_origin + p, r): return false
+	if sidewalk and _street_keepout.blocked(p, 0.15): return false
+	for ring in _bld_cells.get(Vector2i(floori(p.x / 16.0), floori(p.y / 16.0)), []):
+		if Geometry2D.is_point_in_polygon(p, ring): return false
+	return true
+
+func _far_from_nodes(p: Vector2, r: float) -> bool:
+	for nd in _nodes:
+		if (nd[0] as Vector2).distance_to(p) < r + float(nd[2]): return false
+	return true
+
+## Altitude d'un objet posé (repère tuile) : terrain, ou tablier suivi par la route.
+func _prop_y(p: Vector2, deck: int) -> float:
+	if not has_terrain: return 0.0
+	var x := p.x + _tile_origin.x; var z := p.y + _tile_origin.y
+	if deck >= 0:
+		var dh := deck_city(x, z, deck)
+		if not is_nan(dh): return dh
+	return height_city(x, z)
+
+## Ajoute une instance : `fwd` = avant du modèle (+Z local), `side_x` : +X local tourné vers `fwd` (lampadaires : la
+## crosse vers la chaussée) au lieu de +Z.
+func _prop(kind: int, p: Vector2, fwd: Vector2, y: float, side_x: bool, col: Color = Color(0.5, 0.5, 0.5)) -> void:
+	var f := Vector3(fwd.x, 0, fwd.y).normalized()
+	if f == Vector3.ZERO: f = Vector3.FORWARD
+	if side_x: f = f.cross(Vector3.UP)
+	var basis := Basis(Vector3.UP.cross(f), Vector3.UP, f)
+	_props[kind][0].append(Transform3D(basis, Vector3(p.x, y, p.y)))
+	_props[kind][1].append(col)
+	if debug_props and kind != StreetProps.HALO: placed_props.append(_tile_origin + p)
+
+## Carrefours de la tuile : extrémités communes d'au moins trois tronçons routiers (rues et avenues).
+func _road_nodes(roads: Array) -> Array:
+	var ends: Array = []   # [position, direction sortante, classe, largeur]
+	for r in roads:
+		var cls: int = r[0]; var pl: PackedVector2Array = r[2]
+		if cls != L_MAJOR and cls != L_ROAD and cls != L_SMALL: continue
+		if pl.size() < 2: continue
+		for e in [0, 1]:
+			var p := pl[0] if e == 0 else pl[pl.size() - 1]
+			var q := pl[1] if e == 0 else pl[pl.size() - 2]
+			if p.x < 1.0 or p.y < 1.0 or p.x > tile_m - 1.0 or p.y > tile_m - 1.0: continue
+			ends.append([p, (q - p).normalized(), cls, float(r[1])])
+	var used := {}
+	var out: Array = []
+	for i in ends.size():
+		if used.has(i): continue
+		var arms: Array = [[ends[i][1], ends[i][2], ends[i][3]]]
+		var ctr: Vector2 = ends[i][0]
+		for j in range(i + 1, ends.size()):
+			if not used.has(j) and (ends[j][0] as Vector2).distance_to(ctr) < 2.0:
+				used[j] = true; arms.append([ends[j][1], ends[j][2], ends[j][3]])
+		if arms.size() >= 3:
+			var r := 0.0
+			for arm in arms: r = maxf(r, float(arm[2]) * 0.5)
+			out.append([ctr, arms, r])
+	return out
+
+## Feux tricolores aux carrefours d'avenues, panneaux et potelets ailleurs.
+func _crossroads(seed_: int) -> void:
+	var rng := RandomNumberGenerator.new(); rng.seed = seed_ * 7 + 99
+	for nd in _nodes:
+		var ctr: Vector2 = nd[0]; var arms: Array = nd[1]; var r: float = nd[2]
+		var majors := 0; var wide := 0
+		for arm in arms:
+			if int(arm[1]) == L_MAJOR: majors += 1
+			if float(arm[2]) >= 7.0: wide += 1
+		var signals := majors >= 1 and wide >= 2
+		var main_dir: Vector2 = arms[0][0]
+		for arm in arms:
+			if int(arm[1]) == L_MAJOR: main_dir = arm[0]; break
+		var signed := false
+		for arm in arms:
+			var dir: Vector2 = arm[0]; var hw := float(arm[2]) * 0.5
+			if int(arm[1]) == L_SMALL and not signals: continue
+			var right := Vector2(dir.y, -dir.x)   # droite des véhicules qui arrivent au carrefour
+			if signals and int(arm[1]) != L_SMALL:
+				var p := ctr + dir * (r + 2.5) + right * (hw + 0.9)
+				if _free_spot(p, 0.3, true):
+					var green := absf(dir.dot(main_dir)) > 0.7
+					_prop(StreetProps.LIGHTS_GREEN if green else StreetProps.LIGHTS_RED, p, dir, _prop_y(p, -1), false)
+			elif not signed and int(arm[1]) == L_ROAD and rng.randf() < 0.45:
+				signed = true
+				var p := ctr + dir * (r + 3.0) + right * (hw + 0.7)
+				if _free_spot(p, 0.3, true):
+					var col := Color("#c4262e") if rng.randf() < 0.55 else Color("#1f5aa6")
+					_prop(StreetProps.SIGN, p, dir, _prop_y(p, -1), false, col)
+			# potelets au droit des passages piétons (angle de trottoir)
+			for k in 3:
+				var q := ctr + dir * (r + 1.0 + k * 1.4) + right * (hw + 0.45)
+				if _free_spot(q, 0.2, true): _prop(StreetProps.BOLLARD, q, dir, _prop_y(q, -1), false)
+				var q2 := ctr + dir * (r + 1.0 + k * 1.4) - right * (hw + 0.45)
+				if _free_spot(q2, 0.2, true): _prop(StreetProps.BOLLARD, q2, dir, _prop_y(q2, -1), false)
 
 ## Essences : 0 feuillu rond, 1 conifère, 2 feuillu élancé, 3 pin parasol, 4 palmier, 5 peuplier, 6 platane.
 func _pick_tree(rng: RandomNumberGenerator) -> int:

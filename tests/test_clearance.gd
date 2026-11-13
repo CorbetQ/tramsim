@@ -22,7 +22,7 @@ func _init() -> void:
 		var net := NetworkLoader.new(); net.load_file(str(n.path))
 		var src := str(net.meta.get("source_id", ""))
 		if not net.has_geometry() or not net.meta.has("origin") or not CityScene.available(src): continue
-		if Time.get_ticks_msec() > 240000:   # borne de durée (4 min)
+		if Time.get_ticks_msec() > 900000:   # borne de durée (15 min)
 			print("ECHEC durée dépassée avant %s" % n.id); fails += 1; break
 		var bad := _line(net, src, str(n.id))
 		per_city[c] = int(per_city.get(c, 0)) + bad

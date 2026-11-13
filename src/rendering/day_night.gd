@@ -21,10 +21,10 @@ func setup(parent: Node3D) -> void:
 	sun.shadow_blur = 0.25
 	sun.shadow_opacity = 0.9
 	sun.directional_shadow_max_distance = 110.0 if low_quality else 170.0
-	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS if low_quality else DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
-	sun.directional_shadow_split_1 = 0.08
-	sun.directional_shadow_split_2 = 0.25
-	sun.directional_shadow_split_3 = 0.55
+	# P5 : deux cascades seulement (2 passes d'ombre au lieu de 4) : la première, nette, couvre les 60 premiers mètres
+	# (40 m sur mobile), la seconde le reste jusqu'à la distance maximale.
+	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
+	sun.directional_shadow_split_1 = (40.0 if low_quality else 60.0) / sun.directional_shadow_max_distance
 	sun.directional_shadow_blend_splits = not low_quality
 	sun.directional_shadow_fade_start = 0.85
 	parent.add_child(sun)

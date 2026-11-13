@@ -10,8 +10,10 @@ def copy(source,target):
  return shutil.copy2(source,target)
 shutil.copytree(ROOT,STAGE,ignore=shutil.ignore_patterns('.git','.godot','.cache','docs','tools','tests','build','android'),copy_function=copy)
 OUT.mkdir(parents=True,exist_ok=True)
-p=STAGE/'project.godot';s=p.read_text().replace('config/name="Tram Sim France"','config/name="TramSim — Aperçu des rames"').replace('config/version="0.10.0"','config/version="0.11.0-stock.1"');p.write_text(s)
-p=STAGE/'export_presets.cfg';s=p.read_text().replace('version/code=13','version/code=1').replace('version/name="0.10.0"','version/name="0.11.0-stock.1"').replace('package/unique_name="fr.tramsim.game"','package/unique_name="fr.tramsim.stockpreview"').replace('package/name="Tram Sim France"','package/name="TramSim Rames — Aperçu"')
+p=STAGE/'project.godot';s=p.read_text().replace('config/name="Tram Sim France"','config/name="TramSim — Aperçu des rames"');s=re.sub(r'^config/version="[^"]*"', 'config/version="0.12.0-stock.1"', s, flags=re.M);p.write_text(s)
+p=STAGE/'export_presets.cfg';s=p.read_text().replace('package/unique_name="fr.tramsim.game"','package/unique_name="fr.tramsim.stockpreview"').replace('package/name="Tram Sim France"','package/name="TramSim Rames — Aperçu"')
+s=re.sub(r'^version/code=\d+', 'version/code=1', s, flags=re.M)
+s=re.sub(r'^version/name="[^"]*"', 'version/name="0.12.0-stock.1"', s, flags=re.M)
 key=Path('/workspace/tramsim/.cache/signing/tramsim-debug.keystore')
 key=Path(os.environ.get('TRAMSIM_PREVIEW_KEYSTORE',str(key)))
 if not key.exists():
@@ -26,5 +28,5 @@ for name,args in [('import',['--editor','--import']),('android',['--export-debug
  print('BUILT',name,flush=True)
 artifacts={p.name:{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in OUT.iterdir() if p.suffix in ['.apk','.exe']}
 (OUT/'SHA256.json').write_text(json.dumps(artifacts,indent=2)+'\n')
-metadata={'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'version':'0.11.0-stock.1','android_package':'fr.tramsim.stockpreview','artifacts':artifacts}
+metadata={'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'version':'0.12.0-stock.1','android_package':'fr.tramsim.stockpreview','artifacts':artifacts}
 (OUT/'BUILD.json').write_text(json.dumps(metadata,indent=2)+'\n');print(json.dumps(artifacts),flush=True)

@@ -43,6 +43,68 @@ CORRIDOR_M = 220.0
 FILLET = 3.5            # rayon des bordures de carrefour
 QS = 2                  # segments par quart de cercle
 BED = {1: MAT["TRAM_GRASS"], 2: MAT["TRAM_ASPHALT"], 3: MAT["TRAM_PAVED"]}
+
+
+SMOOTH_WIN = 12.0   # m, comme src/rendering/track_view.gd (smooth_kinds)
+MIN_RUN = 30.0
+
+
+def smooth_kinds(kinds, lens):
+    """Nature de plateforme lissée le long de la voie (même algorithme que TrackView.smooth_kinds) : inconnues
+    comblées par la plus proche connue, vote majoritaire pondéré sur ± SMOOTH_WIN, tronçons < MIN_RUN fusionnés."""
+    n = len(kinds)
+    k = list(kinds)
+    if n == 0:
+        return k
+    last = None
+    for i in range(n):
+        if kinds[i]:
+            last = kinds[i]
+        elif last:
+            k[i] = last
+    last = None
+    for i in range(n - 1, -1, -1):
+        if kinds[i]:
+            last = kinds[i]
+        elif not k[i] and last:
+            k[i] = last
+    pos, acc = [], 0.0
+    for L in lens:
+        pos.append(acc + L * 0.5)
+        acc += L
+    voted, j0 = list(k), 0
+    for i in range(n):
+        votes = {}
+        while pos[j0] < pos[i] - SMOOTH_WIN:
+            j0 += 1
+        j = j0
+        while j < n and pos[j] <= pos[i] + SMOOTH_WIN:
+            votes[k[j]] = votes.get(k[j], 0.0) + lens[j]
+            j += 1
+        best, bv = k[i], -1.0
+        for key, val in votes.items():
+            if val > bv or (val == bv and key == k[i]):
+                best, bv = key, val
+        voted[i] = best
+    k = voted
+    for _ in range(8):
+        runs, s0 = [], 0
+        for i in range(1, n + 1):
+            if i == n or k[i] != k[s0]:
+                runs.append([s0, i, k[s0], sum(lens[s0:i])])
+                s0 = i
+        if len(runs) < 2:
+            break
+        cand = [r for r in range(len(runs)) if runs[r][3] < MIN_RUN]
+        if not cand:
+            break
+        sh = min(cand, key=lambda r: runs[r][3])
+        left = runs[sh - 1] if sh > 0 else None
+        right = runs[sh + 1] if sh < len(runs) - 1 else None
+        into = left[2] if right is None or (left is not None and left[3] >= right[3]) else right[2]
+        for q in range(runs[sh][0], runs[sh][1]):
+            k[q] = into
+    return k
 PATHS = ("Sentier", "Chemin", "Route empierrée")
 SKIP = ("Escalier", "Bac ou liaison maritime", "Bac auto", "Bac piéton")
 
@@ -211,6 +273,7 @@ class CityRoads:
             nat = {(c[0], c[1]): c[2] for c in tj.get("cells", [])}
         for ax in tram_axes:
             run, cur = [ax[0][:2]], None
+            raw, lens = [], []
             for a, b in zip(ax[:-1], ax[1:]):
                 m = (a[:2] + b[:2]) * 0.5
                 k = (int(math.floor(m[0] / cell)), int(math.floor(m[1] / cell)))
@@ -220,6 +283,10 @@ class CityRoads:
                         v = nat.get((k[0] + dk[0], k[1] + dk[1]), 0)
                         if v:
                             break
+                raw.append(v)
+                lens.append(float(np.hypot(*(b[:2] - a[:2]))))
+            kinds = smooth_kinds(raw, lens)
+            for a, b, v in zip(ax[:-1], ax[1:], kinds):
                 mat = BED.get(v, MAT["TRAM_PAVED"])
                 if cur is not None and mat != cur:
                     self.tram.append((LineString(run).simplify(0.05), cur))
