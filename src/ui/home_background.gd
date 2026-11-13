@@ -142,7 +142,9 @@ func _install(job: Dictionary) -> void:
 	var day := DayNight.new(); world.add_child(day); day.setup(world); day.set_hour(HOUR)
 	if day.edges: day.edges.visible = false             # contours encrés : prévus pour la vue rapprochée
 	day.sun.shadow_enabled = false                         # vue lointaine : ombres inutiles
-	day.env.fog_density = 0.00018; day.env.fog_height_density = 0.0
+	# Vue cartographique orthographique : la distance verticale ne doit pas décolorer toute la ville.
+	day.env.fog_enabled = false
+	day.env.fog_height_density = 0.0
 	if job.has("scene"): world.add_child(job.scene)
 	world.add_child(_line_mesh(job.lines, job.dist))
 	var cam := Camera3D.new(); cam.fov = 50.0; cam.near = 2.0; cam.far = job.dist * 5.0; world.add_child(cam); cam.current = true
