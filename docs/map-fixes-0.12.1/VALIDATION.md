@@ -1,7 +1,7 @@
 # Validation 0.12.1
 
 - Passage complet : 30 scripts applicatifs réussis, gabarit validé dans 28 villes, 23 tests Python et 149 fichiers réseau valides.
-- Après les ajustements du chargement annulable et du cache d’affichage : tests ciblés du terrain (10 contrôles) et de l’accueil (35 contrôles) rejoués avec succès.
+- Après les ajustements du chargement annulable et du cache d’affichage : tests ciblés du terrain (11 contrôles) et de l’accueil (35 contrôles) rejoués avec succès.
 - Audit de données : 28 villes, 11 168 tuiles, aucune anomalie aux tolérances documentées dans le rapport.
 - Captures du décor avant/après à trois points de Nantes, de l’accueil vertical et de trois instants de la transition. Même caméra et éclairage pour les comparaisons.
 - Les exports Android/Windows ont également compilé dans GitHub Actions avant fusion. La branche fusionnée repasse les contrôles avant publication automatique de ses binaires.
@@ -54,3 +54,5 @@ ok: touche : intro passée
 ok: la touche de passage n'actionne pas la rame
 TOTAL_ECHECS|0
 ```
+
+Un test supplémentaire reproduit une bordure en relief avec un sommet intermédiaire à 50 m. Il échouait avec le raccord limité aux coins ; il passe avec le profil complet raccordé au terrain lointain. Les 26 contrôles de géométrie du monde sont également rejoués avec succès.

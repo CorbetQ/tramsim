@@ -44,6 +44,13 @@ func run() -> void:
  check(not contains,"l'intérieur de la trémie reste réellement ouvert")
  check(height_ok,"les altitudes du relief sont conservées par la découpe")
  check(winding_ok,"toutes les faces du sol sont orientées vers le haut")
+ var curved:=TerrainView.Tile.new()
+ curved.pos=PackedVector3Array([Vector3(0,10,0),Vector3(400,10,0),Vector3(400,50,100),Vector3(400,10,400),Vector3(0,10,400),Vector3(200,10,200)])
+ curved.tri=PackedInt32Array([5,0,1,5,1,2,5,2,3,5,3,4,5,4,0]);curved.mat=PackedByteArray([0,0,0,0,0])
+ terrain._cache[Vector2i.ZERO]=curved;terrain._far_at=Vector3(INF,INF,INF)
+ terrain.update_far(Vector3(0,1000,0),{Vector2i.ZERO:true})
+ var horizon:PackedVector3Array=terrain._far_mesh.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
+ check(Array(horizon).any(func(p):return p.distance_to(Vector3(400,50,100))<0.001),"le terrain lointain reprend les sommets intermédiaires d'une bordure en relief, sans fente verticale")
  terrain.queue_free();await process_frame
  var mountains:=TerrainView.new();root.add_child(mountains)
  check(mountains.open("grenoble"),"lecture native du terrain TGR2 de Grenoble")
