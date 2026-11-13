@@ -3,18 +3,21 @@
  "city": "bordeaux",
  "alt0": 11.8,
  "tile_m": 400.0,
- "grid": 41,
- "tiles": 864,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "tiles": 869,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 9662,
+  "sommets": 660138,
+  "triangles": 1125618,
   "ponts": 136,
-  "niveaux_eau": 465
+  "niveaux_eau": 488
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
  "extension_source": "IGN RGE ALTI WMS, emprise des voies physiques OSM",
  "extended_tiles": 8,
- "ground_profile_signature": "d9886df746f7ba0dca4745d4706ca2219e583daee8d12ec60e83e5c72ecf22d4",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "bordeaux_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

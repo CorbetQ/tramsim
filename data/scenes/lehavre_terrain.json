@@ -3,16 +3,19 @@
  "city": "lehavre",
  "alt0": 62.1,
  "tile_m": 400.0,
- "grid": 41,
  "tiles": 150,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 1400,
+  "sommets": 127419,
+  "triangles": 221182,
   "ponts": 7,
   "niveaux_eau": 64
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
- "ground_profile_signature": "7b9a09ffb682d8450bc3c0b2672731b42aba364510927b5443fd54e216342aa5",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "lehavre_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

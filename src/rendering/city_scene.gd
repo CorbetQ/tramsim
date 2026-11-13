@@ -33,7 +33,8 @@ var v3 := false                 # TSC3 : toits, houppiers et sol vert analysés 
 var _ortho_tile := false
 var _track_nat: Dictionary = {} # Vector2i (cellule) -> nature de plateforme (TrackView.BED_*)
 var _track_cell := 8.0
-# relief (data/scenes/<ville>_terrain.bin, tools/import/terrain.py) : grilles 41 x 41 par tuile, altitudes relatives à alt0
+# relief : data/scenes/<ville>_ground.bin (TGR1, TerrainView : maillage continu relief + voirie, tools/import/terrain_mesh.py),
+# sinon ancien <ville>_terrain.bin (TTR1/TTR2 : grilles 41 x 41 par tuile), altitudes relatives à alt0
 var has_terrain := false
 var alt0 := 0.0
 var min_height := 0.0
@@ -45,6 +46,11 @@ var _water_lv: Dictionary = {}      # Vector2i -> Array de Vector3 (x, niveau, z
 var _decks: Array = []              # [type, largeur, PackedVector3Array repère ville, Vector2i tuile]
 var _road_level_cells: Dictionary = {}
 var _deck_cells: Dictionary = {}    # Vector2i (cellules de 32 m) -> Array de [pont, segment]
+var terrain: TerrainView = null     # sol continu TGR1 (relief + voirie drapée, couronne lointaine), sinon grille TTR
+var _file: PackedByteArray          # <ville>.bin ; TSC4 : tuiles compressées (Brotli), `buf` = tuile décompressée
+var v4 := false
+var _tsc_cs: Dictionary = {}        # TSC4 : Vector2i -> taille compressée
+var _tsc_cur := Vector2i(1 << 30, 0)
 const TG := 41
 const TSTEP := 10.0
 var debug_props := false        # tests : mémorise la position (repère ville) des arbres et lampadaires posés
@@ -52,7 +58,7 @@ var placed_props: Array[Vector2] = []
 var placed_trees: Array[Vector2] = []
 var _trees_cur: Array = []
 var _street_keepout := TrackView.KeepOut.new()
-var _camera_boxes: Array[AABB] = []
+var _camera_boxes: Array = []    # obstacles caméra de la tuile : [0, emprise, y0, y1, Rect2] ou [1, centre, rayon, demi-hauteur]
 var _portal_cut := TrackView.KeepOut.new()
 var _hangar_footprints: Array[PackedVector2Array] = []
 const K_CHURCH := 1
@@ -72,18 +78,24 @@ static func available(c: String) -> bool:
 ## Ouvre la scène d'une ville et la cale sur le repère de la ligne (origine lat/lon de la ligne).
 func open(c: String, net_origin: Array) -> bool:
 	city = c
-	buf = FileAccess.get_file_as_bytes(path_for(c))
-	var magic := buf.slice(0, 4).get_string_from_ascii() if buf.size() >= 8 else ""
-	if magic != "TSC1" and magic != "TSC2" and magic != "TSC3":
+	_file = FileAccess.get_file_as_bytes(path_for(c))
+	buf = _file
+	var magic := _file.slice(0, 4).get_string_from_ascii() if _file.size() >= 8 else ""
+	if magic not in ["TSC1", "TSC2", "TSC3", "TSC4"]:
 		return false
-	v2 = magic == "TSC2" or magic == "TSC3"
-	v3 = magic == "TSC3"
+	v4 = magic == "TSC4"
+	v2 = magic != "TSC1"
+	v3 = magic == "TSC3" or v4
 	var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s.json" % c))
 	tile_m = float(meta.tile_m)
-	var n := buf.decode_u32(4)
+	var n := _file.decode_u32(4)
 	for i in n:
-		var o := 8 + i * 16
-		table[Vector2i(buf.decode_s32(o), buf.decode_s32(o + 4))] = Vector2i(buf.decode_u32(o + 8), buf.decode_u32(o + 12))
+		var o := 8 + i * (20 if v4 else 16)
+		var k := Vector2i(_file.decode_s32(o), _file.decode_s32(o + 4))
+		if v4:   # [offset, taille compressée, taille] : table[k].y reste la taille du contenu
+			table[k] = Vector2i(_file.decode_u32(o + 8), _file.decode_u32(o + 16)); _tsc_cs[k] = _file.decode_u32(o + 12)
+		else:
+			table[k] = Vector2i(_file.decode_u32(o + 8), _file.decode_u32(o + 12))
 	# origine de la ville exprimée dans le repère de la ligne
 	var lat_n := float(net_origin[0]); var lon_n := float(net_origin[1])
 	var lat_c := float(meta.origin[0]); var lon_c := float(meta.origin[1])
@@ -95,6 +107,15 @@ func open(c: String, net_origin: Array) -> bool:
 	_load_terrain(c)
 	_load_road_levels(c)
 	return true
+
+## Contenu d'une tuile de décor : `buf` et décalage de début (TSC4 : tuile décompressée, gardée jusqu'à la suivante).
+func _tile_data(k: Vector2i) -> int:
+	var e: Vector2i = table[k]
+	if not v4: return e.x
+	if _tsc_cur != k:
+		buf = _file.slice(e.x, e.x + int(_tsc_cs[k])).decompress(e.y, FileAccess.COMPRESSION_BROTLI)
+		_tsc_cur = k
+	return 0
 
 func _load_road_levels(c: String) -> void:
 	var path:="res://data/scenes/%s_road_levels.json"%c
@@ -122,6 +143,20 @@ func _known_road_level(p:Vector2,heading:Vector2)->int:
 	return level
 
 func _load_terrain(c: String) -> void:
+	if TerrainView.available(c):
+		var tv := TerrainView.new()
+		if tv.open(c):
+			terrain = tv
+			add_child(tv)
+			var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s_terrain.json" % c))
+			if typeof(meta) == TYPE_DICTIONARY: alt0 = float(meta.get("alt0", 0.0))
+			var d := tv.meta_bytes()
+			var q := 0
+			for k in tv.keys: q = _ter_records(k, d, q)
+			min_height = tv.min_height
+			has_terrain = not tv.table.is_empty()
+			return
+		tv.free()
 	var path := "res://data/scenes/%s_terrain.bin" % c
 	if not FileAccess.file_exists(path): return
 	_ter = FileAccess.get_file_as_bytes(path)
@@ -141,30 +176,34 @@ func _load_terrain(c: String) -> void:
 		if _ter_float:
 			for j in TG * TG: min_height = minf(min_height, _ter.decode_float(to + j * 4))
 		else: min_height = minf(min_height, _ter.decode_s16(to) * 0.1)
-		var q := to + (4 * TG * TG if _ter_float else 3 + TG * TG)
-		var nw := _ter.decode_u8(q); q += 1
-		var lv: Array = []
-		for j in nw:
-			lv.append(Vector3(_ter.decode_s16(q) * 0.1, _ter.decode_s16(q + 4) * 0.1, _ter.decode_s16(q + 2) * 0.1)); q += 6
-		_water_lv[k] = lv
-		var nd := _ter.decode_u16(q); q += 2
-		for j in nd:
-			var kd := _ter.decode_u8(q); var w := _ter.decode_u8(q + 1) / 5.0; var np := _ter.decode_u8(q + 2); q += 3
-			var pl := PackedVector3Array()
-			for m in np:
-				pl.append(Vector3(k.x * tile_m + _ter.decode_s16(q) * 0.1, _ter.decode_s16(q + 4) * 0.1, k.y * tile_m + _ter.decode_s16(q + 2) * 0.1)); q += 6
-			var di := _decks.size()
-			_decks.append([kd, w, pl, k])
-			for m in range(pl.size() - 1):
-				var lo := Vector2(minf(pl[m].x, pl[m + 1].x), minf(pl[m].z, pl[m + 1].z)) - Vector2.ONE * w
-				var hi := Vector2(maxf(pl[m].x, pl[m + 1].x), maxf(pl[m].z, pl[m + 1].z)) + Vector2.ONE * w
-				for cx in range(floori(lo.x / 32.0), floori(hi.x / 32.0) + 1):
-					for cz in range(floori(lo.y / 32.0), floori(hi.y / 32.0) + 1):
-						var ck := Vector2i(cx, cz)
-						if not _deck_cells.has(ck): _deck_cells[ck] = []
-						_deck_cells[ck].append([di, m])
+		_ter_records(k, _ter, to + (4 * TG * TG if _ter_float else 3 + TG * TG))
 	has_terrain = not _ter_table.is_empty()
 	if not has_terrain: min_height = 0.0
+
+## Niveaux d'eau et tabliers de ponts d'une tuile (TTR1/2, méta TGR1) ; retourne le décalage suivant.
+func _ter_records(k: Vector2i, d: PackedByteArray, q: int) -> int:
+	var nw := d.decode_u8(q); q += 1
+	var lv: Array = []
+	for j in nw:
+		lv.append(Vector3(d.decode_s16(q) * 0.1, d.decode_s16(q + 4) * 0.1, d.decode_s16(q + 2) * 0.1)); q += 6
+	_water_lv[k] = lv
+	var nd := d.decode_u16(q); q += 2
+	for j in nd:
+		var kd := d.decode_u8(q); var w := d.decode_u8(q + 1) / 5.0; var np := d.decode_u8(q + 2); q += 3
+		var pl := PackedVector3Array()
+		for m in np:
+			pl.append(Vector3(k.x * tile_m + d.decode_s16(q) * 0.1, d.decode_s16(q + 4) * 0.1, k.y * tile_m + d.decode_s16(q + 2) * 0.1)); q += 6
+		var di := _decks.size()
+		_decks.append([kd, w, pl, k])
+		for m in range(pl.size() - 1):
+			var lo := Vector2(minf(pl[m].x, pl[m + 1].x), minf(pl[m].z, pl[m + 1].z)) - Vector2.ONE * w
+			var hi := Vector2(maxf(pl[m].x, pl[m + 1].x), maxf(pl[m].z, pl[m + 1].z)) + Vector2.ONE * w
+			for cx in range(floori(lo.x / 32.0), floori(hi.x / 32.0) + 1):
+				for cz in range(floori(lo.y / 32.0), floori(hi.y / 32.0) + 1):
+					var ck := Vector2i(cx, cz)
+					if not _deck_cells.has(ck): _deck_cells[ck] = []
+					_deck_cells[ck].append([di, m])
+	return q
 
 func _grid(k: Vector2i) -> PackedFloat32Array:
 	if _ter_grid.has(k): return _ter_grid[k]
@@ -183,6 +222,9 @@ func _grid(k: Vector2i) -> PackedFloat32Array:
 ## Altitude du terrain (repère ville), interpolation sur les triangles du maillage (diagonale 00-11).
 func height_city(x: float, z: float) -> float:
 	if not has_terrain: return 0.0
+	if terrain != null:   # maillage exact du sol (voirie comprise), sinon relief lointain (sous les tuiles)
+		var h := terrain.height(x, z)
+		return h if not is_nan(h) else terrain.far_height(x, z) - 1.5
 	var k := Vector2i(floori(x / tile_m), floori(z / tile_m))
 	var g := _grid(k)
 	if g.is_empty(): return min_height
@@ -215,7 +257,9 @@ func deck_city(x: float, z: float, chosen: int = -1) -> float:
 
 ## Sommets [i0, fin[ de S posés sur le terrain (repère tuile) ; `decks` : sur les tabliers de ponts s'il y en a.
 func _drape(S: _Arrays, i0: int, chosen_deck: int = -1) -> void:
-	if not has_terrain: return
+	if not has_terrain:
+		for i in range(i0, S.v.size()): S.set_rel(i, S.v[i].y)
+		return
 	for i in range(i0, S.v.size()):
 		var q := S.v[i]
 		var x := q.x + _tile_origin.x; var z := q.z + _tile_origin.y
@@ -225,6 +269,7 @@ func _drape(S: _Arrays, i0: int, chosen_deck: int = -1) -> void:
 			if not is_nan(dh): h = dh
 			else: h = _bridge_approach(x,z,chosen_deck,h)
 		S.v[i] = Vector3(q.x, q.y + h + 0.04, q.z)
+		S.set_rel(i, q.y + 0.04)
 
 ## Tablier suivi par une route : même orientation et même type, jamais le pont qui la croise.
 func _deck_for_line(raw_pts: PackedVector2Array, rail: bool) -> int:
@@ -321,8 +366,9 @@ func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 	for tx in range(t0.x, t1.x + 1):
 		for tz in range(t0.y, t1.y + 1):
 			var k := Vector2i(tx, tz)
-			if (table.has(k) or _ter_table.has(k)) and not built.has(k) and not k in queue:
+			if (table.has(k) or _ter_table.has(k) or (terrain != null and terrain.has_tile(k))) and not built.has(k) and not k in queue:
 				queue.append(k)
+	if terrain != null: terrain.update_far(c)
 	var ctile := Vector2(c.x, c.z) / tile_m
 	queue.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
 		return (Vector2(a) + Vector2(0.5, 0.5)).distance_squared_to(ctile) < (Vector2(b) + Vector2(0.5, 0.5)).distance_squared_to(ctile))
@@ -352,17 +398,22 @@ func _build_tile(k: Vector2i) -> Node3D:
 	_tile_origin = Vector2(k.x * tile_m, k.y * tile_m)
 	var seed := hash(k)
 	var ground := Color.from_string(str(style.get("ground", "#cfcac0")), Color.GRAY)
-	if has_terrain and _ter_table.has(k): _terrain_mesh(S, k, ground)
+	# sol : maillage continu relief + voirie (TerrainView / RoadView), sinon grille de relief héritée
+	var gmesh: ArrayMesh = null
+	if terrain != null and terrain.has_tile(k): gmesh = RoadView.build(terrain, terrain.tile(k), k, style, _portal_cut)
+	elif has_terrain and _ter_table.has(k): _terrain_mesh(S, k, ground)
 	else: S.quad(Vector3(0, 0, 0), Vector3(tile_m, 0, 0), Vector3(tile_m, 0, tile_m), Vector3(0, 0, tile_m), ground, -1.0)
 	for di in _decks.size():
 		if _decks[di][3] == k: _deck(S, _decks[di])
 	if not table.has(k):   # couronne de relief autour du décor
 		var gi := MeshInstance3D.new(); gi.mesh = S.mesh(); gi.material_override = Materials.building()
 		node.add_child(gi)
+		if gmesh != null:
+			var gr := MeshInstance3D.new(); gr.mesh = gmesh; gr.material_override = Materials.building()
+			node.add_child(gr)
 		stats.tiles += 1
 		return node
-	var e: Vector2i = table[k]
-	var o := e.x
+	var o := _tile_data(k)
 	# 1re passe : lecture de la tuile
 	var blds: Array = []
 	var nb := buf.decode_u16(o); o += 2
@@ -379,8 +430,18 @@ func _build_tile(k: Vector2i) -> Node3D:
 		o += nt * 3
 	var polys_start := o
 	var np := buf.decode_u16(o); o += 2
+	_water_cur = []
 	for p in np:
-		var nv := buf.decode_u16(o + 1); var ntr := buf.decode_u16(o + 3); o += 5 + nv * 4 + ntr * 6
+		var nv := buf.decode_u16(o + 1); var ntr := buf.decode_u16(o + 3)
+		if buf.decode_u8(o) == P_WATER:   # plans d'eau de la tuile : ni arbres ni herbe dedans
+			var q := o + 5 + nv * 4
+			for t in ntr:
+				var tri := PackedVector2Array()
+				for m in 3:
+					var vi := buf.decode_u16(q + t * 6 + m * 2)
+					tri.append(Vector2(buf.decode_s16(o + 5 + vi * 4) * 0.1, buf.decode_s16(o + 7 + vi * 4) * 0.1))
+				_water_cur.append([tri, Rect2(tri[0], Vector2.ZERO).expand(tri[1]).expand(tri[2])])
+		o += 5 + nv * 4 + ntr * 6
 	var lines_start := o
 	var nl := buf.decode_u16(o); o += 2
 	_street_keepout=TrackView.KeepOut.new()
@@ -414,15 +475,19 @@ func _build_tile(k: Vector2i) -> Node3D:
 		for i in ng:
 			runs.append(Vector3i(buf.decode_u8(o), buf.decode_u8(o + 1), buf.decode_u8(o + 2))); o += 3
 	_ortho_tile = not otrees.is_empty() or not runs.is_empty()
-	# sol vert réel (cellules de 4 m, orthophoto), sous les surfaces BD TOPO et les routes
-	var lawn := Color("#8db463",0.30)
+	# sol vert réel (cellules de 4 m, orthophoto) : masque de tuile filtré bilinéairement dans le shader du sol
+	# (contours lissés, sans couche de quads en escalier ni z-fighting), jamais dans l'eau
 	var meadow_rng:=RandomNumberGenerator.new();meadow_rng.seed=seed*43
 	var meadow_count:=0
-	var i0 := S.count()
-	S.sub = TSTEP
+	var veg: Image = null
+	if not runs.is_empty():
+		var cells := int(tile_m / 4.0)
+		veg = Image.create(cells, cells, false, Image.FORMAT_L8)
 	for r in runs:
 		var z0: float = r.x * 4.0; var x0: float = r.y * 4.0; var x1: float = x0 + r.z * 4.0
-		S.quad(Vector3(x0, 0.012, z0), Vector3(x1, 0.012, z0), Vector3(x1, 0.012, z0 + 4.0), Vector3(x0, 0.012, z0 + 4.0), lawn, -1.0)
+		for cx in range(r.y, r.y + r.z):
+			if cx < veg.get_width() and r.x < veg.get_height() and not _in_water(Vector2(cx * 4.0 + 2.0, z0 + 2.0)):
+				veg.set_pixel(cx, r.x, Color.WHITE)
 		for j in mini(int((x1-x0)/8.0),6):
 			if meadow_count>=128:break
 			var q:=Vector2(meadow_rng.randf_range(x0,x1),z0+meadow_rng.randf_range(0.3,3.7))
@@ -432,8 +497,6 @@ func _build_tile(k: Vector2i) -> Node3D:
 			if inside:continue
 			_add_tree(8 if meadow_rng.randf()<0.7 else 9,Vector3(q.x,0.02,q.y),meadow_rng,0.8)
 			meadow_count+=1
-	S.sub = 0.0
-	_drape(S, i0)
 	# houppiers réels détectés (essence selon le style de la ville, taille selon le houppier)
 	var trng := RandomNumberGenerator.new(); trng.seed = seed * 13
 	for t in otrees:
@@ -451,7 +514,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 		if _keepout != null and _keepout.blocked(_tile_origin + _centroid(b[0])): continue
 		var rc := Color(0, 0, 0, 0)
 		if i < roofs.size() and roofs[i] & 0x8000:
-			rc = Color(((roofs[i] >> 8) & 15) / 15.0, ((roofs[i] >> 4) & 15) / 15.0, (roofs[i] & 15) / 15.0)
+			rc = _ortho_roof(roofs[i])
 		var j0 := S.count()
 		_building(S, b[0], b[1], b[2], b[3], b[4], seed + i, points, rc)
 		if has_terrain:  # posé au sol : base à l'altitude minimale de l'emprise
@@ -460,7 +523,9 @@ func _build_tile(k: Vector2i) -> Node3D:
 			_lift(S, j0, base)
 		var bounds := AABB(S.v[j0], Vector3.ZERO)
 		for j in range(j0, S.count()): bounds = bounds.expand(S.v[j])
-		_camera_boxes.append(bounds.grow(0.4))
+		var rect := Rect2(b[0][0], Vector2.ZERO)
+		for q in b[0]: rect = rect.expand(q)
+		_camera_boxes.append([0, b[0], bounds.position.y - 0.3, bounds.end.y + 0.3, rect.grow(0.8)])
 	stats.buildings += nb
 	# surfaces
 	o = polys_start
@@ -471,18 +536,22 @@ func _build_tile(k: Vector2i) -> Node3D:
 		for i in nv:
 			v[i] = Vector2(buf.decode_s16(o) * 0.1, buf.decode_s16(o + 2) * 0.1); o += 4
 		var y: float = {P_WATER: 0.03, P_FOREST: 0.025, P_GRASS: 0.02, P_SPORT: 0.03, P_CEMETERY: 0.025}.get(cls, 0.02)
-		var col: Color = {P_FOREST: Color("#5e9448"), P_GRASS: Color("#8cbd5b"), P_SPORT: Color("#a9cf6c"), P_CEMETERY: Color("#9cb487")}.get(cls, Color("#8cbd5b"))
+		# teintes apparentes relevées sur orthophoto IGN (sous-bois, pelouse, terrain de sport, cimetière)
+		var col: Color = {P_FOREST: Color("#4d5f3d"), P_GRASS: Color("#71824c"), P_SPORT: Color("#7b8d4f"), P_CEMETERY: Color("#7c8669")}.get(cls, Color("#71824c"))
 		col.a = 0.30
 		var rng := RandomNumberGenerator.new(); rng.seed = seed * 31 + p
 		if cls == P_WATER and has_terrain: y = _water_level(k, v) + 0.03
+		if cls != P_WATER and _in_water(_centroid(v)): o += ntr * 6; continue
 		var p0 := S.count()
 		S.sub = TSTEP
 		for t in ntr:
 			var a := v[buf.decode_u16(o)]; var b := v[buf.decode_u16(o + 2)]; var c := v[buf.decode_u16(o + 4)]; o += 6
 			if cls == P_WATER:
-				W.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(c.x, y, c.y), Color.WHITE)
+				if not _water_cut(a, b, c, y):
+					W.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(c.x, y, c.y), Color.WHITE)
 			else:
-				S.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(c.x, y, c.y), col, -1.0)
+				if gmesh == null:   # surface déjà dans le maillage du sol sinon
+					S.tri(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(c.x, y, c.y), col, -1.0)
 				if (cls == P_FOREST or cls == P_GRASS or cls == P_CEMETERY):
 					var area := absf((b - a).cross(c - a)) * 0.5
 					var dens := 85.0 if cls == P_FOREST else 180.0
@@ -517,7 +586,15 @@ func _build_tile(k: Vector2i) -> Node3D:
 		_lift(S, q0, _ground_h(p[2]) if has_terrain else 0.0)
 	# maillages
 	var mi := MeshInstance3D.new(); mi.mesh = S.mesh(); mi.material_override = Materials.building()
+	if veg != null:
+		var tm: ShaderMaterial = Materials.building().duplicate()
+		tm.set_shader_parameter("veg_mask", ImageTexture.create_from_image(veg))
+		tm.set_shader_parameter("veg_inv_size", 1.0 / tile_m)
+		mi.material_override = tm
 	node.add_child(mi)
+	if gmesh != null:   # même matériau (masque de végétation de la tuile)
+		var gm := MeshInstance3D.new(); gm.mesh = gmesh; gm.material_override = mi.material_override
+		node.add_child(gm)
 	if W.count() > 0:
 		var wi := MeshInstance3D.new(); wi.mesh = W.mesh(); wi.material_override = Materials.water()
 		node.add_child(wi)
@@ -584,28 +661,325 @@ func _terrain_mesh(S: _Arrays, k: Vector2i, ground: Color) -> void:
 				S.tri(a, b, c, ground.lerp(steep, s1), -1.0)
 				S.tri(a, c, d, ground.lerp(steep, s2), -1.0)
 
-## Évite les murs et houppiers sans créer des milliers de corps physiques sur mobile.
+## Fraction [0, 1] du segment a→b (repère ville) libre d'obstacle : emprises réelles des bâtiments (polygones
+## extrudés), houppiers (ellipsoïdes). 1.0 = libre.
+func camera_clear(a: Vector3, b: Vector3) -> float:
+	var best := 1.0
+	var seg := Rect2(Vector2(a.x, a.z), Vector2.ZERO).expand(Vector2(b.x, b.z)).grow(1.0)
+	var L := a.distance_to(b)
+	if L < 0.01: return 1.0
+	for k in built:
+		var o := Vector2(k.x * tile_m, k.y * tile_m)
+		if not Rect2(o, Vector2(tile_m, tile_m)).intersects(seg): continue
+		var a2 := Vector2(a.x, a.z) - o; var b2 := Vector2(b.x, b.z) - o
+		var seg_l := seg; seg_l.position -= o
+		for ob in built[k].get_meta("camera_boxes", []):
+			if ob is AABB: continue
+			if int(ob[0]) == 0:
+				if not (ob[4] as Rect2).intersects(seg_l): continue
+				var ring: PackedVector2Array = ob[1]
+				var y0: float = ob[2]; var y1: float = ob[3]
+				if Geometry2D.is_point_in_polygon(b2, ring) and b.y > y0 and b.y < y1: best = minf(best, 0.999)
+				for i in ring.size():
+					var x = Geometry2D.segment_intersects_segment(a2, b2, ring[i], ring[(i + 1) % ring.size()])
+					if x == null: continue
+					var t: float = a2.distance_to(x) / maxf(a2.distance_to(b2), 0.001)
+					var y := lerpf(a.y, b.y, t)
+					if y > y0 and y < y1: best = minf(best, t)
+			else:
+				# ellipsoïde (rayon horizontal r, demi-hauteur hh) : entrée du segment
+				var c: Vector3 = ob[1] + Vector3(o.x, 0, o.y)
+				var r: float = ob[2]; var hh: float = ob[3]
+				var sa := Vector3((a.x - c.x) / r, (a.y - c.y) / hh, (a.z - c.z) / r)
+				var sb := Vector3((b.x - c.x) / r, (b.y - c.y) / hh, (b.z - c.z) / r)
+				var d := sb - sa
+				var qa := d.dot(d); var qb := 2.0 * sa.dot(d); var qc := sa.dot(sa) - 1.0
+				var disc := qb * qb - 4.0 * qa * qc
+				if disc < 0.0 or qa < 1e-6: continue
+				var t0 := (-qb - sqrt(disc)) / (2.0 * qa); var t1 := (-qb + sqrt(disc)) / (2.0 * qa)
+				if t1 < 0.0 or t0 > 1.0: continue
+				best = minf(best, maxf(t0, 0.0))
+	return best
+
+var _cam_turn := 0.0   # dernière rotation d'orbite retenue (stabilité d'une image à l'autre)
+const CAM_MIN := 6.0
+const CAM_MARGIN := 1.2
+
+## Position de caméra 3e personne qui ne traverse ni mur ni houppier : l'orbite tourne d'abord autour de la cible
+## (rotation la plus faible, de préférence du côté déjà retenu), puis la caméra se rapproche sans descendre sous
+## 6 m, enfin elle s'élève au-dessus de l'obstacle.
 func avoid_camera(target_net: Vector3, desired_net: Vector3) -> Vector3:
 	var a := Vector3((target_net.x - position.x) / _x_scale, target_net.y, target_net.z - position.z)
 	var b := Vector3((desired_net.x - position.x) / _x_scale, desired_net.y, desired_net.z - position.z)
-	var length_ := a.distance_to(b)
-	if length_ < 0.1: return desired_net
-	var distance_ := length_
-	for k in built:
-		var tile_box := AABB(Vector3(k.x * tile_m, -10000, k.y * tile_m), Vector3(tile_m, 20000, tile_m))
-		if tile_box.intersects_segment(a, b) == null: continue
-		var origin_ := Vector3(k.x * tile_m, 0, k.y * tile_m)
-		for obstacle in built[k].get_meta("camera_boxes", []):
-			var box_: AABB = obstacle
-			var hit = box_.intersects_segment(a - origin_, b - origin_)
-			if hit is Vector3:
-				var d := a.distance_to(hit + origin_)
-				if d > 2.0: distance_ = minf(distance_, maxf(2.0, d - 0.6))
-	var result := a.lerp(b, distance_ / length_)
-	result.y = maxf(result.y, height_city(result.x, result.z) + 1.2)
+	var off := b - a
+	var L := off.length()
+	if L < 0.1: return desired_net
+	var ext := (L + CAM_MARGIN) / L
+	var angles := [0.0]
+	for s in [0.25, 0.5, 0.75, 1.0, 1.3, 1.6, 2.0]:
+		var first := signf(_cam_turn) if _cam_turn != 0.0 else 1.0
+		angles.append(s * first); angles.append(-s * first)
+	if _cam_turn != 0.0 and absf(_cam_turn) <= 2.0: angles.insert(1, _cam_turn)
+	var result := Vector3.INF
+	var best_t := -1.0; var best_ang := 0.0
+	for ang in angles:
+		var o2 := off.rotated(Vector3.UP, ang)
+		var p := a + o2
+		p.y = maxf(p.y, height_city(p.x, p.z) + 1.5)
+		var t := camera_clear(a, a + (p - a) * ext)
+		if t >= 0.999:
+			result = p; _cam_turn = ang; break
+		if t > best_t: best_t = t; best_ang = ang
+	if result == Vector3.INF:
+		_cam_turn = best_ang
+		var o2 := off.rotated(Vector3.UP, best_ang)
+		var dist := maxf(best_t * L * ext - CAM_MARGIN, CAM_MIN)
+		result = a + o2 * (dist / L)
+		# encore dans un obstacle (moins de 6 m dégagés) : s'élever au-dessus
+		var lift := 0.0
+		while lift < 40.0 and camera_clear(a, result + Vector3(0, lift, 0) + o2.normalized() * CAM_MARGIN) < 0.999:
+			lift += 3.0
+		result.y += lift
+	result.y = maxf(result.y, height_city(result.x, result.z) + 1.5)
 	return Vector3(result.x * _x_scale + position.x, result.y, result.z + position.z)
 
-## Niveau d'un plan d'eau (repère tuile) : échantillon BD TOPO le plus proche, sinon berge la plus basse.
+## Couleur de toit relevée sur l'orthophoto (RGB444). L'import (ign_scene.roof_rgb444) l'éclaircit (×1,12 + 0,05) et
+## la sature (×1,3) pour l'ancienne double conversion gamma : on revient à la teinte apparente mesurée.
+static func _ortho_roof(code: int) -> Color:
+	var c := Color(((code >> 8) & 15) / 15.0, ((code >> 4) & 15) / 15.0, (code & 15) / 15.0)
+	# moyenne orthophoto = pans au soleil ET à l'ombre (×0,9 sur la valeur) ; voile bleuté de l'ortho retiré
+	var sat := c.s / 1.3 * (0.45 if c.h > 0.5 and c.h < 0.85 else 1.0)
+	return Color.from_hsv(c.h, sat, clampf((c.v - 0.05) / 1.12 * 0.9, 0.0, 1.0))
+
+var _water_cur: Array = []          # triangles d'eau de la tuile en cours : [PackedVector2Array(3), Rect2]
+var _track_pts: Dictionary = {}     # Vector2i (cellules de 16 m) -> PackedVector3Array (voie, repère ville)
+
+## Vrai si le point (repère tuile) est dans un plan d'eau de la tuile en cours.
+func _in_water(p: Vector2) -> bool:
+	for w in _water_cur:
+		if (w[1] as Rect2).has_point(p) and Geometry2D.point_is_inside_triangle(p, w[0][0], w[0][1], w[0][2]): return true
+	return false
+
+## Profil 3D des voies (repère de la ligne) : découpe des plans d'eau là où la voie passe au niveau de l'eau.
+func set_track_profile(pts_net: PackedVector3Array) -> void:
+	_track_pts.clear(); _track_dirs.clear()
+	var cs := PackedVector3Array()
+	for q in pts_net: cs.append(Vector3((q.x - position.x) / _x_scale, q.y, q.z - position.z))
+	for i in cs.size():
+		var c := cs[i]
+		# direction locale : voisins du même tronçon (points consécutifs à moins de 8 m)
+		var a := cs[i - 1] if i > 0 and cs[i - 1].distance_to(c) < 8.0 else c
+		var b := cs[i + 1] if i + 1 < cs.size() and cs[i + 1].distance_to(c) < 8.0 else c
+		var d := Vector2(b.x - a.x, b.z - a.z).normalized()
+		var ck := Vector2i(floori(c.x / 16.0), floori(c.z / 16.0))
+		if not _track_pts.has(ck): _track_pts[ck] = PackedVector3Array(); _track_dirs[ck] = PackedVector2Array()
+		_track_pts[ck].append(c); _track_dirs[ck].append(d)
+	_fit_decks_to_tracks()
+
+var _track_dirs: Dictionary = {}    # mêmes cellules que _track_pts : direction horizontale de la voie
+
+## Points de voie (repère ville) à moins de r (horizontal) de p ; `dirs` reçoit leurs directions.
+func _tracks_near(p: Vector2, r: float, dirs: Array = []) -> PackedVector3Array:
+	var out := PackedVector3Array()
+	for cx in range(floori((p.x - r) / 16.0), floori((p.x + r) / 16.0) + 1):
+		for cz in range(floori((p.y - r) / 16.0), floori((p.y + r) / 16.0) + 1):
+			var ck := Vector2i(cx, cz)
+			var pts: PackedVector3Array = _track_pts.get(ck, PackedVector3Array())
+			for i in pts.size():
+				if Vector2(pts[i].x, pts[i].z).distance_to(p) <= r:
+					out.append(pts[i]); dirs.append(_track_dirs[ck][i])
+	return out
+
+const GAUGE_H := 4.2       # gabarit de la rame : hauteur au-dessus du rail (caisse + pantographe abaissé + marge)
+const GAUGE_HW := 3.1      # demi-largeur couverte autour de l'axe des voies (entraxe 3,5 m + demi-caisse 1,33 m)
+
+## Tabliers BD TOPO et voie (tabliers rééchantillonnés tous les 5 m) : (1) tablier emprunté par la voie (route et
+## tram sur le même pont, ex. pont Jeanne-d'Arc à Rouen) : calé sur le profil du rail ; (2) tablier qui franchit la
+## voie dans le gabarit : relevé au-dessus (rampes à 8 %). Les piles dans le gabarit sont retirées (deck_piles).
+func _fit_decks_to_tracks() -> void:
+	if _track_pts.is_empty(): return
+	var touched := false
+	for di in _decks.size():
+		var d: Array = _decks[di]
+		var pl: PackedVector3Array = d[2]
+		var hw := float(d[1]) * 0.5
+		var lo := Vector2(INF, INF); var hi := -lo
+		for q in pl: lo = lo.min(Vector2(q.x, q.z)); hi = hi.max(Vector2(q.x, q.z))
+		if _tracks_near((lo + hi) * 0.5, (hi - lo).length() * 0.5 + hw + 8.0).is_empty(): continue
+		var rs := PackedVector3Array()
+		for m in range(pl.size() - 1):
+			var n := maxi(1, ceili(Vector2(pl[m].x, pl[m].z).distance_to(Vector2(pl[m + 1].x, pl[m + 1].z)) / 5.0))
+			for j in n: rs.append(pl[m].lerp(pl[m + 1], float(j) / n))
+		rs.append(pl[pl.size() - 1])
+		var fixed := PackedByteArray(); fixed.resize(rs.size())
+		var changed := false
+		for pass_ in 4:
+			var moved := false
+			var raise := PackedFloat32Array(); raise.resize(rs.size()); raise.fill(-INF)
+			for j in rs.size():
+				var c := _deck_conflict(rs, j, hw, pass_ == 0)
+				# franchissement contre une partie portée (bretelle, courbe) : la rampe recouperait le gabarit, on porte
+				if not is_nan(c.y) and is_nan(c.x) and pass_ > 0 and ((j > 0 and fixed[j - 1] == 1) or (j + 1 < rs.size() and fixed[j + 1] == 1)):
+					c.x = c.y - GAUGE_H - 2.0 - 0.1
+				if not is_nan(c.x) and (fixed[j] == 0 or rs[j].y > c.x):
+					if absf(rs[j].y - c.x) > 0.01: rs[j].y = c.x; moved = true
+					fixed[j] = 1
+				elif not is_nan(c.y) and fixed[j] == 0: raise[j] = c.y
+			for j in rs.size():
+				if raise[j] == -INF: continue
+				for k in rs.size():   # rampe à 8 % de part et d'autre (sauf sur la voie portée)
+					var y := raise[j] - absf(float(k - j)) * 5.0 * 0.08
+					if y > rs[k].y + 0.01 and fixed[k] == 0: rs[k].y = y; moved = true
+			# raccord des parties libres à la voie portée : pente bornée à 8 % (pas de marche)
+			for j in rs.size():
+				if fixed[j] == 0: continue
+				for k in rs.size():
+					if fixed[k] == 1: continue
+					var lim := absf(float(k - j)) * 5.0 * 0.08
+					var y := clampf(rs[k].y, rs[j].y - lim, rs[j].y + lim)
+					if absf(y - rs[k].y) > 0.01: rs[k].y = y; moved = true
+			changed = changed or moved
+			if not moved: break
+		if changed:
+			d[2] = rs; touched = true
+	if touched: _index_decks()
+	_enforce_gauge()
+
+## Dernier contrôle, point de voie par point de voie (mêmes règles que tests/test_clearance.gd) : un segment de
+## tablier encore dans le gabarit est abaissé au rail (moins de 2,5 m au-dessus) ou relevé au-dessus du gabarit.
+func _enforce_gauge() -> void:
+	for it_ in 2:
+		for ck in _track_pts:
+			for q in _track_pts[ck]:
+				var c := Vector2(q.x, q.z)
+				for it in _deck_cells.get(Vector2i(floori(c.x / 32.0), floori(c.y / 32.0)), []):
+					var d: Array = _decks[it[0]]
+					var pl: PackedVector3Array = d[2]
+					var m: int = it[1]
+					var a := Vector2(pl[m].x, pl[m].z); var b := Vector2(pl[m + 1].x, pl[m + 1].z)
+					var t := clampf((c - a).dot(b - a) / maxf((b - a).length_squared(), 1e-4), 0.0, 1.0)
+					if (a + (b - a) * t).distance_to(c) > float(d[1]) * 0.5 + GAUGE_HW + 0.5: continue
+					var y := lerpf(pl[m].y, pl[m + 1].y, t)
+					if y <= q.y + 0.2 or y - 1.1 >= q.y + GAUGE_H: continue
+					for e in [m, m + 1]:
+						pl[e].y = minf(pl[e].y, q.y - 0.1) if y - q.y < 2.5 else maxf(pl[e].y, q.y + GAUGE_H + 1.5)
+					d[2] = pl
+
+## Sommet j d'un tablier face aux voies : Vector2(altitude si la voie est portée (parallèle), altitude minimale
+## si le tablier la franchit dans le gabarit) ; NAN sinon. `merge` : premier passage, la voie parallèle proche
+## (jusqu'à 15 m en dessous) est considérée comme portée par le tablier (fusion route + tram).
+func _deck_conflict(rs: PackedVector3Array, j: int, hw: float, merge: bool) -> Vector2:
+	var a := rs[maxi(j - 1, 0)]; var b := rs[mini(j + 1, rs.size() - 1)]
+	var sd := Vector2(b.x - a.x, b.z - a.z).normalized()
+	var p := Vector2(rs[j].x, rs[j].z)
+	var dirs := []
+	var near := _tracks_near(p, hw + GAUGE_HW + 6.0, dirs)
+	var ride := NAN; var top := NAN
+	for t in near.size():
+		var dy := rs[j].y - near[t].y
+		var rel := Vector2(near[t].x, near[t].z) - p
+		if absf(rel.cross(sd)) > hw + GAUGE_HW + 0.5 or absf(rel.dot(sd)) > 6.0: continue
+		var parallel := absf((dirs[t] as Vector2).dot(sd)) > 0.9
+		if parallel and dy > (-6.0 if merge else 0.2) and dy < (15.0 if merge else GAUGE_H + 1.7):
+			ride = near[t].y - 0.1 if is_nan(ride) else minf(ride, near[t].y - 0.1)
+		elif not parallel and dy > 0.2 and dy < GAUGE_H + 1.7:
+			top = maxf(top, near[t].y + GAUGE_H + 2.0) if not is_nan(top) else near[t].y + GAUGE_H + 2.0
+	return Vector2(ride, top)
+
+## Index spatial des tabliers (cellules de 32 m).
+func _index_decks() -> void:
+	_deck_cells.clear()
+	for di in _decks.size():
+		var pl: PackedVector3Array = _decks[di][2]; var w: float = _decks[di][1]
+		for m in range(pl.size() - 1):
+			var lo := Vector2(minf(pl[m].x, pl[m + 1].x), minf(pl[m].z, pl[m + 1].z)) - Vector2.ONE * w
+			var hi := Vector2(maxf(pl[m].x, pl[m + 1].x), maxf(pl[m].z, pl[m + 1].z)) + Vector2.ONE * w
+			for cx in range(floori(lo.x / 32.0), floori(hi.x / 32.0) + 1):
+				for cz in range(floori(lo.y / 32.0), floori(hi.y / 32.0) + 1):
+					var ck := Vector2i(cx, cz)
+					if not _deck_cells.has(ck): _deck_cells[ck] = []
+					_deck_cells[ck].append([di, m])
+
+## Piles d'un tablier (repère ville) : [position du sommet (x, y du tablier, z), altitude du sol]. Une pile tous les
+## 28 m là où le tablier est à plus de 3 m du sol, jamais dans le gabarit d'une voie passant dessous.
+func deck_piles(d: Array) -> Array:
+	var out := []
+	var pl: PackedVector3Array = d[2]
+	var hw: float = float(d[1]) * 0.5
+	var acc := 0.0
+	for i in range(pl.size() - 1):
+		var a := pl[i]; var b := pl[i + 1]
+		var dir := Vector3(b.x - a.x, 0, b.z - a.z)
+		var len := dir.length()
+		if len < 0.05: continue
+		dir /= len
+		var n := Vector3(-dir.z, 0, dir.x) * hw
+		var s := fposmod(-acc, 28.0)
+		while s < len:
+			var p := a + (b - a) * (s / len)
+			var gh := height_city(p.x, p.z)
+			if p.y - gh > 3.0:
+				for side in ([-0.5, 0.5] if hw > 4.0 else [0.0]):
+					var c: Vector3 = p + n * side
+					var hit := false
+					for q in _tracks_near(Vector2(c.x, c.z), GAUGE_HW + 3.5):
+						if q.y > gh - 6.0 and q.y < p.y - 0.5: hit = true; break
+					if not hit: out.append([c, gh])
+			s += 28.0
+		acc += len
+	return out
+
+## Triangle d'eau (repère tuile) à retirer : voie en trémie ou au niveau de l'eau dessous (zone couverte), ou
+## tablier de pont plus bas que l'eau (données incohérentes).
+func _water_cut(a: Vector2, b: Vector2, c: Vector2, y: float) -> bool:
+	var r := Rect2(a, Vector2.ZERO).expand(b).expand(c).grow(4.0)
+	r.position += _tile_origin
+	for cx in range(floori(r.position.x / 16.0), floori(r.end.x / 16.0) + 1):
+		for cz in range(floori(r.position.y / 16.0), floori(r.end.y / 16.0) + 1):
+			for q in _track_pts.get(Vector2i(cx, cz), PackedVector3Array()):
+				if q.y < y + 1.2 and q.y > y - 6.0 and r.has_point(Vector2(q.x, q.z)): return true
+	var m := (a + b + c) / 3.0 + _tile_origin
+	var dk := deck_city(m.x, m.y)
+	return not is_nan(dk) and dk < y + 1.5
+
+## Niveau de l'eau affichée au point p (repère ville), NAN hors eau (mêmes règles que _build_tile ; tests).
+var _water_tiles: Dictionary = {}   # Vector2i -> Array de [a, b, c, niveau] (repère tuile), triangles affichés
+func water_at(p: Vector2) -> float:
+	var k := Vector2i(floori(p.x / tile_m), floori(p.y / tile_m))
+	if not table.has(k) or not has_terrain: return NAN
+	if not _water_tiles.has(k):
+		var keep := _tile_origin
+		_tile_origin = Vector2(k.x * tile_m, k.y * tile_m)
+		var list := []
+		var o: int = _tile_data(k)
+		var nb := buf.decode_u16(o); o += 2
+		for b in nb:
+			var n := buf.decode_u8(o); o += (5 if v2 else 4) + n * 4
+			o += 1 + buf.decode_u8(o) * 3
+		var np := buf.decode_u16(o); o += 2
+		for pi in np:
+			var cls := buf.decode_u8(o); var nv := buf.decode_u16(o + 1); var ntr := buf.decode_u16(o + 3); o += 5
+			var v := PackedVector2Array(); v.resize(nv)
+			for i in nv:
+				v[i] = Vector2(buf.decode_s16(o) * 0.1, buf.decode_s16(o + 2) * 0.1); o += 4
+			var tris := o; o += ntr * 6
+			if cls != P_WATER: continue
+			var y := _water_level(k, v) + 0.03
+			for t in ntr:
+				var a := v[buf.decode_u16(tris + t * 6)]; var b := v[buf.decode_u16(tris + t * 6 + 2)]; var c := v[buf.decode_u16(tris + t * 6 + 4)]
+				if not _water_cut(a, b, c, y): list.append([a, b, c, y])
+		_water_tiles[k] = list
+		_tile_origin = keep
+	var lp := p - Vector2(k.x * tile_m, k.y * tile_m)
+	var res := NAN
+	for w in _water_tiles[k]:
+		if Geometry2D.point_is_inside_triangle(lp, w[0], w[1], w[2]):
+			res = w[3] if is_nan(res) else maxf(res, w[3])
+	return res
+
+## Niveau d'un plan d'eau (repère tuile) : échantillon BD TOPO le plus proche, toujours SOUS la berge la plus
+## basse (−0,15 m ; les échantillons BD TOPO sont souvent 1 m au-dessus du MNT, jusqu'à +30 m à Mulhouse), mais
+## au-dessus du fond du lit (quartile bas du MNT dans le polygone) pour rester visible.
 func _water_level(k: Vector2i, verts: PackedVector2Array) -> float:
 	var c := Vector2.ZERO
 	for q in verts: c += q
@@ -614,10 +988,17 @@ func _water_level(k: Vector2i, verts: PackedVector2Array) -> float:
 	for w in _water_lv.get(k, []):
 		var d := Vector2(w.x, w.z).distance_squared_to(c)
 		if d < best: best = d; lv = w.y
-	if not is_nan(lv): return lv
-	var m := INF
-	for q in verts: m = minf(m, _ground_h(q))
-	return m + 1.2
+	var bank := INF
+	for q in verts: bank = minf(bank, _ground_h(q))
+	var inner := PackedFloat32Array()
+	for i in verts.size():
+		inner.append(_ground_h(verts[i].lerp(c, 0.5)))
+	inner.append(_ground_h(c))
+	inner.sort()
+	var bed := inner[inner.size() / 4] + 0.05
+	var y := minf(lv if not is_nan(lv) else bank, bank - 0.15)
+	if y < bed: y = minf(bed, bank + 0.25)
+	return y
 
 ## Tablier de pont BD TOPO (route ou voie ferrée) : dalle, garde-corps, piles jusqu'au sol (ou au lit de la rivière).
 func _deck(S: _Arrays, d: Array) -> void:
@@ -625,7 +1006,6 @@ func _deck(S: _Arrays, d: Array) -> void:
 	var hw: float = float(d[1]) * 0.5
 	var o := Vector3(_tile_origin.x, 0, _tile_origin.y)
 	var concrete := Color("#b9b3a7"); var rail := Color("#d6d1c6")
-	var acc := 0.0
 	for i in range(pl.size() - 1):
 		var a := pl[i] - o; var b := pl[i + 1] - o
 		var dir := Vector3(b.x - a.x, 0, b.z - a.z)
@@ -646,23 +1026,16 @@ func _deck(S: _Arrays, d: Array) -> void:
 			S.quad(a + e, b + e, b + e + up, a + e + up, rail, -1.0)
 			S.quad(b + e * 0.94, a + e * 0.94, a + e * 0.94 + up, b + e * 0.94 + up, rail, -1.0)
 			S.quad(a + e + up, b + e + up, b + e * 0.94 + up, a + e * 0.94 + up, rail.lightened(0.1), -1.0)
-		# piles
-		var s := fposmod(-acc, 28.0)
-		while s < len:
-			var p := a + (b - a) * (s / len)
-			var gh := _ground_h(Vector2(p.x, p.z))
-			if p.y - gh > 3.0:
-				var hgt := p.y - 1.1 - gh + 1.5
-				for side in ([-0.5, 0.5] if hw > 4.0 else [0.0]):
-					var c: Vector3 = p + n * side
-					S.box(Vector3(c.x, gh - 1.5 + hgt * 0.5, c.z), Vector3(1.3, hgt, 1.3), concrete.darkened(0.08))
-			s += 28.0
-		acc += len
+	# piles (hors gabarit des voies)
+	for pile in deck_piles(d):
+		var c: Vector3 = pile[0] - o; var gh: float = pile[1]
+		var hgt: float = c.y - 1.1 - gh + 1.5
+		S.box(Vector3(c.x, gh - 1.5 + hgt * 0.5, c.z), Vector3(1.3, hgt, 1.3), concrete.darkened(0.08))
 
 # ----------------------------------------------------------------------------------------------- bâtiments
 
 const STONE := Color("#ddd3c0")
-const SLATE := Color("#4c5562")
+const SLATE := Color("#4b5057")   # ardoise : gris anthracite (orthophoto), plus de lavande
 const ZINC := Color("#7e8a95")
 const GLASS_SHOP := 0.45     # alpha des vitrines (éclairées la nuit)
 const SOLID_A := 0.35        # alpha sans fenêtres
@@ -962,33 +1335,10 @@ func _point(S: _Arrays, kind: int, h: float, p: Vector2) -> void:
 		3: _round_tower(S, p, 2.5, h, Color("#f2f2f2"), Color("#c0392b"), true, false)
 		4: S.cone(Vector3(p.x, 0, p.y), 1.6, h, 8, Color("#9c6a52", SOLID_A))
 
+## Mobilier et plantations le long d'une route (la chaussée, les trottoirs, les marquages et les voies ferrées sont
+## dans le maillage du sol : RoadView / TerrainView).
 func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -> void:
-	var asphalt := Color("#41464c",0.28) if cls == L_MAJOR else Color("#4c5054",0.28)
-	match cls:
-		L_RAIL:
-			_ribbon(S, pts, 3.2, 0.04, Color("#8d8174"))
-			for off in [-0.72, 0.72]:
-				_ribbon(S, pts, 0.09, 0.12, Color("#b9bcc0"), off)
-			return
-		L_PATH:
-			_ribbon(S, pts, maxf(w, 1.5), 0.05, Color("#cdbb94")); return
-		L_SMALL:
-			_ribbon(S, pts, maxf(w, 2.5), 0.06, Color("#8f8a80")); return
-	# trottoirs + chaussée + marquage central pointillé
-	_ribbon(S, pts, w + 3.6, 0.035, Color.from_string(str(style.get("paving", "#b9b3a8")),Color.GRAY)*Color(1,1,1,0.29))
-	_ribbon(S, pts, w, 0.07, asphalt)
-	_street_edges(S,pts,w,seed)
-	if w >= 5.5:
-		var acc := 0.0
-		for i in range(pts.size() - 1):
-			var a := pts[i]; var b := pts[i + 1]
-			var len := a.distance_to(b)
-			var d := (b - a) / maxf(len, 0.001)
-			var s := fposmod(-acc, 9.0)
-			while s + 3.0 <= len:
-				_ribbon(S, PackedVector2Array([a + d * s, a + d * (s + 3.0)]), 0.15, 0.095, Color("#ecebe6"))
-				s += 9.0
-			acc += len
+	if cls == L_RAIL or cls == L_PATH or cls == L_SMALL: return
 	# arbres d'alignement (essence dominante de la ville), de part et d'autre des avenues
 	if (cls == L_MAJOR or (cls == L_ROAD and w >= 7.0)) and not _ortho_tile:  # sinon arbres réels (orthophoto)
 		var mix: Array = style.get("trees", [0])
@@ -1027,53 +1377,6 @@ func _line(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, seed: int) -
 				s += 32.0
 			acc2 += len
 
-func _crossroad(p:Vector2,heading:Vector2)->bool:
-	for item in _street_keepout.cells.get(Vector2i(floori(p.x/16.0),floori(p.y/16.0)),[]):
-		var d:Vector2=(item[1]-item[0]).normalized()
-		if absf(d.dot(heading))>0.85:continue
-		if p.distance_to(Geometry2D.get_closest_point_to_segment(p,item[0],item[1]))<float(item[2])+0.3:return true
-	return false
-
-func _street_edges(S:_Arrays,pts:PackedVector2Array,width_:float,seed_:int)->void:
-	var stone:=Color.from_string(str(style.get("paving","#b9b5aa")),Color.GRAY);stone.a=0.29
-	var accent:=Color.from_string(str(style.get("accent","#526b69")),Color.GRAY);accent.a=SOLID_A
-	var distance_:=0.0
-	for i in pts.size()-1:
-		var length_:=pts[i].distance_to(pts[i+1]);var count:=maxi(1,ceili(length_/2.5))
-		var heading:=(pts[i+1]-pts[i]).normalized();var n:=Vector2(-heading.y,heading.x)
-		for j in count:
-			var a:=pts[i].lerp(pts[i+1],float(j)/count);var b:=pts[i].lerp(pts[i+1],float(j+1)/count)
-			for side in [-1.0,1.0]:
-				var center:Vector2=(a+b)*0.5+n*side*(width_*0.5+0.85)
-				if _crossroad(center,heading):continue
-				var strip:=PackedVector2Array([a,b])
-				_ribbon(S,strip,1.7,0.17,stone,side*(width_*0.5+0.85))
-				var curb0:Vector2=a+n*side*(width_*0.5);var curb1:Vector2=b+n*side*(width_*0.5)
-				S.quad(Vector3(curb0.x,0.07,curb0.y),Vector3(curb1.x,0.07,curb1.y),Vector3(curb1.x,0.17,curb1.y),Vector3(curb0.x,0.17,curb0.y),stone.darkened(0.16),-1.0)
-				# Mobilier discret, sans potelet dans les voies ni dans les carrefours.
-				if width_>5.0 and j%10==posmod(seed_,10):
-					var p:Vector2=center+n*side*0.3
-					if _keepout==null or not _keepout.blocked(_tile_origin+p,0.6):
-						S.box(Vector3(p.x,0.55,p.y),Vector3(0.10,0.8,0.10),accent)
-		distance_+=length_
-
-func _ribbon(S: _Arrays, pts: PackedVector2Array, w: float, y: float, col: Color, offset: float = 0.0) -> void:
-	# Bande continue à joints biseautés : aucun dépassement longitudinal aux
-	# intersections ni élargissement répété à chaque sommet de polyligne.
-	if pts.size()<2:return
-	var left:=PackedVector3Array();var right:=PackedVector3Array()
-	for i in pts.size():
-		var before:=(pts[i]-pts[maxi(i-1,0)]).normalized() if i>0 else (pts[1]-pts[0]).normalized()
-		var after:=(pts[mini(i+1,pts.size()-1)]-pts[i]).normalized() if i<pts.size()-1 else before
-		var n0:=Vector2(-before.y,before.x);var n1:=Vector2(-after.y,after.x)
-		var m:=(n0+n1).normalized()
-		if m.length_squared()<0.1:m=n1
-		var reach:=minf(1.0/maxf(absf(m.dot(n1)),0.2),2.0)
-		var center:=pts[i]+m*offset*reach
-		var hw:=m*w*0.5*reach
-		left.append(Vector3(center.x-hw.x,y,center.y-hw.y));right.append(Vector3(center.x+hw.x,y,center.y+hw.y))
-	for i in pts.size()-1:S.quad(left[i],right[i],right[i+1],left[i+1],col,-1.0)
-
 ## Essences : 0 feuillu rond, 1 conifère, 2 feuillu élancé, 3 pin parasol, 4 palmier, 5 peuplier, 6 platane.
 func _pick_tree(rng: RandomNumberGenerator) -> int:
 	var mix: Array = style.get("trees", [0, 2, 1])
@@ -1083,7 +1386,7 @@ func _pick_tree(rng: RandomNumberGenerator) -> int:
 func find_label(substr: String) -> Vector3:
 	if not v2: return Vector3.INF
 	for k in table:
-		var o: int = table[k].x
+		var o: int = _tile_data(k)
 		var nb := buf.decode_u16(o); o += 2
 		for b in nb:
 			var n := buf.decode_u8(o); o += 5 + n * 4
@@ -1105,8 +1408,8 @@ func find_label(substr: String) -> Vector3:
 ## Vérifie la structure d'une tuile (lecture complète des sections, taille exacte) : pour les tests.
 func tile_ok(k: Vector2i) -> bool:
 	if not table.has(k): return false
-	var o: int = table[k].x
-	var end: int = table[k].x + table[k].y
+	var o: int = _tile_data(k)
+	var end: int = o + table[k].y
 	var nb := buf.decode_u16(o); o += 2
 	for b in nb:
 		var n := buf.decode_u8(o); o += (5 if v2 else 4) + n * 4
@@ -1132,7 +1435,7 @@ func density_at(p_net: Vector3) -> int:
 	var c := p_net - position
 	c.x /= _x_scale
 	var k := Vector2i(floori(c.x / tile_m), floori(c.z / tile_m))
-	return buf.decode_u16(table[k].x) if table.has(k) else 0
+	return buf.decode_u16(_tile_data(k)) if table.has(k) else 0
 
 ## Zones interdites au décor (repère ville) : plateformes de tram (axe ± TRACK_KEEP) et quais.
 ## Arbres, lampadaires, éléments ponctuels et bâtiments n'y sont pas posés.
@@ -1141,6 +1444,45 @@ var _keepout: TrackView.KeepOut = null
 var _tile_origin := Vector2.ZERO
 ## Rayon de houppier des modèles d'arbres (échelle 1), par essence.
 const CROWN_R := [2.6, 2.3, 1.9, 3.4, 3.0, 1.1, 3.6, 1.4, 0.5, 0.5]
+
+## Cale le décor sur un réseau : découpe du terrain aux portails de tunnels peu profonds, plateformes (pas d'arbre
+## ni de bâtiment dessus), profil 3D des voies (eau, tabliers et piles hors gabarit). Utilisé par LineView et par
+## tests/test_clearance.gd (même état que le jeu).
+func bind_network(net: NetworkLoader) -> void:
+	var polys: Array = []
+	var prof := PackedVector3Array()
+	for id in net.edge_info:
+		var info: Dictionary = net.edge_info[id]
+		var pl := PackedVector2Array()
+		var arc := 0.0
+		for i in info.pts.size():
+			if i > 0:
+				arc += info.pts[i - 1].distance_to(info.pts[i])
+				var middle: float = (arc - info.pts[i - 1].distance_to(info.pts[i]) * 0.5) * net.graph.edges[id].length / maxf(info.arc[-1], 0.01)
+				if NetworkLoader.in_spans(info.tunnel, middle):
+					var q := net.point_on(id, middle)
+					if height_at(Vector3(q.p.x, q.y, q.p.y)) - q.y < 6.0:
+						add_portal_cut(info.pts[i - 1], info.pts[i])
+			if NetworkLoader.in_spans(info.tunnel, arc):
+				if pl.size() >= 2: polys.append(pl)
+				pl = PackedVector2Array()
+			else: pl.append(info.pts[i])
+		if pl.size() >= 2: polys.append(pl)
+		var L: float = net.graph.edges[id].length
+		var n := maxi(1, ceili(L / 6.0))
+		var axis := PackedVector2Array(); var buried := []
+		for i in n + 1:
+			var q := net.point_on(id, L * i / n)
+			prof.append(Vector3(q.p.x, q.y, q.p.y))
+			axis.append(q.p)
+			# trémie ou tranchée hors tunnel : le terrain qui recouvrirait la voie est ouvert (jamais de voie enterrée)
+			var side := Vector2(-q.dir.y, q.dir.x) * 1.75
+			var top := maxf(height_at(Vector3(q.p.x, 0, q.p.y)), maxf(height_at(Vector3(q.p.x + side.x, 0, q.p.y + side.y)), height_at(Vector3(q.p.x - side.x, 0, q.p.y - side.y))))
+			buried.append(not NetworkLoader.in_spans(info.tunnel, L * i / n) and top > q.y + 0.3)
+		for i in buried.size():
+			if buried[i]: add_portal_cut(axis[maxi(i - 1, 0)], axis[mini(i + 1, axis.size() - 1)], 3.6)
+	set_tracks(polys)
+	set_track_profile(prof)
 
 func set_tracks(polylines: Array) -> void:
 	if _keepout == null: _keepout = TrackView.KeepOut.new()
@@ -1163,6 +1505,7 @@ func blocked(p_city: Vector2, extra: float = 0.0) -> bool:
 func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float = 1.0, exact: bool = false) -> void:
 	var local_ := Vector2(pos.x,pos.z)
 	if _street_keepout.blocked(local_,0.3):return
+	if _in_water(local_): return
 	var w := _tile_origin + local_
 	var sc := scale if exact else rng.randf_range(0.85, 1.3) * scale
 	var crown: float = CROWN_R[kind] * sc
@@ -1178,7 +1521,7 @@ func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float
 	_trees_cur[kind].append(Transform3D(b, pos))
 	var crown_pos := pos + Vector3(0, 5.0 * sc, 0)
 	var radius: float = CROWN_R[kind] * sc
-	if kind < 7: _camera_boxes.append(AABB(crown_pos - Vector3(radius, 2.4 * sc, radius), Vector3(radius * 2.0, 4.8 * sc, radius * 2.0)))
+	if kind < 7: _camera_boxes.append([1, crown_pos, radius + 0.5, 2.4 * sc + 0.5])
 	if debug_props: placed_trees.append(w)
 
 static func _tree_mesh(v: int) -> Mesh:
@@ -1242,10 +1585,27 @@ class _Arrays:
 	var v := PackedVector3Array()
 	var c := PackedColorArray()
 	var uv := PackedVector2Array()
+	var rel := PackedFloat32Array()   # hauteur au-dessus du terrain (couches de sol drapées), 0 par défaut
 	var sub := 0.0     # > 0 : triangles coupés (bissection du plus grand côté) jusqu'à cette taille, pour le drapé
 
 	func count() -> int:
 		return v.size()
+
+	## Hauteur de la couche au-dessus du terrain (sommet i) : décalage de profondeur relatif au sol.
+	func set_rel(i: int, h: float) -> void:
+		if rel.size() <= i: rel.resize(v.size())
+		rel[i] = h
+
+	## Identifiant de matériau (UV2.x, voir toon_building.gdshader) déduit de l'alpha de la couleur de sommet.
+	static func mat_id(a: float) -> float:
+		if a < 0.25: return 1.0
+		if a > 0.275 and a < 0.285: return 2.0
+		if a > 0.285 and a < 0.295: return 3.0
+		if a > 0.295 and a < 0.305: return 4.0
+		if a > 0.34 and a < 0.36: return 5.0
+		if a > 0.42 and a < 0.48: return 6.0
+		if a > 0.5 and a < 0.999: return 7.0 + float(roundi(a * 1000.0)) / 1024.0
+		return 8.0
 
 	func tri(a: Vector3, b: Vector3, d: Vector3, col: Color, _u: float = -1.0) -> void:
 		if sub > 0.0:
@@ -1334,6 +1694,14 @@ class _Arrays:
 		arr[Mesh.ARRAY_VERTEX] = v
 		arr[Mesh.ARRAY_COLOR] = c
 		arr[Mesh.ARRAY_TEX_UV] = uv
+		if rel.size() < v.size(): rel.resize(v.size())
+		var uv2 := PackedVector2Array(); uv2.resize(v.size())
+		var last_a := -1.0; var last_id := 8.0
+		for i in v.size():
+			var a := c[i].a
+			if a != last_a: last_a = a; last_id = mat_id(a)
+			uv2[i] = Vector2(last_id, rel[i])
+		arr[Mesh.ARRAY_TEX_UV2] = uv2
 		# normales de facette : servent au biais normal des ombres (anti-acné), l'éclairage les recalcule au pixel
 		var nr := PackedVector3Array(); nr.resize(v.size())
 		for i in range(0, v.size() - 2, 3):

@@ -13,7 +13,7 @@ float cel_steps(float lit, float floor_) {
 
 // Teinte froide des ombres (lumière du ciel), plus bleutée la nuit.
 vec3 cel_shadow_tint() {
-	return mix(vec3(0.66, 0.79, 1.08), vec3(0.7, 0.8, 1.15), night);
+	return mix(vec3(0.76, 0.83, 0.98), vec3(0.7, 0.8, 1.15), night);
 }
 
 // Contribution d'une lumière : soleil/lune en paliers, lumières ponctuelles (phares, lampes) en 2 paliers.
@@ -36,13 +36,13 @@ vec3 cel_light(vec3 n, vec3 l, vec3 v, vec3 lcol, float atten, bool directional,
 }
 
 // Décalage de profondeur des couches de sol (rubans posés à quelques cm) : la surface est rapprochée de la
-// caméra en proportion de sa hauteur (≤ 0,36 % de la distance), sans déplacement à l'écran ; nul au-dessus
-// de 2,5 m. Désactivé en projection orthogonale (ombres du soleil).
-vec4 cel_layer_clip(vec3 vtx, mat4 model, mat4 modelview, mat4 proj) {
+// caméra en proportion de sa hauteur AU-DESSUS DU TERRAIN `h` (≤ 0,36 % de la distance), sans déplacement à
+// l'écran ; nul au-dessus de 2,5 m. `h` vient de l'attribut UV2.y (CityScene._Arrays, LineView._add_geo), donc
+// valable à toute altitude (Angers à −17 m, Grenoble, Saint-Étienne…). Désactivé en projection orthogonale.
+vec4 cel_layer_clip(vec3 vtx, float h, mat4 modelview, mat4 proj) {
 	vec4 vp = modelview * vec4(vtx, 1.0);
 	if (proj[3][3] < 0.5) {
-		float y = (model * vec4(vtx, 1.0)).y;
-		float k = 0.03 * clamp(y, 0.0, 0.12) * (1.0 - smoothstep(1.5, 2.5, y));
+		float k = 0.03 * clamp(h, 0.0, 0.12) * (1.0 - smoothstep(1.5, 2.5, h));
 		vp.xyz *= 1.0 - k;
 	}
 	return proj * vp;

@@ -3,16 +3,19 @@
  "city": "saintetienne",
  "alt0": 506.8,
  "tile_m": 400.0,
- "grid": 41,
  "tiles": 147,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 1100,
+  "sommets": 139587,
+  "triangles": 246104,
   "ponts": 50,
   "niveaux_eau": 28
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
- "ground_profile_signature": "f56a91f46d7efc7ab43cd4227997390f149c1c790c085996697bb6a9b999ec6e",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "saintetienne_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

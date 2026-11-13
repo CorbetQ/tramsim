@@ -3,16 +3,19 @@
  "city": "orleans",
  "alt0": 107.8,
  "tile_m": 400.0,
- "grid": 41,
  "tiles": 303,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 3286,
+  "sommets": 236631,
+  "triangles": 405597,
   "ponts": 61,
   "niveaux_eau": 155
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
- "ground_profile_signature": "992d2604f48b58e3594cb77d394b93c70603263286640e258e30933770ce5e04",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "orleans_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

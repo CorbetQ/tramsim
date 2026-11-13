@@ -1,5 +1,5 @@
 extends SceneTree
-## Données de décor (data/scenes) : lecture de toutes les tuiles de toutes les villes (TSC1/2/3),
+## Données de décor (data/scenes) : lecture de toutes les tuiles de toutes les villes (TSC1 à TSC4),
 ## nature de plateforme, et aucun arbre ni lampadaire sur la plateforme d'une ligne test par ville.
 ## Usage : godot --headless --path . -s tests/test_scene_data.gd [-- ville...]
 const MAX_TILES := 14        # tuiles construites par ville (le long de la ligne test)
@@ -22,7 +22,7 @@ func _init() -> void:
 	var fails := 0
 	var cities := 0
 	for f in DirAccess.get_files_at("res://data/scenes"):
-		if not f.ends_with(".bin") or f.ends_with("_terrain.bin"): continue
+		if not f.ends_with(".bin") or f.ends_with("_terrain.bin") or f.ends_with("_ground.bin"): continue
 		var c := f.get_basename()
 		if only.size() > 0 and not c in only: continue
 		cities += 1

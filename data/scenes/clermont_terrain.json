@@ -3,16 +3,19 @@
  "city": "clermont",
  "alt0": 353.6,
  "tile_m": 400.0,
- "grid": 41,
  "tiles": 168,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 2152,
+  "sommets": 132557,
+  "triangles": 227853,
   "ponts": 37,
   "niveaux_eau": 25
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
- "ground_profile_signature": "fd0008ba0c48d15e168d4d99677a0c694cf21101491296ef5fdaf450fd6af3d4",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "clermont_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

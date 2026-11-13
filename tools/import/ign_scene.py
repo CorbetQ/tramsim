@@ -9,9 +9,10 @@ découpé en tuiles de TILE_M mètres et écrit dans un binaire compact lu par s
 Usage : ign_scene.py CITY_ID NETWORKS_DIR OUT_DIR CACHE_DIR [ORTHO_CACHE_DIR]
 Avec ORTHO_CACHE_DIR : analyse des orthophotos IGN (toits, houppiers, sol vert) et OUT_DIR/<ville>_track.json
 (nature des plateformes). Dépend de numpy, shapely, mapbox_earcut, Pillow, scipy.
-Format (little endian) : "TSC3", uint32 nb_tuiles, table [int32 tx, int32 tz, uint32 offset, uint32 taille],
-puis par tuile : bâtiments, polygones, lignes, ponctuels, étiquettes (TSC2), toits, arbres, sol vert (TSC3) ;
-voir write_tile. Le jeu lit aussi TSC1 et TSC2.
+Format (little endian) : "TSC4", uint32 nb_tuiles, table [int32 tx, int32 tz, uint32 offset, uint32 taille
+compressée, uint32 taille], puis par tuile (Brotli) : bâtiments, polygones, lignes, ponctuels, étiquettes (TSC2),
+toits, arbres, sol vert (TSC3) ; voir write_tile. Le jeu lit aussi TSC1 à TSC3 (non compressés, table de 16 octets).
+ign_scene.py --tsc4 FICHIER... : convertit un TSC3 existant en TSC4 sans réimport.
 """
 import json, math, os, struct, subprocess, sys, time, urllib.parse
 from collections import defaultdict
@@ -586,6 +587,47 @@ def track_nature(ortho, frame, lines, under, tram_ref=(), asphalt=0.40):
     return out
 
 
+def pack_tsc4(blobs):
+    """TSC4 : contenu de tuile TSC3 compressé par tuile (Brotli) ; table [i32 tx, i32 tz, u32 offset,
+    u32 taille compressée, u32 taille]."""
+    import brotli
+    keys = sorted(blobs)
+    comp = [brotli.compress(blobs[t], quality=11) for t in keys]
+    head = b"TSC4" + struct.pack("<I", len(keys))
+    off = len(head) + 20 * len(keys)
+    table = bytearray()
+    for t, c in zip(keys, comp):
+        table += struct.pack("<iiIII", t[0], t[1], off, len(c), len(blobs[t]))
+        off += len(c)
+    return head + bytes(table) + b"".join(comp)
+
+
+def read_tiles(buf):
+    """Contenu (format TSC3) des tuiles d'un fichier TSC1 à TSC4 : {(tx, tz): octets}, et version."""
+    magic = buf[:4]
+    n = struct.unpack_from("<I", buf, 4)[0]
+    out = {}
+    for i in range(n):
+        if magic == b"TSC4":
+            import brotli
+            tx, tz, off, cs, size = struct.unpack_from("<iiIII", buf, 8 + i * 20)
+            out[(tx, tz)] = brotli.decompress(buf[off:off + cs])
+        else:
+            tx, tz, off, size = struct.unpack_from("<iiII", buf, 8 + i * 16)
+            out[(tx, tz)] = buf[off:off + size]
+    return out, magic
+
+
+def recompress(path):
+    """TSC3 -> TSC4 sans réimport (contenu identique)."""
+    buf = open(path, "rb").read()
+    tiles, magic = read_tiles(buf)
+    if magic != b"TSC3":
+        return magic.decode()
+    open(path, "wb").write(pack_tsc4(tiles))
+    return "TSC4"
+
+
 def main(city, nets_dir, out_dir, cache, ortho_dir=None):
     os.makedirs(cache, exist_ok=True)
     nets = []
@@ -830,16 +872,10 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None):
             json.dump(tj, f, ensure_ascii=False, separators=(",", ":"))
     # écriture
     keys = sorted(tiles)
-    blobs = [write_tile(tiles[t], t[0] * TILE_M, t[1] * TILE_M) for t in keys]
-    head = b"TSC3" + struct.pack("<I", len(keys))
-    off = len(head) + 16 * len(keys)
-    table = bytearray()
-    for t, b in zip(keys, blobs):
-        table += struct.pack("<iiII", t[0], t[1], off, len(b))
-        off += len(b)
+    blobs = {t: write_tile(tiles[t], t[0] * TILE_M, t[1] * TILE_M) for t in keys}
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, city + ".bin"), "wb") as f:
-        f.write(head + bytes(table) + b"".join(blobs))
+        f.write(pack_tsc4(blobs))
     meta = {"schema": 1, "city": city, "origin": list(nets[0]["origin"]), "tile_m": TILE_M, "corridor_m": CORRIDOR_M,
             "tiles": len(keys), "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du "
             + time.strftime("%Y-%m-%d"), "stats": dict(stats)}
@@ -849,4 +885,8 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:6])
+    if sys.argv[1] == "--tsc4":      # ign_scene.py --tsc4 data/scenes/<ville>.bin...
+        for p in sys.argv[2:]:
+            print(p, recompress(p))
+    else:
+        main(*sys.argv[1:6])

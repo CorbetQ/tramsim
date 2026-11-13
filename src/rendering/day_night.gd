@@ -42,8 +42,9 @@ func setup(parent: Node3D) -> void:
 	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
 	env.fog_density = 0.0016
 	env.fog_sky_affect = 0.0
-	env.fog_height = 30.0
-	env.fog_height_density = 0.004
+	# brouillard de hauteur relatif au sol (set_ground) : seulement les fonds de vallée, jamais un voile uniforme
+	env.fog_height = -10.0
+	env.fog_height_density = 0.003
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	env.tonemap_exposure = 1.0
 	env.tonemap_white = 2.2
@@ -53,15 +54,17 @@ func setup(parent: Node3D) -> void:
 	env.glow_intensity = 0.55 if low_quality else 0.8
 	env.glow_strength = 1.0
 	env.glow_bloom = 0.0
-	env.glow_hdr_threshold = 0.9
+	# seuil au-dessus du blanc : ciel (disque solaire) et sources émissives seulement, jamais les façades claires
+	env.glow_hdr_threshold = 1.1
 	env.glow_hdr_scale = 2.0
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SCREEN
 	for i in 7: env.set_glow_level(i, 0.0)
-	env.set_glow_level(1, 0.6); env.set_glow_level(2, 1.0)
-	if not low_quality: env.set_glow_level(3, 0.8); env.set_glow_level(4, 0.4)
-	env.adjustment_enabled = true
-	env.adjustment_contrast = 1.12
-	env.adjustment_saturation = 1.10
+	env.set_glow_level(1, 0.5); env.set_glow_level(2, 0.8)
+	if not low_quality: env.set_glow_level(3, 0.4)
+	# aucune retouche globale : contraste et saturation neutres (palettes calibrées sur orthophoto et photos)
+	env.adjustment_enabled = false
+	env.adjustment_contrast = 1.0
+	env.adjustment_saturation = 1.0
 	var we := WorldEnvironment.new(); we.environment = env
 	parent.add_child(we)
 	if not low_quality:
@@ -118,13 +121,21 @@ func set_hour(h: float) -> void:
 	sky_mat.set_shader_parameter("night", night)
 	sky_mat.set_shader_parameter("energy", lerpf(1.0, 0.9, night))
 	# ambiance : bleutée (ombres froides) le jour, violacée au crépuscule, bleu nuit
-	env.ambient_light_color = _k([[0.0, Color("#2a3466")], [6.0, Color("#3e4478")], [8.0, Color("#a9bad6")], [17.0, Color("#b4c3da")],
+	env.ambient_light_color = _k([[0.0, Color("#2a3466")], [6.0, Color("#3e4478")], [8.0, Color("#b3bccb")], [17.0, Color("#bcc4d0")],
 		[20.3, Color("#8a8ab0")], [22.0, Color("#2a3466")], [24.0, Color("#2a3466")]], hour)
 	env.ambient_light_energy = lerpf(0.30, 0.42, night)
 	env.fog_light_color = horizon.lerp(top, 0.15)
 	env.fog_light_energy = lerpf(0.9, 0.5, night)
 	env.fog_density = lerpf(0.00065, 0.0017, night)
 	env.glow_intensity = lerpf(0.35, 0.55 if low_quality else 0.9, night)
+
+## Altitude du sol sous la caméra (repère de la ligne) : cale le brouillard de hauteur sur le terrain
+## (et non sur l'altitude 0 : Angers est à −17 m, Saint-Étienne à +100 m par rapport à `alt0`).
+var ground_y := 0.0
+func set_ground(y: float) -> void:
+	if is_nan(y): return
+	ground_y = lerpf(ground_y, y, 0.1) if absf(ground_y - y) < 30.0 else y
+	if env: env.fog_height = ground_y - 10.0
 
 func clock_text() -> String:
 	return "%02d:%02d" % [int(hour), int(fmod(hour, 1.0) * 60.0)]

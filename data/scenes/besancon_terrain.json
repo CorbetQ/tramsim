@@ -3,16 +3,19 @@
  "city": "besancon",
  "alt0": 268.9,
  "tile_m": 400.0,
- "grid": 41,
  "tiles": 163,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 794,
+  "sommets": 137711,
+  "triangles": 238927,
   "ponts": 40,
   "niveaux_eau": 40
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
- "ground_profile_signature": "6333dc33e810c4a4ca856166a9cb53d3c6440c6e851486fbe14b67d880d8fd37",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "besancon_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

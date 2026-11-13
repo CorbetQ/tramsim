@@ -3,18 +3,21 @@
  "city": "strasbourg",
  "alt0": 140.4,
  "tile_m": 400.0,
- "grid": 41,
- "tiles": 479,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "tiles": 475,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
-  "ponts": 305,
-  "niveaux_eau": 482
+  "décalques": 8628,
+  "sommets": 509313,
+  "triangles": 908354,
+  "ponts": 324,
+  "niveaux_eau": 483
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
  "extension_source": "IGN RGE ALTI WMS, emprise des voies physiques OSM",
  "extended_tiles": 13,
- "ground_profile_signature": "5e6a83b1aabc6c0cbeee7fa442694368b70b3e84b162f4329bd35257b1bd1231",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "strasbourg_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

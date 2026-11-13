@@ -3,18 +3,21 @@
  "city": "nantes",
  "alt0": 20.8,
  "tile_m": 400.0,
- "grid": 41,
- "tiles": 1173,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "tiles": 1403,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 5618,
+  "sommets": 807006,
+  "triangles": 1316658,
   "ponts": 111,
-  "niveaux_eau": 251
+  "niveaux_eau": 285
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
  "extension_source": "IGN RGE ALTI WMS, emprise des voies physiques OSM",
  "extended_tiles": 737,
- "ground_profile_signature": "d901ed611fc317e3630c2d966f9905c8d6d2aed4da0ba4b8beea838188eb04ba",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "nantes_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

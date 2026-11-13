@@ -39,6 +39,12 @@ class Geography(unittest.TestCase):
                     self.assertLess(math.dist(expected,e['pts'][index]),.0015,(path.stem,e['id']))
                 for p,q,a,b in zip(e['pts'],e['pts'][1:],e['y'],e['y'][1:]):
                     self.assertLessEqual(abs(b-a),math.dist(p,q)*.0801+.0002,(path.stem,e['id']))
+    def test_ground_files_present(self):
+        for path in sorted((ROOT/'data/scenes').glob('*.json')):
+            if '_' in path.stem:continue
+            ground=ROOT/f'data/scenes/{path.stem}_ground.bin'
+            self.assertTrue(ground.exists(),path.stem)
+            self.assertEqual(ground.read_bytes()[:4],b'TGR1')
     def test_all_terrain_tile_borders_are_identical(self):
         for path in sorted((ROOT/'data/scenes').glob('*_terrain.bin')):
             tiles=read_tiles(path.read_bytes())

@@ -17,11 +17,26 @@ class WireView extends Node3D:
 
 func _init()->void:
  var city:=CityScene.new();var geo:=CityScene._Arrays.new()
- city._ribbon(geo,PackedVector2Array([Vector2(0,0),Vector2(10,0),Vector2(10,10)]),4,0,Color.WHITE)
- var bound:=AABB(geo.v[0],Vector3.ZERO)
- for v in geo.v:bound=bound.expand(v)
- check(bound.position.x==0 and bound.end.z==10,"ruban routier : aucun dépassement longitudinal aux extrémités")
- check(geo.v[2]==geo.v[7] or geo.v[2]==geo.v[6],"raccord routier : sommets du joint partagés")
+ # sol continu (voirie drapée) : bords de tuile communs, voirie au niveau du maillage, bordures de trottoir
+ var tv:=TerrainView.new()
+ check(tv.open("angers"),"sol continu d’Angers (TGR1)")
+ var seam:=0.0;var tested:=0;var curbs:=0;var paved:=0
+ for k in tv.keys:
+  if not tv.has_tile(k+Vector2i(1,0)):continue
+  var a:=tv.tile(k);var b:=tv.tile(k+Vector2i(1,0))
+  for i in 40:
+   var z:=i*10.0+3.3
+   var ha:=tv.tile_height(a,tv.tile_m-0.001,z);var hb:=tv.tile_height(b,0.001,z)
+   if not is_nan(ha) and not is_nan(hb):seam=maxf(seam,absf(ha-hb));tested+=1
+  for m in a.mat:
+   if m&31 in [RoadView.ASPHALT,RoadView.ASPHALT_MAJOR,RoadView.SIDEWALK]:paved+=1
+   if m>>5:curbs+=1
+  if tested>2000:break
+ check(tested>500 and seam<0.05,"raccord de tuiles sans déchirure (%d points, écart max %.3f m)"%[tested,seam])
+ check(paved>1000 and curbs>100,"chaussées et trottoirs dans le maillage (%d triangles, %d bordures)"%[paved,curbs])
+ var mesh:=RoadView.build(tv,tv.tile(tv.keys[tv.keys.size()/2]),tv.keys[tv.keys.size()/2],{},null)
+ check(mesh.get_surface_count()==1 and mesh.surface_get_format(0)&Mesh.ARRAY_FORMAT_TEX_UV2,"maillage de voirie : identifiant de matériau en UV2")
+ tv.free()
  city._decks=[[0,8.0,PackedVector3Array([Vector3(30,8,0),Vector3(60,8,0)]),Vector2i.ZERO]]
  for x in range(0,4):city._deck_cells[Vector2i(x,0)]=[[0,0]]
  check(city._deck_for_line(PackedVector2Array([Vector2(0,0),Vector2(200,0)]),false)==0,"pont court au début d’une longue route : tablier détecté")

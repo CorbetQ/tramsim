@@ -3,18 +3,21 @@
  "city": "tours",
  "alt0": 66.3,
  "tile_m": 400.0,
- "grid": 41,
- "tiles": 181,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "tiles": 183,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 1633,
+  "sommets": 150240,
+  "triangles": 259721,
   "ponts": 43,
-  "niveaux_eau": 120
+  "niveaux_eau": 122
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
  "extension_source": "IGN RGE ALTI WMS, emprise des voies physiques OSM",
  "extended_tiles": 3,
- "ground_profile_signature": "854ff3131e418238ff4b7689ff4c06ae60e4e1765c4bb0285be9299f1994d0cd",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "tours_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

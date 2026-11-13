@@ -13,8 +13,11 @@ uniform float shade_floor : hint_range(0.0, 1.0) = 0.18;
 uniform float rim_strength : hint_range(0.0, 1.0) = 0.3;
 uniform vec3 glass_glow = vec3(1.0, 0.86, 0.6);
 uniform float glow_strength = 0.55;
-// Les couleurs de sommets arrivent déjà linéarisées en rendu Compatibility : 1.0 = pas de reconversion (rames).
-uniform float color_gamma = 2.2;
+// Rendu Compatibility : couleurs de sommet et ALBEDO sont restitués tels quels (mesuré : ALBEDO 0,5 non éclairé
+// → pixel 0,5). Aucune reconversion sRGB→linéaire : 1.0 partout (une seule chaîne de couleur, décor et rames).
+uniform float color_gamma = 1.0;
+uniform float saturation = 1.0;          // rames : 1,12 (Materials.TRAM_TONE)
+uniform vec3 albedo_mul = vec3(1.0);     // végétation : teinte de houppier calée sur l'orthophoto (Materials.foliage)
 
 // --- rames : exposition (couleurs mesurées sur photos = teinte éclairée, pas albédo pur)
 uniform float tram_albedo_day = 1.0;     // facteur d'albédo de jour (soleil + ambiance ≈ 1 sur la face éclairée)
@@ -37,7 +40,7 @@ varying float v_glass;
 vec3 to_linear(vec3 c) {
 	vec3 linear = pow(c, vec3(color_gamma));
 	float grey = dot(linear, vec3(0.2126, 0.7152, 0.0722));
-	return max(mix(vec3(grey), linear, 1.12), vec3(0.0));
+	return max(mix(vec3(grey), linear, saturation), vec3(0.0));
 }
 
 float h21(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7)) + tram_pat_seed * 17.13) * 43758.5453); }
@@ -161,12 +164,12 @@ void vertex() {
 	}
 	v_paint = UV2.x;
 	v_glass = COLOR.a;
-	POSITION = cel_layer_clip(VERTEX, MODEL_MATRIX, MODELVIEW_MATRIX, PROJECTION_MATRIX);
+	POSITION = cel_layer_clip(VERTEX, 9.0, MODELVIEW_MATRIX, PROJECTION_MATRIX);  // objets en volume : pas de décalage
 }
 
 void fragment() {
 	NORMAL = normalize(cross(dFdy(VERTEX), dFdx(VERTEX)));
-	vec3 base = to_linear(COLOR.rgb);
+	vec3 base = to_linear(COLOR.rgb) * albedo_mul;
 	float pat_glass = 0.0;
 	if (tram_pattern > 0 && v_paint > 0.25) {
 		vec4 m = tram_motif(UV);

@@ -3,3 +3,5 @@ scipy>=1.13,<2
 Pillow>=10,<13
 shapely>=2.0,<3
 mapbox-earcut>=1.0,<3
+brotli>=1.1,<2
+triangle>=20230923

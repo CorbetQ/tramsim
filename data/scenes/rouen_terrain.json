@@ -3,16 +3,19 @@
  "city": "rouen",
  "alt0": 21.9,
  "tile_m": 400.0,
- "grid": 41,
  "tiles": 178,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 4209,
+  "sommets": 159491,
+  "triangles": 278523,
   "ponts": 47,
   "niveaux_eau": 81
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
- "ground_profile_signature": "c87b91b6b47d8f82ef67a174eb547f701853ed7b5a90a72d020ba561b1735c9b",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "rouen_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

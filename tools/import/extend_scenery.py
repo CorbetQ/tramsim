@@ -9,17 +9,10 @@ import ign_scene
 ROOT=Path(__file__).resolve().parents[2]
 
 def unpack(data):
-    if data[:4]!=b'TSC3':raise ValueError('La migration attend TSC3')
-    result={}
-    for i in range(struct.unpack_from('<I',data,4)[0]):
-        x,z,o,n=struct.unpack_from('<iiII',data,8+16*i);result[x,z]=data[o:o+n]
-    return result
+    return ign_scene.read_tiles(data)[0]
 
 def pack(tiles):
-    table=bytearray();blocks=[];off=8+16*len(tiles)
-    for (x,z),block in sorted(tiles.items()):
-        table+=struct.pack('<iiII',x,z,off,len(block));blocks.append(block);off+=len(block)
-    return b'TSC3'+struct.pack('<I',len(tiles))+table+b''.join(blocks)
+    return ign_scene.pack_tsc4(tiles)
 
 def extend(city):
     path=ROOT/f'data/scenes/{city}.bin';original=unpack(path.read_bytes());net=json.loads((ROOT/f'data/free/{city}.json').read_text())

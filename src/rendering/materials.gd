@@ -18,7 +18,11 @@ static func toon() -> ShaderMaterial:
 static func foliage() -> ShaderMaterial:
 	if not _cache.has("foliage"):
 		var m := ShaderMaterial.new(); m.shader = _shader("res://src/rendering/shaders/toon.gdshader")
-		m.set_shader_parameter("wind_strength", 0.15); _cache.foliage = m
+		m.set_shader_parameter("wind_strength", 0.15)
+		# palette des arbres prévue pour une double conversion gamma : houppiers ramenés aux verts sombres et
+		# désaturés de l'orthophoto IGN (canopée ≈ #3d4a35 à #5a6a48 au soleil)
+		m.set_shader_parameter("color_gamma", 1.5); m.set_shader_parameter("saturation", 0.75)
+		m.set_shader_parameter("albedo_mul", Vector3(0.75, 0.72, 0.66)); _cache.foliage = m
 	return _cache.foliage
 
 static func building() -> ShaderMaterial:
@@ -36,7 +40,7 @@ static func water() -> ShaderMaterial:
 ## Réglage d'exposition des rames : les couleurs de livrée sont mesurées sur photos (teinte déjà éclairée) ;
 ## face au soleil, soleil + ambiance ≈ 1 restitue la teinte mesurée sans écrêtage, les ombres restent plus profondes et froides.
 const TRAM_TONE := {"tram_albedo_day": 0.8, "tram_albedo_night": 0.95, "tram_sun": 0.88, "shade_floor": 0.18,
-	"rim_strength": 0.08, "bands": 3.0, "color_gamma": 1.0}
+	"rim_strength": 0.08, "bands": 3.0, "color_gamma": 1.0, "saturation": 1.12}
 const PATTERN_IDS := {"swallows": 1, "flowers": 2, "waves": 3, "gilding": 4, "mirror_bands": 5, "leaves": 6}
 
 ## Caisse de tram : cel shading + contour encré (passe supplémentaire).

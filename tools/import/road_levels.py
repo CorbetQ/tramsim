@@ -6,13 +6,13 @@ import json,struct,math,sys
 from pathlib import Path
 from shapely.geometry import LineString,box
 from shapely.ops import unary_union
-from terrain import cached_features,pos_sol,Frame
+from terrain import cached_features,pos_sol,Frame,SCRATCH
 ROOT=Path(__file__).resolve().parents[2]
 def build(city):
- meta=json.loads((ROOT/f'data/scenes/{city}.json').read_text());raw=(ROOT/f'data/scenes/{city}.bin').read_bytes();count=struct.unpack_from('<I',raw,4)[0]
- keys=[struct.unpack_from('<ii',raw,8+i*16) for i in range(count)];size=meta['tile_m'];xmin=min(x for x,z in keys)*size;zmin=min(z for x,z in keys)*size;xmax=(max(x for x,z in keys)+1)*size;zmax=(max(z for x,z in keys)+1)*size
+ meta=json.loads((ROOT/f'data/scenes/{city}.json').read_text());raw=(ROOT/f'data/scenes/{city}.bin').read_bytes();count=struct.unpack_from('<I',raw,4)[0];step=20 if raw[:4]==b'TSC4' else 16
+ keys=[struct.unpack_from('<ii',raw,8+i*step) for i in range(count)];size=meta['tile_m'];xmin=min(x for x,z in keys)*size;zmin=min(z for x,z in keys)*size;xmax=(max(x for x,z in keys)+1)*size;zmax=(max(z for x,z in keys)+1)*size
  frame=Frame(*meta['origin']);lat0,lon0=frame.inv(xmin,zmax);lat1,lon1=frame.inv(xmax,zmin);lines=[]
- for ft in cached_features('troncon_de_route',str(ROOT/'.cache/geography/ign_scenery'),(lat0,lon0,lat1,lon1)):
+ for ft in cached_features('troncon_de_route',str(Path(SCRATCH)/'ign_cache'),(lat0,lon0,lat1,lon1)):
   if not ft.get('geometry'):continue
   g=ft['geometry'];parts=[g['coordinates']] if g['type']=='LineString' else g['coordinates'] if g['type']=='MultiLineString' else []
   for part in parts:

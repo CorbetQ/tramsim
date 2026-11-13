@@ -3,18 +3,21 @@
  "city": "dijon",
  "alt0": 249.7,
  "tile_m": 400.0,
- "grid": 41,
- "tiles": 217,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "tiles": 221,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
-  "ponts": 66,
-  "niveaux_eau": 74
+  "décalques": 1453,
+  "sommets": 184885,
+  "triangles": 320541,
+  "ponts": 68,
+  "niveaux_eau": 80
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
  "extension_source": "IGN RGE ALTI WMS, emprise des voies physiques OSM",
  "extended_tiles": 4,
- "ground_profile_signature": "176079c26f9b97ec453b64676a0a283f87e6c8dd4f6002028181903b58e4ca14",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "dijon_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

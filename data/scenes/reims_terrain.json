@@ -3,16 +3,19 @@
  "city": "reims",
  "alt0": 86.4,
  "tile_m": 400.0,
- "grid": 41,
  "tiles": 138,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 1198,
+  "sommets": 142829,
+  "triangles": 254057,
   "ponts": 35,
   "niveaux_eau": 61
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
- "ground_profile_signature": "fb9bb08bfc5d12da19c4cde560bc0ac10ecdbc255dda74c51f807532b4727e44",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "reims_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

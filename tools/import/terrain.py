@@ -10,7 +10,8 @@ altitudes Z des surfaces en eau, tronçons de route / voie ferrée avec position
    bilatéral (sigma 20 m, identique pour les deux sens et toutes les lignes), rampes bornées à 8 %.
    Écrit dans chaque arête : "y" (altitude relative à "alt0" par sommet de "pts", pas <= 12 m), "grade"
    (pente moyenne), "bridge" / "tunnel" / "trench" (intervalles d'abscisse [s0, s1(, prof0, prof1)]).
-2. Scène : data/scenes/<ville>_terrain.bin ("TTR1") = par tuile de 400 m (tuiles du décor + une couronne) une grille
+2. Scène : data/scenes/<ville>_ground.bin ("TGR1", tools/import/terrain_mesh.py : relief et voirie dans un maillage
+   continu par tuile) ; avec --ttr2, ancien data/scenes/<ville>_terrain.bin ("TTR2") = par tuile de 400 m (tuiles du décor + une couronne) une grille
    41 x 41 (10 m) d'altitudes relatives à alt0 (sol nivelé sous les voies au niveau du rail, lit des
    rivières sous le plan d'eau), niveaux d'eau, tabliers de ponts routiers / ferroviaires (polylignes 3D).
    Format (little endian) : "TTR1", u32 n, table [i32 tx, i32 tz, u32 off, u32 taille] ; par tuile :
@@ -306,6 +307,24 @@ class Field:
         return out_y, out_k, out_h
 
 
+def water_surfaces(frame, cache, llb):
+    """Surfaces en eau BD TOPO (repère de la ville) et altitude médiane de leur contour (NaN si inconnue)."""
+    water = []
+    for ft in cached_features("surface_hydrographique", cache, llb):
+        if ft.get("geometry") and ft["geometry"]["type"] in ("Polygon", "MultiPolygon"):
+            g = shape(ft["geometry"])
+            for p in polys_of(g):
+                c = np.array(p.exterior.coords)
+                x, z = frame.fwd(c[:, 1], c[:, 0])
+                pp = Polygon(np.stack([x, z], 1)).buffer(0)
+                if pp.is_empty:
+                    continue
+                lv = c[:, 2] if c.shape[1] > 2 else np.array([np.nan])
+                lv = lv[(lv > -100) & (lv < 5000)]
+                water.append((pp, float(np.median(lv)) if len(lv) else np.nan))
+    return water
+
+
 def build_field(city, frame, dem, cache, alt0=None):
     nets = city_nets(city)
     seqs, keys = [], []         # par arête : indices des échantillons, (réseau, arête)
@@ -347,19 +366,7 @@ def build_field(city, frame, dem, cache, alt0=None):
                     zpts += [(a[0], a[1], b) for a, b in zip(q, zz) if np.isfinite(b)]
                 else:
                     tunnels.append(ls.buffer(6.0, cap_style=2))
-    water = []
-    for ft in cached_features("surface_hydrographique", cache, llb):
-        if ft.get("geometry") and ft["geometry"]["type"] in ("Polygon", "MultiPolygon"):
-            g = shape(ft["geometry"])
-            for p in polys_of(g):
-                c = np.array(p.exterior.coords)
-                x, z = frame.fwd(c[:, 1], c[:, 0])
-                pp = Polygon(np.stack([x, z], 1)).buffer(0)
-                if pp.is_empty:
-                    continue
-                lv = c[:, 2] if c.shape[1] > 2 else np.array([np.nan])
-                lv = lv[(lv > -100) & (lv < 5000)]
-                water.append((pp, float(np.median(lv)) if len(lv) else np.nan))
+    water = water_surfaces(frame, cache, llb)
     bmask = np.zeros(len(P), bool); tmask = np.zeros(len(P), bool)
     if bridges:
         bmask |= shapely.contains_xy(unary_union(bridges), P[:, 0], P[:, 1])
@@ -520,22 +527,13 @@ def apply(path, frame, field, alt0):
 def scene_tiles(city):
     buf = open(os.path.join(ROOT, "data/scenes", city + ".bin"), "rb").read()
     n = struct.unpack_from("<I", buf, 4)[0]
-    return {struct.unpack_from("<ii", buf, 8 + i * 16) for i in range(n)}
+    step = 20 if buf[:4] == b"TSC4" else 16
+    return {struct.unpack_from("<ii", buf, 8 + i * step) for i in range(n)}
 
 
-def write_scene(city, frame, dem, field, alt0, water, cache):
-    tiles = scene_tiles(city)
-    ring = {(t[0] + dx, t[1] + dz) for t in tiles for dx in (-1, 0, 1) for dz in (-1, 0, 1)}
-    keys = sorted(ring)
-    # sol nivelé sous les voies (au rail près) hors ponts et tunnels
-    flat = field.K != 1
-    flat &= field.K != 2
-    ft = cKDTree(field.P[flat]); fy = field.Y[flat]
-    xs = np.arange(GRID) * 10.0
-    gx, gz = np.meshgrid(xs, xs)        # [iz, ix]
-    lo = np.array(keys).min(0) * TILE_M; hi = (np.array(keys).max(0) + 1) * TILE_M
-    la0, lo0 = frame.inv(lo[0], hi[1]); la1, lo1 = frame.inv(hi[0], lo[1])
-    llb = (float(la0), float(lo0), float(la1), float(lo1))
+def road_decks(frame, dem, alt0, cache, llb):
+    """Tabliers des ponts routiers et ferroviaires : tronçons BD TOPO au-dessus du sol fusionnés,
+    altitude Z (sinon culées) ; [(type, largeur, polyligne (n,2), altitude relative à alt0)]."""
     # ponts routiers et ferroviaires : tronçons BD TOPO au-dessus du sol fusionnés, altitude Z (sinon culées)
     decks = []
     by_kind = defaultdict(list)
@@ -575,6 +573,23 @@ def write_scene(city, frame, dem, field, alt0, water, cache):
             if np.max(y - hq) < 2.0:
                 continue        # passage sans franchissement réel (remblai)
             decks.append((kd, w, q, y - alt0))
+    return decks
+
+
+def write_scene(city, frame, dem, field, alt0, water, cache):
+    tiles = scene_tiles(city)
+    ring = {(t[0] + dx, t[1] + dz) for t in tiles for dx in (-1, 0, 1) for dz in (-1, 0, 1)}
+    keys = sorted(ring)
+    # sol nivelé sous les voies (au rail près) hors ponts et tunnels
+    flat = field.K != 1
+    flat &= field.K != 2
+    ft = cKDTree(field.P[flat]); fy = field.Y[flat]
+    xs = np.arange(GRID) * 10.0
+    gx, gz = np.meshgrid(xs, xs)        # [iz, ix]
+    lo = np.array(keys).min(0) * TILE_M; hi = (np.array(keys).max(0) + 1) * TILE_M
+    la0, lo0 = frame.inv(lo[0], hi[1]); la1, lo1 = frame.inv(hi[0], lo[1])
+    llb = (float(la0), float(lo0), float(la1), float(lo1))
+    decks = road_decks(frame, dem, alt0, cache, llb)
     wl = []
     for p, lv in water:
         if np.isfinite(lv):
@@ -654,7 +669,11 @@ def main(city, *opts):
         print(os.path.basename(p), apply(p, frame, field, alt0))
     if "--nets" in opts:
         return
-    print(city, "alt0", alt0, "terrain", write_scene(city, frame, dem, field, alt0, water, cache))
+    if "--ttr2" in opts:     # ancien format (grille de 10 m), conservé pour comparaison
+        print(city, "alt0", alt0, "terrain", write_scene(city, frame, dem, field, alt0, water, cache))
+        return
+    import terrain_mesh
+    terrain_mesh.build(city)
 
 
 if __name__ == "__main__":

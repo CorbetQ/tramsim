@@ -1,5 +1,5 @@
 {
- "comment": "Palettes régionales (façades, toitures) appliquées aux bâtiments IGN. Choix artistiques inspirés des matériaux dominants de chaque ville.",
+ "comment": "Palettes régionales (façades, toitures) appliquées aux bâtiments IGN. Choix artistiques inspirés des matériaux dominants de chaque ville. Teintes APPARENTES (au soleil), recalées en 0.11 sur des échantillons d'orthophoto IGN : sol gris (et non beige), ardoises anthracite (et non lavande), toits plats gris.",
  "default": {
   "walls": [
    "#e8e1d3",
@@ -8,11 +8,11 @@
    "#d8d2c4"
   ],
   "roofs": [
-   "#7d6e66",
-   "#8a7a70"
+   "#7c6e67",
+   "#887a72"
   ],
-  "pitched": "#a65e44",
-  "ground": "#b6b1a8",
+  "pitched": "#9f6049",
+  "ground": "#8b8986",
   "trees": [
    0,
    2,
@@ -28,12 +28,12 @@
     "#ddd5c1"
    ],
    "roofs": [
-    "#4f5864",
-    "#5a6370",
-    "#47505b"
+    "#53585e",
+    "#5e636a",
+    "#4b4f56"
    ],
-   "pitched": "#4a5361",
-   "ground": "#b9b7ae",
+   "pitched": "#4e535a",
+   "ground": "#8e8d8b",
    "trees": [
     0,
     2,
@@ -50,11 +50,11 @@
     "#efe2c8"
    ],
    "roofs": [
-    "#b8693f",
-    "#c27a4c"
+    "#b06b46",
+    "#bb7b53"
    ],
-   "pitched": "#bf6a40",
-   "ground": "#c3b9a6",
+   "pitched": "#b76c47",
+   "ground": "#938f89",
    "trees": [
     6,
     3,
@@ -69,11 +69,11 @@
     "#d4917a"
    ],
    "roofs": [
-    "#b5603c",
-    "#a8573a"
+    "#ad6242",
+    "#a0593f"
    ],
-   "pitched": "#b5603c",
-   "ground": "#beb0a1",
+   "pitched": "#ad6242",
+   "ground": "#8e8983",
    "trees": [
     6,
     0,
@@ -88,11 +88,11 @@
     "#d9cfc0"
    ],
    "roofs": [
-    "#4c4f55",
-    "#5b5550"
+    "#4d4f52",
+    "#5a5551"
    ],
-   "pitched": "#5a4b44",
-   "ground": "#b0aea8",
+   "pitched": "#594b45",
+   "ground": "#878784",
    "trees": [
     0,
     2,
@@ -108,11 +108,11 @@
     "#efe4cf"
    ],
    "roofs": [
-    "#a8523b",
-    "#9c4c38"
+    "#a05440",
+    "#944e3c"
    ],
-   "pitched": "#a8523b",
-   "ground": "#b7b4aa",
+   "pitched": "#a05440",
+   "ground": "#8c8b88",
    "trees": [
     0,
     2,
@@ -127,11 +127,11 @@
     "#d9cfba"
    ],
    "roofs": [
-    "#7a8590",
-    "#6d7882"
+    "#7e848a",
+    "#71777d"
    ],
-   "pitched": "#6f7a85",
-   "ground": "#b8b4ab",
+   "pitched": "#73797f",
+   "ground": "#8c8b88",
    "trees": [
     6,
     0,
@@ -146,11 +146,11 @@
     "#d9a782"
    ],
    "roofs": [
-    "#b9673f",
-    "#a95c3a"
+    "#b16946",
+    "#a15e40"
    ],
-   "pitched": "#b9673f",
-   "ground": "#beb6a8",
+   "pitched": "#b16946",
+   "ground": "#908d88",
    "trees": [
     6,
     0,
@@ -164,11 +164,11 @@
     "#f2ecdc"
    ],
    "roofs": [
-    "#b86d48",
-    "#a96244"
+    "#b16f4e",
+    "#a26449"
    ],
-   "pitched": "#b86d48",
-   "ground": "#beb8ab",
+   "pitched": "#b16f4e",
+   "ground": "#918e8a",
    "trees": [
     6,
     0,
@@ -184,10 +184,10 @@
    ],
    "roofs": [
     "#5c5a58",
-    "#6c6560"
+    "#6b6561"
    ],
-   "pitched": "#5f5a56",
-   "ground": "#aeaba5",
+   "pitched": "#5e5a57",
+   "ground": "#858482",
    "trees": [
     1,
     0,
@@ -202,11 +202,11 @@
     "#b9bab7"
    ],
    "roofs": [
-    "#8c8e8f",
-    "#7f8183"
+    "#8d8e8e",
+    "#808182"
    ],
-   "pitched": "#7f8183",
-   "ground": "#b0b0ac",
+   "pitched": "#808182",
+   "ground": "#888887",
    "trees": [
     0,
     2,
@@ -220,11 +220,11 @@
     "#c9c5bc"
    ],
    "roofs": [
-    "#454c56",
-    "#3e444d"
+    "#484c51",
+    "#404449"
    ],
-   "pitched": "#454c56",
-   "ground": "#b6b4ae",
+   "pitched": "#484c51",
+   "ground": "#8c8b89",
    "trees": [
     0,
     1,
@@ -240,11 +240,11 @@
     "#efe2c8"
    ],
    "roofs": [
-    "#b8693f",
-    "#c27a4c"
+    "#b06b46",
+    "#bb7b53"
    ],
-   "pitched": "#bf6a40",
-   "ground": "#c3b9a6",
+   "pitched": "#b76c47",
+   "ground": "#938f89",
    "trees": [
     4,
     6,

@@ -3,18 +3,21 @@
  "city": "grenoble",
  "alt0": 213.2,
  "tile_m": 400.0,
- "grid": 41,
- "tiles": 417,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-11",
+ "tiles": 420,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
  "stats": {
+  "décalques": 4698,
+  "sommets": 389348,
+  "triangles": 682699,
   "ponts": 98,
   "niveaux_eau": 144
  },
- "terrain_format": "TTR2",
- "height_encoding": "float32 metres",
+ "terrain_format": "TGR1",
+ "height_encoding": "TIN contraint par la voirie, cm",
  "shared_vertices": true,
  "extension_source": "IGN RGE ALTI WMS, emprise des voies physiques OSM",
  "extended_tiles": 4,
- "ground_profile_signature": "e0860c414b9341d93fbf010180676f458f520bbcbd5399cbf5a3b7595268092d",
- "ground_conformity": "sol adapté aux voies au sol, ponts et tunnels préservés"
+ "ground_file": "grenoble_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0
 }

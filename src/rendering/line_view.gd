@@ -48,25 +48,7 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		if city.open(src, net.meta.origin):
 			city.radius = maxf(view_distance + 200.0, 500.0)
 			add_child(city)
-			var polys: Array = []
-			for id in net.edge_info:
-				var info: Dictionary = net.edge_info[id]
-				var pl := PackedVector2Array()
-				var arc := 0.0
-				for i in info.pts.size():
-					if i > 0:
-						arc += info.pts[i - 1].distance_to(info.pts[i])
-						var middle: float = (arc - info.pts[i - 1].distance_to(info.pts[i]) * 0.5) * net.graph.edges[id].length / maxf(info.arc[-1], 0.01)
-						if NetworkLoader.in_spans(info.tunnel, middle):
-							var q := net.point_on(id, middle)
-							if city.height_at(Vector3(q.p.x, q.y, q.p.y)) - q.y < 6.0:
-								city.add_portal_cut(info.pts[i - 1], info.pts[i])
-					if NetworkLoader.in_spans(info.tunnel, arc):
-						if pl.size() >= 2: polys.append(pl)
-						pl = PackedVector2Array()
-					else: pl.append(info.pts[i])
-				if pl.size() >= 2: polys.append(pl)
-			city.set_tracks(polys)
+			city.bind_network(net)
 		else:
 			city.free(); city = null
 	if geometric:   # types de stations, entraxe élargi au droit des quais centraux, quais
@@ -115,7 +97,8 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 	var gy := (city.min_height - 2.0) if city != null and city.has_terrain else -0.3
 	ground.box(Vector3(0, gy, 0), Vector3(ext.x, 0.2, ext.z), Color("#97b46f"))
 	_add_geo(self, ground, Materials.building(), Transform3D(Basis.IDENTITY, c))
-	cam = Camera3D.new(); cam.far = 1600.0; cam.fov = 62.0; add_child(cam)
+	# near 0,2 m (et non 0,05) : précision de profondeur ×4 sur les couches de sol lointaines
+	cam = Camera3D.new(); cam.far = 1600.0; cam.near = 0.2; cam.fov = 62.0; add_child(cam)
 	headlight = SpotLight3D.new()
 	headlight.spot_range = 70.0; headlight.spot_angle = 28.0; headlight.light_energy = 6.0
 	headlight.light_color = Color(1.0, 0.95, 0.85)
@@ -527,7 +510,8 @@ func _generic_buildings(parent: Node3D, id: String) -> void:
 
 func _add_geo(parent: Node3D, g: _Geo, mat: Material, xf: Transform3D = Transform3D.IDENTITY) -> MeshInstance3D:
 	var mi := MeshInstance3D.new()
-	mi.mesh = g.mesh(); mi.material_override = mat; mi.transform = xf
+	mi.mesh = g.mesh(Callable(self, "ground_at") if city != null and city.has_terrain else Callable(), xf)
+	mi.material_override = mat; mi.transform = xf
 	parent.add_child(mi)
 	return mi
 
@@ -598,15 +582,26 @@ func update_from(s: MissionSession, external: bool) -> void:
 			cam.position = front.origin - fwd * 10.0 + Vector3(0, 4.45, 0)
 			target = front.origin + fwd * 8.0 + Vector3(0, 2.0, 0)
 		elif city: cam.position = city.avoid_camera(target, cam.position)
+		if not underground: cam.position = _clear_of_tram(cam.position)
 		cam.look_at(target)
 	else:  # vue cabine
 		cam.position = front.origin - fwd * 1.0 + Vector3(0, 2.6, 0)
 		cam.look_at(cam.position + fwd * 30.0 + Vector3(0, -0.8, 0))
 	update_sectors(front.origin)
+	day_night.set_ground(ground_at(cam.global_position) if not underground else front.origin.y)
 	if city: city.update(cam.global_position, 1)
 	_update_cars(s)
 	for i in signal_nodes.size():
 		_set_lamp(signal_nodes[i], Color(0.1, 0.9, 0.3) if s.signal_state[i] == "clear" else Color(0.95, 0.1, 0.1))
+
+## La caméra extérieure ne pénètre jamais la rame (caisses = boîtes orientées, marge 0,8 m) : elle passe au-dessus.
+func _clear_of_tram(p: Vector3) -> Vector3:
+	for i in modules.size():
+		var local := modules[i].global_transform.affine_inverse() * p
+		var half := float(rig.module_lengths[i]) * 0.5 + 0.8
+		if absf(local.x) < 2.1 and absf(local.z) < half and local.y < 4.6 and local.y > -1.0:
+			p.y = modules[i].global_transform.origin.y + 4.6
+	return p
 
 func _update_cars(s: MissionSession) -> void:
 	var cars := s.traffic.cars
@@ -661,10 +656,23 @@ class _Geo:
 			var hw := n * (w * 0.5)
 			quad(a - hw + Vector3(0, y, 0), a + hw + Vector3(0, y, 0), b + hw + Vector3(0, y, 0), b - hw + Vector3(0, y, 0), col)
 
-	func mesh() -> ArrayMesh:
+	## `ground` (Vector3 -> float, repère de la ligne) : UV2 = (matériau, hauteur au-dessus du terrain) pour le
+	## décalage de profondeur des couches de sol (faces horizontales seulement ; 0 = sans décalage).
+	func mesh(ground: Callable = Callable(), xf: Transform3D = Transform3D.IDENTITY) -> ArrayMesh:
 		var arr := []
 		arr.resize(Mesh.ARRAY_MAX)
 		arr[Mesh.ARRAY_VERTEX] = v; arr[Mesh.ARRAY_COLOR] = c; arr[Mesh.ARRAY_TEX_UV] = uv
+		var uv2 := PackedVector2Array(); uv2.resize(v.size())
+		for i in range(0, v.size() - 2, 3):
+			var id := CityScene._Arrays.mat_id(c[i].a)
+			var h := 0.0
+			var fn := (v[i + 2] - v[i]).cross(v[i + 1] - v[i])
+			if absf(fn.y) > 0.9 * fn.length():
+				var ctr := xf * ((v[i] + v[i + 1] + v[i + 2]) / 3.0)
+				h = ctr.y - (float(ground.call(ctr)) if ground.is_valid() else 0.0)
+				if h < 0.0 or h > 2.5: h = 0.0
+			for j in 3: uv2[i + j] = Vector2(id, h)
+		arr[Mesh.ARRAY_TEX_UV2] = uv2
 		var normals := PackedVector3Array(); normals.resize(v.size())
 		for i in range(0, v.size() - 2, 3):
 			var normal := (v[i + 2] - v[i]).cross(v[i + 1] - v[i]).normalized()
