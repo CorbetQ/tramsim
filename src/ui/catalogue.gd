@@ -68,9 +68,10 @@ static func families() -> Array:
 		var p := TramModel.plan(id)
 		var r := TramModel.research(id)
 		var cities := PackedStringArray(); var srcs := PackedStringArray()
-		for l in lines_for(id):
-			if not l.city in cities: cities.append(l.city)
-			if not l.source in srcs: srcs.append(l.source)
+		for entry in StockCatalog.entries():
+			if str(entry.family)!=id:continue
+			if not str(entry.city) in cities:cities.append(str(entry.city))
+			if not str(entry.network) in srcs:srcs.append(str(entry.network))
 		out.append({"id": id, "name": str(p.get("name", r.get("name", id))).replace(" [AJOUT]", "").strip_edges(), "manufacturer": str(r.get("manufacturer", "")),
 			"cities": cities, "sources": srcs})
 	return out
@@ -98,10 +99,13 @@ func _ready() -> void:
 	back.pressed.connect(func(): closed.emit(); queue_free())
 	var title := Label.new(); title.text = "Catalogue des rames"; title.add_theme_font_size_override("font_size", 34)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; title.visible = not UiLayout.compact(self); top.add_child(title)
-	var fl := Label.new(); fl.text = "Ville"; top.add_child(fl)
+	var fl := Label.new(); fl.text = "Livrée d’origine"; top.add_child(fl)
 	filter = TouchChoice.new(); filter.choice_title = "Ville"; filter.custom_minimum_size = Vector2(220 if UiLayout.compact(self) else 300, 52); top.add_child(filter)
 	filter.add_item(ALL)
-	_cities = NetworkRegistry.cities()
+	_cities = PackedStringArray()
+	for entry in StockCatalog.entries():
+		if not str(entry.city) in _cities:_cities.append(str(entry.city))
+	_cities.sort()
 	for c in _cities: filter.add_item(c)
 	var idx := _cities.find(city)
 	filter.select(idx + 1 if idx >= 0 else 0)
@@ -125,9 +129,25 @@ func selected_city() -> String:
 func _fill() -> void:
 	for c in grid.get_children(): c.queue_free()
 	var cf := selected_city()
-	for f in families():
-		if cf != "" and not cf in f.cities: continue
-		grid.add_child(_card(f, cf))
+	for entry in StockCatalog.entries():
+		if cf!="" and str(entry.city)!=cf:continue
+		grid.add_child(_variant_card(entry))
+
+func _variant_card(entry:Dictionary)->Control:
+	var card:=Button.new();card.name="variant_"+str(entry.id);card.custom_minimum_size=Vector2(344,310)
+	card.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	var col:=VBoxContainer.new();col.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT,Control.PRESET_MODE_MINSIZE,10);col.mouse_filter=Control.MOUSE_FILTER_IGNORE;card.add_child(col)
+	var image:=TextureRect.new();image.mouse_filter=Control.MOUSE_FILTER_IGNORE;image.custom_minimum_size=Vector2(0,184)
+	var path:=THUMBS+"variants/"+str(entry.id)+".png"
+	image.texture=load(path) if ResourceLoader.exists(path) else thumb(str(entry.family))
+	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;col.add_child(image)
+	var title:=UiTheme.label_(str(entry.name),18,UiTheme.TEXT,true);title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;title.mouse_filter=Control.MOUSE_FILTER_IGNORE;col.add_child(title)
+	var caption:=str(entry.city)+" · %.1f m"%float(entry.length)
+	if entry.fictional:caption+=" · CONCEPT FICTIF"
+	else:caption+=" · "+" + ".join(PackedStringArray(entry.electric_modes)).replace("overhead","LAC").replace("aps","APS").replace("battery","autonomie")
+	var info:=UiTheme.label_(caption,14,UiTheme.MUTED);info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;info.mouse_filter=Control.MOUSE_FILTER_IGNORE;col.add_child(info)
+	card.pressed.connect(func():open_sheet(str(entry.family),str(entry.city),str(entry.id)))
+	return card
 
 func card_count() -> int:
 	var n := 0
@@ -156,9 +176,9 @@ func _card(f: Dictionary, cf: String) -> Control:
 	return b
 
 ## Ouvre la fiche d'une rame (livrée du premier réseau de la ville filtrée).
-func open_sheet(id: String, cf: String = "") -> TramSheet:
+func open_sheet(id: String, cf: String = "",variant_id:String="") -> TramSheet:
 	if sheet: sheet.queue_free()
-	sheet = TramSheet.new(id, cf)
+	sheet = TramSheet.new(id, cf,variant_id)
 	add_child(sheet)
 	list_box.visible = false
 	sheet.back.connect(func(): list_box.visible = true; sheet.queue_free(); sheet = null)

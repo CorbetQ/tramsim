@@ -16,6 +16,8 @@ func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, 
 	if normal != 0: direction = normal; route_dir = [normal]; checkpoint_dir = normal
 	adaptation_notice = Compatibility.adaptation_notice(profile, network.supplies, str(network.meta.get("guidance", "steel")))
 	initialize_power()
+	if adaptation_notice!="":
+		incident=adaptation_notice;blocked=true;phys.speed=0.0
 	NormalRouting.initialize(network)
 	traffic.set_enabled(traffic_on)
 	update_spans()
@@ -34,6 +36,7 @@ func _station_here() -> Dictionary:
 	return station if not station.is_empty() and net.station_contains(station, edge_id, offset) else {}
 
 func tick(dt: float, notch: float, emergency: bool = false) -> void:
+	if adaptation_notice!="":return
 	super.tick(dt, notch, emergency)
 	update_spans()
 
@@ -119,11 +122,6 @@ func reverse() -> String:
 	event.emit("reverse", "Changement de cabine : marche " + ("dans le sens de la voie" if direction > 0 else "à contre-sens de la voie"))
 	return ""
 
-## Adaptation libre d'un matériel étranger : conserve les interverrouillages
-## du collecteur, même lorsque les caractéristiques de la rame sont adaptées.
+## Le mode libre conserve les modes réellement installés à bord.
 func available_power_modes() -> PackedStringArray:
-	if adaptation_notice == "": return super.available_power_modes()
-	var modes := PackedStringArray()
-	for mode in net.supplies:
-		if mode != "none": modes.append(str(mode))
-	return modes if not modes.is_empty() else super.available_power_modes()
+	return super.available_power_modes()

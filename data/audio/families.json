@@ -470,8 +470,107 @@
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
       }
+    },
+    "lemans302": {
+      "recorded": true,
+      "label": "Citadis du Mans — SamuelGremaud (captation de passage)",
+      "recorded_family": "citadis_302",
+      "streams": {
+        "motor": "banks/lemans302_motor.ogg",
+        "motor_hum": "banks/lemans302_motor_hum.ogg"
+      },
+      "reference_speed_ms": 8.0,
+      "reference_speed_estimated": true,
+      "mix": {
+        "motor": -17,
+        "motor_hum": -17,
+        "carrier": -45.0,
+        "rolling": -14.0,
+        "real_rail": -90.0
+      },
+      "source": {
+        "title": "TRAM - 1",
+        "page": "https://freesound.org/people/SamuelGremaud/sounds/458858/",
+        "download_url": "https://cdn.freesound.org/previews/458/458858_8031303-hq.mp3",
+        "author": "SamuelGremaud",
+        "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "sha256": "5a2ee22b181d0e68bbdb97de11128ec46fbdd0810749547444ee4fcd5b1ba939",
+        "duration_s": 20.04,
+        "notes": "Aperçu public haute qualité ; captation extérieure de passage au Mans, pas de moteur isolé. Régime et vitesse de référence estimés."
+      },
+      "segments": {
+        "motor": {
+          "sha256": "444f136881d9611ac3f9af058affb3abf81412032bf272ed7475426a6ca1d2d0",
+          "start_s": 5.0,
+          "duration_s": 4.3,
+          "lufs": -20.03,
+          "true_peak_dbfs": -5.09,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        },
+        "motor_hum": {
+          "sha256": "144a83d6b6737926ba495615780ea2fe0b45472814790144d883c50b1b0ae24b",
+          "start_s": 9.0,
+          "duration_s": 4.3,
+          "lufs": -19.97,
+          "true_peak_dbfs": -2.61,
+          "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
+        }
+      }
     }
   },
   "unavailable_sources": {},
-  "note": "Exact = même famille, pas une captation de chaque réseau. Les apparentements et synthèses sont explicitement identifiés."
+  "note": "Exact = même famille, pas une captation de chaque réseau. Les apparentements et synthèses sont explicitement identifiés.",
+  "variant_profiles": {
+    "lemans__citadis_302": {
+      "bank": "lemans302",
+      "quality": "exact_family",
+      "rubber": false
+    },
+    "lemans__citadis_402": {
+      "bank": "lemans302",
+      "quality": "related_family",
+      "rubber": false
+    },
+    "sarreguemines__flexity_link": {
+      "bank": "",
+      "quality": "synthetic",
+      "rubber": false
+    },
+    "saintlouis__flexity_bvb": {
+      "bank": "",
+      "quality": "synthetic",
+      "rubber": false
+    },
+    "annemasse__tango_tpg": {
+      "bank": "",
+      "quality": "synthetic",
+      "rubber": false
+    },
+    "leymen__tango_blt": {
+      "bank": "",
+      "quality": "synthetic",
+      "rubber": false
+    },
+    "marseille__urbos": {
+      "bank": "urbos",
+      "quality": "related_family",
+      "rubber": false
+    },
+    "montpellier__urbos": {
+      "bank": "urbos",
+      "quality": "related_family",
+      "rubber": false
+    },
+    "montpellier__urbos__5": {
+      "bank": "urbos",
+      "quality": "related_family",
+      "rubber": false
+    },
+    "annemasse__cityrunner_tpg": {
+      "bank": "flexity",
+      "quality": "related_family",
+      "rubber": false
+    }
+  }
 }

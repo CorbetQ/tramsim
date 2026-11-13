@@ -8,6 +8,9 @@ var holder: Node3D
 var cam: Camera3D
 var rig: TramModel.Rig
 var _cycle := 0.0
+var _length:=32.0
+var _view:="threequarter"
+var auto_rotate:=false
 
 func _init() -> void:
 	custom_minimum_size = Vector2(520, 380)
@@ -34,10 +37,21 @@ func show_tram(meta: Dictionary, vehicle: VehicleProfile) -> void:
 	rig = TramModel.build_rig(liv, L)
 	rig.layout_straight()
 	for m in rig.modules: holder.add_child(m)
-	_cycle = 0.0
+	_cycle = 0.0;_length=L;set_view(_view)
+
+func set_view(mode:String)->void:
+	_view=mode;auto_rotate=false
+	if not holder or not cam:return
+	holder.rotation=Vector3.ZERO
+	var target:=Vector3(0,1.6,0)
+	if mode=="front":
+		target.z=-_length*.5+.7;cam.position=Vector3(0,1.9,-_length*.5-7.5);cam.fov=32.0
+	elif mode=="side":cam.position=Vector3(_length*1.32,3.8,0);cam.fov=34.0
+	else:cam.position=Vector3(_length*.75+3,_length*.20+3,-_length*.72-3);cam.fov=34.0
+	cam.look_at(target)
 
 func _process(dt: float) -> void:
-	if holder: holder.rotate_y(dt * 0.35)
+	if holder and auto_rotate: holder.rotate_y(dt * 0.35)
 	if rig:
 		_cycle = fmod(_cycle + dt, 12.0)
 		rig.set_doors(_cycle > 3.0 and _cycle < 8.0)

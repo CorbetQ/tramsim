@@ -339,16 +339,19 @@ func _build_setup() -> void:
 		if is_free:
 			for depot in n.meta.get("depots", []):
 				st_list.append(depot); st_opt.add_item("Remisage — " + str(depot.name))
-		# matériels : flotte du réseau, puis autres (mode d'adaptation si incompatibles)
 		vehicles.clear(); veh_opt.clear()
-		for f in TramModel.fleet_for(n.meta):
-			vehicles.append(VehicleLibrary.for_fleet(f, n.meta)); veh_opt.add_item(f.name)
-		for v in VehicleLibrary.all():
-			vehicles.append(v); veh_opt.add_item("Autre : " + v.family)
+		if is_free:
+			for entry in StockCatalog.for_network(n.meta,n.supplies):
+				vehicles.append(VehicleLibrary.for_fleet(entry,n.meta))
+				veh_opt.add_item(str(entry.name)+" · "+str(entry.city)+(" · FICTIF" if entry.fictional else ""))
+		else:
+			for f in TramModel.fleet_for(n.meta):
+				vehicles.append(VehicleLibrary.for_fleet(f,n.meta));veh_opt.add_item(f.name)
+		cur_meta["required_supplies"]=n.supplies.duplicate()
 	var refresh := func(_i = 0):
 		var is_free := b_free.button_pressed
 		var v: VehicleProfile = vehicles[maxi(veh_opt.selected, 0)]
-		var supply := [str(cur_meta.get("supply", "overhead"))]
+		var supply:Array=cur_meta.get("required_supplies",[str(cur_meta.get("supply","overhead"))])
 		var guid := str(cur_meta.get("guidance", "steel"))
 		var ok := Compatibility.mission_allowed(v, supply, guid)
 		preview.show_tram(cur_meta, v)
@@ -357,16 +360,16 @@ func _build_setup() -> void:
 				"%d km/h" % roundi(v.max_speed_ms * 3.6), "alim. " + str(v.supply)] + (["guidage pneus"] if v.guidance == "rubber_guided" else []):
 			var chip := UiTheme.label_(s, UiTheme.SIZE_SMALL, UiTheme.TEXT)
 			chip.add_theme_stylebox_override("normal", UiTheme.box(Color(1, 1, 1, 0.07), 10, 10)); specs.add_child(chip)
-		est.text = ("Valeurs estimées : " + ", ".join(v.estimated)) if not v.estimated.is_empty() else ""
+		est.text = ("CONCEPT FICTIF · " if v.fictional else "") + ("Certaines caractéristiques sont estimées — voir la fiche." if not v.estimated.is_empty() else "")
 		var lc := UiTheme.color_of(cur_meta.get("color", ""), UiTheme.INFO)
 		badge.text = str(cur_meta.get("line", "")) if not is_free else "Réseau"
 		badge.add_theme_stylebox_override("normal", UiTheme.box(lc, 8, 8))
 		badge.add_theme_color_override("font_color", Color.WHITE if lc.get_luminance() < 0.6 else Color.BLACK)
 		sheet.text = "%s · %s\n%s" % [cities[city_opt.selected], v.family,
 			(mis_opt.get_item_text(mis_opt.selected) if mis_opt.selected >= 0 else "") if not is_free else (st_opt.get_item_text(st_opt.selected) if st_opt.selected >= 0 else "")]
-		go.disabled = not ok and not is_free
-		go.text = "Démarrer" if (ok or is_free) else "Matériel incompatible (essayez le mode libre)"
-		if is_free and not ok: go.text = "Démarrer (mode d'adaptation)"
+		go.disabled = not ok
+		go.text = "Démarrer" if ok else "Matériel incompatible"
+
 	var full := func(_i = 0):
 		fill.call(); veh_opt.select(0); refresh.call()
 	city_opt.item_selected.connect(full)
@@ -383,6 +386,7 @@ func _build_setup() -> void:
 	var pick: Dictionary = get_meta("catalogue_pick", {})
 	if not pick.is_empty():
 		remove_meta("catalogue_pick")
+		if pick.get("free",false):b_free.button_pressed=true;b_mis.button_pressed=false;free_mode=true
 		var ci := cities.find(str(pick.city))
 		if ci >= 0:
 			city_opt.select(ci); fill.call()
@@ -390,7 +394,7 @@ func _build_setup() -> void:
 				if city_nets[i].path == pick.path: line_opt.select(i)
 			fill.call()
 			for i in vehicles.size():
-				if (vehicles[i] as VehicleProfile).model_family == pick.family: veh_opt.select(i); break
+				if (str(pick.get("variant_id",""))!="" and (vehicles[i] as VehicleProfile).variant_id==str(pick.variant_id)) or (str(pick.get("variant_id",""))=="" and (vehicles[i] as VehicleProfile).model_family==pick.family): veh_opt.select(i);break
 			refresh.call()
 	go.pressed.connect(func():
 		save.settings.traffic = traffic_cb.button_pressed

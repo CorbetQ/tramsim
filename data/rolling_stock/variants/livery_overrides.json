@@ -1,0 +1,579 @@
+{
+  "nantes__citadis_dualis": {
+    "base": "#dadcda",
+    "front": "#1595c0",
+    "window": "#1c2b38",
+    "door": "#3a98bf",
+    "roof": "#56899f",
+    "skirt": "#384652",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#3a657f"
+        ],
+        "y": [
+          0.6,
+          1.05
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "lyon__citadis_dualis": {
+    "base": "#278eb8",
+    "front": "#1396c3",
+    "window": "#192932",
+    "door": "#3486ae",
+    "roof": "#a4aeb4",
+    "skirt": "#35444f",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#387eaa"
+        ],
+        "y": [
+          0.45,
+          1.05
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "montpellier__urbos": {
+    "base": "#1c2028",
+    "front": "#1c2028",
+    "door": "#252932",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#8c876f"
+        ],
+        "y": [
+          0.45,
+          0.62
+        ],
+        "zone": "sides+front"
+      }
+    ],
+    "pattern": {}
+  },
+  "montpellier__citadis_x01": {
+    "base": "#2863bb",
+    "front": "#2863bb",
+    "door": "#2863bb",
+    "elements": [],
+    "pattern": {
+      "type": "swallows",
+      "colors": [
+        "#f1f1ed",
+        "#ffffff"
+      ],
+      "y": [
+        0.45,
+        3.0
+      ],
+      "scale": 1.9,
+      "density": 0.82,
+      "glass": 0.08
+    }
+  },
+  "idf__tfs__t1": {
+    "base": "#c9ced0",
+    "front": "#c9ced0",
+    "door": "#398e80",
+    "skirt": "#4b5660",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#398e80"
+        ],
+        "y": [
+          0.5,
+          0.9
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "annemasse__tango_tpg": {
+    "base": "#e9ecea",
+    "front": "#e9ecea",
+    "door": "#dce1e3",
+    "window": "#263841",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#a64031"
+        ],
+        "y": [
+          0.45,
+          0.58
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "saintlouis__flexity_bvb": {
+    "base": "#37805a",
+    "front": "#37805a",
+    "door": "#8cba70",
+    "window": "#192d29",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#c5d9b6"
+        ],
+        "y": [
+          0.45,
+          0.63
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "leymen__tango_blt": {
+    "base": "#e5bc2c",
+    "front": "#e5bc2c",
+    "door": "#d13631",
+    "window": "#293134",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#d13631"
+        ],
+        "y": [
+          0.45,
+          0.95
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "sarreguemines__flexity_link": {
+    "base": "#c5cbd0",
+    "front": "#c5cbd0",
+    "door": "#c73138",
+    "window": "#202e38",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#c73138"
+        ],
+        "y": [
+          0.45,
+          1.1
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "annemasse__cityrunner_tpg": {
+    "base": "#d9dedc",
+    "front": "#d9dedc",
+    "door": "#e1c357",
+    "window": "#253841",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#2d5686"
+        ],
+        "y": [
+          0.45,
+          1.05
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "angers__citadis_302": {
+    "elements": [
+      {
+        "type": "diagonal",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          0.45,
+          2.2
+        ],
+        "z": [
+          0.0,
+          0.12
+        ],
+        "angle_deg": 60,
+        "zone": "sides+front",
+        "symmetric": true
+      },
+      {
+        "type": "diagonal",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          0.45,
+          1.05
+        ],
+        "z": [
+          0.3,
+          0.7
+        ],
+        "angle_deg": 60,
+        "zone": "sides"
+      },
+      {
+        "type": "vertical_stripes",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          2.65,
+          3.4
+        ],
+        "z": [
+          0.035,
+          0.145
+        ],
+        "zone": "sides",
+        "symmetric": true
+      },
+      {
+        "type": "vertical_stripes",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          2.65,
+          3.4
+        ],
+        "z": [
+          0.31,
+          0.42
+        ],
+        "zone": "sides",
+        "symmetric": true
+      }
+    ]
+  },
+  "angers__citadis_x05": {
+    "elements": [
+      {
+        "type": "diagonal",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          0.45,
+          2.2
+        ],
+        "z": [
+          0.0,
+          0.12
+        ],
+        "angle_deg": 60,
+        "zone": "sides+front",
+        "symmetric": true
+      },
+      {
+        "type": "diagonal",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          0.45,
+          1.05
+        ],
+        "z": [
+          0.3,
+          0.7
+        ],
+        "angle_deg": 60,
+        "zone": "sides"
+      },
+      {
+        "type": "vertical_stripes",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          2.65,
+          3.4
+        ],
+        "z": [
+          0.035,
+          0.145
+        ],
+        "zone": "sides",
+        "symmetric": true
+      },
+      {
+        "type": "vertical_stripes",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          2.65,
+          3.4
+        ],
+        "z": [
+          0.31,
+          0.42
+        ],
+        "zone": "sides",
+        "symmetric": true
+      }
+    ]
+  },
+  "angers__concept_citadis_405": {
+    "elements": [
+      {
+        "type": "diagonal",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          0.45,
+          2.2
+        ],
+        "z": [
+          0.0,
+          0.12
+        ],
+        "angle_deg": 60,
+        "zone": "sides+front",
+        "symmetric": true
+      },
+      {
+        "type": "diagonal",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          0.45,
+          1.05
+        ],
+        "z": [
+          0.3,
+          0.7
+        ],
+        "angle_deg": 60,
+        "zone": "sides"
+      },
+      {
+        "type": "vertical_stripes",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          2.65,
+          3.4
+        ],
+        "z": [
+          0.035,
+          0.145
+        ],
+        "zone": "sides",
+        "symmetric": true
+      },
+      {
+        "type": "vertical_stripes",
+        "colors": [
+          "#e2231a",
+          "#f18a00",
+          "#ffd500",
+          "#5cb531",
+          "#0096d6",
+          "#6a2c91"
+        ],
+        "y": [
+          2.65,
+          3.4
+        ],
+        "z": [
+          0.31,
+          0.42
+        ],
+        "zone": "sides",
+        "symmetric": true
+      }
+    ]
+  },
+  "lemans__citadis_402": {
+    "base": "#16458f",
+    "front": "#153a7d",
+    "door": "#1e3b7c",
+    "roof": "#28569d",
+    "skirt": "#152d59",
+    "elements": [
+      {
+        "type": "panel",
+        "pattern": "network_lines",
+        "colors": [
+          "#b9cfdf"
+        ],
+        "y": [
+          0.45,
+          3.25
+        ],
+        "zone": "sides"
+      },
+      {
+        "type": "band",
+        "colors": [
+          "#cc2b72"
+        ],
+        "y": [
+          2.64,
+          2.76
+        ],
+        "zone": "sides"
+      }
+    ]
+  },
+  "lille__citadis_x05": {
+    "base": "#e9e9e6",
+    "front": "#22445d",
+    "door": "#e1e4e5",
+    "window": "#172e3c",
+    "roof": "#9da4ab",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#d23b3c"
+        ],
+        "y": [
+          2.86,
+          3.12
+        ],
+        "zone": "sides+front"
+      },
+      {
+        "type": "band",
+        "colors": [
+          "#c72a7c"
+        ],
+        "y": [
+          0.91,
+          1.05
+        ],
+        "zone": "sides+front"
+      },
+      {
+        "type": "band",
+        "colors": [
+          "#e2e4e2"
+        ],
+        "y": [
+          0.45,
+          0.91
+        ],
+        "zone": "front"
+      }
+    ]
+  },
+  "nice__citadis_x05": {
+    "base": "#c24c3f",
+    "front": "#b44139",
+    "door": "#e2e2dd",
+    "roof": "#b84b3c",
+    "skirt": "#393e43",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#8c918f"
+        ],
+        "y": [
+          0.45,
+          0.65
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "nantes__concept_citadis_305": {
+    "base": "#f4f5f3",
+    "front": "#16191c",
+    "window": "#121517",
+    "door": "#f4f5f3",
+    "roof": "#cfd3d5",
+    "skirt": "#24282c",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#00a77e"
+        ],
+        "y": [
+          0.45,
+          0.56
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  }
+}

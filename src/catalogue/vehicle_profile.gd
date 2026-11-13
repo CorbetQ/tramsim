@@ -5,6 +5,10 @@ extends Resource
 @export var id: String = ""
 @export var family: String = ""
 @export var model_family: String = ""   # plan 3D : data/rolling_stock/plans/<id>.json
+@export var variant_id: String = ""
+@export var fictional := false
+@export var gauge_mm := 1435
+@export var origin_city := ""
 var fleet: Dictionary = {}                # entrée de flotte (livrée) si matériel du réseau
 @export var length_m: float = 30.0
 @export var width_m: float = 2.4

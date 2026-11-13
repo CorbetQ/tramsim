@@ -50,6 +50,7 @@ static func tango_express() -> VehicleProfile:
 ## Matériel jouable à partir d'une entrée de flotte (TramModel.fleet_for, data/rolling_stock) : famille, longueur,
 ## nom et caractéristiques de research.json ; la livrée suit l'entrée.
 static func for_fleet(entry: Dictionary, meta: Dictionary = {}) -> VehicleProfile:
+	entry = StockCatalog.resolve(entry,meta)
 	var fam := TramModel.family_id(str(entry.get("family", "citadis_302")))
 	var r := TramModel.research(fam)
 	var p: VehicleProfile
@@ -75,14 +76,20 @@ static func for_fleet(entry: Dictionary, meta: Dictionary = {}) -> VehicleProfil
 		p.capacity = int(p.capacity * L / ref_len)
 	p.length_m = L
 	p.width_m = float(entry.get("width", p.width_m))
-	if str(meta.get("kind", "")) == "tram-train" and fam != "citadis_dualis" and fam != "avanto":
-		p.max_speed_ms = maxf(p.max_speed_ms, 80.0 / 3.6)
 	if fam == "translohr": p.guidance = "rubber_guided"
 	p.id = "%s_%s" % [fam, str(entry.get("name", "")).md5_text().substr(0, 6)]
 	p.family = str(entry.get("name", TramModel.plan(fam).get("name", fam)))
-	if str(meta.get("source_id", "")) in ["angers", "bordeaux", "orleans", "reims", "tours", "nice"] and fam.begins_with("citadis"):
-		p.supply = "hybrid"
-	if str(meta.get("source_id", "")) == "nice": p.electric_modes = PackedStringArray(["overhead", "battery"])
+	p.electric_modes=PackedStringArray(entry.get("electric_modes",["overhead"]))
+	p.supply="hybrid" if p.electric_modes.size()>1 else p.electric_modes[0]
+	p.guidance=str(entry.get("guidance","rubber_guided" if fam=="translohr" else "steel"))
+	p.gauge_mm=int(entry.get("gauge_mm",1435));p.fictional=bool(entry.get("fictional",false))
+	p.variant_id=str(entry.get("id",""));p.origin_city=str(entry.get("city",""))
+	var tech:Dictionary=entry.get("technical",{})
+	if tech.has("mass_t"):p.empty_mass_kg=float(tech.mass_t)*1000.0
+	if tech.has("power_kw"):p.power_kw=float(tech.power_kw)
+	if tech.has("capacity"):p.capacity=int(tech.capacity)
+	if tech.has("max_speed_kmh"):p.max_speed_ms=float(tech.max_speed_kmh)/3.6
+	if p.variant_id!="":p.id=p.variant_id
 	p.model_family = fam
 	p.fleet = entry
 	p.estimated = est
