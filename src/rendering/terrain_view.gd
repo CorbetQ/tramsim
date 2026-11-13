@@ -18,7 +18,7 @@ const Q := 64.0
 const CELL := 8.0
 const MAX_CACHE := 40
 const FAR_RADIUS := 8000.0
-const FAR_STEP := 250.0
+const FAR_STEP := 200.0       # divise exactement les tuiles de 400 m
 const FAR_NEAR := 1150.0       # m : au-delà, rapprochement radial vers [FAR_NEAR, FAR_NEAR + 380 m]
 const FAR_REBUILD := 1000.0
 
@@ -38,6 +38,7 @@ var table: Dictionary = {}          # Vector2i -> [offset, taille compressée, t
 var ymin: Dictionary = {}           # Vector2i -> altitude minimale de la tuile
 var keys: Array[Vector2i] = []      # ordre de la table (enregistrements de méta)
 var _buf: PackedByteArray
+var _wide_height := false
 var _cache: Dictionary = {}
 var _lru: Array[Vector2i] = []
 var _meta := PackedByteArray()
@@ -50,6 +51,7 @@ var _far_nx := 0
 var _far_nz := 0
 var _far_mesh: MeshInstance3D = null
 var _far_at := Vector3(INF, INF, INF)
+var _far_loaded := 0
 var color := Color("#a9ab98")
 
 static func path_for(c: String) -> String:
@@ -60,7 +62,10 @@ static func available(c: String) -> bool:
 
 func open(c: String) -> bool:
 	_buf = FileAccess.get_file_as_bytes(path_for(c))
-	if _buf.size() < 40 or _buf.slice(0, 4).get_string_from_ascii() != "TGR1": return false
+	if _buf.size() < 40: return false
+	var magic := _buf.slice(0, 4).get_string_from_ascii()
+	if magic not in ["TGR1", "TGR2"]: return false
+	_wide_height = magic == "TGR2"
 	tile_m = _buf.decode_float(8)
 	var n := _buf.decode_u32(12)
 	var far_off := _buf.decode_u32(16); var far_cs := _buf.decode_u32(20); var far_raw := _buf.decode_u32(24)
@@ -104,9 +109,10 @@ func tile(k: Vector2i) -> Tile:
 	t.pos.resize(nv)
 	var x := 0; var z := 0; var y := 0
 	for i in nv:
-		x += d.decode_s16(ox + i * 2); z += d.decode_s16(oz + i * 2); y += d.decode_s16(oy + i * 2)
+		x += d.decode_s16(ox + i * 2); z += d.decode_s16(oz + i * 2)
+		y += d.decode_s32(oy + i * 4) if _wide_height else d.decode_s16(oy + i * 2)
 		t.pos[i] = Vector3(x / Q, base + y * 0.01, z / Q)
-	var oa := oy + nv * 2; var ob := oa + nt * 2; var oc := ob + nt * 2
+	var oa := oy + nv * (4 if _wide_height else 2); var ob := oa + nt * 2; var oc := ob + nt * 2
 	t.tri.resize(nt * 3)
 	var a := 0
 	for i in nt:
@@ -202,7 +208,7 @@ uniform float span_m = 380.0;
 void vertex() {
 	vec3 rel = VERTEX - CAMERA_POSITION_WORLD;
 	float d = length(rel.xz);
-	if (d > near_m) {
+	if (d > near_m && PROJECTION_MATRIX[3][3] < 0.5) {
 		float r = near_m + span_m * (1.0 - exp(-(d - near_m) / 2500.0));
 		VERTEX = CAMERA_POSITION_WORLD + rel * (r / d);
 	}
@@ -214,23 +220,36 @@ void fragment() {
 """
 
 ## Met à jour la couronne lointaine autour de la caméra (repère de la ville, parent = CityScene).
-func update_far(cam_city: Vector3) -> void:
+func update_far(cam_city: Vector3, loaded: Dictionary = {}) -> void:
 	if _far_nx < 2: return
-	if Vector2(cam_city.x - _far_at.x, cam_city.z - _far_at.z).length() < FAR_REBUILD: return
+	var signature := loaded.keys().hash()
+	if signature == _far_loaded and Vector2(cam_city.x - _far_at.x, cam_city.z - _far_at.z).length() < FAR_REBUILD: return
 	_far_at = cam_city
+	_far_loaded = signature
 	var n := int(FAR_RADIUS * 2.0 / FAR_STEP) + 1
 	var x0 := snappedf(cam_city.x, FAR_STEP) - FAR_RADIUS; var z0 := snappedf(cam_city.z, FAR_STEP) - FAR_RADIUS
 	var P := PackedVector3Array(); P.resize(n * n)
 	for iz in n:
 		for ix in n:
 			var x := x0 + ix * FAR_STEP; var z := z0 + iz * FAR_STEP
-			P[iz * n + ix] = Vector3(x, far_height(x, z) - 1.5, z)   # sous le sol des tuiles détaillées
+			var h := far_height(x, z) - 1.5
+			# Les arêtes de raccord utilisent les vraies altitudes des tuiles affichées.
+			var k := Vector2i(floori(x / tile_m), floori(z / tile_m))
+			for offset in [Vector2i.ZERO, Vector2i(-1, 0), Vector2i(0, -1), Vector2i(-1, -1)]:
+				var candidate: Vector2i = k + offset
+				if not loaded.has(candidate): continue
+				var local := Vector2(x - candidate.x * tile_m, z - candidate.y * tile_m)
+				if local.x < 0 or local.y < 0 or local.x > tile_m or local.y > tile_m: continue
+				var detail := tile(candidate)
+				if detail != null: h = tile_height(detail, local.x, local.y)
+				break
+			P[iz * n + ix] = Vector3(x, h, z)
 	var V := PackedVector3Array(); var C := PackedColorArray(); var N := PackedVector3Array()
 	var steep := color.darkened(0.2)
 	for iz in n - 1:
 		for ix in n - 1:
 			var cx := x0 + (ix + 0.5) * FAR_STEP; var cz := z0 + (iz + 0.5) * FAR_STEP
-			if table.has(Vector2i(floori(cx / tile_m), floori(cz / tile_m))): continue   # tuile détaillée
+			if loaded.has(Vector2i(floori(cx / tile_m), floori(cz / tile_m))): continue
 			var a := P[iz * n + ix]; var b := P[iz * n + ix + 1]; var c := P[(iz + 1) * n + ix + 1]; var d := P[(iz + 1) * n + ix]
 			for tri in [[a, b, c], [a, c, d]]:
 				var fn: Vector3 = (tri[2] - tri[0]).cross(tri[1] - tri[0]).normalized()

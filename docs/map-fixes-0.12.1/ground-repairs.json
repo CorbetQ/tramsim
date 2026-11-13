@@ -1,0 +1,57 @@
+[
+  {
+    "city": "brest",
+    "unwrapped_tiles": 0,
+    "nodata_points": 1,
+    "resampled_tiles": 1,
+    "resampled_vertices": 1,
+    "far_nodata_points": 0,
+    "format": "TGR2",
+    "source": "IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA",
+    "source_date": "2026-11-13"
+  },
+  {
+    "city": "grenoble",
+    "unwrapped_tiles": 5,
+    "nodata_points": 0,
+    "resampled_tiles": 0,
+    "resampled_vertices": 0,
+    "far_nodata_points": 0,
+    "format": "TGR2",
+    "source": "IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA",
+    "source_date": "2026-11-13"
+  },
+  {
+    "city": "lehavre",
+    "unwrapped_tiles": 1,
+    "nodata_points": 22,
+    "resampled_tiles": 4,
+    "resampled_vertices": 42,
+    "far_nodata_points": 0,
+    "format": "TGR2",
+    "source": "IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA",
+    "source_date": "2026-11-13"
+  },
+  {
+    "city": "nantes",
+    "unwrapped_tiles": 0,
+    "nodata_points": 1130,
+    "resampled_tiles": 7,
+    "resampled_vertices": 1213,
+    "far_nodata_points": 0,
+    "format": "TGR2",
+    "source": "IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA",
+    "source_date": "2026-11-13"
+  },
+  {
+    "city": "nice",
+    "unwrapped_tiles": 0,
+    "nodata_points": 106,
+    "resampled_tiles": 14,
+    "resampled_vertices": 183,
+    "far_nodata_points": 0,
+    "format": "TGR2",
+    "source": "IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA",
+    "source_date": "2026-11-13"
+  }
+]

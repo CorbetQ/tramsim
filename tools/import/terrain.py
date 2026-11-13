@@ -320,7 +320,7 @@ def water_surfaces(frame, cache, llb):
                 if pp.is_empty:
                     continue
                 lv = c[:, 2] if c.shape[1] > 2 else np.array([np.nan])
-                lv = lv[(lv > -100) & (lv < 5000)]
+                lv = lv[(lv >= -20) & (lv < 5000)]
                 water.append((pp, float(np.median(lv)) if len(lv) else np.nan))
     return water
 

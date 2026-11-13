@@ -108,3 +108,7 @@ Les textures procédurales et détails architecturaux de 0.10 sont des création
 ### Photographies de référence des rames
 
 Les photographies du dossier documentaire sont créditées individuellement dans [PHOTO-CREDITS.md](docs/rolling-stock-rebuild/PHOTO-CREDITS.md). Elles sont distinctes des maillages du jeu et exclues de ses exports. Les références externes restent hébergées sur leurs sites sources.
+
+### Tram-trains nantais et contrôle du terrain 0.12.1
+
+Les arrêts TER T1/T2 proviennent des relations OpenStreetMap [19515572](https://www.openstreetmap.org/relation/19515572) et [19513724](https://www.openstreetmap.org/relation/19513724), consultées le 13 novembre 2026, © contributeurs OpenStreetMap, ODbL. Coordonnées et identifiants : `data/sources/nantes_tram_train.json`. Les corrections ponctuelles du relief réutilisent le MNT IGN RGE ALTI®, Licence Ouverte 2.0. [Rapport et captures](docs/map-fixes-0.12.1/README.md).

@@ -396,11 +396,11 @@ func _build_setup() -> void:
 		co.selected = maxi(0, cities.find(city_ref[0])); picker = co
 	else:
 		picker = CityPicker.new(cities, city_ref[0], true); s1.add_child(picker)
-	var s2 := _step(box, 2, "Ligne et mission")
-	var line_row := _row(s2, "Ligne"); var line_opt: TouchChoice = line_row.get_child(1)
+	var s2 := _step(box, 2, "Ligne et départ")
+	var line_row := _row(s2, "Ligne"); var line_opt: TouchChoice = line_row.get_child(1); line_opt.name = "line_choice"
 	var scen_box := VBoxContainer.new(); scen_box.add_theme_constant_override("separation", 6); scen_box.name = "missions"; s2.add_child(scen_box)
 	var mis_row := _row(s2, "Service"); var mis_opt: TouchChoice = mis_row.get_child(1)
-	var st_row := _row(s2, "Départ"); var st_opt: TouchChoice = st_row.get_child(1)
+	var st_row := _row(s2, "Départ"); var st_opt: TouchChoice = st_row.get_child(1); st_opt.name = "stop_choice"
 	var s3 := _step(box, 3, "Rame")
 	var veh_opt := _opt(s3, "Matériel")
 	var specs := HFlowContainer.new(); specs.add_theme_constant_override("h_separation", 8); specs.add_theme_constant_override("v_separation", 8)
@@ -442,6 +442,7 @@ func _build_setup() -> void:
 	var mis_list: Array = []
 	var st_list: Array = []
 	var vehicles: Array = []
+	var free_lines: Array = []
 	var scen_list: Array = []
 	var scen_ref := [{}]
 	var cur_meta: Dictionary = {}
@@ -463,46 +464,53 @@ func _build_setup() -> void:
 			card.pressed.connect(func(): scen_ref[0] = m; mis_row.visible = false; refresh_ref[0].call())
 	var fill := func():
 		var is_free := b_free.button_pressed
-		line_row.visible = not is_free; mis_row.visible = not is_free and scen_ref[0].is_empty(); st_row.visible = is_free
+		line_row.visible = true; mis_row.visible = not is_free and scen_ref[0].is_empty(); st_row.visible = is_free
 		city_nets.clear()
-		city_nets.append_array(all_nets.filter(func(e): return e.city == city_ref[0]))
+		city_nets.append_array(all_nets.filter(func(e): return e.city == city_ref[0] and (is_free or not e.get("free_only", false))))
 		if city_nets.is_empty(): return
-		if line_opt.item_count == 0 or line_opt.get_meta("city", "") != city_ref[0]:
+		var reset: bool = line_opt.item_count == 0 or line_opt.get_meta("city", "") != city_ref[0] or line_opt.get_meta("free_mode", not is_free) != is_free
+		if reset and not is_free:
 			line_opt.clear()
 			for e in city_nets:
 				line_opt.add_icon_item(_swatch(_line_color(str(e.path))), "%s — %s%s" % [e.line, e.long_name, "  (tram-train)" if e.kind == "tram-train" else ""])
-			line_opt.set_meta("city", city_ref[0])
 		var n := NetworkLoader.new()
-		if is_free and FileAccess.file_exists(free_path.call()):
-			n.load_file(free_path.call())
-		else:
-			n.load_file(city_nets[maxi(line_opt.selected, 0)].path)
+		if is_free and FileAccess.file_exists(free_path.call()): n.load_file(free_path.call())
+		else: n.load_file(city_nets[clampi(line_opt.selected, 0, city_nets.size() - 1)].path)
 		cur_meta.clear(); cur_meta.merge(n.meta)
+		free_lines.clear()
+		if is_free:
+			free_lines.append_array(FreeStartCatalog.lines(city_nets, n))
+			if reset:
+				line_opt.clear()
+				for choice in free_lines: line_opt.add_item(choice.label)
+			if not free_lines.is_empty():
+				var selected: Dictionary = free_lines[clampi(line_opt.selected, 0, free_lines.size() - 1)]
+				cur_meta["line"] = selected.line; cur_meta["kind"] = selected.kind
+		line_opt.set_meta("city", city_ref[0]); line_opt.set_meta("free_mode", is_free)
 		mis_list.clear(); mis_list.append_array(n.missions())
 		mis_opt.clear()
 		for m in mis_list: mis_opt.add_item("%s → %s" % [str(m.start_time).substr(0, 5), m.headsign])
 		if mis_list.is_empty(): mis_opt.add_item("Service de démonstration")
 		st_list.clear(); st_opt.clear()
-		var seen := {}
-		for s in n.stations:
-			var key := "%s|%s" % [s.name, "/".join(s.get("lines", []))]
-			var k := 1
-			while seen.has(key + str(k)): k += 1
-			seen[key + str(k)] = true
-			st_list.append(s)
-			st_opt.add_item("%s%s — quai %d" % [s.name, ("  (ligne " + "/".join(s.get("lines", [])) + ")") if s.has("lines") else "", k])
-		if is_free:
-			for depot in n.meta.get("depots", []):
-				st_list.append(depot); st_opt.add_item("Remisage — " + str(depot.name))
+		var available: Array = FreeStartCatalog.stops(n, free_lines[clampi(line_opt.selected, 0, free_lines.size() - 1)]) if is_free and not free_lines.is_empty() else n.stations
+		var counts := {}; var seen := {}
+		for station in available: counts[station.name] = int(counts.get(station.name, 0)) + 1
+		for station in available:
+			var name_: String = station.name
+			seen[name_] = int(seen.get(name_, 0)) + 1
+			st_list.append(station)
+			st_opt.add_item(name_ + (" — quai %d" % seen[name_] if counts[name_] > 1 else ""))
 		vehicles.clear(); veh_opt.clear()
 		if is_free:
-			for entry in StockCatalog.for_network(n.meta,n.supplies):
-				vehicles.append(VehicleLibrary.for_fleet(entry,n.meta))
+			var fleet := StockCatalog.for_network(cur_meta, n.supplies)
+			if cur_meta.get("kind") == "tram-train": fleet.sort_custom(func(a, b): return a.family == "citadis_dualis" and b.family != "citadis_dualis")
+			for entry in fleet:
+				vehicles.append(VehicleLibrary.for_fleet(entry,cur_meta))
 				veh_opt.add_item(str(entry.name)+" · "+str(entry.city)+(" · FICTIF" if entry.fictional else ""))
 		else:
 			for f in TramModel.fleet_for(n.meta):
 				vehicles.append(VehicleLibrary.for_fleet(f,n.meta));veh_opt.add_item(f.name)
-		cur_meta["required_supplies"]=n.supplies.duplicate()
+		cur_meta["required_supplies"] = n.supplies.duplicate()
 	var refresh := func(_i = 0):
 		if vehicles.is_empty(): return
 		var is_free := b_free.button_pressed
@@ -523,13 +531,13 @@ func _build_setup() -> void:
 		badge.add_theme_color_override("font_color", Color.WHITE if lc.get_luminance() < 0.6 else Color.BLACK)
 		sum_vals["Mode"].text = "Mode libre" if is_free else ("Mission scénarisée" if not scen_ref[0].is_empty() else "Service horaire")
 		sum_vals["Ville"].text = city_ref[0]
-		sum_vals["Ligne"].text = "Réseau complet" if is_free else "%s — %s" % [cur_meta.get("line", ""), cur_meta.get("long_name", "")]
+		sum_vals["Ligne"].text = line_opt.get_item_text(line_opt.selected) if is_free else "%s — %s" % [cur_meta.get("line", ""), cur_meta.get("long_name", "")]
 		sum_vals["Rame"].text = v.family
 		if is_free: sheet.text = st_opt.get_item_text(st_opt.selected) if st_opt.selected >= 0 else ""
 		elif not scen_ref[0].is_empty(): sheet.text = str(scen_ref[0].get("title", ""))
 		else: sheet.text = mis_opt.get_item_text(mis_opt.selected) if mis_opt.selected >= 0 else ""
-		go.disabled = not ok
-		go.text = "Lancer" if ok else "Matériel incompatible"
+		go.disabled = not ok or (is_free and st_list.is_empty())
+		go.text = "Départ indisponible" if is_free and st_list.is_empty() else ("Lancer" if ok else "Matériel incompatible")
 	refresh_ref[0] = refresh
 	var full := func(_i = 0):
 		fill.call(); veh_opt.select(0); refresh.call()
@@ -559,13 +567,17 @@ func _build_setup() -> void:
 			if picker is CityPicker: picker.pick(str(pick.city))
 			else: picker.select(cities.find(str(pick.city))); city_changed.call(str(pick.city))
 			for i in city_nets.size():
-				if city_nets[i].path == pick.path: line_opt.select(i)
+				if city_nets[i].path != pick.path or city_nets[i].get("free_only", false): continue
+				if b_free.button_pressed:
+					for j in free_lines.size():
+						if free_lines[j].line == str(city_nets[i].line): line_opt.select(j)
+				else: line_opt.select(i)
 			fill.call()
 			for i in vehicles.size():
 				if (str(pick.get("variant_id",""))!="" and (vehicles[i] as VehicleProfile).variant_id==str(pick.variant_id)) or (str(pick.get("variant_id",""))=="" and (vehicles[i] as VehicleProfile).model_family==pick.family): veh_opt.select(i);break
 			refresh.call()
 	go.pressed.connect(func():
-		if city_nets.is_empty(): return
+		if city_nets.is_empty() or vehicles.is_empty() or go.disabled: return
 		save.settings.traffic = traffic_cb.button_pressed
 		save.settings.time_mode = time_opt.selected
 		save.settings.last_city = city_ref[0]

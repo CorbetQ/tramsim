@@ -44,7 +44,7 @@ class Geography(unittest.TestCase):
             if '_' in path.stem:continue
             ground=ROOT/f'data/scenes/{path.stem}_ground.bin'
             self.assertTrue(ground.exists(),path.stem)
-            self.assertEqual(ground.read_bytes()[:4],b'TGR1')
+            self.assertIn(ground.read_bytes()[:4],(b'TGR1',b'TGR2'))
     def test_all_terrain_tile_borders_are_identical(self):
         for path in sorted((ROOT/'data/scenes').glob('*_terrain.bin')):
             tiles=read_tiles(path.read_bytes())

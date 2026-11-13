@@ -85,6 +85,35 @@ class _Out:
 	var uv := PackedVector2Array()
 	var uv2 := PackedVector2Array()
 	var origin := Vector2.ZERO
+	var cut: TrackView.KeepOut
+	var openings := {}
+
+	func triangle(a: Vector3, b: Vector3, d: Vector3, nrm: Vector3, col: Color, id: Vector2) -> void:
+		var polygons: Array = [PackedVector3Array([a, b, d])]
+		if cut != null and not cut.cells.is_empty():
+			var lo := Vector2(minf(a.x, minf(b.x, d.x)), minf(a.z, minf(b.z, d.z))) + origin
+			var hi := Vector2(maxf(a.x, maxf(b.x, d.x)), maxf(a.z, maxf(b.z, d.z))) + origin
+			var visited := {}
+			for x in range(floori(lo.x / cut.CELL), floori(hi.x / cut.CELL) + 1):
+				for z in range(floori(lo.y / cut.CELL), floori(hi.y / cut.CELL) + 1):
+					for segment in cut.cells.get(Vector2i(x, z), []):
+						if visited.has(segment): continue
+						visited[segment] = true
+						var bounds := Rect2(segment[0], Vector2.ZERO).expand(segment[1]).grow(float(segment[2]) + 0.04)
+						if not bounds.intersects(Rect2(lo, hi - lo), true): continue
+						if not openings.has(segment): openings[segment] = TerrainClip.capsule(segment[0] - origin, segment[1] - origin, segment[2])
+						var next: Array = []
+						for polygon in polygons: next.append_array(TerrainClip.subtract(polygon, openings[segment]))
+						polygons = next
+						if polygons.is_empty(): return
+		for polygon: PackedVector3Array in polygons:
+			for j in range(1, polygon.size() - 1):
+				var p := polygon[0]; var q := polygon[j]; var r := polygon[j + 1]
+				var fn := (r - p).cross(q - p)
+				if fn.length_squared() < 1e-12: continue
+				if fn.dot(nrm) < 0.0:
+					var temp := q; q = r; r = temp
+				add(p, nrm, col, id); add(q, nrm, col, id); add(r, nrm, col, id)
 
 	func add(p: Vector3, nrm: Vector3, col: Color, id: Vector2) -> void:
 		v.append(p); n.append(nrm); c.append(col); uv.append(Vector2(p.x + origin.x, p.z + origin.y)); uv2.append(id)
@@ -103,19 +132,18 @@ static func build(tv: TerrainView, t: TerrainView.Tile, k: Vector2i, style: Dict
 	var out := _Out.new()
 	var origin := Vector2(k.x, k.y) * tv.tile_m
 	out.origin = origin
+	out.cut = cut
 	var cols: Array[Color] = []; var ids: Array[Vector2] = []
 	for i in pal.size():
 		var e: Array = pal[i]
 		var col: Color = e[0]; col.a = _legacy_a(e[1])
 		cols.append(col); ids.append(Vector2(float(e[1]) + float(i) / 1024.0, 0.0))
 	var nt := t.mat.size()
-	var check_cut := cut != null and not cut.cells.is_empty()
 	for i in nt:
 		var code := t.mat[i]
 		var m := code & 31
 		if m >= CURB: m = GROUND
 		var a := t.pos[t.tri[i * 3]]; var b := t.pos[t.tri[i * 3 + 1]]; var c := t.pos[t.tri[i * 3 + 2]]
-		if check_cut and cut.blocked(origin + Vector2((a.x + b.x + c.x) / 3.0, (a.z + b.z + c.z) / 3.0)): continue
 		var raised := m in RAISED
 		var lift := BORDURE if raised else 0.0
 		var up := Vector3(0, lift, 0)
@@ -124,7 +152,7 @@ static func build(tv: TerrainView, t: TerrainView.Tile, k: Vector2i, style: Dict
 		fn = fn.normalized()
 		var id := ids[m]
 		if raised: id.y = BORDURE
-		out.add(a + up, fn, cols[m], id); out.add(b + up, fn, cols[m], id); out.add(c + up, fn, cols[m], id)
+		out.triangle(a + up, b + up, c + up, fn, cols[m], id)
 		var curb := code >> 5
 		if raised and curb != 0:
 			var corners := [a, b, c]
@@ -135,8 +163,8 @@ static func build(tv: TerrainView, t: TerrainView.Tile, k: Vector2i, style: Dict
 				var nrm := Vector3(q.z - p.z, 0, p.x - q.x).normalized()
 				if nrm.dot(Vector3(p.x - ctr.x, 0, p.z - ctr.z)) < 0.0: nrm = -nrm   # vers la chaussée
 				var cid := ids[CURB]
-				out.add(p, nrm, cols[CURB], cid); out.add(q, nrm, cols[CURB], cid); out.add(q + up, nrm, cols[CURB], cid)
-				out.add(p, nrm, cols[CURB], cid); out.add(q + up, nrm, cols[CURB], cid); out.add(p + up, nrm, cols[CURB], cid)
+				out.triangle(p, q, q + up, nrm, cols[CURB], cid)
+				out.triangle(p, q + up, p + up, nrm, cols[CURB], cid)
 	_decals(out, tv, t, k, cols[PAINT], Vector2(M_PLAIN + float(PAINT) / 1024.0, DECAL))
 	return out.mesh()
 
@@ -155,8 +183,8 @@ static func _strip(out: _Out, tv: TerrainView, t: TerrainView.Tile, a: Vector2, 
 			hr = other if not is_nan(other) else hl
 		var L := Vector3(l.x, hl + DECAL, l.y); var Rr := Vector3(r.x, hr + DECAL, r.y)
 		if j > 0:
-			out.add(prev_l, Vector3.UP, col, id); out.add(prev_r, Vector3.UP, col, id); out.add(Rr, Vector3.UP, col, id)
-			out.add(prev_l, Vector3.UP, col, id); out.add(Rr, Vector3.UP, col, id); out.add(L, Vector3.UP, col, id)
+			out.triangle(prev_l, prev_r, Rr, Vector3.UP, col, id)
+			out.triangle(prev_l, Rr, L, Vector3.UP, col, id)
 		prev_l = L; prev_r = Rr
 
 static func _decals(out: _Out, tv: TerrainView, t: TerrainView.Tile, k: Vector2i, col: Color, id: Vector2) -> void:

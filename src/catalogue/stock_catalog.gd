@@ -35,6 +35,7 @@ static func native_for(meta:Dictionary)->Array:
  var preferred:Array=[];var others:Array=[]
  for entry in entries():
   if str(entry.network)!=source or entry.fictional:continue
+  if source=="nantes" and str(meta.get("kind",""))=="tram-train" and str(entry.family)!="citadis_dualis":continue
   if source=="nantes" and key in ["1","2","3"]:
    if str(entry.family)=="citadis_dualis" or (key!="1" and str(entry.family)=="urbos"):continue
   if source=="idf" and key.begins_with("t") and not key in entry.get("lines",[]):continue

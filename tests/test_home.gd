@@ -46,6 +46,8 @@ func _run() -> void:
 	var frames := Engine.get_frames_drawn()
 	await create_timer(1.2).timeout
 	check(main.home_bg.layer_count() == 1, "un seul calque après le fondu")
+	var bg_cam: Camera3D = main.home_bg._layers[-1].cam
+	check(bg_cam.projection == Camera3D.PROJECTION_ORTHOGONAL and bg_cam.global_basis.z.dot(Vector3.UP) > 0.9999, "accueil : vue verticale orthographique orientée au nord")
 	check(Engine.get_frames_drawn() - frames > 3, "l'accueil reste fluide pendant le survol")
 	var lines: Node = main.home_bg.find_child("tram_lines", true, false)
 	check(lines != null and lines.get_child_count() == 2, "lignes de tram en surbrillance")

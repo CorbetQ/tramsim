@@ -9,7 +9,7 @@ extends Node3D
 signal finished
 
 ## [distance à la cible (m), élévation (°), décalage d'azimut (rad), durée vers le palier suivant (s)]
-const STAGES := [[1350.0, 58.0, 0.75, 1.7], [400.0, 46.0, 0.35, 1.5], [110.0, 30.0, 0.12, 1.45]]
+const STAGES := [[2200.0, 90.0, 0.0, 1.35], [700.0, 90.0, 0.0, 1.15], [160.0, 82.0, 0.0, 1.8]]
 const HOLD := 0.45          # immobile sur la vue de la ville (fondu d'entrée)
 const VEIL := 0.22          # opacité maximale du voile entre paliers
 
@@ -27,6 +27,7 @@ var _veil: ColorRect
 var _caption: Label
 var _captions: PackedStringArray
 var _done := false
+var _clouds: ShaderMaterial
 
 ## `focus` : point de départ de la rame (repère LineView) ; `captions` : un texte par palier.
 func start(v: LineView, focus: Vector3, captions: PackedStringArray = PackedStringArray()) -> void:
@@ -47,6 +48,10 @@ func start(v: LineView, focus: Vector3, captions: PackedStringArray = PackedStri
 	_layer = CanvasLayer.new(); _layer.layer = 50; add_child(_layer)
 	_veil = ColorRect.new(); _veil.color = Color(0.02, 0.03, 0.05, 1.0); _veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); _layer.add_child(_veil)
+	var clouds := ColorRect.new(); clouds.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	clouds.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_clouds = ShaderMaterial.new(); _clouds.shader = load("res://src/rendering/shaders/transition_clouds.gdshader")
+	clouds.material = _clouds; _layer.add_child(clouds)
 	_caption = Label.new(); _caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_caption.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM); _caption.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_caption.offset_top = -120; _caption.offset_bottom = -64; _caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -76,15 +81,18 @@ func pose_at(time: float) -> Transform3D:
 			var length := exp(lerpf(log(maxf(oa.length(), 0.1)), log(maxf(ob.length(), 0.1)), u))
 			var dir := oa.normalized().slerp(ob.normalized(), u)
 			var xf := _xf(look + dir * length, look)
+			if i < STAGES.size() - 1: xf.basis = Basis.looking_at((look - xf.origin).normalized(), Vector3.FORWARD)
 			if i == STAGES.size() - 1:
-				xf.basis = xf.basis.slerp(_final.basis, u * u)
+				var initial: Vector3 = _keys[i][1] - _keys[i][0]
+				xf.basis = Basis.looking_at(initial.normalized(), Vector3.FORWARD).slerp(_final.basis, u)
 				if u >= 1.0: xf = _final
 			return xf
 		tt -= d
 	return _final
 
 func _xf(p: Vector3, look: Vector3) -> Transform3D:
-	return Transform3D(Basis.looking_at((look - p).normalized(), Vector3.UP), p)
+	var direction := (look - p).normalized()
+	return Transform3D(Basis.looking_at(direction, Vector3.FORWARD if absf(direction.dot(Vector3.UP)) > 0.999 else Vector3.UP), p)
 
 func _process(dt: float) -> void:
 	if _done: return
@@ -105,6 +113,13 @@ func _apply(time: float) -> void:
 		if i < STAGES.size() - 1: veil = maxf(veil, VEIL * (1.0 - smoothstep(0.0, 0.3, absf(time - end_))))
 		edge = end_
 	_veil.color.a = veil
+	var cloud_strength := 0.0
+	var elapsed := HOLD
+	for i in 2:
+		elapsed += STAGES[i][3]
+		cloud_strength = maxf(cloud_strength, 0.72 * (1.0 - smoothstep(0.0, 0.45, absf(time - elapsed))))
+	_clouds.set_shader_parameter("strength", cloud_strength)
+	_clouds.set_shader_parameter("travel", time)
 	stage = mini(stage, STAGES.size() - 1)
 	_caption.text = _captions[stage] if stage < _captions.size() else ""
 	_caption.modulate.a = 1.0 - smoothstep(duration - 0.6, duration - 0.1, time)

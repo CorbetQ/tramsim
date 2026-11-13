@@ -370,7 +370,6 @@ func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 			var k := Vector2i(tx, tz)
 			if (table.has(k) or _ter_table.has(k) or (terrain != null and terrain.has_tile(k))) and not built.has(k) and not k in queue:
 				queue.append(k)
-	if terrain != null: terrain.update_far(c)
 	var ctile := Vector2(c.x, c.z) / tile_m
 	queue.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
 		return (Vector2(a) + Vector2(0.5, 0.5)).distance_squared_to(ctile) < (Vector2(b) + Vector2(0.5, 0.5)).distance_squared_to(ctile))
@@ -383,6 +382,7 @@ func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 		var k: Vector2i = queue.pop_front()
 		built[k] = _build_tile(k)
 		add_child(built[k])
+	if terrain != null: terrain.update_far(c, built)
 
 ## Construit toutes les tuiles proches d'un coup (chargement initial).
 func warm(center_net: Vector3) -> void:
