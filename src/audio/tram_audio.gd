@@ -68,7 +68,9 @@ func _ready() -> void:
 	else: add_child(anchor)
 	setup_buses()
 	if audio_family == "" and view != null and "family" in view: audio_family = str(view.family)
-	sound_profile = profile_for(audio_family)
+	var variant_id:=""
+	if view!=null and "livery" in view:variant_id=str(view.livery.get("variant_id",""))
+	sound_profile = profile_for(audio_family,variant_id)
 	sound_bank = sound_profile.get("bank_data", {})
 	for n in LOOPS: _make(n, true, LOOPS[n])
 	for n in SHOTS: _make(n, false, SHOTS[n])
@@ -327,18 +329,19 @@ func update_state(st: Dictionary, dt: float) -> void:
 func gong() -> void:
 	if bell: bell.play()
 
-static func profile_for(family_id: String) -> Dictionary:
+static func profile_for(family_id: String,variant_id:String="") -> Dictionary:
 	if family_id.is_empty(): return {}
 	if _family_manifest.is_empty() and FileAccess.file_exists(DIR + "families.json"):
 		var data = JSON.parse_string(FileAccess.get_file_as_string(DIR + "families.json"))
 		if data is Dictionary: _family_manifest = data
 	var key := TramModel.family_id(family_id)
 	var profile: Dictionary = _family_manifest.get("profiles", {}).get(key, {}).duplicate(true)
+	profile.merge(_family_manifest.get("variant_profiles",{}).get(variant_id,{}),true)
 	profile.bank_data = _family_manifest.get("banks", {}).get(str(profile.get("bank", "")), {}).duplicate(true)
 	return profile
 
-static func profile_label(family_id: String) -> String:
-	var profile := profile_for(family_id)
+static func profile_label(family_id: String,variant_id:String="") -> String:
+	var profile := profile_for(family_id,variant_id)
 	var bank: Dictionary = profile.get("bank_data", {})
 	match str(profile.get("quality", "synthetic")):
 		"exact_family": return "Captation : " + str(bank.get("label", ""))

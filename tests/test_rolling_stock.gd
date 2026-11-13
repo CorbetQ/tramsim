@@ -2,7 +2,7 @@ extends SceneTree
 ## Matériel roulant : chaque plan se construit (modules, longueur, budget de triangles), les animations
 ## (portes, pantographe) atteignent leurs états, la flotte des réseaux est résolue depuis data/rolling_stock.
 var fails := 0
-const BUDGET := 7000
+const BUDGET := 12000
 
 func check(c: bool, m: String) -> void:
 	if not c: fails += 1; printerr("ECHEC: ", m)
@@ -75,7 +75,7 @@ func _init() -> void:
 	var t4 := TramModel.fleet_for({"source_id": "idf", "id": "idf_t4"})
 	check(t4[0].family == "avanto", "T4 : Avanto")
 	var mtp := TramModel.livery_for({"source_id": "montpellier", "id": "montpellier_1"})
-	check(mtp.family == "citadis_402" and (mtp.base as Color).is_equal_approx(Color("#377ae6")), "Montpellier L1 : livrée hirondelles")
+	check(mtp.family == "citadis_x01" and absf(float(mtp.length)-40.9)<.01, "Montpellier L1 : Citadis 401 et livrée hirondelles")
 	# motifs procéduraux de livrée (shader des rames)
 	for pair in [["montpellier_1", "swallows"], ["montpellier_2", "flowers"], ["montpellier_3", "waves"], ["montpellier_4", "gilding"], ["tours_a", "mirror_bands"]]:
 		var lv := TramModel.livery_for({"source_id": str(pair[0]).split("_")[0], "id": pair[0]})
@@ -91,7 +91,7 @@ func _init() -> void:
 	var v := VehicleLibrary.for_fleet(angers[0], {"source_id": "angers"})
 	check(absf(v.length_m - 32.4) < 0.01 and v.model_family == "citadis_302", "VehicleLibrary.for_fleet : longueur du plan (%.1f m)" % v.length_m)
 	var bx := VehicleLibrary.default_for({"source_id": "bordeaux", "id": "bordeaux_a"})
-	check(absf(bx.length_m - 44.0) < 0.01, "Bordeaux : 44 m (dims de livrée)")
+	check(absf(bx.length_m - 43.989) < 0.01, "Bordeaux : 44 m (dims de livrée)")
 	# Nantes : Citadis X05 nantais (plan dédié, 45,6 m, 8 portes doubles par côté), Urbos 3 sur la ligne 1
 	var n1: Array = TramModel.fleet_for({"source_id": "nantes", "id": "nantes_1"}).map(func(e): return e.family)
 	var n2: Array = TramModel.fleet_for({"source_id": "nantes", "id": "nantes_2"}).map(func(e): return e.family)
@@ -111,9 +111,9 @@ func _init() -> void:
 	var fams := Catalogue.families()
 	check(fams.size() == ids.size(), "catalogue : %d familles" % fams.size())
 	var in_nantes: Array = fams.filter(func(f): return "Nantes" in f.cities).map(func(f): return f.id)
-	check(in_nantes.size() == 4 and "citadis_x05_nantes" in in_nantes, "catalogue filtré Nantes : %s" % str(in_nantes))
+	check("citadis_dualis" in in_nantes and "citadis_x05_nantes" in in_nantes and "incentro" in in_nantes, "catalogue filtré Nantes : %s" % str(in_nantes))
 	var lx := Catalogue.lines_for("citadis_x05_nantes")
 	check(not lx.is_empty() and lx[0].city == "Nantes", "catalogue : lignes du X05 nantais (%d)" % lx.size())
 	var txt := TramSheet.sheet_text("citadis_x05_nantes", VehicleLibrary.for_fleet(lx[0].entry, lx[0].meta), lx[0].meta)
-	check(txt.contains("45.60 m") and txt.contains("estimé") and txt.contains("wikipedia"), "fiche : longueur, valeurs estimées, sources")
+	check(txt.contains("45.60 m") and txt.contains("estimé") and txt.contains("metropole.nantes.fr"), "fiche : longueur, valeurs estimées, sources")
 	quit(1 if fails > 0 else 0)

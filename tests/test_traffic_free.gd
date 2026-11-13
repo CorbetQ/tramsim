@@ -72,7 +72,7 @@ func _init() -> void:
 	check(not Compatibility.mission_allowed(aps, ["overhead"], "steel"), "APS incompatible avec caténaire en mission")
 	check(not Compatibility.mission_allowed(tl, ["overhead"], "steel"), "pneus incompatible avec voie ferrée")
 	var f5 := FreeSession.new(_net(), tl, "e0", 100.0, false)
-	check(f5.adaptation_notice.begins_with("Mode d'adaptation"), "mode d'adaptation annoncé en libre")
+	check(f5.adaptation_notice.begins_with("Matériel incompatible") and f5.blocked, "matériel incompatible bloqué en libre")
 	var f6 := FreeSession.new(_net(), VehicleLibrary.citadis_302_hybride(), "e0", 100.0, false)
 	check(f6.adaptation_notice == "", "pas d'annonce si compatible")
 	# cantonnement : section protégée occupée => signal à l'arrêt, franchissement = échec

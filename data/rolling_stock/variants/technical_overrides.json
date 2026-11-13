@@ -1,0 +1,7 @@
+{
+ "annemasse__tango_tpg":{"technical":{"power_kw":900,"capacity":394,"mass_t":57.8},"geometry":{"module_lengths":[10.044,4.278,7.678,7.678,4.278,10.044]},"sources":["https://www.tpg.ch/sites/default/files/2023-06/TPG_Directives_techniques_Chapitre_02_2022.pdf"]},
+ "annemasse__cityrunner_tpg":{"technical":{"power_kw":720,"capacity":358,"mass_t":50.1},"geometry":{"module_lengths":[7.5,4.711,6.461,4.711,6.461,4.711,7.5]}},
+ "nantes__tfs":{"geometry":{"module_lengths":[13.75,9.0,13.75]}},
+ "lille__breda_vlc":{"geometry":{"module_lengths":[8.5,6.3,6.3,8.5]}},
+ "nantes__urbos":{"geometry":{"module_lengths":[8.1,5.7,10.366,5.7,8.1]}}
+}

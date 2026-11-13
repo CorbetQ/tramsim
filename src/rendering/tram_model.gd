@@ -105,26 +105,7 @@ static func _entry(net: Dictionary, line: Dictionary, fam: String, src: String, 
 ## Flotte jouable d'un réseau / d'une ligne : entrées {name, family, length, width, network, line}.
 ## Matériel propre à la ligne d'abord, puis la flotte du réseau (sauf familles réservées à d'autres lignes).
 static func fleet_for(meta: Dictionary) -> Array:
-	var c := _ctx(meta)
-	var src: String = c[0]; var net: Dictionary = c[1]; var key: String = c[2]; var line: Dictionary = c[3]
-	var fams: Array[String] = []
-	if net.is_empty():
-		fams.append(_generic_family(meta))
-	else:
-		if line.has("family"): fams.append(family_id(str(line.family)))
-		for f in net.get("fleet", [net.get("family", "citadis_302")]):
-			var id := family_id(str(f))
-			if id in fams: continue
-			var on_lines: Dictionary = research(id).get("lines", {})
-			if on_lines.has(src):
-				if not key in on_lines[src]: continue
-			elif line.has("family"):
-				continue
-			fams.append(id)
-		if fams.is_empty(): fams.append(family_id(str(net.get("family", ""))))
-	var out: Array = []
-	for f in fams: out.append(_entry(net, line, f, src, key))
-	return out
+	return StockCatalog.native_for(meta)
 
 static func _color(v: Variant, route: Color) -> Color:
 	var s := str(v)
@@ -133,21 +114,35 @@ static func _color(v: Variant, route: Color) -> Color:
 
 ## Livrée résolue (couleurs, éléments, dimensions) pour un réseau / une ligne et une entrée de flotte.
 static func livery_for(meta: Dictionary, entry: Dictionary = {}) -> Dictionary:
+	var destination:=meta
+	entry=StockCatalog.resolve(entry,meta)
+	if entry.is_empty():
+		var natives:=StockCatalog.native_for(meta)
+		if not natives.is_empty():entry=natives[0]
+	if entry.get("network","")!="":meta=StockCatalog.origin_meta(entry)
 	var c := _ctx(meta)
 	var net: Dictionary = c[1]; var line: Dictionary = c[3]
 	var fam := str(entry.get("family", ""))
-	fam = family_id(fam) if fam != "" else str(fleet_for(meta)[0].family)
+	fam = family_id(fam) if fam != "" else _generic_family(meta)
 	var e := _entry(net, line, fam, c[0], c[2])
 	var raw: Dictionary = DEFAULT_COLORS.duplicate()
 	raw.elements = [] if not net.is_empty() else [{"type": "band", "colors": ["route"], "y": [0.5, 0.85], "zone": "sides+front"}]
 	for l in _layers(net, line, fam):
 		for k in COLOR_KEYS + ["elements", "pattern"]:
 			if l.has(k): raw[k] = l[k]
+	var overrides:=_json("res://data/rolling_stock/variants/livery_overrides.json")
+	var patch:Dictionary=overrides.get(str(entry.get("id","")),{})
+	for key in patch:raw[key]=patch[key]
 	var route := Color.from_string(str(meta.get("color", "#c8102e")), Color(0.78, 0.06, 0.18))
 	if route.get_luminance() > 0.92: route = Color(0.2, 0.3, 0.45)
 	var res := {"family": fam, "name": str(entry.get("name", e.name)), "length": float(entry.get("length", e.length)),
 		"width": float(entry.get("width", e.width)), "route": route}
 	for k in COLOR_KEYS: res[k] = _color(raw[k], route)
+	res.variant_id=str(entry.get("id",""));res.stock_entry=entry
+	res.geometry=entry.get("geometry",{});res.network=str(entry.get("network",meta.get("source_id","")))
+	res.gauge_mm=int(entry.get("running_gauge_mm",entry.get("gauge_mm",1435)));res.guidance=str(entry.get("guidance","steel"))
+	res.fictional=bool(entry.get("fictional",false));res.destination=str(destination.get("destination","ESSAIS"))
+	if str(entry.get("network",""))=="angers":raw.elements=(raw.elements as Array).filter(func(el):return str(el.get("type",""))!="front_mask")
 	var els: Array = []
 	for el in raw.elements:
 		var r: Dictionary = (el as Dictionary).duplicate(true)
@@ -170,7 +165,7 @@ static func livery_for(meta: Dictionary, entry: Dictionary = {}) -> Dictionary:
 ## Construit une rame animable. `length_m` < 0 : longueur de la livrée (dims) ou du plan.
 static func build_rig(livery: Dictionary, length_m: float = -1.0) -> Rig:
 	var fam := family_id(str(livery.get("family", "citadis_302")))
-	var p := plan(fam)
+	var p := StockGeometry.apply(plan(fam),livery.get("stock_entry",{}))
 	var L := length_m if length_m > 0.0 else float(livery.get("length", p.get("length_m", 32.0)))
 	var bld := _Body.new(p, _variant(livery), L)
 	return bld.make_rig()
@@ -505,7 +500,7 @@ class _Body:
 		var ulen := 0.0
 		for m in unit: ulen += float(m.length_m)
 		var guard := 0
-		while ulen > 0.0 and total - cur > 0.6 * ulen and guard < 4:
+		while not (L.get("stock_entry",{}) as Dictionary).has("id") and ulen > 0.0 and total - cur > 0.6 * ulen and guard < 4:
 			var copies: Array = []
 			for m in unit:
 				var c: Dictionary = (m as Dictionary).duplicate(true)
@@ -516,7 +511,7 @@ class _Body:
 			for k in copies.size(): mods.insert(1 + k, copies[k])
 			cur += ulen; guard += 1
 		guard = 0
-		while ulen > 0.0 and mods.size() > 3 and cur - total > 0.6 * ulen and guard < 4:
+		while not (L.get("stock_entry",{}) as Dictionary).has("id") and ulen > 0.0 and mods.size() > 3 and cur - total > 0.6 * ulen and guard < 4:
 			var removed := false
 			for i in range(1, mods.size() - unit.size()):
 				var ok := true
@@ -540,6 +535,9 @@ class _Body:
 	# ------------------------------------------------ niveaux et profil
 	func _prepare_levels() -> void:
 		var ys: Array = [yb, floor_y, skirt, wb, wt, cant, door_top, ws_lo, ws_hi]
+		var curve:=float((front.get("windshield",{}) as Dictionary).get("lower_curve_m",0))
+		for i in range(1,7):
+			if curve>0:ys.append(ws_lo+curve*float(i)/6.0)
 		for el in L.get("elements", []):
 			var yr: Array = el.get("y", [])
 			if yr.size() < 2: continue
@@ -592,7 +590,7 @@ class _Body:
 		if zone == "door" and y < skirt: c = L.door
 		for el in L.elements:
 			var t := str(el.get("type", ""))
-			if not t in ["band", "front_mask", "stripes", "gradient"]: continue
+			if not t in ["band", "front_mask", "stripes", "gradient", "vertical_stripes"]: continue
 			if not _zone_ok(el, zone) or not _z_ok(el, zg): continue
 			var yr: Array = el.get("y", [0, 0])
 			var y0 := float(yr[0]); var y1 := float(yr[1])
@@ -600,6 +598,10 @@ class _Body:
 			var cols: Array = el.colors
 			var f := clampf((y - y0) / maxf(y1 - y0, 0.001), 0.0, 0.999)
 			match t:
+				"vertical_stripes":
+					var span:Array=el.get("z",[0.0,1.0]);var zf:=zg/total
+					if bool(el.get("symmetric",false)) and zf>float(span[1]):zf=1.0-zf
+					c=cols[clampi(int((zf-float(span[0]))/maxf(.001,float(span[1])-float(span[0]))*cols.size()),0,cols.size()-1)]
 				"stripes": c = cols[int(f * cols.size())]
 				"gradient": c = (cols[0] as Color).lerp(cols[-1], f)
 				_: c = cols[0]
@@ -656,6 +658,13 @@ class _Body:
 		match pat:
 			"door_berlingots", "led_bars", "ring", "visuals":
 				return  # traités sur les portes / la face avant, ou non représentables
+			"network_lines":
+				for band in bands:
+					for i in int(total*1.4):
+						var z:=rng.randf_range(.2,total-.5);var y:=rng.randf_range(float(band[0]),float(band[1]))
+						var dz:=rng.randf_range(.08,.28);var dy:=rng.randf_range(-.17,.17)
+						decals.append({"pts":[Vector2(z,y-.009),Vector2(z+dz,y+dy-.009),Vector2(z+dz,y+dy+.009),Vector2(z,y+.009)],"col":cols[0],"glass":true})
+				return
 			"perret_claustra":
 				for b in bands:
 					if float(b[1]) - float(b[0]) < 0.2: continue
@@ -760,7 +769,7 @@ class _Body:
 			out.append(Vector3(sx * w * cos(a), r.y, r.z + dir * bulge_r * w * sin(a)))
 		return out
 
-	const CAP_K := 6
+	const CAP_K := 10
 	const RINGS := [0.0, 0.14, 0.28, 0.41, 0.53, 0.64, 0.74, 0.83, 0.9, 0.955, 1.0]
 
 	func nose(m: _Mesh, zj: float, dir: float, is_front: bool, gz: float) -> void:
@@ -806,8 +815,17 @@ class _Body:
 				for i in CAP_K:
 					var col: Color = frame
 					if y >= h - 0.02: col = L.roof
-					elif in_ws and i > 0: col = shield()
-					m.quad(P0[i], P0[i + 1], P1[i + 1], P1[i], col, Vector3(sx * (0.6 - 0.15 * i), 0, dir))
+					elif in_ws and i > 0:
+						var curve:=float((front.get("windshield",{}) as Dictionary).get("lower_curve_m",0))
+						var u:=cos(PI*.5*(i+.5)/CAP_K)
+						if y>ws_lo+curve*u*u:col=shield()
+					var out:=Vector3(sx*(.6-.15*i),0,dir)
+					var curve_m:=float((front.get("windshield",{}) as Dictionary).get("lower_curve_m",0))
+					if curve_m>0 and i>0 and r0.y>=ws_lo-.001 and r1.y<=ws_hi+.001 and y<ws_lo+curve_m+.04:
+						var quad:Array=[P0[i],P0[i+1],P1[i+1],P1[i]]
+						m.poly(_clip_shield(quad,curve_m,true),shield(),out)
+						m.poly(_clip_shield(quad,curve_m,false),frame,out)
+					else:m.quad(P0[i],P0[i+1],P1[i+1],P1[i],col,out)
 		# dessous du nez (éventail depuis la jonction)
 		m.paint = false
 		var under: Array = [Vector3(0, yb, zj)]
@@ -820,6 +838,26 @@ class _Body:
 		m.poly(under, L.skirt.darkened(0.3), Vector3.DOWN)
 		m.ndir = 0.0
 		_lamps(m, zj, dir, is_front)
+
+	func _shield_distance(p:Vector3,curve:float)->float:
+		var extent:=hw*plan_w(smax(p.y))*sect_w(p.y,smax(p.y))
+		var u:=p.x/maxf(extent,.01)
+		return p.y-ws_lo-curve*u*u
+	func _clip_shield(points:Array,curve:float,above:bool)->Array:
+		var result:Array=[]
+		for i in points.size():
+			var a:Vector3=points[i];var b:Vector3=points[(i+1)%points.size()]
+			var ga:=_shield_distance(a,curve);var gb:=_shield_distance(b,curve)
+			var ia:=ga>=0 if above else ga<=0;var ib:=gb>=0 if above else gb<=0
+			if ia:result.append(a)
+			if ia!=ib:
+				var lo:=0.0;var hi:=1.0
+				for step in 12:
+					var mid:=(lo+hi)*.5;var gm:=_shield_distance(a.lerp(b,mid),curve)
+					if (gm>=0)==(ga>=0):lo=mid
+					else:hi=mid
+				result.append(a.lerp(b,(lo+hi)*.5))
+		return result
 
 	func _lamps(m: _Mesh, zj: float, dir: float, is_front: bool) -> void:
 		var hl: Dictionary = front.get("headlights", {})
@@ -835,6 +873,14 @@ class _Body:
 				_lamp(m, shape, Vector3(lx, y, z), w, hh, white, dir, zj)
 			else:
 				_lamp(m, shape, Vector3(lx, y, z), w * 0.7, hh, red, dir, zj)
+		for extra in front.get("extra_lights",[]):
+			for side in [-1.0,1.0]:
+				var px:float=side*float(extra.x_m);var py:float=extra.y_m;var radius:float=extra.r_m
+				_lamp(m,"round",Vector3(px,py,face_z(absf(px),py,zj,dir)),radius*2,radius*2,Color.from_string(str(extra.color),Color.GRAY),dir,zj)
+		if is_front:
+			_face_line(m,Vector2(.10,ws_lo+.07),Vector2(-.27,ws_lo+.62),zj,dir,.018)
+			_face_line(m,Vector2(-.27,ws_lo+.50),Vector2(-.43,minf(ws_hi-.12,ws_lo+1.31)),zj,dir,.025)
+
 		var ul: Dictionary = front.get("upper_light", {})
 		if not ul.is_empty():
 			var uy := float(ul.get("y_m", h - 0.15))
@@ -844,8 +890,6 @@ class _Body:
 		dy = minf(dy, h - dh * 0.5 - 0.03)
 		var dz := face_z(dw * 0.5, dy, zj, dir)
 		m.box(Vector3(0, dy, dz), Vector3(dw + 0.06, dh + 0.06, 0.04), Color(0.05, 0.05, 0.06))
-		m.box(Vector3(-dw * 0.12, dy, dz + dir * 0.025), Vector3(dw * 0.62, dh * 0.5, 0.03), Color(1.0, 0.6, 0.1, LAMP_A))
-		m.box(Vector3(dw * 0.36, dy, dz + dir * 0.025), Vector3(dw * 0.12, dh * 0.6, 0.03), Color(1.0, 0.6, 0.1, LAMP_A))
 		var ring: Dictionary = front.get("ring", {})
 		if not ring.is_empty():
 			var ry := float(ring.get("y_m", 1.0)); var rr := float(ring.get("r_m", 0.35)); var rw := float(ring.get("width_m", 0.05))
@@ -865,6 +909,18 @@ class _Body:
 					var bx: float = side * (hw * plan_w(1.0) - 0.12)
 					var by := (float(yr[0]) + float(yr[1])) * 0.5
 					m.box(Vector3(bx, by, face_z(absf(bx), by, zj, dir) + dir * 0.01), Vector3(0.05, float(yr[1]) - float(yr[0]), 0.04), Color(0.92, 0.95, 1.0, LAMP_A))
+
+	func _face_line(m:_Mesh,a:Vector2,b:Vector2,zj:float,dir:float,width:float)->void:
+		var perpendicular:=Vector2(-(b-a).y,(b-a).x).normalized()*width*.5
+		var points:Array=[]
+		for q in [a-perpendicular,a+perpendicular,b+perpendicular,b-perpendicular]:
+			points.append(Vector3(q.x,q.y,face_z(absf(q.x),q.y,zj,dir)+dir*.055))
+		m.poly(points,Color(.045,.052,.06),Vector3(0,0,dir))
+
+	func _cab_sign(parent:Node3D,zj:float,dir:float)->void:
+		var dest:Dictionary=front.get("destination",{});var y:=float(dest.get("y_m",h-.45));var w:=float(dest.get("w_m",1.4))
+		var label:=Label3D.new();label.name="Girouette";label.text=str(L.get("destination","ESSAIS")).to_upper().substr(0,20);label.font_size=64;label.pixel_size=minf(.00175,w/maxf(label.text.length()*40.0,1.0));label.outline_size=0;label.modulate=Color(1,.67,.22);label.shaded=false
+		label.position=Vector3(0,y,face_z(0,y,zj,dir)+dir*.10);label.rotation.y=PI if dir<0 else 0;label.double_sided=false;parent.add_child(label)
 
 	## Feu plaqué sur la surface avant (suit le galbe, subdivisé) : lunette sombre puis optique.
 	func _lamp(m: _Mesh, shape: String, c: Vector3, w: float, hh: float, col: Color, dir: float, zj: float) -> void:
@@ -937,6 +993,12 @@ class _Body:
 		for d in doors: zs.append(d.z0); zs.append(d.z1)
 		for wdw in wins: zs.append(wdw[0]); zs.append(wdw[1])
 		for el in L.elements:
+			if el.has("z") and str(el.type)=="vertical_stripes":
+				var span:Array=el.z
+				for k in (el.colors as Array).size()+1:
+					var zpos:=lerpf(float(span[0]),float(span[1]),float(k)/(el.colors as Array).size())*total
+					zs.append(zpos-gz)
+					if bool(el.get("symmetric",false)):zs.append(total-zpos-gz)
 			if el.has("z") and str(el.type) in ["band", "stripes", "gradient"]:
 				for f in el.z:
 					zs.append(float(f) * total - gz)
@@ -965,7 +1027,7 @@ class _Body:
 					var col: Color
 					var in_door := false
 					for d in doors:
-						if zm > float(d.z0) and zm < float(d.z1) and ym > floor_y and ym < door_top: in_door = true
+						if (not bool(P.get("unidirectional",false)) or side>0) and zm > float(d.z0) and zm < float(d.z1) and ym > floor_y and ym < door_top: in_door = true
 					var in_win := false
 					for wdw in wins:
 						if zm > float(wdw[0]) and zm < float(wdw[1]) and ym > wb and ym < wt: in_win = true
@@ -980,9 +1042,12 @@ class _Body:
 			# épaulement et toit
 			for k in range(levels.size() - 1, profile.size() - 1):
 				var a: Vector2 = profile[k]; var b: Vector2 = profile[k + 1]
-				var col: Color = L.roof if k >= levels.size() else surf((a.y + b.y) * 0.5, gz, "side")
-				m.quad(Vector3(side * a.x, a.y, zA), Vector3(side * b.x, b.y, zA), Vector3(side * b.x, b.y, zB), Vector3(side * a.x, a.y, zB), col,
-					Vector3(side * (a.x + b.x), (a.y + b.y) - h, 0))
+				for zi in range(cuts.size()-1):
+					var za:=float(cuts[zi]);var zb:=float(cuts[zi+1]);var ym:=(a.y+b.y)*.5
+					var col:Color=L.roof if k>=levels.size() else surf(ym,gz,"side")
+					if str(L.get("network",""))=="angers":col=surf(ym,gz+(za+zb)*.5,"side")
+					m.quad(Vector3(side*a.x,a.y,za),Vector3(side*b.x,b.y,za),Vector3(side*b.x,b.y,zb),Vector3(side*a.x,a.y,zb),col,Vector3(side*(a.x+b.x),(a.y+b.y)-h,0))
+
 			# décors (hors portes ; les portes reçoivent leur part sur les vantaux)
 			var zfree: Array = []
 			var zcur := zA
@@ -1010,8 +1075,8 @@ class _Body:
 			for rz in [-0.06, 0.06]:
 				m.box(Vector3(0, yb + 0.05 + bl.y * 0.5, Lm * 0.5 + float(rz)), Vector3(bl.x + 0.06, bl.y + 0.04, 0.035), Color(0.1, 0.1, 0.11))
 		# face avant
-		if front_cab: nose(m, zA, -1.0, true, gz)
-		if rear_cab: nose(m, zB, 1.0, false, gz)
+		if front_cab: nose(m, zA, -1.0, true, gz);_cab_sign(mi,zA,-1.0)
+		if rear_cab: nose(m, zB, 1.0, false, gz);_cab_sign(mi,zB,1.0)
 		# bogies / roues
 		if bool(md.get("bogie", false)):
 			var bz := zo + float(md.get("bogie_z_m", float(md.length_m) * 0.5)) * scale
@@ -1153,7 +1218,7 @@ class _Body:
 		var ry: Array = []
 		for y in rows:
 			if ry.is_empty() or float(y) - float(ry[-1]) > 0.02: ry.append(y)
-		for side in [1.0, -1.0]:
+		for side in ([1.0] if bool(P.get("unidirectional",false)) else [1.0,-1.0]):
 			var x: float = side * (hw + (0.03 if str(da.get("type", "plug")) != "sliding" else 0.06))
 			for pt in parts:
 				var a := float(pt[0]) + 0.01; var b := float(pt[1]) - 0.01

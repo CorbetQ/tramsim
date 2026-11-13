@@ -6,151 +6,101 @@ extends Control
 signal back
 signal drive(pick: Dictionary)   # {family, path, city, line, source}
 
-const SUPPLY := {"overhead": "ligne aérienne de contact 750 V CC", "aps": "APS (alimentation par le sol) + LAC 750 V",
-	"third_rail": "troisième rail", "hybrid": "LAC + batteries / supercondensateurs", "battery": "batteries"}
+var family:=""
+var city:=""
+var variant_id:=""
+var lines:Array=[]
+var variants:Array=[]
+var destinations:Array=[]
+var livery_opt:TouchChoice
+var target_opt:TouchChoice
+var preview:TramPreview
+var text:RichTextLabel
+var drive_btn:Button
+var compatibility_note:Label
+var audio_note:Label
 
-var family := ""
-var city := ""
-var lines: Array = []            # Catalogue.lines_for(family), ville filtrée en tête
-var livery_opt: TouchChoice
-var preview: TramPreview
-var text: RichTextLabel
-var drive_btn: Button
-
-func _init(fam: String = "citadis_302", start_city: String = "") -> void:
-	family = TramModel.family_id(fam)
-	city = start_city
-	name = "TramSheet"
-
-func _ready() -> void:
+func _init(fam:String="citadis_302",start_city:String="",pick_id:String="")->void:
+	family=TramModel.family_id(fam);city=start_city;variant_id=pick_id;name="TramSheet"
+func _ready()->void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var bg := ColorRect.new(); bg.color = Color(0.1, 0.12, 0.15); bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(bg)
-	var scroll := TouchScroll.new(); scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; add_child(scroll)
-	var m := MarginContainer.new(); m.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	for side in ["left", "right", "top", "bottom"]: m.add_theme_constant_override("margin_" + side, 24)
-	scroll.add_child(m)
-	var col := VBoxContainer.new(); col.add_theme_constant_override("separation", 12); m.add_child(col)
-	var top := HBoxContainer.new(); top.add_theme_constant_override("separation", 16); col.add_child(top)
-	var bb := Button.new(); bb.text = "← Catalogue"; bb.custom_minimum_size = Vector2(170, 52); top.add_child(bb)
-	bb.pressed.connect(func(): back.emit())
-	var title := Label.new(); title.add_theme_font_size_override("font_size", 32); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.text = str(TramModel.plan(family).get("name", family)).replace(" [AJOUT]", ""); title.clip_text = true; top.add_child(title)
-	var row := BoxContainer.new(); row.vertical = UiLayout.compact(self); row.add_theme_constant_override("separation", 24); row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	col.add_child(row)
-	var left := VBoxContainer.new(); left.add_theme_constant_override("separation", 10); row.add_child(left)
-	preview = TramPreview.new(); left.add_child(preview)
-	preview.custom_minimum_size = Vector2(0, 220) if UiLayout.compact(self) else Vector2(760, 470)
-	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var lr := HBoxContainer.new(); left.add_child(lr)
-	var ll := Label.new(); ll.text = "Livrée"; ll.custom_minimum_size = Vector2(90, 0); lr.add_child(ll)
-	livery_opt = TouchChoice.new(); livery_opt.choice_title = "Livrée"; livery_opt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	livery_opt.custom_minimum_size = Vector2(0, 52); livery_opt.clip_text = true; lr.add_child(livery_opt)
-	drive_btn = Button.new(); drive_btn.text = "Conduire cette rame"; drive_btn.custom_minimum_size = Vector2(0, 72)
-	drive_btn.add_theme_font_size_override("font_size", 26); left.add_child(drive_btn)
-	text = RichTextLabel.new(); text.bbcode_enabled = true; text.fit_content = UiLayout.compact(self); text.scroll_active = not UiLayout.compact(self)
-	text.custom_minimum_size = Vector2(0, 200)
-	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL; text.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	text.add_theme_font_size_override("normal_font_size", 17); text.add_theme_font_size_override("bold_font_size", 17)
-	text.add_theme_font_size_override("italics_font_size", 16)
-	text.meta_clicked.connect(func(u): OS.shell_open(str(u)))
-	row.add_child(text)
-	var audio_note := UiTheme.label_(TramAudio.profile_label(family), UiTheme.SIZE_SMALL, UiTheme.MUTED)
-	audio_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; col.add_child(audio_note)
-	# livrées : une entrée par (réseau, ligne) où la rame circule ; lignes de même réseau et même livrée regroupées
-	var all := Catalogue.lines_for(family)
-	var first: Array = all.filter(func(l): return city != "" and l.city == city)
-	lines = first + all.filter(func(l): return not l in first)
-	var seen := {}
-	var shown: Array = []
-	for l in lines:
-		var liv := TramModel.livery_for(l.meta, l.entry)
-		var key := "%s|%s|%s|%s" % [l.source, liv.base, liv.front, str(liv.get("pattern", {}).get("type", ""))]
-		if seen.has(key):
-			if not l.line in shown[seen[key]].lines: shown[seen[key]].lines.append(l.line)
-			continue
-		seen[key] = shown.size()
-		shown.append({"l": l, "lines": [l.line]})
-	lines = shown
-	for s in shown:
-		livery_opt.add_item("%s — ligne%s %s" % [s.l.city, "s" if s.lines.size() > 1 else "", ", ".join(s.lines)])
-	if shown.is_empty():
-		livery_opt.add_item("Livrée générique (hors flotte)"); drive_btn.disabled = true
-	livery_opt.item_selected.connect(_select)
+	var bg:=ColorRect.new();bg.color=Color(.07,.09,.12);bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(bg)
+	var scroll:=TouchScroll.new();scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(scroll)
+	var margin:=MarginContainer.new();margin.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	for side in ["left","right","top","bottom"]:margin.add_theme_constant_override("margin_"+side,16)
+	scroll.add_child(margin)
+	var column:=VBoxContainer.new();column.add_theme_constant_override("separation",14);margin.add_child(column)
+	var top:=HBoxContainer.new();column.add_child(top)
+	var back_btn:=Button.new();back_btn.text="← Catalogue";back_btn.custom_minimum_size=Vector2(150,52);top.add_child(back_btn);back_btn.pressed.connect(func():back.emit())
+	var title:=UiTheme.label_("Choisir une rame",24,UiTheme.TEXT,true);title.size_flags_horizontal=Control.SIZE_EXPAND_FILL;title.clip_text=true;top.add_child(title)
+	preview=TramPreview.new();preview.custom_minimum_size=Vector2(0,230 if UiLayout.compact(self) else 410);column.add_child(preview)
+	var views:=HBoxContainer.new();column.add_child(views)
+	for mode in [["threequarter","Vue 3/4"],["front","Face avant"],["side","Profil"]]:
+		var button:=Button.new();button.text=mode[1];button.custom_minimum_size=Vector2(0,48);button.size_flags_horizontal=Control.SIZE_EXPAND_FILL;views.add_child(button)
+		button.pressed.connect(func():preview.set_view(mode[0]))
+	column.add_child(UiTheme.label_("Rame et livrée d’origine",18,UiTheme.TEXT,true))
+	livery_opt=TouchChoice.new();livery_opt.choice_title="Rame et livrée";livery_opt.custom_minimum_size.y=54;column.add_child(livery_opt)
+	for entry in StockCatalog.entries():
+		if str(entry.family)==family:variants.append(entry)
+	var selected:=0
+	for i in variants.size():
+		var entry:Dictionary=variants[i];livery_opt.add_item(str(entry.name)+" · "+str(entry.city)+(" · FICTIF" if entry.fictional else ""))
+		if str(entry.id)==variant_id or (variant_id=="" and str(entry.city)==city):selected=i
+	livery_opt.select(selected)
+	column.add_child(UiTheme.label_("Réseau de conduite · mode libre",18,UiTheme.TEXT,true))
+	target_opt=TouchChoice.new();target_opt.choice_title="Réseau compatible";target_opt.custom_minimum_size.y=54;column.add_child(target_opt)
+	compatibility_note=UiTheme.label_("",15,UiTheme.MUTED);compatibility_note.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;column.add_child(compatibility_note)
+	drive_btn=Button.new();drive_btn.text="Conduire en mode libre";drive_btn.custom_minimum_size.y=64;column.add_child(drive_btn)
+	text=RichTextLabel.new();text.bbcode_enabled=true;text.fit_content=true;text.scroll_active=false;text.custom_minimum_size.y=200;column.add_child(text)
+	text.meta_clicked.connect(func(url):OS.shell_open(str(url)))
+	audio_note=UiTheme.label_("",15,UiTheme.MUTED);audio_note.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;column.add_child(audio_note)
+	livery_opt.item_selected.connect(_select);target_opt.item_selected.connect(_target_changed)
 	drive_btn.pressed.connect(func():
-		if lines.is_empty(): return
-		var l: Dictionary = lines[maxi(livery_opt.selected, 0)].l
-		drive.emit({"family": family, "path": l.path, "city": l.city, "line": l.line, "source": l.source}))
-	_select(0)
-
-func current_meta() -> Dictionary:
-	if lines.is_empty(): return {"source_id": "", "id": "catalogue"}
-	return lines[maxi(livery_opt.selected, 0)].l.meta
-
-func _select(i: int) -> void:
-	var meta := current_meta()
-	var entry: Dictionary = lines[i].l.entry if not lines.is_empty() else {"family": family}
-	var v := VehicleLibrary.for_fleet(entry, meta)
-	preview.show_tram(meta, v)
-	text.text = sheet_text(family, v, meta, lines[i].lines if not lines.is_empty() else [])
+		if variants.is_empty() or destinations.is_empty():return
+		var entry:Dictionary=variants[maxi(livery_opt.selected,0)];var target:Dictionary=destinations[maxi(target_opt.selected,0)]
+		drive.emit({"family":family,"variant_id":entry.id,"path":target.path,"city":target.city,"source":target.source_id,"line":"Réseau","free":true}))
+	_select(selected)
+func current_meta()->Dictionary:
+	return StockCatalog.origin_meta(variants[maxi(livery_opt.selected,0)]) if not variants.is_empty() else {}
+func _select(index:int)->void:
+	if variants.is_empty():drive_btn.disabled=true;return
+	var entry:Dictionary=variants[index];var meta:=StockCatalog.origin_meta(entry);var vehicle:=VehicleLibrary.for_fleet(entry,meta)
+	preview.show_tram(meta,vehicle);text.text=sheet_text(family,vehicle,meta,entry.get("lines",[]));audio_note.text=TramAudio.profile_label(family,str(entry.id))
+	var previous:=""
+	if target_opt.selected>=0 and target_opt.selected<destinations.size():previous=str(destinations[target_opt.selected].city)
+	destinations.clear();target_opt.clear()
+	for target in StockCatalog.targets():
+		if StockCatalog.issues(entry,target.supplies,str(target.guidance)).is_empty():destinations.append(target);target_opt.add_item(str(target.city))
+	var chosen:=0
+	for i in destinations.size():
+		if str(destinations[i].city)==(previous if previous!="" else city):chosen=i
+	target_opt.select(chosen);drive_btn.disabled=destinations.is_empty();_target_changed(chosen)
+func _target_changed(index:int)->void:
+	if destinations.is_empty():compatibility_note.text="Aucun réseau compatible : vérifier APS et guidage.";return
+	var entry:Dictionary=variants[maxi(livery_opt.selected,0)];var target:Dictionary=destinations[index]
+	var explanation:="Livrée d’origine conservée · %d réseaux compatibles."%destinations.size()
+	if int(entry.gauge_mm)!=int(target.gauge_mm):explanation+=" Écartement adapté pour ce scénario libre."
+	if entry.fictional:explanation="CONCEPT FICTIF · "+explanation
+	compatibility_note.text=explanation
 
 ## Fiche technique (BBCode) : research.json, variante du réseau choisi, valeurs estimées signalées.
-static func sheet_text(fam: String, v: VehicleProfile, meta: Dictionary, on_lines: Array = []) -> String:
-	var r := TramModel.research(fam).duplicate(true)
-	var p := TramModel.plan(fam)
-	var est: Array = r.get("estimated", []).duplicate()
-	# variante du réseau affiché (research.variants « <réseau>_… ») : valeurs sourcées propres au réseau
-	var src := str(meta.get("source_id", ""))
-	var vd: Dictionary = {}
-	for k in r.get("variants", {}):
-		if src != "" and (str(k) == src or str(k).begins_with(src + "_")) and r.variants[k] is Dictionary: vd = r.variants[k]
-	for k in vd:
-		r[k] = vd[k]; est.erase(k)
-	var e := func(k: String, s: String) -> String: return ("≈ " + s + " [color=#e0b050](estimé)[/color]") if k in est else s
-	var out := PackedStringArray()
-	var row := func(label: String, val: String): out.append("[b]%s[/b] : %s" % [label, val])
-	row.call("Constructeur", str(r.get("manufacturer", "—")) + ((" · " + str(r.generation)) if r.has("generation") else ""))
-	var L := v.length_m if v else float(r.get("length_m", p.get("length_m", 0.0)))
-	var Lref := float(r.get("length_m", L))
-	row.call("Longueur", e.call("length_m", "%.2f m" % L) + ("" if is_equal_approx(L, Lref) else " (version du réseau ; type %.2f m)" % Lref))
-	row.call("Largeur", e.call("width_m", "%.2f m" % (v.width_m if v else float(r.get("width_m", 2.4)))))
-	row.call("Hauteur", e.call("height_m", "%.2f m" % float(r.get("height_m", p.get("height_m", 3.3)))))
-	row.call("Plancher", e.call("floor_height_m", "%d mm au-dessus du rail (plancher bas intégral)" % roundi(float(r.get("floor_height_m", p.get("floor_m", 0.32))) * 1000.0)))
-	row.call("Masse à vide", e.call("mass_t", "%.1f t" % (float(r.get("mass_t", 0.0)) if vd.has("mass_t") or not v else v.empty_mass_kg / 1000.0)))
-	row.call("Puissance", e.call("power_kw", "%d kW" % roundi(float(r.get("power_kw", 0.0)) if vd.has("power_kw") or not v else v.power_kw)))
-	row.call("Vitesse maximale", e.call("max_speed_kmh", "%d km/h" % roundi(v.max_speed_ms * 3.6 if v else float(r.get("max_speed_kmh", 70)))))
-	row.call("Capacité", e.call("capacity", "%d voyageurs" % (int(r.get("capacity", 0)) if vd.has("capacity") or not v else v.capacity)))
-	var doors := "%d par côté" % int(r.get("doors_per_side", 0))
-	if r.has("door_type"): doors += " · " + str(r.door_type)
-	if r.has("door_width_m"): doors += " · %.2f m" % float(r.door_width_m)
-	if r.has("doors_detail"): doors += " (" + str(r.doors_detail) + ")"
-	row.call("Portes", e.call("doors_per_side", doors))
-	var mods: Array = p.get("modules", [])
-	var kinds := {"cab": "cabine", "suspended": "suspendu", "middle": "intermédiaire"}
-	var mk := PackedStringArray()
-	for mo in mods: mk.append(str(kinds.get(str(mo.kind), str(mo.kind))))
-	if r.get("modules") is int or r.get("modules") is float: row.call("Modules", e.call("modules", "%d caisses" % int(r.modules)))
-	else: row.call("Modules", e.call("modules", "%d caisses (%s)" % [mods.size(), " · ".join(mk)]))
-	var sup := str(r.get("supply", ""))
-	if sup == "":
-		sup = str(SUPPLY.get(str(meta.get("supply", v.supply if v else "overhead")), "ligne aérienne de contact 750 V CC"))
-	if v and v.guidance == "rubber_guided": sup += " · guidage par rail central, roulement sur pneus"
-	row.call("Alimentation", sup)
-	var nets := PackedStringArray()
-	for l in Catalogue.lines_for(fam):
-		var s := "%s %s" % [l.city, l.line]
-		if not s in nets: nets.append(s)
-	row.call("Réseaux et lignes", ", ".join(nets) if not nets.is_empty() else "aucune ligne du jeu (matériel « Autre »)")
-	if not on_lines.is_empty(): row.call("Livrée affichée", "%s — ligne(s) %s" % [str(meta.get("city", "")), ", ".join(on_lines)])
-	if r.has("notes"): out.append("\n[i]%s[/i]" % str(r.notes))
-	if r.has("front"): out.append("[i]Face avant : %s[/i]" % str(r.front))
-	if not est.is_empty():
-		out.append("\n[color=#e0b050]Valeurs estimées (≈) : %s[/color]" % ", ".join(est))
-	var srcs: Array = r.get("sources", []) + p.get("sources", []).filter(func(s): return str(s).begins_with("http"))
-	var uniq := PackedStringArray()
-	for s in srcs:
-		if not str(s) in uniq: uniq.append(str(s))
-	out.append("\n[b]Sources[/b] :")
-	for s in uniq: out.append("• [url=%s]%s[/url]" % [s, s.uri_decode().replace("https://", "")])
-	return "\n".join(out)
+static func sheet_text(fam:String,v:VehicleProfile,meta:Dictionary,on_lines:Array=[])->String:
+	var entry:Dictionary=v.fleet if v else StockCatalog.resolve({"family":fam},meta)
+	var lines:=PackedStringArray()
+	if entry.get("fictional",false):lines.append("[color=#f0b3ff][b]CONCEPT FICTIF — création du simulateur, aucune commande réelle.[/b][/color]")
+	lines.append("[b]%s[/b] · %s"%[entry.get("name",fam),entry.get("city","")])
+	lines.append("[b]Dimensions[/b] : %.2f m × %.2f m · %d caisses"%[v.length_m,v.width_m,int(entry.get("module_count",5))])
+	lines.append("[b]Conduite[/b] : "+("unidirectionnelle · portes à droite" if bool(entry.get("geometry",{}).get("unidirectional",false)) else "bidirectionnelle"))
+	lines.append("[b]Roulement[/b] : %s · écartement d’origine %d mm"%["pneus et guidage central" if v.guidance=="rubber_guided" else "rails",v.gauge_mm])
+	var names:Dictionary={"overhead":"LAC","aps":"APS","battery":"autonomie embarquée / SRS"};var powers:=PackedStringArray()
+	for mode in v.power_modes():powers.append(names.get(mode,mode))
+	lines.append("[b]Alimentation à bord[/b] : "+" + ".join(powers))
+	var estimated:Array=entry.get("estimated",[])
+	for item in [["Masse à vide","mass_t","%.1f t"%(v.empty_mass_kg/1000)],["Puissance","power_kw","%d kW"%v.power_kw],["Capacité","capacity","%d voyageurs"%v.capacity]]:
+		lines.append("[b]%s[/b] : %s%s"%[item[0],item[2]," [color=#e0b050](estimé pour la simulation)[/color]" if item[1] in estimated else ""])
+	lines.append("[color=#e0b050]Formes fines, implantation des équipements, effort de traction et freinage : estimations de modélisation. Les photographies ne constituent pas des plans industriels.[/color]")
+	lines.append("\n[b]Sources techniques et photographiques[/b]")
+	for url in entry.get("sources",[]):lines.append("• [url=%s]%s[/url]"%[url,str(url).uri_decode()])
+	for ref in entry.get("references",[]):
+		lines.append("• [url=%s]%s[/url] — %s · %s"%[ref.get("url",""),ref.get("title","Photo"),ref.get("author",""),ref.get("license","")])
+	return "\n".join(lines)

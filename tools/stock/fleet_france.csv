@@ -1,0 +1,79 @@
+id;network;city;family;name;length;width;modules;cab;power;line;source
+angers__citadis_302;angers;Angers;citadis_302;Alstom Citadis 302 Irigo;32.4;2.4;5;irigo302;aps;a;https://fr.wikipedia.org/wiki/Tramway_d%27Angers
+angers__citadis_x05;angers;Angers;citadis_x05;Alstom Citadis 305 Irigo;33;2.4;5;irigo305;aps;b;https://www.alstom.com/fr/press-releases-news/2023/7/les-nouveaux-tramways-alstom-entrent-en-service-commercial-sur-les-lignes-b-c-du-reseau-dangers-loire-metropole
+nantes__incentro;nantes;Nantes;incentro;Adtranz Incentro TAN;36.4;2.4;5;incentro;lac;1;https://fr.wikipedia.org/wiki/Tramway_de_Nantes
+nantes__citadis_x05_nantes;nantes;Nantes;citadis_x05_nantes;Alstom Citadis 405 Naolib;45.6;2.4;7;naolib;lac;1;https://metropole.nantes.fr/actualites/embarquez-pour-l-inauguration-du-nouveau-tramway
+nantes__tfs;nantes;Nantes;tfs;Alsthom TFS Nantes;36.5;2.3;3;tfs_nantes;lac;1;https://fr.wikipedia.org/wiki/Tramway_fran%C3%A7ais_standard
+nantes__urbos;nantes;Nantes;urbos;CAF Urbos 3 TAN;37.966;2.4;5;urbos_nantes;lac;1;https://fr.wikipedia.org/wiki/Tramway_de_Nantes
+nantes__citadis_dualis;nantes;Nantes;citadis_dualis;Alstom Citadis Dualis TER Pays de la Loire;42;2.65;4;dualis;lac;tt;https://fr.wikipedia.org/wiki/U_53500
+bordeaux__citadis_402;bordeaux;Bordeaux;citadis_402;Alstom Citadis 402 TBM;43.989;2.4;7;bordeaux;aps;a;https://fr.wikipedia.org/wiki/Tramway_de_Bordeaux
+bordeaux__citadis_302;bordeaux;Bordeaux;citadis_302;Alstom Citadis 302 TBM;32.85;2.4;5;bordeaux;aps;c;https://fr.wikipedia.org/wiki/Tramway_de_Bordeaux
+clermont__translohr;clermont;Clermont-Ferrand;translohr;Lohr Translohr STE4 T2C;32;2.2;4;translohr;rubber;a;https://fr.wikipedia.org/wiki/Translohr
+mulhouse__citadis_302;mulhouse;Mulhouse;citadis_302;Alstom Citadis 302 Soléa;32.52;2.65;5;mulhouse;lac;1;https://fr.wikipedia.org/wiki/Tramway_de_Mulhouse
+mulhouse__avanto;mulhouse;Mulhouse;avanto;Siemens Avanto U 25500 Soléa;36.97;2.65;5;avanto;lac;tt;https://fr.wikipedia.org/wiki/U_25500
+grenoble__citadis_402;grenoble;Grenoble;citadis_402;Alstom Citadis 402 TAG;43.7;2.4;7;grenoble;lac;a;https://fr.wikipedia.org/wiki/Tramway_de_Grenoble
+grenoble__tfs;grenoble;Grenoble;tfs;Alsthom TFS TAG;29.4;2.3;3;tfs_grenoble;lac;b;https://fr.wikipedia.org/wiki/Tramway_fran%C3%A7ais_standard
+toulouse__citadis_302;toulouse;Toulouse;citadis_302;Alstom Citadis 302 Tisséo;32.4;2.4;5;toulouse;lac;t1;https://fr.wikipedia.org/wiki/Tramway_de_Toulouse
+toulouse__citadis_305;toulouse;Toulouse;citadis_x05;Alstom Citadis 305 Tisséo;32.5;2.4;5;toulouse;lac;t1;https://www.alstom.com/press-releases-news/2023/4/alstom-supply-new-citadis-trams-toulouse-brest-and-besancon-part-group-order
+strasbourg__eurotram;strasbourg;Strasbourg;eurotram;ABB Eurotram CTS court;33.1;2.4;7;eurotram;lac;a;https://fr.wikipedia.org/wiki/Eurotram
+strasbourg__eurotram_long;strasbourg;Strasbourg;eurotram;ABB Eurotram CTS long;43.05;2.4;9;eurotram;lac;b;https://fr.wikipedia.org/wiki/Eurotram
+strasbourg__citadis_403_strasbourg;strasbourg;Strasbourg;citadis_403_strasbourg;Alstom Citadis 403 CTS;45.06;2.4;7;cts403;lac;a;https://fr.wikipedia.org/wiki/Tramway_de_Strasbourg
+strasbourg__citadis_x05;strasbourg;Strasbourg;citadis_x05;Alstom Citadis 403 NG CTS;45.5;2.4;7;cts403ng;lac;d;https://www.alstom.com/press-releases-news/2017/4/alstoms-new-generation-citadis-enters-service-strasbourg
+strasbourg__citadis_3;strasbourg;Strasbourg;citadis_x05;Alstom Citadis 3 CTS;45;2.4;7;cts3;lac;d;https://www.alstom.com/sites/alstom.com/files/2025/06/13/20250613_PR_Citadis_Strasbourg_FR.pdf
+montpellier__citadis_x01;montpellier;Montpellier;citadis_x01;Alstom Citadis 401 TaM Hirondelles;40.9;2.65;5;tam401;lac;1;https://fr.wikipedia.org/wiki/Tramway_de_Montpellier
+montpellier__citadis_302__2;montpellier;Montpellier;citadis_302;Alstom Citadis 302 TaM Fleurs;32.5;2.65;5;tam302;lac;2;https://fr.wikipedia.org/wiki/Tramway_de_Montpellier
+montpellier__citadis_402__3;montpellier;Montpellier;citadis_402;Alstom Citadis 402 TaM Vagues;43.8;2.65;7;tam302;lac;3;https://fr.wikipedia.org/wiki/Tramway_de_Montpellier
+montpellier__citadis_302__4;montpellier;Montpellier;citadis_302;Alstom Citadis 302 TaM Dorures;32.5;2.65;5;tam302;lac;4;https://fr.wikipedia.org/wiki/Tramway_de_Montpellier
+montpellier__urbos;montpellier;Montpellier;urbos;CAF Urbos 100X TaM Black Edition;43.262;2.65;7;urbos_tam;lac;1;https://www.montpellier.fr/actions/competences/transports-mobilites/transports-en-commun/tramway
+montpellier__urbos__5;montpellier;Montpellier;urbos;CAF Urbos 100X TaM Feuilles de vie;43.262;2.65;7;urbos_tam;lac;5;https://www.montpellier.fr/actions/competences/transports-mobilites/transports-en-commun/tramway
+lille__breda_vlc;lille;Lille;breda_vlc;Breda VLC Ilévia;29.6;2.4;4;breda;lac;r;https://fr.wikipedia.org/wiki/Tramway_de_Lille_Roubaix_Tourcoing
+lille__citadis_x05;lille;Lille;citadis_x05;Alstom Citadis 305 Ilévia;32.4;2.4;5;lille305;lac;r;https://www.alstom.com/press-releases-news/2023/12/alstom-supply-new-trams-lille-european-metropolitan-area
+lyon__citadis_302;lyon;Lyon;citadis_302;Alstom Citadis 302 TCL;32.4;2.4;5;lyon_egg;lac;t1;https://fr.wikipedia.org/wiki/Tramway_de_Lyon
+lyon__citadis_402;lyon;Lyon;citadis_402;Alstom Citadis 402 TCL 1re génération;43.76;2.4;7;lyon_egg;lac;t3;https://www.alstom.com/fr/press-releases-news/2011/4/Alstom-fournira-10-tramways-Citadis-de-grande-capacite-a-Lyon
+lyon__citadis_402_2020;lyon;Lyon;citadis_402;Alstom Citadis 402 TCL 2020;43.76;2.4;7;lyon2020;lac;t4;https://www.alstom.com/press-releases-news/2018/9/alstom-supply-new-citadis-trams-lyons-public-transport-network
+lyon__tango_rhonexpress;lyon;Lyon;tango_rhonexpress;Stadler Tango Rhônexpress;27;2.55;3;tango;lac;rhonexpress;https://fr.wikipedia.org/wiki/Rh%C3%B4nexpress
+lyon__citadis_dualis;lyon;Lyon;citadis_dualis;Alstom Citadis Dualis TER Auvergne-Rhône-Alpes;42;2.65;4;dualis;lac;tt;https://fr.wikipedia.org/wiki/U_52500
+marseille__flexity_marseille;marseille;Marseille;flexity_marseille;Bombardier Flexity Outlook RTM;42.5;2.4;7;marseille;lac;t1;https://fr.wikipedia.org/wiki/Tramway_de_Marseille
+marseille__urbos;marseille;Marseille;urbos;CAF Urbos 100X RTM;42.51;2.4;7;marseille_caf;lac;t3;https://www.marseille-transports.com/tramway.php
+nice__citadis_402;nice;Nice;citadis_402;Alstom Citadis 402 Lignes d’Azur;44;2.65;7;nice302;battery;t1;https://fr.wikipedia.org/wiki/Tramway_de_Nice
+nice__citadis_x05;nice;Nice;citadis_x05;Alstom Citadis 405 Lignes d’Azur SRS;44;2.65;7;nice405;battery;t2;https://www.alstom.com/press-releases-news/2018/7/alstom-inaugurates-first-new-generation-citadis-with-innovative-charging-technology-in-nice
+rouen__citadis_402;rouen;Rouen;citadis_402;Alstom Citadis 402 Astuce;44;2.4;7;rouen;lac;m;https://fr.wikipedia.org/wiki/Tramway_de_Rouen
+reims__citadis_reims;reims;Reims;citadis_reims;Alstom Citadis 302 Grand Reims Mobilités;32.4;2.4;5;reims;aps;a;https://fr.wikipedia.org/wiki/Tramway_de_Reims
+dijon__citadis_302;dijon;Dijon;citadis_302;Alstom Citadis 302 Divia;32.7;2.4;5;dijon;lac;t1;https://fr.wikipedia.org/wiki/Tramway_de_Dijon
+tours__citadis_tours;tours;Tours;citadis_tours;Alstom Citadis 402 Fil Bleu;43.7;2.4;7;tours;aps;a;https://fr.wikipedia.org/wiki/Tramway_de_Tours
+orleans__citadis_302;orleans;Orléans;citadis_302;Alstom Citadis 302 Tao APS;32.3;2.4;5;orleans302;aps;b;https://fr.wikipedia.org/wiki/Tramway_d%27Orl%C3%A9ans
+orleans__citadis_x01;orleans;Orléans;citadis_x01;Alstom Citadis 301 Tao;29.9;2.32;3;orleans301;lac;a;https://fr.wikipedia.org/wiki/Tramway_d%27Orl%C3%A9ans
+lemans__citadis_302;lemans;Le Mans;citadis_302;Alstom Citadis 302 Setram;32;2.4;5;lemans;lac;t1;https://fr.wikipedia.org/wiki/Tramway_du_Mans
+lemans__citadis_402;lemans;Le Mans;citadis_402;Alstom Citadis 402 Setram allongé;44;2.4;7;lemans;lac;t1;https://www.alstom.com/press-releases-news/2026/6/alstom-celebrates-commissioning-first-extended-tram-le-mans-just-time-24-hours-le-mans
+caen__citadis_x05;caen;Caen;citadis_x05;Alstom Citadis 305 Twisto;33;2.4;5;caen;lac;t1;https://fr.wikipedia.org/wiki/Tramway_de_Caen
+brest__citadis_302;brest;Brest;citadis_302;Alstom Citadis 302 Bibus;32.7;2.4;5;brest;lac;a;https://fr.wikipedia.org/wiki/Tramway_de_Brest
+brest__citadis_305;brest;Brest;citadis_x05;Alstom Citadis 305 Bibus;32.5;2.4;5;brest;lac;b;https://www.alstom.com/press-releases-news/2023/4/alstom-supply-new-citadis-trams-toulouse-brest-and-besancon-part-group-order
+lehavre__citadis_302;lehavre;Le Havre;citadis_302;Alstom Citadis 302 LiA;32.15;2.4;5;lehavre;lac;a;https://fr.wikipedia.org/wiki/Tramway_du_Havre
+saintetienne__urbos;saintetienne;Saint-Étienne;urbos;CAF Urbos 3 STAS;32.966;2.15;5;urbos_stas;lac;t2;https://fr.wikipedia.org/wiki/CAF_Urbos
+saintetienne__vevey_saint_etienne;saintetienne;Saint-Étienne;vevey_saint_etienne;Alsthom Vevey STE2 STAS;22.24;2.1;2;vevey2;lac;t1;https://fr.wikipedia.org/wiki/Tramway_de_Saint-%C3%89tienne
+saintetienne__vevey_ste1;saintetienne;Saint-Étienne;vevey_saint_etienne;Alsthom Vevey STE1 STAS;22.24;2.1;2;vevey1;lac;t1;https://fr.wikipedia.org/wiki/Tramway_de_Saint-%C3%89tienne
+besancon__urbos;besancon;Besançon;urbos;CAF Urbos 3 Ginko;23.7;2.4;3;urbos_ginko;lac;t1;https://fr.wikipedia.org/wiki/Tramway_de_Besan%C3%A7on
+besancon__citadis_x05;besancon;Besançon;citadis_x05;Alstom Citadis 305 Ginko;32.5;2.4;5;ginko305;lac;t1;https://www.alstom.com/fr/press-releases-news/2025/6/grand-besancon-metropole-et-alstom-devoilent-le-premier-tramway-citadis-du-reseau-ginko
+avignon__citadis_compact;avignon;Avignon;citadis_compact;Alstom Citadis 205 Orizo;24;2.4;3;avignon;lac;t1;https://fr.wikipedia.org/wiki/Tramway_d%27Avignon
+aubagne__citadis_compact;aubagne;Aubagne;citadis_compact;Alstom Citadis 205 Aubagne;22;2.4;3;aubagne;lac;t;https://fr.wikipedia.org/wiki/Tramway_d%27Aubagne
+valenciennes__citadis_302;valenciennes;Valenciennes;citadis_302;Alstom Citadis 302 Transvilles;32.85;2.4;5;valenciennes;lac;t1;https://fr.wikipedia.org/wiki/Tramway_de_Valenciennes
+idf__tfs__t1;idf;Île-de-France;tfs;Alsthom TFS T1 RATP;29.4;2.3;3;tfs_paris;lac;t1;https://fr.wikipedia.org/wiki/Tramway_fran%C3%A7ais_standard
+idf__citadis_x05__t1;idf;Île-de-France;citadis_x05;Alstom Citadis 305 TW20 IDFM T1;33;2.4;5;idfm305;lac;t1;https://www.alstom.com/fr/press-releases-news/2024/12/le-tramway-citadis-nouvelle-generation-dalstom-accueille-ses-premiers-voyageurs-sur-la-ligne-t1-du-reseau-ile-de-france-mobilites
+idf__citadis_302__t2;idf;Île-de-France;citadis_302;Alstom Citadis 302 TW01 RATP T2;32.2;2.4;5;paris_t2;lac;t2;https://fr.wikipedia.org/wiki/Ligne_2_du_tramway_d%27%C3%8Ele-de-France
+idf__citadis_402__t3a;idf;Île-de-France;citadis_402;Alstom Citadis 402 TW03 RATP T3;43.7;2.65;7;paris_t3;lac;t3a;https://fr.wikipedia.org/wiki/Ligne_3a_du_tramway_d%27%C3%8Ele-de-France
+idf__avanto__t4;idf;Île-de-France;avanto;Siemens Avanto U 25500 T4 Transilien;36.97;2.65;5;avanto_paris;lac;t4;https://fr.wikipedia.org/wiki/U_25500
+idf__citadis_dualis__t4;idf;Île-de-France;citadis_dualis;Alstom Citadis Dualis T4 IDFM;42;2.65;4;dualis;lac;t4;https://fr.wikipedia.org/wiki/U_53700
+idf__translohr__t5;idf;Île-de-France;translohr;Lohr Translohr STE3 TW07 RATP T5;25;2.2;3;translohr_paris;rubber;t5;https://fr.wikipedia.org/wiki/Translohr
+idf__translohr__t6;idf;Île-de-France;translohr;Lohr Translohr STE6 TW09 RATP T6;46;2.2;6;translohr_paris;rubber;t6;https://fr.wikipedia.org/wiki/Translohr
+idf__citadis_302__t7;idf;Île-de-France;citadis_302;Alstom Citadis 302 TW10 RATP T7;32.7;2.4;5;paris_t7;lac;t7;https://fr.wikipedia.org/wiki/Ligne_7_du_tramway_d%27%C3%8Ele-de-France
+idf__citadis_302__t8;idf;Île-de-France;citadis_302;Alstom Citadis 302 TW10 RATP T8;32.7;2.4;5;paris_t7;lac;t8;https://fr.wikipedia.org/wiki/Ligne_8_du_tramway_d%27%C3%8Ele-de-France
+idf__citadis_x05__t9;idf;Île-de-France;citadis_x05;Alstom Citadis 405 IDFM T9;44;2.65;7;idfm405;lac;t9;https://fr.wikipedia.org/wiki/Ligne_9_du_tramway_d%27%C3%8Ele-de-France
+idf__citadis_x05__t10;idf;Île-de-France;citadis_x05;Alstom Citadis 405 IDFM T10;44;2.65;7;idfm405;lac;t10;https://fr.wikipedia.org/wiki/Ligne_10_du_tramway_d%27%C3%8Ele-de-France
+idf__citadis_dualis__t11;idf;Île-de-France;citadis_dualis;Alstom Citadis Dualis T11 IDFM;42;2.65;4;dualis;lac;t11;https://fr.wikipedia.org/wiki/U_53600
+idf__citadis_dualis__t12;idf;Île-de-France;citadis_dualis;Alstom Citadis Dualis T12 IDFM;42;2.65;4;dualis;lac;t12;https://fr.wikipedia.org/wiki/U_52600
+idf__citadis_dualis__t13;idf;Île-de-France;citadis_dualis;Alstom Citadis Dualis T13 IDFM;42;2.65;4;dualis;lac;t13;https://fr.wikipedia.org/wiki/U_53800
+annemasse__tango_tpg;annemasse;Annemasse;tango_rhonexpress;Stadler Tango Be 6/10 TPG;44;2.3;6;tango_tpg;lac;17;https://fr.wikipedia.org/wiki/Stadler_Tango
+saintlouis__flexity_bvb;saintlouis;Saint-Louis;flexity_marseille;Bombardier Flexity Basel BVB;43.2;2.3;7;flexity_basel;lac;3;https://fr.wikipedia.org/wiki/Tramway_de_B%C3%A2le
+leymen__tango_blt;leymen;Leymen;tango_rhonexpress;Stadler Tango Be 6/10 BLT;44.98;2.3;6;tango_blt;lac;10;https://fr.wikipedia.org/wiki/Tramway_de_B%C3%A2le
+sarreguemines__flexity_link;sarreguemines;Sarreguemines;avanto;Bombardier Flexity Link Saarbahn;37;2.65;3;saarbahn;lac;s1;https://fr.wikipedia.org/wiki/Saarbahn
+annemasse__cityrunner_tpg;annemasse;Annemasse;flexity_marseille;Bombardier Cityrunner Be 6/8 TPG;42.046;2.3;7;tpg_cityrunner;lac;17;https://www.tpg.ch/sites/default/files/2023-06/TPG_Directives_techniques_Chapitre_02_2022.pdf
