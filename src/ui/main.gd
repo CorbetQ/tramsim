@@ -37,6 +37,13 @@ var start_station: Dictionary = {}
 var hour0 := 12.0
 var _result_saved := false
 var menu_page := "home"         # "home" | "setup"
+var menu_city := ""             # ville sélectionnée (accueil, configuration, fond)
+var scenario: Dictionary = {}   # mission scénarisée (MissionCatalog), sinon {}
+var home_bg: HomeBackground     # ville vue du ciel derrière les menus
+var intro: IntroCamera          # zoom de lancement en cours
+var settings_layer: Control
+var _menu: Dictionary = {}      # références de la page de menu courante (raccourcis)
+var _intro_radius := 0.0
 
 # interface de conduite
 var hud_speed: Speedometer
@@ -97,6 +104,10 @@ func _bell_sound() -> AudioStreamWAV:
 	return w
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST and session == null and is_node_ready():
+		var esc := InputEventKey.new(); esc.keycode = KEY_ESCAPE
+		_menu_key(KEY_ESCAPE, esc)
+		get_tree().quit_on_go_back = menu_page == "home" and settings_layer == null
 	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
 		if session != null and not paused:
 			_set_paused(true)
@@ -110,7 +121,9 @@ func _persist() -> void:
 func _clear() -> void:
 	camera_gestures.reset()
 	for c in get_children():
-		if c != bell: c.queue_free()
+		if c != bell and c != home_bg: c.queue_free()
+	if is_instance_valid(intro): intro.queue_free()
+	intro = null; settings_layer = null
 	view = null; tram_audio = null; session = null; free = null; tuto = null; plan_panel = null; pause_layer = null; debrief_layer = null
 	help_layer = null; toasts = null; hud_switch = null; lamps.clear()
 
@@ -123,7 +136,40 @@ func _backdrop() -> void:
 	var gr := Gradient.new(); gr.set_color(0, Color("#13312f")); gr.set_color(1, UiTheme.BG)
 	gt.gradient = gr; bg.texture = gt; bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE; bg.stretch_mode = TextureRect.STRETCH_SCALE
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg)
+	add_child(bg); move_child(bg, 0)
+
+## Fond 3D de l'accueil (ville vue du ciel) : conservé d'une page de menu à l'autre, libéré au lancement.
+func _bg_allowed() -> bool:
+	return DisplayServer.get_name() != "headless" and not get_viewport().disable_3d and bool(save.settings.get("home_bg", true))
+
+func _show_bg(city: String) -> void:
+	if not _bg_allowed():
+		if is_instance_valid(home_bg): home_bg.queue_free()
+		home_bg = null; return
+	if not is_instance_valid(home_bg):
+		home_bg = HomeBackground.new(); add_child(home_bg)
+	move_child(home_bg, 1)
+	home_bg.show_city(city)
+
+## Classe MissionCatalog (autre module) si présente : aucune dépendance à la compilation.
+static func _catalog() -> Script:
+	for c in ProjectSettings.get_global_class_list():
+		if str(c["class"]) == "MissionCatalog" and ResourceLoader.exists(str(c.path)):
+			var s = load(str(c.path))
+			if s is Script: return s
+	return null
+
+static func _has_static(s: Script, m: String) -> bool:
+	for d in s.get_script_method_list():
+		if str(d.name) == m: return true
+	return false
+
+func _scenarios(city: String, source: String) -> Array:
+	var cat := _catalog()
+	if cat == null or not _has_static(cat, "for_city"): return []
+	var out = cat.call("for_city", source)
+	if (not out is Array or out.is_empty()) and city != source: out = cat.call("for_city", city)
+	return out if out is Array else []
 
 ## Marges horizontales adaptées (contenu centré, largeur max) : 16:9 à 21:9, téléphone à PC.
 func _page() -> MarginContainer:
@@ -160,48 +206,79 @@ func _reflow() -> void:
 func _build_menu() -> void:
 	_clear()
 	paused = false
+	_menu.clear()
 	_backdrop()
 	if has_meta("catalogue_pick"): menu_page = "setup"
+	var cities := NetworkRegistry.cities()
+	if not menu_city in cities: menu_city = str(save.settings.get("last_city", ""))
+	if not menu_city in cities: menu_city = "Bordeaux" if "Bordeaux" in cities else (cities[0] if not cities.is_empty() else "")
+	_show_bg(menu_city)
+	get_tree().quit_on_go_back = menu_page == "home"
 	if menu_page == "setup": _build_setup()
 	else: _build_home()
+
+## Dernière partie lancée (réglage last_run), si son réseau existe encore.
+func _resume_info() -> Dictionary:
+	var r = save.settings.get("last_run", {})
+	if not r is Dictionary or not r.has("net_path") or not FileAccess.file_exists(str(r.net_path)): return {}
+	return r
 
 func _build_home() -> void:
 	var page := _page()
 	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 40); page.add_child(row)
-	var left := VBoxContainer.new(); left.size_flags_horizontal = Control.SIZE_EXPAND_FILL; left.size_flags_stretch_ratio = 1.0
-	left.alignment = BoxContainer.ALIGNMENT_CENTER; left.add_theme_constant_override("separation", 14); row.add_child(left)
+	var lp := UiTheme.panel(Color(UiTheme.SURFACE, 0.74), 24, 22); lp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	lp.size_flags_vertical = Control.SIZE_SHRINK_CENTER; lp.size_flags_stretch_ratio = 1.0; row.add_child(lp)
+	var left := VBoxContainer.new(); left.add_theme_constant_override("separation", 12); lp.add_child(left)
 	var brand := HBoxContainer.new(); brand.add_theme_constant_override("separation", 16); left.add_child(brand)
 	var logo := PanelContainer.new(); logo.add_theme_stylebox_override("panel", UiTheme.box(UiTheme.ACCENT, 16, 10)); brand.add_child(logo)
-	var li := UiTheme.icon_rect("tram", 44, Color("#04201c")); logo.add_child(li)
+	logo.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	logo.add_child(UiTheme.icon_rect("tram", 40, Color("#04201c")))
 	var tv := VBoxContainer.new(); tv.add_theme_constant_override("separation", -4); brand.add_child(tv)
-	tv.add_child(UiTheme.label_("Tram Sim France", UiTheme.SIZE_DISPLAY, UiTheme.TEXT, true))
-	tv.add_child(UiTheme.label_("Conduisez les tramways de %d villes françaises" % NetworkRegistry.cities().size(), UiTheme.SIZE_BODY, UiTheme.MUTED))
-	left.add_child(_spacer(10))
+	tv.add_child(UiTheme.label_("Tram Sim France", UiTheme.SIZE_H1 if UiLayout.compact(self) else UiTheme.SIZE_DISPLAY, UiTheme.TEXT, true))
+	var sub := UiTheme.label_("Conduisez les tramways de %d villes françaises" % NetworkRegistry.cities().size(), UiTheme.SIZE_SMALL, UiTheme.MUTED)
+	sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; tv.add_child(sub)
+	var r := _resume_info()
+	if not r.is_empty():
+		var rb := _card_button("play", "Reprendre la dernière partie", str(r.get("label", "")) + "   ·   R")
+		rb.name = "resume"; rb.add_theme_stylebox_override("normal", UiTheme.box(Color(UiTheme.ACCENT, 0.22), 18, 18, Color(UiTheme.ACCENT, 0.6), 1))
+		rb.pressed.connect(_resume); left.add_child(rb)
 	var cards := [
-		["mission", "Mission horaire", "Un service réel (horaires GTFS) : desserte, ponctualité, signalisation.", func(): free_mode = false; menu_page = "setup"; _build_menu()],
-		["free", "Mode libre", "Le réseau complet de la ville : aiguillages, changements de sens, trafic.", func(): free_mode = true; menu_page = "setup"; _build_menu()],
-		["catalogue", "Catalogue des rames", "Fiches techniques, livrées et lignes de chaque matériel.", func(): _open_catalogue("")]]
+		["mission", "Mission", "Service horaire réel ou mission scénarisée (aléas).   ·   1", func(): _open_setup(false)],
+		["free", "Mode libre", "Le réseau complet : aiguillages, changements de sens, trafic.   ·   2", func(): _open_setup(true)],
+		["catalogue", "Catalogue des rames", "Fiches techniques, livrées et lignes de chaque matériel.   ·   C", func(): _open_catalogue("")]]
 	for c in cards:
 		var b := _card_button(c[0], c[1], c[2]); b.pressed.connect(c[3]); left.add_child(b)
-	left.add_child(_spacer(6))
-	var hint := HBoxContainer.new(); hint.add_theme_constant_override("separation", 8); left.add_child(hint)
-	hint.add_child(UiTheme.keycap("F1")); hint.add_child(UiTheme.label_("aide clavier", UiTheme.SIZE_SMALL, UiTheme.MUTED))
-	hint.add_child(UiTheme.keycap("F11")); hint.add_child(UiTheme.label_("plein écran", UiTheme.SIZE_SMALL, UiTheme.MUTED))
-	# vitrine : aperçu 3D d'une rame
-	var right := VBoxContainer.new(); right.size_flags_horizontal = Control.SIZE_EXPAND_FILL; right.size_flags_stretch_ratio = 1.05
-	right.alignment = BoxContainer.ALIGNMENT_CENTER; row.add_child(right); right.visible = not UiLayout.compact(self)
-	var pc := UiTheme.panel(Color(0, 0, 0, 0.25), 22, 6); right.add_child(pc)
-	var preview := TramPreview.new(); pc.add_child(preview); preview.custom_minimum_size = Vector2(480, 400)
-	var entries := NetworkRegistry.entries()
-	if not entries.is_empty():
-		var e: Dictionary = entries[0]
-		for x in entries:
-			if str(x.city) == "Bordeaux": e = x; break
-		var meta := Catalogue.meta_of(str(e.path))
-		preview.show_tram(meta, VehicleLibrary.default_for(meta))
-		var cap := UiTheme.label_("%s — ligne %s" % [e.city, e.line], UiTheme.SIZE_SMALL, UiTheme.MUTED)
-		cap.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; right.add_child(cap)
+		if UiLayout.compact(self): b.custom_minimum_size.y = 72
+	var tools := HBoxContainer.new(); tools.add_theme_constant_override("separation", 10); left.add_child(tools)
+	var bs := UiTheme.button("Réglages", "switch", "normal", Vector2(0, 48)); bs.name = "settings"; bs.tooltip_text = "Réglages (G)"
+	bs.pressed.connect(_open_settings); tools.add_child(bs)
+	var bh := UiTheme.button("Aide", "help", "ghost", Vector2(0, 48)); bh.tooltip_text = "Aide clavier (F1)"; bh.pressed.connect(_toggle_help); tools.add_child(bh)
+	var hint := HFlowContainer.new(); hint.add_theme_constant_override("h_separation", 8); hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tools.add_child(hint); hint.visible = not UiLayout.compact(self)
+	for k in [["Entrée", "continuer"], ["Échap", "retour"]]:
+		hint.add_child(UiTheme.keycap(k[0])); hint.add_child(UiTheme.label_(k[1], UiTheme.SIZE_SMALL, UiTheme.MUTED))
+	# droite : la ville en fond, légende (ville, lignes aux couleurs GTFS)
+	var right := VBoxContainer.new(); right.size_flags_horizontal = Control.SIZE_EXPAND_FILL; right.size_flags_stretch_ratio = 1.1
+	right.alignment = BoxContainer.ALIGNMENT_END; row.add_child(right); right.visible = not UiLayout.compact(self)
+	right.add_child(_city_caption(menu_city))
 	UiTheme.fade_in(page, 0.3)
+
+## Légende du fond : nom de la ville et pastilles des lignes.
+func _city_caption(city: String) -> Control:
+	var p := UiTheme.panel(Color(UiTheme.SURFACE, 0.6), 16, 12); p.size_flags_horizontal = Control.SIZE_SHRINK_END; p.name = "city_caption"
+	var v := VBoxContainer.new(); v.add_theme_constant_override("separation", 6); p.add_child(v)
+	var t := UiTheme.label_(city, UiTheme.SIZE_H2, UiTheme.TEXT, true); t.name = "caption_city"; v.add_child(t)
+	var h := HFlowContainer.new(); h.add_theme_constant_override("h_separation", 6); h.add_theme_constant_override("v_separation", 6); v.add_child(h)
+	var seen := {}
+	for e in NetworkRegistry.entries():
+		if e.city != city or seen.has(str(e.line)): continue
+		seen[str(e.line)] = true
+		h.add_child(UiTheme.line_badge(str(e.line), _line_color(str(e.path)), UiTheme.SIZE_SMALL))
+	v.add_child(UiTheme.label_("Vue du ciel · réseau de tramway", UiTheme.SIZE_CAPTION, UiTheme.MUTED))
+	return p
+
+func _open_setup(free_: bool) -> void:
+	free_mode = free_; menu_page = "setup"; _build_menu()
 
 func _spacer(h: float) -> Control:
 	var s := Control.new(); s.custom_minimum_size = Vector2(0, h); s.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -209,28 +286,30 @@ func _spacer(h: float) -> Control:
 
 ## Carte cliquable : icône, titre, description.
 func _card_button(icon_name: String, title: String, desc: String) -> Button:
-	var b := Button.new(); b.custom_minimum_size = Vector2(0, 92); b.name = "card_" + icon_name
+	var b := Button.new(); b.custom_minimum_size = Vector2(0, 84); b.name = "card_" + icon_name
 	b.tooltip_text = desc; b.set_meta("title", title)
-	b.add_theme_stylebox_override("normal", UiTheme.box(UiTheme.SURFACE, 18, 18, UiTheme.BORDER, 1))
-	b.add_theme_stylebox_override("hover", UiTheme.box(UiTheme.SURFACE_3, 18, 18, Color(UiTheme.ACCENT, 0.7), 2))
-	b.add_theme_stylebox_override("pressed", UiTheme.box(Color(UiTheme.ACCENT, 0.3), 18, 18, UiTheme.ACCENT, 2))
+	b.add_theme_stylebox_override("normal", UiTheme.box(Color(UiTheme.SURFACE_2, 0.8), 18, 16, UiTheme.BORDER, 1))
+	b.add_theme_stylebox_override("hover", UiTheme.box(UiTheme.SURFACE_3, 18, 16, Color(UiTheme.ACCENT, 0.7), 2))
+	b.add_theme_stylebox_override("pressed", UiTheme.box(Color(UiTheme.ACCENT, 0.3), 18, 16, UiTheme.ACCENT, 2))
+	b.add_theme_stylebox_override("focus", UiTheme.box(Color.TRANSPARENT, 18, 16, UiTheme.HIGHLIGHT, 2))
 	var h := HBoxContainer.new(); h.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	h.offset_left = 18; h.offset_right = -18; h.add_theme_constant_override("separation", 18); h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.offset_left = 16; h.offset_right = -16; h.add_theme_constant_override("separation", 16); h.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	b.add_child(h)
 	var ib := PanelContainer.new(); ib.add_theme_stylebox_override("panel", UiTheme.box(Color(UiTheme.ACCENT, 0.16), 14, 10))
 	ib.size_flags_vertical = Control.SIZE_SHRINK_CENTER; ib.mouse_filter = Control.MOUSE_FILTER_IGNORE; h.add_child(ib)
-	ib.add_child(UiTheme.icon_rect(icon_name, 34, UiTheme.ACCENT))
+	ib.add_child(UiTheme.icon_rect(icon_name, 30, UiTheme.ACCENT))
 	var v := VBoxContainer.new(); v.alignment = BoxContainer.ALIGNMENT_CENTER; v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE; h.add_child(v)
 	v.add_child(UiTheme.label_(title, UiTheme.SIZE_H2, UiTheme.TEXT, true))
 	var d := UiTheme.label_(desc, UiTheme.SIZE_SMALL, UiTheme.MUTED); d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; v.add_child(d)
+	d.max_lines_visible = 2; d.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	h.add_child(UiTheme.icon_rect("chevron", 22, UiTheme.MUTED))
 	UiTheme.hover_fx(b)
 	return b
 
 ## Carte d'étape numérotée de la configuration.
 func _step(parent: Control, n: int, title: String) -> VBoxContainer:
-	var p := UiTheme.panel(UiTheme.SURFACE, 16, 16); parent.add_child(p)
+	var p := UiTheme.panel(Color(UiTheme.SURFACE, 0.8), 16, 14); parent.add_child(p)
 	var v := VBoxContainer.new(); v.add_theme_constant_override("separation", 10); p.add_child(v)
 	var h := HBoxContainer.new(); h.add_theme_constant_override("separation", 10); v.add_child(h)
 	var num := UiTheme.label_(str(n), UiTheme.SIZE_SMALL, Color("#04201c"), true); num.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -240,39 +319,86 @@ func _step(parent: Control, n: int, title: String) -> VBoxContainer:
 	h.add_child(UiTheme.label_(title, UiTheme.SIZE_BODY, UiTheme.TEXT, true))
 	return v
 
+const MISSION_TYPES := {"service": ["Service", "clock"], "detour": ["Déviation", "route"], "depot": ["Dépôt", "home"],
+	"incident": ["Incident", "flag"], "night": ["Nuit", "clock"], "rush": ["Pointe", "clock"], "training": ["Formation", "help"]}
+const CONDITIONS := {"detour": "Déviation", "flood": "Inondation", "leaves": "Feuilles mortes", "depot": "Dépôt", "rain": "Pluie",
+	"snow": "Neige", "night": "Nuit", "fog": "Brouillard", "works": "Travaux", "traffic": "Trafic dense", "crowd": "Affluence",
+	"power_cut": "Coupure d'alimentation", "signal_fault": "Panne de signal"}
+
+static func _cond_label(c) -> String:
+	var k := str(c.get("type", c.get("id", ""))) if c is Dictionary else str(c)
+	return CONDITIONS.get(k, k.capitalize())
+
+## Carte de mission scénarisée : type, difficulté, durée, conditions.
+func _mission_card(m: Dictionary) -> Button:
+	var b := Button.new(); b.toggle_mode = true; b.name = "mission_" + str(m.get("id", "x")).validate_node_name()
+	b.set_meta("label", str(m.get("title", ""))); b.custom_minimum_size = Vector2(0, 76)
+	b.add_theme_stylebox_override("normal", UiTheme.box(Color(1, 1, 1, 0.05), 14, 12, UiTheme.BORDER, 1))
+	b.add_theme_stylebox_override("hover", UiTheme.box(Color(1, 1, 1, 0.1), 14, 12, Color(UiTheme.ACCENT, 0.5), 1))
+	b.add_theme_stylebox_override("pressed", UiTheme.box(Color(UiTheme.ACCENT, 0.22), 14, 12, UiTheme.ACCENT, 2))
+	var v := VBoxContainer.new(); v.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.offset_left = 12; v.offset_right = -12; v.offset_top = 8; v.offset_bottom = -8; v.add_theme_constant_override("separation", 4); b.add_child(v)
+	var h := HBoxContainer.new(); h.add_theme_constant_override("separation", 8); h.mouse_filter = Control.MOUSE_FILTER_IGNORE; v.add_child(h)
+	var ty: Array = MISSION_TYPES.get(str(m.get("type", "service")), [str(m.get("type", "Mission")).capitalize(), "mission"])
+	h.add_child(UiTheme.icon_rect(ty[1], 20, UiTheme.ACCENT))
+	var t := UiTheme.label_(str(m.get("title", "Mission")), UiTheme.SIZE_SMALL, UiTheme.TEXT, true); t.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	t.clip_text = true; t.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS; h.add_child(t)
+	if str(m.get("line", "")) != "": h.add_child(UiTheme.line_badge(str(m.line), UiTheme.INFO, UiTheme.SIZE_CAPTION))
+	var diff := clampi(int(m.get("difficulty", 1)), 1, 3)
+	var info := "%s · %s · ≈ %d min" % [ty[0], "●".repeat(diff) + "○".repeat(3 - diff), int(m.get("duration_min", 0))]
+	var conds: Array = m.get("conditions", []) if m.get("conditions", []) is Array else []
+	if not conds.is_empty(): info += " · " + ", ".join(conds.map(_cond_label))
+	var l := UiTheme.label_(info, UiTheme.SIZE_CAPTION, UiTheme.MUTED); l.clip_text = true; l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	v.add_child(l)
+	b.tooltip_text = str(m.get("description", ""))
+	return b
+
 func _build_setup() -> void:
+	var compact := UiLayout.compact(self)
 	var page := _page()
-	var col := VBoxContainer.new(); col.add_theme_constant_override("separation", 14); page.add_child(col)
-	# barre supérieure : retour, mode (segmenté), catalogue
-	var top := HBoxContainer.new(); top.add_theme_constant_override("separation", 12); col.add_child(top)
-	var back := UiTheme.button("Accueil", "back", "ghost", Vector2(0, 52)); top.add_child(back)
+	var col := VBoxContainer.new(); col.add_theme_constant_override("separation", 12); page.add_child(col)
+	# barre supérieure : retour, mode (segmenté), catalogue, réglages
+	var top := HBoxContainer.new(); top.add_theme_constant_override("separation", 10); col.add_child(top)
+	var back := UiTheme.button("Accueil", "back", "ghost", Vector2(0, 52)); back.name = "back"; top.add_child(back)
+	back.tooltip_text = "Retour à l'accueil (Échap)"
 	back.pressed.connect(func(): menu_page = "home"; _build_menu())
 	var title := UiTheme.label_("Préparer le service", UiTheme.SIZE_H1, UiTheme.TEXT, true)
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; top.add_child(title); title.visible = not UiLayout.compact(self)
-	var seg := PanelContainer.new(); seg.add_theme_stylebox_override("panel", UiTheme.box(Color(0, 0, 0, 0.3), 14, 4)); top.add_child(seg)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; top.add_child(title); title.visible = not compact
+	if compact:
+		var fill_ := Control.new(); fill_.size_flags_horizontal = Control.SIZE_EXPAND_FILL; top.add_child(fill_)
+	var seg := PanelContainer.new(); seg.add_theme_stylebox_override("panel", UiTheme.box(Color(0, 0, 0, 0.4), 14, 4)); top.add_child(seg)
 	var modes := HBoxContainer.new(); modes.add_theme_constant_override("separation", 4); seg.add_child(modes)
 	var grp := ButtonGroup.new()
-	var b_mis := UiTheme.button("Mission" if UiLayout.compact(self) else "Mission horaire", "mission", "chip", Vector2(0, 48)); b_mis.toggle_mode = true; b_mis.button_group = grp
-	var b_free := UiTheme.button("Libre" if UiLayout.compact(self) else "Mode libre", "free", "chip", Vector2(0, 48)); b_free.toggle_mode = true; b_free.button_group = grp
+	var b_mis := UiTheme.button("Mission" if compact else "Mission  (1)", "mission", "chip", Vector2(0, 48)); b_mis.toggle_mode = true; b_mis.button_group = grp
+	var b_free := UiTheme.button("Libre" if compact else "Mode libre  (2)", "free", "chip", Vector2(0, 48)); b_free.toggle_mode = true; b_free.button_group = grp
 	modes.add_child(b_mis); modes.add_child(b_free)
 	b_free.button_pressed = free_mode; b_mis.button_pressed = not free_mode
 	var cities := NetworkRegistry.cities()
-	var city_ref := [""]
-	var cat_btn := UiTheme.button("Catalogue", "catalogue", "normal", Vector2(0, 52)); top.add_child(cat_btn)
-	cat_btn.tooltip_text = "Catalogue des rames : fiches techniques, livrées, choix du matériel"
+	var city_ref := [menu_city]
+	var cat_btn := UiTheme.button("" if compact else "Catalogue", "catalogue", "normal", Vector2(52, 52)); top.add_child(cat_btn)
+	cat_btn.tooltip_text = "Catalogue des rames (C) : fiches techniques, livrées, choix du matériel"
 	cat_btn.pressed.connect(func(): _open_catalogue(city_ref[0]))
-	# corps : étapes à gauche, aperçu et départ à droite
-	var body := HBoxContainer.new(); body.add_theme_constant_override("separation", 22); body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	var set_btn := UiTheme.button("", "switch", "normal", Vector2(52, 52)); set_btn.tooltip_text = "Réglages (G)"; set_btn.name = "settings"
+	set_btn.pressed.connect(_open_settings); top.add_child(set_btn)
+	# corps : étapes à gauche, la ville au centre (fond), résumé et lancement à droite
+	var body := HBoxContainer.new(); body.add_theme_constant_override("separation", 18); body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	col.add_child(body)
 	var sc := TouchScroll.new(); sc.size_flags_horizontal = Control.SIZE_EXPAND_FILL; sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	body.add_child(sc)
-	var box := VBoxContainer.new(); box.size_flags_horizontal = Control.SIZE_EXPAND_FILL; box.add_theme_constant_override("separation", 12)
+	sc.size_flags_stretch_ratio = 1.0; body.add_child(sc)
+	var box := VBoxContainer.new(); box.size_flags_horizontal = Control.SIZE_EXPAND_FILL; box.add_theme_constant_override("separation", 10)
 	sc.add_child(box)
-	var s1 := _step(box, 1, "Ville et ligne")
-	var city_opt := _opt(s1, "Ville")
-	for c in cities: city_opt.add_item(c)
-	var line_row := _row(s1, "Ligne"); var line_opt: TouchChoice = line_row.get_child(1)
-	var s2 := _step(box, 2, "Service")
+	var s1 := _step(box, 1, "Ville")
+	# grand écran : liste filtrable + carte de France ; compact : sélecteur plein écran avec recherche
+	var picker: Control
+	if compact:
+		var co := _opt(s1, "Ville"); co.choice_title = "Ville"
+		for c in cities: co.add_item(c)
+		co.selected = maxi(0, cities.find(city_ref[0])); picker = co
+	else:
+		picker = CityPicker.new(cities, city_ref[0], true); s1.add_child(picker)
+	var s2 := _step(box, 2, "Ligne et mission")
+	var line_row := _row(s2, "Ligne"); var line_opt: TouchChoice = line_row.get_child(1)
+	var scen_box := VBoxContainer.new(); scen_box.add_theme_constant_override("separation", 6); scen_box.name = "missions"; s2.add_child(scen_box)
 	var mis_row := _row(s2, "Service"); var mis_opt: TouchChoice = mis_row.get_child(1)
 	var st_row := _row(s2, "Départ"); var st_opt: TouchChoice = st_row.get_child(1)
 	var s3 := _step(box, 3, "Rame")
@@ -286,37 +412,66 @@ func _build_setup() -> void:
 	time_opt.selected = int(save.settings.get("time_mode", 0))
 	var traffic_cb := CheckButton.new(); traffic_cb.text = "Trafic automobile"; traffic_cb.button_pressed = save.settings.traffic
 	traffic_cb.custom_minimum_size = Vector2(0, 48); s4.add_child(traffic_cb)
-	# colonne droite
-	var right := VBoxContainer.new(); right.add_theme_constant_override("separation", 12); right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	right.size_flags_stretch_ratio = 0.9; body.add_child(right)
-	var pc := UiTheme.panel(Color(0, 0, 0, 0.28), 20, 6); pc.size_flags_vertical = Control.SIZE_EXPAND_FILL; right.add_child(pc)
-	var preview := TramPreview.new(); pc.add_child(preview); preview.custom_minimum_size = Vector2(240, 140) if UiLayout.compact(self) else Vector2(420, 240)
-	var sum := HBoxContainer.new(); sum.add_theme_constant_override("separation", 10); right.add_child(sum)
-	var badge := UiTheme.line_badge("", UiTheme.INFO, UiTheme.SIZE_H2); badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER; sum.add_child(badge)
-	var sheet := UiTheme.label_("", UiTheme.SIZE_SMALL, UiTheme.TEXT); sheet.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	sheet.size_flags_horizontal = Control.SIZE_EXPAND_FILL; sheet.max_lines_visible = 2; sheet.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	sum.add_child(sheet)
-	var go := UiTheme.button("Démarrer", "play", "primary", Vector2(0, 72)); go.add_theme_font_size_override("font_size", 28)
-	go.name = "start"; right.add_child(go)
+	if not compact:   # fenêtre sur la ville (fond 3D)
+		var gap := Control.new(); gap.size_flags_horizontal = Control.SIZE_EXPAND_FILL; gap.size_flags_stretch_ratio = 0.45
+		gap.mouse_filter = Control.MOUSE_FILTER_IGNORE; body.add_child(gap)
+	# colonne droite : aperçu, résumé de la sélection, lancement (toujours visibles)
+	var right := VBoxContainer.new(); right.add_theme_constant_override("separation", 10); right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	right.size_flags_stretch_ratio = 0.62 if not compact else 0.8; body.add_child(right)
+	var pc := UiTheme.panel(Color(0, 0, 0, 0.35), 20, 6); right.add_child(pc); pc.visible = not compact
+	var preview := TramPreview.new(); pc.add_child(preview); preview.custom_minimum_size = Vector2(300, 190)
+	var sp := UiTheme.panel(Color(UiTheme.SURFACE, 0.86), 18, 14); sp.size_flags_vertical = Control.SIZE_EXPAND_FILL; sp.name = "summary"; right.add_child(sp)
+	var sv := VBoxContainer.new(); sv.add_theme_constant_override("separation", 6); sp.add_child(sv)
+	var sh := HBoxContainer.new(); sh.add_theme_constant_override("separation", 10); sv.add_child(sh)
+	var badge := UiTheme.line_badge("", UiTheme.INFO, UiTheme.SIZE_H2); badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER; sh.add_child(badge)
+	sh.add_child(UiTheme.label_("Votre sélection", UiTheme.SIZE_BODY, UiTheme.TEXT, true))
+	var grid := GridContainer.new(); grid.columns = 2; grid.add_theme_constant_override("h_separation", 10); sv.add_child(grid)
+	var sum_vals := {}
+	for k in ["Mode", "Ville", "Ligne", "Mission", "Rame"]:
+		grid.add_child(UiTheme.label_(k.to_upper(), UiTheme.SIZE_CAPTION, UiTheme.MUTED, true))
+		var val := UiTheme.label_("", UiTheme.SIZE_SMALL, UiTheme.TEXT); val.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		val.clip_text = true; val.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS; grid.add_child(val); sum_vals[k] = val
+	var sheet := sum_vals["Mission"] as Label
+	var spacer_ := Control.new(); spacer_.size_flags_vertical = Control.SIZE_EXPAND_FILL; sv.add_child(spacer_)
+	var go := UiTheme.button("Lancer", "play", "primary", Vector2(0, 64 if compact else 72)); go.add_theme_font_size_override("font_size", 22 if compact else 28)
+	go.name = "start"; go.tooltip_text = "Lancer (Entrée)"; sv.add_child(go)
+	_menu = {"go": go, "picker": picker, "b_mis": b_mis, "b_free": b_free, "back": back}
 	# état du menu (tableaux partagés : modifiés en place depuis les lambdas)
 	var all_nets: Array = NetworkRegistry.entries()
 	var city_nets: Array = []
 	var mis_list: Array = []
 	var st_list: Array = []
 	var vehicles: Array = []
+	var scen_list: Array = []
+	var scen_ref := [{}]
 	var cur_meta: Dictionary = {}
 	var free_path := func() -> String: return "res://data/free/%s.json" % _source_of(city_nets)
+	var refresh_ref := [Callable()]
+	var build_scen := func():
+		for c in scen_box.get_children(): c.queue_free()
+		scen_ref[0] = {}
+		if scen_list.is_empty() or b_free.button_pressed:
+			scen_box.visible = false; return
+		scen_box.visible = true
+		var sg := ButtonGroup.new()
+		var gtfs := _mission_card({"id": "gtfs", "type": "service", "title": "Service horaire réel (GTFS)", "difficulty": 1,
+			"duration_min": 0, "description": "Desserte d'un service réel : choisir l'horaire ci-dessous."})
+		gtfs.button_group = sg; gtfs.button_pressed = true; scen_box.add_child(gtfs)
+		gtfs.pressed.connect(func(): scen_ref[0] = {}; mis_row.visible = true; refresh_ref[0].call())
+		for m in scen_list:
+			var card := _mission_card(m); card.button_group = sg; scen_box.add_child(card)
+			card.pressed.connect(func(): scen_ref[0] = m; mis_row.visible = false; refresh_ref[0].call())
 	var fill := func():
 		var is_free := b_free.button_pressed
-		line_row.visible = not is_free; mis_row.visible = not is_free; st_row.visible = is_free
-		city_ref[0] = cities[city_opt.selected]
+		line_row.visible = not is_free; mis_row.visible = not is_free and scen_ref[0].is_empty(); st_row.visible = is_free
 		city_nets.clear()
-		city_nets.append_array(all_nets.filter(func(e): return e.city == cities[city_opt.selected]))
-		if line_opt.item_count == 0 or line_opt.get_meta("city", "") != cities[city_opt.selected]:
+		city_nets.append_array(all_nets.filter(func(e): return e.city == city_ref[0]))
+		if city_nets.is_empty(): return
+		if line_opt.item_count == 0 or line_opt.get_meta("city", "") != city_ref[0]:
 			line_opt.clear()
 			for e in city_nets:
 				line_opt.add_icon_item(_swatch(_line_color(str(e.path))), "%s — %s%s" % [e.line, e.long_name, "  (tram-train)" if e.kind == "tram-train" else ""])
-			line_opt.set_meta("city", cities[city_opt.selected])
+			line_opt.set_meta("city", city_ref[0])
 		var n := NetworkLoader.new()
 		if is_free and FileAccess.file_exists(free_path.call()):
 			n.load_file(free_path.call())
@@ -346,6 +501,7 @@ func _build_setup() -> void:
 		for v in VehicleLibrary.all():
 			vehicles.append(v); veh_opt.add_item("Autre : " + v.family)
 	var refresh := func(_i = 0):
+		if vehicles.is_empty(): return
 		var is_free := b_free.button_pressed
 		var v: VehicleProfile = vehicles[maxi(veh_opt.selected, 0)]
 		var supply := [str(cur_meta.get("supply", "overhead"))]
@@ -362,30 +518,43 @@ func _build_setup() -> void:
 		badge.text = str(cur_meta.get("line", "")) if not is_free else "Réseau"
 		badge.add_theme_stylebox_override("normal", UiTheme.box(lc, 8, 8))
 		badge.add_theme_color_override("font_color", Color.WHITE if lc.get_luminance() < 0.6 else Color.BLACK)
-		sheet.text = "%s · %s\n%s" % [cities[city_opt.selected], v.family,
-			(mis_opt.get_item_text(mis_opt.selected) if mis_opt.selected >= 0 else "") if not is_free else (st_opt.get_item_text(st_opt.selected) if st_opt.selected >= 0 else "")]
+		sum_vals["Mode"].text = "Mode libre" if is_free else ("Mission scénarisée" if not scen_ref[0].is_empty() else "Service horaire")
+		sum_vals["Ville"].text = city_ref[0]
+		sum_vals["Ligne"].text = "Réseau complet" if is_free else "%s — %s" % [cur_meta.get("line", ""), cur_meta.get("long_name", "")]
+		sum_vals["Rame"].text = v.family
+		if is_free: sheet.text = st_opt.get_item_text(st_opt.selected) if st_opt.selected >= 0 else ""
+		elif not scen_ref[0].is_empty(): sheet.text = str(scen_ref[0].get("title", ""))
+		else: sheet.text = mis_opt.get_item_text(mis_opt.selected) if mis_opt.selected >= 0 else ""
 		go.disabled = not ok and not is_free
-		go.text = "Démarrer" if (ok or is_free) else "Matériel incompatible (essayez le mode libre)"
-		if is_free and not ok: go.text = "Démarrer (mode d'adaptation)"
+		go.text = "Lancer" if (ok or is_free) else "Matériel incompatible (essayez le mode libre)"
+		if is_free and not ok: go.text = "Lancer (mode d'adaptation)"
+	refresh_ref[0] = refresh
 	var full := func(_i = 0):
 		fill.call(); veh_opt.select(0); refresh.call()
-	city_opt.item_selected.connect(full)
+	var city_changed := func(c: String):
+		city_ref[0] = c; menu_city = c
+		var src := _source_of(all_nets.filter(func(e): return e.city == c))
+		scen_list.clear(); scen_list.append_array(_scenarios(c, src))
+		build_scen.call(); full.call()
+		_show_bg(c)
+	if picker is CityPicker: picker.chosen.connect(city_changed)
+	else: (picker as TouchChoice).item_selected.connect(func(i): city_changed.call(cities[i]))
 	line_opt.item_selected.connect(full)
-	b_mis.toggled.connect(func(on): if on: free_mode = false; full.call())
-	b_free.toggled.connect(func(on): if on: free_mode = true; full.call())
+	b_mis.toggled.connect(func(on): if on: free_mode = false; build_scen.call(); full.call())
+	b_free.toggled.connect(func(on): if on: free_mode = true; build_scen.call(); full.call())
 	veh_opt.item_selected.connect(refresh)
 	mis_opt.item_selected.connect(refresh)
 	st_opt.item_selected.connect(refresh)
-	var last := cities.find(str(save.settings.get("last_city", "")))
-	if last >= 0: city_opt.select(last)
+	var src0 := _source_of(all_nets.filter(func(e): return e.city == city_ref[0]))
+	scen_list.append_array(_scenarios(city_ref[0], src0)); build_scen.call()
 	full.call()
 	# choix venu du catalogue (« Conduire cette rame ») : ville, ligne et matériel, puis départ
 	var pick: Dictionary = get_meta("catalogue_pick", {})
 	if not pick.is_empty():
 		remove_meta("catalogue_pick")
-		var ci := cities.find(str(pick.city))
-		if ci >= 0:
-			city_opt.select(ci); fill.call()
+		if str(pick.city) in cities:
+			if picker is CityPicker: picker.pick(str(pick.city))
+			else: picker.select(cities.find(str(pick.city))); city_changed.call(str(pick.city))
 			for i in city_nets.size():
 				if city_nets[i].path == pick.path: line_opt.select(i)
 			fill.call()
@@ -393,22 +562,141 @@ func _build_setup() -> void:
 				if (vehicles[i] as VehicleProfile).model_family == pick.family: veh_opt.select(i); break
 			refresh.call()
 	go.pressed.connect(func():
+		if city_nets.is_empty(): return
 		save.settings.traffic = traffic_cb.button_pressed
 		save.settings.time_mode = time_opt.selected
-		save.settings.last_city = cities[city_opt.selected]
+		save.settings.last_city = city_ref[0]
 		free_mode = b_free.button_pressed
 		vehicle = vehicles[maxi(veh_opt.selected, 0)]
+		scenario = {}
 		if free_mode:
 			net_path = free_path.call()
 			if not FileAccess.file_exists(net_path): net_path = city_nets[0].path
 			start_station = st_list[maxi(st_opt.selected, 0)] if not st_list.is_empty() else {}
 			mission = {}
+		elif not scen_ref[0].is_empty():
+			scenario = scen_ref[0]; mission = {}
+			net_path = str(scenario.get("network", free_path.call()))
+			if not FileAccess.file_exists(net_path):
+				net_path = city_nets[maxi(line_opt.selected, 0)].path
+				for e in city_nets:
+					if str(e.line) == str(scenario.get("line", "")): net_path = e.path; break
 		else:
 			net_path = city_nets[maxi(line_opt.selected, 0)].path
 			mission = mis_list[mis_opt.selected] if mis_opt.selected >= 0 and mis_opt.selected < mis_list.size() else {}
-		_start())
+		_remember_run(city_ref[0])
+		_start(true))
 	UiTheme.fade_in(page, 0.25)
 	if pick.get("start", false) and not go.disabled: go.pressed.emit()
+
+## Mémorise la partie lancée (bouton « Reprendre la dernière partie »).
+func _remember_run(city: String) -> void:
+	var label := "%s · %s · %s" % [city, "mode libre" if free_mode else ("mission « %s »" % scenario.get("title", "") if not scenario.is_empty()
+		else "ligne %s %s" % [Catalogue.meta_of(net_path).get("line", ""), str(mission.get("start_time", "")).substr(0, 5)]), vehicle.family]
+	save.settings.last_run = {"label": label, "city": city, "free": free_mode, "net_path": net_path, "vehicle": vehicle.id,
+		"mission_key": "%s|%s" % [mission.get("start_time", ""), mission.get("headsign", "")] if not mission.is_empty() else "",
+		"scenario": str(scenario.get("id", "")), "station": start_station.duplicate() if free_mode else {}}
+	SaveGame.save_data(save)
+
+func _vehicle_by_id(id: String, meta: Dictionary) -> VehicleProfile:
+	for f in TramModel.fleet_for(meta):
+		var v := VehicleLibrary.for_fleet(f, meta)
+		if v.id == id: return v
+	for v in VehicleLibrary.all():
+		if v.id == id: return v
+	return VehicleLibrary.default_for(meta)
+
+func _resume() -> void:
+	var r := _resume_info()
+	if r.is_empty(): return
+	var n := NetworkLoader.new()
+	if not n.load_file(str(r.net_path)).is_empty(): return
+	net_path = str(r.net_path); free_mode = bool(r.free); mission = {}; scenario = {}; start_station = {}
+	vehicle = _vehicle_by_id(str(r.vehicle), n.meta)
+	menu_city = str(r.get("city", menu_city))
+	if free_mode:
+		var f: Dictionary = save.get("free", {})
+		if str(f.get("network", "")) == net_path and n.edge_info.has(str(f.get("edge", ""))):
+			start_station = {"edge": str(f.edge), "offset": float(f.offset), "name": "reprise"}
+		elif r.get("station", {}) is Dictionary and not r.station.is_empty(): start_station = r.station
+	elif str(r.get("scenario", "")) != "":
+		for m in _scenarios(menu_city, str(n.meta.get("source_id", ""))):
+			if str(m.get("id", "")) == str(r.scenario): scenario = m
+	if not free_mode and scenario.is_empty():
+		for m in n.missions():
+			if "%s|%s" % [m.get("start_time", ""), m.get("headsign", "")] == str(r.get("mission_key", "")): mission = m
+	_start(true)
+
+## Réglages (accueil) : distance de vue, trafic, ambiance, fond animé, astuces.
+func _open_settings() -> void:
+	if settings_layer: return
+	var v := VBoxContainer.new(); v.add_theme_constant_override("separation", 10)
+	var dists := [300.0, 400.0, 600.0, 900.0]
+	var dist := _opt(v, "Vue"); for d in dists: dist.add_item("Distance de vue : %d m" % int(d))
+	dist.selected = maxi(0, dists.find(float(save.settings.get("view_distance", 400.0))))
+	dist.item_selected.connect(func(i): save.settings.view_distance = dists[i])
+	var hour := _opt(v, "Heure")
+	for t in ["Heure réelle du service", "Jour (12 h)", "Coucher de soleil (20 h)", "Nuit (23 h)", "Cycle accéléré (1 h = 1 min)"]: hour.add_item(t)
+	hour.selected = int(save.settings.get("time_mode", 0)); hour.item_selected.connect(func(i): save.settings.time_mode = i)
+	var checks := [["Trafic automobile", "traffic", true], ["Ville animée en fond d'accueil", "home_bg", true], ["Intro de lancement (zoom)", "intro", true]]
+	for c in checks:
+		var cb := CheckButton.new(); cb.text = c[0]; cb.custom_minimum_size = Vector2(0, 48)
+		cb.button_pressed = bool(save.settings.get(c[1], c[2])); v.add_child(cb)
+		cb.toggled.connect(func(on): save.settings[c[1]] = on)
+	var tut := CheckButton.new(); tut.text = "Revoir les astuces de conduite"; tut.custom_minimum_size = Vector2(0, 48)
+	tut.button_pressed = not save.settings.tutorial_done; v.add_child(tut)
+	tut.toggled.connect(func(on): save.settings.tutorial_done = not on)
+	settings_layer = _overlay("Réglages", "switch", UiTheme.ACCENT, [["Fermer  (Échap)", "close", "primary", _close_settings]], "", [], v, 600.0)
+	settings_layer.name = "settings_layer"
+
+func _close_settings() -> void:
+	if settings_layer == null: return
+	settings_layer.queue_free(); settings_layer = null
+	SaveGame.save_data(save)
+	_show_bg(menu_city)
+
+## Raccourcis des menus (accueil, configuration). Renvoie vrai si la touche est consommée.
+func _menu_key(k: int, ev: InputEventKey) -> bool:
+	if not get_tree().get_nodes_in_group("touch_choice_modal").is_empty(): return false
+	for c in get_children():
+		if c is Catalogue: return false
+	if settings_layer:
+		if k == KEY_ESCAPE or k == KEY_BACKSPACE: _close_settings(); return true
+		return false
+	var focus := get_viewport().gui_get_focus_owner()
+	if focus is LineEdit:
+		if k == KEY_ESCAPE: focus.release_focus(); return true
+		return false
+	var setup := menu_page == "setup"
+	match k:
+		KEY_ESCAPE, KEY_BACKSPACE:
+			if setup: menu_page = "home"; _build_menu(); return true
+		KEY_ENTER, KEY_KP_ENTER:
+			if setup:
+				var go: Button = _menu.get("go")
+				if go and not go.disabled: go.pressed.emit()
+			else: _open_setup(free_mode)
+			return true
+		KEY_1, KEY_KP_1:
+			if setup: _menu.b_mis.button_pressed = true
+			else: _open_setup(false)
+			return true
+		KEY_2, KEY_KP_2:
+			if setup: _menu.b_free.button_pressed = true
+			else: _open_setup(true)
+			return true
+		KEY_R:
+			if not setup and not _resume_info().is_empty(): _resume(); return true
+		KEY_C: _open_catalogue(menu_city); return true
+		KEY_G: _open_settings(); return true
+		KEY_SLASH, KEY_KP_DIVIDE, KEY_F:
+			if setup and (k != KEY_F or ev.ctrl_pressed):
+				if _menu.picker is CityPicker: _menu.picker.search.grab_focus()
+				else: _menu.picker.open_picker()
+				return true
+		KEY_PAGEUP, KEY_PAGEDOWN:
+			if setup and _menu.picker is CityPicker: _menu.picker.step(-1 if k == KEY_PAGEUP else 1); return true
+	return false
 
 static var _line_colors: Dictionary = {}
 func _line_color(path: String) -> Color:
@@ -434,10 +722,12 @@ func _open_catalogue(city: String) -> Catalogue:
 		p.start = true; set_meta("catalogue_pick", p); _build_menu())
 	return cat
 
+static var _sources: Dictionary = {}
 func _source_of(city_nets: Array) -> String:
 	if city_nets.is_empty(): return ""
-	var n := NetworkLoader.new(); n.load_file(city_nets[0].path)
-	return str(n.meta.get("source_id", ""))
+	var path := str(city_nets[0].path)
+	if not _sources.has(path): _sources[path] = str(Catalogue.meta_of(path).get("source_id", ""))
+	return _sources[path]
 
 func _opt(parent: Control, label: String) -> TouchChoice:
 	return _row(parent, label).get_child(1)
@@ -452,7 +742,12 @@ func _row(parent: Control, label: String) -> HBoxContainer:
 
 # ----------------------------------------------------------------------------------------------- partie
 
-func _start() -> void:
+## Lance la partie choisie. `with_intro` : zoom ville -> quartier -> station (lancement depuis le menu).
+func _start(with_intro: bool = false) -> void:
+	if is_instance_valid(home_bg): home_bg.queue_free()
+	home_bg = null
+	with_intro = with_intro and bool(save.settings.get("intro", true))
+	get_tree().quit_on_go_back = false
 	_clear()
 	_result_saved = false
 	_speed_advice = {}
@@ -475,6 +770,8 @@ func _start() -> void:
 		free.route_dir = [free.direction]; free.checkpoint_dir = free.direction; free.update_spans()
 		session = free
 		first = e
+	elif not scenario.is_empty() and _scenario_session():
+		first = session.edge_id
 	else:
 		if not mission.is_empty(): first = mission.start_edge
 		var sched: Array[float] = []
@@ -496,12 +793,48 @@ func _start() -> void:
 	# DayNight applique déjà le budget d’ombres mobile.
 	if OS.has_feature("mobile") and view.city: view.city.radius = 450.0
 	view.update_from(session, true)
+	# intro : tuiles de la zone de départ (et de ses abords vus d'en haut) construites avant la première image
+	_intro_radius = view.city.radius if view.city else 0.0
+	if with_intro and view.city and not OS.has_feature("mobile"): view.city.radius = maxf(_intro_radius, 1000.0)
 	if view.city: view.city.warm(view.cam.global_position)
 	view.cam.current = true
 	tram_audio = TramAudio.new(view, bell); add_child(tram_audio)   # moteur sonore de la rame
 	_build_hud()
 	_set_notch(notch)
 	if free and free.adaptation_notice != "": _log(free.adaptation_notice)
+	if with_intro: _begin_intro()
+	elif not save.settings.tutorial_done: _show_tuto()
+
+## Session d'une mission scénarisée (MissionCatalog.create_session), sinon faux (repli GTFS).
+func _scenario_session() -> bool:
+	var cat := _catalog()
+	if cat == null or not _has_static(cat, "create_session"): return false
+	var s = cat.call("create_session", scenario, vehicle)
+	if not s is MissionSession: return false
+	session = s
+	if s.net != null: net = s.net
+	if session.get("traffic") != null: session.traffic.set_enabled(save.settings.traffic)
+	return true
+
+func _begin_intro() -> void:
+	for c in get_children():
+		if c.is_in_group("driving_hud"): (c as CanvasItem).visible = false
+	var st := _next_stop()
+	var city := str(net.meta.get("city", menu_city))
+	var caps := PackedStringArray([city, ("Réseau de tramway" if free_mode else "Ligne %s — %s" % [net.meta.get("line", ""), net.meta.get("long_name", "")]),
+		str(start_station.get("name", "")) if free_mode and not start_station.is_empty() else str(st.get("name", ""))])
+	intro = IntroCamera.new(); view.add_child(intro)
+	intro.finished.connect(_end_intro)
+	intro.start(view, view.pos3(session.edge_id, session.offset), caps)
+
+func _end_intro() -> void:
+	intro = null
+	if view == null: return
+	if view.city and _intro_radius > 0.0: view.city.radius = _intro_radius
+	for c in get_children():
+		if c.is_in_group("driving_hud"):
+			var ci := c as CanvasItem; ci.visible = true; ci.modulate.a = 0.0
+			var tw := ci.create_tween(); tw.tween_property(ci, "modulate:a", 1.0, 0.35)
 	if not save.settings.tutorial_done: _show_tuto()
 
 func _hud_panel(alpha: float = 0.8) -> PanelContainer:
@@ -845,6 +1178,7 @@ func _next_stop() -> Dictionary:
 # ----------------------------------------------------------------------------------------------- entrées
 
 func _unhandled_input(ev: InputEvent) -> void:
+	if intro != null: return
 	if view == null or paused or plan_panel != null or help_layer != null: return
 	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == -1: return
 	if ev is InputEventScreenTouch or ev is InputEventScreenDrag:
@@ -860,6 +1194,10 @@ func _unhandled_input(ev: InputEvent) -> void:
 		view.cam_dist = clampf(view.cam_dist / ev.factor, 14.0, 160.0)
 
 func _input(ev: InputEvent) -> void:
+	if intro != null:   # intro de lancement : touche, clic ou toucher pour passer
+		if (ev is InputEventKey and ev.pressed and not ev.echo) or (ev is InputEventMouseButton and ev.pressed) or (ev is InputEventScreenTouch and ev.pressed):
+			intro.skip(); get_viewport().set_input_as_handled()
+		return
 	if ev is InputEventScreenTouch and not ev.pressed: camera_gestures.feed(ev)
 	if not (ev is InputEventKey) or not ev.pressed or ev.echo:
 		return
@@ -874,7 +1212,9 @@ func _input(ev: InputEvent) -> void:
 		_toggle_help(); get_viewport().set_input_as_handled(); return
 	# saisie en cours (recherche d'arrêt) : les lettres vont au champ texte
 	if get_viewport().gui_get_focus_owner() is LineEdit and k != KEY_ESCAPE: return
-	if session == null: return
+	if session == null:
+		if _menu_key(k, ev): get_viewport().set_input_as_handled()
+		return
 	match k:
 		KEY_ESCAPE:
 			if plan_panel: _toggle_plan()
@@ -904,6 +1244,9 @@ func _fmt_clock(h: float) -> String:
 
 func _process(dt: float) -> void:
 	if session == null: return
+	if intro != null:   # session figée pendant l'intro ; la rame et le décor restent à jour
+		view.set_hour(current_hour()); view.update_from(session, external_cam)
+		return
 	if not paused and not session.finished:
 		session.tick(minf(dt, 0.1), notch, emergency)
 		if emergency and session.phys.speed < 0.05: emergency = false

@@ -223,18 +223,34 @@ func _structures(g: _Geo, id: String) -> void:
 			g.quad(p.call(f0, 2.9, 0.05), p.call(f1, 2.9, 0.05), p.call(f1, 2.9, -1.1), p.call(f0, 2.9, -1.1), concrete)
 			g.quad(p.call(f0, inner, -1.1), p.call(f0, 2.9, -1.1), p.call(f1, 2.9, -1.1), p.call(f1, inner, -1.1), concrete.darkened(0.25))
 			g.quad(p.call(f0, 1.75, 0.04), p.call(f1, 1.75, 0.04), p.call(f1, 2.9, 0.04), p.call(f0, 2.9, 0.04), Color("#8b8d90"))
-			if info.get("structure_right", true):
-				g.quad(p.call(f0, 2.8, 0.05), p.call(f1, 2.8, 0.05), p.call(f1, 2.8, 1.15), p.call(f0, 2.8, 1.15), Color("#d6d1c6"))
-			if info.get("physical", false) and info.get("structure_left", true):
-				g.quad(p.call(f0, inner, 0.05), p.call(f0, inner, 1.15), p.call(f1, inner, 1.15), p.call(f1, inner, 0.05), Color("#d6d1c6"))
+			# corniche en saillie, bordure basse et garde-corps métallique (lisses et montants)
+			var sides_: Array = []
+			if info.get("structure_right", true): sides_.append([2.8, 1.0])
+			if info.get("physical", false) and info.get("structure_left", true): sides_.append([inner, -1.0])
+			for sd in sides_:
+				var x: float = sd[0]; var o_: float = sd[1]
+				g.quad(p.call(f0, x + o_ * 0.22, -0.45), p.call(f1, x + o_ * 0.22, -0.45), p.call(f1, x + o_ * 0.22, 0.32), p.call(f0, x + o_ * 0.22, 0.32), Color("#d9d3c6"))
+				g.quad(p.call(f0, x - o_ * 0.1, 0.32), p.call(f1, x - o_ * 0.1, 0.32), p.call(f1, x + o_ * 0.22, 0.32), p.call(f0, x + o_ * 0.22, 0.32), Color("#e2ddd2"))
+				g.quad(p.call(f0, x + o_ * 0.22, -0.45), p.call(f1, x + o_ * 0.22, -0.45), p.call(f1, x - o_ * 0.05, -0.62), p.call(f0, x - o_ * 0.05, -0.62), Color("#a9a396"))
+				g.quad(p.call(f0, x - o_ * 0.1, 0.05), p.call(f1, x - o_ * 0.1, 0.05), p.call(f1, x - o_ * 0.1, 0.32), p.call(f0, x - o_ * 0.1, 0.32), Color("#d6d1c6"))
+				for yy in [0.62, 1.08]:
+					g.quad(p.call(f0, x, yy), p.call(f1, x, yy), p.call(f1, x, yy + 0.06), p.call(f0, x, yy + 0.06), Color("#4f5a61"))
+				for u in [0.0, 0.5]:
+					var fm := f0.interpolate_with(f1, u)
+					g.box_basis(p.call(fm, x, 0.72), Vector3(0.05, 0.8, 0.05), fm.basis, Color("#4f5a61"))
 		var s := a + 14.0
 		while s < b - 6.0:
 			var f := _frame(id, s)
 			var top := f.origin + f.basis.x * 1.0
 			var gh := ground_at(top)
 			if top.y - gh > 2.5:
-				var hgt := top.y - 1.1 - gh + 1.5
-				g.box_basis(Vector3(top.x, gh - 1.5 + hgt * 0.5, top.z), Vector3(1.6, hgt, 1.2), f.basis, concrete.darkened(0.1))
+				# pile-voile sous l'axe de l'ouvrage et chevêtre sur toute la largeur
+				var mid_x := (inner + 2.9) * 0.5
+				var span_x := 2.9 - inner
+				var c3 := f.origin + f.basis.x * mid_x
+				var hgt := top.y - 1.1 - gh + 1.5 - 0.7
+				g.box_basis(Vector3(c3.x, gh - 1.5 + hgt * 0.5, c3.z), Vector3(maxf(1.4, span_x * 0.55), hgt, 1.1), f.basis, concrete.darkened(0.1))
+				g.box_basis(Vector3(c3.x, top.y - 1.1 - 0.35, c3.z), Vector3(span_x - 0.2, 0.7, 1.5), f.basis, concrete.darkened(0.04))
 			s += 30.0
 	for sp in info.get("tunnel", []):
 		var a := clampf(float(sp[0]), 0.0, L); var b := clampf(float(sp[1]), 0.0, L)
@@ -258,6 +274,11 @@ func _structures(g: _Geo, id: String) -> void:
 			var p := func(x: float, y: float) -> Vector3: return f.origin + f.basis.x * x + Vector3(0, y, 0)
 			g.quad(p.call(inner, 4.8), p.call(3.6, 4.8), p.call(3.6, top), p.call(inner, top), concrete)
 			g.quad(p.call(2.6, -0.1), p.call(3.6, -0.1), p.call(3.6, 4.8), p.call(2.6, 4.8), concrete)
+			# cadre du portail (linteau et piédroit en saillie) et couronnement
+			var fz := f.basis.z * (0.12 if s == a else -0.12)
+			g.quad(p.call(inner, 4.75) + fz, p.call(2.75, 4.75) + fz, p.call(2.75, 5.5) + fz, p.call(inner, 5.5) + fz, concrete.lightened(0.12))
+			g.quad(p.call(2.6, -0.1) + fz, p.call(2.95, -0.1) + fz, p.call(2.95, 5.5) + fz, p.call(2.6, 5.5) + fz, concrete.lightened(0.12))
+			g.quad(p.call(inner, top) + fz, p.call(3.6, top) + fz, p.call(3.6, top + 0.25) + fz, p.call(inner, top + 0.25) + fz, concrete.lightened(0.2))
 	for sp in info.get("trench", []):
 		var a := clampf(float(sp[0]), 0.0, L); var b := clampf(float(sp[1]), 0.0, L)
 		var n := maxi(1, ceili((b - a) / 6.0))
@@ -268,6 +289,11 @@ func _structures(g: _Geo, id: String) -> void:
 			var p := func(f: Transform3D, x: float, y: float) -> Vector3: return f.origin + f.basis.x * x + Vector3(0, y, 0)
 			g.quad(p.call(f0, 2.6, -0.1), p.call(f1, 2.6, -0.1), p.call(f1, 2.6, h1), p.call(f0, 2.6, h0), concrete)
 			g.quad(p.call(f0, 2.6, h0), p.call(f1, 2.6, h1), p.call(f1, 2.9, h1), p.call(f0, 2.9, h0), concrete.lightened(0.15))
+			if h0 > 1.2 and h1 > 1.2:   # couronnement débordant et garde-corps en tête de mur
+				g.quad(p.call(f0, 2.5, h0 - 0.18), p.call(f1, 2.5, h1 - 0.18), p.call(f1, 2.5, h1 + 0.05), p.call(f0, 2.5, h0 + 0.05), concrete.lightened(0.1))
+				g.quad(p.call(f0, 2.5, h0 + 0.05), p.call(f1, 2.5, h1 + 0.05), p.call(f1, 3.0, h1 + 0.05), p.call(f0, 3.0, h0 + 0.05), concrete.lightened(0.2))
+				g.quad(p.call(f0, 2.8, h0 + 1.0), p.call(f1, 2.8, h1 + 1.0), p.call(f1, 2.8, h1 + 1.06), p.call(f0, 2.8, h0 + 1.06), Color("#4f5a61"))
+				g.box_basis(p.call(f0, 2.8, h0 + 0.55), Vector3(0.05, 1.0, 0.05), f0.basis, Color("#4f5a61"))
 
 ## Bâtiments de remisage IGN : les passages suivent les voies réellement cartographiées.
 func _depot_buildings() -> void:
@@ -336,6 +362,28 @@ func _real_platforms() -> void:
 				g.box(center + basis.z * side * 1.6 + Vector3.UP * 1.25, Vector3(0.06, 2.5, 0.06), Color("#535b60"))
 			g.box_basis(center + Vector3.UP * 0.5, Vector3(0.5, 0.12, 2.0), basis, Color("#746d5d"))
 		_add_geo(sectors[platform.edge], g, Materials.building())
+		# voyageurs en attente (instances) et poteau d'information, hors abri
+		var rng := RandomNumberGenerator.new(); rng.seed = hash(str(platform.get("id", center)))
+		var peds: Array = []; var pcols: Array = []
+		var want := rng.randi_range(1, 3) if DayNight.low_quality else rng.randi_range(2, 7)
+		for k in want * 3:
+			if peds.size() >= want or triangles.size() < 3: break
+			var t0 := rng.randi_range(0, triangles.size() / 3 - 1) * 3
+			var r1 := sqrt(rng.randf()); var r2 := rng.randf()
+			var q: Vector3 = top[triangles[t0]] * (1.0 - r1) + top[triangles[t0 + 1]] * (r1 * (1.0 - r2)) + top[triangles[t0 + 2]] * (r1 * r2)
+			if Vector2(q.x - center.x, q.z - center.z).length() < 3.5: continue
+			if absf((q - center).dot(tangent)) > longest * 0.5 - 7.0: continue   # extrémités (vue cabine) dégagées
+			var edge_d := INF
+			for i in poly.size():
+				edge_d = minf(edge_d, Vector2(q.x, q.z).distance_to(Geometry2D.get_closest_point_to_segment(Vector2(q.x, q.z), poly[i], poly[(i + 1) % poly.size()])))
+			if edge_d < 0.9: continue
+			var b3 := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * rng.randf_range(0.92, 1.06))
+			peds.append(Transform3D(b3, q)); pcols.append(StreetProps.clothes_color(rng))
+		if not peds.is_empty(): sectors[platform.edge].add_child(StreetProps.instances(StreetProps.PED if rng.randf() < 0.5 else StreetProps.PED_B, peds, pcols))
+		if longest > 10.0:
+			var ip := center + tangent * minf(5.0, longest * 0.3)
+			if Geometry2D.is_point_in_polygon(Vector2(ip.x, ip.z), poly):
+				sectors[platform.edge].add_child(StreetProps.instances(StreetProps.INFO, [Transform3D(basis, ip)]))
 
 ## Plateforme par défaut (sans analyse d'orthophoto) : engazonnée en périphérie, pavée ou en enrobé
 ## dans les quartiers denses (densité de bâti IGN).
@@ -453,7 +501,34 @@ func _platform(parent: Node3D, pf: Dictionary) -> void:
 	for k in [-1.0, 1.0]:  # candélabres
 		g.box_basis(at.call(sx + 0.3, 2.1, k * (n * StationLayout.STEP * 0.32)), Vector3(0.12, 4.2, 0.12), basis, Color("#4a4f55"))
 		g.box_basis(at.call(sx + 0.15, 4.2, k * (n * StationLayout.STEP * 0.32)), Vector3(0.4, 0.12, 0.25), basis, Color(1.0, 0.92, 0.7, 0.1))
+	# bande d'éveil de vigilance (podotactile) en retrait du nez de quai ; garde-corps à l'arrière d'un quai latéral
+	for i in n - 1:
+		var a := inn[i]; var b := inn[i + 1]; var ow := (out[i] - inn[i]); var ow1 := (out[i + 1] - inn[i + 1])
+		var k0 := 0.5 / maxf(ow.length(), 0.6); var k1 := 0.9 / maxf(ow.length(), 0.6)
+		var up := top + Vector3(0, 0.012, 0)
+		g.quad(a + ow * k0 + up, b + ow1 * k0 + up, b + ow1 * k1 + up, a + ow * k1 + up, Color("#dcd5bd"))
+		if not lft and absi(i - m) > 2:
+			var pa := out[i] - ow.normalized() * 0.08 + top; var pb := out[i + 1] - ow1.normalized() * 0.08 + top
+			g.quad(pa + Vector3(0, 0.95, 0), pb + Vector3(0, 0.95, 0), pb + Vector3(0, 1.02, 0), pa + Vector3(0, 1.02, 0), Color("#5b636a"))
+			g.quad(pa + Vector3(0, 0.45, 0), pb + Vector3(0, 0.45, 0), pb + Vector3(0, 0.49, 0), pa + Vector3(0, 0.49, 0), Color("#5b636a"))
+			if i % 2 == 0: g.box(pa + Vector3(0, 0.5, 0), Vector3(0.06, 1.0, 0.06), Color("#4a5056"))
 	_add_geo(parent, g, Materials.building())
+	# voyageurs en attente (silhouettes en instances) et poteau d'information
+	var rng := RandomNumberGenerator.new(); rng.seed = int(pf.station) * 7 + (1 if lft else 0)
+	var peds: Array = []; var pcols: Array = []; var peds_b: Array = []; var pcols_b: Array = []
+	var count := rng.randi_range(1, 3) if DayNight.low_quality else rng.randi_range(2, 7)
+	for k in count:
+		var i := rng.randi_range(3, maxi(3, n - 4))
+		if absi(i - m) <= 2 or i >= n - 1: continue
+		var q := inn[i].lerp(out[i], rng.randf_range(0.42, 0.85)) + top
+		var face := (inn[i] - out[i]); face.y = 0.0
+		var b3 := Basis(Vector3.UP, rng.randf_range(-1.2, 1.2)) * Basis.looking_at(-face.normalized(), Vector3.UP)
+		b3 = b3.scaled(Vector3.ONE * rng.randf_range(0.92, 1.06))
+		if rng.randf() < 0.6: peds.append(Transform3D(b3, q)); pcols.append(StreetProps.clothes_color(rng))
+		else: peds_b.append(Transform3D(b3, q)); pcols_b.append(StreetProps.clothes_color(rng))
+	if not peds.is_empty(): parent.add_child(StreetProps.instances(StreetProps.PED, peds, pcols))
+	if not peds_b.is_empty(): parent.add_child(StreetProps.instances(StreetProps.PED_B, peds_b, pcols_b))
+	parent.add_child(StreetProps.instances(StreetProps.INFO, [Transform3D(basis, at.call(sx, 0.0, tz + 3.0))]))
 	if city != null:  # quai et mobilier : interdits aux arbres et lampadaires du décor
 		for i in range(0, n - 1, 2):
 			var q := inn[i].lerp(out[i], 0.5); var r := inn[mini(i + 2, n - 1)].lerp(out[mini(i + 2, n - 1)], 0.5)
@@ -542,6 +617,7 @@ func update_sectors(center: Vector3) -> int:
 
 func update_from(s: MissionSession, external: bool) -> void:
 	_ensure_modules(s.phys.profile.length_m)
+	EventView.sync(self, s)
 	speed_material.set_shader_parameter("speed", s.phys.speed)
 	cam.fov = lerpf(cam.fov, 62.0 + smoothstep(4.0, 22.0, s.phys.speed) * 7.0, 1.0 - exp(-get_process_delta_time() * 2.0))
 	var n := modules.size()
@@ -573,7 +649,8 @@ func update_from(s: MissionSession, external: bool) -> void:
 		day_night.env.ambient_light_energy = 0.32
 		day_night.env.fog_density = 0.003
 	tram.visible = external
-	if external:
+	if has_meta("intro_camera"): pass   # IntroCamera active : la caméra de jeu reste sur sa pose d'arrivée
+	elif external:
 		var back := fwd.rotated(Vector3.UP, orbit)
 		var k := cam_dist / 40.0
 		cam.position = front.origin - back * cam_dist + Vector3(0, 9.5 * k, 0) + back.cross(Vector3.UP) * (-11.0 * k)

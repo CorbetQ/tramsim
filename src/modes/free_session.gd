@@ -96,28 +96,16 @@ func set_traffic(on: bool) -> void:
 func reverse() -> String:
 	if phys.speed > 0.1:
 		return "Arrêtez la rame avant de changer de cabine"
-	var tail: Array = locate_behind(phys.profile.length_m)
-	var i: int = tail[3]
-	var nr: Array[String] = []
-	var nd: Array[int] = []
-	for k in range(route.size() - 1, i - 1, -1):
-		nr.append(route[k]); nd.append(-route_dir[k])
-	# nouvelle route : de la nouvelle queue (ancien nez) au nouveau nez (ancienne queue)
-	route = nr
-	route_dir = nd
-	edge_id = tail[0]
-	offset = tail[1]
-	direction = -int(tail[2])
-	phys.velocity = -phys.velocity
-	for id in route:
-		net.graph.occupy(id, train_id)
+	_swap_cab()
 	update_spans()
-	doors_open = false
 	checkpoint_edge = edge_id
 	checkpoint_offset = offset
 	checkpoint_dir = direction
-	event.emit("reverse", "Changement de cabine : marche " + ("dans le sens de la voie" if direction > 0 else "à contre-sens de la voie"))
 	return ""
+
+## Mode libre : aiguillages manœuvrables depuis le plan.
+func locked_switches() -> bool:
+	return false
 
 ## Adaptation libre d'un matériel étranger : conserve les interverrouillages
 ## du collecteur, même lorsque les caractéristiques de la rame sont adaptées.

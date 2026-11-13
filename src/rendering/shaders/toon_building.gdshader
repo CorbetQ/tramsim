@@ -22,6 +22,8 @@ uniform float bay_w = 3.2;
 uniform float color_gamma = 1.0;      // 1.0 : une seule chaîne de couleur (mesuré en Compatibility)
 uniform float saturation = 1.0;
 uniform float detail = 1.0;           // amplitude globale du détail procédural
+// Mobilier en instances (StreetProps) : les sommets de couleur sentinelle magenta prennent INSTANCE_CUSTOM.rgb.
+uniform bool instance_tint = false;
 // Les palettes (city_styles.json, toits issus de l'orthophoto) sont des teintes APPARENTES (mesurées éclairées,
 // comme les livrées des rames) : soleil + ciel ≈ 1,27 sur une face au soleil, d'où l'albédo = teinte × 0,79.
 uniform float albedo_scale = 0.79;
@@ -70,6 +72,7 @@ float legacy_id(float a) {
 }
 
 void vertex() {
+	if (instance_tint && COLOR.r > 0.99 && COLOR.g < 0.01 && COLOR.b > 0.99) COLOR.rgb = INSTANCE_CUSTOM.rgb;
 	if (UV2.x >= 0.5) {
 		mat_id = floor(UV2.x);
 		facade_seed = floor(fract(UV2.x) * 1024.0 + 0.5);
@@ -143,19 +146,38 @@ void fragment() {
 		float grime = smoothstep(0.5, 0.85, noise2(xz * 0.16 + 9.0));
 		ALBEDO = base * (1.0 + d3 - (joints - 0.06) * near_k * 0.12 - grime * 0.08);
 	} else if (id == M_FACADE && vertical > 0.8) {
-		// Enduit, briques ou pierre selon la graine propre au bâtiment ; coulures sous les appuis, soubassement.
-		float typ = floor((facade_seed - 519.0) / 100.0);
-		vec2 ms = typ < 0.5 ? vec2(1.1, 2.0) : vec2(2.7, 4.5);
+		// Appareil selon le type de façade (graine = 500 + type × 50 + variante, CityScene._wall_code) :
+		// 0 enduit, 1 brique, 2 pierre de taille, 3 andésite, 4 tuffeau, 5 enduit du Sud, 6 béton (Perret),
+		// 7 grand ensemble (panneaux), 8 brique et pierre, 9 mur-rideau. Coulures sous les appuis, soubassement.
+		float typ = floor((facade_seed - 500.0) / 50.0);
+		float bay0 = mix(2.4, 4.0, fract(facade_seed * 0.6180339));
+		vec2 ms = vec2(1.1, 2.0); float mort_k = 0.03; float stag = 0.5;
+		if (typ == 1.0 || typ == 8.0) { ms = vec2(3.6, 7.5); mort_k = -0.16; }
+		else if (typ == 2.0) { ms = vec2(1.45, 2.4); mort_k = 0.06; }
+		else if (typ == 3.0) { ms = vec2(1.6, 2.5); mort_k = -0.12; }
+		else if (typ == 4.0) { ms = vec2(1.25, 2.2); mort_k = 0.05; }
+		else if (typ == 6.0) { ms = vec2(1.0 / bay0, 1.0); mort_k = 0.09; stag = 0.0; }
+		else if (typ == 7.0) { ms = vec2(0.5 / bay0, 1.0 / 2.75); mort_k = 0.10; stag = 0.0; }
+		else if (typ == 9.0) { ms = vec2(1.0 / bay0, 1.0 / 3.6); mort_k = 0.2; stag = 0.0; }
 		vec2 masonry = UV * ms;
-		masonry.x += mod(floor(masonry.y), 2.0) * 0.5;
+		masonry.x += mod(floor(masonry.y), 2.0) * stag;
 		vec2 f = fract(masonry), fw = max(fw_uv * ms, vec2(0.001));
 		float mortar = 1.0 - band(f.x, 0.02, 0.98, fw.x) * band(f.y, 0.04, 0.96, fw.y);
 		float near_k = 1.0 - smoothstep(0.12, 0.45, max(fw.x, fw.y));
-		float mort_k = typ < 0.5 ? 0.07 : (typ < 1.5 ? 0.16 : 0.02);
+		if (typ == 0.0 || typ == 5.0) mortar = 0.08;    // enduits : pas de joints
 		float streak = smoothstep(0.55, 0.9, noise2(vec2(UV.x * 1.3, UV.y * 0.09 + facade_seed))) * (1.0 - smoothstep(0.3, 0.8, px * 1.3));
 		float socle = 1.0 - smoothstep(0.55, 0.8, UV.y);
 		if (UV.y < 0.0) { mortar = 0.08; streak = 0.0; socle = 0.0; }   // murs sans UV (aveugles)
-		base *= 1.0 + d3 - (mortar - 0.08) * near_k * mort_k - streak * 0.07 - socle * 0.2;
+		float k_streak = typ == 6.0 || typ == 7.0 ? 0.13 : 0.07;
+		// brique et pierre : chaînages et bandeaux d'étage en pierre claire
+		float stone_band = 0.0;
+		if (typ == 8.0 && UV.y > 0.0) {
+			float fy = fract((UV.y - 0.4) / 3.0);
+			stone_band = band(fy, 0.0, 0.09, fw_uv.y / 3.0) + band(fract(UV.x / (bay0 * 2.0)), 0.0, 0.07, fw_uv.x / (bay0 * 2.0));
+			stone_band = clamp(stone_band, 0.0, 1.0);
+		}
+		base *= 1.0 + d3 - (mortar - 0.08) * near_k * mort_k - streak * k_streak - socle * 0.2;
+		base = mix(base, vec3(0.62, 0.58, 0.52), stone_band * 0.85);
 		ALBEDO = base;
 	} else if (id == M_PLAIN || id == M_SOLID) {
 		float g = d3;
@@ -178,44 +200,86 @@ void fragment() {
 	if (id == M_LIGHT) {  // lampadaires, feux : lumineux, surtout la nuit
 		EMISSION = base * (0.25 + 3.2 * night);
 	}
-	if (id == M_SHOP) {  // vitrines de rez-de-chaussée : reflet le jour, éclairées le soir
-		float sky = smoothstep(0.0, 3.4, UV.y >= 0.0 ? UV.y : 1.7);
-		ALBEDO = mix(base * 0.6 + vec3(0.05, 0.08, 0.12) * (0.5 + sky), base * 0.3, night);
-		EMISSION = vec3(1.0, 0.72, 0.4) * 1.6 * night;
+	if (id == M_SHOP) {  // rez-de-chaussée commercial : piliers, vitrines, bandeau d'enseigne, allège ; éclairé le soir
+		vec2 fws = max(fw_uv, vec2(0.001));
+		float y = UV.y >= 0.0 ? UV.y : 1.7;
+		float shop_w = mix(4.2, 6.5, fract(facade_seed * 0.371));
+		float cx = UV.x / shop_w; float fx = fract(cx); float cell = floor(cx);
+		float h1 = hash(vec2(cell, facade_seed * 0.11));
+		float pier = 1.0 - band(fx, 0.07, 0.93, fws.x / shop_w);
+		float glass = band(y, 0.45, 2.75, fws.y) * (1.0 - pier) * (1.0 - band(fx, 0.44, 0.56, fws.x / shop_w) * step(0.6, h1));
+		float fascia = band(y, 2.82, 3.3, fws.y) * (1.0 - pier);
+		float far_k = 1.0 - smoothstep(0.05, 0.25, fws.x / shop_w);
+		vec3 sign_col = vec3(0.13, 0.17, 0.22);   // enseignes génériques (sans marque) : sombre, bordeaux, vert, bleu, crème
+		if (h1 > 0.2) sign_col = vec3(0.32, 0.08, 0.08);
+		if (h1 > 0.4) sign_col = vec3(0.10, 0.22, 0.15);
+		if (h1 > 0.6) sign_col = vec3(0.12, 0.18, 0.36);
+		if (h1 > 0.8) sign_col = vec3(0.62, 0.56, 0.44);
+		vec3 day_glass = vec3(0.05, 0.07, 0.09) + vec3(0.06, 0.08, 0.10) * smoothstep(0.4, 2.7, y);
+		float open_ = step(0.3, hash(vec2(cell, 3.1 + facade_seed)));
+		vec3 night_glass = vec3(0.10, 0.08, 0.06);
+		vec3 gl = mix(day_glass, night_glass, night);
+		vec3 near_col = mix(base * 0.9, gl, glass);
+		near_col = mix(near_col, sign_col, fascia);
+		ALBEDO = mix(mix(base, gl, 0.55), near_col, far_k);
+		vec3 lit = mix(vec3(1.0, 0.74, 0.45), vec3(0.85, 0.9, 1.0), step(0.75, h1)) * mix(0.9, 1.9, hash(vec2(cell, 7.7)));
+		EMISSION = (lit * glass * open_ * far_k + lit * 0.45 * (1.0 - far_k) + sign_col * fascia * 0.8 * far_k) * night;
 	}
 	if (UV.y > 1.0 && id == M_FACADE) {  // murs (hors rez-de-chaussée bas) des bâtiments à fenêtres
+		float typ = floor((facade_seed - 500.0) / 50.0);
 		float variant = fract(facade_seed * 0.6180339);
 		float bay = mix(2.4, 4.0, variant);
-		vec2 cell = vec2(UV.x / bay, (UV.y - 0.4) / floor_h);
+		// proportions des baies par type : demi-largeur, appui, linteau (fraction d'étage), hauteur d'étage
+		float fh = floor_h; float width_ = mix(0.17, 0.29, variant); float wy0 = 0.24; float wy1 = 0.80;
+		float shut_p = 0.36; float surround = 0.8; float lit_thr = mix(0.45, 0.72, hash(vec2(facade_seed, 1.3)));
+		if (typ == 1.0 || typ == 8.0) { width_ = mix(0.15, 0.2, variant); wy0 = 0.2; wy1 = 0.8; shut_p = 0.0; surround = 1.6; }
+		else if (typ == 2.0 || typ == 4.0) { fh = 3.3; width_ = mix(0.17, 0.21, variant); wy0 = 0.12; wy1 = 0.84; shut_p = typ == 4.0 ? 0.25 : 0.0; surround = 1.2; }
+		else if (typ == 3.0) { width_ = 0.18; wy0 = 0.16; wy1 = 0.82; shut_p = 0.2; surround = 1.4; }
+		else if (typ == 5.0) { width_ = mix(0.15, 0.2, variant); wy0 = 0.18; wy1 = 0.8; shut_p = 1.0; surround = 0.5; }
+		else if (typ == 6.0) { width_ = 0.2; wy0 = 0.08; wy1 = 0.84; shut_p = 0.0; surround = 0.4; }
+		else if (typ == 7.0) { fh = 2.75; width_ = mix(0.3, 0.4, variant); wy0 = 0.3; wy1 = 0.82; shut_p = 0.0; surround = 0.2; }
+		else if (typ == 9.0) { fh = 3.6; width_ = 0.47; wy0 = 0.05; wy1 = 0.95; shut_p = 0.0; surround = 0.0; lit_thr = 0.8; }
+		vec2 cell = vec2(UV.x / bay, (UV.y - 0.4) / fh);
 		vec2 f = fract(cell);
-		vec2 fw = max(fw_uv / vec2(bay, floor_h), vec2(1e-4));
+		vec2 fw = max(fw_uv / vec2(bay, fh), vec2(1e-4));
 		float detail_k = 1.0 - smoothstep(0.12, 0.3, max(fw.x, fw.y)); // estompe au-delà de ~5 px par cellule
-		float width_ = mix(0.17, 0.29, variant);
-		float win = band(f.x, 0.5 - width_, 0.5 + width_, fw.x) * band(f.y, 0.24, 0.80, fw.y);
-		float frame = band(f.x, 0.26, 0.74, fw.x) * band(f.y, 0.26, 0.84, fw.y) - win;
-		float sill = band(f.x, 0.25, 0.75, fw.x) * band(f.y, 0.22, 0.28, fw.y);
+		float win = band(f.x, 0.5 - width_, 0.5 + width_, fw.x) * band(f.y, wy0, wy1, fw.y);
+		// encadrement (pierre ou enduit plus clair), appui, linteau
+		float frame = band(f.x, 0.5 - width_ - 0.06, 0.5 + width_ + 0.06, fw.x) * band(f.y, wy0 - 0.03, wy1 + 0.06, fw.y) - win;
+		float sill = band(f.x, 0.5 - width_ - 0.08, 0.5 + width_ + 0.08, fw.x) * band(f.y, wy0 - 0.05, wy0, fw.y);
 		float course = band(f.y, 0.0, 0.035, fw.y);           // bandeau d'étage
-		float on = step(0.55, hash(floor(cell) + vec2(facade_seed * 0.097, 13.0)));
-		float lvl = mix(0.45, 1.0, hash(floor(cell) + vec2(2.1, facade_seed * 0.013)));   // intensités variées
-		float warm = hash(floor(cell) + vec2(5.3, facade_seed * 0.031));
+		// éclairage nocturne cohérent : par logement (2 ou 3 baies d'un même étage), part allumée propre au bâtiment
+		float apt = floor(cell.x / (2.0 + step(0.5, variant)));
+		float on = step(lit_thr, hash(vec2(apt, floor(cell.y)) + vec2(facade_seed * 0.097, 13.0)));
+		float lvl = mix(0.55, 1.0, hash(vec2(apt, floor(cell.y)) + vec2(2.1, facade_seed * 0.013)));
+		float warm = hash(vec2(apt, floor(cell.y)) + vec2(5.3, facade_seed * 0.031));
 		vec3 glass = mix(to_linear(window_day) * mix(0.8, 1.15, f.y), to_linear(window_day) * 0.18, night);
-		vec3 lit_col = window_night * mix(vec3(1.0), vec3(1.0, 0.92, 1.12), step(0.7, warm));
+		if (typ == 9.0) glass = mix(vec3(0.20, 0.27, 0.32) * mix(0.85, 1.2, f.y), vec3(0.03, 0.04, 0.05), night);
+		vec3 lit_col = window_night * mix(vec3(1.0), vec3(0.86, 0.92, 1.12), step(0.72, warm));
 		vec3 near_col = ALBEDO;
-		near_col = mix(near_col, ALBEDO * 1.12, clamp(frame + sill, 0.0, 1.0) * 0.8);
+		vec3 surround_col = (typ == 1.0 || typ == 8.0) ? vec3(0.6, 0.57, 0.52) : ALBEDO * 1.12;
+		near_col = mix(near_col, surround_col, clamp((frame + sill) * surround, 0.0, 1.0) * 0.8);
 		near_col = mix(near_col, ALBEDO * 0.8, course * 0.6);
 		float mullion = band(f.x, 0.49, 0.51, fw.x) * win;
-		float shutter = (band(f.x, 0.12, 0.24, fw.x) + band(f.x, 0.76, 0.88, fw.x)) * band(f.y, 0.25, 0.8, fw.y) * step(variant, 0.36);
-		near_col = mix(near_col, base * vec3(0.34, 0.45, 0.41), shutter);
+		float shutter = (band(f.x, 0.5 - width_ - 0.13, 0.5 - width_ - 0.01, fw.x) + band(f.x, 0.5 + width_ + 0.01, 0.5 + width_ + 0.13, fw.x))
+			* band(f.y, wy0, wy1, fw.y) * step(fract(variant * 7.31), shut_p);
+		vec3 shut_col = vec3(0.30, 0.40, 0.36);
+		float sv = fract(facade_seed * 0.213);
+		if (sv > 0.4) shut_col = vec3(0.32, 0.38, 0.46);
+		if (sv > 0.7) shut_col = vec3(0.45, 0.33, 0.24);
+		if (typ == 4.0 || typ == 0.0) shut_col = mix(shut_col, vec3(0.75, 0.74, 0.70), step(0.5, sv));
+		near_col = mix(near_col, shut_col, shutter);
 		// rideaux : partie haute de la baie plus claire, variable
 		float curtain = step(0.5, hash(floor(cell) + 7.7)) * smoothstep(0.62, 0.66, f.y);
 		near_col = mix(near_col, glass * (0.75 + 0.25 * smoothstep(0.2, 0.8, f.y)) + curtain * 0.05, win);
 		near_col = mix(near_col, base * 0.65, mullion);
 		ROUGHNESS = mix(0.9, 0.18, win * detail_k);
-		SPECULAR = win * detail_k * 0.5;
-		vec3 far_col = mix(ALBEDO, glass, 0.2);
+		SPECULAR = win * detail_k * (typ == 9.0 ? 0.8 : 0.5);
+		float glass_part = clamp(width_ * 2.0 * (wy1 - wy0), 0.05, 0.9);
+		vec3 far_col = mix(ALBEDO, glass, glass_part * 0.6);
 		ALBEDO = mix(far_col, near_col, detail_k);
 		vec3 em_near = lit_col * on * lvl * win * (1.0 - curtain * 0.5) * night * 1.5;
-		vec3 em_far = window_night * 0.45 * 0.2 * 0.75 * night * 1.5;
+		vec3 em_far = window_night * glass_part * (1.0 - lit_thr) * 0.55 * night * 1.5;
 		EMISSION = mix(em_far, em_near, detail_k);
 	}
 }

@@ -8,6 +8,7 @@ enum Result { OK, EARLY, LATE, MISSED_STOP }
 var stops: Array[Dictionary] = []   # {name, result}
 var failed: bool = false
 var fail_reason: String = ""
+var max_late_s := MAX_LATE_S        # tolérance (affluence d'événement : élargie)
 
 func evaluate_departure(stop_name: String, scheduled_s: float, actual_s: float, stopped: bool = true) -> int:
 	var r := Result.OK
@@ -15,7 +16,7 @@ func evaluate_departure(stop_name: String, scheduled_s: float, actual_s: float, 
 		r = Result.MISSED_STOP
 	elif actual_s < scheduled_s:
 		r = Result.EARLY
-	elif actual_s - scheduled_s > MAX_LATE_S:
+	elif actual_s - scheduled_s > max_late_s:
 		r = Result.LATE
 	stops.append({"name": stop_name, "result": r})
 	return r
