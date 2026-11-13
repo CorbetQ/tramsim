@@ -219,6 +219,27 @@ void fragment() {
 }
 """
 
+## Points intermédiaires du bord d'une tuile réellement affichée, dans l'ordre a -> b.
+## Le bord du terrain lointain suit ainsi le profil complet, pas seulement les coins espacés de 200 m.
+func _far_edge_points(a: Vector3, b: Vector3, loaded: Dictionary) -> Array[Vector3]:
+	var result: Array[Vector3] = []
+	var start := Vector2(a.x, a.z); var edge := Vector2(b.x - a.x, b.z - a.z)
+	var outside := (start + Vector2(b.x, b.z)) * 0.5 + Vector2(edge.y, -edge.x).normalized() * 0.01
+	var key := Vector2i(floori(outside.x / tile_m), floori(outside.y / tile_m))
+	if not loaded.has(key): return result
+	var detail := tile(key)
+	if detail == null: return result
+	var origin := Vector2(key.x, key.y) * tile_m
+	var length2 := edge.length_squared()
+	for local in detail.pos:
+		var q := Vector2(local.x, local.z) + origin
+		var fraction := (q - start).dot(edge) / length2
+		if fraction <= 0.000001 or fraction >= 0.999999: continue
+		if absf(edge.cross(q - start)) > 0.001 * sqrt(length2): continue
+		result.append(Vector3(q.x, local.y, q.y))
+	result.sort_custom(func(p: Vector3, q: Vector3): return Vector2(p.x - a.x, p.z - a.z).dot(edge) < Vector2(q.x - a.x, q.z - a.z).dot(edge))
+	return result
+
 ## Met à jour la couronne lointaine autour de la caméra (repère de la ville, parent = CityScene).
 func update_far(cam_city: Vector3, loaded: Dictionary = {}) -> void:
 	if _far_nx < 2: return
@@ -251,8 +272,20 @@ func update_far(cam_city: Vector3, loaded: Dictionary = {}) -> void:
 			var cx := x0 + (ix + 0.5) * FAR_STEP; var cz := z0 + (iz + 0.5) * FAR_STEP
 			if loaded.has(Vector2i(floori(cx / tile_m), floori(cz / tile_m))): continue
 			var a := P[iz * n + ix]; var b := P[iz * n + ix + 1]; var c := P[(iz + 1) * n + ix + 1]; var d := P[(iz + 1) * n + ix]
-			for tri in [[a, b, c], [a, c, d]]:
+			var corners := [a, b, c, d]
+			var rim: Array[Vector3] = []; var stitched := false
+			for i in 4:
+				rim.append(corners[i])
+				var points := _far_edge_points(corners[i], corners[(i + 1) % 4], loaded)
+				if not points.is_empty(): stitched = true; rim.append_array(points)
+			var triangles: Array = []
+			if stitched:
+				var center := (a + b + c + d) * 0.25
+				for i in rim.size(): triangles.append([center, rim[i], rim[(i + 1) % rim.size()]])
+			else: triangles = [[a, b, c], [a, c, d]]
+			for tri in triangles:
 				var fn: Vector3 = (tri[2] - tri[0]).cross(tri[1] - tri[0]).normalized()
+				if fn.length_squared() < 0.5: continue
 				if fn.y < 0.0: fn = -fn
 				var col := color.lerp(steep, clampf((1.0 - fn.y) * 5.0, 0.0, 1.0))
 				for q in tri:
