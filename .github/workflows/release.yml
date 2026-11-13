@@ -5,13 +5,22 @@ on:
     branches: [main, master, "ccr-*"]
   pull_request:
   workflow_dispatch:
+    inputs:
+      rolling_stock_preview:
+        description: Construire et déposer uniquement l’aperçu des rames dans sa release en brouillon
+        type: boolean
+        default: false
 concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: true
 permissions:
   contents: write
 jobs:
+  stock_preview:
+    if: github.event_name == 'workflow_dispatch' && inputs.rolling_stock_preview
+    uses: ./.github/workflows/stock-preview.yml
   build:
+    if: github.event_name != 'workflow_dispatch' || !inputs.rolling_stock_preview
     runs-on: ubuntu-latest
     env:
       GODOT_VERSION: 4.6.3
