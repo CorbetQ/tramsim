@@ -7,7 +7,7 @@ static func lines(entries: Array, net: NetworkLoader) -> Array:
 		var line := str(entry.line)
 		if seen.has(line): continue
 		seen[line] = true
-		result.append({"line": line, "kind": str(entry.get("kind", "tram")), "label": line + (" · Tram-train" if entry.get("kind") == "tram-train" else ""), "depot": false})
+		result.append({"line": line, "kind": str(entry.get("kind", "tram")), "label": line + (" · Tram-train — " + str(entry.get("long_name", "")) if entry.get("kind") == "tram-train" else ""), "depot": false})
 	if not net.meta.get("depots", []).is_empty(): result.append({"line": "depots", "kind": "depot", "label": "Dépôts", "depot": true})
 	return result
 

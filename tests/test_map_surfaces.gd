@@ -10,6 +10,10 @@ func area(mesh: ArrayMesh) -> float:
  for i in range(0, v.size(), 3): result += absf((v[i+2]-v[i]).cross(v[i+1]-v[i]).y) * 0.5
  return result
 func run() -> void:
+ var load_control := HomeBackground.LoadControl.new(); load_control.cancel()
+ var unopened := CityScene.new()
+ check(not unopened.warm(Vector3.ZERO, load_control) and unopened.built.is_empty(), "une vue d'accueil annulée ne continue pas à charger la ville")
+ unopened.free()
  var terrain := TerrainView.new(); root.add_child(terrain)
  var tile := TerrainView.Tile.new()
  tile.pos = PackedVector3Array([Vector3(0,10,0),Vector3(400,10,0),Vector3(400,10,400),Vector3(0,10,400)])

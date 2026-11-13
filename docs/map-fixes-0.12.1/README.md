@@ -27,7 +27,13 @@ Même pose et même éclairage, avant et après, sans retouche ; WebP sans perte
 
 ## Accueil et conduite libre
 
-L’accueil présente une vue verticale orthographique, nord en haut, sans brume liée à la hauteur de la caméra. Les tram-trains ne déplacent pas le centre de la vue hors du cœur du réseau urbain. La transition descend par trois paliers, d’une vue verticale de la ville jusqu’à la rame, avec ralentissements et voiles nuageux. Elle reste désactivable et peut être passée au toucher ou au clavier.
+L’accueil présente une vue verticale orthographique, nord en haut, sans brume liée à la hauteur de la caméra. Les tram-trains ne déplacent pas le centre de la vue hors du cœur du réseau urbain. La vue fixe est mise en cache ; un changement de ville ou un lancement de partie annule le chargement précédent par lots, sans attendre toute la ville. Le terrain lointain est préparé une seule fois après le préchargement.
+
+La transition descend par trois paliers, d’une vue verticale de la ville jusqu’à la rame, avec ralentissements et voiles nuageux. Elle reste désactivable et peut être passée au toucher ou au clavier.
+
+![Accueil vertical à Bordeaux](home-bordeaux.webp)
+
+![Trois instants de la descente](arrival-strip.jpg)
 
 Le départ libre suit **Ville → Ligne → Arrêt**, avec une entrée **Dépôts** dans les lignes, puis le choix du dépôt. Le filtre porte sur le lieu de départ ; la conduite conserve l’accès au réseau physique complet.
 

@@ -19,6 +19,17 @@ var _layers: Array[Dictionary] = []     # {vp, rect, cam, center, dist, city, st
 var _task := -1
 var _job: Dictionary = {}               # résultat du thread en cours
 var _shade: TextureRect
+var _control: LoadControl
+
+class LoadControl:
+	extends RefCounted
+	var mutex := Mutex.new()
+	var _cancelled := false
+	func cancel() -> void:
+		mutex.lock(); _cancelled = true; mutex.unlock()
+	func cancelled() -> bool:
+		mutex.lock(); var result := _cancelled; mutex.unlock()
+		return result
 
 func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -41,6 +52,7 @@ func show_city(name_: String) -> void:
 	if name_ == city: return
 	city = name_
 	if _task < 0: _launch()
+	elif _control != null: _control.cancel()
 
 func is_loading() -> bool:
 	return _task >= 0
@@ -52,7 +64,8 @@ func _launch() -> void:
 	var entries := NetworkRegistry.entries().filter(func(e): return e.city == city)
 	if entries.is_empty(): return
 	var radius := 450.0 if still_mode else 1100.0
-	_job = {"city": city, "entries": entries, "radius": radius}
+	_control = LoadControl.new()
+	_job = {"city": city, "entries": entries, "radius": radius, "control": _control}
 	_task = WorkerThreadPool.add_task(_load.bind(_job), false, "home_background")
 
 ## Thread : réseau (tracés + couleurs), scène de la ville, tuiles autour du centre.
@@ -62,6 +75,7 @@ static func _load(job: Dictionary) -> void:
 	var src := ""; var origin := []
 	var seen := {}
 	for e in job.entries:
+		if job.control.cancelled(): return
 		if seen.has(str(e.line)): continue   # variantes de service d'une même ligne : tracé déjà couvert
 		seen[str(e.line)] = true
 		var d = JSON.parse_string(FileAccess.get_file_as_string(e.path))
@@ -100,7 +114,8 @@ static func _load(job: Dictionary) -> void:
 		var cs := CityScene.new()
 		if meta is Dictionary and cs.open(src, origin):
 			cs.radius = minf(job.radius, job.dist * 1.1)
-			cs.warm(job.center)
+			if not cs.warm(job.center, job.control):
+				cs.free(); return
 			if cs.has_terrain: job.center.y = cs.height_at(job.center)
 			job.scene = cs
 		else:
@@ -118,9 +133,9 @@ func _process(_dt: float) -> void:
 	if _task >= 0 and WorkerThreadPool.is_task_completed(_task):
 		WorkerThreadPool.wait_for_task_completion(_task); _task = -1
 		var job := _job; _job = {}
-		if job.city == city and job.has("dist"): _install(job)
+		if job.city == city and job.has("dist") and not job.control.cancelled(): _install(job)
 		elif job.has("scene"): (job.scene as Node).free()
-		if city != shown and city != job.city: _launch()   # la ville a changé pendant le chargement
+		if city != shown and (city != job.city or job.control.cancelled()): _launch()
 	var visible_ := is_visible_in_tree()
 	for L in _layers:
 		if L.vp == null: continue
@@ -218,6 +233,7 @@ static func _line_mesh(lines: Array, dist: float) -> Node3D:
 
 func _exit_tree() -> void:
 	if _task >= 0:
+		if _control != null: _control.cancel()
 		WorkerThreadPool.wait_for_task_completion(_task); _task = -1
 		if _job.has("scene"): (_job.scene as Node).free()
 		_job = {}

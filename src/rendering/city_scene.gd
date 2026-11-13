@@ -23,6 +23,7 @@ var table: Dictionary = {}      # Vector2i -> Vector2i(offset, taille)
 var built: Dictionary = {}      # Vector2i -> Node3D
 var queue: Array[Vector2i] = []
 var radius := 650.0
+var _horizon_deferred := false
 var style: Dictionary = {}
 var city := ""
 var stats := {"tiles": 0, "buildings": 0}
@@ -382,13 +383,21 @@ func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 		var k: Vector2i = queue.pop_front()
 		built[k] = _build_tile(k)
 		add_child(built[k])
-	if terrain != null: terrain.update_far(c, built)
+	if terrain != null and not _horizon_deferred: terrain.update_far(c, built)
 
 ## Construit toutes les tuiles proches d'un coup (chargement initial).
-func warm(center_net: Vector3) -> void:
+func warm(center_net: Vector3, cancellation = null) -> bool:
+	if cancellation != null and cancellation.cancelled(): return false
+	_horizon_deferred = true
 	update(center_net, 0)
 	while not queue.is_empty():
+		if cancellation != null and cancellation.cancelled():
+			_horizon_deferred = false
+			return false
 		update(center_net, 4)
+	_horizon_deferred = false
+	update(center_net, 0)
+	return true
 
 func _build_tile(k: Vector2i) -> Node3D:
 	var node := Node3D.new()
