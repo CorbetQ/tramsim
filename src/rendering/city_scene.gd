@@ -574,6 +574,14 @@ func _build_tile(k: Vector2i) -> Node3D:
 			# décor lointain : le relief lointain (MNT) passe à la surface de l'eau ; plan d'eau posé au-dessus
 			var top := _ground_h(_centroid(v))
 			for q in v: top = maxf(top, _ground_h(q))
+			for t in ntr:     # relief lointain sous l'intérieur du plan d'eau (facettes de 200 m) : grille de 50 m
+				var ta := v[buf.decode_u16(o + t * 6)]; var tb := v[buf.decode_u16(o + t * 6 + 2)]; var tc := v[buf.decode_u16(o + t * 6 + 4)]
+				var r := Rect2(ta, Vector2.ZERO).expand(tb).expand(tc)
+				top = maxf(top, _ground_h((ta + tb + tc) / 3.0))
+				for gx in range(ceili(r.position.x / 50.0), floori(r.end.x / 50.0) + 1):
+					for gz in range(ceili(r.position.y / 50.0), floori(r.end.y / 50.0) + 1):
+						var g := Vector2(gx * 50.0, gz * 50.0)
+						if Geometry2D.point_is_inside_triangle(g, ta, tb, tc): top = maxf(top, _ground_h(g))
 			y = top + 0.35
 		# surface végétale dans l'eau (îlots des tuiles voisines) : point intérieur réel (1er triangle), pas le
 		# centroïde (une forêt en croissant le long d'une rivière a son centroïde dans l'eau)

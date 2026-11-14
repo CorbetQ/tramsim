@@ -26,8 +26,8 @@ import ign_scene                      # noqa: E402
 import terrain as T                   # noqa: E402
 
 ROOT = T.ROOT
-PERIPH_M = {"default": 850.0, "idf": 550.0, "lyon": 700.0, "nantes": 700.0, "bordeaux": 700.0, "strasbourg": 700.0,
-            "grenoble": 750.0, "montpellier": 750.0, "lille": 700.0, "marseille": 750.0, "toulouse": 750.0}
+PERIPH_M = {"default": 650.0, "idf": 550.0, "lyon": 550.0, "nantes": 700.0, "bordeaux": 550.0, "strasbourg": 700.0,
+            "grenoble": 550.0, "montpellier": 550.0, "lille": 700.0, "marseille": 600.0, "toulouse": 600.0, "angers": 850.0}
 LANDMARK_M = 320.0
 # décor lointain allégé : cadre de la vue globale, à au plus LIGHT_M des voies (0 : tout le cadre)
 LIGHT_M = {"default": 0, "idf": 2500.0, "lyon": 4000.0, "mulhouse": 3000.0, "valenciennes": 3000.0, "bordeaux": 4000.0}
