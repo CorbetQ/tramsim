@@ -27,6 +27,9 @@ func load_data(data: Dictionary) -> PackedStringArray:
 	if int(data.get("schema", 0)) != SCHEMA:
 		errs.append("schéma non supporté")
 	meta = data
+	if not meta.has("crossings"):   # carrefours route×voie réels exportés par l'import du décor
+		var cr: Array = _crossings().get(str(meta.get("id", "")), [])
+		if not cr.is_empty(): meta["crossings"] = cr
 	var nodes: Array = data.get("nodes", [])
 	for e in data.get("edges", []):
 		if not (e.from in nodes and e.to in nodes):
@@ -185,3 +188,11 @@ func junction_limit(edge_id: String, direction_: int) -> float:
 	if angle < deg_to_rad(5.0): return INF
 	var radius := minf(10.0, minf(length_, other_length) * 0.5) / maxf(tan(angle * 0.5), 0.01)
 	return maxf(5.0, floorf(TrainPhysics.curve_speed_limit(maxf(8.0, radius)) * 3.6 / 5.0) * 5.0) / 3.6
+
+static var _crossings_cache: Dictionary = {}
+static func _crossings() -> Dictionary:
+	if _crossings_cache.is_empty():
+		var d = JSON.parse_string(FileAccess.get_file_as_string("res://data/crossings.json")) if FileAccess.file_exists("res://data/crossings.json") else null
+		_crossings_cache = (d.get("networks", {}) if d is Dictionary else {})
+		if _crossings_cache.is_empty(): _crossings_cache = {"": []}
+	return _crossings_cache
