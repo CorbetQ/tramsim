@@ -912,7 +912,7 @@ func _build_hud() -> void:
 	add_child(trip)
 	var tv := VBoxContainer.new(); tv.add_theme_constant_override("separation", 6); trip.add_child(tv)
 	var r1 := HBoxContainer.new(); r1.add_theme_constant_override("separation", 12); tv.add_child(r1)
-	var badge := UiTheme.line_badge(str(net.meta.get("line", "")) if not free_mode else str(net.meta.get("city", "")).substr(0, 3), lc, UiTheme.SIZE_H2)
+	var badge := UiTheme.line_badge(str(scenario.get("line", net.meta.get("line", ""))) if not free_mode else str(net.meta.get("city", "")).substr(0, 3), lc, UiTheme.SIZE_H2)
 	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER; r1.add_child(badge)
 	var sv := VBoxContainer.new(); sv.add_theme_constant_override("separation", -2); sv.size_flags_horizontal = Control.SIZE_EXPAND_FILL; r1.add_child(sv)
 	sv.add_child(UiTheme.label_("PROCHAIN ARRÊT", UiTheme.SIZE_CAPTION, UiTheme.MUTED, true))
