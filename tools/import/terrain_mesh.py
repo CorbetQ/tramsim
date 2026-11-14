@@ -459,11 +459,15 @@ def build(city, workers=1):
     roads = RM.CityRoads(city, frame, cache, llb, axes, full_tiles=bool(meta.get("periphery_m")))
     scene = RM.read_scene(os.path.join(ROOT, "data/scenes", city + ".bin"))
     blobs, ymins, st = [], [], defaultdict(int)
+    # périphérie (tools/import/periphery.py) hors corridor historique : pas de maillage de sol propre (relief lointain
+    # et voirie en rubans, CityScene._far_ground) ; la couronne lointaine couvre toute l'emprise
+    all_keys = keys
+    keys = [t for t in keys if not roads.coarse(t)]
+    st["tuiles_relief_lointain"] = len(all_keys) - len(keys)
     for i, t in enumerate(keys):
-        coarse = roads.coarse(t)          # périphérie (tools/import/periphery.py) : sol allégé
+        coarse = False
         parts, decals = roads.tile_parts(t, scene.get(t), t in scene_tiles, coarse)
         V, Tt, M = tile_mesh(t, parts, height, curv, extra, t in scene_tiles and not coarse, 0.8 if coarse else SIMPLIFY)
-        st["tuiles_allégées"] += coarse
         raw, ymin = encode_tile(V, Tt, M)
         raw += encode_decals(t, decals)
         st["décalques"] += len(decals["lines"]) + len(decals["rects"])
@@ -475,7 +479,7 @@ def build(city, workers=1):
     decks = T.road_decks(frame, dem, alt0, cache, llb)
     mraw, mst = meta_blob(keys, decks, water, alt0)
     st.update(mst)
-    fraw = far_blob(frame, keys, alt0, city)
+    fraw = far_blob(frame, all_keys, alt0, city)
     mz, fz = brotli.compress(mraw, quality=11), brotli.compress(fraw, quality=11)
     head_len = 40 + 24 * len(keys)
     far_off = head_len; meta_off = far_off + len(fz); off = meta_off + len(mz)

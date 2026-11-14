@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Installeur Windows (MSI) de Tram Sim France. Compilation : wixl -a x64 -D Version=0.3.0 -o build/TramSimFrance.msi installer/tramsim.wxs
-     (msitools/wixl sous Linux, ou WiX v3 sous Windows). Le fichier build/TramSimFrance.exe doit exister (PCK intégré). -->
+<!-- Installeur Windows (MSI) de Tram Sim France. Compilation : wixl -a x64 -D Version=0.13.0 -D SrcDir=build/win-x64 -o build/TramSimFrance.msi installer/tramsim.wxs
+     (msitools/wixl sous Linux, ou WiX v3 sous Windows). SrcDir doit contenir TramSimFrance.exe et TramSimFrance.pck (PCK séparé : évite les faux positifs antivirus des gros exécutables). -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="*" Name="Tram Sim France" Language="1036" Codepage="1252" Version="$(var.Version)"
            Manufacturer="Tram Sim France" UpgradeCode="6B1C5E0A-6C2E-4C7D-9B0E-2F0D7E5A9A31">
@@ -13,7 +13,8 @@
       <Directory Id="ProgramFiles64Folder">
         <Directory Id="INSTALLDIR" Name="Tram Sim France">
           <Component Id="MainExe" Guid="2E7B9C41-5D3A-4F6B-8C1D-9A0E3B7F6D21" Win64="yes">
-            <File Id="TramSimExe" Name="TramSimFrance.exe" Source="build/TramSimFrance.exe" KeyPath="yes" />
+            <File Id="TramSimExe" Name="TramSimFrance.exe" Source="$(var.SrcDir)/TramSimFrance.exe" KeyPath="yes" />
+            <File Id="TramSimPck" Name="TramSimFrance.pck" Source="$(var.SrcDir)/TramSimFrance.pck" />
           </Component>
           <Component Id="Docs" Guid="4A8D2F63-1B9E-4C5A-A7D3-6E2F0B9C8D42" Win64="yes">
             <File Id="Credits" Name="CREDITS.md" Source="CREDITS.md" KeyPath="yes" />

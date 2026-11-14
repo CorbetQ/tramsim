@@ -98,7 +98,7 @@ func point_on(edge_id: String, offset: float) -> Dictionary:
 	var i := clampi(arc.bsearch(s) - 1, 0, pts.size() - 2)
 	var seg: float = arc[i + 1] - arc[i]
 	var u := 0.0 if seg < 0.00001 else clampf((s - arc[i]) / seg, 0.0, 1.0)
-	var dir := (pts[i + 1] - pts[i]).normalized()
+	var dir := TrackGraph.smooth_dir(pts, arc, s)
 	var ys: PackedFloat32Array = edge_info[edge_id].get("ys", PackedFloat32Array())
 	var y := 0.0; var g := 0.0
 	if ys.size() == pts.size():

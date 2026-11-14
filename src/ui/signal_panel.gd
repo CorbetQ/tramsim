@@ -22,16 +22,18 @@ var lim_l: Label
 var _rows: Array[Control] = []
 var data: Dictionary = {}       # dernier état calculé (tests, captures)
 
-func setup(s: MissionSession, compact_: bool) -> void:
-	session = s; compact = compact_; expanded = not compact_
+var mini := false
+
+func setup(s: MissionSession, compact_: bool, mini_: bool = false) -> void:
+	session = s; compact = compact_ or mini_; mini = mini_; expanded = not compact
 	name = "signal_panel"
 	add_theme_stylebox_override("panel", UiTheme.box(Color(UiTheme.SURFACE, 0.84), 16, 12, UiTheme.BORDER, 1))
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	tooltip_text = "Répétiteur de signalisation : toucher pour détailler / réduire"
-	custom_minimum_size = Vector2(0, 64)
+	custom_minimum_size = Vector2(0, 52 if mini else 64)
 	var v := VBoxContainer.new(); v.add_theme_constant_override("separation", 8); v.mouse_filter = Control.MOUSE_FILTER_IGNORE; add_child(v)
 	var top := HBoxContainer.new(); top.add_theme_constant_override("separation", 12); top.mouse_filter = Control.MOUSE_FILTER_IGNORE; v.add_child(top)
-	glyph = _Glyph.new(); glyph.custom_minimum_size = Vector2(38, 58) if compact else Vector2(50, 78); top.add_child(glyph)
+	glyph = _Glyph.new(); glyph.custom_minimum_size = Vector2(26, 40) if mini else (Vector2(38, 58) if compact else Vector2(50, 78)); top.add_child(glyph)
 	var tv := VBoxContainer.new(); tv.add_theme_constant_override("separation", -2); tv.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tv.size_flags_horizontal = Control.SIZE_EXPAND_FILL; tv.alignment = BoxContainer.ALIGNMENT_CENTER; top.add_child(tv)
 	kind_l = UiTheme.label_("SIGNAL", UiTheme.SIZE_CAPTION, UiTheme.MUTED, true); tv.add_child(kind_l)
@@ -39,10 +41,10 @@ func setup(s: MissionSession, compact_: bool) -> void:
 	dist_l = UiTheme.label_("", UiTheme.SIZE_SMALL if compact else UiTheme.SIZE_BODY, UiTheme.TEXT); tv.add_child(dist_l)
 	for l in [kind_l, aspect_l, dist_l]:
 		l.clip_text = true; l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		l.custom_minimum_size = Vector2(120 if compact else 210, 0); l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		l.custom_minimum_size = Vector2(70 if mini else (120 if compact else 210), 0); l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if compact:   # rangée unique : signal, aiguille et limite côte à côte
-		sw_glyph = _Switch.new(); sw_glyph.custom_minimum_size = Vector2(44, 44); sw_glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER; top.add_child(sw_glyph)
-		sign_ = _Limit.new(); sign_.custom_minimum_size = Vector2(46, 46); sign_.size_flags_vertical = Control.SIZE_SHRINK_CENTER; top.add_child(sign_)
+		sw_glyph = _Switch.new(); sw_glyph.custom_minimum_size = Vector2(40, 40) if mini else Vector2(44, 44); sw_glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER; top.add_child(sw_glyph)
+		sign_ = _Limit.new(); sign_.custom_minimum_size = Vector2(40, 40) if mini else Vector2(46, 46); sign_.size_flags_vertical = Control.SIZE_SHRINK_CENTER; top.add_child(sign_)
 	var r2 := HBoxContainer.new(); r2.add_theme_constant_override("separation", 12); r2.mouse_filter = Control.MOUSE_FILTER_IGNORE; v.add_child(r2)
 	if not compact:
 		sw_glyph = _Switch.new(); sw_glyph.custom_minimum_size = Vector2(50, 46); r2.add_child(sw_glyph)
@@ -65,6 +67,8 @@ func _apply_expanded() -> void:
 	for r in _rows: r.visible = expanded
 	if compact:
 		for l in [kind_l]: l.visible = expanded
+	if mini:
+		aspect_l.visible = expanded
 	reset_size()
 
 static func fmt_m(d: float) -> String:

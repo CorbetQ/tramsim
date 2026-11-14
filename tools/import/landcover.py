@@ -7,6 +7,8 @@ Deux rasters de classes, alignés sur le repère de la ville :
   bilinéairement (transitions douces, contour bruité), sous le masque de pelouse à 4 m de ign_scene.py ;
 - lointain : cellules de 100 m sur l'emprise de la couronne lointaine (tuiles + 8 km, comme terrain_mesh.far_blob),
   orthophoto z13 (~13 m/px) ; couleur des sommets de l'horizon (src/rendering/terrain_view.gd).
+Hors de France (Kehl, Belgique, Suisse : pas d'orthophoto IGN) : ESA WorldCover 10 m (2021, CC BY 4.0), voir
+tools/import/worldcover.py.
 Classes : règles sur la couleur moyenne de la cellule (indice de verdure, luminance, chroma), puis filtre modal 3 x 3 (pas de pixels isolés). Le jeu affiche la couleur de rendu
 de la classe (palette cel shading), pas l'image : aucune orthophoto n'est embarquée.
 
@@ -26,6 +28,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import terrain as T                     # noqa: E402
 from ign_scene import Ortho, frame_inv_np   # noqa: E402
+from worldcover import WorldCover           # noqa: E402
+
+WC = WorldCover(T.SCRATCH)
 
 ROOT = T.ROOT
 TILE_M = T.TILE_M
@@ -106,6 +111,12 @@ def raster(ortho, frame, z, x0, z0, step, nx, nz, sub, mask=None, south=False):
         cnt = ok.sum((2, 3))
         mean = (rgb * ok[..., None]).sum((2, 3)) / np.maximum(cnt, 1)[..., None]
         cls = classify(mean, cnt >= sub * sub // 2, south)
+        miss = cls == 255
+        if mask is not None:
+            miss &= mask[r0:r1]
+        if miss.any():       # hors de France (pas d'orthophoto IGN) : ESA WorldCover 10 m
+            c = sub // 2
+            cls[miss] = WC.sample(lat[:, :, c, c][miss], lon[:, :, c, c][miss])
         if mask is not None:
             cls[~mask[r0:r1]] = 255
         out[r0:r1] = cls

@@ -14,6 +14,7 @@ var cam: Camera3D
 var signal_nodes: Array[MeshInstance3D] = []
 var signal_view: SignalView          # signalisation tramway (SignalModel) au bord de la voie
 var ai_view := AiTramView.new()      # rames IA du mode mission
+var _cab_fwd := Vector3.ZERO         # cap lissé de la caméra cabine
 var sectors: Dictionary = {}       # edge id -> Node3D (affiché/masqué selon la distance)
 var sector_bounds: Dictionary = {} # emprise complète, y compris les arêtes courbes
 var tunnel_lights: Array[OmniLight3D] = []
@@ -664,9 +665,12 @@ func update_from(s: MissionSession, external: bool) -> void:
 		elif city: cam.position = city.avoid_camera(target, cam.position)
 		if not underground: cam.position = _clear_of_tram(cam.position)
 		cam.look_at(target)
-	else:  # vue cabine
-		cam.position = front.origin - fwd * 1.0 + Vector3(0, 2.6, 0)
-		cam.look_at(cam.position + fwd * 30.0 + Vector3(0, -0.8, 0))
+	else:  # vue cabine : cap lissé (filtre exponentiel ~0,1 s), recalé sur un saut de cap > 60°
+		var dtc := get_process_delta_time()
+		if _cab_fwd == Vector3.ZERO or _cab_fwd.dot(fwd) < 0.5 or dtc <= 0.0: _cab_fwd = fwd.normalized()
+		else: _cab_fwd = _cab_fwd.slerp(fwd.normalized(), 1.0 - exp(-dtc * 10.0)).normalized()
+		cam.position = front.origin - _cab_fwd * 1.0 + Vector3(0, 2.6, 0)
+		cam.look_at(cam.position + _cab_fwd * 30.0 + Vector3(0, -0.8, 0))
 	update_sectors(front.origin)
 	day_night.set_ground(ground_at(cam.global_position) if not underground else front.origin.y)
 	if city: city.update(cam.global_position, 1)

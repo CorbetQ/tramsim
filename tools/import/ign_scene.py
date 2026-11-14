@@ -853,6 +853,9 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None, periphery_m=0.0, extra_
             tiles[tile_of(*cxy)]["lb"].append((k, cxy, name))
             stats["étiquettes"] += 1
     # orthophotos : toits, houppiers, sol vert ; nature de plateforme
+    if not track_json:
+        feats.clear()          # entités WFS brutes inutiles désormais (mémoire : Île-de-France)
+        import gc; gc.collect()
     if ortho_dir:
         ortho = Ortho(ortho_dir)
         # dalles z17 qui touchent le corridor (échantillonnage à 50 m)

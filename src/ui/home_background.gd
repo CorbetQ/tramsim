@@ -245,7 +245,23 @@ static func _line_mesh(lines: Array, dist: float) -> Node3D:
 
 func _exit_tree() -> void:
 	if _task >= 0:
+		# arrêt non bloquant : la tâche voit l'annulation (entre deux tuiles), la fin est récupérée plus tard
 		if _control != null: _control.cancel()
-		WorkerThreadPool.wait_for_task_completion(_task); _task = -1
-		if _job.has("scene"): (_job.scene as Node).free()
-		_job = {}
+		_orphans.append([_task, _job])
+		_task = -1; _job = {}
+		var tree := Engine.get_main_loop() as SceneTree
+		if tree != null and not tree.process_frame.is_connected(_reap):
+			tree.process_frame.connect(_reap)
+
+## Chargements abandonnés (fond quitté en cours de chargement) : [tâche, job], libérés une fois terminés.
+static var _orphans: Array = []
+
+static func _reap() -> void:
+	for o in _orphans.duplicate():
+		if WorkerThreadPool.is_task_completed(o[0]):
+			WorkerThreadPool.wait_for_task_completion(o[0])
+			if o[1].has("scene") and is_instance_valid(o[1].scene): (o[1].scene as Node).free()
+			_orphans.erase(o)
+	var tree := Engine.get_main_loop() as SceneTree
+	if _orphans.is_empty() and tree != null and tree.process_frame.is_connected(_reap):
+		tree.process_frame.disconnect(_reap)

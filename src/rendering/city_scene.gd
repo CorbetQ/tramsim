@@ -457,6 +457,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 	var polys_start := o
 	var np := buf.decode_u16(o); o += 2
 	_water_cur = []
+	_water_tops = []
 	for p in np:
 		var nv := buf.decode_u16(o + 1); var ntr := buf.decode_u16(o + 3)
 		if buf.decode_u8(o) == P_WATER:   # plans d'eau de la tuile : ni arbres ni herbe dedans
@@ -583,6 +584,9 @@ func _build_tile(k: Vector2i) -> Node3D:
 						var g := Vector2(gx * 50.0, gz * 50.0)
 						if Geometry2D.point_is_inside_triangle(g, ta, tb, tc): top = maxf(top, _ground_h(g))
 			y = top + 0.35
+			var wr := Rect2(v[0], Vector2.ZERO)
+			for q in v: wr = wr.expand(q)
+			_water_tops.append([wr, y])
 		# surface végétale dans l'eau (îlots des tuiles voisines) : point intérieur réel (1er triangle), pas le
 		# centroïde (une forêt en croissant le long d'une rivière a son centroïde dans l'eau)
 		if cls != P_WATER and ntr > 0:
@@ -687,9 +691,20 @@ func _far_ground(S: _Arrays, k: Vector2i, ground: Color) -> void:
 			var p := [Vector2(ix, iz), Vector2(ix + 1, iz), Vector2(ix + 1, iz + 1), Vector2(ix, iz + 1)]
 			var q: Array[Vector3] = []
 			for c in p:
-				var x: float = c.x * st; var z: float = c.y * st
-				q.append(Vector3(x, terrain.far_tri(x + _tile_origin.x, z + _tile_origin.y), z))
-			S.tri(q[0], q[1], q[2], col); S.tri(q[0], q[2], q[3], col)
+				var x: float = c.x * st + _tile_origin.x; var z: float = c.y * st + _tile_origin.y
+				q.append(Vector3(x, terrain.far_tri(x, z), z))
+			# raccord exact aux tuiles de sol voisines (mêmes sommets de bord, comme la couronne lointaine)
+			var rim: Array[Vector3] = []; var stitched := false
+			for i in 4:
+				rim.append(q[i])
+				var pts := terrain._far_edge_points(q[i], q[(i + 1) % 4], terrain.table)
+				if not pts.is_empty(): stitched = true; rim.append_array(pts)
+			var o3 := Vector3(_tile_origin.x, 0, _tile_origin.y)
+			if stitched:
+				var ctr := (q[0] + q[1] + q[2] + q[3]) * 0.25
+				for i in rim.size(): S.tri(ctr - o3, rim[i] - o3, rim[(i + 1) % rim.size()] - o3, col)
+			else:
+				S.tri(q[0] - o3, q[1] - o3, q[2] - o3, col); S.tri(q[0] - o3, q[2] - o3, q[3] - o3, col)
 
 ## Chaussée ou voie ferrée en ruban drapé (tuiles de décor lointain : la voirie n'est pas dans un maillage de sol).
 func _road_ribbon(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, deck: int = -1) -> void:
@@ -709,6 +724,12 @@ func _road_ribbon(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, deck:
 			Vector3(b.x + nrm.x, 0.06, b.y + nrm.y), Vector3(a.x + nrm.x, 0.06, a.y + nrm.y), col, -1.0)
 	S.sub = 0.0
 	_drape(S, l0, deck)
+	if deck < 0 and not _water_tops.is_empty():   # ponts hors maillage de sol : au-dessus des plans d'eau posés
+		for i in range(l0, S.count()):
+			var p := Vector2(S.v[i].x, S.v[i].z)
+			if not _in_water(p): continue
+			for wt in _water_tops:
+				if (wt[0] as Rect2).grow(1.0).has_point(p): S.v[i].y = maxf(S.v[i].y, wt[1] + 0.6)
 
 ## Matériau du décor d'une tuile : masque de pelouse (orthophoto, 4 m) et occupation du sol réelle (TerrainView,
 ## cellules de 25 m) ; matériau partagé sans l'un ni l'autre.
@@ -858,6 +879,7 @@ static func _ortho_roof(code: int) -> Color:
 	return Color.from_hsv(c.h, sat, clampf((c.v - 0.05) / 1.12 * 0.9, 0.0, 1.0))
 
 var _water_cur: Array = []          # triangles d'eau de la tuile en cours : [PackedVector2Array(3), Rect2]
+var _water_tops: Array = []         # plans d'eau posés sur le relief lointain : [Rect2, niveau]
 var _track_pts: Dictionary = {}     # Vector2i (cellules de 16 m) -> PackedVector3Array (voie, repère ville)
 
 ## Vrai si le point (repère tuile) est dans un plan d'eau de la tuile en cours.
@@ -1801,25 +1823,66 @@ func _pick_tree(rng: RandomNumberGenerator) -> int:
 ## Recherche d'un monument nommé (étiquette BD TOPO) : position dans le repère de la ligne, ou Vector3.INF.
 func find_label(substr: String) -> Vector3:
 	if not v2: return Vector3.INF
+	var want := substr.to_lower()
 	for k in table:
-		var o: int = _tile_data(k)
-		var nb := buf.decode_u16(o); o += 2
-		for b in nb:
-			var n := buf.decode_u8(o); o += 5 + n * 4
-			o += 1 + buf.decode_u8(o) * 3
-		var np := buf.decode_u16(o); o += 2
-		for p in np: o += 5 + buf.decode_u16(o + 1) * 4 + buf.decode_u16(o + 3) * 6
-		var nl := buf.decode_u16(o); o += 2
-		for l in nl: o += 4 + buf.decode_u16(o + 2) * 4
-		var npt := buf.decode_u16(o); o += 2 + npt * 7
-		var nlb := buf.decode_u16(o); o += 2
-		for i in nlb:
-			var ln := buf.decode_u8(o + 5)
-			var name := buf.slice(o + 6, o + 6 + ln).get_string_from_utf8()
-			if name.to_lower().contains(substr.to_lower()):
-				return position + Vector3(k.x * tile_m + buf.decode_s16(o + 1) * 0.1, 0, k.y * tile_m + buf.decode_s16(o + 3) * 0.1)
-			o += 6 + ln
+		for lb in _tile_labels(k):
+			if str(lb[0]).to_lower().contains(want):
+				var p: Vector2 = lb[1]
+				return _to_net(k.x * tile_m + p.x, k.y * tile_m + p.y)
 	return Vector3.INF
+
+## Étiquettes d'une tuile [[nom, Vector2 repère tuile]], lecture bornée (tuile tronquée : liste partielle).
+func _tile_labels(k: Vector2i) -> Array:
+	var out: Array = []
+	var o: int = _tile_data(k)
+	var end := buf.size()
+	if o + 2 > end: return out
+	var nb := buf.decode_u16(o); o += 2
+	for b in nb:
+		if o + 5 > end: return out
+		o += 5 + buf.decode_u8(o) * 4
+		if o + 1 > end: return out
+		o += 1 + buf.decode_u8(o) * 3
+	if o + 2 > end: return out
+	var np := buf.decode_u16(o); o += 2
+	for p in np:
+		if o + 5 > end: return out
+		o += 5 + buf.decode_u16(o + 1) * 4 + buf.decode_u16(o + 3) * 6
+	if o + 2 > end: return out
+	var nl := buf.decode_u16(o); o += 2
+	for l in nl:
+		if o + 4 > end: return out
+		o += 4 + buf.decode_u16(o + 2) * 4
+	if o + 2 > end: return out
+	var npt := buf.decode_u16(o); o += 2 + npt * 7
+	if o + 2 > end: return out
+	var nlb := buf.decode_u16(o); o += 2
+	for i in nlb:
+		if o + 6 > end: return out
+		var ln := buf.decode_u8(o + 5)
+		if o + 6 + ln > end: return out
+		out.append([buf.slice(o + 6, o + 6 + ln).get_string_from_utf8(), Vector2(buf.decode_s16(o + 1) * 0.1, buf.decode_s16(o + 3) * 0.1)])
+		o += 6 + ln
+	return out
+
+## Point du repère de la ville -> repère de la ligne affichée (altitude du sol si connue).
+func _to_net(x: float, z: float) -> Vector3:
+	return Vector3(position.x + x * _x_scale, height_city(x, z) if has_terrain else 0.0, position.z + z)
+
+## Monuments emblématiques de la ville (data/landmarks.json) : [[nom, Vector3 repère de la ligne]], pour la liste
+## « Aller à » du mode Explorer. Coordonnées WGS84 converties dans le repère de la scène.
+func landmarks() -> Array:
+	var out: Array = []
+	if not FileAccess.file_exists("res://data/landmarks.json"): return out
+	var d = JSON.parse_string(FileAccess.get_file_as_string("res://data/landmarks.json"))
+	var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s.json" % city))
+	if not d is Dictionary or not meta is Dictionary: return out
+	var lat0 := float(meta.origin[0]); var lon0 := float(meta.origin[1])
+	for lm in d.get("cities", {}).get(city, []):
+		var x := deg_to_rad(float(lm.lon) - lon0) * R * cos(deg_to_rad(lat0))
+		var z := -deg_to_rad(float(lm.lat) - lat0) * R
+		out.append([str(lm.name), _to_net(x, z)])
+	return out
 
 ## Vérifie la structure d'une tuile (lecture complète des sections, taille exacte) : pour les tests.
 func tile_ok(k: Vector2i) -> bool:

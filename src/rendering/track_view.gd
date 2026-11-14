@@ -174,7 +174,7 @@ static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color
 	var curv := curvature(pts)
 	var hw := gauge_m * 0.5
 	for side in [-1.0, 1.0]:
-		_rail(g, pts, nrm, o + side * hw, side, grassy, curv)
+		_rail(g, pts, nrm, o + side * hw, side, grassy, curv, bed)
 	_switch_ends(g, pts, nrm, o, gauge_m, grassy)
 
 ## Courbure signée par sommet (1/m, > 0 : virage vers la droite de la voie), lissée sur ± 4 m.
@@ -199,14 +199,15 @@ static func curvature(pts: Array[Vector3]) -> PackedFloat32Array:
 	return out
 
 ## Rail à gorge à l'abscisse latérale `off` (côté `side` : -1 gauche, +1 droite ; la gorge est côté intérieur).
-static func _rail(g, pts: Array[Vector3], nrm: PackedVector3Array, off: float, side: float, grassy: Array, curv: PackedFloat32Array) -> void:
+static func _rail(g, pts: Array[Vector3], nrm: PackedVector3Array, off: float, side: float, grassy: Array, curv: PackedFloat32Array, bed: Array) -> void:
 	var n := pts.size() - 1
 	var top: Array = []; var groove: Array = []; var filler: Array = []; var guard: Array = []
 	for i in n:
 		top.append(RAIL_TOP); groove.append(GROOVE)
-		filler.append(SLEEPER if grassy[i] else Color("#3a3c40"))
+		var bc: Color = bed[i]
+		filler.append(SLEEPER if grassy[i] else Color(bc.r, bc.g, bc.b).darkened(0.38))
 	# longrine béton (gazon) ou joint bitumineux (chaussée) sous/autour du rail
-	_ribbon_y(g, pts, nrm, 0.30, func(i): return BED_TOP_M + (0.012 if grassy[i] else 0.006), filler, off)
+	_ribbon_w(g, pts, nrm, func(i): return 0.30 if grassy[i] else 0.18, func(i): return BED_TOP_M + (0.012 if grassy[i] else 0.006), filler, off)
 	_ribbon_y(g, pts, nrm, 0.072, func(i): return RAIL_TOP_M if grassy[i] else EMBED_TOP_M, top, off + side * 0.012)
 	_ribbon_y(g, pts, nrm, 0.036, func(i): return (RAIL_TOP_M if grassy[i] else EMBED_TOP_M) - 0.001, groove, off - side * 0.042)
 	# flancs du champignon au-dessus du gazon (silhouette nette)
@@ -231,6 +232,14 @@ static func _rail(g, pts: Array[Vector3], nrm: PackedVector3Array, off: float, s
 static func _ribbon_y(g, pts: Array[Vector3], nrm: PackedVector3Array, w: float, y_fn: Callable, cols: Array, offset: float) -> void:
 	var hw := w * 0.5
 	for i in range(pts.size() - 1):
+		var up := Vector3(0, float(y_fn.call(i)), 0)
+		var a := pts[i] + nrm[i] * offset + up; var b := pts[i + 1] + nrm[i + 1] * offset + up
+		g.quad(a - nrm[i] * hw, a + nrm[i] * hw, b + nrm[i + 1] * hw, b - nrm[i + 1] * hw, cols[i])
+
+## Ruban à largeur et hauteur variables par segment.
+static func _ribbon_w(g, pts: Array[Vector3], nrm: PackedVector3Array, w_fn: Callable, y_fn: Callable, cols: Array, offset: float) -> void:
+	for i in range(pts.size() - 1):
+		var hw := float(w_fn.call(i)) * 0.5
 		var up := Vector3(0, float(y_fn.call(i)), 0)
 		var a := pts[i] + nrm[i] * offset + up; var b := pts[i + 1] + nrm[i + 1] * offset + up
 		g.quad(a - nrm[i] * hw, a + nrm[i] * hw, b + nrm[i + 1] * hw, b - nrm[i + 1] * hw, cols[i])

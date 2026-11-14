@@ -3,15 +3,15 @@
  "city": "nantes",
  "alt0": 20.8,
  "tile_m": 400.0,
- "tiles": 2098,
+ "tiles": 267,
  "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
  "stats": {
-  "tuiles_allégées": 1831,
+  "tuiles_relief_lointain": 1831,
   "décalques": 10578,
-  "sommets": 1726720,
-  "triangles": 2955716,
-  "ponts": 246,
-  "niveaux_eau": 1704
+  "sommets": 608455,
+  "triangles": 1136824,
+  "ponts": 73,
+  "niveaux_eau": 145
  },
  "terrain_format": "TGR2",
  "height_encoding": "TIN contraint par la voirie, cm",
