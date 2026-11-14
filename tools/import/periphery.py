@@ -153,6 +153,30 @@ def scene(city):
           f"{os.path.getsize(os.path.join(ROOT, 'data/scenes', city + '.bin')) / 1e6:.1f} Mo, {time.time() - t0:.0f} s", flush=True)
 
 
+def pad(city):
+    """Ajoute à une scène élargie les tuiles vides de son emprise (mer, hors de France : pas d'entité BD TOPO),
+    sans réimport : sol du relief lointain teinté par l'occupation du sol (relancer landcover.py ensuite)."""
+    path = os.path.join(ROOT, "data/scenes", city + ".bin")
+    meta_path = os.path.join(ROOT, "data/scenes", city + ".json")
+    meta = json.load(open(meta_path))
+    frame = T.Frame(*meta["origin"])
+    nets = city_lines(city)
+    want = light_tiles(city, nets, frame)
+    tiles, _ = ign_scene.read_tiles(open(path, "rb").read())
+    empty = ign_scene.write_tile({"b": [], "p": [], "l": [], "pt": [], "lb": []}, 0, 0)
+    add = sorted(want - set(tiles))
+    if not add:
+        return 0
+    for t in add:
+        tiles[t] = empty
+    open(path + ".part", "wb").write(ign_scene.pack_tsc4(tiles)); os.replace(path + ".part", path)
+    lt = {tuple(t) for t in meta.get("light_tiles", [])} | set(add)
+    meta["light_tiles"] = sorted([list(t) for t in lt]); meta["light_tiles_count"] = len(lt); meta["tiles"] = len(tiles)
+    json.dump(meta, open(meta_path, "w"), ensure_ascii=False, indent=1)
+    print(f"{city}: {len(add)} tuiles vides ajoutées", flush=True)
+    return len(add)
+
+
 def ground(city):
     import terrain_mesh
     terrain_mesh.build(city)
@@ -162,6 +186,8 @@ if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     cities = args or sorted(p[:-5] for p in os.listdir(os.path.join(ROOT, "data/free")) if p.endswith(".json"))
     for c in cities:
+        if "--pad" in sys.argv:
+            pad(c); continue
         if "--ground-only" not in sys.argv:
             scene(c)
         if "--scene-only" not in sys.argv:
