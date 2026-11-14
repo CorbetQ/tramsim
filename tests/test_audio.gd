@@ -31,7 +31,8 @@ func _run() -> void:
 	var src: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/audio/sources.json"))
 	var lufs_ok := true
 	for n in TramAudio.LOOPS.keys() + TramAudio.SHOTS.keys() + ["gong"]:
-		var f: Dictionary = src.files.get(n + ".ogg", {})
+		var path: String = {"birds": "free_sfx/garden_day.ogg", "air": "free_sfx/air_movement.ogg"}.get(n, n + ".ogg")
+		var f: Dictionary = src.files.get(path, {})
 		var tgt := -20.0 if n in TramAudio.LOOPS else -18.0
 		if not f.has("licence") or absf(float(f.get("lufs", 0.0)) - tgt) > 1.5: lufs_ok = false; printerr(n, " ", f.get("lufs"))
 	check(lufs_ok, "sources.json : licence et sonie normalisée (±1,5 LU) pour chaque fichier")

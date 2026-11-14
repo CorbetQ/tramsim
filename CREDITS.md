@@ -120,3 +120,11 @@ Les références collectées, leurs auteurs/licences et les limites d'attributio
 ### Traction Citadis apparentée — Rotterdam
 
 LG, « Streetcar04.wav », https://freesound.org/people/LG/sounds/14279/ , Creative Commons Attribution4.0 (https://creativecommons.org/licenses/by/4.0/). Préview public de départ à Rotterdam ; dérivés : séparation harmonique candidate, trois fenêtres courtes, raccords et normalisation. Utilisée comme source apparentée pour les quinze variantesCitadis302, sans certification de motrice française. Crédits et traitements : `data/audio/ROTTERDAM-CREDITS.md`, `data/audio/rotterdam-traction-manifest.json`.
+
+### Effets gratuits — interface et environnement (0.13.1)
+
+- **Kenney, Interface Sounds 1.0**, [CC0](https://creativecommons.org/publicdomain/zero/1.0/) : clic, retour et confirmation. [Banque originale](https://kenney.nl/assets/interface-sounds), [miroir des originaux utilisé](https://github.com/Calinou/kenney-interface-sounds/tree/master/addons/kenney_interface_sounds). Filtrage et fondus courts. Licence incluse dans `data/audio/free_sfx/KENNEY-LICENSE.txt`.
+- **Joseph Sardin, Réveil des oiseaux**, [CC0](https://commons.wikimedia.org/wiki/File:Réveil_des_oiseaux.ogg) : extrait 8–40 s, mono 32 kHz, filtrage, raccord croisé 2 s, sonie −20 LUFS. Ambiance générique de jardin européen ; aucune attribution à une ville particulière.
+- Souffle d'air : synthèse originale locale de bruit brun filtré. Aucune captation constructeur, voix ni musique.
+
+Provenance, empreintes des originaux et traitements : `data/audio/free_sfx/SOURCES.json`. Reproduction : `tools/audio/build_free_sfx.py`. Aucun service de génération payant utilisé pour ces effets.

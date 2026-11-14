@@ -66,7 +66,7 @@ func _run() -> void:
 	picker.search.text = "ange"; picker.search.text_changed.emit("ange"); picker.search.text_submitted.emit("ange")
 	for i in 3: await process_frame
 	check(picker.selected == "Angers" and main.menu_city == "Angers", "recherche + Entrée : Angers choisie")
-	check(main.home_bg.city == "Angers", "changement de ville demandé au fond")
+	check(main.city_preload.city == "Angers", "changement de ville demandé au préchargement")
 	check(await _wait_city(main, "Angers"), "fond : Angers chargée")
 	check(main.home_bg.layer_count() == 2, "fondu enchaîné entre les deux villes")
 	await create_timer(1.2).timeout
@@ -139,5 +139,5 @@ func _run() -> void:
 	_end(main)
 
 func _end(main: Node) -> void:
-	main.queue_free(); await process_frame
+	main.queue_free(); await CityScene.drain_background_jobs(self)
 	print("TOTAL_ECHECS|", fails); quit(1 if fails else 0)

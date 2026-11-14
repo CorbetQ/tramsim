@@ -1,0 +1,49 @@
+[
+  {
+    "file": "ui_click.ogg",
+    "original": "click_001.wav",
+    "download": "https://raw.githubusercontent.com/Calinou/kenney-interface-sounds/master/addons/kenney_interface_sounds/click_001.wav",
+    "author": "Kenney",
+    "license": "CC0-1.0",
+    "page": "https://kenney.nl/assets/interface-sounds",
+    "sha256_original": "ea67c9d78750e5a356bf53ef8c2063b52cc3ccdae6ae8afeec87f97f79ae692d",
+    "processing": "100 Hz high-pass, 4.2 kHz low-pass, limiter, short fades; quiet game playback"
+  },
+  {
+    "file": "ui_back.ogg",
+    "original": "back_001.wav",
+    "download": "https://raw.githubusercontent.com/Calinou/kenney-interface-sounds/master/addons/kenney_interface_sounds/back_001.wav",
+    "author": "Kenney",
+    "license": "CC0-1.0",
+    "page": "https://kenney.nl/assets/interface-sounds",
+    "sha256_original": "6fb44d6dc1fd0bbc1e7abb586bab4a838719f91428af2648a37d4acdc7530617",
+    "processing": "100 Hz high-pass, 4.2 kHz low-pass, limiter, short fades; quiet game playback"
+  },
+  {
+    "file": "ui_confirm.ogg",
+    "original": "confirmation_001.wav",
+    "download": "https://raw.githubusercontent.com/Calinou/kenney-interface-sounds/master/addons/kenney_interface_sounds/confirmation_001.wav",
+    "author": "Kenney",
+    "license": "CC0-1.0",
+    "page": "https://kenney.nl/assets/interface-sounds",
+    "sha256_original": "f9d0ef5a5c740c2ac250ac3876db9e4340669044a5bf78ae09192918db3e2ebc",
+    "processing": "100 Hz high-pass, 4.2 kHz low-pass, limiter, short fades; quiet game playback"
+  },
+  {
+    "file": "garden_day.ogg",
+    "author": "Joseph Sardin",
+    "license": "CC0-1.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Réveil_des_oiseaux.ogg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/33/R%C3%A9veil_des_oiseaux.ogg",
+    "sha256_original": "3f05e887cd67965cf547dd2e1bc75492ba50dbd46ab8c82958efedc05e0cf6c5",
+    "processing": "8–40 s, mono 32 kHz, 2 s overlap linear crossfade, 180–6500 Hz, -20 LUFS, loop 30 s",
+    "specificity": "European garden birds, generic daytime outdoor layer; no tram or city attribution"
+  },
+  {
+    "file": "air_movement.ogg",
+    "author": "Tram Sim France",
+    "license": "project",
+    "processing": "Local deterministic brown-noise synthesis, filtered 90–900 Hz, 0.6 s edge fades",
+    "specificity": "Designed air movement; not a field recording"
+  }
+]

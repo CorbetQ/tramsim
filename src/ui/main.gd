@@ -79,6 +79,8 @@ var toasts: VBoxContainer
 var lamps: Dictionary = {}      # nom -> [PanelContainer, TextureRect, Label]
 var tuto: Control
 var tuto_step := 0
+var _closing := false
+var ui_audio: UiAudio
 var tram_audio: TramAudio
 var bell: AudioStreamPlayer
 var _alert_box: PanelContainer
@@ -88,6 +90,7 @@ var _resize_pending := false
 var camera_gestures := MapGestures.new()
 
 func _ready() -> void:
+	get_tree().auto_accept_quit = false
 	UiLayout.configure(get_window())
 	_compact = UiLayout.compact(self)
 	get_window().size_changed.connect(func(): UiLayout.configure(get_window()))
@@ -96,6 +99,7 @@ func _ready() -> void:
 	theme = UiTheme.build()
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR   # icônes SVG nettes à toutes les échelles
 	save = SaveGame.load_data()
+	ui_audio = UiAudio.new(); ui_audio.enabled = bool(save.settings.get("ui_sounds", true)); add_child(ui_audio)
 	bell = AudioStreamPlayer.new(); bell.stream = _bell_sound(); add_child(bell)
 	_build_menu()
 
@@ -117,16 +121,36 @@ func _bell_sound() -> AudioStreamWAV:
 	return w
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and is_node_ready():
+		_quit_safely(); return
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST and session == null and not is_instance_valid(explore) and menu_page == "home" and settings_layer == null and is_node_ready() and get_tree().get_nodes_in_group("touch_choice_modal").is_empty():
+		_quit_safely(); return
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_instance_valid(explore):
 		explore.leave(); return
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and session == null and is_node_ready():
 		var esc := InputEventKey.new(); esc.keycode = KEY_ESCAPE
 		_menu_key(KEY_ESCAPE, esc)
-		get_tree().quit_on_go_back = menu_page == "home" and settings_layer == null
+		get_tree().quit_on_go_back = false
 	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
 		if session != null and not paused:
 			_set_paused(true)
 		_persist()
+
+## Never quit with a renderer worker waiting on the scene-tree lock.
+func _quit_safely() -> void:
+	if _closing: return
+	_closing = true
+	set_process(false)
+	_persist()
+	if is_instance_valid(city_preload):
+		city_preload.set_process(false)
+		while city_preload._task >= 0 and not WorkerThreadPool.is_task_completed(city_preload._task):
+			await get_tree().process_frame
+	_clear()
+	if is_instance_valid(home_bg): home_bg.queue_free(); home_bg = null
+	if is_instance_valid(city_preload): city_preload.queue_free(); city_preload = null
+	await CityScene.drain_background_jobs(get_tree())
+	get_tree().quit()
 
 func _persist() -> void:
 	if free != null and vehicle != null:
@@ -136,7 +160,7 @@ func _persist() -> void:
 func _clear() -> void:
 	camera_gestures.reset()
 	for c in get_children():
-		if c != bell and c != home_bg and c != city_preload and c != _city_loading_layer: c.queue_free()
+		if c != bell and c != ui_audio and c != home_bg and c != city_preload and c != _city_loading_layer: c.queue_free()
 	if is_instance_valid(intro): intro.queue_free()
 	intro = null; settings_layer = null
 	view = null; tram_audio = null; session = null; free = null; tuto = null; plan_panel = null; pause_layer = null; debrief_layer = null
@@ -157,6 +181,9 @@ func _backdrop() -> void:
 ## Fond 3D de l'accueil (ville vue du ciel) : conservé d'une page de menu à l'autre, libéré au lancement.
 func _bg_allowed() -> bool:
 	return DisplayServer.get_name() != "headless" and not get_viewport().disable_3d and bool(save.settings.get("home_bg", true))
+
+func _aerial_needed() -> bool:
+	return DisplayServer.get_name() != "headless" and not get_viewport().disable_3d and (bool(save.settings.get("home_bg", true)) or bool(save.settings.get("intro", true)))
 
 func _ensure_city_preload() -> void:
 	if is_instance_valid(city_preload): return
@@ -192,13 +219,14 @@ func _show_bg(city: String) -> void:
 	_city_retry.hide()
 
 func _install_home_bg(city: String) -> void:
-	if not _bg_allowed():
+	if not _aerial_needed():
 		if is_instance_valid(home_bg): home_bg.queue_free()
 		home_bg = null; return
 	if not is_instance_valid(home_bg):
 		home_bg = HomeBackground.new(); add_child(home_bg)
 		home_bg.city_ready.connect(_home_city_ready)
 	move_child(home_bg, 1)
+	home_bg.visible = _bg_allowed()
 	home_bg.show_city(city)
 
 func _city_data_completed(city: String, error: String) -> void:
@@ -217,7 +245,7 @@ func _city_data_completed(city: String, error: String) -> void:
 
 func _ready_for_launch(city: String) -> bool:
 	if not is_instance_valid(city_preload) or not city_preload.is_ready(city): return false
-	return not _bg_allowed() or (is_instance_valid(home_bg) and home_bg.shown == city and not home_bg.is_loading() and home_bg.layer_count() > 0)
+	return not _aerial_needed() or (is_instance_valid(home_bg) and home_bg.shown == city and not home_bg.is_loading() and home_bg.layer_count() > 0)
 
 func _home_city_ready(city: String) -> void:
 	if city != menu_city or session != null or is_instance_valid(explore): return
@@ -291,7 +319,7 @@ func _build_menu() -> void:
 	if not menu_city in cities: menu_city = str(save.settings.get("last_city", ""))
 	if not menu_city in cities: menu_city = "Bordeaux" if "Bordeaux" in cities else (cities[0] if not cities.is_empty() else "")
 	_show_bg(menu_city)
-	get_tree().quit_on_go_back = menu_page == "home"
+	get_tree().quit_on_go_back = false
 	if menu_page == "setup": _build_setup()
 	else: _build_home()
 
@@ -773,11 +801,13 @@ func _open_settings() -> void:
 	var hour := _opt(v, "Heure")
 	for t in ["Heure réelle du service", "Jour (12 h)", "Coucher de soleil (20 h)", "Nuit (23 h)", "Cycle accéléré (1 h = 1 min)"]: hour.add_item(t)
 	hour.selected = int(save.settings.get("time_mode", 0)); hour.item_selected.connect(func(i): save.settings.time_mode = i)
-	var checks := [["Trafic automobile", "traffic", true], ["Vue aérienne en fond d'accueil", "home_bg", true], ["Intro de lancement (zoom)", "intro", true]]
+	var checks := [["Sons d’interface", "ui_sounds", true], ["Trafic automobile", "traffic", true], ["Vue aérienne en fond d'accueil", "home_bg", true], ["Intro de lancement (zoom)", "intro", true]]
 	for c in checks:
 		var cb := CheckButton.new(); cb.text = c[0]; cb.custom_minimum_size = Vector2(0, 48)
 		cb.button_pressed = bool(save.settings.get(c[1], c[2])); v.add_child(cb)
-		cb.toggled.connect(func(on): save.settings[c[1]] = on)
+		cb.toggled.connect(func(on):
+			save.settings[c[1]] = on
+			if c[1] == "ui_sounds": ui_audio.enabled = on)
 	var tut := CheckButton.new(); tut.text = "Revoir les astuces de conduite"; tut.custom_minimum_size = Vector2(0, 48)
 	tut.button_pressed = not save.settings.tutorial_done; v.add_child(tut)
 	tut.toggled.connect(func(on): save.settings.tutorial_done = not on)
@@ -964,10 +994,12 @@ func _start_prepared(with_intro: bool = false) -> void:
 		ai_trams.message.connect(func(t): _log(t, "info", "tram"))
 	# DayNight applique déjà le budget d’ombres mobile.
 	if OS.has_feature("mobile") and view.city: view.city.radius = 450.0
-	view.update_from(session, true)
-	# intro : tuiles de la zone de départ (et de ses abords vus d'en haut) construites avant la première image
 	_intro_radius = view.city.radius if view.city else 0.0
-	if with_intro and view.city and not OS.has_feature("mobile"): view.city.radius = maxf(_intro_radius, 700.0)
+	if with_intro and view.city:
+		view.city.radius = minf(_intro_radius, 450.0)
+		view.city.enable_async_lod()
+	view.update_from(session, true)
+	# Near detail streams during the aerial move; large-area geography is already resident.
 	if view.city:
 		if with_intro: view.city.update(view.cam.global_position, 0)
 		else: view.city.warm(view.cam.global_position)
@@ -1500,8 +1532,7 @@ func _fmt_clock(h: float) -> String:
 
 func _process(dt: float) -> void:
 	if session == null: return
-	if intro != null:   # session figée pendant l'intro ; la rame et le décor restent à jour
-		view.set_hour(current_hour()); view.update_from(session, external_cam)
+	if intro != null:   # Camera owns the frozen world; no duplicate detailed tile builds.
 		return
 	if not paused and not session.finished:
 		if autopilot.enabled:

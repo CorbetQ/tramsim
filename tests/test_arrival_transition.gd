@@ -25,6 +25,8 @@ func _run() -> void:
 	check(main._ready_for_launch("Angers") and not main._menu.go.disabled and not main._city_loading_layer.visible, "données et vue aérienne prêtes avant lancement")
 	if main._menu.go.disabled: main.queue_free(); await process_frame; quit(1); return
 	await shot("02_ready")
+	var render_scale0 := root.scaling_3d_scale
+	var msaa0 := root.msaa_3d
 	var source_pose: Transform3D = main.home_bg._layers[-1].cam.global_transform
 	var reads := CityDataStore.disk_reads
 	main._menu.go.pressed.emit()
@@ -55,6 +57,7 @@ func _run() -> void:
 	check(intro.cam.global_transform.is_equal_approx(final), "arrivée exactement sur la caméra de conduite")
 	intro.skip(); await process_frame
 	check(main.intro == null and main.view.cam.current and main.view.city.visible, "passage et restitution de la caméra/HUD")
+	check(is_equal_approx(root.scaling_3d_scale, render_scale0) and root.msaa_3d == msaa0, "qualité de rendu restaurée après passage")
 	await shot("07_driving")
-	main.queue_free(); await process_frame
+	main.queue_free(); await CityScene.drain_background_jobs(self)
 	print("TOTAL_ECHECS|", failures); quit(1 if failures else 0)
