@@ -16,4 +16,5 @@ func _run() -> void:
 	var deadline := Time.get_ticks_msec() + 60000
 	while CityScene.retired_lod_jobs > 0 and Time.get_ticks_msec() < deadline: await process_frame
 	check(CityScene.retired_lod_jobs == 0, "orphaned tile, task and builder reclaimed")
+	await CityScene.drain_background_jobs(self)
 	print("TOTAL_ECHECS|", failures); quit(1 if failures else 0)

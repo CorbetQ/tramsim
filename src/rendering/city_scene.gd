@@ -449,6 +449,13 @@ func _exit_tree() -> void:
 		_lod_task = -1; _lod_builder = null; _lod_job = {}
 	elif is_instance_valid(_lod_builder): _lod_builder.free()
 
+## Let the main loop release its scene-tree locks before joining orphaned work.
+static func drain_background_jobs(tree: SceneTree) -> void:
+	await tree.process_frame
+	await tree.process_frame
+	while retired_lod_jobs > 0 or not HomeBackground._orphans.is_empty():
+		await tree.process_frame
+
 static func _reap_lod_task(task: int, job: Dictionary) -> void:
 	if not WorkerThreadPool.is_task_completed(task):
 		(Engine.get_main_loop() as SceneTree).process_frame.connect(_reap_lod_task.bind(task, job), CONNECT_ONE_SHOT)

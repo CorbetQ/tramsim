@@ -59,5 +59,5 @@ func _run() -> void:
 	check(main.intro == null and main.view.cam.current and main.view.city.visible, "passage et restitution de la caméra/HUD")
 	check(is_equal_approx(root.scaling_3d_scale, render_scale0) and root.msaa_3d == msaa0, "qualité de rendu restaurée après passage")
 	await shot("07_driving")
-	main.queue_free(); await process_frame
+	main.queue_free(); await CityScene.drain_background_jobs(self)
 	print("TOTAL_ECHECS|", failures); quit(1 if failures else 0)
