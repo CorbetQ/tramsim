@@ -4,7 +4,7 @@ extends Node
 ## pantographe, courbes). Boucles : onduleur IGBT (raie chantée dont la hauteur suit la vitesse, paliers de modes
 ## synchrones façon Citadis), ronronnement des moteurs, porteuse de découpage (démarrage), roulement, crissement en
 ## courbe (rare), compresseur / climatisation, ambiance urbaine. Ponctuels : joints de rail, freinage mécanique final, desserrage, urgence, portes (ouverture,
-## signal de fermeture, fermeture), gong. Sons synthétisés (data/audio/make_audio.py), provenance et références
+## signal de fermeture, fermeture), gong. Banques traitées / modélisées (tools/audio/design_samples.py), synthèses événementielles (data/audio/make_audio.py), provenance et références
 ## libres dans data/audio/sources.json et CREDITS.md. Vue extérieure : AudioStreamPlayer3D portés par la rame ; cabine : AudioStreamPlayer 2D.
 ## Mixage : fichiers normalisés en sonie (-20 LUFS boucles, -18 LUFS ponctuels), niveaux relatifs ci-dessous, bus « TramFX »
 ## (égaliseur anti-stridence, compresseur, limiteur) et bus « TramCabin » (passe-bas : sources extérieures entendues
@@ -13,7 +13,7 @@ extends Node
 const DIR := "res://data/audio/"
 ## Boucles : nom -> volume de référence (dB à gain 1).
 const LOOPS := {"motor": -25.0, "motor_hum": -11.0, "carrier": -32.0, "rolling": -8.0, "squeal": -26.0, "hvac": -21.0,
-	"ambience": -20.0, "real_rail": -18.0}
+	"ambience": -20.0, "real_rail": -21.0, "regen": -21.0}
 ## Ponctuels : nom -> volume de référence (dB).
 const SHOTS := {"joint": -13.0, "brake_mech": -14.0, "brake_release": -20.0, "emergency": -9.0,
 	"door_open": -15.0, "door_chime": -17.0, "door_close": -14.0}
@@ -21,8 +21,8 @@ const GONG_DB := -11.0
 const TWO_D_ONLY := ["ambience"]          # l'ambiance entoure l'auditeur, elle ne suit pas la rame
 ## Cabine : correction de niveau (dB) et sources extérieures étouffées (bus TramCabin, passe-bas).
 const CAB_DB := {"motor": -4.0, "motor_hum": 1.0, "rolling": -3.0, "squeal": -6.0, "ambience": -6.0, "hvac": 3.0,
-	"real_rail": -4.0, "carrier": -3.0, "joint": -2.0, "door_open": -3.0, "door_close": -3.0, "door_chime": 2.0}
-const CAB_MUFFLED := ["rolling", "squeal", "ambience", "joint", "brake_mech", "emergency", "carrier", "motor", "real_rail"]
+	"real_rail": -4.0, "regen": -3.0, "carrier": -3.0, "joint": -2.0, "door_open": -3.0, "door_close": -3.0, "door_chime": 2.0}
+const CAB_MUFFLED := ["rolling", "squeal", "ambience", "joint", "brake_mech", "emergency", "carrier", "motor", "real_rail", "regen"]
 const BUS := "TramFX"
 const CAB_BUS := "TramCabin"
 const TUNNEL_BUS := "TramTunnel"
@@ -120,12 +120,12 @@ func _route() -> void:
 	AudioServer.set_bus_send(AudioServer.get_bus_index(CAB_BUS), environment_bus)
 	for n in players:
 		var e: Dictionary = players[n]
-		(e.p2 as AudioStreamPlayer).bus = CAB_BUS if (not external and n in CAB_MUFFLED) else BUS
+		(e.p2 as AudioStreamPlayer).bus = CAB_BUS if (not external and n in CAB_MUFFLED) else environment_bus
 		if e.p3 != null: (e.p3 as AudioStreamPlayer3D).bus = environment_bus
 
 ## Flux de data/audio/<nom>.ogg (importé, sinon lu directement).
 static func load_stream(n: String, loop: bool) -> AudioStream:
-	return stream_path(DIR + n + ".ogg", loop)
+	return stream_path(DIR + ("banks/real_rail_designed.ogg" if n == "real_rail" else n + ".ogg"), loop)
 
 static func stream_path(path: String, loop: bool) -> AudioStream:
 	var s: AudioStream = null
@@ -159,7 +159,7 @@ func _make(n: String, loop: bool, db: float) -> void:
 ## Position des sources sur la rame (repère du module central, avant vers -z).
 func _offset(n: String) -> Vector3:
 	match n:
-		"motor", "carrier", "motor_hum": return Vector3(0, 0.4, 0)
+		"motor", "carrier", "motor_hum", "regen": return Vector3(0, 0.4, 0)
 		"hvac": return Vector3(0, 3.4, 2.0)
 		"door_open", "door_close", "door_chime": return Vector3(1.3, 1.6, 0)
 		"squeal", "joint", "brake_mech": return Vector3(0, 0.2, -4.0)
@@ -251,9 +251,9 @@ func update_state(st: Dictionary, dt: float) -> void:
 	is_paused = paused
 	for n in players:
 		var p: Node = _active(n)
-		p.stream_paused = paused and players[n].loop
+		p.stream_paused = paused
 	if paused: return
-	var v := float(st.get("speed", 0.0))
+	var v := maxf(float(st.get("speed", 0.0)), 0.0)
 	var vmax := maxf(float(st.get("max_speed", 19.4)), 1.0)
 	var notch := float(st.get("notch", 0.0))
 	var doors := bool(st.get("doors_open", false))
@@ -262,13 +262,17 @@ func update_state(st: Dictionary, dt: float) -> void:
 	var powered := contact and bool(st.get("power_ok", true))
 	var kmh := v * 3.6
 	# traction / freinage électrique : effort de l'onduleur
-	var trac := clampf(notch, 0.0, 1.0) if powered and not doors else 0.0
+	var trac := clampf(notch, 0.0, 1.0) if powered and not doors and not emerg else 0.0
 	var ebrake := clampf(-notch, 0.0, 1.0) * smoothstep(0.8, 2.5, v) if not emerg else 0.0
-	var load := maxf(trac, ebrake)
+	var load := maxf(trac, 0.65 * ebrake)
+	state.traction_load = trac
+	state.regen_load = ebrake
+	state.audio_mode = "traction" if trac > 0.02 else ("braking" if ebrake > 0.02 else "coasting")
 	var t := {}
-	t.motor = (0.35 + 0.65 * load) if load > 0.02 else 0.1 * smoothstep(1.0, 6.0, v)   # roue libre : léger résidu
-	t.motor_hum = (0.4 + 0.6 * load) * clampf(v, 0.3, 1.0) if load > 0.02 else 0.2 * smoothstep(0.0, 6.0, v)
-	t.carrier = load * (1.0 - smoothstep(1.5, 2.5, v)) * (0.6 + 0.4 * trac)
+	t.motor = (0.22 + 0.78 * load) * smoothstep(0.0, 0.7, v) if load > 0.02 else 0.035 * smoothstep(1.0, 6.0, v)   # roue libre : léger résidu
+	t.motor_hum = (0.4 + 0.6 * load) * clampf(v, 0.3, 1.0) if load > 0.02 else 0.07 * smoothstep(0.0, 6.0, v)
+	t.regen = ebrake * smoothstep(0.4, 2.0, v)
+	t.carrier = trac * (1.0 - smoothstep(1.5, 2.5, v)) * (0.6 + 0.4 * trac)
 	t.carrier = maxf(float(t.carrier),float(st.get("wheel_slip",0.0))*0.35)
 	t.rolling = pow(clampf(v / 16.0, 0.0, 1.0), 1.5)               # amplitude ~ v^1,5 : niveau ~ 30 log10(v)
 	# crissement : courbe serrée (> ~5° entre caisses), 2-9 m/s, une courbe sur trois environ
@@ -279,7 +283,7 @@ func update_state(st: Dictionary, dt: float) -> void:
 	t.squeal = tight * smoothstep(2.0, 4.0, v) * (1.0 - smoothstep(8.0, 12.0, v) * 0.6) if _squeal_on else 0.0
 	if bool(sound_bank.get("recorded", false)):
 		var high := smoothstep(4.0, 12.0, v)
-		var drive := (0.35 + 0.65 * load) * smoothstep(0.1, 0.8, v) if load > 0.02 else 0.06 * smoothstep(1.0, 6.0, v)
+		var drive := (0.35 + 0.65 * load) * smoothstep(0.1, 0.8, v) if load > 0.02 else 0.025 * smoothstep(1.0, 6.0, v)
 		t.motor = drive * sqrt(1.0 - high)
 		t.motor_hum = drive * sqrt(high)
 	if bool(sound_profile.get("rubber", false)): t.squeal = 0.0
@@ -287,24 +291,38 @@ func update_state(st: Dictionary, dt: float) -> void:
 	t.real_rail = (0.30 * load * smoothstep(0.3, 3.0, v) + 0.65 * t.rolling) * (1.25 if on_bridge else 1.0)
 	t.rolling *= 1.25 if on_bridge else 1.0
 	t.ambience = 0.12 if in_tunnel else 1.0
-	var k := 1.0 - exp(-maxf(dt, 0.0) * 6.0)
+	# Different attack/release times avoid abrupt effort and coasting transitions.
+	var elapsed := clampf(dt, 0.0, 0.25)
 	for n in t:
 		if not players.has(n): continue
+		var tau := 0.28 if float(t[n]) > float(gain[n]) else 0.6
+		var k := 1.0 - exp(-elapsed / tau)
 		gain[n] = lerpf(float(gain[n]), float(t[n]), k)
 		var p: Node = _active(n)
 		var g := float(gain[n])
 		var db := float(players[n].db) + linear_to_db(maxf(g, 0.0001)) + (float(CAB_DB.get(n, 0.0)) if not external else 0.0)
 		p.volume_db = db
-		if g > 0.002 and not p.playing: p.play(_rng.randf() * 0.5)
+		if g > 0.002 and not p.playing: p.play()
 		elif g <= 0.002 and p.playing: p.stop()
-	if players.has("motor"):
-		var motor: Node = _active("motor")
-		motor.pitch_scale = lerpf(motor.pitch_scale, (clampf(v / maxf(float(sound_bank.get("reference_speed_ms", 8.0)), 1.0), 0.88, 1.15) if bool(sound_bank.get("recorded", false)) else motor_hz(v) / MOTOR_REF_HZ * float(sound_profile.get("motor_pitch_factor", 1.0))), 1.0 - exp(-dt / 0.12))
-	if players.has("motor_hum"):
-		_active("motor_hum").pitch_scale = _active("motor").pitch_scale if bool(sound_bank.get("recorded", false)) else hum_hz(v) / HUM_REF_HZ * float(sound_profile.get("hum_pitch_factor", 1.0))
-	if players.has("real_rail"): _active("real_rail").pitch_scale = 0.85 + 0.25 * clampf(v / vmax, 0.0, 1.0)
-	if players.has("rolling"): _active("rolling").pitch_scale = 0.75 + 0.5 * clampf(v / vmax, 0.0, 1.0)
-	if players.has("squeal"): _active("squeal").pitch_scale = 0.97 + 0.05 * sin(Time.get_ticks_msec() * 0.0013)
+	# A single smoothed pitch controller prevents instant octave jumps, including hum and braking.
+	var pitches := {"motor": clampf(motor_hz(v) / MOTOR_REF_HZ * float(sound_profile.get("motor_pitch_factor", 1.0)), 0.38, 2.0),
+		"motor_hum": clampf(hum_hz(v) / HUM_REF_HZ * float(sound_profile.get("hum_pitch_factor", 1.0)), 0.4, 2.65),
+		"regen": clampf(0.7 + v / 24.0, 0.7, 1.45),
+		"real_rail": 0.85 + 0.25 * clampf(v / vmax, 0.0, 1.0),
+		"rolling": 0.75 + 0.5 * clampf(v / vmax, 0.0, 1.0),
+		"squeal": 0.97 + 0.05 * sin(Time.get_ticks_msec() * 0.0013)}
+	if bool(sound_bank.get("recorded", false)):
+		# A captured pass-by is a texture, not a speed-calibrated isolated motor.
+		# Keep transposition within ~2 semitones, use effort and crossfade for dynamics.
+		var recorded_pitch := clampf(0.94 + 0.12 * v / maxf(float(sound_bank.get("reference_speed_ms", 8.0)), 1.0), 0.94, 1.12)
+		pitches.motor = recorded_pitch
+		pitches.motor_hum = recorded_pitch
+	for n in pitches:
+		if players.has(n):
+			var p: Node = _active(n)
+			p.pitch_scale = lerpf(float(p.pitch_scale), float(pitches[n]), 1.0 - exp(-elapsed / 0.3))
+	state.loop_gains = gain.duplicate()
+	state.loop_pitches = pitches.duplicate()
 	# joints de rail : « ta-tac » des deux essieux d'un bogie, espacement irrégulier (soudures, aiguillages)
 	_joint_left -= v * dt
 	if _joint_left <= 0.0:
@@ -327,7 +345,9 @@ func update_state(st: Dictionary, dt: float) -> void:
 
 ## Gong de tram (cloche de main.gd).
 func gong() -> void:
-	if bell: bell.play()
+	if bell:
+		bell.play()
+		shots["gong"] = int(shots.get("gong", 0)) + 1
 
 static func profile_for(family_id: String,variant_id:String="") -> Dictionary:
 	if family_id.is_empty(): return {}
@@ -346,4 +366,5 @@ static func profile_label(family_id: String,variant_id:String="") -> String:
 	match str(profile.get("quality", "synthetic")):
 		"exact_family": return "Captation : " + str(bank.get("label", ""))
 		"related_family": return "Captation apparentée : " + str(bank.get("label", ""))
+		"modeled": return "Restitution modélisée : " + str(bank.get("label", ""))
 	return "Traction estimée (son de remplacement)"

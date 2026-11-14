@@ -72,7 +72,7 @@ func _run() -> void:
 	ta.squeal_chance = 1.0
 	for i in 30: ta.update_state(_st(6.0, 0.0, {"curvature": 9.0}), dt)
 	check(ta.gain.squeal > 0.4, "crissement en courbe (%.2f)" % ta.gain.squeal)
-	for i in 30: ta.update_state(_st(6.0, 0.0), dt)
+	for i in 120: ta.update_state(_st(6.0, 0.0), dt)
 	check(ta.gain.squeal < 0.1, "pas de crissement en alignement")
 	for i in 30: ta.update_state(_st(6.0, 0.0, {"curvature": 3.0}), dt)
 	check(ta.gain.squeal < 0.05, "pas de crissement en courbe douce")

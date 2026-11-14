@@ -1,0 +1,706 @@
+[
+  {
+    "family": "citadis_302",
+    "source": "samples/demos/citadis_302_godot_mix.wav",
+    "native_stereo": {
+      "duration_s": 47.95733333333333,
+      "sample_rate": 48000,
+      "channels": 2,
+      "native_sample_peak_dbfs": -15.09,
+      "near_clip_samples_pct": 0.0,
+      "max_adjacent_sample_jump_dbfs": -34.419
+    },
+    "sections": [
+      {
+        "phase": "idle",
+        "start_s": 0.5,
+        "end_s": 1.8,
+        "duration_s": 1.3,
+        "rms_dbfs": -32.468,
+        "sample_peak_dbfs": -22.1,
+        "oversampled_peak_dbfs": -22.09,
+        "near_clip_samples_pct": 0.0,
+        "dc": 0.000135,
+        "crest_db": 10.368,
+        "bands_energy_pct": {
+          "0-80_Hz": 55.291,
+          "80-250_Hz": 24.622,
+          "250-800_Hz": 14.23,
+          "800-1600_Hz": 5.188,
+          "1600-3000_Hz": 0.65,
+          "3000-6000_Hz": 0.018,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          31.25,
+          46.88,
+          101.56,
+          78.12,
+          164.06,
+          89.84
+        ],
+        "strongest_bin_energy_pct": 7.769,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          101.56,
+          164.06
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -32.834,
+          -32.316,
+          -32.018
+        ],
+        "seam_jump_dbfs": -30.229,
+        "seam_jump_over_typical_step_db": 19.213,
+        "head_tail_50ms_rms_difference_db": -1.175
+      },
+      {
+        "phase": "doors",
+        "start_s": 2,
+        "end_s": 5,
+        "duration_s": 3.0,
+        "rms_dbfs": -30.786,
+        "sample_peak_dbfs": -16.099,
+        "oversampled_peak_dbfs": -16.092,
+        "near_clip_samples_pct": 0.0,
+        "dc": -4.55e-05,
+        "crest_db": 14.687,
+        "bands_energy_pct": {
+          "0-80_Hz": 23.647,
+          "80-250_Hz": 43.814,
+          "250-800_Hz": 23.304,
+          "800-1600_Hz": 8.578,
+          "1600-3000_Hz": 0.638,
+          "3000-6000_Hz": 0.019,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          128.91,
+          144.53,
+          27.34,
+          46.88,
+          35.16,
+          660.16
+        ],
+        "strongest_bin_energy_pct": 4.734,
+        "dominant_track_p10_p50_p90_hz": [
+          101.56,
+          132.81,
+          173.44
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -33.45,
+          -31.06,
+          -30.126
+        ],
+        "seam_jump_dbfs": -19.052,
+        "seam_jump_over_typical_step_db": 26.257,
+        "head_tail_50ms_rms_difference_db": -4.878
+      },
+      {
+        "phase": "traction",
+        "start_s": 8,
+        "end_s": 22,
+        "duration_s": 14.0,
+        "rms_dbfs": -30.454,
+        "sample_peak_dbfs": -15.322,
+        "oversampled_peak_dbfs": -15.291,
+        "near_clip_samples_pct": 0.0,
+        "dc": -1.48e-05,
+        "crest_db": 15.132,
+        "bands_energy_pct": {
+          "0-80_Hz": 41.09,
+          "80-250_Hz": 21.783,
+          "250-800_Hz": 20.876,
+          "800-1600_Hz": 13.266,
+          "1600-3000_Hz": 2.83,
+          "3000-6000_Hz": 0.154,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          35.16,
+          50.78,
+          62.5,
+          101.56,
+          82.03,
+          121.09
+        ],
+        "strongest_bin_energy_pct": 4.057,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          117.19,
+          328.12
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -33.18,
+          -31.01,
+          -28.142
+        ],
+        "seam_jump_dbfs": -20.375,
+        "seam_jump_over_typical_step_db": 22.761,
+        "head_tail_50ms_rms_difference_db": -5.572
+      },
+      {
+        "phase": "coasting",
+        "start_s": 23.5,
+        "end_s": 26.5,
+        "duration_s": 3.0,
+        "rms_dbfs": -30.489,
+        "sample_peak_dbfs": -18.131,
+        "oversampled_peak_dbfs": -18.123,
+        "near_clip_samples_pct": 0.0,
+        "dc": 7.51e-05,
+        "crest_db": 12.358,
+        "bands_energy_pct": {
+          "0-80_Hz": 51.744,
+          "80-250_Hz": 20.14,
+          "250-800_Hz": 18.004,
+          "800-1600_Hz": 8.037,
+          "1600-3000_Hz": 1.959,
+          "3000-6000_Hz": 0.117,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          31.25,
+          50.78,
+          70.31,
+          89.84,
+          101.56,
+          128.91
+        ],
+        "strongest_bin_energy_pct": 6.54,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          101.56,
+          192.19
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -32.059,
+          -30.673,
+          -28.691
+        ],
+        "seam_jump_dbfs": -40.467,
+        "seam_jump_over_typical_step_db": 4.512,
+        "head_tail_50ms_rms_difference_db": 0.908
+      },
+      {
+        "phase": "braking",
+        "start_s": 27.5,
+        "end_s": 38.5,
+        "duration_s": 11.0,
+        "rms_dbfs": -31.688,
+        "sample_peak_dbfs": -16.621,
+        "oversampled_peak_dbfs": -16.604,
+        "near_clip_samples_pct": 0.0,
+        "dc": -1.59e-05,
+        "crest_db": 15.067,
+        "bands_energy_pct": {
+          "0-80_Hz": 43.806,
+          "80-250_Hz": 23.602,
+          "250-800_Hz": 20.36,
+          "800-1600_Hz": 10.294,
+          "1600-3000_Hz": 1.873,
+          "3000-6000_Hz": 0.065,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          39.06,
+          62.5,
+          97.66,
+          78.12,
+          109.38,
+          121.09
+        ],
+        "strongest_bin_energy_pct": 5.688,
+        "dominant_track_p10_p50_p90_hz": [
+          93.75,
+          125.0,
+          328.12
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -34.066,
+          -32.45,
+          -28.835
+        ],
+        "seam_jump_dbfs": -28.87,
+        "seam_jump_over_typical_step_db": 16.795,
+        "head_tail_50ms_rms_difference_db": -0.567
+      },
+      {
+        "phase": "final_doors",
+        "start_s": 39,
+        "end_s": 42,
+        "duration_s": 3.0,
+        "rms_dbfs": -30.62,
+        "sample_peak_dbfs": -15.623,
+        "oversampled_peak_dbfs": -15.618,
+        "near_clip_samples_pct": 0.0,
+        "dc": -4.89e-05,
+        "crest_db": 14.997,
+        "bands_energy_pct": {
+          "0-80_Hz": 35.252,
+          "80-250_Hz": 40.342,
+          "250-800_Hz": 18.88,
+          "800-1600_Hz": 5.018,
+          "1600-3000_Hz": 0.493,
+          "3000-6000_Hz": 0.015,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          144.53,
+          35.16,
+          128.91,
+          136.72,
+          50.78,
+          164.06
+        ],
+        "strongest_bin_energy_pct": 4.064,
+        "dominant_track_p10_p50_p90_hz": [
+          93.75,
+          132.81,
+          148.44
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -33.245,
+          -30.569,
+          -29.69
+        ],
+        "seam_jump_dbfs": -47.757,
+        "seam_jump_over_typical_step_db": -0.676,
+        "head_tail_50ms_rms_difference_db": -3.168
+      },
+      {
+        "phase": "paused",
+        "start_s": 44.5,
+        "end_s": 45.5,
+        "duration_s": 1.0,
+        "rms_dbfs": -240.0,
+        "sample_peak_dbfs": -240.0,
+        "oversampled_peak_dbfs": -240.0,
+        "near_clip_samples_pct": 0.0,
+        "dc": 0.0,
+        "crest_db": 0.0,
+        "bands_energy_pct": {
+          "0-80_Hz": 0.0,
+          "80-250_Hz": 0.0,
+          "250-800_Hz": 0.0,
+          "800-1600_Hz": 0.0,
+          "1600-3000_Hz": 0.0,
+          "3000-6000_Hz": 0.0,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [],
+        "strongest_bin_energy_pct": 0.0,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          85.94,
+          85.94
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -240.0,
+          -240.0,
+          -240.0
+        ],
+        "seam_jump_dbfs": -240.0,
+        "seam_jump_over_typical_step_db": -240.0,
+        "head_tail_50ms_rms_difference_db": 0.0
+      },
+      {
+        "phase": "resume",
+        "start_s": 46.5,
+        "end_s": 47.5,
+        "duration_s": 1.0,
+        "rms_dbfs": -31.953,
+        "sample_peak_dbfs": -17.925,
+        "oversampled_peak_dbfs": -17.92,
+        "near_clip_samples_pct": 0.0,
+        "dc": -8.86e-05,
+        "crest_db": 14.028,
+        "bands_energy_pct": {
+          "0-80_Hz": 46.587,
+          "80-250_Hz": 30.723,
+          "250-800_Hz": 16.775,
+          "800-1600_Hz": 5.287,
+          "1600-3000_Hz": 0.609,
+          "3000-6000_Hz": 0.019,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          31.25,
+          39.06,
+          50.78,
+          78.12,
+          85.94,
+          101.56
+        ],
+        "strongest_bin_energy_pct": 6.428,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          101.56,
+          173.44
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -32.835,
+          -32.238,
+          -31.016
+        ],
+        "seam_jump_dbfs": -37.433,
+        "seam_jump_over_typical_step_db": 11.756,
+        "head_tail_50ms_rms_difference_db": 2.082
+      }
+    ],
+    "section_method": "arithmetic stereo mean (no +3dB ffmpeg default downmix boost), resample_poly 48000 to16000"
+  },
+  {
+    "family": "citadis_305",
+    "source": "samples/demos/citadis_305_godot_mix.wav",
+    "native_stereo": {
+      "duration_s": 47.925333333333334,
+      "sample_rate": 48000,
+      "channels": 2,
+      "native_sample_peak_dbfs": -15.666,
+      "near_clip_samples_pct": 0.0,
+      "max_adjacent_sample_jump_dbfs": -34.051
+    },
+    "sections": [
+      {
+        "phase": "idle",
+        "start_s": 0.5,
+        "end_s": 1.8,
+        "duration_s": 1.3,
+        "rms_dbfs": -32.49,
+        "sample_peak_dbfs": -22.095,
+        "oversampled_peak_dbfs": -22.089,
+        "near_clip_samples_pct": 0.0,
+        "dc": -0.0001318,
+        "crest_db": 10.395,
+        "bands_energy_pct": {
+          "0-80_Hz": 55.164,
+          "80-250_Hz": 24.784,
+          "250-800_Hz": 14.21,
+          "800-1600_Hz": 5.175,
+          "1600-3000_Hz": 0.648,
+          "3000-6000_Hz": 0.018,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          31.25,
+          46.88,
+          101.56,
+          74.22,
+          164.06,
+          117.19
+        ],
+        "strongest_bin_energy_pct": 7.54,
+        "dominant_track_p10_p50_p90_hz": [
+          93.75,
+          101.56,
+          164.06
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -32.912,
+          -32.222,
+          -32.022
+        ],
+        "seam_jump_dbfs": -38.462,
+        "seam_jump_over_typical_step_db": 10.963,
+        "head_tail_50ms_rms_difference_db": -0.294
+      },
+      {
+        "phase": "doors",
+        "start_s": 2,
+        "end_s": 5,
+        "duration_s": 3.0,
+        "rms_dbfs": -30.813,
+        "sample_peak_dbfs": -16.327,
+        "oversampled_peak_dbfs": -16.321,
+        "near_clip_samples_pct": 0.0,
+        "dc": 5.94e-05,
+        "crest_db": 14.486,
+        "bands_energy_pct": {
+          "0-80_Hz": 23.969,
+          "80-250_Hz": 43.121,
+          "250-800_Hz": 23.832,
+          "800-1600_Hz": 8.429,
+          "1600-3000_Hz": 0.63,
+          "3000-6000_Hz": 0.019,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          132.81,
+          144.53,
+          27.34,
+          46.88,
+          35.16,
+          660.16
+        ],
+        "strongest_bin_energy_pct": 4.868,
+        "dominant_track_p10_p50_p90_hz": [
+          101.56,
+          132.81,
+          173.44
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -33.459,
+          -31.132,
+          -30.022
+        ],
+        "seam_jump_dbfs": -34.295,
+        "seam_jump_over_typical_step_db": 11.028,
+        "head_tail_50ms_rms_difference_db": -3.76
+      },
+      {
+        "phase": "traction",
+        "start_s": 8,
+        "end_s": 22,
+        "duration_s": 14.0,
+        "rms_dbfs": -30.506,
+        "sample_peak_dbfs": -15.666,
+        "oversampled_peak_dbfs": -15.66,
+        "near_clip_samples_pct": 0.0,
+        "dc": 6.7e-06,
+        "crest_db": 14.84,
+        "bands_energy_pct": {
+          "0-80_Hz": 40.077,
+          "80-250_Hz": 22.337,
+          "250-800_Hz": 21.149,
+          "800-1600_Hz": 13.436,
+          "1600-3000_Hz": 2.846,
+          "3000-6000_Hz": 0.156,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          35.16,
+          50.78,
+          62.5,
+          97.66,
+          89.84,
+          121.09
+        ],
+        "strongest_bin_energy_pct": 3.998,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          121.09,
+          312.5
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -33.135,
+          -30.973,
+          -28.234
+        ],
+        "seam_jump_dbfs": -35.82,
+        "seam_jump_over_typical_step_db": 7.31,
+        "head_tail_50ms_rms_difference_db": -5.455
+      },
+      {
+        "phase": "coasting",
+        "start_s": 23.5,
+        "end_s": 26.5,
+        "duration_s": 3.0,
+        "rms_dbfs": -30.791,
+        "sample_peak_dbfs": -16.312,
+        "oversampled_peak_dbfs": -16.307,
+        "near_clip_samples_pct": 0.0,
+        "dc": 1.83e-05,
+        "crest_db": 14.479,
+        "bands_energy_pct": {
+          "0-80_Hz": 48.386,
+          "80-250_Hz": 21.952,
+          "250-800_Hz": 19.22,
+          "800-1600_Hz": 8.265,
+          "1600-3000_Hz": 2.055,
+          "3000-6000_Hz": 0.122,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          31.25,
+          23.44,
+          50.78,
+          82.03,
+          62.5,
+          74.22
+        ],
+        "strongest_bin_energy_pct": 5.073,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          93.75,
+          139.84
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -31.803,
+          -31.043,
+          -29.673
+        ],
+        "seam_jump_dbfs": -26.294,
+        "seam_jump_over_typical_step_db": 18.71,
+        "head_tail_50ms_rms_difference_db": 3.556
+      },
+      {
+        "phase": "braking",
+        "start_s": 27.5,
+        "end_s": 38.5,
+        "duration_s": 11.0,
+        "rms_dbfs": -31.7,
+        "sample_peak_dbfs": -16.162,
+        "oversampled_peak_dbfs": -16.156,
+        "near_clip_samples_pct": 0.0,
+        "dc": -9e-07,
+        "crest_db": 15.538,
+        "bands_energy_pct": {
+          "0-80_Hz": 42.882,
+          "80-250_Hz": 23.996,
+          "250-800_Hz": 20.735,
+          "800-1600_Hz": 10.45,
+          "1600-3000_Hz": 1.874,
+          "3000-6000_Hz": 0.064,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          35.16,
+          19.53,
+          85.94,
+          78.12,
+          101.56,
+          109.38
+        ],
+        "strongest_bin_energy_pct": 5.472,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          117.19,
+          326.56
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -34.105,
+          -32.53,
+          -28.901
+        ],
+        "seam_jump_dbfs": -34.894,
+        "seam_jump_over_typical_step_db": 10.761,
+        "head_tail_50ms_rms_difference_db": 1.316
+      },
+      {
+        "phase": "final_doors",
+        "start_s": 39,
+        "end_s": 42,
+        "duration_s": 3.0,
+        "rms_dbfs": -30.532,
+        "sample_peak_dbfs": -15.712,
+        "oversampled_peak_dbfs": -15.707,
+        "near_clip_samples_pct": 0.0,
+        "dc": -2.83e-05,
+        "crest_db": 14.82,
+        "bands_energy_pct": {
+          "0-80_Hz": 33.36,
+          "80-250_Hz": 41.758,
+          "250-800_Hz": 19.295,
+          "800-1600_Hz": 5.079,
+          "1600-3000_Hz": 0.494,
+          "3000-6000_Hz": 0.015,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          128.91,
+          140.62,
+          35.16,
+          50.78,
+          164.06,
+          89.84
+        ],
+        "strongest_bin_energy_pct": 4.767,
+        "dominant_track_p10_p50_p90_hz": [
+          91.41,
+          132.81,
+          148.44
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -33.247,
+          -30.458,
+          -29.35
+        ],
+        "seam_jump_dbfs": -37.207,
+        "seam_jump_over_typical_step_db": 9.702,
+        "head_tail_50ms_rms_difference_db": 1.521
+      },
+      {
+        "phase": "paused",
+        "start_s": 44.5,
+        "end_s": 45.5,
+        "duration_s": 1.0,
+        "rms_dbfs": -240.0,
+        "sample_peak_dbfs": -240.0,
+        "oversampled_peak_dbfs": -240.0,
+        "near_clip_samples_pct": 0.0,
+        "dc": 0.0,
+        "crest_db": 0.0,
+        "bands_energy_pct": {
+          "0-80_Hz": 0.0,
+          "80-250_Hz": 0.0,
+          "250-800_Hz": 0.0,
+          "800-1600_Hz": 0.0,
+          "1600-3000_Hz": 0.0,
+          "3000-6000_Hz": 0.0,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [],
+        "strongest_bin_energy_pct": 0.0,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          85.94,
+          85.94
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -240.0,
+          -240.0,
+          -240.0
+        ],
+        "seam_jump_dbfs": -240.0,
+        "seam_jump_over_typical_step_db": -240.0,
+        "head_tail_50ms_rms_difference_db": 0.0
+      },
+      {
+        "phase": "resume",
+        "start_s": 46.5,
+        "end_s": 47.5,
+        "duration_s": 1.0,
+        "rms_dbfs": -31.903,
+        "sample_peak_dbfs": -19.016,
+        "oversampled_peak_dbfs": -19.011,
+        "near_clip_samples_pct": 0.0,
+        "dc": 0.0001709,
+        "crest_db": 12.887,
+        "bands_energy_pct": {
+          "0-80_Hz": 46.384,
+          "80-250_Hz": 30.331,
+          "250-800_Hz": 17.202,
+          "800-1600_Hz": 5.437,
+          "1600-3000_Hz": 0.626,
+          "3000-6000_Hz": 0.02,
+          "6000-8001_Hz": 0.0
+        },
+        "dominant_peaks_hz": [
+          31.25,
+          39.06,
+          78.12,
+          50.78,
+          97.66,
+          164.06
+        ],
+        "strongest_bin_energy_pct": 6.036,
+        "dominant_track_p10_p50_p90_hz": [
+          85.94,
+          101.56,
+          206.25
+        ],
+        "rms_200ms_p10_p50_p90_dbfs": [
+          -32.733,
+          -32.323,
+          -30.943
+        ],
+        "seam_jump_dbfs": -54.677,
+        "seam_jump_over_typical_step_db": -5.532,
+        "head_tail_50ms_rms_difference_db": 3.676
+      }
+    ],
+    "section_method": "arithmetic stereo mean (no +3dB ffmpeg default downmix boost), resample_poly 48000 to16000"
+  }
+]

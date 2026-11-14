@@ -73,17 +73,17 @@
       "rubber": false
     },
     "citadis_x05": {
-      "bank": "citadis403",
-      "quality": "related_family",
-      "motor_pitch_factor": 1.0,
-      "hum_pitch_factor": 1.0,
+      "bank": "citadis305_model",
+      "quality": "modeled",
+      "motor_pitch_factor": 0.94,
+      "hum_pitch_factor": 1.02,
       "rubber": false
     },
     "citadis_x05_nantes": {
-      "bank": "citadis403",
-      "quality": "related_family",
-      "motor_pitch_factor": 1.0,
-      "hum_pitch_factor": 1.0,
+      "bank": "citadis305_model",
+      "quality": "modeled",
+      "motor_pitch_factor": 0.94,
+      "hum_pitch_factor": 1.02,
       "rubber": false
     },
     "eurotram": {
@@ -152,17 +152,18 @@
       "label": "Citadis 302, Moscou",
       "recorded_family": "citadis_302",
       "streams": {
-        "motor": "banks/citadis302_motor.ogg",
-        "motor_hum": "banks/citadis302_motor_hum.ogg"
+        "motor": "banks/citadis302_motor_designed.ogg",
+        "motor_hum": "banks/citadis302_motor_hum_designed.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -12.0,
-        "motor_hum": -12.0,
-        "carrier": -45.0,
-        "rolling": -14.0,
-        "real_rail": -90.0
+        "motor": -13.5,
+        "motor_hum": -13.5,
+        "carrier": -40.0,
+        "rolling": -13.0,
+        "real_rail": -90.0,
+        "regen": -22.0
       },
       "source": {
         "title": "File:Alstom Citadis 302 in Moscow.webm",
@@ -191,24 +192,26 @@
           "true_peak_dbfs": -6.87,
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
-      }
+      },
+      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
     },
     "citadis402": {
       "recorded": true,
       "label": "Citadis 402, Porte d’Ivry",
       "recorded_family": "citadis_402",
       "streams": {
-        "motor": "banks/citadis402_motor.ogg",
-        "motor_hum": "banks/citadis402_motor_hum.ogg"
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -12.0,
-        "motor_hum": -12.0,
-        "carrier": -45.0,
-        "rolling": -14.0,
-        "real_rail": -90.0
+        "motor": -13.5,
+        "motor_hum": -13.5,
+        "carrier": -40.0,
+        "rolling": -13.0,
+        "real_rail": -90.0,
+        "regen": -22.0
       },
       "source": {
         "title": "File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg",
@@ -237,24 +240,26 @@
           "true_peak_dbfs": -5.59,
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
-      }
+      },
+      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
     },
     "citadis403": {
       "recorded": true,
       "label": "Citadis 403, Strasbourg",
       "recorded_family": "citadis_403_strasbourg",
       "streams": {
-        "motor": "banks/citadis403_motor.ogg",
-        "motor_hum": "banks/citadis403_motor_hum.ogg"
+        "motor": "banks/citadis403_motor_designed.ogg",
+        "motor_hum": "banks/citadis403_motor_hum_designed.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -12.0,
-        "motor_hum": -12.0,
-        "carrier": -45.0,
-        "rolling": -14.0,
-        "real_rail": -90.0
+        "motor": -13.5,
+        "motor_hum": -13.5,
+        "carrier": -40.0,
+        "rolling": -13.0,
+        "real_rail": -90.0,
+        "regen": -22.0
       },
       "source": {
         "title": "File:Citadis 403 n°2040 CTS, ligne A, Langstross - Porte de l'Hôpital.ogg",
@@ -283,24 +288,26 @@
           "true_peak_dbfs": -6.17,
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
-      }
+      },
+      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
     },
     "avanto": {
       "recorded": true,
       "label": "Siemens Avanto, T4",
       "recorded_family": "avanto",
       "streams": {
-        "motor": "banks/avanto_motor.ogg",
-        "motor_hum": "banks/avanto_motor_hum.ogg"
+        "motor": "banks/avanto_motor_designed.ogg",
+        "motor_hum": "banks/avanto_motor_hum_designed.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -12.0,
-        "motor_hum": -12.0,
-        "carrier": -45.0,
-        "rolling": -14.0,
-        "real_rail": -90.0
+        "motor": -13.5,
+        "motor_hum": -13.5,
+        "carrier": -40.0,
+        "rolling": -13.0,
+        "real_rail": -90.0,
+        "regen": -22.0
       },
       "source": {
         "title": "File:T4 Bondy - Aulnay 07.ogv",
@@ -329,24 +336,26 @@
           "true_peak_dbfs": -4.41,
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
-      }
+      },
+      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
     },
     "tfs": {
       "recorded": true,
       "label": "Alstom TFS, Nantes — rame 324",
       "recorded_family": "tfs",
       "streams": {
-        "motor": "banks/tfs_motor.ogg",
-        "motor_hum": "banks/tfs_motor_hum.ogg"
+        "motor": "banks/tfs_motor_designed.ogg",
+        "motor_hum": "banks/tfs_motor_hum_designed.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -12.0,
-        "motor_hum": -12.0,
-        "carrier": -45.0,
-        "rolling": -14.0,
-        "real_rail": -90.0
+        "motor": -13.5,
+        "motor_hum": -13.5,
+        "carrier": -40.0,
+        "rolling": -13.0,
+        "real_rail": -90.0,
+        "regen": -22.0
       },
       "source": {
         "title": "File:Arrivée du tram.webm",
@@ -376,24 +385,26 @@
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
       },
-      "identification": "Rame M2 324 visible à 10 s, série TFS 301–346 de Nantes"
+      "identification": "Rame M2 324 visible à 10 s, série TFS 301–346 de Nantes",
+      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
     },
     "flexity": {
       "recorded": true,
       "label": "Flexity Outlook, Marseille",
       "recorded_family": "flexity_marseille",
       "streams": {
-        "motor": "banks/flexity_motor.ogg",
-        "motor_hum": "banks/flexity_motor_hum.ogg"
+        "motor": "banks/flexity_motor_designed.ogg",
+        "motor_hum": "banks/flexity_motor_hum_designed.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -12.0,
-        "motor_hum": -12.0,
-        "carrier": -45.0,
-        "rolling": -14.0,
-        "real_rail": -90.0
+        "motor": -13.5,
+        "motor_hum": -13.5,
+        "carrier": -40.0,
+        "rolling": -13.0,
+        "real_rail": -90.0,
+        "regen": -22.0
       },
       "source": {
         "title": "File:Tramway de Marseille - Ligne 2 - Boulevard Philippon.ogv",
@@ -423,24 +434,26 @@
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
       },
-      "identification": "Façade Flexity Outlook Marseille visible à 3 s ; légende Commons erronée"
+      "identification": "Façade Flexity Outlook Marseille visible à 3 s ; légende Commons erronée",
+      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
     },
     "urbos": {
       "recorded": true,
       "label": "CAF Urbos 3, Luxembourg",
       "recorded_family": "urbos",
       "streams": {
-        "motor": "banks/urbos_motor.ogg",
-        "motor_hum": "banks/urbos_motor_hum.ogg"
+        "motor": "banks/urbos_motor_designed.ogg",
+        "motor_hum": "banks/urbos_motor_hum_designed.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -12.0,
-        "motor_hum": -12.0,
-        "carrier": -45.0,
-        "rolling": -14.0,
-        "real_rail": -90.0
+        "motor": -13.5,
+        "motor_hum": -13.5,
+        "carrier": -40.0,
+        "rolling": -13.0,
+        "real_rail": -90.0,
+        "regen": -22.0
       },
       "source": {
         "title": "File:Luxembourg tram testing August 2017 (1).webm",
@@ -469,24 +482,26 @@
           "true_peak_dbfs": -6.14,
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
-      }
+      },
+      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
     },
     "lemans302": {
       "recorded": true,
       "label": "Citadis du Mans — SamuelGremaud (captation de passage)",
       "recorded_family": "citadis_302",
       "streams": {
-        "motor": "banks/lemans302_motor.ogg",
-        "motor_hum": "banks/lemans302_motor_hum.ogg"
+        "motor": "banks/lemans302_motor_designed.ogg",
+        "motor_hum": "banks/lemans302_motor_hum_designed.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -17,
-        "motor_hum": -17,
-        "carrier": -45.0,
-        "rolling": -14.0,
-        "real_rail": -90.0
+        "motor": -13.5,
+        "motor_hum": -13.5,
+        "carrier": -40.0,
+        "rolling": -13.0,
+        "real_rail": -90.0,
+        "regen": -22.0
       },
       "source": {
         "title": "TRAM - 1",
@@ -516,7 +531,28 @@
           "true_peak_dbfs": -2.61,
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
-      }
+      },
+      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
+    },
+    "citadis305_model": {
+      "recorded": false,
+      "modeled": true,
+      "label": "Citadis 305 — restitution modélisée, sans captation exacte",
+      "recorded_family": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "mix": {
+        "motor": -19.0,
+        "motor_hum": -15.0,
+        "carrier": -32.0,
+        "rolling": -11.0,
+        "real_rail": -23.0,
+        "regen": -20.0
+      },
+      "provenance": "Original procedural mechanical / inverter model. Not derived from Citadis 403 recordings. Parameters are sound design estimates, not measured 305 inverter settings.",
+      "design_processing": "tools/audio/design_samples.py, deterministic seed 305302"
     }
   },
   "unavailable_sources": {},
@@ -572,5 +608,6 @@
       "quality": "related_family",
       "rubber": false
     }
-  }
+  },
+  "design_revision": "2026-11-14 spectral-body-v1"
 }

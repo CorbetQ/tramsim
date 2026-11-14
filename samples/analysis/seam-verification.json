@@ -1,0 +1,97 @@
+{
+  "decode_sample_rate": 16000,
+  "limitations": [
+    "No perceptual listening or speech recognition performed.",
+    "16kHz analysis does not inspect content above 8kHz.",
+    "Peak track is not a motor fundamental estimate.",
+    "A seam jump within typical steps does not guarantee an inaudible loop."
+  ],
+  "files": [
+    {
+      "path": "data/audio/banks/tfs_motor_hum_designed.ogg",
+      "sha256": "3e99e9cf20874bd5b1bf655941be34270063eb39598af2d7595a97da1606e9af",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.07,
+      "rms_dbfs": -19.292,
+      "sample_peak_dbfs": -1.851,
+      "oversampled_peak_dbfs": -1.839,
+      "near_clip_samples_pct": 0.0,
+      "dc": 2.01e-05,
+      "crest_db": 17.441,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.401,
+        "80-250_Hz": 10.075,
+        "250-800_Hz": 86.432,
+        "800-1600_Hz": 2.07,
+        "1600-3000_Hz": 0.988,
+        "3000-6000_Hz": 0.034,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        347.66,
+        386.72,
+        164.06,
+        183.59,
+        414.06,
+        125.0
+      ],
+      "strongest_bin_energy_pct": 15.769,
+      "dominant_track_p10_p50_p90_hz": [
+        93.75,
+        164.06,
+        410.94
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -27.701,
+        -26.335,
+        -16.565
+      ],
+      "seam_jump_dbfs": -66.035,
+      "seam_jump_over_typical_step_db": -31.574,
+      "head_tail_50ms_rms_difference_db": 0.833
+    },
+    {
+      "path": "data/audio/banks/urbos_motor_designed.ogg",
+      "sha256": "9c7ff0a3f240b74df36d5846d29645688a1afd18c42fceedb11f34c2e4680317",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.07,
+      "rms_dbfs": -19.25,
+      "sample_peak_dbfs": -2.518,
+      "oversampled_peak_dbfs": -2.501,
+      "near_clip_samples_pct": 0.0,
+      "dc": -1.38e-05,
+      "crest_db": 16.732,
+      "bands_energy_pct": {
+        "0-80_Hz": 1.598,
+        "80-250_Hz": 57.427,
+        "250-800_Hz": 30.598,
+        "800-1600_Hz": 6.704,
+        "1600-3000_Hz": 3.488,
+        "3000-6000_Hz": 0.184,
+        "6000-8001_Hz": 0.001
+      },
+      "dominant_peaks_hz": [
+        281.25,
+        109.38,
+        93.75,
+        230.47,
+        218.75,
+        167.97
+      ],
+      "strongest_bin_energy_pct": 2.535,
+      "dominant_track_p10_p50_p90_hz": [
+        93.75,
+        164.06,
+        281.25
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -26.22,
+        -18.856,
+        -17.837
+      ],
+      "seam_jump_dbfs": -64.515,
+      "seam_jump_over_typical_step_db": -31.556,
+      "head_tail_50ms_rms_difference_db": -2.273
+    }
+  ]
+}
