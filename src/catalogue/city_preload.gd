@@ -97,6 +97,7 @@ func _process(_dt: float) -> void:
 		CityDataStore.install(job.files, job.documents)
 		_networks = job.networks
 		if _audio_assets.is_empty():
+			_audio_assets.append(load("res://src/rendering/transition_noise.tres"))
 			for key in TramAudio.LOOPS.keys() + TramAudio.SHOTS.keys() + ["gong"]:
 				var stream := TramAudio.load_stream(key, key in TramAudio.LOOPS)
 				if stream != null: _audio_assets.append(stream)

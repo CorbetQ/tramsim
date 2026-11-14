@@ -12,8 +12,8 @@ if ! "$G" --headless --path . --import >"$import_log" 2>&1 || grep -Eq 'SCRIPT E
   exit 1
 fi
 rm -f "$import_log"
-for t in test_city_preload test_arrival_transition run_tests test_map_surfaces test_free_starts test_adhesion test_world_geometry test_rolling_stock test_stock_catalog test_stock_ui test_angers test_angers_real test_traffic_free test_track_smoothness test_turnback test_bidir test_audio test_audio_families test_save test_scene test_scene_data test_geo test_input test_home test_mobile test_choice test_network_ui test_explore test_physical_networks test_operations test_power_routing test_platform_stops test_missions test_autopilot test_ai_trams test_all_networks; do
-  if [ "$t" = "test_arrival_transition" ] || [ "$t" = "test_home" ] || [ "$t" = "test_stock_ui" ] || [ "$t" = "test_input" ] || [ "$t" = "test_mobile" ] || [ "$t" = "test_choice" ] || [ "$t" = "test_network_ui" ] || [ "$t" = "test_explore" ]; then
+for t in test_city_preload test_arrival_transition test_cinematic_lod test_free_sfx run_tests test_map_surfaces test_free_starts test_adhesion test_world_geometry test_rolling_stock test_stock_catalog test_stock_ui test_angers test_angers_real test_traffic_free test_track_smoothness test_turnback test_bidir test_audio test_audio_families test_save test_scene test_scene_data test_geo test_input test_home test_mobile test_choice test_network_ui test_explore test_physical_networks test_operations test_power_routing test_platform_stops test_missions test_autopilot test_ai_trams test_all_networks; do
+  if [ "$t" = "test_cinematic_lod" ] || [ "$t" = "test_arrival_transition" ] || [ "$t" = "test_home" ] || [ "$t" = "test_stock_ui" ] || [ "$t" = "test_input" ] || [ "$t" = "test_mobile" ] || [ "$t" = "test_choice" ] || [ "$t" = "test_network_ui" ] || [ "$t" = "test_explore" ]; then
     if command -v xvfb-run >/dev/null; then
       out=$(timeout 600 xvfb-run -a -s "-screen 0 1280x720x24" "$G" --path . --audio-driver Dummy --rendering-driver opengl3 --resolution 1280x720 -s "tests/$t.gd" 2>&1); c=$?
     elif [ -n "${DISPLAY:-}" ]; then
