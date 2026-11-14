@@ -1,0 +1,98 @@
+[
+  {
+    "query": "tram Nottingham",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/JW_Audio/sounds/866063/",
+      "https://freesound.org/people/theplax/sounds/610314/",
+      "https://freesound.org/people/theplax/sounds/613860/"
+    ]
+  },
+  {
+    "query": "tram Strasbourg",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Lyon",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/Aemyn/sounds/609250/",
+      "https://freesound.org/people/Na%C3%AFma/sounds/510272/"
+    ]
+  },
+  {
+    "query": "tram Paris",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/YleArkisto/sounds/254897/",
+      "https://freesound.org/people/bruno.auzet/sounds/553489/",
+      "https://freesound.org/people/kevp888/sounds/488261/",
+      "https://freesound.org/people/kevp888/sounds/812395/",
+      "https://freesound.org/people/kevp888/sounds/812537/",
+      "https://freesound.org/people/kevp888/sounds/812806/",
+      "https://freesound.org/people/martinpvrd/sounds/772089/"
+    ]
+  },
+  {
+    "query": "tram Rouen",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Grenoble",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/Sacha.Julien/sounds/726338/",
+      "https://freesound.org/people/Sacha.Julien/sounds/726339/"
+    ]
+  },
+  {
+    "query": "tram Saint-Etienne",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/Benson_Arizona/sounds/854036/",
+      "https://freesound.org/people/Sadiquecat/sounds/790518/",
+      "https://freesound.org/people/Sadiquecat/sounds/870430/",
+      "https://freesound.org/people/mexatronik/sounds/710458/",
+      "https://freesound.org/people/miastodzwiekow/sounds/108379/"
+    ]
+  },
+  {
+    "query": "tram Clermont",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Montpellier",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/Sadiquecat/sounds/790520/"
+    ]
+  },
+  {
+    "query": "tram Reims",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Tours",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/Ryding/sounds/742812/",
+      "https://freesound.org/people/sonsdebarcelona/sounds/70218/"
+    ]
+  },
+  {
+    "query": "tram Mulhouse",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "Avanto",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/YleArkisto/sounds/337690/"
+    ]
+  }
+]

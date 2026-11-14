@@ -1,3 +1,16 @@
+# Diagnostic de couches v3
+
+```sh
+bash tools/audio/capture_driving_audio.sh citadis_302 angers__citadis_302 v3_302_solo citadis302 traction_solo
+bash tools/audio/capture_driving_audio.sh citadis_x05 toulouse__citadis_305 v3_305_modeled_solo citadis305_model traction_solo
+```
+
+Conserve motor/motor_hum/carrier/regen ; coupe roulement, ambiance, HVAC, événements et gong. Le JSON journalise `actual_routing`, y compris les volumes effectifs, pour vérifier la coupure. Option sixième argument `bypass_cabin` : contourne uniquement le filtrage cabine, déclarée dans le rapport ; les captureslivrées utilisent `production_filters`. Ce solo retire des couches du mixage mais ne sépare pas le moteur d’un enregistrement déjà composite. Le305 conserve son modèle synthétique. Le verrouflock protège override.cfg contre deux captures concurrentes.
+
+Les deux captures ont été vérifiées dans `../tests/v3_solo_checks.json`. Aucun fichier de production modifié pour ce diagnostic.
+
+---
+
 # Capturesv2 vérifiées
 
 Les fichiers `v2_before_*` et `v2_after_*` sont de véritables sorties Master de Godot. Les302 utilisent `citadis_302` / `angers__citadis_302` / banque `citadis302`. Les305 utilisent `citadis_x05` / `toulouse__citadis_305` / banque `citadis305_model`. Les JSON journalisent famille canonique, banque et chemins. Le scénario48s ci-dessous est identique avant/après. Les captures sont exécutées séquentiellement pour restaurer correctement override.cfg.

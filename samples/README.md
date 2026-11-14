@@ -1,3 +1,19 @@
+# Révision 3 — sources réelles et diagnostic de traction
+
+- [Citadis Rotterdam : départ enregistré](listening/v3_citadis_depart_captation.mp3).
+- [Composante harmonique candidate](listening/v3_citadis_depart_harmoniques.mp3).
+- [Résidu retiré](listening/v3_citadis_depart_residu.mp3).
+
+Les trois extraits couvrent exactement0–13,8s de Streetcar04, auteurLG, [source](https://freesound.org/people/LG/sounds/14279/), [CC BY4.0](https://creativecommons.org/licenses/by/4.0/). Traitement : mono16kHz, séparation spectrale douce des harmoniques/trajectoires, même gain fixe pour les trois ; copieMP3 avec−2dB supplémentaires identiques. Pas de synthèse de motrice ni de transposition. Le candidat peut conserver voix, ventilation ou rail ; le résidu peut contenir une partie de traction. Ce n’est pas un moteur pur certifié, ni un302/305Angers identifié.
+
+Les maîtresFLAC vérifient source=harmoniques+résidu avec erreur0LSB en PCM24. LeMP3 n’a pas cette égalité sans perte. Voir `analysis/revision3/revision3-rotterdam-reconstruction.json`.
+
+[Étude des sources et trajectoires](analysis/revision3-study.md), [inventaire des76variantes](analysis/traction-coverage.md), [recherche des20familles](references/revision3-research-report.md). Cette passe inventorie5médias de référence dont la captation embarquéeNantes nouvellement récupérée ; quatre étaient collectés durant la passe précédente. Le matériel nantais n’est pas identifié. Aucun vrai305 ou302Angers accessible n’a été obtenu. Les deux vidéos du joueur restent des références non écoutées, car YouTube retourneCONNECT403 malgré la politique réseau ouverte.
+
+Le script de capture dispose maintenant de `traction_solo`, qui coupe les couches communes et journalise la banque, les fichiers, les bus et les volumes effectifs. Les deux capturesSolo302 et305modélisé sont des diagnostics du jeu actuel ; elles ne constituent pas une nouvelle banque fidèle. Le moteur et les banques de production restent en révision2 pendant l’identification de sources adaptées.
+
+---
+
 # Révision2 — écouter et comparer
 
 - [Citadis302 avant/après](listening/v2_citadis_302_avant_apres.mp3).

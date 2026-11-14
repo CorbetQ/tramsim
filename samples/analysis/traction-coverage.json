@@ -1,0 +1,1240 @@
+{
+  "scope": "All76 game variants; source texture and precise motor are different evidence levels",
+  "variants": [
+    {
+      "variant": "angers__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "angers__citadis_x05",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "nantes__incentro",
+      "family": "incentro",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "nantes__citadis_x05_nantes",
+      "family": "citadis_x05_nantes",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "nantes__tfs",
+      "family": "tfs",
+      "fictional": false,
+      "bank": "tfs",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm",
+      "streams": {
+        "motor": "banks/tfs_motor_designed.ogg",
+        "motor_hum": "banks/tfs_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "nantes__urbos",
+      "family": "urbos",
+      "fictional": false,
+      "bank": "urbos",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+      "streams": {
+        "motor": "banks/urbos_motor_designed.ogg",
+        "motor_hum": "banks/urbos_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "nantes__citadis_dualis",
+      "family": "citadis_dualis",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "bordeaux__citadis_402",
+      "family": "citadis_402",
+      "fictional": false,
+      "bank": "citadis402",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "streams": {
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "bordeaux__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "clermont__translohr",
+      "family": "translohr",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "mulhouse__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "mulhouse__avanto",
+      "family": "avanto",
+      "fictional": false,
+      "bank": "avanto",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv",
+      "streams": {
+        "motor": "banks/avanto_motor_designed.ogg",
+        "motor_hum": "banks/avanto_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "grenoble__citadis_402",
+      "family": "citadis_402",
+      "fictional": false,
+      "bank": "citadis402",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "streams": {
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "grenoble__tfs",
+      "family": "tfs",
+      "fictional": false,
+      "bank": "tfs",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm",
+      "streams": {
+        "motor": "banks/tfs_motor_designed.ogg",
+        "motor_hum": "banks/tfs_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "toulouse__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "toulouse__citadis_305",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "strasbourg__eurotram",
+      "family": "eurotram",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "strasbourg__eurotram_long",
+      "family": "eurotram",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "strasbourg__citadis_403_strasbourg",
+      "family": "citadis_403_strasbourg",
+      "fictional": false,
+      "bank": "citadis403",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg",
+      "streams": {
+        "motor": "banks/citadis403_motor_designed.ogg",
+        "motor_hum": "banks/citadis403_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "strasbourg__citadis_x05",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "strasbourg__citadis_3",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "montpellier__citadis_x01",
+      "family": "citadis_x01",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "montpellier__citadis_302__2",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "montpellier__citadis_402__3",
+      "family": "citadis_402",
+      "fictional": false,
+      "bank": "citadis402",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "streams": {
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "montpellier__citadis_302__4",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "montpellier__urbos",
+      "family": "urbos",
+      "fictional": false,
+      "bank": "urbos",
+      "quality_declared": "related_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+      "streams": {
+        "motor": "banks/urbos_motor_designed.ogg",
+        "motor_hum": "banks/urbos_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "montpellier__urbos__5",
+      "family": "urbos",
+      "fictional": false,
+      "bank": "urbos",
+      "quality_declared": "related_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+      "streams": {
+        "motor": "banks/urbos_motor_designed.ogg",
+        "motor_hum": "banks/urbos_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "lille__breda_vlc",
+      "family": "breda_vlc",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "lille__citadis_x05",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "lyon__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "lyon__citadis_402",
+      "family": "citadis_402",
+      "fictional": false,
+      "bank": "citadis402",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "streams": {
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "lyon__citadis_402_2020",
+      "family": "citadis_402",
+      "fictional": false,
+      "bank": "citadis402",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "streams": {
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "lyon__tango_rhonexpress",
+      "family": "tango_rhonexpress",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "lyon__citadis_dualis",
+      "family": "citadis_dualis",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "marseille__flexity_marseille",
+      "family": "flexity_marseille",
+      "fictional": false,
+      "bank": "flexity",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+      "streams": {
+        "motor": "banks/flexity_motor_designed.ogg",
+        "motor_hum": "banks/flexity_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "marseille__urbos",
+      "family": "urbos",
+      "fictional": false,
+      "bank": "urbos",
+      "quality_declared": "related_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+      "streams": {
+        "motor": "banks/urbos_motor_designed.ogg",
+        "motor_hum": "banks/urbos_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "nice__citadis_402",
+      "family": "citadis_402",
+      "fictional": false,
+      "bank": "citadis402",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "streams": {
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "nice__citadis_x05",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "rouen__citadis_402",
+      "family": "citadis_402",
+      "fictional": false,
+      "bank": "citadis402",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "streams": {
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "reims__citadis_reims",
+      "family": "citadis_reims",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "related_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "dijon__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "tours__citadis_tours",
+      "family": "citadis_tours",
+      "fictional": false,
+      "bank": "citadis402",
+      "quality_declared": "related_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "streams": {
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "orleans__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "orleans__citadis_x01",
+      "family": "citadis_x01",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "lemans__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "lemans302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://freesound.org/people/SamuelGremaud/sounds/458858/",
+      "streams": {
+        "motor": "v2/lemans302_motor.ogg",
+        "motor_hum": "v2/lemans302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "lemans__citadis_402",
+      "family": "citadis_402",
+      "fictional": false,
+      "bank": "lemans302",
+      "quality_declared": "related_family",
+      "recorded": true,
+      "source_page": "https://freesound.org/people/SamuelGremaud/sounds/458858/",
+      "streams": {
+        "motor": "v2/lemans302_motor.ogg",
+        "motor_hum": "v2/lemans302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "caen__citadis_x05",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "brest__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "brest__citadis_305",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "lehavre__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "saintetienne__urbos",
+      "family": "urbos",
+      "fictional": false,
+      "bank": "urbos",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+      "streams": {
+        "motor": "banks/urbos_motor_designed.ogg",
+        "motor_hum": "banks/urbos_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "saintetienne__vevey_saint_etienne",
+      "family": "vevey_saint_etienne",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "saintetienne__vevey_ste1",
+      "family": "vevey_saint_etienne",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "besancon__urbos",
+      "family": "urbos",
+      "fictional": false,
+      "bank": "urbos",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm",
+      "streams": {
+        "motor": "banks/urbos_motor_designed.ogg",
+        "motor_hum": "banks/urbos_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "besancon__citadis_x05",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "avignon__citadis_compact",
+      "family": "citadis_compact",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "related_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "aubagne__citadis_compact",
+      "family": "citadis_compact",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "related_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "valenciennes__citadis_302",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "idf__tfs__t1",
+      "family": "tfs",
+      "fictional": false,
+      "bank": "tfs",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm",
+      "streams": {
+        "motor": "banks/tfs_motor_designed.ogg",
+        "motor_hum": "banks/tfs_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "idf__citadis_x05__t1",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "idf__citadis_302__t2",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "idf__citadis_402__t3a",
+      "family": "citadis_402",
+      "fictional": false,
+      "bank": "citadis402",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+      "streams": {
+        "motor": "banks/citadis402_motor_designed.ogg",
+        "motor_hum": "banks/citadis402_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "idf__avanto__t4",
+      "family": "avanto",
+      "fictional": false,
+      "bank": "avanto",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv",
+      "streams": {
+        "motor": "banks/avanto_motor_designed.ogg",
+        "motor_hum": "banks/avanto_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "idf__translohr__t5",
+      "family": "translohr",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "idf__translohr__t6",
+      "family": "translohr",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "idf__citadis_302__t7",
+      "family": "citadis_302",
+      "fictional": false,
+      "bank": "citadis302",
+      "quality_declared": "exact_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "streams": {
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "idf__citadis_x05__t9",
+      "family": "citadis_x05",
+      "fictional": false,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "idf__citadis_dualis__t11",
+      "family": "citadis_dualis",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "annemasse__tango_tpg",
+      "family": "tango_rhonexpress",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "saintlouis__flexity_bvb",
+      "family": "flexity_marseille",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "leymen__tango_blt",
+      "family": "tango_rhonexpress",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "sarreguemines__flexity_link",
+      "family": "avanto",
+      "fictional": false,
+      "bank": "",
+      "quality_declared": "synthetic",
+      "recorded": false,
+      "source_page": null,
+      "streams": {},
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "annemasse__cityrunner_tpg",
+      "family": "flexity_marseille",
+      "fictional": false,
+      "bank": "flexity",
+      "quality_declared": "related_family",
+      "recorded": true,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+      "streams": {
+        "motor": "banks/flexity_motor_designed.ogg",
+        "motor_hum": "banks/flexity_motor_hum_designed.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "recorded_texture_requires_traction_identification"
+    },
+    {
+      "variant": "angers__concept_citadis_405",
+      "family": "citadis_x05",
+      "fictional": true,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "dijon__concept_citadis_405",
+      "family": "citadis_x05",
+      "fictional": true,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    },
+    {
+      "variant": "nantes__concept_citadis_305",
+      "family": "citadis_x05",
+      "fictional": true,
+      "bank": "citadis305_model",
+      "quality_declared": "modeled",
+      "recorded": false,
+      "source_page": null,
+      "streams": {
+        "motor": "banks/citadis305_motor.ogg",
+        "motor_hum": "banks/citadis305_motor_hum.ogg"
+      },
+      "isolated_motor_verified": false,
+      "speed_calibration_verified": false,
+      "inverter_type_verified_from_audio": false,
+      "status": "modeled_or_synthetic_no_real_motor_capture"
+    }
+  ]
+}

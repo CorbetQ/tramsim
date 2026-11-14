@@ -1,0 +1,28 @@
+[
+  {
+    "query": "Citadis",
+    "status": "200",
+    "links": [
+      "/people/LG/sounds/56878/",
+      "/people/robni7/sounds/857658/"
+    ]
+  },
+  {
+    "query": "tram inside motor",
+    "status": "200",
+    "links": [
+      "/people/fancy.murray/sounds/844744/",
+      "/people/nikohfb/sounds/59784/"
+    ]
+  },
+  {
+    "query": "tram clermont-ferrand",
+    "status": "200",
+    "links": []
+  },
+  {
+    "query": "tram-train",
+    "status": "429",
+    "links": []
+  }
+]

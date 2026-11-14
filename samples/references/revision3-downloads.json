@@ -1,0 +1,28 @@
+{
+  "actual_downloads": [
+    {
+      "id": "nantes-interior-779136",
+      "page": "https://freesound.org/people/YannSauvin/sounds/779136/",
+      "media_url": "https://cdn.freesound.org/previews/779/779136_6921828-lq.mp3",
+      "file": "samples/raw/revision3-nantes-interior-779136-preview.mp3",
+      "duration_s": 146.064,
+      "bytes": 1223496,
+      "sha256": "1993d168e2157b1e758943b55a3361e3e05ff4989dfee4e928ea3ebe2f5e1af4",
+      "author": "YannSauvin",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "redistributable": true,
+      "model": "Tram nantais non identifié ; ne pas certifier Incentro/TFS/Urbos/X05",
+      "city": "Nantes",
+      "recording_position": "interior, per author title",
+      "precision": "unidentified_model",
+      "events": [
+        "interior_ambience",
+        "traction_candidate"
+      ],
+      "media_status": "complete_public_preview_downloaded",
+      "listened": false
+    }
+  ],
+  "note": "Les catégories de moteur sont candidates ; le modèle et les fenêtres de traction doivent être analysés avant intégration."
+}

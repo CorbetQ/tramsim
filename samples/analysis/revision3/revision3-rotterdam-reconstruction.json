@@ -1,0 +1,41 @@
+{
+  "source_window_seconds": [
+    0,
+    13.8
+  ],
+  "sample_rate": 16000,
+  "channels": 1,
+  "common_gain": 0.8070227337561813,
+  "common_gain_db": -1.8623,
+  "gain_policy": "same fixed gain for all three to prevent source/codec overshoot; no independent normalization",
+  "lossless_max_reconstruction_error_pcm24_lsb": 0,
+  "ogg_note": "Vorbis listening copies are lossy; exact equality applies only to FLAC decoded PCM24.",
+  "author": "LG",
+  "title": "Streetcar04.wav",
+  "page": "https://freesound.org/people/LG/sounds/14279/",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "source": "samples/raw/spotting-rotterdam-citadis-lg-14279-preview.mp3",
+  "identity": "Citadis departing in Rotterdam; related family, no certified French302/305 match",
+  "processing": "mono16kHz excerpt; STFT harmonic+ridge soft mask; residual=source-candidate; PCM24 quantization",
+  "listened": false,
+  "pure_motor_claim": false,
+  "files": {
+    "source": {
+      "flac": "samples/analysis/revision3/rotterdam-motor-source.flac",
+      "ogg": "samples/analysis/revision3/rotterdam-motor-source.ogg",
+      "peak_dbfs": -0.446
+    },
+    "harmonic-candidate": {
+      "flac": "samples/analysis/revision3/rotterdam-motor-harmonic-candidate.flac",
+      "ogg": "samples/analysis/revision3/rotterdam-motor-harmonic-candidate.ogg",
+      "peak_dbfs": -5.666
+    },
+    "residual": {
+      "flac": "samples/analysis/revision3/rotterdam-motor-residual.flac",
+      "ogg": "samples/analysis/revision3/rotterdam-motor-residual.ogg",
+      "peak_dbfs": -1.315
+    }
+  },
+  "source_sha256": "b8110276c7ebb28a85125e3870b59b0a7f9dcfba45f90eddfc9e1a21400a6d1e"
+}
