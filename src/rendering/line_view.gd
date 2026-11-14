@@ -33,7 +33,7 @@ var cam_dist := 40.0               # distance de la caméra extérieure (molette
 var _tram_len := 0.0
 var _rig_fresh := false
 
-func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile = null) -> void:
+func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile = null, prepared_city: CityScene = null) -> void:
 	net = network
 	var fx_layer := CanvasLayer.new(); fx_layer.layer = -1; add_child(fx_layer)
 	var fx := ColorRect.new(); fx.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -46,9 +46,11 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		_unfold(start_edge)
 	day_night = DayNight.new(); add_child(day_night); day_night.setup(self)
 	var src := str(net.meta.get("source_id", ""))
+	if prepared_city != null and (not geometric or prepared_city.city != src):
+		prepared_city.free(); prepared_city = null
 	if geometric and net.meta.has("origin") and CityScene.available(src):
-		city = CityScene.new()
-		if city.open(src, net.meta.origin):
+		city = prepared_city if prepared_city != null else CityScene.new()
+		if prepared_city != null or city.open(src, net.meta.origin):
 			city.radius = maxf(view_distance + 200.0, 500.0)
 			add_child(city)
 			city.bind_network(net)

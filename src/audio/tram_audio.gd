@@ -369,7 +369,7 @@ func gong() -> void:
 static func profile_for(family_id: String,variant_id:String="") -> Dictionary:
 	if family_id.is_empty(): return {}
 	if _family_manifest.is_empty() and FileAccess.file_exists(DIR + "families.json"):
-		var data = JSON.parse_string(FileAccess.get_file_as_string(DIR + "families.json"))
+		var data = CityDataStore.document(DIR + "families.json")
 		if data is Dictionary: _family_manifest = data
 	var key := TramModel.family_id(family_id)
 	var profile: Dictionary = _family_manifest.get("profiles", {}).get(key, {}).duplicate(true)

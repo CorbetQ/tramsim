@@ -19,6 +19,7 @@ var _layers: Array[Dictionary] = []     # {vp, rect, cam, center, dist, city, st
 var _task := -1
 var _job: Dictionary = {}               # résultat du thread en cours
 var _shade: TextureRect
+var _departing := false
 var _control: LoadControl
 
 class LoadControl:
@@ -79,7 +80,7 @@ static func _load(job: Dictionary) -> void:
 		if job.control.cancelled(): return
 		if seen.has(str(e.line)): continue   # variantes de service d'une même ligne : tracé déjà couvert
 		seen[str(e.line)] = true
-		var d = JSON.parse_string(FileAccess.get_file_as_string(e.path))
+		var d = CityDataStore.document(e.path)
 		if not d is Dictionary or not d.has("origin"): continue
 		if src == "":
 			src = str(d.get("source_id", "")); origin = d.origin
@@ -97,6 +98,7 @@ static func _load(job: Dictionary) -> void:
 			polys.append(pl)
 		lines.append({"color": UiTheme.color_of(d.get("color", ""), UiTheme.INFO), "polys": polys, "urban": e.get("kind", "tram") != "tram-train"})
 	job.lines = lines
+	job.origin = origin.duplicate()
 	if lines.is_empty() or not lo.is_finite(): return
 	# centre = médiane des tracés (cœur du réseau, là où les lignes se croisent), pas le centre de l'emprise
 	var xs: Array[float] = []; var zs: Array[float] = []
@@ -111,7 +113,7 @@ static func _load(job: Dictionary) -> void:
 	job.dist = clampf(extent * 0.12, 700.0, 1300.0)
 	job.center = Vector3(center.x, 0.0, center.y)
 	if CityScene.available(src):
-		var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s.json" % src))
+		var meta = CityDataStore.document("res://data/scenes/%s.json" % src)
 		var cs := CityScene.new()
 		if meta is Dictionary and cs.open(src, origin):
 			cs.radius = job.radius * job.dist
@@ -174,7 +176,7 @@ func _install(job: Dictionary) -> void:
 	rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED; rect.texture = vp.get_texture(); rect.modulate.a = 0.0
 	add_child(rect); move_child(rect, _shade.get_index())
 	var L := {"vp": vp, "rect": rect, "cam": cam, "center": job.center, "dist": job.dist,
-		"city": job.city, "still": still_mode, "day": day, "visible": true}
+		"city": job.city, "still": still_mode, "day": day, "visible": true, "origin": job.origin, "scene": job.get("scene")}
 	_place(L)
 	_layers.append(L)
 	shown = job.city
@@ -190,17 +192,49 @@ func _install(job: Dictionary) -> void:
 ## Bureau : rendu continu le temps de quelques images, puis une seule image par changement (UPDATE_ONCE).
 func _settle(L: Dictionary) -> void:
 	for i in 4: await RenderingServer.frame_post_draw
-	if L.vp != null and is_instance_valid(L.vp):
+	if not _departing and L.vp != null and is_instance_valid(L.vp):
 		L.vp.render_target_update_mode = SubViewport.UPDATE_ONCE if is_visible_in_tree() else SubViewport.UPDATE_DISABLED
 		L["visible"] = is_visible_in_tree()
 
 ## Mobile : quelques images (ciel, éclairage) puis copie figée ; la 3D est libérée.
 func _freeze(L: Dictionary) -> void:
 	for i in 5: await RenderingServer.frame_post_draw
-	if not is_instance_valid(L.vp): return
+	if _departing or not is_instance_valid(L.vp): return
 	var img: Image = L.vp.get_texture().get_image()
 	if img != null and not img.is_empty(): L.rect.texture = ImageTexture.create_from_image(img)
-	L.vp.queue_free(); L.vp = null
+	L.vp.render_target_update_mode = SubViewport.UPDATE_DISABLED
+
+## Keep the already-built aerial LOD for the pan; no second city read on launch.
+func departure_zoom(seconds: float) -> void:
+	_departing = true
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(_shade, "modulate:a", 0.0, seconds)
+	if _layers.is_empty(): return
+	var layer: Dictionary = _layers[-1]
+	if is_instance_valid(layer.cam) and is_instance_valid(layer.vp):
+		layer.rect.texture = layer.vp.get_texture()
+		layer.vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+		var routes: Node = layer.vp.find_child("tram_lines", true, false)
+		if routes != null:
+			for child in routes.get_children():
+				if child is MeshInstance3D and child.material_override is BaseMaterial3D:
+					tw.tween_property(child.material_override, "albedo_color:a", 0.0, seconds)
+		tw.tween_property(layer.cam, "size", layer.cam.size * 0.94, seconds).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+
+func departure_context(destination_origin: Array) -> Dictionary:
+	if _layers.is_empty() or destination_origin.size() < 2: return {}
+	var layer: Dictionary = _layers[-1]
+	if not is_instance_valid(layer.cam): return {}
+	var pose: Transform3D = layer.cam.global_transform
+	var p := _to_city(Vector2(pose.origin.x, pose.origin.z), layer.origin, destination_origin)
+	pose.origin.x = p.x; pose.origin.z = p.y
+	var result := {"transform": pose, "size": layer.cam.size, "hour": HOUR}
+	var aerial: CityScene = layer.get("scene")
+	if is_instance_valid(aerial):
+		aerial.get_parent().remove_child(aerial)
+		aerial.align_to_origin(destination_origin)
+		result["aerial"] = aerial
+	return result
 
 func _drop(L: Dictionary) -> void:
 	_layers.erase(L)

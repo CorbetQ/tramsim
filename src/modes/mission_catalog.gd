@@ -12,9 +12,8 @@ static var _cache: Dictionary = {}
 static func _load(city_id: String) -> Dictionary:
 	if _cache.has(city_id): return _cache[city_id]
 	var out := {}
-	var f := FileAccess.open(DIR + city_id + ".json", FileAccess.READ)
-	if f != null:
-		var d = JSON.parse_string(f.get_as_text())
+	if FileAccess.file_exists(DIR + city_id + ".json"):
+		var d: Variant = CityDataStore.document(DIR + city_id + ".json")
 		if typeof(d) == TYPE_DICTIONARY: out = d
 	_cache[city_id] = out
 	return out
@@ -30,11 +29,11 @@ static func for_city(city_id: String) -> Array:
 	return out
 
 ## Session prête : réseau complet chargé, itinéraire tracé, événements configurés.
-static func create_session(mission: Dictionary, vehicle: VehicleProfile) -> MissionSession:
+static func create_session(mission: Dictionary, vehicle: VehicleProfile, prepared: NetworkLoader = null) -> MissionSession:
 	var city := str(mission.get("city", ""))
 	var path := str(mission.get("network", "res://data/free/%s.json" % city))
-	var net := NetworkLoader.new()
-	var errs := net.load_file(path)
+	var net := prepared if prepared != null else NetworkLoader.new()
+	var errs := PackedStringArray() if prepared != null else net.load_file(path)
 	if not errs.is_empty() and net.graph.edges.is_empty():
 		push_error("MissionCatalog : réseau illisible " + path)
 		return null
