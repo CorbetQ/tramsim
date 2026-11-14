@@ -3,15 +3,15 @@
  "city": "lemans",
  "alt0": 58.3,
  "tile_m": 400.0,
- "tiles": 313,
+ "tiles": 113,
  "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
  "stats": {
-  "tuiles_allégées": 200,
+  "tuiles_relief_lointain": 200,
   "décalques": 12184,
-  "sommets": 425875,
-  "triangles": 770032,
-  "ponts": 100,
-  "niveaux_eau": 257
+  "sommets": 258493,
+  "triangles": 483685,
+  "ponts": 62,
+  "niveaux_eau": 87
  },
  "terrain_format": "TGR2",
  "height_encoding": "TIN contraint par la voirie, cm",

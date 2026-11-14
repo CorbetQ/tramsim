@@ -3,15 +3,15 @@
  "city": "lille",
  "alt0": 26.5,
  "tile_m": 400.0,
- "tiles": 483,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13",
+ "tiles": 136,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
  "stats": {
-  "tuiles_allégées": 347,
+  "tuiles_relief_lointain": 347,
   "décalques": 2805,
-  "sommets": 578547,
-  "triangles": 1030779,
-  "ponts": 171,
-  "niveaux_eau": 340
+  "sommets": 277243,
+  "triangles": 514141,
+  "ponts": 53,
+  "niveaux_eau": 59
  },
  "terrain_format": "TGR2",
  "height_encoding": "TIN contraint par la voirie, cm",

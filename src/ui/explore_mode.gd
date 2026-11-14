@@ -156,7 +156,7 @@ func _build_ui() -> void:
 		help.offset_left = 14 + safe.x; help.offset_bottom = -14 - safe.w; help.offset_top = -14 - safe.w
 		add_child(help)
 		var flow := HFlowContainer.new(); flow.add_theme_constant_override("h_separation", 8); flow.add_theme_constant_override("v_separation", 6)
-		flow.custom_minimum_size = Vector2(620, 0); help.add_child(flow)
+		flow.custom_minimum_size = Vector2(760, 0); help.add_child(flow)
 		for k in [["Z Q S D", "se déplacer"], ["Clic droit", "regarder"], ["Molette", "altitude"], ["Maj", "accélérer"], ["Espace / C", "monter / descendre"], ["T", "vue du dessus"], ["L", "aller à"], ["Échap", "accueil"]]:
 			flow.add_child(UiTheme.keycap(k[0])); flow.add_child(UiTheme.label_(k[1], UiTheme.SIZE_SMALL, UiTheme.MUTED))
 	for c in get_children():

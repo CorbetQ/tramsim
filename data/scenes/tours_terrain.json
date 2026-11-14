@@ -3,15 +3,15 @@
  "city": "tours",
  "alt0": 66.3,
  "tile_m": 400.0,
- "tiles": 322,
+ "tiles": 101,
  "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
  "stats": {
-  "tuiles_allégées": 221,
+  "tuiles_relief_lointain": 221,
   "décalques": 2539,
-  "sommets": 394002,
-  "triangles": 704602,
-  "ponts": 130,
-  "niveaux_eau": 267
+  "sommets": 209728,
+  "triangles": 390189,
+  "ponts": 34,
+  "niveaux_eau": 73
  },
  "terrain_format": "TGR2",
  "height_encoding": "TIN contraint par la voirie, cm",

@@ -457,6 +457,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 	var polys_start := o
 	var np := buf.decode_u16(o); o += 2
 	_water_cur = []
+	_water_tops = []
 	for p in np:
 		var nv := buf.decode_u16(o + 1); var ntr := buf.decode_u16(o + 3)
 		if buf.decode_u8(o) == P_WATER:   # plans d'eau de la tuile : ni arbres ni herbe dedans
@@ -583,6 +584,9 @@ func _build_tile(k: Vector2i) -> Node3D:
 						var g := Vector2(gx * 50.0, gz * 50.0)
 						if Geometry2D.point_is_inside_triangle(g, ta, tb, tc): top = maxf(top, _ground_h(g))
 			y = top + 0.35
+			var wr := Rect2(v[0], Vector2.ZERO)
+			for q in v: wr = wr.expand(q)
+			_water_tops.append([wr, y])
 		# surface végétale dans l'eau (îlots des tuiles voisines) : point intérieur réel (1er triangle), pas le
 		# centroïde (une forêt en croissant le long d'une rivière a son centroïde dans l'eau)
 		if cls != P_WATER and ntr > 0:
@@ -687,9 +691,20 @@ func _far_ground(S: _Arrays, k: Vector2i, ground: Color) -> void:
 			var p := [Vector2(ix, iz), Vector2(ix + 1, iz), Vector2(ix + 1, iz + 1), Vector2(ix, iz + 1)]
 			var q: Array[Vector3] = []
 			for c in p:
-				var x: float = c.x * st; var z: float = c.y * st
-				q.append(Vector3(x, terrain.far_tri(x + _tile_origin.x, z + _tile_origin.y), z))
-			S.tri(q[0], q[1], q[2], col); S.tri(q[0], q[2], q[3], col)
+				var x: float = c.x * st + _tile_origin.x; var z: float = c.y * st + _tile_origin.y
+				q.append(Vector3(x, terrain.far_tri(x, z), z))
+			# raccord exact aux tuiles de sol voisines (mêmes sommets de bord, comme la couronne lointaine)
+			var rim: Array[Vector3] = []; var stitched := false
+			for i in 4:
+				rim.append(q[i])
+				var pts := terrain._far_edge_points(q[i], q[(i + 1) % 4], terrain.table)
+				if not pts.is_empty(): stitched = true; rim.append_array(pts)
+			var o3 := Vector3(_tile_origin.x, 0, _tile_origin.y)
+			if stitched:
+				var ctr := (q[0] + q[1] + q[2] + q[3]) * 0.25
+				for i in rim.size(): S.tri(ctr - o3, rim[i] - o3, rim[(i + 1) % rim.size()] - o3, col)
+			else:
+				S.tri(q[0] - o3, q[1] - o3, q[2] - o3, col); S.tri(q[0] - o3, q[2] - o3, q[3] - o3, col)
 
 ## Chaussée ou voie ferrée en ruban drapé (tuiles de décor lointain : la voirie n'est pas dans un maillage de sol).
 func _road_ribbon(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, deck: int = -1) -> void:
@@ -709,6 +724,12 @@ func _road_ribbon(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, deck:
 			Vector3(b.x + nrm.x, 0.06, b.y + nrm.y), Vector3(a.x + nrm.x, 0.06, a.y + nrm.y), col, -1.0)
 	S.sub = 0.0
 	_drape(S, l0, deck)
+	if deck < 0 and not _water_tops.is_empty():   # ponts hors maillage de sol : au-dessus des plans d'eau posés
+		for i in range(l0, S.count()):
+			var p := Vector2(S.v[i].x, S.v[i].z)
+			if not _in_water(p): continue
+			for wt in _water_tops:
+				if (wt[0] as Rect2).grow(1.0).has_point(p): S.v[i].y = maxf(S.v[i].y, wt[1] + 0.6)
 
 ## Matériau du décor d'une tuile : masque de pelouse (orthophoto, 4 m) et occupation du sol réelle (TerrainView,
 ## cellules de 25 m) ; matériau partagé sans l'un ni l'autre.
@@ -858,6 +879,7 @@ static func _ortho_roof(code: int) -> Color:
 	return Color.from_hsv(c.h, sat, clampf((c.v - 0.05) / 1.12 * 0.9, 0.0, 1.0))
 
 var _water_cur: Array = []          # triangles d'eau de la tuile en cours : [PackedVector2Array(3), Rect2]
+var _water_tops: Array = []         # plans d'eau posés sur le relief lointain : [Rect2, niveau]
 var _track_pts: Dictionary = {}     # Vector2i (cellules de 16 m) -> PackedVector3Array (voie, repère ville)
 
 ## Vrai si le point (repère tuile) est dans un plan d'eau de la tuile en cours.

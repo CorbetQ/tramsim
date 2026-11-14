@@ -944,12 +944,15 @@ func _build_hud() -> void:
 	tr.add_child(_icon_btn("pause", "Pause (Échap)", func(): _set_paused(not paused)))
 	tr.add_child(_icon_btn("home", "Menu principal", func(): _persist(); _build_menu()))
 	# --- répétiteur de signalisation (haut droite, sous l'horloge)
-	signal_panel = SignalPanel.new(); signal_panel.setup(session, compact)
-	signal_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	signal_panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	signal_panel.offset_right = -14 - safe.z; signal_panel.offset_left = -14 - safe.z
-	signal_panel.offset_top = 14 + safe.y + (64 if compact else 74)
-	add_child(signal_panel)
+	# Écran bas (téléphone en paysage) : répétiteur réduit dans la colonne du tachymètre.
+	var short := compact and get_viewport_rect().size.y < 420.0
+	signal_panel = SignalPanel.new(); signal_panel.setup(session, compact, short)
+	if not short:
+		signal_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+		signal_panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		signal_panel.offset_right = -14 - safe.z; signal_panel.offset_left = -14 - safe.z
+		signal_panel.offset_top = 14 + safe.y + (64 if compact else 74)
+		add_child(signal_panel)
 	# --- alertes (bandeau central) et notifications
 	var mid := VBoxContainer.new(); mid.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP); mid.offset_top = 92
 	mid.grow_horizontal = Control.GROW_DIRECTION_BOTH; mid.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -992,6 +995,9 @@ func _build_hud() -> void:
 	hud_grade = UiTheme.label_("Pente 0 ‰", 15, UiTheme.TEXT, true); hud_grade.name = "slope"
 	hud_grade.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; rp.add_child(hud_grade)
 	hud_speed = Speedometer.new(); rp.add_child(hud_speed)
+	if short:
+		signal_panel.size_flags_horizontal = Control.SIZE_SHRINK_END
+		rp.add_child(signal_panel); rp.move_child(signal_panel, 0); hud_grade.visible = false
 	if compact: hud_speed.custom_minimum_size = Vector2(144, 144)
 	# --- barre d'outils (bas, centrée ; passe sur deux rangées si l'écran est étroit)
 	var dock := TouchScroll.new(); dock.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)

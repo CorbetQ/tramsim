@@ -1,1 +1,33 @@
-{"schema":1,"city":"brest","alt0":74.2,"tile_m":400.0,"tiles":215,"source":"MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13","stats":{"décalques":6100,"sommets":203481,"triangles":358653,"ponts":29,"niveaux_eau":113},"terrain_format":"TGR2","height_encoding":"deltas signés 32 bits, centimètres","shared_vertices":true,"ground_file":"brest_ground.bin","far_ring_m":8000.0,"far_step_m":100.0,"repair":{"city":"brest","unwrapped_tiles":0,"nodata_points":1,"resampled_tiles":1,"resampled_vertices":1,"far_nodata_points":0,"format":"TGR2","source":"IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA","source_date":"2026-11-13"}}
+{
+ "schema": 1,
+ "city": "brest",
+ "alt0": 74.2,
+ "tile_m": 400.0,
+ "tiles": 125,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "stats": {
+  "tuiles_relief_lointain": 185,
+  "décalques": 11666,
+  "sommets": 271289,
+  "triangles": 506347,
+  "ponts": 16,
+  "niveaux_eau": 65
+ },
+ "terrain_format": "TGR2",
+ "height_encoding": "TIN contraint par la voirie, cm",
+ "shared_vertices": true,
+ "ground_file": "brest_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0,
+ "repair": {
+  "city": "brest",
+  "unwrapped_tiles": 0,
+  "nodata_points": 1,
+  "resampled_tiles": 1,
+  "resampled_vertices": 1,
+  "far_nodata_points": 0,
+  "format": "TGR2",
+  "source": "IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA",
+  "source_date": "2026-11-13"
+ }
+}

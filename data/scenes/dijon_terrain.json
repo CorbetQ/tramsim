@@ -3,15 +3,15 @@
  "city": "dijon",
  "alt0": 249.7,
  "tile_m": 400.0,
- "tiles": 349,
+ "tiles": 124,
  "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
  "stats": {
-  "tuiles_allégées": 225,
+  "tuiles_relief_lointain": 225,
   "décalques": 2674,
-  "sommets": 398762,
-  "triangles": 708786,
-  "ponts": 102,
-  "niveaux_eau": 119
+  "sommets": 236460,
+  "triangles": 437363,
+  "ponts": 46,
+  "niveaux_eau": 41
  },
  "terrain_format": "TGR2",
  "height_encoding": "TIN contraint par la voirie, cm",
