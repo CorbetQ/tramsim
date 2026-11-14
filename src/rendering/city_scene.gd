@@ -1213,8 +1213,10 @@ func _water_level(k: Vector2i, verts: PackedVector2Array) -> float:
 	var bed := inner[inner.size() / 4] + 0.05
 	var y := minf(lv if not is_nan(lv) else bank, bank - 0.15)
 	if y < bed: y = minf(bed, bank + 0.25)
-	# lit non abaissé (grands plans d'eau couvrant la tuile) : l'eau ne passe jamais sous le sol intérieur
-	return maxf(y, inner[inner.size() - 1] + 0.05)
+	# lit non abaissé (grands plans d'eau couvrant la tuile) : l'eau ne passe pas sous le sol intérieur, sauf
+	# écart important (bassin encaissé, voie en contrebas : le niveau mesuré prime)
+	var top := inner[inner.size() - 1] + 0.05
+	return top if top > y and top - y < 1.5 else y
 
 ## Tablier de pont BD TOPO (route ou voie ferrée) : dalle, garde-corps, piles jusqu'au sol (ou au lit de la rivière).
 func _deck(S: _Arrays, d: Array) -> void:
