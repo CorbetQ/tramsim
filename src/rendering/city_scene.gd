@@ -1823,25 +1823,66 @@ func _pick_tree(rng: RandomNumberGenerator) -> int:
 ## Recherche d'un monument nommé (étiquette BD TOPO) : position dans le repère de la ligne, ou Vector3.INF.
 func find_label(substr: String) -> Vector3:
 	if not v2: return Vector3.INF
+	var want := substr.to_lower()
 	for k in table:
-		var o: int = _tile_data(k)
-		var nb := buf.decode_u16(o); o += 2
-		for b in nb:
-			var n := buf.decode_u8(o); o += 5 + n * 4
-			o += 1 + buf.decode_u8(o) * 3
-		var np := buf.decode_u16(o); o += 2
-		for p in np: o += 5 + buf.decode_u16(o + 1) * 4 + buf.decode_u16(o + 3) * 6
-		var nl := buf.decode_u16(o); o += 2
-		for l in nl: o += 4 + buf.decode_u16(o + 2) * 4
-		var npt := buf.decode_u16(o); o += 2 + npt * 7
-		var nlb := buf.decode_u16(o); o += 2
-		for i in nlb:
-			var ln := buf.decode_u8(o + 5)
-			var name := buf.slice(o + 6, o + 6 + ln).get_string_from_utf8()
-			if name.to_lower().contains(substr.to_lower()):
-				return position + Vector3(k.x * tile_m + buf.decode_s16(o + 1) * 0.1, 0, k.y * tile_m + buf.decode_s16(o + 3) * 0.1)
-			o += 6 + ln
+		for lb in _tile_labels(k):
+			if str(lb[0]).to_lower().contains(want):
+				var p: Vector2 = lb[1]
+				return _to_net(k.x * tile_m + p.x, k.y * tile_m + p.y)
 	return Vector3.INF
+
+## Étiquettes d'une tuile [[nom, Vector2 repère tuile]], lecture bornée (tuile tronquée : liste partielle).
+func _tile_labels(k: Vector2i) -> Array:
+	var out: Array = []
+	var o: int = _tile_data(k)
+	var end := buf.size()
+	if o + 2 > end: return out
+	var nb := buf.decode_u16(o); o += 2
+	for b in nb:
+		if o + 5 > end: return out
+		o += 5 + buf.decode_u8(o) * 4
+		if o + 1 > end: return out
+		o += 1 + buf.decode_u8(o) * 3
+	if o + 2 > end: return out
+	var np := buf.decode_u16(o); o += 2
+	for p in np:
+		if o + 5 > end: return out
+		o += 5 + buf.decode_u16(o + 1) * 4 + buf.decode_u16(o + 3) * 6
+	if o + 2 > end: return out
+	var nl := buf.decode_u16(o); o += 2
+	for l in nl:
+		if o + 4 > end: return out
+		o += 4 + buf.decode_u16(o + 2) * 4
+	if o + 2 > end: return out
+	var npt := buf.decode_u16(o); o += 2 + npt * 7
+	if o + 2 > end: return out
+	var nlb := buf.decode_u16(o); o += 2
+	for i in nlb:
+		if o + 6 > end: return out
+		var ln := buf.decode_u8(o + 5)
+		if o + 6 + ln > end: return out
+		out.append([buf.slice(o + 6, o + 6 + ln).get_string_from_utf8(), Vector2(buf.decode_s16(o + 1) * 0.1, buf.decode_s16(o + 3) * 0.1)])
+		o += 6 + ln
+	return out
+
+## Point du repère de la ville -> repère de la ligne affichée (altitude du sol si connue).
+func _to_net(x: float, z: float) -> Vector3:
+	return Vector3(position.x + x * _x_scale, height_city(x, z) if has_terrain else 0.0, position.z + z)
+
+## Monuments emblématiques de la ville (data/landmarks.json) : [[nom, Vector3 repère de la ligne]], pour la liste
+## « Aller à » du mode Explorer. Coordonnées WGS84 converties dans le repère de la scène.
+func landmarks() -> Array:
+	var out: Array = []
+	if not FileAccess.file_exists("res://data/landmarks.json"): return out
+	var d = JSON.parse_string(FileAccess.get_file_as_string("res://data/landmarks.json"))
+	var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s.json" % city))
+	if not d is Dictionary or not meta is Dictionary: return out
+	var lat0 := float(meta.origin[0]); var lon0 := float(meta.origin[1])
+	for lm in d.get("cities", {}).get(city, []):
+		var x := deg_to_rad(float(lm.lon) - lon0) * R * cos(deg_to_rad(lat0))
+		var z := -deg_to_rad(float(lm.lat) - lat0) * R
+		out.append([str(lm.name), _to_net(x, z)])
+	return out
 
 ## Vérifie la structure d'une tuile (lecture complète des sections, taille exacte) : pour les tests.
 func tile_ok(k: Vector2i) -> bool:

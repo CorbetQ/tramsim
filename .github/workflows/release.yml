@@ -81,11 +81,15 @@ jobs:
           mkdir -p build
           ./godot --headless --path . --import >/dev/null 2>&1 || true
           ./godot --headless --path . --export-debug Android build/TramSimFrance.apk
-          ./godot --headless --path . --export-release Windows build/TramSimFrance.exe
-          cd build && zip -9 TramSimFrance-windows.zip TramSimFrance.exe && cd ..
+          mkdir -p build/win-x64 build/win-arm64
+          ./godot --headless --path . --export-release Windows build/win-x64/TramSimFrance.exe
+          ./godot --headless --path . --export-release "Windows ARM64" build/win-arm64/TramSimFrance.exe
+          for a in x64 arm64; do cp CREDITS.md README.md build/win-$a/ ; (cd build/win-$a && zip -9 -r ../TramSimFrance-windows-$a.zip .); done
           for i in 1 2 3; do sudo apt-get update > /dev/null 2>&1; sudo apt-get install -y wixl > /dev/null 2>&1 && break; sleep 20; done
           if command -v wixl > /dev/null; then
-            wixl -a x64 -D Version=${{ env.APP_VERSION }} -o build/TramSimFrance.msi installer/tramsim.wxs
+            wixl -a x64 -D Version=${{ env.APP_VERSION }} -D SrcDir=build/win-x64 -o build/TramSimFrance.msi installer/tramsim.wxs
+            # wixl ne connaît pas arm64 : MSI de plateforme x64 (installable sur Windows ARM) contenant l'exécutable ARM64 natif
+            wixl -a x64 -D Version=${{ env.APP_VERSION }} -D SrcDir=build/win-arm64 -o build/TramSimFrance-arm64.msi installer/tramsim.wxs
           else
             echo "::warning::wixl indisponible : MSI non produit"
           fi
@@ -100,7 +104,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TramSimFrance-Windows
-          path: build/TramSimFrance.exe
+          path: build/win-x64/
           retention-days: 14
       - name: Release
         if: github.event_name != 'pull_request'
@@ -113,10 +117,13 @@ jobs:
           fail_on_unmatched_files: false
           body: |
             - **Android** : TramSimFrance.apk (arm64, signature de développement : autoriser les sources inconnues).
-            - **Windows** : TramSimFrance.msi (installeur, raccourcis menu Démarrer et Bureau) ou TramSimFrance-windows.zip (exécutable portable).
+            - **Windows x64** : TramSimFrance.msi (installeur) ou TramSimFrance-windows-x64.zip (portable : extraire puis lancer TramSimFrance.exe).
+            - **Windows ARM64** (Snapdragon, Surface Pro X…) : TramSimFrance-arm64.msi ou TramSimFrance-windows-arm64.zip.
+            - Application non signée : si SmartScreen affiche « Windows a protégé votre ordinateur », cliquer « Informations complémentaires » puis « Exécuter quand même ». Pour un zip, clic droit → Propriétés → cocher « Débloquer » avant d'extraire.
             Données : voies et quais OpenStreetMap (ODbL), GTFS des réseaux (transport.data.gouv.fr) et BD TOPO® IGN — voir CREDITS.md et docs/COUVERTURE.md.
           files: |
             build/TramSimFrance.apk
-            build/TramSimFrance.exe
-            build/TramSimFrance-windows.zip
             build/TramSimFrance.msi
+            build/TramSimFrance-arm64.msi
+            build/TramSimFrance-windows-x64.zip
+            build/TramSimFrance-windows-arm64.zip
