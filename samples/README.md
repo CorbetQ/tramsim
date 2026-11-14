@@ -1,3 +1,14 @@
+# Base approuvée — intégrée aux Citadis302
+
+- [Démo du mix réel du jeu](listening/approved_rotterdam_302_game.mp3) :48secondes, portes, gong, départ progressif, roue libre, freinage, tunnel/pont.
+- [Comparaison avant/après](listening/approved_rotterdam_302_before_after.mp3) :16secondes de départ anciennebanque,1seconde de silence,16secondes avec la baseRotterdam approuvée ; gain constant de présentation pour comparer à sonie voisine.
+
+La nouvelle banque est active sur les15variantes302, sourceapparentéeRotterdam / LG / CC BY4.0, avec trois régimes courts. Le freinage reste estimé et séparé de cette captation de départ. Le305 garde sa banque modélisée. Les trajectoires de vitesse utilisées pour les fondus sont estimées. [Détails de l’intégration](approved-rotterdam-integration.md), [crédits](../data/audio/ROTTERDAM-CREDITS.md), [niveaux des copies d’écoute](listening/approved_rotterdam_levels.json).
+
+CesMP3 sont des sortiesMasterGodot, avec seulement un gain constant de présentation et un encodage. Les captures brutes et leurs profils effectivement chargés sont dans `demos/approved_rotterdam_302.*`. Les captures et études sont exclues de l’export du jeu ; seules les trois petites boucles intégrées sont chargées à l’exécution.
+
+---
+
 # Révision 3 — sources réelles et diagnostic de traction
 
 - [Citadis Rotterdam : départ enregistré](listening/v3_citadis_depart_captation.mp3).

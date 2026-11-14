@@ -35,7 +35,7 @@ class CaptureProfiles(unittest.TestCase):
     def test_canonical_profiles_are_actually_selected(self):
         paths = {}
         for family, variant, bank in [
-            ('citadis_302', 'angers__citadis_302', 'citadis302'),
+            ('citadis_302', 'angers__citadis_302', 'rotterdam_citadis_traction'),
             ('citadis_x05', 'toulouse__citadis_305', 'citadis305_model'),
         ]:
             result = probe(family, variant, bank)

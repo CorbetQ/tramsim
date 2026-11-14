@@ -5,13 +5,14 @@
       "variant": "angers__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -135,13 +136,14 @@
       "variant": "bordeaux__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -166,13 +168,14 @@
       "variant": "mulhouse__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -234,13 +237,14 @@
       "variant": "toulouse__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -361,13 +365,14 @@
       "variant": "montpellier__citadis_302__2",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -395,13 +400,14 @@
       "variant": "montpellier__citadis_302__4",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -477,13 +483,14 @@
       "variant": "lyon__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -658,13 +665,14 @@
       "variant": "dijon__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -692,13 +700,14 @@
       "variant": "orleans__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -723,13 +732,14 @@
       "variant": "lemans__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "lemans302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://freesound.org/people/SamuelGremaud/sounds/458858/",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/lemans302_motor.ogg",
-        "motor_hum": "v2/lemans302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -774,13 +784,14 @@
       "variant": "brest__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -808,13 +819,14 @@
       "variant": "lehavre__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -938,13 +950,14 @@
       "variant": "valenciennes__citadis_302",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -989,13 +1002,14 @@
       "variant": "idf__citadis_302__t2",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,
@@ -1068,13 +1082,14 @@
       "variant": "idf__citadis_302__t7",
       "family": "citadis_302",
       "fictional": false,
-      "bank": "citadis302",
-      "quality_declared": "exact_family",
+      "bank": "rotterdam_citadis_traction",
+      "quality_declared": "related_family",
       "recorded": true,
-      "source_page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+      "source_page": "https://freesound.org/people/LG/sounds/14279/",
       "streams": {
-        "motor": "v2/citadis302_motor.ogg",
-        "motor_hum": "v2/citadis302_motor_hum.ogg"
+        "carrier": "banks/rotterdam_traction_carrier.ogg",
+        "motor": "banks/rotterdam_traction_motor.ogg",
+        "motor_hum": "banks/rotterdam_traction_motor_hum.ogg"
       },
       "isolated_motor_verified": false,
       "speed_calibration_verified": false,

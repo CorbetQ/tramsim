@@ -116,3 +116,7 @@ Les arrêts TER T1/T2 proviennent des relations OpenStreetMap [19515572](https:/
 ### Atelier audio du 14 novembre 2026
 
 Les références collectées, leurs auteurs/licences et les limites d'attribution par matériel sont documentés dans [samples/sources.json](samples/sources.json). Les adaptations intégrées et la restitution modélisée du Citadis 305 sont détaillées dans [data/audio/DESIGN-CREDITS.md](data/audio/DESIGN-CREDITS.md) et [samples/design-notes.md](samples/design-notes.md). Les captures du bus Master du jeu et les copies d'écoute sont distinctes des enregistrements de rames réelles ; voir [samples/README.md](samples/README.md).
+
+### Traction Citadis apparentée — Rotterdam
+
+LG, « Streetcar04.wav », https://freesound.org/people/LG/sounds/14279/ , Creative Commons Attribution4.0 (https://creativecommons.org/licenses/by/4.0/). Préview public de départ à Rotterdam ; dérivés : séparation harmonique candidate, trois fenêtres courtes, raccords et normalisation. Utilisée comme source apparentée pour les quinze variantesCitadis302, sans certification de motrice française. Crédits et traitements : `data/audio/ROTTERDAM-CREDITS.md`, `data/audio/rotterdam-traction-manifest.json`.

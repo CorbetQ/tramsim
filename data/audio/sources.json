@@ -333,5 +333,7 @@
   }
  ],
  "design_manifest": "design-manifest.json",
- "design_generator": "tools/audio/design_samples.py (run after make_audio.py; authoritative for designed derivatives, motor, motor_hum, carrier and regen)"
+ "design_generator": "tools/audio/design_samples.py (run after make_audio.py; authoritative for designed derivatives, motor, motor_hum, carrier and regen)",
+ "rotterdam_traction_manifest": "rotterdam-traction-manifest.json",
+ "rotterdam_traction_generator": "tools/audio/build_rotterdam_bank.py"
 }

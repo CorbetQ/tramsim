@@ -1,0 +1,44 @@
+{
+  "full_game_before_gain": {
+    "input_i": "-30.93",
+    "input_tp": "-15.08",
+    "input_lra": "14.30",
+    "input_thresh": "-41.94",
+    "output_i": "-20.83",
+    "output_tp": "-4.10",
+    "output_lra": "10.00",
+    "output_thresh": "-30.94",
+    "normalization_type": "dynamic",
+    "target_offset": "0.83"
+  },
+  "full_gain_db": 10.93,
+  "comparison_before": {
+    "input_i": "-28.69",
+    "input_tp": "-14.16",
+    "input_lra": "6.00",
+    "input_thresh": "-38.69",
+    "output_i": "-18.02",
+    "output_tp": "-1.58",
+    "output_lra": "2.00",
+    "output_thresh": "-28.02",
+    "normalization_type": "dynamic",
+    "target_offset": "-1.98"
+  },
+  "comparison_after": {
+    "input_i": "-28.98",
+    "input_tp": "-15.08",
+    "input_lra": "5.60",
+    "input_thresh": "-39.09",
+    "output_i": "-17.96",
+    "output_tp": "-2.02",
+    "output_lra": "2.40",
+    "output_thresh": "-27.96",
+    "normalization_type": "dynamic",
+    "target_offset": "-2.04"
+  },
+  "comparison_gains_db": [
+    8.690000000000001,
+    8.98
+  ],
+  "comparison_timeline": "0-16s old bank v2, 16-17 silence, 17-33 new approved Rotterdam bank"
+}

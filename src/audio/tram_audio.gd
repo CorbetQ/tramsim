@@ -286,6 +286,16 @@ func update_state(st: Dictionary, dt: float) -> void:
 		var drive := (0.35 + 0.65 * load) * smoothstep(0.1, 0.8, v) if load > 0.02 else 0.025 * smoothstep(1.0, 6.0, v)
 		t.motor = drive * sqrt(1.0 - high)
 		t.motor_hum = drive * sqrt(high)
+	if bool(sound_bank.get("traction_only", false)):
+		# These short captured regimes document an acceleration only. Never use them as braking/coasting.
+		var transition: Array = sound_bank.get("regime_transition_ms", [4.0, 12.0])
+		var high := smoothstep(float(transition[0]), float(transition[1]), v)
+		var startup := 1.0 - smoothstep(0.25, float(sound_bank.get("startup_fade_speed_ms", 2.5)), v)
+		var effort := pow(trac, 0.7) * smoothstep(0.05, 0.45, v)
+		t.motor = effort * sqrt(1.0 - high) * sqrt(1.0 - 0.65 * startup * startup)
+		t.motor_hum = effort * sqrt(high)
+		t.carrier = effort * startup * 0.65
+		state.traction_source_policy = "captured_acceleration_only; speed anchors estimated; braking procedural"
 	if bool(sound_profile.get("rubber", false)): t.squeal = 0.0
 	t.hvac = (0.6 + 0.4 * (1.0 - smoothstep(0.5, 6.0, v))) * (1.0 if powered else 0.25)
 	t.real_rail = (0.30 * load * smoothstep(0.3, 3.0, v) + 0.65 * t.rolling) * (1.25 if on_bridge else 1.0)
@@ -317,6 +327,13 @@ func update_state(st: Dictionary, dt: float) -> void:
 		var recorded_pitch := clampf(0.94 + 0.12 * v / maxf(float(sound_bank.get("reference_speed_ms", 8.0)), 1.0), 0.94, 1.12)
 		pitches.motor = recorded_pitch
 		pitches.motor_hum = recorded_pitch
+	if bool(sound_bank.get("traction_only", false)):
+		# Preserve the captured partial relationships; bounded transposition only within each regime.
+		var bounds: Array = sound_bank.get("pitch_bounds", [0.94, 1.16])
+		var segments: Dictionary = sound_bank.get("segments", {})
+		for layer in ["motor", "motor_hum", "carrier"]:
+			var anchor_speed := float(segments.get(layer, {}).get("estimated_speed_anchor_ms", 4.0))
+			pitches[layer] = clampf(1.0 + (v - anchor_speed) * 0.018, float(bounds[0]), float(bounds[1]))
 	for n in pitches:
 		if players.has(n):
 			var p: Node = _active(n)

@@ -37,5 +37,5 @@ func _run() -> void:
 		ta.update_state(state(6.0,{"bridge":true}),0.1)
 		check(ta.players.motor.p3.bus==TramAudio.BRIDGE_BUS,family+" : résonance de pont")
 		ta.queue_free(); await process_frame
-	check(counts.exact_family==7 and counts.related_family==3 and counts.synthetic==8 and counts.modeled==2,"20 familles : 7 captées, 3 apparentées, 8 synthétiques, 2 modélisées")
+	check(counts.exact_family==6 and counts.related_family==4 and counts.synthetic==8 and counts.modeled==2,"20 familles : 6 captées, 4 apparentées, 8 synthétiques, 2 modélisées")
 	print("TOTAL_ECHECS|",failures); quit(1 if failures else 0)

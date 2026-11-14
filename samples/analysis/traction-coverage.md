@@ -6,7 +6,7 @@ Les76 variantes sont inventoriées. Aucune banque actuelle ne dispose d’une va
 | --- | ---: | --- | --- |
 | avanto | 3 | avanto, synthèse | 2 variantes avec texture enregistrée ; motrice isolée non validée |
 | breda_vlc | 1 | synthèse | 0 variantes avec texture enregistrée ; motrice isolée non validée |
-| citadis_302 | 15 | citadis302, lemans302 | 15 variantes avec texture enregistrée ; motrice isolée non validée |
+| citadis_302 | 15 | rotterdam_citadis_traction | 15 variantes avec texture enregistrée ; motrice isolée non validée |
 | citadis_402 | 9 | citadis402, lemans302 | 9 variantes avec texture enregistrée ; motrice isolée non validée |
 | citadis_403_strasbourg | 1 | citadis403 | 1 variantes avec texture enregistrée ; motrice isolée non validée |
 | citadis_compact | 2 | citadis302 | 2 variantes avec texture enregistrée ; motrice isolée non validée |
