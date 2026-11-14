@@ -23,6 +23,8 @@ var table: Dictionary = {}      # Vector2i -> Vector2i(offset, taille)
 var built: Dictionary = {}      # Vector2i -> Node3D
 var queue: Array[Vector2i] = []
 var radius := 650.0
+## Vue lointaine (fond d'accueil, vue aérienne) : ni détails de façade, ni mobilier, ni étiquettes.
+var lite := false
 var _horizon_deferred := false
 var style: Dictionary = {}
 var city := ""
@@ -227,7 +229,7 @@ func height_city(x: float, z: float) -> float:
 	if not has_terrain: return 0.0
 	if terrain != null:   # maillage exact du sol (voirie comprise), sinon relief lointain (sous les tuiles)
 		var h := terrain.height(x, z)
-		return h if not is_nan(h) else terrain.far_height(x, z) - 1.5
+		return h if not is_nan(h) else terrain.far_tri(x, z)
 	var k := Vector2i(floori(x / tile_m), floori(z / tile_m))
 	var g := _grid(k)
 	if g.is_empty(): return min_height
@@ -416,6 +418,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 	var gmesh: ArrayMesh = null
 	if terrain != null and terrain.has_tile(k): gmesh = RoadView.build(terrain, terrain.tile(k), k, style, _portal_cut)
 	elif has_terrain and _ter_table.has(k): _terrain_mesh(S, k, ground)
+	elif terrain != null and table.has(k): _far_ground(S, k, ground)   # décor lointain allégé (light_tiles)
 	else: S.quad(Vector3(0, 0, 0), Vector3(tile_m, 0, 0), Vector3(tile_m, 0, tile_m), Vector3(0, 0, tile_m), ground, -1.0)
 	for di in _decks.size():
 		if _decks[di][3] == k: _deck(S, _decks[di])
@@ -423,7 +426,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var gi := MeshInstance3D.new(); gi.mesh = S.mesh(); gi.material_override = Materials.building()
 		node.add_child(gi)
 		if gmesh != null:
-			var gr := MeshInstance3D.new(); gr.mesh = gmesh; gr.material_override = Materials.building()
+			var gr := MeshInstance3D.new(); gr.mesh = gmesh; gr.material_override = _ground_material(k, null, ground)
 			node.add_child(gr)
 		stats.tiles += 1
 		return node
@@ -567,7 +570,16 @@ func _build_tile(k: Vector2i) -> Node3D:
 		col.a = 0.30
 		var rng := RandomNumberGenerator.new(); rng.seed = seed * 31 + p
 		if cls == P_WATER and has_terrain: y = _water_level(k, v) + 0.03
-		if cls != P_WATER and _in_water(_centroid(v)): o += ntr * 6; continue
+		if cls == P_WATER and gmesh == null and terrain != null:
+			# décor lointain : le relief lointain (MNT) passe à la surface de l'eau ; plan d'eau posé au-dessus
+			var top := _ground_h(_centroid(v))
+			for q in v: top = maxf(top, _ground_h(q))
+			y = top + 0.35
+		# surface végétale dans l'eau (îlots des tuiles voisines) : point intérieur réel (1er triangle), pas le
+		# centroïde (une forêt en croissant le long d'une rivière a son centroïde dans l'eau)
+		if cls != P_WATER and ntr > 0:
+			var inside := (v[buf.decode_u16(o)] + v[buf.decode_u16(o + 2)] + v[buf.decode_u16(o + 4)]) / 3.0
+			if _in_water(inside): o += ntr * 6; continue
 		var p0 := S.count()
 		S.sub = TSTEP
 		for t in ntr:
@@ -601,6 +613,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var l0 := S.count()
 		S.sub = TSTEP
 		var deck := _deck_for_line(pts, cls == L_RAIL)
+		if gmesh == null and terrain != null: _road_ribbon(S, pts, cls, w, deck)   # chaussées hors maillage du sol
 		_line(S, pts, cls, w, seed + l, deck)
 		S.sub = 0.0
 		_drape(S, l0, deck)
@@ -613,12 +626,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 		_point(S, p[0], p[1], p[2])
 		_lift(S, q0, _ground_h(p[2]) if has_terrain else 0.0)
 	# maillages
-	var mi := MeshInstance3D.new(); mi.mesh = S.mesh(); mi.material_override = Materials.building()
-	if veg != null:
-		var tm: ShaderMaterial = Materials.building().duplicate()
-		tm.set_shader_parameter("veg_mask", ImageTexture.create_from_image(veg))
-		tm.set_shader_parameter("veg_inv_size", 1.0 / tile_m)
-		mi.material_override = tm
+	var mi := MeshInstance3D.new(); mi.mesh = S.mesh(); mi.material_override = _ground_material(k, veg, ground)
 	node.add_child(mi)
 	if gmesh != null:   # même matériau (masque de végétation de la tuile)
 		var gm := MeshInstance3D.new(); gm.mesh = gmesh; gm.material_override = mi.material_override
@@ -627,7 +635,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var wi := MeshInstance3D.new(); wi.mesh = W.mesh(); wi.material_override = Materials.water()
 		node.add_child(wi)
 	# détails de façade (balcons, stores, lucarnes, soubassements) : LOD par distance
-	if _D.count() > 0:
+	if _D.count() > 0 and not lite:
 		var di := MeshInstance3D.new(); di.mesh = _D.mesh(); di.material_override = Materials.building()
 		di.visibility_range_end = DETAIL_RANGE * (0.6 if DayNight.low_quality else 1.0)
 		di.visibility_range_end_margin = 20.0
@@ -635,7 +643,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 		node.add_child(di)
 	# mobilier, voitures en stationnement, halos : instances par modèle
 	for kind in StreetProps.KINDS:
-		if _props[kind][0].is_empty(): continue
+		if lite or _props[kind][0].is_empty(): continue
 		stats["props_%d" % kind] = int(stats.get("props_%d" % kind, 0)) + _props[kind][0].size()
 		node.add_child(StreetProps.instances(kind, _props[kind][0], _props[kind][1]))
 	_D = null
@@ -648,6 +656,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 		node.add_child(mmi)
 	# noms des monuments
 	for lb in labels:
+		if lite: break
 		var l3 := Label3D.new(); l3.text = lb[2]
 		l3.font_size = 72; l3.pixel_size = 0.03; l3.outline_size = 14
 		l3.billboard = BaseMaterial3D.BILLBOARD_ENABLED; l3.no_depth_test = false
@@ -658,6 +667,54 @@ func _build_tile(k: Vector2i) -> Node3D:
 	node.set_meta("camera_boxes", _camera_boxes.duplicate())
 	stats.tiles += 1
 	return node
+
+## Sol d'une tuile de décor lointain (sans maillage TGR) : triangles du relief lointain (pas de 200 m, diagonale
+## 00-11), exactement ceux de la couronne (TerrainView.update_far) ; teinte d'occupation du sol dans le shader.
+func _far_ground(S: _Arrays, k: Vector2i, ground: Color) -> void:
+	var st := TerrainView.FAR_STEP
+	var n := int(tile_m / st)
+	var col := ground; col.a = 1.0
+	for iz in n:
+		for ix in n:
+			var p := [Vector2(ix, iz), Vector2(ix + 1, iz), Vector2(ix + 1, iz + 1), Vector2(ix, iz + 1)]
+			var q: Array[Vector3] = []
+			for c in p:
+				var x: float = c.x * st; var z: float = c.y * st
+				q.append(Vector3(x, terrain.far_tri(x + _tile_origin.x, z + _tile_origin.y), z))
+			S.tri(q[0], q[1], q[2], col); S.tri(q[0], q[2], q[3], col)
+
+## Chaussée ou voie ferrée en ruban drapé (tuiles de décor lointain : la voirie n'est pas dans un maillage de sol).
+func _road_ribbon(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, deck: int = -1) -> void:
+	if cls == L_PATH: return
+	var col: Color = {L_MAJOR: Color("#6a6e72", 0.28), L_ROAD: Color("#575b60", 0.28), L_SMALL: Color("#5d6064", 0.28)}.get(cls, Color("#7f776c", 1.0))
+	var half := maxf(w, 2.5) * 0.5 if cls != L_RAIL else 2.2
+	var l0 := S.count()
+	S.sub = TSTEP
+	for i in pts.size() - 1:
+		var a := pts[i]; var b := pts[i + 1]
+		var d := b - a
+		if d.length() < 0.05: continue
+		d = d.normalized()
+		var nrm := Vector2(-d.y, d.x) * half
+		a -= d * half * 0.7; b += d * half * 0.7          # recouvrement aux jonctions
+		S.quad(Vector3(a.x - nrm.x, 0.06, a.y - nrm.y), Vector3(b.x - nrm.x, 0.06, b.y - nrm.y),
+			Vector3(b.x + nrm.x, 0.06, b.y + nrm.y), Vector3(a.x + nrm.x, 0.06, a.y + nrm.y), col, -1.0)
+	S.sub = 0.0
+	_drape(S, l0, deck)
+
+## Matériau du décor d'une tuile : masque de pelouse (orthophoto, 4 m) et occupation du sol réelle (TerrainView,
+## cellules de 25 m) ; matériau partagé sans l'un ni l'autre.
+func _ground_material(k: Vector2i, veg: Image, ground: Color) -> ShaderMaterial:
+	var land: Image = terrain.land_image(k, ground) if terrain != null else null
+	if veg == null and land == null: return Materials.building()
+	var tm: ShaderMaterial = Materials.building().duplicate()
+	if veg != null:
+		tm.set_shader_parameter("veg_mask", ImageTexture.create_from_image(veg))
+		tm.set_shader_parameter("veg_inv_size", 1.0 / tile_m)
+	if land != null:
+		tm.set_shader_parameter("land_tint", ImageTexture.create_from_image(land))
+		tm.set_shader_parameter("land_on", 1.0)
+	return tm
 
 ## Le hangar détaillé remplace son extrusion de décor, afin de garder ses entrées ouvertes.
 func replace_hangar(footprint_net: PackedVector2Array) -> void:

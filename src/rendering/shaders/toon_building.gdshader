@@ -31,6 +31,12 @@ uniform float albedo_scale = 0.79;
 uniform sampler2D veg_mask : filter_linear, repeat_disable, hint_default_black;
 uniform float veg_inv_size = 0.0;     // 1 / taille de tuile (m) ; 0 = pas de masque
 uniform vec3 veg_color : source_color = vec3(0.34, 0.39, 0.23);   // albédo (teinte apparente ≈ #6c7c4a)
+// Occupation du sol réelle (TerrainView.land_image, tools/import/landcover.py) : RGB = teinte apparente de la classe
+// (cellules de 25 m, une cellule de bord), A = culture à sillons. Sol nu seulement (matériau GROUND).
+uniform sampler2D land_tint : filter_linear, repeat_disable, hint_default_white;
+uniform float land_on = 0.0;
+uniform float land_cell = 25.0;
+uniform float land_px = 18.0;
 
 varying vec3 v_world;
 varying vec2 v_local;
@@ -118,6 +124,22 @@ void fragment() {
 	SPECULAR = 0.0;
 	// Détail macro/méso/micro commun (aucun aplat de près ni de loin).
 	float d3 = tri3(v_world, wn, vec3(0.10, 0.06, 0.05) * detail, px);
+	vec3 land_rgb = vec3(-1.0);
+	if (land_on > 0.5) {
+		// contour irrégulier (≈ 20 m puis 5 m) : pas de losanges du filtrage bilinéaire ni de bords de cellule
+		vec2 jit = vec2(noise2(xz * 0.045), noise2(xz * 0.045 + 7.3)) - 0.5;
+		jit += (vec2(noise2(xz * 0.21 + 3.1), noise2(xz * 0.21 + 9.7)) - 0.5) * 0.4;
+		vec4 lt = texture(land_tint, (v_local / land_cell + 1.0 + jit * 0.9) / land_px);
+		land_rgb = to_linear(lt.rgb) * albedo_scale;
+		if (id == M_PLAIN && facade_seed < 0.5 && vertical < 0.5 && v_h < 0.6) {
+			base = to_linear(lt.rgb) * albedo_scale;
+			// sillons des cultures : orientation par parcelle (≈ 160 m), pas de 3 m, fondus au loin
+			float ang = hash(floor(xz / 160.0) + 0.5) * 3.14159;
+			float f = dot(xz, vec2(cos(ang), sin(ang))) / 3.0;
+			float fade = 1.0 - smoothstep(0.25, 0.8, px / 3.0);
+			base *= 1.0 - lt.a * 0.11 * band(fract(f), 0.05, 0.5, max(px / 3.0, 0.002)) * fade;
+		}
+	}
 	if (id == M_ASPHALT) {
 		float agg = oct3(xz, vec3(0.10, 0.07, 0.16) * detail, px);
 		float stain = smoothstep(0.66, 0.80, noise2(xz * 0.21 + 3.7)) * (1.0 - smoothstep(0.3, 0.75, px * 0.21));
@@ -194,7 +216,10 @@ void fragment() {
 		float m = texture(veg_mask, v_local * veg_inv_size).r;
 		float edge = (noise2(xz * 0.6) - 0.5) * 0.25 + (noise2(xz * 0.13) - 0.5) * 0.2;
 		float k = smoothstep(0.38, 0.62, m + edge);
-		vec3 grass = veg_color * (1.0 + oct3(xz, vec3(0.28, 0.16, 0.14) * detail, px));
+		// pelouse de l'orthophoto teintée par l'occupation du sol (sous-bois sombre, prairie, culture) : pas de
+		// rupture de teinte entre tuiles avec et sans masque
+		vec3 vc = land_rgb.r >= 0.0 && land_rgb.g > land_rgb.r ? mix(veg_color, land_rgb, 0.6) : veg_color;
+		vec3 grass = vc * (1.0 + oct3(xz, vec3(0.28, 0.16, 0.14) * detail, px));
 		ALBEDO = mix(ALBEDO, grass, k);
 	}
 	if (id == M_LIGHT) {  // lampadaires, feux : lumineux, surtout la nuit

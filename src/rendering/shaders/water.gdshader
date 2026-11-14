@@ -30,6 +30,8 @@ float h2(vec2 p) { return fract(sin(dot(p, vec2(12.9, 78.2))) * 43758.5); }
 float n2(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
 	return mix(mix(h2(i), h2(i + vec2(1, 0)), f.x), mix(h2(i + vec2(0, 1)), h2(i + vec2(1)), f.x), f.y); }
 
+varying float v_top;
+
 void fragment() {
 	float px = max(length(dFdx(v_world)), length(dFdy(v_world)));
 	// rides fines (fondues au loin pour éviter le scintillement)
@@ -38,7 +40,10 @@ void fragment() {
 	vec3 nw = normalize(v_n + vec3(n2(q) - 0.5, 0.0, n2(q + 31.0) - 0.5) * 0.12 * fade);
 	NORMAL = normalize((VIEW_MATRIX * vec4(nw, 0.0)).xyz);
 	float t = 0.5 + 0.5 * sin(v_world.x * 0.05 + v_world.z * 0.04 + TIME * 0.3);
-	vec3 water = mix(deep, shallow, step(0.5, t) * 0.5);
+	// bandes claires fondues au loin (pas de rayures en vue aérienne)
+	vec3 water = mix(deep, shallow, step(0.5, t) * 0.5 * (1.0 - smoothstep(0.5, 2.0, px)));
+	// vue plongeante (aérienne) : ni reflet du ciel ni tache spéculaire sur toute la surface
+	v_top = smoothstep(0.85, 0.97, abs(dot(VIEW, (VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz)));
 	float fres = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 4.0);
 	vec3 sky = mix(sky_day, sky_night, night);
 	// reflet en 2 paliers (style), borné : l'eau garde sa teinte même en vue rasante
@@ -57,5 +62,5 @@ void light() {
 	float nh = clamp(dot(NORMAL, h), 0.0, 1.0);
 	// Blinn normalisé, plafonné ; deux paliers doux pour rester dans le style
 	float s = pow(nh, 220.0) * 1.2 + pow(nh, 40.0) * 0.12;
-	SPECULAR_LIGHT += LIGHT_COLOR * min(s, spec_max) * ATTENUATION;
+	SPECULAR_LIGHT += LIGHT_COLOR * min(s, spec_max) * ATTENUATION * (1.0 - v_top * 0.9);
 }

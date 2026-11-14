@@ -23,7 +23,7 @@ Usage : terrain.py CITY            (data/networks de la ville + scène)
         terrain.py CITY --nets     (profils de data/networks seulement, scène inchangée)
 Caches : SCRATCH/dem (GeoTIFF), SCRATCH/ign_cache (BD TOPO) ; variable TERRAIN_CACHE pour les changer.
 """
-import json, math, os, struct, subprocess, sys, time
+import gzip, json, math, os, struct, subprocess, sys, time
 from collections import defaultdict
 
 import numpy as np
@@ -139,15 +139,17 @@ def cached_features(layer, cache, ll_box):
     pre = layer + "_"
     feats = {}
     for f in os.listdir(cache):
-        if not f.startswith(pre) or not f.endswith(".json"):
+        gz = f.endswith(".json.gz")
+        if not f.startswith(pre) or not (f.endswith(".json") or gz):
             continue
         try:
-            a = [float(v) for v in f[len(pre):-5].split("_")]
+            a = [float(v) for v in f[len(pre):-8 if gz else -5].split("_")]
         except ValueError:
             continue
         if len(a) != 4 or a[2] < ll_box[0] or a[0] > ll_box[2] or a[3] < ll_box[1] or a[1] > ll_box[3]:
             continue
-        for ft in json.load(open(os.path.join(cache, f))):
+        raw = open(os.path.join(cache, f), "rb").read()
+        for ft in json.loads(gzip.decompress(raw) if gz else raw):
             feats[ft["id"]] = ft
     return list(feats.values())
 

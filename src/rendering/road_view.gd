@@ -52,7 +52,7 @@ static func palette(style: Dictionary) -> Array:
 	p.resize(CURB + 1)
 	p[GROUND] = [ground, M_PLAIN]
 	p[ASPHALT] = [Color("#4c5054"), M_ASPHALT]
-	p[ASPHALT_MAJOR] = [Color("#41464c"), M_ASPHALT]
+	p[ASPHALT_MAJOR] = [Color("#5f6368"), M_ASPHALT]   # grands axes : enrobé clair (lisibles en vue aérienne)
 	p[SIDEWALK] = [paving, M_PAVING]
 	p[GRASS] = [Color("#71824c"), M_VEG]
 	p[LAWN] = [Color("#71824c"), M_VEG]

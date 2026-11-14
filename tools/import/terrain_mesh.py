@@ -213,7 +213,7 @@ def _edge_chain(V, S, ox, oz):
     return V2, np.unique(np.sort(S, 1), axis=0)
 
 
-def tile_mesh(t, parts, height, curv_dem, extra_pts=(), fine=True):
+def tile_mesh(t, parts, height, curv_dem, extra_pts=(), fine=True, simplify=SIMPLIFY):
     """Triangulation contrainte d'une tuile. parts : [(matériau, géométrie surfacique)] en priorité décroissante,
     déjà résolues (disjointes). Retourne (V (n,3) repère tuile, T (m,3), M (m,) u8)."""
     ox, oz = t[0] * TILE_M, t[1] * TILE_M
@@ -223,7 +223,7 @@ def tile_mesh(t, parts, height, curv_dem, extra_pts=(), fine=True):
         lines = shapely.union_all(bnds)
     except shapely.errors.GEOSException:
         lines = shapely.union_all([shapely.set_precision(b, 1.0 / Q) for b in bnds], grid_size=1.0 / Q)
-    lines = shapely.segmentize(shapely.simplify(lines, SIMPLIFY), 25.0)
+    lines = shapely.segmentize(shapely.simplify(lines, simplify), 25.0)
     coords, segs = [], []
     for ls in shapely.get_parts(lines):
         c = shapely.get_coordinates(ls)
@@ -371,8 +371,12 @@ def encode_tile(V, Tt, M):
 
 # ------------------------------------------------------------------------------------------------ ville
 def tile_keys(city):
+    """Tuiles de sol : décor détaillé et sa couronne ; les tuiles de décor lointain (« light_tiles » de la scène,
+    tools/import/periphery.py) n'ont pas de maillage de sol propre hors de cette couronne (relief lointain)."""
     tiles = T.scene_tiles(city)
-    return tiles, sorted({(t[0] + dx, t[1] + dz) for t in tiles for dx in (-1, 0, 1) for dz in (-1, 0, 1)})
+    meta = json.load(open(os.path.join(ROOT, "data/scenes", city + ".json")))
+    core = tiles - {tuple(t) for t in meta.get("light_tiles", [])}
+    return tiles, sorted({(t[0] + dx, t[1] + dz) for t in core for dx in (-1, 0, 1) for dz in (-1, 0, 1)})
 
 
 def meta_blob(keys, decks, water, alt0):
@@ -452,12 +456,14 @@ def build(city, workers=1):
                 for dx in (-6, -3, 0, 3, 6):
                     for dz in (-6, -3, 0, 3, 6):
                         extra.append((p[0] + dx, p[1] + dz))
-    roads = RM.CityRoads(city, frame, cache, llb, axes)
+    roads = RM.CityRoads(city, frame, cache, llb, axes, full_tiles=bool(meta.get("periphery_m")))
     scene = RM.read_scene(os.path.join(ROOT, "data/scenes", city + ".bin"))
     blobs, ymins, st = [], [], defaultdict(int)
     for i, t in enumerate(keys):
-        parts, decals = roads.tile_parts(t, scene.get(t), t in scene_tiles)
-        V, Tt, M = tile_mesh(t, parts, height, curv, extra, t in scene_tiles)
+        coarse = roads.coarse(t)          # périphérie (tools/import/periphery.py) : sol allégé
+        parts, decals = roads.tile_parts(t, scene.get(t), t in scene_tiles, coarse)
+        V, Tt, M = tile_mesh(t, parts, height, curv, extra, t in scene_tiles and not coarse, 0.8 if coarse else SIMPLIFY)
+        st["tuiles_allégées"] += coarse
         raw, ymin = encode_tile(V, Tt, M)
         raw += encode_decals(t, decals)
         st["décalques"] += len(decals["lines"]) + len(decals["rects"])

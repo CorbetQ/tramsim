@@ -159,3 +159,20 @@ func validate() -> PackedStringArray:
 		if e.length <= 0.0:
 			errs.append("longueur invalide: " + e.id)
 	return errs
+
+## Cap continu le long d'une polyligne (abscisse géométrique `s`, `arc` = abscisses cumulées des sommets) :
+## interpolation angulaire entre les caps des segments voisins, de milieu de segment à milieu de segment.
+## Supprime les paliers de cap d'un échantillonnage par segment (rame, caméra cabine, phare) ; identique au cap
+## du segment en alignement. À utiliser par NetworkLoader.point_on pour "dir".
+static func smooth_dir(pts: PackedVector2Array, arc: PackedFloat64Array, s: float) -> Vector2:
+	var n := pts.size()
+	if n < 2: return Vector2.RIGHT
+	var i := clampi(arc.bsearch(s) - 1, 0, n - 2)
+	var d := (pts[i + 1] - pts[i]).normalized()
+	var mid := (arc[i] + arc[i + 1]) * 0.5
+	var j := i - 1 if s < mid else i + 1
+	if j < 0 or j > n - 2: return d
+	var dj := (pts[j + 1] - pts[j]).normalized()
+	var mj := (arc[j] + arc[j + 1]) * 0.5
+	var t := clampf((s - mid) / (mj - mid), 0.0, 1.0) if absf(mj - mid) > 1e-6 else 0.0
+	return d.rotated(d.angle_to(dj) * t)

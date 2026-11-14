@@ -14,7 +14,7 @@ compressée, uint32 taille], puis par tuile (Brotli) : bâtiments, polygones, li
 toits, arbres, sol vert (TSC3) ; voir write_tile. Le jeu lit aussi TSC1 à TSC3 (non compressés, table de 16 octets).
 ign_scene.py --tsc4 FICHIER... : convertit un TSC3 existant en TSC4 sans réimport.
 """
-import json, math, os, struct, subprocess, sys, time, urllib.parse
+import gzip, json, math, os, struct, subprocess, sys, time, urllib.parse
 from collections import defaultdict
 
 import mapbox_earcut as earcut
@@ -61,6 +61,8 @@ def fetch(layer, bbox_ll, cache):
     path = os.path.join(cache, key)
     if os.path.exists(path):
         return json.load(open(path))
+    if os.path.exists(path + ".gz"):          # cache compressé (périphérie : volumes 3 à 5 fois plus grands)
+        return json.loads(gzip.decompress(open(path + ".gz", "rb").read()))
     feats, start = [], 0
     while True:
         q = {"SERVICE": "WFS", "VERSION": "2.0.0", "REQUEST": "GetFeature", "TYPENAMES": layer,
@@ -85,7 +87,9 @@ def fetch(layer, bbox_ll, cache):
         if len(page) < 5000:
             break
         start += 5000
-    json.dump(feats, open(path, "w"))
+    tmp = path + ".gz.part"
+    open(tmp, "wb").write(gzip.compress(json.dumps(feats, separators=(",", ":")).encode(), 6))
+    os.replace(tmp, path + ".gz")
     return feats
 
 
@@ -388,7 +392,7 @@ def roof_rgb444(mean):
     return 0x8000 | (q[0] << 8) | (q[1] << 4) | q[2]   # bit 15 : couleur présente
 
 
-def ortho_tile(ortho, frame, tkey, tile, nb_blds, track_lines):
+def ortho_tile(ortho, frame, tkey, tile, nb_blds, track_lines, z=None):
     """Analyse d'une tuile : couleurs de toits, houppiers, cellules vertes."""
     from PIL import Image, ImageDraw
     from scipy import ndimage
@@ -399,7 +403,7 @@ def ortho_tile(ortho, frame, tkey, tile, nb_blds, track_lines):
     zs = gz0 + 0.5 + np.arange(N)
     X, Z = np.meshgrid(xs, zs)
     lat, lon = frame_inv_np(frame, X, Z)
-    rgb, ok = ortho.sample(Z_AREA, lat, lon)
+    rgb, ok = ortho.sample(z or Z_AREA, lat, lon)
     if not ok.any():
         return [0] * len(tile["b"]), [], []
     lab = Image.new("I", (N, N), 0)
@@ -628,7 +632,13 @@ def recompress(path):
     return "TSC4"
 
 
-def main(city, nets_dir, out_dir, cache, ortho_dir=None):
+def main(city, nets_dir, out_dir, cache, ortho_dir=None, periphery_m=0.0, extra_areas=(), track_json=True, light_tiles=()):
+    """periphery_m > 0 : emprise élargie aux tuiles entières à moins de periphery_m des voies (et extra_areas, polygones
+    du repère de la ville : vue aérienne de l'accueil, monuments). Orthophotos z17 dans le corridor historique,
+    z16 (2,4 m/px) au-delà. track_json=False : nature des plateformes non recalculée (fichier *_track.json intact).
+    light_tiles : tuiles de décor lointain (vue globale de l'agglomération) : bâtiments >= 30 m² simplifiés à 1 m, sans
+    chemins ni analyse d'orthophoto (le sol y vient de l'occupation du sol, tools/import/landcover.py)."""
+    light_tiles = set(map(tuple, light_tiles))
     os.makedirs(cache, exist_ok=True)
     nets = []
     for f in sorted(os.listdir(nets_dir)):
@@ -647,6 +657,20 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None):
             if len(pts) >= 2:
                 lines.append(LineString(pts))
     corridor = unary_union([l.buffer(CORRIDOR_M, resolution=4) for l in lines]).simplify(5.0)
+    inner = corridor
+    zone_tiles = None
+    if periphery_m > 0:
+        wide = unary_union([l.buffer(periphery_m, resolution=4) for l in lines] + list(extra_areas)).simplify(10.0)
+        from shapely.prepared import prep as _prep
+        wp = _prep(wide)
+        x0, z0, x1, z1 = wide.bounds
+        zone_tiles = {(tx, tz) for tx in range(int(math.floor(x0 / TILE_M)), int(math.floor(x1 / TILE_M)) + 1)
+                      for tz in range(int(math.floor(z0 / TILE_M)), int(math.floor(z1 / TILE_M)) + 1)
+                      if wp.intersects(box(tx * TILE_M, tz * TILE_M, (tx + 1) * TILE_M, (tz + 1) * TILE_M))}
+        light_tiles -= zone_tiles          # décor détaillé prioritaire
+        zone_tiles |= light_tiles
+        corridor = unary_union([box(tx * TILE_M, tz * TILE_M, (tx + 1) * TILE_M, (tz + 1) * TILE_M) for tx, tz in zone_tiles])
+        print(f"  {city} : périphérie {periphery_m:.0f} m, {len(zone_tiles)} tuiles", file=sys.stderr, flush=True)
     minx, minz, maxx, maxz = corridor.bounds
     # requêtes par cellules de 1,5 km qui touchent le corridor
     CELL = 1500.0
@@ -715,9 +739,12 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None):
         g = project_geom(shape(ft["geometry"]), frame)
         for p in polys_of(g):
             c = p.centroid
-            if p.area < 8 or not corridor.contains(c):
+            if p.area < 8 or not (corridor.contains(c) if zone_tiles is None else tile_of(c.x, c.y) in zone_tiles):
                 continue
-            p = Polygon(p.exterior.coords).simplify(0.4)
+            light = tile_of(c.x, c.y) in light_tiles
+            if light and p.area < 30:
+                continue
+            p = Polygon(p.exterior.coords).simplify(1.0 if light else 0.4)
             if p.is_empty or p.geom_type != "Polygon" or len(p.exterior.coords) < 4:
                 continue
             if len(p.exterior.coords) > 33:
@@ -787,7 +814,7 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None):
                     for tz in range(int(math.floor(z0 / TILE_M)), int(math.floor(z1 / TILE_M)) + 1):
                         for seg in lines_of(piece.intersection(tile_box((tx, tz)))):
                             seg = seg.simplify(0.5)
-                            if seg.length < 2:
+                            if seg.length < 2 or (cls == L_PATH and (tx, tz) in light_tiles):
                                 continue
                             tiles[(tx, tz)]["l"].append((cls, w, list(seg.coords)))
                             stats[f"lignes_{cls}"] += 1
@@ -812,7 +839,8 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None):
         if not k or not ft.get("geometry"):
             continue
         g = project_geom(shape(ft["geometry"]), frame)
-        if g is None or g.geom_type != "Point" or not corridor.contains(g) or track_zone_p.contains(g):
+        if g is None or g.geom_type != "Point" or track_zone_p.contains(g) or not (
+                corridor.contains(g) if zone_tiles is None else tile_of(g.x, g.y) in zone_tiles):
             continue
         h = float(pr.get("hauteur") or {1: 38.0, 2: 30.0, 3: 25.0, 4: 30.0, 5: 4.0}[k])
         tiles[tile_of(g.x, g.y)]["pt"].append((k, h, (g.x, g.y)))
@@ -832,26 +860,37 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None):
         gx, gz = np.meshgrid(np.arange(x0 - 60, x1 + 60, 50.0), np.arange(z0 - 60, z1 + 60, 50.0))
         cp = prep(corridor.buffer(60))
         from shapely.geometry import Point
-        sel = np.array([cp.contains(Point(a, b)) for a, b in zip(gx.ravel(), gz.ravel())])
-        lat, lon = frame_inv_np(frame, gx.ravel()[sel], gz.ravel()[sel])
+        ip = prep(inner.buffer(460))      # tuiles du corridor historique : z17
+        z17 = np.array([ip.contains(Point(a, b)) for a, b in zip(gx.ravel(), gz.ravel())])
+        lp = prep(unary_union([tile_box(t) for t in zone_tiles - light_tiles]).buffer(60)) if light_tiles else cp
+        sel = np.array([cp.contains(Point(a, b)) and lp.contains(Point(a, b)) for a, b in zip(gx.ravel(), gz.ravel())])
+        if zone_tiles is None:
+            z17 = sel
+        lat, lon = frame_inv_np(frame, gx.ravel()[sel & z17], gz.ravel()[sel & z17])
         ortho.prefetch(Z_AREA, ortho.keys_for(Z_AREA, lat, lon))
+        if (sel & ~z17).any():
+            lat, lon = frame_inv_np(frame, gx.ravel()[sel & ~z17], gz.ravel()[sel & ~z17])
+            ortho.prefetch(Z_AREA - 1, ortho.keys_for(Z_AREA - 1, lat, lon))
+        inner_p = prep(inner)
         track_coords = [list(l.coords) for l in lines]
         from shapely.strtree import STRtree as _T
         tl_tree = _T(lines)
         for i, t in enumerate(sorted(tiles)):
             tb = tile_box(t).buffer(48)
-            if not corridor.intersects(tb):
+            if t in light_tiles or not corridor.intersects(tb):
                 continue
             nb_blds = [b[0] for dx in (-1, 0, 1) for dz in (-1, 0, 1) if (dx or dz) and (t[0] + dx, t[1] + dz) in tiles
                        for b in tiles[(t[0] + dx, t[1] + dz)]["b"] if b[0].intersects(tb)]
             tl = [track_coords[j] for j in tl_tree.query(tb)]
-            roofs, trees, runs = ortho_tile(ortho, frame, t, tiles[t], nb_blds, tl)
+            zt = Z_AREA if (zone_tiles is None or inner_p.intersects(tile_box(t))) else Z_AREA - 1
+            roofs, trees, runs = ortho_tile(ortho, frame, t, tiles[t], nb_blds, tl, zt)
             tiles[t]["rf"], tiles[t]["tr"], tiles[t]["gr"] = roofs, trees, runs
             stats["toits_ortho"] += sum(1 for r in roofs if r)
             stats["arbres_ortho"] += len(trees)
             stats["cellules_vertes"] += sum(r[2] for r in runs)
             if i % 50 == 0:
                 print(f"  ortho tuile {i + 1}/{len(tiles)}", file=sys.stderr, flush=True)
+    if ortho_dir and track_json:
         tram_ref = []
         for ft in feats["fer"].values():
             if ft.get("geometry") and ft["properties"].get("nature") == "Tramway":
@@ -877,7 +916,8 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None):
     with open(os.path.join(out_dir, city + ".bin"), "wb") as f:
         f.write(pack_tsc4(blobs))
     meta = {"schema": 1, "city": city, "origin": list(nets[0]["origin"]), "tile_m": TILE_M, "corridor_m": CORRIDOR_M,
-            "tiles": len(keys), "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du "
+            "tiles": len(keys), **({"periphery_m": periphery_m} if periphery_m > 0 else {}),
+            **({"light_tiles": sorted([list(t) for t in light_tiles if t in tiles])} if light_tiles else {}), "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du "
             + time.strftime("%Y-%m-%d"), "stats": dict(stats)}
     json.dump(meta, open(os.path.join(out_dir, city + ".json"), "w"), ensure_ascii=False, indent=1)
     size = os.path.getsize(os.path.join(out_dir, city + ".bin"))

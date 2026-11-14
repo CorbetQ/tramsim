@@ -30,6 +30,8 @@ var locked: Dictionary = {}     # indice de transition -> [nœud, côté]
 var authority: Dictionary = {}  # {edge, offset, final} : fin d'autorisation de mouvement
 var error := ""
 var legs_done := 0
+var reserve_m := RESERVE_M      # longueur tracée devant le nez (rames IA : plus courte)
+var granted_to := -1            # dernière fin d'autorisation accordée : jamais reculée
 
 func _init(network: NetworkLoader, owner_id: String = "T1") -> void:
 	net = network
@@ -174,7 +176,7 @@ func plan_leg(s: MissionSession) -> bool:
 			path = [[s.edge_id, s.direction]]; leg_end = {}
 			return false
 		path = r.path; leg_end = leg[-1]
-	pos = 0; reserved_to = -1; released_to = 0; locked.clear(); error = ""
+	pos = 0; reserved_to = -1; released_to = 0; locked.clear(); error = ""; granted_to = -1
 	update(s)
 	return true
 
@@ -212,13 +214,16 @@ func update(s: MissionSession) -> void:
 
 func _reserve(s: MissionSession) -> void:
 	var g := net.graph
+	var sm := SignalModel.of(net)
 	var ahead := s._ahead_on_edge()
 	var i := pos
+	var last_sig := -1   # dernier indice dont la fin porte un signal (devant le nez)
+	var end_at := -1     # fin d'autorisation non finale (indice d'arête)
 	authority = {}
 	while true:
 		var e := str(path[i][0]); var d := int(path[i][1])
 		if not g.reserve(e, owner):
-			_set_authority_end(i - 1, false); i -= 1; break
+			end_at = i - 1; i -= 1; break
 		if i == path.size() - 1:
 			if leg_end.is_empty():
 				authority = {}
@@ -226,15 +231,18 @@ func _reserve(s: MissionSession) -> void:
 				var L: float = g.edges[e].length
 				authority = {"edge": e, "offset": clampf(float(leg_end.offset) + OVERLAP_M * d, 0.0, L), "final": true, "dir": d}
 			break
-		if ahead > RESERVE_M:
-			_set_authority_end(i, false); break
+		var signal_here := sm.at_end.has(SignalModel.key(e, d))
+		if signal_here and (i > pos or s._ahead_on_edge() > SIGNAL_SETBACK_M + 1.0): last_sig = i
+		# Tracé jusqu'au premier signal au-delà de RESERVE_M (jamais de fin d'autorisation en pleine voie).
+		if ahead > reserve_m and (signal_here or ahead > reserve_m * 3.0):
+			end_at = i; last_sig = -2; break
 		var x := g.exit_of(e, d)
 		var branches := g.choices(x[0], x[1])
 		var b := -1
 		for k in branches.size():
 			if str(branches[k][0]) == str(path[i + 1][0]) and int(branches[k][1]) == int(path[i + 1][1]): b = k
 		if b < 0 or not g.lock_switch(str(x[0]), int(x[1]), b, owner):
-			_set_authority_end(i, false); break
+			end_at = i; break
 		# Aiguillage pris en talon : positionné et verrouillé lui aussi, côté d'arrivée.
 		var back := g.choices(x[0], -int(x[1]))
 		var tb := -1
@@ -242,10 +250,24 @@ func _reserve(s: MissionSession) -> void:
 			if str(back[k][0]) == e and int(back[k][1]) == -d: tb = k
 		if tb >= 0 and not g.lock_switch(str(x[0]), -int(x[1]), tb, owner):
 			g.unlock_switch(str(x[0]), int(x[1]), owner)
-			_set_authority_end(i, false); break
+			end_at = i; break
 		locked[i] = [str(x[0]), int(x[1])]
 		i += 1
 		ahead += g.edges[str(path[i][0])].length
+	if authority.is_empty() and end_at >= -1 and (end_at >= 0 or i < pos):
+		# L'autorisation s'arrête toujours à un signal (SignalModel) : au-delà, rien n'est tenu.
+		var stop_i := maxi(end_at, 0)
+		if last_sig != -2 and granted_to > last_sig and granted_to <= stop_i: last_sig = granted_to
+		if last_sig >= pos and last_sig < stop_i:
+			for k in range(last_sig + 1, stop_i + 1):
+				if str(g.edges[str(path[k][0])].occupied_by) != owner: g.unreserve(str(path[k][0]), owner)
+			for k in range(last_sig, stop_i + 1):
+				if locked.has(k):
+					_unlock(k); locked.erase(k)
+			stop_i = last_sig
+		_set_authority_end(stop_i, false)
+		granted_to = maxi(granted_to, stop_i)
+		i = stop_i
 	reserved_to = maxi(reserved_to, i)
 
 func _set_authority_end(i: int, final_: bool) -> void:

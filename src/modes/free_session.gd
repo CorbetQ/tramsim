@@ -10,6 +10,7 @@ var adaptation_notice := ""
 
 func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, start_offset: float, traffic_on: bool = true) -> void:
 	super._init(network, profile, start_edge, start_offset, [] as Array[float], 20)
+	crossing_strict = false
 	checkpoint_edge = start_edge
 	checkpoint_offset = start_offset
 	var normal := int(net.edge_info[start_edge].get("preferred_direction", 0))

@@ -9,7 +9,7 @@ const KEYS := [
 	["Espace", "Freinage d'urgence"], ["O", "Ouvrir / fermer les portes"], ["K", "Cloche"],
 	["P", "Alimentation LAC / APS (à l’arrêt)"], ["C", "Caméra cabine / extérieure"], ["M", "Plan du réseau"],
 	["A", "Plan du réseau"], ["Tab", "Aiguillage suivant (panneau ouvert)"], ["1 – 3", "Choisir la branche"],
-	["V", "Changer de sens (mode libre)"], ["R", "Remise sur voie (mode libre)"], ["T", "Trafic automobile (mode libre)"],
+	["V", "Changer de sens (mode libre)"], ["L", "Pilote automatique (mode libre)"], ["R", "Remise sur voie (mode libre)"], ["T", "Trafic automobile (mode libre)"],
 	["Échap", "Pause / fermer"], ["F1", "Cette aide"], ["F11", "Plein écran"], ["Molette / pincer", "Zoom caméra"],
 	["Glisser", "Tourner autour de la rame"]]
 const KEYS_HELP := "F1 : aide clavier · Z/S traction-freinage · Espace urgence · O portes · A aiguillages · Échap pause"
@@ -55,6 +55,10 @@ var hud_sched: Label            # écart à l'horaire
 var hud_clock: Label
 var hud_alert: Label
 var hud_switch: Button          # prochain aiguillage (mode libre)
+var signal_panel: SignalPanel   # répétiteur de signalisation (signal, aiguille, limite à venir)
+var autopilot := Autopilot.new()  # pilote automatique (mode libre)
+var autopilot_button: Button
+var ai_trams: AiTrams           # rames en circulation (mode mission)
 var notch_label: Label
 var lever: NotchLever
 var power_button: Button
@@ -126,6 +130,7 @@ func _clear() -> void:
 	intro = null; settings_layer = null
 	view = null; tram_audio = null; session = null; free = null; tuto = null; plan_panel = null; pause_layer = null; debrief_layer = null
 	help_layer = null; toasts = null; hud_switch = null; lamps.clear()
+	signal_panel = null; autopilot_button = null; ai_trams = null; autopilot = Autopilot.new()
 
 # ----------------------------------------------------------------------------------------------- menu
 
@@ -805,6 +810,10 @@ func _start(with_intro: bool = false) -> void:
 	add_child(view); view.build(net, first, vehicle)
 	hour0 = _start_hour()
 	view.set_hour(hour0)
+	# Rames en circulation (missions sur réseau complet, poste d'aiguillage) : fréquences approchées.
+	if session.interlocking != null and bool(save.settings.get("ai_trams", true)):
+		ai_trams = AiTrams.create(session, str(scenario.get("city", menu_city)), hour0)
+		ai_trams.message.connect(func(t): _log(t, "info", "tram"))
 	# DayNight applique déjà le budget d’ombres mobile.
 	if OS.has_feature("mobile") and view.city: view.city.radius = 450.0
 	view.update_from(session, true)
@@ -908,6 +917,13 @@ func _build_hud() -> void:
 	tr.add_child(_icon_btn("help", "Aide clavier (F1)", _toggle_help))
 	tr.add_child(_icon_btn("pause", "Pause (Échap)", func(): _set_paused(not paused)))
 	tr.add_child(_icon_btn("home", "Menu principal", func(): _persist(); _build_menu()))
+	# --- répétiteur de signalisation (haut droite, sous l'horloge)
+	signal_panel = SignalPanel.new(); signal_panel.setup(session, compact)
+	signal_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	signal_panel.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	signal_panel.offset_right = -14 - safe.z; signal_panel.offset_left = -14 - safe.z
+	signal_panel.offset_top = 14 + safe.y + (64 if compact else 74)
+	add_child(signal_panel)
 	# --- alertes (bandeau central) et notifications
 	var mid := VBoxContainer.new(); mid.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP); mid.offset_top = 92
 	mid.grow_horizontal = Control.GROW_DIRECTION_BOTH; mid.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -928,7 +944,7 @@ func _build_hud() -> void:
 	var plus := UiTheme.button("", "plus", "normal", Vector2(130, 50)); plus.tooltip_text = "Traction (Z)"; plus.name = "traction"
 	plus.focus_mode = Control.FOCUS_NONE; lv.add_child(plus); plus.visible = not compact
 	lever = NotchLever.new(); lever.size_flags_horizontal = Control.SIZE_EXPAND_FILL; lever.custom_minimum_size = Vector2(80, 140) if compact else Vector2(130, 250)
-	lever.changed.connect(func(v): notch = v; if v > -0.99: emergency = false)
+	lever.changed.connect(func(v): _manual(); notch = v; if v > -0.99: emergency = false)
 	lv.add_child(lever)
 	var minus := UiTheme.button("", "minus", "normal", Vector2(130, 50)); minus.tooltip_text = "Freinage (S)"; minus.name = "brake"
 	minus.focus_mode = Control.FOCUS_NONE; lv.add_child(minus); minus.visible = not compact
@@ -937,8 +953,8 @@ func _build_hud() -> void:
 	notch_label.mouse_filter = Control.MOUSE_FILTER_STOP; notch_label.tooltip_text = "Toucher : neutre (X)"
 	notch_label.gui_input.connect(func(ev): if (ev is InputEventMouseButton or ev is InputEventScreenTouch) and ev.pressed: _set_notch(0.0))
 	lv.add_child(notch_label)
-	plus.pressed.connect(func(): _set_notch(notch + 0.25))
-	minus.pressed.connect(func(): _set_notch(notch - 0.25))
+	plus.pressed.connect(func(): _manual(); _set_notch(notch + 0.25))
+	minus.pressed.connect(func(): _manual(); _set_notch(notch - 0.25))
 	# --- tachymètre et urgence (droite)
 	var rp := VBoxContainer.new(); rp.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
 	rp.grow_horizontal = Control.GROW_DIRECTION_BEGIN; rp.grow_vertical = Control.GROW_DIRECTION_BEGIN
@@ -960,13 +976,14 @@ func _build_hud() -> void:
 	tools.size_flags_horizontal = Control.SIZE_EXPAND_FILL; tools.alignment = BoxContainer.ALIGNMENT_CENTER; dock.add_child(tools)
 	var specs := [["Portes", "doors", "O", _doors], ["Cloche", "bell", "K", _horn], ["Caméra", "camera", "C", _camera], ["Plan", "map", "M", _toggle_plan], ["Alimentation", "power", "P", _power_picker]]
 	if free_mode:
-		specs += [["Changer de sens", "reverse", "V", _reverse], ["Remise sur voie", "rerail", "R", _rerail], ["Trafic", "traffic", "T", _traffic]]
+		specs += [["Pilote auto", "autopilot", "L", _toggle_autopilot], ["Changer de sens", "reverse", "V", _reverse], ["Remise sur voie", "rerail", "R", _rerail], ["Trafic", "traffic", "T", _traffic]]
 	for spec in specs:
 		var b := UiTheme.tool_button(spec[0], spec[1], "" if compact else spec[2], 72.0 if compact else 88.0); b.pressed.connect(spec[3])
 		b.add_theme_stylebox_override("normal", UiTheme.box(Color(UiTheme.SURFACE, 0.82), 14, 8, UiTheme.BORDER, 1))
 		tools.add_child(b)
 		if spec[1] == "power": power_button = b
-	for c in [trip, tr, lp, rp, dock]: UiTheme.fade_in(c, 0.35)
+		if spec[1] == "autopilot": autopilot_button = b; b.name = "tool_autopilot"
+	for c in [trip, tr, lp, rp, dock, signal_panel]: UiTheme.fade_in(c, 0.35)
 	for c in get_children():
 		if not c in before: c.add_to_group("driving_hud")
 
@@ -997,7 +1014,24 @@ func _set_notch(v: float) -> void:
 	if notch > -0.99: emergency = false
 	if lever: lever.set_value(notch)
 
+## Reprise en main : toute commande manuelle de traction / freinage coupe le pilote automatique.
+func _manual() -> void:
+	if autopilot.enabled: _set_autopilot(false, "Conduite manuelle : pilote automatique coupé")
+
+func _toggle_autopilot() -> void:
+	_set_autopilot(not autopilot.enabled)
+
+func _set_autopilot(on: bool, why: String = "") -> void:
+	if on and (free == null or free.incident != ""):
+		_log("Pilote automatique : mode libre, rame sur voie", "warn", "autopilot"); return
+	autopilot.enabled = on
+	if on: autopilot.reset()
+	_log(why if why != "" else ("Pilote automatique activé : limites, stations, signaux" if on else "Pilote automatique désactivé"), "info", "autopilot")
+	if is_instance_valid(autopilot_button):
+		autopilot_button.add_theme_stylebox_override("normal", UiTheme.box(Color(UiTheme.ACCENT_DARK, 0.92) if on else Color(UiTheme.SURFACE, 0.82), 14, 8, UiTheme.ACCENT if on else UiTheme.BORDER, 2 if on else 1))
+
 func _doors() -> void:
+	if autopilot.enabled and autopilot.state != "dwell": _manual()
 	var was := session.doors_open
 	session.set_doors(not session.doors_open)
 	if session.doors_open == was and not was:
@@ -1234,8 +1268,9 @@ func _input(ev: InputEvent) -> void:
 		KEY_ESCAPE:
 			if plan_panel: _toggle_plan()
 			else: _set_paused(not paused)
-		KEY_SPACE: _emergency()
-		KEY_X: _set_notch(0.0)
+		KEY_SPACE: _manual(); _emergency()
+		KEY_X: _manual(); _set_notch(0.0)
+		KEY_L: _toggle_autopilot()
 		KEY_O: _doors()
 		KEY_K: _horn()
 		KEY_C: _camera()
@@ -1245,8 +1280,8 @@ func _input(ev: InputEvent) -> void:
 		KEY_R: _rerail()
 		KEY_V: _reverse()
 		KEY_T: _traffic()
-		KEY_W, KEY_Z, KEY_UP: _set_notch(notch + 0.25)
-		KEY_S, KEY_DOWN: _set_notch(notch - 0.25)
+		KEY_W, KEY_Z, KEY_UP: _manual(); _set_notch(notch + 0.25)
+		KEY_S, KEY_DOWN: _manual(); _set_notch(notch - 0.25)
 		_: return
 	get_viewport().set_input_as_handled()
 
@@ -1263,6 +1298,9 @@ func _process(dt: float) -> void:
 		view.set_hour(current_hour()); view.update_from(session, external_cam)
 		return
 	if not paused and not session.finished:
+		if autopilot.enabled:
+			if free == null or free.incident != "": _set_autopilot(false, "Pilote automatique coupé : incident")
+			else: notch = autopilot.control(session, minf(dt, 0.1))
 		session.tick(minf(dt, 0.1), notch, emergency)
 		if emergency and session.phys.speed < 0.05: emergency = false
 	view.set_hour(current_hour())
@@ -1277,7 +1315,7 @@ func _process(dt: float) -> void:
 	var lim := session.speed_limit() * 3.6
 	hud_speed.set_values(session.phys.speed * 3.6, lim, session.phys.profile.max_speed_ms * 3.6, session.overspeed)
 	if lever and lever.value != notch: lever.set_value(notch)
-	notch_label.text = ("Traction %d %%" % roundi(notch * 100)) if notch > 0.01 else (("URGENCE" if notch <= -0.99 else "Freinage %d %%" % roundi(-notch * 100)) if notch < -0.01 else "Neutre")
+	notch_label.text = ("Auto · " + autopilot.status) if autopilot.enabled else ("Traction %d %%" % roundi(notch * 100)) if notch > 0.01 else (("URGENCE" if notch <= -0.99 else "Freinage %d %%" % roundi(-notch * 100)) if notch < -0.01 else "Neutre")
 	notch_label.add_theme_color_override("font_color", UiTheme.TRACTION if notch > 0.01 else (UiTheme.BRAKE if notch < -0.01 else UiTheme.TEXT))
 	var alerts: Array = []
 	if session.phys.wheel_slip: alerts.append("PATINAGE — RÉDUIRE LA TRACTION")
@@ -1300,6 +1338,7 @@ func _process(dt: float) -> void:
 	if _hud_t > 0.0 and not session.finished: return
 	_hud_t = 0.2
 	_speed_advice = session.next_restriction()
+	if is_instance_valid(signal_panel): signal_panel.refresh()
 	hud_clock.text = view.day_night.clock_text()
 	var st := _next_stop()
 	hud_info.text = str(st.get("name", "—"))

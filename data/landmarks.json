@@ -1,0 +1,896 @@
+{
+ "schema": 1,
+ "source": "Monuments emblématiques (coordonnées WGS84 approchées à ~50 m) : emprise de décor forcée à 320 m autour (tools/import/periphery.py). Géométrie et nature : BD TOPO IGN (bâtiments, zones d'activité).",
+ "cities": {
+  "angers": [
+   {
+    "name": "Château d'Angers",
+    "lat": 47.47,
+    "lon": -0.5596,
+    "kind": "castle"
+   },
+   {
+    "name": "Cathédrale Saint-Maurice",
+    "lat": 47.4728,
+    "lon": -0.5549,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare Saint-Laud",
+    "lat": 47.4646,
+    "lon": -0.5568,
+    "kind": "station"
+   },
+   {
+    "name": "Tour Saint-Aubin",
+    "lat": 47.4706,
+    "lon": -0.552,
+    "kind": "tower"
+   },
+   {
+    "name": "Pont de Verdun",
+    "lat": 47.4729,
+    "lon": -0.5578,
+    "kind": "bridge"
+   }
+  ],
+  "nantes": [
+   {
+    "name": "Château des ducs de Bretagne",
+    "lat": 47.2161,
+    "lon": -1.5497,
+    "kind": "castle"
+   },
+   {
+    "name": "Cathédrale Saint-Pierre-et-Saint-Paul",
+    "lat": 47.218,
+    "lon": -1.5507,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Tour Bretagne",
+    "lat": 47.2179,
+    "lon": -1.5591,
+    "kind": "tower"
+   },
+   {
+    "name": "Gare de Nantes",
+    "lat": 47.2172,
+    "lon": -1.542,
+    "kind": "station"
+   },
+   {
+    "name": "Tour LU",
+    "lat": 47.215,
+    "lon": -1.5458,
+    "kind": "tower"
+   },
+   {
+    "name": "Pont Anne-de-Bretagne",
+    "lat": 47.2078,
+    "lon": -1.565,
+    "kind": "bridge"
+   },
+   {
+    "name": "Hangar à bananes",
+    "lat": 47.2006,
+    "lon": -1.5734,
+    "kind": "civic"
+   }
+  ],
+  "lyon": [
+   {
+    "name": "Basilique Notre-Dame de Fourvière",
+    "lat": 45.7623,
+    "lon": 4.8228,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Tour Part-Dieu (Crayon)",
+    "lat": 45.761,
+    "lon": 4.854,
+    "kind": "tower"
+   },
+   {
+    "name": "Tour Incity",
+    "lat": 45.759,
+    "lon": 4.8544,
+    "kind": "tower"
+   },
+   {
+    "name": "Cathédrale Saint-Jean",
+    "lat": 45.7608,
+    "lon": 4.8273,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Place Bellecour",
+    "lat": 45.7578,
+    "lon": 4.832,
+    "kind": "civic"
+   },
+   {
+    "name": "Hôtel de Ville",
+    "lat": 45.7676,
+    "lon": 4.8361,
+    "kind": "civic"
+   },
+   {
+    "name": "Gare de la Part-Dieu",
+    "lat": 45.7606,
+    "lon": 4.8597,
+    "kind": "station"
+   },
+   {
+    "name": "Gare de Perrache",
+    "lat": 45.7485,
+    "lon": 4.8259,
+    "kind": "station"
+   },
+   {
+    "name": "Musée des Confluences",
+    "lat": 45.7326,
+    "lon": 4.818,
+    "kind": "civic"
+   }
+  ],
+  "idf": [
+   {
+    "name": "Tour Eiffel",
+    "lat": 48.8584,
+    "lon": 2.2945,
+    "kind": "tower"
+   },
+   {
+    "name": "Cathédrale Notre-Dame",
+    "lat": 48.853,
+    "lon": 2.3499,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Basilique du Sacré-Cœur",
+    "lat": 48.8867,
+    "lon": 2.3431,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Arc de Triomphe",
+    "lat": 48.8738,
+    "lon": 2.295,
+    "kind": "civic"
+   },
+   {
+    "name": "Grande Arche de la Défense",
+    "lat": 48.893,
+    "lon": 2.236,
+    "kind": "tower"
+   },
+   {
+    "name": "Tour Montparnasse",
+    "lat": 48.8421,
+    "lon": 2.3219,
+    "kind": "tower"
+   },
+   {
+    "name": "Basilique Saint-Denis",
+    "lat": 48.9356,
+    "lon": 2.3597,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Stade de France",
+    "lat": 48.9245,
+    "lon": 2.3602,
+    "kind": "civic"
+   },
+   {
+    "name": "Bibliothèque François-Mitterrand",
+    "lat": 48.8336,
+    "lon": 2.3758,
+    "kind": "civic"
+   },
+   {
+    "name": "Château de Vincennes",
+    "lat": 48.8427,
+    "lon": 2.4359,
+    "kind": "castle"
+   }
+  ],
+  "bordeaux": [
+   {
+    "name": "Place de la Bourse",
+    "lat": 44.8414,
+    "lon": -0.57,
+    "kind": "civic"
+   },
+   {
+    "name": "Cathédrale Saint-André",
+    "lat": 44.8378,
+    "lon": -0.5776,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Grand Théâtre",
+    "lat": 44.8425,
+    "lon": -0.5743,
+    "kind": "civic"
+   },
+   {
+    "name": "Pont de pierre",
+    "lat": 44.8381,
+    "lon": -0.5636,
+    "kind": "bridge"
+   },
+   {
+    "name": "Gare Saint-Jean",
+    "lat": 44.8259,
+    "lon": -0.556,
+    "kind": "station"
+   },
+   {
+    "name": "Cité du Vin",
+    "lat": 44.8625,
+    "lon": -0.5503,
+    "kind": "civic"
+   },
+   {
+    "name": "Pont Jacques-Chaban-Delmas",
+    "lat": 44.8588,
+    "lon": -0.5518,
+    "kind": "bridge"
+   },
+   {
+    "name": "Porte Cailhau",
+    "lat": 44.839,
+    "lon": -0.5697,
+    "kind": "tower"
+   }
+  ],
+  "strasbourg": [
+   {
+    "name": "Cathédrale Notre-Dame",
+    "lat": 48.5818,
+    "lon": 7.7509,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare centrale",
+    "lat": 48.585,
+    "lon": 7.7345,
+    "kind": "station"
+   },
+   {
+    "name": "Petite France",
+    "lat": 48.581,
+    "lon": 7.74,
+    "kind": "civic"
+   },
+   {
+    "name": "Parlement européen",
+    "lat": 48.5976,
+    "lon": 7.7686,
+    "kind": "civic"
+   }
+  ],
+  "lille": [
+   {
+    "name": "Vieille Bourse",
+    "lat": 50.6372,
+    "lon": 3.0636,
+    "kind": "civic"
+   },
+   {
+    "name": "Gare Lille-Flandres",
+    "lat": 50.6365,
+    "lon": 3.07,
+    "kind": "station"
+   },
+   {
+    "name": "Gare Lille-Europe",
+    "lat": 50.639,
+    "lon": 3.0756,
+    "kind": "station"
+   },
+   {
+    "name": "Cathédrale Notre-Dame-de-la-Treille",
+    "lat": 50.6403,
+    "lon": 3.0619,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Beffroi de l'hôtel de ville",
+    "lat": 50.6309,
+    "lon": 3.0703,
+    "kind": "tower"
+   },
+   {
+    "name": "Hôtel de ville de Roubaix",
+    "lat": 50.691,
+    "lon": 3.1817,
+    "kind": "civic"
+   },
+   {
+    "name": "Église Saint-Christophe de Tourcoing",
+    "lat": 50.7234,
+    "lon": 3.1611,
+    "kind": "cathedral"
+   }
+  ],
+  "grenoble": [
+   {
+    "name": "Fort de la Bastille",
+    "lat": 45.1985,
+    "lon": 5.7254,
+    "kind": "castle"
+   },
+   {
+    "name": "Gare de Grenoble",
+    "lat": 45.1914,
+    "lon": 5.7146,
+    "kind": "station"
+   },
+   {
+    "name": "Collégiale Saint-André",
+    "lat": 45.1922,
+    "lon": 5.729,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Tour Perret",
+    "lat": 45.1838,
+    "lon": 5.7356,
+    "kind": "tower"
+   }
+  ],
+  "montpellier": [
+   {
+    "name": "Place de la Comédie",
+    "lat": 43.6086,
+    "lon": 3.8797,
+    "kind": "civic"
+   },
+   {
+    "name": "Cathédrale Saint-Pierre",
+    "lat": 43.6136,
+    "lon": 3.8735,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Arc de triomphe et Peyrou",
+    "lat": 43.6113,
+    "lon": 3.8735,
+    "kind": "civic"
+   },
+   {
+    "name": "Gare Saint-Roch",
+    "lat": 43.6046,
+    "lon": 3.8807,
+    "kind": "station"
+   },
+   {
+    "name": "Antigone",
+    "lat": 43.6076,
+    "lon": 3.889,
+    "kind": "civic"
+   },
+   {
+    "name": "Hôtel de ville",
+    "lat": 43.5992,
+    "lon": 3.8968,
+    "kind": "civic"
+   }
+  ],
+  "marseille": [
+   {
+    "name": "Notre-Dame-de-la-Garde",
+    "lat": 43.284,
+    "lon": 5.3712,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Vieux-Port",
+    "lat": 43.2951,
+    "lon": 5.374,
+    "kind": "civic"
+   },
+   {
+    "name": "Cathédrale de la Major",
+    "lat": 43.2992,
+    "lon": 5.3653,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare Saint-Charles",
+    "lat": 43.3027,
+    "lon": 5.3806,
+    "kind": "station"
+   },
+   {
+    "name": "MuCEM et fort Saint-Jean",
+    "lat": 43.2966,
+    "lon": 5.3608,
+    "kind": "castle"
+   },
+   {
+    "name": "Palais Longchamp",
+    "lat": 43.3046,
+    "lon": 5.3945,
+    "kind": "civic"
+   },
+   {
+    "name": "Stade Vélodrome",
+    "lat": 43.2698,
+    "lon": 5.3958,
+    "kind": "civic"
+   }
+  ],
+  "toulouse": [
+   {
+    "name": "Capitole",
+    "lat": 43.6045,
+    "lon": 1.444,
+    "kind": "civic"
+   },
+   {
+    "name": "Basilique Saint-Sernin",
+    "lat": 43.6085,
+    "lon": 1.442,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Cathédrale Saint-Étienne",
+    "lat": 43.6001,
+    "lon": 1.4517,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Pont Neuf",
+    "lat": 43.5992,
+    "lon": 1.4385,
+    "kind": "bridge"
+   },
+   {
+    "name": "Gare Matabiau",
+    "lat": 43.6113,
+    "lon": 1.4535,
+    "kind": "station"
+   }
+  ],
+  "nice": [
+   {
+    "name": "Place Masséna",
+    "lat": 43.6974,
+    "lon": 7.27,
+    "kind": "civic"
+   },
+   {
+    "name": "Colline du Château",
+    "lat": 43.695,
+    "lon": 7.2808,
+    "kind": "castle"
+   },
+   {
+    "name": "Hôtel Negresco",
+    "lat": 43.6947,
+    "lon": 7.258,
+    "kind": "civic"
+   },
+   {
+    "name": "Cathédrale Saint-Nicolas",
+    "lat": 43.7037,
+    "lon": 7.2531,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare de Nice-Ville",
+    "lat": 43.7046,
+    "lon": 7.2617,
+    "kind": "station"
+   },
+   {
+    "name": "Port Lympia",
+    "lat": 43.697,
+    "lon": 7.286,
+    "kind": "civic"
+   }
+  ],
+  "rouen": [
+   {
+    "name": "Cathédrale Notre-Dame",
+    "lat": 49.4402,
+    "lon": 1.0951,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gros-Horloge",
+    "lat": 49.4412,
+    "lon": 1.0905,
+    "kind": "tower"
+   },
+   {
+    "name": "Église Jeanne-d'Arc",
+    "lat": 49.4428,
+    "lon": 1.0882,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare Rive-Droite",
+    "lat": 49.449,
+    "lon": 1.094,
+    "kind": "station"
+   },
+   {
+    "name": "Pont Gustave-Flaubert",
+    "lat": 49.4475,
+    "lon": 1.064,
+    "kind": "bridge"
+   }
+  ],
+  "dijon": [
+   {
+    "name": "Palais des ducs de Bourgogne",
+    "lat": 47.3218,
+    "lon": 5.0415,
+    "kind": "castle"
+   },
+   {
+    "name": "Cathédrale Saint-Bénigne",
+    "lat": 47.322,
+    "lon": 5.035,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Église Notre-Dame",
+    "lat": 47.3223,
+    "lon": 5.0422,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare Dijon-Ville",
+    "lat": 47.3233,
+    "lon": 5.0273,
+    "kind": "station"
+   },
+   {
+    "name": "Porte Guillaume",
+    "lat": 47.3226,
+    "lon": 5.0355,
+    "kind": "civic"
+   }
+  ],
+  "reims": [
+   {
+    "name": "Cathédrale Notre-Dame",
+    "lat": 49.2539,
+    "lon": 4.034,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Basilique Saint-Remi",
+    "lat": 49.2422,
+    "lon": 4.0423,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare de Reims",
+    "lat": 49.2588,
+    "lon": 4.0242,
+    "kind": "station"
+   },
+   {
+    "name": "Porte de Mars",
+    "lat": 49.261,
+    "lon": 4.0298,
+    "kind": "civic"
+   }
+  ],
+  "tours": [
+   {
+    "name": "Cathédrale Saint-Gatien",
+    "lat": 47.3956,
+    "lon": 0.695,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare de Tours",
+    "lat": 47.3897,
+    "lon": 0.6941,
+    "kind": "station"
+   },
+   {
+    "name": "Hôtel de ville",
+    "lat": 47.3906,
+    "lon": 0.689,
+    "kind": "civic"
+   },
+   {
+    "name": "Basilique Saint-Martin",
+    "lat": 47.3936,
+    "lon": 0.6814,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Pont Wilson",
+    "lat": 47.3985,
+    "lon": 0.6886,
+    "kind": "bridge"
+   }
+  ],
+  "orleans": [
+   {
+    "name": "Cathédrale Sainte-Croix",
+    "lat": 47.9021,
+    "lon": 1.91,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Place du Martroi",
+    "lat": 47.9028,
+    "lon": 1.9044,
+    "kind": "civic"
+   },
+   {
+    "name": "Gare d'Orléans",
+    "lat": 47.9077,
+    "lon": 1.9045,
+    "kind": "station"
+   },
+   {
+    "name": "Pont George-V",
+    "lat": 47.8978,
+    "lon": 1.9049,
+    "kind": "bridge"
+   }
+  ],
+  "lemans": [
+   {
+    "name": "Cathédrale Saint-Julien",
+    "lat": 48.0094,
+    "lon": 0.1987,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Cité Plantagenêt",
+    "lat": 48.008,
+    "lon": 0.197,
+    "kind": "castle"
+   },
+   {
+    "name": "Gare du Mans",
+    "lat": 47.9955,
+    "lon": 0.1925,
+    "kind": "station"
+   }
+  ],
+  "brest": [
+   {
+    "name": "Château de Brest",
+    "lat": 48.381,
+    "lon": -4.495,
+    "kind": "castle"
+   },
+   {
+    "name": "Pont de Recouvrance",
+    "lat": 48.3836,
+    "lon": -4.4962,
+    "kind": "bridge"
+   },
+   {
+    "name": "Gare de Brest",
+    "lat": 48.388,
+    "lon": -4.4795,
+    "kind": "station"
+   },
+   {
+    "name": "Ateliers des Capucins",
+    "lat": 48.386,
+    "lon": -4.501,
+    "kind": "civic"
+   }
+  ],
+  "caen": [
+   {
+    "name": "Château de Caen",
+    "lat": 49.1863,
+    "lon": -0.3627,
+    "kind": "castle"
+   },
+   {
+    "name": "Abbaye-aux-Hommes",
+    "lat": 49.1814,
+    "lon": -0.372,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Abbaye-aux-Dames",
+    "lat": 49.1863,
+    "lon": -0.351,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Église Saint-Pierre",
+    "lat": 49.1834,
+    "lon": -0.3612,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare de Caen",
+    "lat": 49.1767,
+    "lon": -0.3483,
+    "kind": "station"
+   }
+  ],
+  "clermont": [
+   {
+    "name": "Cathédrale Notre-Dame-de-l'Assomption",
+    "lat": 45.7787,
+    "lon": 3.0848,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Basilique Notre-Dame-du-Port",
+    "lat": 45.7804,
+    "lon": 3.0896,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Place de Jaude",
+    "lat": 45.7769,
+    "lon": 3.0818,
+    "kind": "civic"
+   },
+   {
+    "name": "Gare de Clermont-Ferrand",
+    "lat": 45.7786,
+    "lon": 3.1003,
+    "kind": "station"
+   }
+  ],
+  "besancon": [
+   {
+    "name": "Citadelle",
+    "lat": 47.2318,
+    "lon": 6.0322,
+    "kind": "castle"
+   },
+   {
+    "name": "Cathédrale Saint-Jean",
+    "lat": 47.2339,
+    "lon": 6.03,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare Viotte",
+    "lat": 47.2471,
+    "lon": 6.0221,
+    "kind": "station"
+   }
+  ],
+  "saintetienne": [
+   {
+    "name": "Hôtel de ville",
+    "lat": 45.4397,
+    "lon": 4.3872,
+    "kind": "civic"
+   },
+   {
+    "name": "Cité du design",
+    "lat": 45.4497,
+    "lon": 4.3918,
+    "kind": "civic"
+   },
+   {
+    "name": "Gare de Châteaucreux",
+    "lat": 45.443,
+    "lon": 4.3995,
+    "kind": "station"
+   },
+   {
+    "name": "Stade Geoffroy-Guichard",
+    "lat": 45.4608,
+    "lon": 4.3903,
+    "kind": "civic"
+   },
+   {
+    "name": "Puits Couriot",
+    "lat": 45.4384,
+    "lon": 4.374,
+    "kind": "tower"
+   }
+  ],
+  "mulhouse": [
+   {
+    "name": "Temple Saint-Étienne",
+    "lat": 47.7466,
+    "lon": 7.3384,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Gare de Mulhouse",
+    "lat": 47.7419,
+    "lon": 7.3423,
+    "kind": "station"
+   },
+   {
+    "name": "Tour de l'Europe",
+    "lat": 47.7488,
+    "lon": 7.3326,
+    "kind": "tower"
+   }
+  ],
+  "lehavre": [
+   {
+    "name": "Église Saint-Joseph",
+    "lat": 49.492,
+    "lon": 0.1033,
+    "kind": "cathedral"
+   },
+   {
+    "name": "Hôtel de ville",
+    "lat": 49.493,
+    "lon": 0.1076,
+    "kind": "civic"
+   },
+   {
+    "name": "Gare du Havre",
+    "lat": 49.4925,
+    "lon": 0.1255,
+    "kind": "station"
+   },
+   {
+    "name": "Volcan",
+    "lat": 49.4925,
+    "lon": 0.112,
+    "kind": "civic"
+   }
+  ],
+  "valenciennes": [
+   {
+    "name": "Hôtel de ville",
+    "lat": 50.3578,
+    "lon": 3.5233,
+    "kind": "civic"
+   },
+   {
+    "name": "Gare de Valenciennes",
+    "lat": 50.3634,
+    "lon": 3.5174,
+    "kind": "station"
+   }
+  ],
+  "avignon": [
+   {
+    "name": "Palais des Papes",
+    "lat": 43.9508,
+    "lon": 4.8075,
+    "kind": "castle"
+   },
+   {
+    "name": "Pont Saint-Bénézet",
+    "lat": 43.9539,
+    "lon": 4.805,
+    "kind": "bridge"
+   },
+   {
+    "name": "Gare Avignon-Centre",
+    "lat": 43.942,
+    "lon": 4.8055,
+    "kind": "station"
+   }
+  ],
+  "aubagne": [
+   {
+    "name": "Hôtel de ville",
+    "lat": 43.2927,
+    "lon": 5.5708,
+    "kind": "civic"
+   },
+   {
+    "name": "Gare d'Aubagne",
+    "lat": 43.293,
+    "lon": 5.5636,
+    "kind": "station"
+   }
+  ]
+ }
+}

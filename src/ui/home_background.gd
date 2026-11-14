@@ -63,7 +63,8 @@ func layer_count() -> int:
 func _launch() -> void:
 	var entries := NetworkRegistry.entries().filter(func(e): return e.city == city)
 	if entries.is_empty(): return
-	var radius := 450.0 if still_mode else 1100.0
+	# rayon de décor : couvre le cadre (±1,47 d × ±0,83 d en 16:9 ; jusqu'au 21:9) ; tuiles allégées (CityScene.lite)
+	var radius := 1.25 if still_mode else 1.6
 	_control = LoadControl.new()
 	_job = {"city": city, "entries": entries, "radius": radius, "control": _control}
 	_task = WorkerThreadPool.add_task(_load.bind(_job), false, "home_background")
@@ -113,7 +114,8 @@ static func _load(job: Dictionary) -> void:
 		var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s.json" % src))
 		var cs := CityScene.new()
 		if meta is Dictionary and cs.open(src, origin):
-			cs.radius = minf(job.radius, job.dist * 1.1)
+			cs.radius = job.radius * job.dist
+			cs.lite = true
 			if not cs.warm(job.center, job.control):
 				cs.free(); return
 			if cs.has_terrain: job.center.y = cs.height_at(job.center)
@@ -151,7 +153,9 @@ func _place(L: Dictionary) -> void:
 
 func _install(job: Dictionary) -> void:
 	var vp := SubViewport.new(); vp.own_world_3d = true; vp.msaa_3d = Viewport.MSAA_2X if not still_mode else Viewport.MSAA_DISABLED
-	vp.size = _vp_size(); vp.render_target_update_mode = SubViewport.UPDATE_ONCE
+	# quelques images complètes (ciel, environnement, matériaux prêts) avant de figer : la toute première image
+	# d'un SubViewport neuf sort délavée (plan blanc) sous Compatibility
+	vp.size = _vp_size(); vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	add_child(vp)
 	var world := Node3D.new(); vp.add_child(world)
 	var day := DayNight.new(); world.add_child(day); day.setup(world); day.set_hour(HOUR)
@@ -170,21 +174,29 @@ func _install(job: Dictionary) -> void:
 	rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED; rect.texture = vp.get_texture(); rect.modulate.a = 0.0
 	add_child(rect); move_child(rect, _shade.get_index())
 	var L := {"vp": vp, "rect": rect, "cam": cam, "center": job.center, "dist": job.dist,
-		"city": job.city, "still": still_mode, "day": day}
+		"city": job.city, "still": still_mode, "day": day, "visible": true}
 	_place(L)
 	_layers.append(L)
 	shown = job.city
 	if OS.get_environment("HOME_BG_DEBUG") != "": print("fond %s : centre %s, distance %.0f, tuiles %d" % [job.city, job.center, job.dist, job.scene.built.size() if job.has("scene") else -1])
 	if still_mode: _freeze.call_deferred(L)
+	else: _settle.call_deferred(L)
 	var tw := rect.create_tween(); tw.tween_property(rect, "modulate:a", 1.0, FADE)
 	tw.tween_callback(func():
 		for old in _layers.duplicate():
 			if old != L: _drop(old)
 		city_ready.emit(job.city))
 
+## Bureau : rendu continu le temps de quelques images, puis une seule image par changement (UPDATE_ONCE).
+func _settle(L: Dictionary) -> void:
+	for i in 4: await RenderingServer.frame_post_draw
+	if L.vp != null and is_instance_valid(L.vp):
+		L.vp.render_target_update_mode = SubViewport.UPDATE_ONCE if is_visible_in_tree() else SubViewport.UPDATE_DISABLED
+		L["visible"] = is_visible_in_tree()
+
 ## Mobile : quelques images (ciel, éclairage) puis copie figée ; la 3D est libérée.
 func _freeze(L: Dictionary) -> void:
-	for i in 3: await RenderingServer.frame_post_draw
+	for i in 5: await RenderingServer.frame_post_draw
 	if not is_instance_valid(L.vp): return
 	var img: Image = L.vp.get_texture().get_image()
 	if img != null and not img.is_empty(): L.rect.texture = ImageTexture.create_from_image(img)

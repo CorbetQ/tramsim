@@ -49,6 +49,10 @@ var overspeed_s := 0.0
 var sand_left_s := 0.0
 const SAND_RESERVE_S := 90.0
 const ALIGHT_RATE_PER_S := 6.0
+# Signalisation lumineuse (SignalModel) : signaux devant la rame, rames IA du réseau.
+var sig_ahead: Array = []            # [{i, dist}] mis à jour à chaque pas par SignalModel.update
+var ai: AiTrams = null               # rames en circulation gérées par le jeu (mode mission)
+var crossing_strict := true          # feu de carrefour franchi à l'arrêt = échec (mission)
 
 func _init(network: NetworkLoader, profile: VehicleProfile, start_edge: String, start_offset: float, sched: Array[float], pax: int = 40) -> void:
 	net = network
@@ -256,6 +260,10 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	if doors_open:
 		n = minf(n, -0.75)  # interverrouillage de portes : traction coupée et frein de maintien
 	_update_signals()
+	var sm := SignalModel.of(net)
+	sm.interlocked = interlocking != null
+	if ai != null: ai.step(dt, self)
+	else: sm.update(dt, [self])
 	if events != null:
 		phys.adhesion = events.adhesion_at(self)
 		if phys.sanding:
@@ -272,6 +280,7 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	_advance(d)
 	if finished:
 		return
+	if d > 0.0 and _crossing_passed(sm, d): return
 	if power_ok and pantograph_up: achieved["powered"] = true
 	if interlocking != null:
 		interlocking.update(self)
@@ -287,6 +296,18 @@ func tick(dt: float, notch: float, emergency: bool = false) -> void:
 	_update_dwell(dt)
 	_check_station_passed()
 	_check_target()
+
+## Feu de carrefour franchi à l'arrêt pendant ce pas : échec en mission, avertissement sinon.
+func _crossing_passed(sm: SignalModel, moved: float) -> bool:
+	for it in sig_ahead:
+		var i := int(it.i)
+		if float(it.dist) > moved: break
+		if float(it.dist) < 0.0 or not sm.cross.has(i) or sm.aspect(i) != "stop": continue
+		if crossing_strict:
+			_fail("Feu de carrefour franchi (barre horizontale)")
+			return true
+		event.emit("signal", "Feu de carrefour franchi à l'arrêt")
+	return false
 
 ## Cantonnement automatique : un signal portant `protects` passe à l'arrêt si la section
 ## protégée est occupée par un autre mobile ; sans `protects`, l'état est celui fixé à la main.

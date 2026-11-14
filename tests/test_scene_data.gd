@@ -22,7 +22,7 @@ func _init() -> void:
 	var fails := 0
 	var cities := 0
 	for f in DirAccess.get_files_at("res://data/scenes"):
-		if not f.ends_with(".bin") or f.ends_with("_terrain.bin") or f.ends_with("_ground.bin"): continue
+		if not f.ends_with(".bin") or f.ends_with("_terrain.bin") or f.ends_with("_ground.bin") or f.ends_with("_land.bin"): continue
 		var c := f.get_basename()
 		if only.size() > 0 and not c in only: continue
 		cities += 1
@@ -32,6 +32,17 @@ func _init() -> void:
 		var cs := CityScene.new()
 		if not cs.open(c, net.meta.origin):
 			print("ECHEC %s : lecture" % c); fails += 1; cs.free(); continue
+		# occupation du sol (TLC1) : lisible, classes connues sur la plupart des tuiles de sol
+		if FileAccess.file_exists("res://data/scenes/%s_land.bin" % c):
+			if cs.terrain == null or not cs.terrain.land_ok:
+				print("ECHEC %s : occupation du sol illisible" % c); fails += 1
+			else:
+				var known := 0; var total := 0
+				for k in cs.terrain.keys:
+					total += 1
+					if cs.terrain.land_class((k.x + 0.5) * cs.tile_m, (k.y + 0.5) * cs.tile_m) >= 0: known += 1
+				if known < total * 0.95:
+					print("ECHEC %s : occupation du sol connue sur %d/%d tuiles" % [c, known, total]); fails += 1
 		var bad := 0
 		for k in cs.table:
 			if not cs.tile_ok(k): bad += 1

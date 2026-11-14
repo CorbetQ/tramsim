@@ -53,6 +53,11 @@ var _far_mesh: MeshInstance3D = null
 var _far_at := Vector3(INF, INF, INF)
 var _far_loaded := 0
 var color := Color("#a9ab98")
+# occupation du sol réelle (data/scenes/<ville>_land.bin, TLC1, tools/import/landcover.py) : classes par cellule
+var land_ok := false
+var land_colors: Array[Color] = []
+var land_flags := PackedByteArray()
+var _land: Array = []               # [détail (25 m), lointain (100 m)] : [x0, z0, pas, nx, nz, PackedByteArray]
 
 static func path_for(c: String) -> String:
 	return "res://data/scenes/%s_ground.bin" % c
@@ -86,8 +91,50 @@ func open(c: String) -> bool:
 		_far_nx = far.decode_u16(12); _far_nz = far.decode_u16(14)
 		_far_h.resize(_far_nx * _far_nz)
 		for i in _far_nx * _far_nz: _far_h[i] = far.decode_s16(16 + i * 2) * 0.1
+	_load_land(c)
 	ok = true
 	return true
+
+func _load_land(c: String) -> void:
+	var path := "res://data/scenes/%s_land.bin" % c
+	if not FileAccess.file_exists(path): return
+	var b := FileAccess.get_file_as_bytes(path)
+	if b.size() < 9 or b.slice(0, 4).get_string_from_ascii() != "TLC1": return
+	var n := b.decode_u8(8); var o := 9
+	for i in n:
+		land_colors.append(Color8(b[o], b[o + 1], b[o + 2])); land_flags.append(b[o + 3]); o += 4
+	for r in 2:
+		if o + 20 > b.size(): return
+		var nx := b.decode_u16(o + 12); var nz := b.decode_u16(o + 14); var cs := b.decode_u32(o + 16)
+		var raw := b.slice(o + 20, o + 20 + cs).decompress(nx * nz, FileAccess.COMPRESSION_BROTLI)
+		if raw.size() != nx * nz: return
+		_land.append([b.decode_float(o), b.decode_float(o + 4), b.decode_float(o + 8), nx, nz, raw])
+		o += 20 + cs
+	land_ok = true
+
+## Classe d'occupation du sol au point (repère de la ville) : raster de détail, sinon lointain ; -1 si inconnue.
+func land_class(x: float, z: float, far_only: bool = false) -> int:
+	for r in range(1 if far_only else 0, _land.size()):
+		var L: Array = _land[r]
+		var ix := floori((x - L[0]) / L[2]); var iz := floori((z - L[1]) / L[2])
+		if ix < 0 or iz < 0 or ix >= L[3] or iz >= L[4]: continue
+		var c: int = L[5][iz * L[3] + ix]
+		if c < land_colors.size(): return c
+	return -1
+
+## Teinte d'occupation du sol d'une tuile (18 x 18 : cellules de 25 m et une cellule de bord ; A = sillons),
+## pour le shader du sol (land_tint). null sans données.
+func land_image(k: Vector2i, fallback: Color) -> Image:
+	if not land_ok: return null
+	var img := Image.create(18, 18, false, Image.FORMAT_RGBA8)
+	var ox := k.x * tile_m; var oz := k.y * tile_m
+	for iz in 18:
+		for ix in 18:
+			var c := land_class(ox + (ix - 1) * 25.0 + 12.5, oz + (iz - 1) * 25.0 + 12.5)
+			var col: Color = land_colors[c] if c >= 0 else fallback
+			col.a = 1.0 if c >= 0 and land_flags[c] & 1 else 0.0
+			img.set_pixel(ix, iz, col)
+	return img
 
 ## Niveaux d'eau et tabliers (format des enregistrements TTR2), dans l'ordre de `keys`.
 func meta_bytes() -> PackedByteArray:
@@ -199,6 +246,17 @@ func far_height(x: float, z: float) -> float:
 	var h01 := _far_h[(iz + 1) * _far_nx + ix]; var h11 := _far_h[(iz + 1) * _far_nx + ix + 1]
 	return lerpf(lerpf(h00, h10, u), lerpf(h01, h11, u), v)
 
+## Relief lointain tel que maillé par la couronne (grille de FAR_STEP m, diagonale 00-11, 1,5 m sous le MNT) :
+## sol des tuiles de décor lointain (CityScene._far_ground) et altitude hors des tuiles de sol.
+func far_tri(x: float, z: float) -> float:
+	var ix := floorf(x / FAR_STEP); var iz := floorf(z / FAR_STEP)
+	var u := x / FAR_STEP - ix; var v := z / FAR_STEP - iz
+	var x0 := ix * FAR_STEP; var z0 := iz * FAR_STEP
+	var h00 := far_height(x0, z0); var h10 := far_height(x0 + FAR_STEP, z0)
+	var h01 := far_height(x0, z0 + FAR_STEP); var h11 := far_height(x0 + FAR_STEP, z0 + FAR_STEP)
+	var h := h00 + (h10 - h00) * u + (h11 - h10) * v if u >= v else h00 + (h11 - h01) * u + (h01 - h00) * v
+	return h - 1.5
+
 ## Rapprochement radial (angle de vue conservé) au-delà de `near` : relief lointain dans le plan lointain de la caméra.
 const FAR_SHADER := """
 shader_type spatial;
@@ -266,7 +324,6 @@ func update_far(cam_city: Vector3, loaded: Dictionary = {}) -> void:
 				break
 			P[iz * n + ix] = Vector3(x, h, z)
 	var V := PackedVector3Array(); var C := PackedColorArray(); var N := PackedVector3Array()
-	var steep := color.darkened(0.2)
 	for iz in n - 1:
 		for ix in n - 1:
 			var cx := x0 + (ix + 0.5) * FAR_STEP; var cz := z0 + (iz + 0.5) * FAR_STEP
@@ -287,9 +344,13 @@ func update_far(cam_city: Vector3, loaded: Dictionary = {}) -> void:
 				var fn: Vector3 = (tri[2] - tri[0]).cross(tri[1] - tri[0]).normalized()
 				if fn.length_squared() < 0.5: continue
 				if fn.y < 0.0: fn = -fn
-				var col := color.lerp(steep, clampf((1.0 - fn.y) * 5.0, 0.0, 1.0))
+				var k_steep := clampf((1.0 - fn.y) * 5.0, 0.0, 1.0)
 				for q in tri:
-					V.append(q); N.append(fn); C.append(col)
+					var col := color
+					if land_ok:   # occupation du sol régionale (cellules de 100 m), interpolée entre sommets
+						var lc := land_class(q.x, q.z, true)
+						if lc >= 0: col = land_colors[lc]
+					V.append(q); N.append(fn); C.append(col.lerp(col.darkened(0.2), k_steep))
 	if _far_mesh == null:
 		_far_mesh = MeshInstance3D.new()
 		_far_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

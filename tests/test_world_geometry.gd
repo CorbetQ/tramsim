@@ -54,6 +54,20 @@ func _init()->void:
  var styles:Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://data/city_styles.json"))
  check(identities.size()==styles.cities.size(),"toutes les villes ont un profil de matériaux")
  check(identities.toulouse.masonry!=identities.angers.masonry,"brique toulousaine et pierre angevine distinctes")
+ # décor élargi (tools/import/periphery.py) : monuments emblématiques couverts, occupation du sol réelle
+ var landmarks:Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://data/landmarks.json"))
+ check(landmarks.cities.size()==styles.cities.size(),"monuments emblématiques listés pour toutes les villes")
+ var ang:=CityScene.new();ang.open("angers",[47.443902,-0.554032])
+ var covered:=0
+ for lm in landmarks.cities.angers:
+  var lat0:=deg_to_rad(47.443902)
+  var x:=deg_to_rad(float(lm.lon)+0.554032)*6371008.8*cos(lat0);var z:=-deg_to_rad(float(lm.lat)-47.443902)*6371008.8
+  if ang.table.has(Vector2i(floori(x/ang.tile_m),floori(z/ang.tile_m))):covered+=1
+ check(covered==landmarks.cities.angers.size(),"Angers : château, cathédrale, gare… dans le décor détaillé (%d/%d)"%[covered,landmarks.cities.angers.size()])
+ check(ang.terrain!=null and ang.terrain.land_ok and ang.terrain.land_colors.size()>=8,"Angers : occupation du sol (classes de l’orthophoto)")
+ var img:=ang.terrain.land_image(ang.terrain.keys[0],Color.GRAY) if ang.terrain!=null else null
+ check(img!=null and img.get_width()==18,"teinte d’occupation du sol par tuile (18 x 18)")
+ ang.free()
  var n:=NetworkLoader.new();n.load_file("res://tests/fixtures/schema_test.json")
  for id in ["e0","e1","dep"]:
   n.graph.edges[id].length=10.0;n.edge_info[id].supply="overhead"

@@ -1,11 +1,21 @@
 class_name TrackView
 extends RefCounted
 ## Plateforme de tram : rubans à jonctions en onglet (sommets partagés), nature réelle de la plateforme
-## (gazon / enrobé / pavés-béton, analysée sur les orthophotos IGN, voir tools/import/ign_scene.py)
+## (gazon / enrobé / pavés ou béton désactivé, analysée sur les orthophotos IGN, voir tools/import/ign_scene.py)
 ## et zones interdites au décor (KeepOut : voies, quais).
+## Rendu (matériau toon_building, identifiant de matériau dans l'alpha des couleurs : textures procédurales
+## métriques nettes, cohérentes avec la chaussée de la ville) :
+## - lit : gazon (M_VEG), enrobé (M_ASPHALT), pavés (M_PAVING) ou béton désactivé (granulats apparents, joints de
+##   dalle tous les SLAB_M) ; bordures béton (gazon) ou caniveau (chaussée) ;
+## - rails à gorge (Ri 60) : champignon poli, gorge sombre côté intérieur ; noyés à fleur dans la chaussée (joint
+##   bitumineux de part et d'autre), sur longrines béton à 3 cm au-dessus du gazon ;
+## - contre-rail sur le rail intérieur des courbes de rayon < GUARD_R_M ;
+## - appareils de voie (détectés aux extrémités d'arêtes confondues) : aiguilles polies effilées, coupons de
+##   joints au talon et au cœur, cœur de croisement, moteur d'aiguillage.
 
 const BED_TOP_M := 0.09
-const RAIL_TOP_M := 0.17
+const RAIL_TOP_M := BED_TOP_M + 0.03     # champignon au-dessus du gazon
+const EMBED_TOP_M := BED_TOP_M + 0.014   # rail noyé : à fleur (léger relief pour la profondeur)
 const APS_TOP_M := BED_TOP_M + 0.015
 const BED_UNKNOWN := 0
 const BED_GRASS := 1
@@ -14,9 +24,23 @@ const BED_PAVED := 3
 const MAX_SEG := 8.0          # m : subdivision pour suivre les changements de nature
 const GRASS := Color("#79a35a")
 const ASPHALT := Color("#5f6268")
+const CONCRETE := Color("#b4ada1")     # béton désactivé (granulats apparents)
 const SLEEPER := Color("#b3b1aa")
-const RAIL := Color("#8f959c", 0.9)
-const RAIL_TOP := Color("#c9ccd0", 0.9)
+const RAIL := Color("#8f959c")
+const RAIL_TOP := Color("#cfd3d7")
+const RAIL_SIDE := Color("#4a4440")    # âme du rail (rouille sombre)
+const GROOVE := Color("#26282b")
+const BLADE := Color("#e4e8ea")
+const JOINT := Color("#1d1e20")
+const GUARD_R_M := 50.0       # contre-rail en deçà de ce rayon
+const SLAB_M := 6.0           # pas des joints de dalle béton
+## Identifiants de matériau du shader toon_building (CityScene._Arrays.mat_id : alpha des couleurs de sommets).
+const A_ASPHALT := 0.28
+const A_PAVING := 0.29
+const A_VEG := 0.30
+
+static func _mat(c: Color, a: float) -> Color:
+	return Color(c.r, c.g, c.b, a)
 
 ## Polyligne resserrée (segments <= MAX_SEG), extrémités prolongées de `ext` pour fermer les jonctions.
 static func densify(pts: Array, ext: float = 0.15) -> Array[Vector3]:
@@ -114,8 +138,9 @@ static func smooth_kinds(kinds: Array, lens: Array) -> Array:
 		for q in range(int(runs[shortest][0]), int(runs[shortest][1])): k[q] = into
 	return k
 
-## Plateforme d'une voie (axe `pts`, décalage `o` vers la droite) : lit coloré par tronçon (nature lissée), bordures
-## de plateforme côté extérieur (gazon) ou caniveau (enrobé, pavés), longrines si gazon, rails noyés sinon.
+## Plateforme d'une voie (axe `pts`, décalage `o` vers la droite) : lit texturé par tronçon (nature lissée), bordures
+## de plateforme côté extérieur (gazon) ou caniveau (enrobé, pavés, béton), rails à gorge, contre-rails en courbe
+## serrée, appareils de voie aux extrémités partagées avec une autre voie.
 static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color, gauge_m: float = 1.435) -> void:
 	var pts := densify(axis)
 	if pts.size() < 2: return
@@ -125,31 +150,208 @@ static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color
 		raw.append(nature_fn.call((pts[i] + pts[i + 1]) * 0.5))
 		lens.append(pts[i].distance_to(pts[i + 1]))
 	var kinds := smooth_kinds(raw, lens)
-	var bed: Array = []
+	# pavés (teinte chaude des centres anciens) ou béton désactivé pour la nature « pavés / béton »
+	var setts := paved.r > paved.b + 0.06
+	var fb_kind := BED_GRASS if fallback == GRASS else (BED_ROAD if fallback == ASPHALT else BED_PAVED)
+	var bed: Array = []; var grassy: Array = []
 	for k in kinds:
-		match int(k):
-			BED_GRASS: bed.append(GRASS)
-			BED_ROAD: bed.append(ASPHALT)
-			BED_PAVED: bed.append(paved)
-			_: bed.append(fallback)
+		var kk := int(k) if int(k) != BED_UNKNOWN else fb_kind
+		grassy.append(kk == BED_GRASS)
+		match kk:
+			BED_GRASS: bed.append(_mat(GRASS, A_VEG))
+			BED_ROAD: bed.append(_mat(ASPHALT, A_ASPHALT))
+			_:
+				var base := paved if int(k) != BED_UNKNOWN else fallback
+				bed.append(_mat(base, A_PAVING) if setts and int(k) != BED_UNKNOWN else _mat(base.lerp(CONCRETE, 0.55), A_ASPHALT))
 	ribbon(g, pts, nrm, 3.5, BED_TOP_M, bed, o)
-	# bordures (gazon : bordure béton surélevée) ou caniveau (enrobé, pavés) sur le(s) côté(s) extérieur(s)
+	# bordures (gazon : bordure béton surélevée) ou caniveau (chaussée) sur le(s) côté(s) extérieur(s)
 	var edge_cols: Array = []
-	for i in kinds.size():
-		var grassy: bool = int(kinds[i]) == BED_GRASS or (int(kinds[i]) == BED_UNKNOWN and fallback == GRASS)
-		edge_cols.append(CURB if grassy else GUTTER)
+	for i in kinds.size(): edge_cols.append(CURB if grassy[i] else GUTTER)
 	for side in [-1.0, 1.0]:
 		if o != 0.0 and signf(o) != side: continue
 		ribbon(g, pts, nrm, 0.22, BED_TOP_M + 0.035, edge_cols, o + side * 1.64)
-	var sl: Array = []
-	for i in kinds.size():
-		var grassy: bool = int(kinds[i]) == BED_GRASS or (int(kinds[i]) == BED_UNKNOWN and fallback == GRASS)
-		sl.append(SLEEPER if grassy else Color(bed[i]).darkened(0.12))
-	var rails: Array = []
-	rails.resize(kinds.size()); rails.fill(RAIL)
-	for off in [-gauge_m * 0.5, gauge_m * 0.5]:
-		ribbon(g, pts, nrm, 0.42, 0.11, sl, o + off)
-		ribbon(g, pts, nrm, 0.08, RAIL_TOP_M, rails, o + off)
+	_slab_joints(g, pts, nrm, o, kinds, grassy, setts)
+	var curv := curvature(pts)
+	var hw := gauge_m * 0.5
+	for side in [-1.0, 1.0]:
+		_rail(g, pts, nrm, o + side * hw, side, grassy, curv)
+	_switch_ends(g, pts, nrm, o, gauge_m, grassy)
+
+## Courbure signée par sommet (1/m, > 0 : virage vers la droite de la voie), lissée sur ± 4 m.
+static func curvature(pts: Array[Vector3]) -> PackedFloat32Array:
+	var n := pts.size()
+	var k := PackedFloat32Array(); k.resize(n)
+	for i in range(1, n - 1):
+		var a := Vector2(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z)
+		var b := Vector2(pts[i + 1].x - pts[i].x, pts[i + 1].z - pts[i].z)
+		var l := (a.length() + b.length()) * 0.5
+		if l > 0.001: k[i] = a.angle_to(b) / l
+	var out := PackedFloat32Array(); out.resize(n)
+	var s := PackedFloat32Array(); s.resize(n)
+	for i in range(1, n): s[i] = s[i - 1] + pts[i].distance_to(pts[i - 1])
+	var j0 := 0
+	for i in n:
+		while s[j0] < s[i] - 4.0: j0 += 1
+		var acc := 0.0; var w := 0.0; var j := j0
+		while j < n and s[j] <= s[i] + 4.0:
+			acc += k[j]; w += 1.0; j += 1
+		out[i] = acc / maxf(w, 1.0)
+	return out
+
+## Rail à gorge à l'abscisse latérale `off` (côté `side` : -1 gauche, +1 droite ; la gorge est côté intérieur).
+static func _rail(g, pts: Array[Vector3], nrm: PackedVector3Array, off: float, side: float, grassy: Array, curv: PackedFloat32Array) -> void:
+	var n := pts.size() - 1
+	var top: Array = []; var groove: Array = []; var filler: Array = []; var guard: Array = []
+	for i in n:
+		top.append(RAIL_TOP); groove.append(GROOVE)
+		filler.append(SLEEPER if grassy[i] else Color("#3a3c40"))
+	# longrine béton (gazon) ou joint bitumineux (chaussée) sous/autour du rail
+	_ribbon_y(g, pts, nrm, 0.30, func(i): return BED_TOP_M + (0.012 if grassy[i] else 0.006), filler, off)
+	_ribbon_y(g, pts, nrm, 0.072, func(i): return RAIL_TOP_M if grassy[i] else EMBED_TOP_M, top, off + side * 0.012)
+	_ribbon_y(g, pts, nrm, 0.036, func(i): return (RAIL_TOP_M if grassy[i] else EMBED_TOP_M) - 0.001, groove, off - side * 0.042)
+	# flancs du champignon au-dessus du gazon (silhouette nette)
+	for i in n:
+		if not grassy[i]: continue
+		for e in [-1.0, 1.0]:
+			var x: float = off + side * 0.012 + e * 0.036
+			var a: Vector3 = pts[i] + nrm[i] * x; var b: Vector3 = pts[i + 1] + nrm[i + 1] * x
+			g.quad(a + Vector3(0, RAIL_TOP_M, 0), b + Vector3(0, RAIL_TOP_M, 0), b + Vector3(0, BED_TOP_M + 0.012, 0), a + Vector3(0, BED_TOP_M + 0.012, 0), RAIL_SIDE)
+	# contre-rail : rail intérieur des courbes serrées (le centre de courbure est du côté du rail)
+	for i in n:
+		var k := (curv[i] + curv[i + 1]) * 0.5
+		if absf(k) < 1.0 / GUARD_R_M or signf(k) != side: continue
+		var y := (RAIL_TOP_M if grassy[i] else EMBED_TOP_M) + 0.012
+		var x: float = off - side * 0.085
+		var a: Vector3 = pts[i] + nrm[i] * x; var b: Vector3 = pts[i + 1] + nrm[i + 1] * x
+		var w := nrm[i] * 0.025; var w2 := nrm[i + 1] * 0.025
+		g.quad(a - w + Vector3(0, y, 0), a + w + Vector3(0, y, 0), b + w2 + Vector3(0, y, 0), b - w2 + Vector3(0, y, 0), BLADE.darkened(0.12))
+		g.quad(a - w * side + Vector3(0, y, 0), b - w2 * side + Vector3(0, y, 0), b - w2 * side + Vector3(0, y - 0.03, 0), a - w * side + Vector3(0, y - 0.03, 0), RAIL_SIDE)
+
+## Ruban à hauteur variable par segment (y_fn : index de segment -> hauteur).
+static func _ribbon_y(g, pts: Array[Vector3], nrm: PackedVector3Array, w: float, y_fn: Callable, cols: Array, offset: float) -> void:
+	var hw := w * 0.5
+	for i in range(pts.size() - 1):
+		var up := Vector3(0, float(y_fn.call(i)), 0)
+		var a := pts[i] + nrm[i] * offset + up; var b := pts[i + 1] + nrm[i + 1] * offset + up
+		g.quad(a - nrm[i] * hw, a + nrm[i] * hw, b + nrm[i + 1] * hw, b - nrm[i + 1] * hw, cols[i])
+
+## Joints transversaux de la dalle en béton désactivé (tous les SLAB_M), nets à toute distance.
+static func _slab_joints(g, pts: Array[Vector3], nrm: PackedVector3Array, o: float, kinds: Array, grassy: Array, setts: bool) -> void:
+	var acc := 0.0; var next := SLAB_M
+	for i in range(pts.size() - 1):
+		var L := pts[i].distance_to(pts[i + 1])
+		var concrete: bool = int(kinds[i]) != BED_ROAD and not grassy[i] and not (setts and int(kinds[i]) == BED_PAVED)
+		while next <= acc + L:
+			if concrete:
+				var t := (next - acc) / maxf(L, 0.001)
+				var p := pts[i].lerp(pts[i + 1], t); var nn := nrm[i].lerp(nrm[i + 1], t)
+				var d := (pts[i + 1] - pts[i]).normalized() * 0.018
+				var c := p + nn * o + Vector3(0, BED_TOP_M + 0.004, 0)
+				g.quad(c - nn * 1.6 - d, c + nn * 1.6 - d, c + nn * 1.6 + d, c - nn * 1.6 + d, Color("#7d786f"))
+			next += SLAB_M
+		acc += L
+
+## Appareils de voie : extrémités d'arêtes construites dans la même passe (même image) et confondues, de caps voisins.
+static var _sw_frame := -1
+static var _sw_ends: Dictionary = {}   # Vector2i (cellule 0,5 m) -> Array de [Vector2 cap sortant, Array[Vector3] axe depuis l'extrémité]
+
+static func _switch_ends(g, pts: Array[Vector3], nrm: PackedVector3Array, o: float, gauge_m: float, grassy: Array) -> void:
+	var frame := Engine.get_process_frames()
+	if frame != _sw_frame:
+		_sw_frame = frame; _sw_ends.clear()
+	var center: Array[Vector3] = []
+	for i in pts.size(): center.append(pts[i] + nrm[i] * o)
+	var embed: bool = not grassy[0]
+	for end in [0, 1]:
+		var line: Array[Vector3] = []
+		var acc := 0.0
+		var idx := range(center.size()) if end == 0 else range(center.size() - 1, -1, -1)
+		for i in idx:
+			if not line.is_empty(): acc += line[-1].distance_to(center[i])
+			line.append(center[i])
+			if acc > 30.0: break
+		if line.size() < 2: continue
+		var u := Vector2(line[1].x - line[0].x, line[1].z - line[0].z).normalized()
+		var key := Vector2i(roundi(line[0].x * 2.0), roundi(line[0].z * 2.0))
+		for dx in [-1, 0, 1]:
+			for dz in [-1, 0, 1]:
+				for other in _sw_ends.get(key + Vector2i(dx, dz), []):
+					var ol: Array[Vector3] = other[1]
+					if ol[0].distance_to(line[0]) > 0.4: continue
+					var ang := absf(u.angle_to(other[0]))
+					if ang > deg_to_rad(0.3) and ang < deg_to_rad(30.0):
+						draw_switch(g, line, ol, gauge_m, embed)
+		if not _sw_ends.has(key): _sw_ends[key] = []
+		_sw_ends[key].append([u, line])
+
+## Point d'une polyligne à l'abscisse s, et repère (tangente, normale droite).
+static func _at(line: Array[Vector3], s: float) -> Array:
+	var acc := 0.0
+	for i in range(line.size() - 1):
+		var L := line[i].distance_to(line[i + 1])
+		if acc + L >= s or i == line.size() - 2:
+			var t := clampf((s - acc) / maxf(L, 0.001), 0.0, 1.0)
+			var d := (line[i + 1] - line[i]); d.y = 0.0; d = d.normalized()
+			return [line[i].lerp(line[i + 1], t), d, Vector3(-d.z, 0, d.x)]
+		acc += L
+	return [line[-1], Vector3.FORWARD, Vector3.RIGHT]
+
+## Aiguillage entre les voies `a` et `b` (axes depuis la pointe) : aiguilles effilées polies le long des rails,
+## joints au talon et au cœur, cœur de croisement, moteur d'aiguillage côté extérieur.
+static func draw_switch(g, a: Array[Vector3], b: Array[Vector3], gauge_m: float, embed: bool) -> void:
+	var hw := gauge_m * 0.5
+	var y := (EMBED_TOP_M if embed else RAIL_TOP_M) + 0.006
+	const BLADE_M := 7.0
+	var steps := 14
+	for line in [a, b]:
+		for side in [-1.0, 1.0]:
+			for k in steps:
+				var s0 := BLADE_M * k / steps; var s1 := BLADE_M * (k + 1) / steps
+				var f0 := _at(line, s0); var f1 := _at(line, s1)
+				var w0 := lerpf(0.012, 0.05, float(k) / steps); var w1 := lerpf(0.012, 0.05, float(k + 1) / steps)
+				var x0: Vector3 = f0[2] * (side * (hw - 0.07) ); var x1: Vector3 = f1[2] * (side * (hw - 0.07))
+				var c0: Vector3 = f0[0] + x0 + Vector3(0, y, 0); var c1: Vector3 = f1[0] + x1 + Vector3(0, y, 0)
+				g.quad(c0 - f0[2] * w0, c0 + f0[2] * w0, c1 + f1[2] * w1, c1 - f1[2] * w1, BLADE)
+			# joint (coupon isolant) au talon de l'aiguille
+			var fh := _at(line, BLADE_M)
+			var p: Vector3 = fh[0] + fh[2] * (side * hw) + Vector3(0, y + 0.001, 0)
+			g.quad(p - fh[2] * 0.06 - fh[1] * 0.02, p + fh[2] * 0.06 - fh[1] * 0.02, p + fh[2] * 0.06 + fh[1] * 0.02, p - fh[2] * 0.06 + fh[1] * 0.02, JOINT)
+	# cœur : là où les rails intérieurs se croisent (écart des axes = écartement)
+	var s := 4.0; var la := _length(a); var hit := -1.0
+	while s < la:
+		var fa := _at(a, s)
+		var q := _closest(b, fa[0])
+		if (fa[0] as Vector3).distance_to(q) >= gauge_m:
+			hit = s; break
+		s += 0.5
+	if hit > 0.0:
+		var fa := _at(a, hit); var fb := _at(b, hit)
+		var c: Vector3 = ((fa[0] as Vector3) + _closest(b, fa[0])) * 0.5 + Vector3(0, y - 0.004, 0)
+		var d: Vector3 = ((fa[1] as Vector3) + (fb[1] as Vector3)).normalized(); var nn := Vector3(-d.z, 0, d.x)
+		g.quad(c - nn * 0.22 - d * 1.4, c + nn * 0.22 - d * 1.4, c + nn * 0.22 + d * 1.6, c - nn * 0.22 + d * 1.6, Color("#55585c"))
+		g.quad(c - nn * 0.03 - d * 1.2 + Vector3(0, 0.002, 0), c + nn * 0.03 - d * 1.2 + Vector3(0, 0.002, 0), c + nn * 0.03 + d * 1.4 + Vector3(0, 0.002, 0), c - nn * 0.03 + d * 1.4 + Vector3(0, 0.002, 0), BLADE)
+		for e in [-1.6, 1.8]:
+			var j: Vector3 = c + d * e + Vector3(0, 0.003, 0)
+			g.quad(j - nn * 0.3 - d * 0.02, j + nn * 0.3 - d * 0.02, j + nn * 0.3 + d * 0.02, j - nn * 0.3 + d * 0.02, JOINT)
+	# moteur d'aiguillage (boîtier) à l'extérieur, côté opposé à la déviation
+	var f := _at(a, 0.8); var fb2 := _at(b, 6.0)
+	var away := -1.0 if ((fb2[0] as Vector3) - (f[0] as Vector3)).dot(f[2]) > 0.0 else 1.0
+	if g.has_method("box_basis"):
+		var bas := Basis.looking_at(f[1], Vector3.UP)
+		g.box_basis(f[0] + f[2] * (away * (hw + 0.55)) + Vector3(0, BED_TOP_M + 0.08, 0), Vector3(0.38, 0.16, 0.9), bas, Color("#5f6b63"))
+
+static func _length(line: Array[Vector3]) -> float:
+	var L := 0.0
+	for i in range(line.size() - 1): L += line[i].distance_to(line[i + 1])
+	return L
+
+static func _closest(line: Array[Vector3], p: Vector3) -> Vector3:
+	var best := line[0]; var bd := INF
+	for i in range(line.size() - 1):
+		var q := Geometry3D.get_closest_point_to_segment(p, line[i], line[i + 1])
+		var d := q.distance_squared_to(p)
+		if d < bd: bd = d; best = q
+	return best
 
 ## Zones interdites au décor : segments (repère libre) avec distance minimale, index spatial à cellules de 16 m.
 class KeepOut:

@@ -56,6 +56,11 @@ func _run() -> void:
 			if c: rects[name] = c.get_global_rect()
 		check(not rects.trip.intersects(rects.lever), "%s : trajet et manipulateur séparés" % dimensions)
 		check(not rects.trip.intersects(rects.btn_pause), "%s : pause indépendante du trajet" % dimensions)
+		var sp := main.find_child("signal_panel", true, false) as Control
+		check(sp != null and viewport.grow(1).encloses(sp.get_global_rect()) and sp.size.y >= 44.0, "%s : répétiteur de signalisation accessible (≥ 44 px)" % dimensions)
+		if sp: check(not sp.get_global_rect().intersects(rects.trip) and not sp.get_global_rect().intersects(rects.btn_home) and not sp.get_global_rect().intersects(rects.emergency), "%s : répétiteur sans chevauchement" % dimensions)
+		var ap := main.find_child("tool_autopilot", true, false) as Control
+		check(ap != null and ap.size.y >= 44.0, "%s : bouton pilote automatique (≥ 44 px)" % dimensions)
 		if dimensions.x == 640:
 			var dock := main.find_child("dock",true,false) as ScrollContainer
 			var position_ := dock.get_global_rect().position + Vector2(dock.size.x - 40, 35)

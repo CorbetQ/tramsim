@@ -148,4 +148,18 @@ func _init() -> void:
 	await _key(KEY_A)
 	for i in 3: await process_frame
 	check(main.plan_panel == null, "A : panneau fermé")
+	# pilote automatique : bouton et touche L, reprise en main par le manipulateur
+	var apb := main.find_child("tool_autopilot", true, false) as Button
+	check(apb != null, "mode libre : bouton Pilote auto")
+	await _press(apb)
+	check(main.autopilot.enabled, "bouton : pilote automatique activé")
+	for i in 20: await process_frame
+	await _key(KEY_S)
+	check(not main.autopilot.enabled, "S : reprise en main, pilote coupé")
+	await _key(KEY_L)
+	check(main.autopilot.enabled, "L : pilote automatique réactivé")
+	await _key(KEY_L)
+	check(not main.autopilot.enabled, "L : pilote automatique désactivé")
+	var spn2 := main.find_child("signal_panel", true, false) as SignalPanel
+	check(spn2 != null and spn2.aspect_l.text != "", "répétiteur de signalisation affiché (%s)" % (spn2.aspect_l.text if spn2 else ""))
 	quit(1 if fails > 0 else 0)

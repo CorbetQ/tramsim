@@ -191,7 +191,7 @@ def _safe(op, a, b):
 
 
 class CityRoads:
-    def __init__(self, city, frame, cache, llb, tram_axes):
+    def __init__(self, city, frame, cache, llb, tram_axes, full_tiles=False):
         self.frame = frame
         # corridor du décor (comme ign_scene.py) : voirie dessinée jusqu'à 25 m au-delà
         lines = []
@@ -205,6 +205,9 @@ class CityRoads:
                     x, z = frame.fwd(lat, lon)
                     lines.append(LineString(np.stack([x, z], 1)))
         self.zone = shapely.union_all([l.buffer(CORRIDOR_M + 25.0, quad_segs=4) for l in lines]).simplify(5.0) if lines else None
+        self.corridor = self.zone          # corridor historique (220 m) : voirie détaillée
+        if full_tiles:      # décor élargi (tools/import/periphery.py) : tuiles de scène entières
+            self.zone = None
         if self.zone is not None:
             shapely.prepare(self.zone)
         self.roads = []      # (ligne, mat, largeur, trottoir, double sens, urbain, majeur)
@@ -360,7 +363,15 @@ class CityRoads:
         return out
 
     # ------------------------------------------------------------------------------------------- tuile
-    def tile_parts(self, t, scene, in_scene):
+    def coarse(self, t):
+        """Tuile de périphérie (hors corridor historique) : voirie simplifiée, vue de loin."""
+        if self.corridor is None or self.zone is not None:
+            return False
+        return not self.corridor.intersects(box(t[0] * TILE_M - 40, t[1] * TILE_M - 40, (t[0] + 1) * TILE_M + 40, (t[1] + 1) * TILE_M + 40))
+
+    def tile_parts(self, t, scene, in_scene, coarse=False):
+        """coarse : périphérie vue de loin, sans trottoirs, îlots, chemins, rails ni marquages (chaussées, ballast et
+        surfaces seulement, contours simplifiés à 1 m)."""
         ox, oz = t[0] * TILE_M, t[1] * TILE_M
         tb = box(ox, oz, ox + TILE_M, oz + TILE_M)
         tbm = tb.buffer(45.0, join_style="mitre")
@@ -383,7 +394,7 @@ class CityRoads:
                 fil = asph.buffer(FILLET, quad_segs=QS).buffer(-FILLET, quad_segs=QS).intersection(discs)
                 asph = _union([asph, fil])
             side = _union([self.roads[i][0].buffer(self.roads[i][2] * 0.5 + self.roads[i][3], quad_segs=QS, join_style="mitre", mitre_limit=2.0)
-                           for i in road if self.roads[i][3] > 0])
+                           for i in road if self.roads[i][3] > 0 and not coarse])
             if not side.is_empty and not discs.is_empty:
                 fil = side.buffer(FILLET + 1.5, quad_segs=QS).buffer(-(FILLET + 1.5), quad_segs=QS).intersection(discs.buffer(3.0))
                 side = _union([side, fil])
@@ -396,7 +407,7 @@ class CityRoads:
             tram_all = _union(list(tram.values()))
             # terre-pleins étroits et enclaves : îlots surélevés
             isl = []
-            if not asph.is_empty:
+            if not asph.is_empty and not coarse:
                 closed = asph.buffer(4.0, quad_segs=QS).buffer(-4.0, quad_segs=QS)
                 gap = closed.difference(asph).difference(tram_all)
                 ab = asph.boundary
@@ -407,14 +418,14 @@ class CityRoads:
                     if touch > 0.75:
                         isl.append(g)
             paved = _union([asph, side, tram_all])
-            for g in T.polys_of(paved):
+            for g in ([] if coarse else T.polys_of(paved)):
                 for h in g.interiors:
                     hp = Polygon(h)
                     if 4.0 < hp.area < 2500.0 and hp.intersection(blds).area < 0.2 * hp.area:
                         isl.append(hp)
             isl = _union(isl).intersection(zone)
             big = _union([g for g in T.polys_of(isl) if g.area > 80.0])
-            if in_scene:
+            if in_scene and not coarse:
                 decals["lines"] = self._markings(road, _union([discs, tram_all]), tb.intersection(zone))
                 decals["rects"] = self._crossings(nodes, tb)
             for m, g in tram.items():
@@ -425,11 +436,11 @@ class CityRoads:
             P["ISLAND"].append(isl)
             P["SIDEWALK"].append(side)            # les façades se posent sur le trottoir
             P["PATH"].append(_union([self.roads[i][0].buffer(self.roads[i][2] * 0.5, quad_segs=2, join_style="mitre", mitre_limit=2.0)
-                                     for i in idx if self.roads[i][1] == MAT["PATH"]]))
+                                     for i in idx if self.roads[i][1] == MAT["PATH"] and not coarse]))
             if self.rtree is not None:
                 rl = [self.rails[int(j)] for j in self.rtree.query(tbm)]
                 rails = []
-                for l in rl:
+                for l in ([] if coarse else rl):
                     for side_ in (-0.72, 0.72):
                         try:
                             oc = l.offset_curve(side_, quad_segs=2)
@@ -455,7 +466,9 @@ class CityRoads:
             g = _safe(shapely.intersection, g, tb)
             if not claimed.is_empty:
                 g = _safe(shapely.difference, g, claimed)
-            g = _union([p for p in T.polys_of(g) if p.area > 0.02])
+            g = _union([p for p in T.polys_of(g) if p.area > (4.0 if coarse else 0.02)])
+            if coarse and not g.is_empty:
+                g = _union([p for p in T.polys_of(_safe(shapely.simplify, g, 1.0)) if p.area > 4.0])
             if g.is_empty:
                 continue
             parts.append((MAT[name], g))

@@ -12,6 +12,8 @@ var modules: Array[MeshInstance3D] = []
 var rig: TramModel.Rig                 # rame animée (portes, pantographe)
 var cam: Camera3D
 var signal_nodes: Array[MeshInstance3D] = []
+var signal_view: SignalView          # signalisation tramway (SignalModel) au bord de la voie
+var ai_view := AiTramView.new()      # rames IA du mode mission
 var sectors: Dictionary = {}       # edge id -> Node3D (affiché/masqué selon la distance)
 var sector_bounds: Dictionary = {} # emprise complète, y compris les arêtes courbes
 var tunnel_lights: Array[OmniLight3D] = []
@@ -83,6 +85,7 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		var t2 := _frame(s.edge, float(s.offset))
 		_post(sectors[s.edge], t2.origin - t2.basis.x * 2.2, 3.2)
 		signal_nodes.append(_lamp(sectors[s.edge], t2.origin - t2.basis.x * 2.2 + Vector3(0, 3.0, 0), Color(0.1, 0.9, 0.3)))
+	signal_view = SignalView.new(); signal_view.build(self, SignalModel.of(net))
 	for lane in net.meta.get("roads", []):
 		var t3 := _frame(lane.edge, float(lane.edge_offset))
 		var road := _Geo.new()
@@ -668,6 +671,8 @@ func update_from(s: MissionSession, external: bool) -> void:
 	day_night.set_ground(ground_at(cam.global_position) if not underground else front.origin.y)
 	if city: city.update(cam.global_position, 1)
 	_update_cars(s)
+	signal_view.update(front.origin, false, get_process_delta_time())
+	if s.ai != null: ai_view.sync(self, s.ai, front.origin, get_process_delta_time())
 	for i in signal_nodes.size():
 		_set_lamp(signal_nodes[i], Color(0.1, 0.9, 0.3) if s.signal_state[i] == "clear" else Color(0.95, 0.1, 0.1))
 
