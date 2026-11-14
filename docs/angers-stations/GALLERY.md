@@ -261,4 +261,3 @@ Captures réelles du jeu, vues verticales nord en haut. Les photographies de ré
 ![Dépôt Raymond-Perron — après](after/43-depot-raymond-perron.webp)
 
 [Avant](before/43-depot-raymond-perron.webp) · [Orthophoto IGN, même échelle](ign/43-depot-raymond-perron.webp) · [Vue aérienne oblique](oblique/43-depot-raymond-perron.webp)
-
