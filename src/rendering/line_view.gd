@@ -30,6 +30,11 @@ var family := ""
 var speed_material: ShaderMaterial
 var orbit := 0.0                   # rotation de la caméra extérieure (glisser au doigt)
 var cam_dist := 40.0               # distance de la caméra extérieure (molette / pincement)
+var top_view := false              # caméra vue du dessus (suit la rame, nez vers le haut de l'écran)
+var top_height := 140.0            # hauteur de la vue du dessus (molette / pincement / boutons ±)
+const TOP_MIN := 35.0
+const TOP_MAX := 900.0
+var _top_fwd := Vector3.ZERO
 var _tram_len := 0.0
 var _rig_fresh := false
 
@@ -656,6 +661,14 @@ func update_from(s: MissionSession, external: bool) -> void:
 		day_night.env.fog_density = 0.003
 	tram.visible = external
 	if has_meta("intro_camera"): pass   # IntroCamera active : la caméra de jeu reste sur sa pose d'arrivée
+	elif external and top_view:   # vue du dessus : cap lissé, nez de la rame vers le haut de l'écran
+		var dtt := get_process_delta_time()
+		var flat := Vector3(fwd.x, 0.0, fwd.z).normalized()
+		if flat == Vector3.ZERO: flat = Vector3.FORWARD
+		if _top_fwd == Vector3.ZERO or _top_fwd.dot(flat) < 0.0 or dtt <= 0.0: _top_fwd = flat
+		else: _top_fwd = _top_fwd.slerp(flat, 1.0 - exp(-dtt * 3.0)).normalized()
+		var centre := front.origin - fwd * (_tram_len * 0.5)
+		cam.transform = Transform3D(Basis.looking_at(Vector3.DOWN, _top_fwd), centre + Vector3(0, top_height, 0))
 	elif external:
 		var back := fwd.rotated(Vector3.UP, orbit)
 		var k := cam_dist / 40.0

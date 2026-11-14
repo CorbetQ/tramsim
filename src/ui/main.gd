@@ -65,6 +65,7 @@ var hud_switch: Button          # prochain aiguillage (mode libre)
 var signal_panel: SignalPanel   # répétiteur de signalisation (signal, aiguille, limite à venir)
 var autopilot := Autopilot.new()  # pilote automatique (mode libre)
 var autopilot_button: Button
+var cam_hud: HBoxContainer       # commandes caméra (zoom vue du dessus) et sortie du mode auto
 var ai_trams: AiTrams           # rames en circulation (mode mission)
 var explore: ExploreMode        # mode Explorer (caméra libre dans la ville)
 var notch_label: Label
@@ -140,7 +141,7 @@ func _clear() -> void:
 	intro = null; settings_layer = null
 	view = null; tram_audio = null; session = null; free = null; tuto = null; plan_panel = null; pause_layer = null; debrief_layer = null
 	help_layer = null; toasts = null; hud_switch = null; lamps.clear()
-	signal_panel = null; autopilot_button = null; ai_trams = null; autopilot = Autopilot.new(); explore = null
+	signal_panel = null; autopilot_button = null; cam_hud = null; ai_trams = null; autopilot = Autopilot.new(); explore = null
 
 # ----------------------------------------------------------------------------------------------- menu
 
@@ -277,6 +278,7 @@ func _reflow() -> void:
 		for c in get_children():
 			if c.is_in_group("driving_hud"):
 				remove_child(c); c.queue_free()
+		if is_instance_valid(cam_hud): remove_child(cam_hud); cam_hud.queue_free()
 		lamps.clear(); _build_hud(); _hud_t = 0.0
 
 func _build_menu() -> void:
@@ -1141,6 +1143,47 @@ func _build_hud() -> void:
 	for c in [trip, tr, lp, rp, dock, signal_panel]: UiTheme.fade_in(c, 0.35)
 	for c in get_children():
 		if not c in before: c.add_to_group("driving_hud")
+	_build_cam_hud(safe)
+
+## Barre caméra : en conduite automatique, seuls « Quitter le mode auto » et « Caméra » restent ;
+## en vue du dessus, boutons de zoom − / +.
+func _build_cam_hud(safe: Vector4) -> void:
+	if is_instance_valid(cam_hud): cam_hud.queue_free()
+	cam_hud = HBoxContainer.new(); cam_hud.name = "cam_hud"
+	cam_hud.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	cam_hud.grow_horizontal = Control.GROW_DIRECTION_BOTH; cam_hud.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	cam_hud.offset_bottom = -104 - safe.w; cam_hud.offset_top = -104 - safe.w
+	cam_hud.alignment = BoxContainer.ALIGNMENT_CENTER; cam_hud.add_theme_constant_override("separation", 10)
+	cam_hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(cam_hud)
+	var quit_auto := UiTheme.button("Quitter le mode auto", "autopilot", "primary", Vector2(0, 56)); quit_auto.name = "quit_auto"
+	quit_auto.focus_mode = Control.FOCUS_NONE; quit_auto.tooltip_text = "Reprendre la conduite (L)"
+	quit_auto.pressed.connect(func(): _set_autopilot(false, "Conduite manuelle : pilote automatique coupé")); cam_hud.add_child(quit_auto)
+	var cb := _icon_btn("camera", "Caméra : extérieure / cabine / dessus (C)", _camera); cb.name = "auto_camera"; cb.custom_minimum_size = Vector2(56, 56); cam_hud.add_child(cb)
+	for spec in [["minus", "Zoom arrière (vue du dessus)", 1.0 / 1.25, "zoom_out"], ["plus", "Zoom avant (vue du dessus)", 1.25, "zoom_in"]]:
+		var f: float = spec[2]
+		var zb := _icon_btn(spec[0], spec[1], func(): _zoom(f)); zb.name = spec[3]; zb.custom_minimum_size = Vector2(56, 56); cam_hud.add_child(zb)
+	_apply_auto_ui()
+
+## Interface masquée en conduite automatique (PC et mobile).
+func _apply_auto_ui() -> void:
+	var auto := autopilot.enabled
+	for c in get_children():
+		if c.is_in_group("driving_hud"): (c as CanvasItem).visible = not auto
+	if not is_instance_valid(cam_hud): return
+	var top: bool = view != null and view.top_view and external_cam
+	for n in ["quit_auto", "auto_camera"]: (cam_hud.get_node(n) as Control).visible = auto
+	for n in ["zoom_out", "zoom_in"]: (cam_hud.get_node(n) as Control).visible = top
+	cam_hud.visible = auto or top
+	# Mode auto : barre en bas de l'écran (dock masqué) ; sinon au-dessus du dock.
+	var safe := UiLayout.safe_insets(self)
+	cam_hud.offset_bottom = (-16.0 if auto else -104.0) - safe.w; cam_hud.offset_top = cam_hud.offset_bottom
+
+## Zoom : distance de la caméra extérieure ou hauteur de la vue du dessus (f > 1 : rapproche).
+func _zoom(f: float) -> void:
+	if view == null: return
+	if view.top_view and external_cam: view.top_height = clampf(view.top_height / f, LineView.TOP_MIN, LineView.TOP_MAX)
+	else: view.cam_dist = clampf(view.cam_dist / f, 14.0, 160.0)
 
 func _lamp(id: String, icon_name: String, text: String) -> PanelContainer:
 	var p := PanelContainer.new(); p.name = "lamp_" + id; p.tooltip_text = text
@@ -1180,8 +1223,11 @@ func _set_autopilot(on: bool, why: String = "") -> void:
 	if on and (free == null or free.incident != ""):
 		_log("Pilote automatique : mode libre, rame sur voie", "warn", "autopilot"); return
 	autopilot.enabled = on
-	if on: autopilot.reset()
+	if on:
+		autopilot.reset(); autopilot.random_routes = true; autopilot.rng.randomize()
+		autopilot.cran = clampi(roundi(notch * 4.0), -3, 4)
 	_log(why if why != "" else ("Pilote automatique activé : limites, stations, signaux" if on else "Pilote automatique désactivé"), "info", "autopilot")
+	_apply_auto_ui()
 	if is_instance_valid(autopilot_button):
 		autopilot_button.add_theme_stylebox_override("normal", UiTheme.box(Color(UiTheme.ACCENT_DARK, 0.92) if on else Color(UiTheme.SURFACE, 0.82), 14, 8, UiTheme.ACCENT if on else UiTheme.BORDER, 2 if on else 1))
 
@@ -1195,9 +1241,13 @@ func _doors() -> void:
 func _horn() -> void:
 	bell.play(); _log("Ding ding !", "info", "bell")
 
+## Cycle caméra : extérieure -> cabine -> vue du dessus -> extérieure.
 func _camera() -> void:
-	external_cam = not external_cam
-	_log("Caméra " + ("extérieure" if external_cam else "cabine"), "info", "camera")
+	if external_cam and not view.top_view: external_cam = false
+	elif not external_cam: external_cam = true; view.top_view = true
+	else: view.top_view = false
+	_apply_auto_ui()
+	_log("Caméra " + ("cabine" if not external_cam else ("vue du dessus (molette / pincer / ± pour zoomer)" if view.top_view else "extérieure")), "info", "camera")
 
 func _power_picker() -> void:
 	if session.phys.speed >= 0.1:
@@ -1387,15 +1437,15 @@ func _unhandled_input(ev: InputEvent) -> void:
 	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == -1: return
 	if ev is InputEventScreenTouch or ev is InputEventScreenDrag:
 		var action := camera_gestures.feed(ev)
-		if action.has("zoom"): view.cam_dist = clampf(view.cam_dist / float(action.zoom), 14.0, 160.0)
+		if action.has("zoom"): _zoom(float(action.zoom))
 		elif action.has("pan"): view.orbit -= action.pan.x * 0.006
 	elif ev is InputEventMouseMotion and (ev.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
 		view.orbit -= ev.relative.x * 0.006
 	elif ev is InputEventMouseButton and ev.pressed:
-		if ev.button_index == MOUSE_BUTTON_WHEEL_UP: view.cam_dist = maxf(14.0, view.cam_dist * 0.9)
-		elif ev.button_index == MOUSE_BUTTON_WHEEL_DOWN: view.cam_dist = minf(160.0, view.cam_dist * 1.1)
+		if ev.button_index == MOUSE_BUTTON_WHEEL_UP: _zoom(1.0 / 0.9)
+		elif ev.button_index == MOUSE_BUTTON_WHEEL_DOWN: _zoom(1.0 / 1.1)
 	elif ev is InputEventMagnifyGesture:
-		view.cam_dist = clampf(view.cam_dist / ev.factor, 14.0, 160.0)
+		_zoom(ev.factor)
 
 func _input(ev: InputEvent) -> void:
 	if intro != null:   # intro de lancement : touche, clic ou toucher pour passer

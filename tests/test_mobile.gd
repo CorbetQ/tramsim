@@ -59,6 +59,14 @@ func _run() -> void:
 		var sig_panel := main.find_child("signal_panel", true, false) as Control
 		check(sig_panel != null and viewport.grow(1).encloses(sig_panel.get_global_rect()) and sig_panel.size.y >= 44.0, "%s : répétiteur de signalisation accessible (≥ 44 px)" % dimensions)
 		if sig_panel: check(not sig_panel.get_global_rect().intersects(rects.trip) and not sig_panel.get_global_rect().intersects(rects.btn_home) and not sig_panel.get_global_rect().intersects(rects.emergency), "%s : répétiteur sans chevauchement" % dimensions)
+		main._set_autopilot(true); main._camera(); main._camera()
+		for i in 3: await process_frame
+		for n in ["quit_auto", "auto_camera", "zoom_in", "zoom_out"]:
+			var c2 := main.find_child(n, true, false) as Control
+			check(c2 != null and c2.is_visible_in_tree() and viewport.grow(1).encloses(c2.get_global_rect()) and c2.size.y >= 44.0, "%s : mode auto + vue du dessus : %s accessible" % [dimensions, n])
+		check(not (main.find_child("dock", true, false) as Control).is_visible_in_tree(), "%s : mode auto : dock masqué" % dimensions)
+		main._set_autopilot(false); main._camera()
+		for i in 2: await process_frame
 		var ap := main.find_child("tool_autopilot", true, false) as Control
 		check(ap != null and ap.size.y >= 44.0, "%s : bouton pilote automatique (≥ 44 px)" % dimensions)
 		if dimensions.x == 640:

@@ -111,6 +111,7 @@ func open(c: String, net_origin: Array) -> bool:
 ## Reuse prepared city bytes/terrain metadata in a different line coordinate system.
 func align_to_origin(net_origin: Array) -> void:
 	var meta: Dictionary = CityDataStore.document("res://data/scenes/%s.json" % city)
+	if net_origin.size() < 2 or not (meta.get("origin") is Array) or (meta.origin as Array).size() < 2: return
 	# origine de la ville exprimée dans le repère de la ligne
 	var lat_n := float(net_origin[0]); var lon_n := float(net_origin[1])
 	var lat_c := float(meta.origin[0]); var lon_c := float(meta.origin[1])

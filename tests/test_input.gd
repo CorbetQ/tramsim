@@ -160,6 +160,35 @@ func _init() -> void:
 	check(main.autopilot.enabled, "L : pilote automatique réactivé")
 	await _key(KEY_L)
 	check(not main.autopilot.enabled, "L : pilote automatique désactivé")
+	# mode auto : interface masquée sauf « Quitter le mode auto » et caméra ; vue du dessus + zoom
+	await _key(KEY_L)
+	for i in 3: await process_frame
+	var hud_nodes: Array = main.get_tree().get_nodes_in_group("driving_hud")
+	var any_visible := func() -> bool: return hud_nodes.any(func(c): return is_instance_valid(c) and (c as CanvasItem).visible)
+	var qa := main.find_child("quit_auto", true, false) as Button
+	var cb := main.find_child("auto_camera", true, false) as Button
+	check(main.autopilot.enabled and hud_nodes.size() > 3 and not any_visible.call(), "mode auto : interface de conduite masquée (%d éléments)" % hud_nodes.size())
+	check(qa != null and qa.is_visible_in_tree() and cb != null and cb.is_visible_in_tree() and qa.size.y >= 44.0, "mode auto : « Quitter le mode auto » et caméra visibles")
+	var cams := []
+	for i in 3:
+		await _press(cb); for j in 2: await process_frame
+		cams.append("dessus" if main.external_cam and main.view.top_view else ("ext" if main.external_cam else "cabine"))
+	check(cams == ["cabine", "dessus", "ext"], "cycle caméra extérieure -> cabine -> dessus -> extérieure (%s)" % str(cams))
+	await _press(cb); await _press(cb); for j in 2: await process_frame
+	var zi := main.find_child("zoom_in", true, false) as Button
+	var h0: float = main.view.top_height
+	check(zi != null and zi.is_visible_in_tree(), "vue du dessus : boutons de zoom")
+	await _press(zi)
+	var h1: float = main.view.top_height
+	var wheel := InputEventMouseButton.new(); wheel.button_index = MOUSE_BUTTON_WHEEL_DOWN; wheel.pressed = true; wheel.position = Vector2(640, 360); wheel.global_position = wheel.position
+	Input.parse_input_event(wheel); for j in 2: await process_frame
+	check(h1 < h0 and main.view.top_height > h1, "vue du dessus : zoom bouton + molette (%d -> %d -> %d m)" % [h0, h1, main.view.top_height])
+	var cam_y: float = main.view.cam.global_position.y
+	var tram_p: Vector3 = main.view.pos3(main.session.edge_id, main.session.offset)
+	check(cam_y - tram_p.y > 30.0 and Vector2(main.view.cam.global_position.x - tram_p.x, main.view.cam.global_position.z - tram_p.z).length() < 40.0, "vue du dessus : caméra au-dessus de la rame")
+	await _press(qa); for j in 3: await process_frame
+	check(not main.autopilot.enabled and any_visible.call() and not qa.is_visible_in_tree(), "Quitter le mode auto : interface rétablie")
+	main.view.top_view = false; main._apply_auto_ui()
 	var spn2: SignalPanel = main.signal_panel
 	for i in 15: await process_frame
 	check(spn2 != null and spn2.aspect_l.text != "", "répétiteur de signalisation affiché (%s)" % (spn2.aspect_l.text if spn2 else ""))
