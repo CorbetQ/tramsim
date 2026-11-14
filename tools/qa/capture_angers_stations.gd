@@ -40,11 +40,11 @@ func _run() -> void:
 			point.z = -deg_to_rad(float(s.lat) - float(net.meta.origin[0])) * CityScene.R
 		point.y = view.ground_at(point)
 		cam.size = float(s.get("span", 145.0))
-		cam.position = point + (Vector3(65.0, 95.0, 65.0) if OS.get_environment("STATION_OBLIQUE") == "1" else Vector3(0, 250.0, 0))
+		cam.position = point + (Vector3(65.0, 95.0, 65.0) * maxf(1.0, cam.size / 220.0) if OS.get_environment("STATION_OBLIQUE") == "1" else Vector3(0, 250.0, 0))
 		cam.look_at(point, Vector3.UP if OS.get_environment("STATION_OBLIQUE") == "1" else Vector3.FORWARD)
 		view.view_distance = 550.0 if s.has("net_position") else 260.0
 		view.update_sectors(point)
-		view.city.radius = 380.0 if OS.get_environment("STATION_OBLIQUE") == "1" or s.has("net_position") else maxf(160.0, cam.size * .95)
+		view.city.radius = maxf(380.0, cam.size * 1.1) if OS.get_environment("STATION_OBLIQUE") == "1" else (320.0 if s.has("net_position") else maxf(160.0, cam.size * .95))
 		view.city.warm(point)
 		label.text = str(s.name) + "  •  Angers / Irigo"
 		for j in 3: await process_frame
