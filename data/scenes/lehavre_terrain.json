@@ -1,1 +1,33 @@
-{"schema":1,"city":"lehavre","alt0":62.1,"tile_m":400.0,"tiles":150,"source":"MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-13","stats":{"décalques":1400,"sommets":127316,"triangles":220968,"ponts":7,"niveaux_eau":64},"terrain_format":"TGR2","height_encoding":"deltas signés 32 bits, centimètres","shared_vertices":true,"ground_file":"lehavre_ground.bin","far_ring_m":8000.0,"far_step_m":100.0,"repair":{"city":"lehavre","unwrapped_tiles":1,"nodata_points":22,"resampled_tiles":4,"resampled_vertices":42,"far_nodata_points":0,"format":"TGR2","source":"IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA","source_date":"2026-11-13"}}
+{
+ "schema": 1,
+ "city": "lehavre",
+ "alt0": 62.1,
+ "tile_m": 400.0,
+ "tiles": 81,
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "stats": {
+  "tuiles_relief_lointain": 159,
+  "décalques": 2328,
+  "sommets": 164014,
+  "triangles": 304419,
+  "ponts": 5,
+  "niveaux_eau": 28
+ },
+ "terrain_format": "TGR2",
+ "height_encoding": "TIN contraint par la voirie, cm",
+ "shared_vertices": true,
+ "ground_file": "lehavre_ground.bin",
+ "far_ring_m": 8000.0,
+ "far_step_m": 100.0,
+ "repair": {
+  "city": "lehavre",
+  "unwrapped_tiles": 1,
+  "nodata_points": 22,
+  "resampled_tiles": 4,
+  "resampled_vertices": 42,
+  "far_nodata_points": 0,
+  "format": "TGR2",
+  "source": "IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA",
+  "source_date": "2026-11-13"
+ }
+}
