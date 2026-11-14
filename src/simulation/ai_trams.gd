@@ -27,6 +27,8 @@ var lines: Dictionary = {}    # ligne -> {legs: [{waypoints, path, stops: [[stat
 var cap := MAX_PC
 var hour := 12.0
 var removed := 0
+var focus = null              # Vector2 : centre de simulation fine (mode Explorer : la caméra)
+var spawn_clear := SPAWN_CLEAR_M
 var collisions := 0
 var _acc: Dictionary = {}
 var _pending: Array = []      # [ligne, délai]
@@ -44,8 +46,9 @@ static func headway_s(hour_: float, kind: String = "tram") -> float:
 	return 420.0
 
 ## Ligne d'une mission : missions de service du catalogue de la ville, dans les deux sens.
-static func create(p: MissionSession, city: String, hour_: float, max_trams: int = -1) -> AiTrams:
+static func create(p: MissionSession, city: String, hour_: float, max_trams: int = -1, clear_m: float = SPAWN_CLEAR_M) -> AiTrams:
 	var a := AiTrams.new()
+	a.spawn_clear = clear_m
 	a.net = p.net; a.vehicle = p.phys.profile; a.player = p; a.hour = hour_
 	a.cap = max_trams if max_trams >= 0 else (MAX_MOBILE if OS.has_feature("mobile") else MAX_PC)
 	a._rng.seed = hash(city) + int(hour_ * 60.0)
@@ -172,7 +175,7 @@ func _try_spawn(l: String, li: int, station_index: int) -> bool:
 	var off := float(st.offset)
 	var p: Dictionary = net.point_on(e, off)
 	var pp: Dictionary = net.point_on(player.edge_id, player.offset)
-	if (p.p as Vector2).distance_to(pp.p) < SPAWN_CLEAR_M: return false
+	if (p.p as Vector2).distance_to(pp.p) < spawn_clear: return false
 	# Sections sous la rame (vers l'arrière le long de l'itinéraire de la ligne).
 	var length := vehicle.length_m + 2.0
 	var edges: Array = [e]; var dirs: Array = [d]
@@ -224,7 +227,7 @@ func step(dt: float, p: MissionSession = null) -> void:
 	var all: Array = [player]
 	all.append_array(trams)
 	sm.update(dt, all)
-	var pp: Vector2 = net.point_on(player.edge_id, player.offset).p
+	var pp: Vector2 = focus if focus != null else net.point_on(player.edge_id, player.offset).p
 	for t in trams.duplicate():
 		if t.stuck:
 			if t.fail_reason.contains("Collision"): collisions += 1

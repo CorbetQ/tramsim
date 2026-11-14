@@ -59,6 +59,7 @@ var signal_panel: SignalPanel   # répétiteur de signalisation (signal, aiguill
 var autopilot := Autopilot.new()  # pilote automatique (mode libre)
 var autopilot_button: Button
 var ai_trams: AiTrams           # rames en circulation (mode mission)
+var explore: ExploreMode        # mode Explorer (caméra libre dans la ville)
 var notch_label: Label
 var lever: NotchLever
 var power_button: Button
@@ -108,6 +109,8 @@ func _bell_sound() -> AudioStreamWAV:
 	return w
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_instance_valid(explore):
+		explore.leave(); return
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and session == null and is_node_ready():
 		var esc := InputEventKey.new(); esc.keycode = KEY_ESCAPE
 		_menu_key(KEY_ESCAPE, esc)
@@ -130,7 +133,7 @@ func _clear() -> void:
 	intro = null; settings_layer = null
 	view = null; tram_audio = null; session = null; free = null; tuto = null; plan_panel = null; pause_layer = null; debrief_layer = null
 	help_layer = null; toasts = null; hud_switch = null; lamps.clear()
-	signal_panel = null; autopilot_button = null; ai_trams = null; autopilot = Autopilot.new()
+	signal_panel = null; autopilot_button = null; ai_trams = null; autopilot = Autopilot.new(); explore = null
 
 # ----------------------------------------------------------------------------------------------- menu
 
@@ -250,6 +253,7 @@ func _build_home() -> void:
 	var cards := [
 		["mission", "Mission", "Service horaire réel ou mission scénarisée (aléas).   ·   1", func(): _open_setup(false)],
 		["free", "Mode libre", "Le réseau complet : aiguillages, changements de sens, trafic.   ·   2", func(): _open_setup(true)],
+		["camera", "Explorer la ville", "Caméra libre au-dessus de %s : stations, monuments, jour et nuit.   ·   3" % menu_city, func(): _start_explore()],
 		["catalogue", "Catalogue des rames", "Fiches techniques, livrées et lignes de chaque matériel.   ·   C", func(): _open_catalogue("")]]
 	for c in cards:
 		var b := _card_button(c[0], c[1], c[2]); b.pressed.connect(c[3]); left.add_child(b)
@@ -281,6 +285,26 @@ func _city_caption(city: String) -> Control:
 		h.add_child(UiTheme.line_badge(str(e.line), _line_color(str(e.path)), UiTheme.SIZE_SMALL))
 	v.add_child(UiTheme.label_("Vue du ciel · réseau de tramway", UiTheme.SIZE_CAPTION, UiTheme.MUTED))
 	return p
+
+## Mode Explorer : visite libre de la ville sélectionnée (réseau complet, décor en streaming).
+func _start_explore() -> void:
+	var path := ""
+	var first := ""
+	for e in NetworkRegistry.entries():
+		if str(e.city) != menu_city: continue
+		if first == "": first = str(e.path)
+		var src := str(Catalogue.meta_of(str(e.path)).get("source_id", ""))
+		if src != "" and FileAccess.file_exists("res://data/free/%s.json" % src): path = "res://data/free/%s.json" % src; break
+	if path == "": path = first
+	if path == "": return
+	if is_instance_valid(home_bg): home_bg.queue_free()
+	home_bg = null
+	get_tree().quit_on_go_back = false
+	_clear()
+	explore = ExploreMode.new(); add_child(explore)
+	explore.exited.connect(func(): explore = null; _build_menu())
+	if not explore.start(menu_city, path, _start_hour() if int(save.settings.get("time_mode", 0)) != 0 else 15.0, float(save.settings.view_distance), bool(save.settings.get("ai_trams", true))):
+		explore.queue_free(); explore = null; _build_menu()
 
 func _open_setup(free_: bool) -> void:
 	free_mode = free_; menu_page = "setup"; _build_menu()
@@ -705,6 +729,8 @@ func _menu_key(k: int, ev: InputEventKey) -> bool:
 			if setup: _menu.b_free.button_pressed = true
 			else: _open_setup(true)
 			return true
+		KEY_3, KEY_KP_3:
+			if not setup: _start_explore(); return true
 		KEY_R:
 			if not setup and not _resume_info().is_empty(): _resume(); return true
 		KEY_C: _open_catalogue(menu_city); return true
@@ -1247,6 +1273,7 @@ func _input(ev: InputEvent) -> void:
 		if (ev is InputEventKey and ev.pressed and not ev.echo) or (ev is InputEventMouseButton and ev.pressed) or (ev is InputEventScreenTouch and ev.pressed):
 			intro.skip(); get_viewport().set_input_as_handled()
 		return
+	if is_instance_valid(explore): return   # le mode Explorer gère ses propres entrées
 	if ev is InputEventScreenTouch and not ev.pressed: camera_gestures.feed(ev)
 	if not (ev is InputEventKey) or not ev.pressed or ev.echo:
 		return
