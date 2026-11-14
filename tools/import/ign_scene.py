@@ -912,7 +912,11 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None, periphery_m=0.0, extra_
         os.makedirs(out_dir, exist_ok=True)
         with open(os.path.join(out_dir, city + "_track.json"), "w") as f:
             json.dump(tj, f, ensure_ascii=False, separators=(",", ":"))
-    # écriture
+    # écriture (emprise élargie : toutes les tuiles, même vides hors de France ou en mer : sol teinté par
+    # l'occupation du sol au lieu de l'horizon lointain)
+    if zone_tiles is not None:
+        for t in zone_tiles:
+            tiles[t]
     keys = sorted(tiles)
     blobs = {t: write_tile(tiles[t], t[0] * TILE_M, t[1] * TILE_M) for t in keys}
     os.makedirs(out_dir, exist_ok=True)

@@ -7,7 +7,7 @@
  ],
  "tile_m": 400.0,
  "corridor_m": 220.0,
- "tiles": 534,
+ "tiles": 535,
  "periphery_m": 850.0,
  "light_tiles": [
   [
@@ -624,6 +624,10 @@
   ],
   [
    -1,
+   -19
+  ],
+  [
+   -1,
    -18
   ],
   [
@@ -1081,5 +1085,5 @@
   "plateforme_paves": 1169
  },
  "landmarks": 5,
- "light_tiles_count": 261
+ "light_tiles_count": 262
 }
