@@ -14,6 +14,14 @@ on:
         description: Aperçu d'avancement (travail en cours) sans les tests longs
         type: boolean
         default: false
+      gallery_only:
+        description: Publier uniquement la galerie des stations d’Angers
+        type: boolean
+        default: false
+      gallery_release_tag:
+        description: Release destinataire de la galerie
+        type: string
+        default: v0.13.1-build.79
 concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: true
@@ -24,7 +32,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && inputs.rolling_stock_preview
     uses: ./.github/workflows/stock-preview.yml
   build:
-    if: github.event_name != 'workflow_dispatch' || !inputs.rolling_stock_preview
+    if: github.event_name != 'workflow_dispatch' || (!inputs.rolling_stock_preview && !inputs.gallery_only)
     runs-on: ubuntu-latest
     env:
       GODOT_VERSION: 4.6.3
@@ -127,3 +135,31 @@ jobs:
             build/TramSimFrance-arm64.msi
             build/TramSimFrance-windows-x64.zip
             build/TramSimFrance-windows-arm64.zip
+
+  station_gallery:
+    if: github.event_name == 'workflow_dispatch' && inputs.gallery_only
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GALLERY_TAG: ${{ inputs.gallery_release_tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Préparer la galerie hors ligne
+        run: |
+          mkdir -p build
+          python - <<'PYGALLERY'
+          from pathlib import Path
+          import zipfile, hashlib
+          target=Path('build/Angers-43-sites-captures.zip')
+          with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED,compresslevel=5) as z:
+              z.writestr('index.html','<!doctype html><html lang="fr"><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=docs/angers-stations/index.html"><a href="docs/angers-stations/index.html">Ouvrir la galerie des 43 sites</a></html>')
+              z.writestr('LIRE-MOI.txt','Décompresser cette archive puis ouvrir index.html. 42 arrêts et dépôt Raymond-Perron. Boutons Après / Avant / IGN et vues obliques. Images réelles du moteur, modèles stylisés. Sources et limites documentées dans la galerie.')
+              for p in Path('docs/angers-stations').rglob('*'):
+                  if p.is_file() and p.suffix in ['.webp','.jpg','.html','.md','.json']:z.write(p,p.as_posix())
+              for p in [Path('tools/import/angers_station_references.json'),Path('data/station_models/angers.json'),Path('data/station_models/angers_landmarks.source.json')]:z.write(p,p.as_posix())
+          Path('build/Angers-43-sites-captures.sha256').write_text(hashlib.sha256(target.read_bytes()).hexdigest()+'  '+target.name+'\n')
+          print('Galerie :',target.stat().st_size,'octets')
+          PYGALLERY
+      - name: Joindre les captures à la release existante
+        run: |
+          gh release upload "$GALLERY_TAG" --clobber build/Angers-43-sites-captures.zip build/Angers-43-sites-captures.sha256 docs/angers-stations/comparaison.jpg docs/angers-stations/apercu-1.jpg docs/angers-stations/apercu-2.jpg docs/angers-stations/apercu-3.jpg docs/angers-stations/apercu-4.jpg docs/angers-stations/oblique/43-depot-raymond-perron.webp
