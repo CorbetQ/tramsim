@@ -1,6 +1,6 @@
 # Captations audio et limites
 
-19 fichiers audio, 17 min 22 s, 33,4 Mo. Les empreintes SHA256 et les pistes audio des 19 fichiers ont été contrôlées avec ffprobe. Aucun commit ni push.
+19 fichiers audio, 17 min 22 s, 33,4 Mo. Les empreintes SHA256 et les pistes audio des 19 fichiers ont été contrôlées avec ffprobe. Sources de cette première collecte conservées dans la branche audio.
 
 Le manifeste `../sources.json` conserve auteur, licence, page, URL de téléchargement, modèle documenté, ville, catégories, durée, fichier et empreinte. Les licences des fichiers sont distinctes de celle du pied de page Commons. Les captations extraites sont intégrales, en mono 32 kHz Vorbis q5 ; les originaux téléchargés gardent leur encodage. Les fichiers `.import` sont produits par Godot.
 

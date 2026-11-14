@@ -79,7 +79,7 @@ func _ready() -> void:
 	if bell and g: bell.stream = g; bell.volume_db = GONG_DB; bell.bus = BUS
 
 ## Bus TramFX (-> Master) : égaliseur (atténue 3-10 kHz, léger creux 250 Hz), compresseur doux, limiteur -1 dB.
-## Bus TramCabin (-> TramFX) : passe-bas 1,6 kHz + étagement grave, pour l'extérieur entendu depuis la cabine.
+## Bus TramCabin (-> TramFX) : passe-bas 2,4 kHz + étagement grave, pour l'extérieur entendu depuis la cabine.
 static func setup_buses() -> void:
 	if AudioServer.get_bus_index(BUS) == -1:
 		AudioServer.add_bus(); var i := AudioServer.bus_count - 1
@@ -95,7 +95,7 @@ static func setup_buses() -> void:
 	if AudioServer.get_bus_index(CAB_BUS) == -1:
 		AudioServer.add_bus(); var j := AudioServer.bus_count - 1
 		AudioServer.set_bus_name(j, CAB_BUS); AudioServer.set_bus_send(j, BUS)
-		var lp := AudioEffectLowPassFilter.new(); lp.cutoff_hz = 1600.0; lp.resonance = 0.5
+		var lp := AudioEffectLowPassFilter.new(); lp.cutoff_hz = 2400.0; lp.resonance = 0.5
 		AudioServer.add_bus_effect(j, lp)
 		var sh := AudioEffectLowShelfFilter.new(); sh.cutoff_hz = 180.0; sh.gain = 1.4
 		AudioServer.add_bus_effect(j, sh)

@@ -1,8 +1,10 @@
+> **Correction — deuxième passe :** le premier extrait intitulé Citadis 305 utilisait par erreur la banque du 302 (identifiant non canonique dans le script de capture). Cet ancien extrait ne démontre donc pas le modèle sonore 305. Les captures corrigées sont identifiées v2 ; voir `analysis/revision2-study.md`.
+
 # Proposition de timbre — 14 novembre 2026
 
 Cette proposition est à écouter avant déploiement. Les démos capturées par Godot dans `samples/demos/` utilisent réellement `TramAudio.update_state` et les banques intégrées. Les banques isolées ne sont pas des démos de conduite.
 
-Le Citadis 302 conserve les enregistrements identifiés Moscou / Le Mans selon la variante. Ce sont des textures de passage, contenant potentiellement roulement et environnement, pas un moteur isolé ni des régimes mesurés. Les sources originales et les droits restent dans `data/audio/families.json` ; les dérivés ont leurs empreintes et traitements dans `data/audio/design-manifest.json`.
+Le Citadis 302 conserve les enregistrements identifiés Moscou / Le Mans selon la variante. La variante Angers utilise actuellement la banque nomméeMoscou ; l’ancienne attribution LeMans de sa démo était incorrecte. Ce sont des textures de passage, contenant potentiellement roulement et environnement, pas un moteur isolé ni des régimes mesurés. Les sources originales et les droits restent dans `data/audio/families.json` ; les dérivés ont leurs empreintes et traitements dans `data/audio/design-manifest.json`.
 
 Le Citadis 305 utilise une **restitution modélisée sans captation exacte**. Elle ne provient pas d'un 403 rebaptisé. Son corps mécanique large bande, ses composantes magnétiques faibles et sa modulation lente créent une proposition distincte. Fréquences et modes sont des choix de design, sans prétention de reproduire une électronique constructeur déterminée. Les profils x05 et x05 Nantes sont explicitement étiquetés `modeled`.
 

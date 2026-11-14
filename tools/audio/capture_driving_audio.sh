@@ -20,4 +20,4 @@ export LD_PRELOAD="$work/clock.so${LD_PRELOAD:+:$LD_PRELOAD}"
 export ALSA_CONFIG_PATH="$work/asound.conf"
 # Do not use --headless: it would override the explicit ALSA driver with Dummy.
 godot --display-driver headless --audio-driver ALSA --path . \
-  --script tools/audio/capture_driving_audio.gd -- "${1:-citadis_302}" "${2:-angers__citadis_302}"
+  --script tools/audio/capture_driving_audio.gd -- "${1:-citadis_302}" "${2:-angers__citadis_302}" "${3:-}" "${4:-}"

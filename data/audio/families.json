@@ -152,18 +152,20 @@
       "label": "Citadis 302, Moscou",
       "recorded_family": "citadis_302",
       "streams": {
-        "motor": "banks/citadis302_motor_designed.ogg",
-        "motor_hum": "banks/citadis302_motor_hum_designed.ogg"
+        "motor": "v2/citadis302_motor.ogg",
+        "motor_hum": "v2/citadis302_motor_hum.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -13.5,
-        "motor_hum": -13.5,
-        "carrier": -40.0,
-        "rolling": -13.0,
+        "motor": -10.0,
+        "motor_hum": -11.0,
+        "carrier": -90.0,
+        "rolling": -23.0,
         "real_rail": -90.0,
-        "regen": -22.0
+        "regen": -28.0,
+        "hvac": -32.0,
+        "ambience": -31.0
       },
       "source": {
         "title": "File:Alstom Citadis 302 in Moscow.webm",
@@ -193,7 +195,7 @@
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
       },
-      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
+      "design_processing": "v2 source-preserving: original recorded bandwidth/partials, 180ms overlap, 8ms seam guard, -20LUFS. No spectral flattening. Common rail textures suppressed to avoid duplicating recorded rolling."
     },
     "citadis402": {
       "recorded": true,
@@ -490,18 +492,20 @@
       "label": "Citadis du Mans — SamuelGremaud (captation de passage)",
       "recorded_family": "citadis_302",
       "streams": {
-        "motor": "banks/lemans302_motor_designed.ogg",
-        "motor_hum": "banks/lemans302_motor_hum_designed.ogg"
+        "motor": "v2/lemans302_motor.ogg",
+        "motor_hum": "v2/lemans302_motor_hum.ogg"
       },
       "reference_speed_ms": 8.0,
       "reference_speed_estimated": true,
       "mix": {
-        "motor": -13.5,
-        "motor_hum": -13.5,
-        "carrier": -40.0,
-        "rolling": -13.0,
+        "motor": -10.0,
+        "motor_hum": -11.0,
+        "carrier": -90.0,
+        "rolling": -23.0,
         "real_rail": -90.0,
-        "regen": -22.0
+        "regen": -28.0,
+        "hvac": -32.0,
+        "ambience": -31.0
       },
       "source": {
         "title": "TRAM - 1",
@@ -532,7 +536,7 @@
           "processing": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation"
         }
       },
-      "design_processing": "tools/audio/design_samples.py: local spectral prominence reduction, circular 65–2600 Hz filter, 180 ms overlap, BS.1770 -20 LUFS; no isolated-motor claim"
+      "design_processing": "v2 source-preserving: original recorded bandwidth/partials, 180ms overlap, 8ms seam guard, -20LUFS. No spectral flattening. Common rail textures suppressed to avoid duplicating recorded rolling."
     },
     "citadis305_model": {
       "recorded": false,
@@ -544,15 +548,17 @@
         "motor_hum": "banks/citadis305_motor_hum.ogg"
       },
       "mix": {
-        "motor": -19.0,
-        "motor_hum": -15.0,
-        "carrier": -32.0,
-        "rolling": -11.0,
-        "real_rail": -23.0,
-        "regen": -20.0
+        "motor": -16.0,
+        "motor_hum": -16.0,
+        "carrier": -26.0,
+        "rolling": -22.0,
+        "real_rail": -90.0,
+        "regen": -20.0,
+        "hvac": -30.0,
+        "ambience": -30.0
       },
       "provenance": "Original procedural mechanical / inverter model. Not derived from Citadis 403 recordings. Parameters are sound design estimates, not measured 305 inverter settings.",
-      "design_processing": "tools/audio/design_samples.py, deterministic seed 305302"
+      "design_processing": "Existing modeled waveform unchanged; v2 reduces shared masking only. No exact305 recording obtained."
     }
   },
   "unavailable_sources": {},
@@ -609,5 +615,5 @@
       "rubber": false
     }
   },
-  "design_revision": "2026-11-14 spectral-body-v1"
+  "design_revision": "2026-11-14 source-preserving-v2"
 }

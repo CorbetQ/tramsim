@@ -1,7 +1,21 @@
+# Capturesv2 vérifiées
+
+Les fichiers `v2_before_*` et `v2_after_*` sont de véritables sorties Master de Godot. Les302 utilisent `citadis_302` / `angers__citadis_302` / banque `citadis302`. Les305 utilisent `citadis_x05` / `toulouse__citadis_305` / banque `citadis305_model`. Les JSON journalisent famille canonique, banque et chemins. Le scénario48s ci-dessous est identique avant/après. Les captures sont exécutées séquentiellement pour restaurer correctement override.cfg.
+
+```sh
+bash tools/audio/capture_driving_audio.sh citadis_302 angers__citadis_302 v2_after_citadis_302 citadis302
+bash tools/audio/capture_driving_audio.sh citadis_x05 toulouse__citadis_305 v2_after_citadis_305 citadis305_model
+python tools/audio/compare_captures.py
+```
+
+Les banquesavant sont celles du commit100c11b, les familles sont correctement sélectionnées dans les deux capturesavantv2. La banque302 utilisée pour Angers n’est pas LeMans, malgré l’erreur des anciennes notes : `stream_paths` fait autorité.
+
+## Archivesv1
+
 # Captures réelles du mixage Godot
 
 - `citadis_302_godot_mix.ogg` : Citadis 302 Angers, mixage utilisant une captation de Citadis 302 du Mans, retraitée pour le moteur.
-- `citadis_305_godot_mix.ogg` : Citadis 305 Toulouse, son modélisé ; ce fichier ne constitue pas une captation d'une rame 305 réelle.
+- `citadis_305_godot_mix.ogg` : **ancienne démo invalide pour le 305**. Le script utilisait un identifiant non canonique et chargeait en réalité la banque 302. Conservée comme preuve de l’erreur ; ne pas utiliser pour juger le modèle 305.
 - Les WAV sont les maîtres PCM stéréo 16 bits, 48 000 Hz. Les OGG sont encodés par FFmpeg/libvorbis qualité 4, sans normalisation ni amplification supplémentaire.
 
 Il s'agit bien des sorties du moteur Godot 4.6.3 : AudioEffectRecord ajouté au bus Master, après les bus cabine, environnement et TramFX. Les lecteurs AudioStreamPlayer et AudioStreamPlayer3D, leurs gains, leurs hauteurs et les effets Godot produisent le signal. Aucun signal n'a été recréé par Python.
@@ -31,7 +45,7 @@ Depuis la racine du dépôt :
 
 ```sh
 bash tools/audio/capture_driving_audio.sh citadis_302 angers__citadis_302
-bash tools/audio/capture_driving_audio.sh citadis_305 toulouse__citadis_305
+bash tools/audio/capture_driving_audio.sh citadis_x05 toulouse__citadis_305
 ```
 
 Exécuter ces commandes séquentiellement. Le script compile un petit adaptateur local `alsa_null_clock.c`, crée une configuration ALSA null temporaire et force temporairement `audio/driver/mix_rate=48000` dans override.cfg, restauré ensuite. Il utilise le pilote ALSA explicite et le rendu headless. `--headless` seul sélectionnerait Dummy ; Dummy ne constitue pas une preuve de sortie mixée.

@@ -12,6 +12,9 @@ var recorder: AudioEffectRecord
 var elapsed := 0.0
 var family := "citadis_302"
 var variant := "angers__citadis_302"
+var output_name := ""
+var expected_bank := ""
+var stream_paths: Dictionary = {}
 var did_gong := false
 var log_rows: Array = []
 var next_log := 0.0
@@ -21,10 +24,26 @@ func _run() -> void:
 	var args := OS.get_cmdline_user_args()
 	if args.size() > 0: family = args[0]
 	if args.size() > 1: variant = args[1]
+	if args.size() > 2: output_name = args[2]
+	if args.size() > 3: expected_bank = args[3]
+	if output_name.is_empty(): output_name = family + "_godot_mix"
+	# Refuse silencieux de familles inconnues et variantes incohérentes.
+	if not family in TramModel.plan_ids():
+		printerr("CAPTURE_INVALID_FAMILY|",family); quit(2); return
+	var catalog: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/rolling_stock/variants/index.json"))
+	var variant_ok := false
+	for entry in catalog.entries:
+		if entry.id == variant: variant_ok = entry.family == family
+	if not variant_ok:
+		printerr("CAPTURE_INVALID_VARIANT|",family,"|",variant); quit(2); return
 	var view := AudioView.new(); view.family = family; view.livery = {"variant_id":variant}; root.add_child(view)
 	var camera := Camera3D.new(); view.add_child(camera); camera.position = Vector3(3, 2, 7); camera.current = true
 	var bell := AudioStreamPlayer.new(); root.add_child(bell)
 	ta = TramAudio.new(view, bell, family); root.add_child(ta)
+	if not expected_bank.is_empty() and str(ta.sound_profile.get("bank", "")) != expected_bank:
+		printerr("CAPTURE_INVALID_BANK|",ta.sound_profile.get("bank"),"|expected|",expected_bank); quit(2); return
+	for key in ta.streams: stream_paths[key] = ta.streams[key].resource_path
+	print("CAPTURE_PROFILE|",TramModel.family_id(family),"|",ta.sound_profile.get("bank"),"|",JSON.stringify(stream_paths))
 	var net := NetworkLoader.new(); net.load_file("res://data/networks/angers_a.json")
 	var profile := VehicleLibrary.citadis_302(); profile.model_family = family; profile.variant_id = variant
 	var schedule: Array[float] = []
@@ -63,9 +82,9 @@ func _frame() -> void:
 		process_frame.disconnect(_frame)
 		recorder.set_recording_active(false)
 		var recording := recorder.get_recording()
-		var out := "res://samples/demos/" + family + "_godot_mix.wav"
+		var out := "res://samples/demos/" + output_name + ".wav"
 		var err := recording.save_to_wav(out)
-		var report := {"family":family,"variant":variant,"driver":AudioServer.get_driver_name(),"mix_rate":AudioServer.get_mix_rate(),"recording_rate":recording.mix_rate,"duration":recording.get_length(),"method":"Godot AudioEffectRecord on Master; MissionSession with prescribed speed; controlled acoustic zones","timeline":log_rows}
-		var f := FileAccess.open("res://samples/demos/" + family + "_godot_mix.json",FileAccess.WRITE); f.store_string(JSON.stringify(report,"\t")); f.close()
+		var report := {"family":family,"resolved_family":TramModel.family_id(family),"resolved_bank":ta.sound_profile.get("bank",""),"stream_paths":stream_paths,"variant":variant,"driver":AudioServer.get_driver_name(),"mix_rate":AudioServer.get_mix_rate(),"recording_rate":recording.mix_rate,"duration":recording.get_length(),"method":"Godot AudioEffectRecord on Master; MissionSession with prescribed speed; controlled acoustic zones","timeline":log_rows}
+		var f := FileAccess.open("res://samples/demos/" + output_name + ".json",FileAccess.WRITE); f.store_string(JSON.stringify(report,"\t")); f.close()
 		print("CAPTURE_END|",out,"|",err,"|",recording.get_length(),"|",recording.data.size())
 		quit(err)

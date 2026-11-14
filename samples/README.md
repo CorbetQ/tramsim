@@ -1,3 +1,22 @@
+# Révision2 — écouter et comparer
+
+- [Citadis302 avant/après](listening/v2_citadis_302_avant_apres.mp3).
+- [Citadis305 avant/après, modèle synthétique correctement sélectionné](listening/v2_citadis_305_avant_apres.mp3).
+
+Chaque comparaison dure33secondes :16secondes de départ avant,1seconde de silence,16secondes après, avec correction constante de sonie par extrait. La vitesse prescrite est identique0–50km/h. Les traitements de niveau et mesures sont dans `listening/v2_levels.json` ; aucune synthèse ni effet n’est ajouté aux captures pour les extraits.
+
+Scénarios complets : [302](listening/v2_citadis_302_ecoute.mp3), [305 modélisé](listening/v2_citadis_305_ecoute.mp3).
+
+**Erreur précédente corrigée :** l’ancien fichier étiqueté305 jouait une302 ; la nouvelle capture valide famille, variante, banque et chemins avant l’enregistrement. Les tests du catalogue ne présentaient pas cette erreur du script spécifique.
+
+La302 préserve maintenant les partiels de la source et réduit les fonds qui la masquaient. La305 garde sa synthèse préexistante ; son mixage est moins masqué. Aucune captation exacte305 n’a été intégrée. Les deux vidéos d’Angers fournies par le joueur ont été référencées mais leur audio reste inaccessible ici. Voir [recherche de spotting](references/spotting-v2.md), [diagnostic](analysis/revision2-study.md), [conceptionv2](design-notes-v2.md).
+
+Les premières notes annonçaient à tort LeMans pour la variante302Angers : cette variante utilise en fait la banque `citadis302` dont le titre source est Moscou. Les rapports de capture contiennent désormais le profil et les chemins réellement sélectionnés. Ne pas présenter ces sources comme des sons enregistrés à Angers.
+
+---
+
+> **Correction — deuxième passe :** le premier extrait intitulé Citadis 305 utilisait par erreur la banque du 302 (identifiant non canonique dans le script de capture). Cet ancien extrait ne démontre donc pas le modèle sonore 305. Les captures corrigées sont identifiées v2 ; voir `analysis/revision2-study.md`.
+
 # Atelier sonore — proposition à écouter
 
 Les quatre rôles demandés ont produit les sources, l’étude, les banques et les tests. Le moteur est intégré sur la branche de travail `codex/tram-audio-design`, en attente du retour sur le timbre avant fusion et publication.
@@ -5,7 +24,7 @@ Les quatre rôles demandés ont produit les sources, l’étude, les banques et 
 ## Écouter les prototypes
 
 - [Citadis 302 — MP3](listening/citadis_302_ecoute.mp3) : base enregistrée puis traitée.
-- [Citadis 305 — MP3](listening/citadis_305_ecoute.mp3) : restitution modélisée, sans captation exacte réutilisable trouvée.
+- Ancien [MP3 étiqueté Citadis 305](listening/citadis_305_ecoute.mp3) : **chargement erroné de la banque 302**, extrait invalidé.
 
 Environ 48 secondes : portes, gong, accélération progressive, roue libre, freinage, tunnel/pont, arrêt et pause/reprise. Les MP3 reçoivent uniquement un gain constant de présentation de +9,6 dB (niveau voisin de −20 LUFS), puis sont encodés. [Détails du niveau](listening/README.md).
 
