@@ -401,6 +401,7 @@ var async_lod := false
 var _lod_task := -1
 var _lod_job: Dictionary = {}
 var _lod_builder: CityScene
+static var retired_lod_jobs := 0
 
 func enable_async_lod() -> void:
 	async_lod = true
@@ -417,13 +418,16 @@ func _start_lod_tile(k: Vector2i) -> void:
 		for field in ["position", "scale", "_x_scale", "_keepout", "_portal_cut", "_hangar_footprints", "_track_pts", "_track_dirs", "_decks", "_deck_cells", "_road_level_cells", "_track_nat", "lite"]:
 			_lod_job.profile[field] = get(field)
 	else: _lod_job = {"key": k, "initialize": false}
+	_lod_job.builder = _lod_builder
 	_lod_task = WorkerThreadPool.add_task(_build_lod_tile.bind(_lod_job), false, "city_detail_lod")
 
-func _build_lod_tile(job: Dictionary) -> void:
+static func _build_lod_tile(job: Dictionary) -> void:
+	# Static callable owns the independent builder, never the disappearing scene node.
+	var builder: CityScene = job.builder
 	if job.initialize:
-		_lod_builder.open(job.city, job.origin)
-		for field in job.profile: _lod_builder.set(field, job.profile[field])
-	job.node = _lod_builder._build_tile(job.key)
+		builder.open(job.city, job.origin)
+		for field in job.profile: builder.set(field, job.profile[field])
+	job.node = builder._build_tile(job.key)
 
 func _poll_lod_tile() -> void:
 	if _lod_task < 0 or not WorkerThreadPool.is_task_completed(_lod_task): return
@@ -438,10 +442,21 @@ func _poll_lod_tile() -> void:
 
 func _exit_tree() -> void:
 	if _lod_task >= 0:
-		WorkerThreadPool.wait_for_task_completion(_lod_task)
-		_lod_task = -1
-		if _lod_job.has("node"): _lod_job.node.free()
-	if is_instance_valid(_lod_builder): _lod_builder.free()
+		# Tree removal holds Godot's tree lock. Joining here can deadlock an off-tree
+		# builder doing add_child(). Reap on later frames, after that lock is released.
+		retired_lod_jobs += 1
+		get_tree().process_frame.connect(_reap_lod_task.bind(_lod_task, _lod_job), CONNECT_ONE_SHOT)
+		_lod_task = -1; _lod_builder = null; _lod_job = {}
+	elif is_instance_valid(_lod_builder): _lod_builder.free()
+
+static func _reap_lod_task(task: int, job: Dictionary) -> void:
+	if not WorkerThreadPool.is_task_completed(task):
+		(Engine.get_main_loop() as SceneTree).process_frame.connect(_reap_lod_task.bind(task, job), CONNECT_ONE_SHOT)
+		return
+	WorkerThreadPool.wait_for_task_completion(task)
+	if job.has("node"): job.node.free()
+	job.builder.free()
+	retired_lod_jobs -= 1
 
 ## Construit toutes les tuiles proches d'un coup (chargement initial).
 func warm(center_net: Vector3, cancellation = null) -> bool:

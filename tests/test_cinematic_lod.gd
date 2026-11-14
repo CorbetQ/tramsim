@@ -54,4 +54,7 @@ func _run() -> void:
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(OS.get_environment("LOD_SHOTS").path_join(city + "-arrival.png"))
 	main.queue_free(); await process_frame
+	var reap_deadline := Time.get_ticks_msec() + 30000
+	while CityScene.retired_lod_jobs > 0 and Time.get_ticks_msec() < reap_deadline: await process_frame
+	check(CityScene.retired_lod_jobs == 0, "in-flight worker reclaimed without blocking scene removal")
 	print("TOTAL_ECHECS|", failures); quit(1 if failures else 0)

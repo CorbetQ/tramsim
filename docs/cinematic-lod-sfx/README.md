@@ -5,7 +5,7 @@
 L'ancien `CityScene.lite` omettait le mobilier final mais construisait encore le sol détaillé, les arbres et les façades. La caméra demandait jusqu'à quatre tuiles synchrones par image, en plus des mises à jour de `Main`.
 
 - `AerialCityLOD` prépare la géographie complète pendant la sélection de la ville : relief à 40 m, voirie, rivières, occupation du sol et véritables emprises/couleurs de toits. Maillages indexés par secteurs de 800 m, matériaux sans éclairage, sans arbres ni fenêtres. Le survol ne construit aucune tuile.
-- `CityScene.enable_async_lod()` utilise un constructeur isolé hors de l'arbre, avec son propre cache de terrain/décompression. Les nœuds sont adoptés sur le fil principal après achèvement ; les profils de voies, portails, dépôts et ponts sont conservés. Une seule tâche à la fois ; achèvement attendu avant destruction.
+- `CityScene.enable_async_lod()` utilise un constructeur isolé hors de l'arbre, avec son propre cache de terrain/décompression. Les nœuds sont adoptés sur le fil principal après achèvement ; les profils de voies, portails, dépôts et ponts sont conservés. Une seule tâche à la fois ; une tâche encore active à la fermeture est récupérée sur les images suivantes, sans attendre sous le verrou de l’arbre de scène.
 - Les détails de rue sont masqués pendant le survol, préparés dès son début, puis affichés au dernier rapprochement. Le rayon initial est limité à 450 m. La simulation reste figée, sans double mise à jour du décor.
 - Le voile de nuages échantillonne une texture de bruit préparée au chargement, et disparaît de l'arbre de rendu lorsqu'il est transparent. Plus de bruit trigonométrique par pixel.
 - Pendant l'intro : résolution 3D à 65 % au maximum, sans MSAA, contours ni ombres. L'interface reste à sa résolution normale ; les réglages de conduite sont restitués à la fin ou au passage. Le LOD est aussi préparé si le fond d'accueil est désactivé et l'intro activée.
@@ -36,6 +36,7 @@ Fichiers attendus : `click_001.wav`, `back_001.wav`, `confirmation_001.wav`, `bi
 
 ## Vérifications
 
+- `test_lod_shutdown` : destruction d’une ville pendant la préparation d’une tuile, sans blocage ni tâche orpheline.
 - `test_free_sfx` : actions, répétitions, désactivation, glissement tactile, boucles, jour/nuit, tunnel et trafic.
 - `test_audio`, `test_audio_families` : mixage, traction progressive, freinage, portes, gong, pause, alimentation et acoustique des 20 familles.
 - `test_city_preload` : cache, absence de relecture après lancement, erreurs et reprise.
