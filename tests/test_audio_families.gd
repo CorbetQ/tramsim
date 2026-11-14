@@ -9,14 +9,14 @@ func state(v: float, extras: Dictionary = {}) -> Dictionary:
 	var result := {"speed":v,"notch":1.0,"power_ok":true,"pantograph_up":true,"external":true}
 	result.merge(extras,true); return result
 func _run() -> void:
-	var counts := {"exact_family":0,"related_family":0,"synthetic":0}
+	var counts := {"exact_family":0,"related_family":0,"synthetic":0,"modeled":0}
 	for family in TramModel.plan_ids():
 		var p := TramAudio.profile_for(family)
 		check(not p.is_empty() and counts.has(p.get("quality","")),family+" : couverture déclarée")
 		counts[p.quality] += 1
 		var ta := TramAudio.new(null,null,family); root.add_child(ta)
 		check(ta.players.size()==TramAudio.LOOPS.size()+TramAudio.SHOTS.size(),family+" : tous les flux chargés")
-		if p.quality != "synthetic":
+		if p.quality in ["exact_family","related_family"]:
 			var bank:Dictionary=p.bank_data
 			check((bank.recorded_family==family)==(p.quality=="exact_family"),family+" : apparentement honnête")
 			check(ta.streams.motor.resource_path.ends_with(bank.streams.motor),family+" : captation effectivement sélectionnée")
@@ -37,5 +37,5 @@ func _run() -> void:
 		ta.update_state(state(6.0,{"bridge":true}),0.1)
 		check(ta.players.motor.p3.bus==TramAudio.BRIDGE_BUS,family+" : résonance de pont")
 		ta.queue_free(); await process_frame
-	check(counts.exact_family==7 and counts.related_family==5 and counts.synthetic==8,"20 familles : 7 captées, 5 apparentées, 8 synthétiques")
+	check(counts.exact_family==6 and counts.related_family==4 and counts.synthetic==8 and counts.modeled==2,"20 familles : 6 captées, 4 apparentées, 8 synthétiques, 2 modélisées")
 	print("TOTAL_ECHECS|",failures); quit(1 if failures else 0)

@@ -1,0 +1,42 @@
+{
+  "v3_302_solo": {
+    "bank": "citadis302",
+    "duration": 47.85066666666667,
+    "peak_dbfs": -17.322301524951524,
+    "muted_layers_verified": [
+      "rolling",
+      "squeal",
+      "hvac",
+      "ambience",
+      "real_rail",
+      "joint",
+      "brake_mech",
+      "brake_release",
+      "emergency",
+      "door_open",
+      "door_chime",
+      "door_close"
+    ],
+    "not_a_pure_source_separator": true
+  },
+  "v3_305_modeled_solo": {
+    "bank": "citadis305_model",
+    "duration": 48.757333333333335,
+    "peak_dbfs": -18.06179973983887,
+    "muted_layers_verified": [
+      "rolling",
+      "squeal",
+      "hvac",
+      "ambience",
+      "real_rail",
+      "joint",
+      "brake_mech",
+      "brake_release",
+      "emergency",
+      "door_open",
+      "door_chime",
+      "door_close"
+    ],
+    "not_a_pure_source_separator": true
+  }
+}

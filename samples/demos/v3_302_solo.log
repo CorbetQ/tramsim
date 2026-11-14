@@ -1,0 +1,6 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CAPTURE_PROFILE|citadis_302|citadis302|{"ambience":"res://data/audio/ambience.ogg","brake_mech":"res://data/audio/brake_mech.ogg","brake_release":"res://data/audio/brake_release.ogg","carrier":"res://data/audio/carrier.ogg","door_chime":"res://data/audio/door_chime.ogg","door_close":"res://data/audio/door_close.ogg","door_open":"res://data/audio/door_open.ogg","emergency":"res://data/audio/emergency.ogg","hvac":"res://data/audio/hvac.ogg","joint":"res://data/audio/joint.ogg","motor":"res://data/audio/v2/citadis302_motor.ogg","motor_hum":"res://data/audio/v2/citadis302_motor_hum.ogg","real_rail":"res://data/audio/banks/real_rail_designed.ogg","regen":"res://data/audio/regen.ogg","rolling":"res://data/audio/rolling.ogg","squeal":"res://data/audio/squeal.ogg"}
+CAPTURE_AUDITION|traction_solo|production_filters|muted|["rolling","squeal","hvac","ambience","real_rail","joint","brake_mech","brake_release","emergency","door_open","door_chime","door_close"]
+CAPTURE_BEGIN|citadis_302|angers__citadis_302|48000.0|ALSA
+CAPTURE_END|res://samples/demos/v3_302_solo.wav|0|47.8506666666667|9187328

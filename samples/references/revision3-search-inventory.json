@@ -1,0 +1,77 @@
+[
+  {
+    "query": "Citadis 305",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Angers",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Caen",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Sydney",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/AppleCorey/sounds/693444/",
+      "https://freesound.org/people/MGFaudio/sounds/866074/",
+      "https://freesound.org/people/mikeoni/sounds/619213/"
+    ]
+  },
+  {
+    "query": "Incentro",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "Translohr",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Lille",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Saint Etienne",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "Dualis",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "Rhonexpress",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Nantes",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/YannSauvin/sounds/779136/",
+      "https://freesound.org/people/bruno.auzet/sounds/641218/",
+      "https://freesound.org/people/bruno.auzet/sounds/641219/"
+    ]
+  },
+  {
+    "query": "Eurotram",
+    "status": "200",
+    "candidates": []
+  },
+  {
+    "query": "tram Marseille",
+    "status": "200",
+    "candidates": [
+      "https://freesound.org/people/ana.conser/sounds/853102/"
+    ]
+  }
+]

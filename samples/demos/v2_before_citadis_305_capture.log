@@ -1,0 +1,5 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CAPTURE_PROFILE|citadis_x05|citadis305_model|{"ambience":"res://data/audio/ambience.ogg","brake_mech":"res://data/audio/brake_mech.ogg","brake_release":"res://data/audio/brake_release.ogg","carrier":"res://data/audio/carrier.ogg","door_chime":"res://data/audio/door_chime.ogg","door_close":"res://data/audio/door_close.ogg","door_open":"res://data/audio/door_open.ogg","emergency":"res://data/audio/emergency.ogg","hvac":"res://data/audio/hvac.ogg","joint":"res://data/audio/joint.ogg","motor":"res://data/audio/banks/citadis305_motor.ogg","motor_hum":"res://data/audio/banks/citadis305_motor_hum.ogg","real_rail":"res://data/audio/banks/real_rail_designed.ogg","regen":"res://data/audio/regen.ogg","rolling":"res://data/audio/rolling.ogg","squeal":"res://data/audio/squeal.ogg"}
+CAPTURE_BEGIN|citadis_x05|toulouse__citadis_305|48000.0|ALSA
+CAPTURE_END|res://samples/demos/v2_before_citadis_305.wav|0|47.8613333333333|9189376

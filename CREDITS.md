@@ -112,3 +112,11 @@ Les photographies du dossier documentaire sont créditées individuellement dans
 ### Tram-trains nantais et contrôle du terrain 0.12.1
 
 Les arrêts TER T1/T2 proviennent des relations OpenStreetMap [19515572](https://www.openstreetmap.org/relation/19515572) et [19513724](https://www.openstreetmap.org/relation/19513724), consultées le 13 novembre 2026, © contributeurs OpenStreetMap, ODbL. Coordonnées et identifiants : `data/sources/nantes_tram_train.json`. Les corrections ponctuelles du relief réutilisent le MNT IGN RGE ALTI®, Licence Ouverte 2.0. [Rapport et captures](docs/map-fixes-0.12.1/README.md).
+
+### Atelier audio du 14 novembre 2026
+
+Les références collectées, leurs auteurs/licences et les limites d'attribution par matériel sont documentés dans [samples/sources.json](samples/sources.json). Les adaptations intégrées et la restitution modélisée du Citadis 305 sont détaillées dans [data/audio/DESIGN-CREDITS.md](data/audio/DESIGN-CREDITS.md) et [samples/design-notes.md](samples/design-notes.md). Les captures du bus Master du jeu et les copies d'écoute sont distinctes des enregistrements de rames réelles ; voir [samples/README.md](samples/README.md).
+
+### Traction Citadis apparentée — Rotterdam
+
+LG, « Streetcar04.wav », https://freesound.org/people/LG/sounds/14279/ , Creative Commons Attribution4.0 (https://creativecommons.org/licenses/by/4.0/). Préview public de départ à Rotterdam ; dérivés : séparation harmonique candidate, trois fenêtres courtes, raccords et normalisation. Utilisée comme source apparentée pour les quinze variantesCitadis302, sans certification de motrice française. Crédits et traitements : `data/audio/ROTTERDAM-CREDITS.md`, `data/audio/rotterdam-traction-manifest.json`.

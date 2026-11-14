@@ -1,0 +1,49 @@
+{
+  "generator": "tools/audio/design_samples_v2.py",
+  "files": {
+    "v2/citadis302_motor.ogg": {
+      "source": {
+        "path": "banks/citadis302_motor.ogg",
+        "author": "trolleway",
+        "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+        "license": "CC BY 3.0"
+      },
+      "duration_s": 4.07,
+      "lufs": -20.0,
+      "sha256": "5dc469bb1f01d2bd5dc1d698e8c1e91391644213d557554bdac11cd1f6d27227"
+    },
+    "v2/citadis302_motor_hum.ogg": {
+      "source": {
+        "path": "banks/citadis302_motor_hum.ogg",
+        "author": "trolleway",
+        "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+        "license": "CC BY 3.0"
+      },
+      "duration_s": 4.07,
+      "lufs": -20.0,
+      "sha256": "587599f5792b0146cce89f3d94e195eb2501cee2c6e113a4e0a9002845bc6a72"
+    },
+    "v2/lemans302_motor.ogg": {
+      "source": {
+        "path": "banks/lemans302_motor.ogg",
+        "author": "SamuelGremaud",
+        "page": "https://freesound.org/people/SamuelGremaud/sounds/458858/",
+        "license": "CC0"
+      },
+      "duration_s": 4.07,
+      "lufs": -20.0,
+      "sha256": "9816f5aca4673d115625dd308655511d26dabbc1ac07168f6f694b7dd9ca1a8b"
+    },
+    "v2/lemans302_motor_hum.ogg": {
+      "source": {
+        "path": "banks/lemans302_motor_hum.ogg",
+        "author": "SamuelGremaud",
+        "page": "https://freesound.org/people/SamuelGremaud/sounds/458858/",
+        "license": "CC0"
+      },
+      "duration_s": 4.07,
+      "lufs": -20.0,
+      "sha256": "214df47831afb4196f22f1a0e45820451b473989e10ffcdfba6da6dd3d7e2a55"
+    }
+  }
+}

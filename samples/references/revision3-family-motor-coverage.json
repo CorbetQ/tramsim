@@ -1,0 +1,343 @@
+{
+  "scope": "Recherche de vrais moteurs sur20familles, révision3",
+  "families": [
+    {
+      "family": "avanto",
+      "same_family_existing_sources": [
+        "avanto"
+      ],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Avanto",
+        "Siemens Avanto sound recording"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "breda_vlc",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "tram Lille"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "citadis_302",
+      "same_family_existing_sources": [
+        "citadis302",
+        "lemans302-original"
+      ],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [
+        "hzdnUW7CcE4",
+        "rg5IT3oe6aw",
+        "f0bF9B_WLEc"
+      ],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Citadis",
+        "tram Angers",
+        "tram Paris"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "citadis_402",
+      "same_family_existing_sources": [
+        "citadis402",
+        "arriv-e-d-une-rame-citadis-402-la-station-porte-d-ivry"
+      ],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Citadis",
+        "tram Paris"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "citadis_403_strasbourg",
+      "same_family_existing_sources": [
+        "citadis403"
+      ],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "tram Strasbourg"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "citadis_compact",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": "citadis302",
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Citadis"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche générique de gamme seulement, sans requête modèle spécifique"
+    },
+    {
+      "family": "citadis_dualis",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Dualis",
+        "tram-train (429)"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "citadis_reims",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": "citadis302",
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "tram Reims"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "citadis_tours",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": "citadis402",
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "tram Tours"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "citadis_x01",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Citadis"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche générique de gamme seulement, sans requête modèle spécifique"
+    },
+    {
+      "family": "citadis_x05",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [
+        "rSOYQ9Df7AY",
+        "BV1s5411P7v2",
+        "BV1SX4y137m5",
+        "zoLZaARiYrQ",
+        "liol2a5etck",
+        "V-cpt3RqWF0"
+      ],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Citadis 305",
+        "tram Angers",
+        "tram Caen",
+        "tram Sydney",
+        "Citadis 305 mp3"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "citadis_x05_nantes",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "tram Nantes",
+        "Citadis"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "eurotram",
+      "same_family_existing_sources": [
+        "eurotram-porto"
+      ],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Eurotram"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "flexity_marseille",
+      "same_family_existing_sources": [
+        "flexity"
+      ],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "tram Marseille"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "incentro",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Incentro",
+        "tram Nantes",
+        "tram Nottingham"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "tango_rhonexpress",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Rhonexpress",
+        "Stadler Tango Rhonexpress sound recording"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "tfs",
+      "same_family_existing_sources": [
+        "tfs"
+      ],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "tram Nantes",
+        "tram Grenoble"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "translohr",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "Translohr",
+        "tram clermont-ferrand"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "urbos",
+      "same_family_existing_sources": [
+        "urbos",
+        "urbos3-birmingham-original"
+      ],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "tram Nantes"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    },
+    {
+      "family": "vevey_saint_etienne",
+      "same_family_existing_sources": [],
+      "new_motor_recording_certified": false,
+      "motor_isolation": "non_certified",
+      "related_existing_reference": null,
+      "new_video_references": [],
+      "next_evidence_needed": "Captation embarquée de traction identifiée, démarrage complet et décélération, sans mélange passant/annonces, puis segmentation et analyse de crêtes",
+      "queries_executed": [
+        "tram Saint Etienne",
+        "tram Saint-Etienne"
+      ],
+      "search_result": "Aucun nouvel enregistrement de motrice isolée avec modèle certifié dans cette famille",
+      "query_scope": "Recherche de famille et/ou de réseaux utilisateurs ; les résultats urbains sans matériel identifié sont rejetés"
+    }
+  ],
+  "actual_new_media_manifest": "spotting-research.json + revision3-downloads.json",
+  "actual_new_files": 5,
+  "total_new_media_bytes": 6272546,
+  "real_305_media_obtained": false,
+  "real_angers_302_media_obtained": false,
+  "heard_by_research_agent": false,
+  "notes": [
+    "Les titres vidéo ne prouvent pas le contenu sonore et ne sont pas des fichiers disponibles.",
+    "La capture inductive Sydney305 représente des champsPWM et ne remplace pas un micro acoustique.",
+    "Freesound a répondu429 lors de la recherche tram-train : collecte arrêtée sans retry.",
+    "Le MP3Soundlandscapes est exclu du suiviGit, usageétudeseulement."
+  ]
+}

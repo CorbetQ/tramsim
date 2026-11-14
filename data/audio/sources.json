@@ -7,25 +7,25 @@
  "statut": "Banques de captations par famille, apparentements et synthèses de remplacement documentés dans families.json.",
  "files": {
   "motor.ogg": {
-   "origine": "synthèse (data/audio/make_audio.py:motor)",
+   "origine": "synthèse tools/audio/design_samples.py",
    "licence": "création du projet (même licence que le code)",
-   "description": "Traction synthétique : fondamentale 300 Hz, harmoniques amorties, résonance grave et bruit électromécanique large bande. Timbre de moteur, sans raie aiguë dominante. Les fréquences de régime sont interpolées par TramAudio ; aucune captation constructeur.",
+   "description": "Modèle mécanique à bruit coloré dominant, composantes périodiques amorties ; aucune captation constructeur.",
    "lufs": -20.0,
-   "duree_s": 4.0
+   "duree_s": 8.0
   },
   "motor_hum.ogg": {
-   "origine": "synthèse (data/audio/make_audio.py:motor_hum)",
+   "origine": "synthèse tools/audio/design_samples.py",
    "licence": "création du projet (même licence que le code)",
-   "description": "Ronronnement électromagnétique des moteurs de traction : raie 2f statorique 120 Hz (hauteur pilotée par la vitesse), harmoniques en 1/n^1,3 jusqu'à 1 kHz, souffle de ventilation brun, légère ondulation de couple.",
+   "description": "Modèle mécanique à bruit coloré dominant, composantes périodiques amorties ; aucune captation constructeur.",
    "lufs": -20.0,
-   "duree_s": 4.0
+   "duree_s": 8.0
   },
   "carrier.ogg": {
-   "origine": "synthèse (data/audio/make_audio.py:carrier)",
+   "origine": "synthèse tools/audio/design_samples.py",
    "licence": "création du projet (même licence que le code)",
-   "description": "Bourdonnement de commutation à 420 Hz, bandes latérales douces, fondu après le départ. Synthèse approximative ; pas de sifflement permanent à 1 kHz.",
+   "description": "Modèle mécanique à bruit coloré dominant, composantes périodiques amorties ; aucune captation constructeur.",
    "lufs": -20.0,
-   "duree_s": 4.0
+   "duree_s": 8.0
   },
   "rolling.ogg": {
    "origine": "synthèse (data/audio/make_audio.py:rolling)",
@@ -237,6 +237,13 @@
    "modifications": "mono 32 kHz, passe-bande 65–3800 Hz, raccord croisé 250 ms, normalisation",
    "lufs": -19.9,
    "duree_s": 4.3
+  },
+  "regen.ogg": {
+   "origine": "synthèse tools/audio/design_samples.py",
+   "licence": "création du projet (même licence que le code)",
+   "description": "Modèle mécanique à bruit coloré dominant, composantes périodiques amorties ; aucune captation constructeur.",
+   "lufs": -20.0,
+   "duree_s": 8.0
   }
  },
  "references": [
@@ -324,5 +331,9 @@
    "auteur": "Glaneur de sons",
    "description": "The sound of a tram from Lyon, France."
   }
- ]
+ ],
+ "design_manifest": "design-manifest.json",
+ "design_generator": "tools/audio/design_samples.py (run after make_audio.py; authoritative for designed derivatives, motor, motor_hum, carrier and regen)",
+ "rotterdam_traction_manifest": "rotterdam-traction-manifest.json",
+ "rotterdam_traction_generator": "tools/audio/build_rotterdam_bank.py"
 }

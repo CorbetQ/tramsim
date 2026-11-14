@@ -1,0 +1,6 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CAPTURE_PROFILE|citadis_302|rotterdam_citadis_traction|{"ambience":"res://data/audio/ambience.ogg","brake_mech":"res://data/audio/brake_mech.ogg","brake_release":"res://data/audio/brake_release.ogg","carrier":"res://data/audio/banks/rotterdam_traction_carrier.ogg","door_chime":"res://data/audio/door_chime.ogg","door_close":"res://data/audio/door_close.ogg","door_open":"res://data/audio/door_open.ogg","emergency":"res://data/audio/emergency.ogg","hvac":"res://data/audio/hvac.ogg","joint":"res://data/audio/joint.ogg","motor":"res://data/audio/banks/rotterdam_traction_motor.ogg","motor_hum":"res://data/audio/banks/rotterdam_traction_motor_hum.ogg","real_rail":"res://data/audio/banks/real_rail_designed.ogg","regen":"res://data/audio/regen.ogg","rolling":"res://data/audio/rolling.ogg","squeal":"res://data/audio/squeal.ogg"}
+CAPTURE_AUDITION|full_mix|production_filters|muted|[]
+CAPTURE_BEGIN|citadis_302|angers__citadis_302|48000.0|ALSA
+CAPTURE_END|res://samples/demos/approved_rotterdam_302.wav|0|47.84|9185280

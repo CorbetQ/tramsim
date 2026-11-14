@@ -66,7 +66,7 @@ static func available(c: String) -> bool:
 	return FileAccess.file_exists(path_for(c))
 
 func open(c: String) -> bool:
-	_buf = FileAccess.get_file_as_bytes(path_for(c))
+	_buf = CityDataStore.bytes(path_for(c))
 	if _buf.size() < 40: return false
 	var magic := _buf.slice(0, 4).get_string_from_ascii()
 	if magic not in ["TGR1", "TGR2"]: return false
@@ -98,7 +98,7 @@ func open(c: String) -> bool:
 func _load_land(c: String) -> void:
 	var path := "res://data/scenes/%s_land.bin" % c
 	if not FileAccess.file_exists(path): return
-	var b := FileAccess.get_file_as_bytes(path)
+	var b := CityDataStore.bytes(path)
 	if b.size() < 9 or b.slice(0, 4).get_string_from_ascii() != "TLC1": return
 	var n := b.decode_u8(8); var o := 9
 	for i in n:
