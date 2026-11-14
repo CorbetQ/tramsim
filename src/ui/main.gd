@@ -78,6 +78,7 @@ var toasts: VBoxContainer
 var lamps: Dictionary = {}      # nom -> [PanelContainer, TextureRect, Label]
 var tuto: Control
 var tuto_step := 0
+var _closing := false
 var ui_audio: UiAudio
 var tram_audio: TramAudio
 var bell: AudioStreamPlayer
@@ -88,6 +89,7 @@ var _resize_pending := false
 var camera_gestures := MapGestures.new()
 
 func _ready() -> void:
+	get_tree().auto_accept_quit = false
 	UiLayout.configure(get_window())
 	_compact = UiLayout.compact(self)
 	get_window().size_changed.connect(func(): UiLayout.configure(get_window()))
@@ -118,16 +120,36 @@ func _bell_sound() -> AudioStreamWAV:
 	return w
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and is_node_ready():
+		_quit_safely(); return
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST and session == null and menu_page == "home" and settings_layer == null and is_node_ready() and get_tree().get_nodes_in_group("touch_choice_modal").is_empty():
+		_quit_safely(); return
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_instance_valid(explore):
 		explore.leave(); return
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and session == null and is_node_ready():
 		var esc := InputEventKey.new(); esc.keycode = KEY_ESCAPE
 		_menu_key(KEY_ESCAPE, esc)
-		get_tree().quit_on_go_back = menu_page == "home" and settings_layer == null
+		get_tree().quit_on_go_back = false
 	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
 		if session != null and not paused:
 			_set_paused(true)
 		_persist()
+
+## Never quit with a renderer worker waiting on the scene-tree lock.
+func _quit_safely() -> void:
+	if _closing: return
+	_closing = true
+	set_process(false)
+	_persist()
+	if is_instance_valid(city_preload):
+		city_preload.set_process(false)
+		while city_preload._task >= 0 and not WorkerThreadPool.is_task_completed(city_preload._task):
+			await get_tree().process_frame
+	_clear()
+	if is_instance_valid(home_bg): home_bg.queue_free(); home_bg = null
+	if is_instance_valid(city_preload): city_preload.queue_free(); city_preload = null
+	await CityScene.drain_background_jobs(get_tree())
+	get_tree().quit()
 
 func _persist() -> void:
 	if free != null and vehicle != null:
@@ -295,7 +317,7 @@ func _build_menu() -> void:
 	if not menu_city in cities: menu_city = str(save.settings.get("last_city", ""))
 	if not menu_city in cities: menu_city = "Bordeaux" if "Bordeaux" in cities else (cities[0] if not cities.is_empty() else "")
 	_show_bg(menu_city)
-	get_tree().quit_on_go_back = menu_page == "home"
+	get_tree().quit_on_go_back = false
 	if menu_page == "setup": _build_setup()
 	else: _build_home()
 

@@ -139,5 +139,5 @@ func _run() -> void:
 	_end(main)
 
 func _end(main: Node) -> void:
-	main.queue_free(); await process_frame
+	main.queue_free(); await CityScene.drain_background_jobs(self)
 	print("TOTAL_ECHECS|", fails); quit(1 if fails else 0)
