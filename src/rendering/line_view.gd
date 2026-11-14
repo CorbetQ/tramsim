@@ -22,6 +22,8 @@ var sector_center: Dictionary = {} # edge id -> Vector3
 var view_distance := 400.0
 var car_nodes: Array[MeshInstance3D] = []
 var light_nodes: Array[MeshInstance3D] = []
+var authored_stations := true
+var station_identity: StationIdentityView
 var city: CityScene
 var day_night: DayNight
 var headlight: SpotLight3D
@@ -61,6 +63,8 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 			city.bind_network(net)
 		else:
 			city.free(); city = null
+	if geometric and authored_stations:
+		station_identity = StationIdentityView.new(); add_child(station_identity); station_identity.setup(self, src)
 	if geometric:   # types de stations, entraxe élargi au droit des quais centraux, quais
 		layout = StationLayout.new(self)
 		layout.load_city(src, net.meta.get("origin", [0, 0]))
@@ -88,6 +92,7 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 	if geometric: ElectrificationView.junctions(self)
 	_depot_buildings()
 	_real_platforms()
+	if station_identity: station_identity.build_sites()
 	_crossovers()
 	for s in net.signals:
 		var t2 := _frame(s.edge, float(s.offset))
@@ -206,7 +211,9 @@ func _track(parent: Node3D, id: String) -> void:
 	var g := _Geo.new()
 	var fallback := _bed_color(id)
 	var paved := Color("#a49a8c") if city != null and city.style.get("trees", [0])[0] == 6 else Color("#9a958d")
-	var nature := func(p: Vector3) -> int: return city.track_nature_at(p) if city != null else TrackView.BED_UNKNOWN
+	var nature := func(p: Vector3) -> int:
+		if station_identity and station_identity.depot_track_at(id, p): return TrackView.BED_PAVED
+		return city.track_nature_at(p) if city != null else TrackView.BED_UNKNOWN
 	if geometric and not info.get("tunnel", []).is_empty():
 		# L'orthophoto montre la surface au-dessus du tunnel : elle ne décrit pas son radier.
 		for span_ in info.tunnel:
@@ -312,6 +319,7 @@ func _depot_buildings() -> void:
 	for depot in net.meta.get("depots", []):
 		if not sectors.has(depot.edge): continue
 		for building in depot.get("buildings", []):
+			if station_identity and station_identity.build_depot_building(sectors[depot.edge], depot, building): continue
 			if seen.has(building.source_id): continue
 			seen[building.source_id] = true
 			var polygon := PackedVector2Array()
@@ -338,6 +346,7 @@ func _depot_buildings() -> void:
 ## Quais cartographiés OSM : l'emprise réelle remplace l'implantation estimée GTFS.
 func _real_platforms() -> void:
 	for platform in net.meta.get("platforms", []):
+		if station_identity and station_identity.build_platform(platform): continue
 		if not sectors.has(platform.edge): continue
 		var poly := PackedVector2Array(); var top: Array[Vector3] = []
 		var h := float(platform.get("height_m", 0.3))

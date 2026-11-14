@@ -58,7 +58,7 @@ static func _load(job: Dictionary) -> void:
 	var paths: Array[String] = []
 	for source in sources:
 		if source == "": continue
-		for directory in ["scenes", "free", "stations", "platforms", "depots", "missions", "operations"]:
+		for directory in ["scenes", "free", "stations", "station_models", "platforms", "depots", "missions", "operations"]:
 			var folder: String = "res://data/" + str(directory)
 			if not DirAccess.dir_exists_absolute(folder): continue
 			for filename in DirAccess.get_files_at(folder):

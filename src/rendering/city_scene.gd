@@ -366,6 +366,12 @@ func _pal(name: String, h: int) -> Color:
 	var arr: Array = style.get(name, ["#cccccc"])
 	return Color.from_string(str(arr[absi(h) % arr.size()]), Color.GRAY)
 
+## Distance to the tile footprint, not its centre: a camera at a tile corner can
+## see that tile even when its centre is farther than the small near-LOD radius.
+func _tile_distance(k: Vector2i, center_in_tiles: Vector2) -> float:
+	var nearest := Vector2(clampf(center_in_tiles.x, k.x, k.x + 1.0), clampf(center_in_tiles.y, k.y, k.y + 1.0))
+	return center_in_tiles.distance_to(nearest) * tile_m
+
 ## À appeler à chaque image avec la position de la caméra (repère de la ligne).
 func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 	_poll_lod_tile()
@@ -383,9 +389,9 @@ func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 	queue.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
 		return (Vector2(a) + Vector2(0.5, 0.5)).distance_squared_to(ctile) < (Vector2(b) + Vector2(0.5, 0.5)).distance_squared_to(ctile))
 	for k in built.keys():
-		if (Vector2(k) + Vector2(0.5, 0.5)).distance_to(ctile) * tile_m > r * 1.5:
+		if _tile_distance(k, ctile) > r * 1.5:
 			built[k].queue_free(); built.erase(k)
-	queue = queue.filter(func(k: Vector2i) -> bool: return (Vector2(k) + Vector2(0.5, 0.5)).distance_to(ctile) * tile_m <= r * 1.5)
+	queue = queue.filter(func(k: Vector2i) -> bool: return _tile_distance(k, ctile) <= r * 1.5)
 	for i in budget_tiles:
 		if queue.is_empty(): break
 		if async_lod:
