@@ -33,7 +33,7 @@ func _init(v) -> void:
 func load_city(city: String, origin: Array) -> void:
 	var path := "res://data/stations/%s.json" % city
 	if city == "" or not FileAccess.file_exists(path): return
-	var d = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var d = CityDataStore.document(path)
 	if typeof(d) != TYPE_DICTIONARY: return
 	platform_m = float(d.get("platform_m", 0.0))
 	var lat0 := float(origin[0]); var lon0 := float(origin[1])

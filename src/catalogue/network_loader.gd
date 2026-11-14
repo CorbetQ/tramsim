@@ -15,13 +15,15 @@ var supplies: Array = []
 func load_file(path: String) -> PackedStringArray:
 	graph = TrackGraph.new()
 	meta = {}; edge_info.clear(); stations.clear(); signals.clear(); supplies.clear()
+	if not FileAccess.file_exists(path): return PackedStringArray(["fichier introuvable: " + path])
+	var data: Variant = CityDataStore.document(path)
+	if not data is Dictionary: return PackedStringArray(["JSON invalide: " + path])
+	return load_data(data.duplicate(true))
+
+func load_data(data: Dictionary) -> PackedStringArray:
+	graph = TrackGraph.new()
+	meta = {}; edge_info.clear(); stations.clear(); signals.clear(); supplies.clear()
 	var errs := PackedStringArray()
-	var f := FileAccess.open(path, FileAccess.READ)
-	if f == null:
-		return PackedStringArray(["fichier introuvable: " + path])
-	var data = JSON.parse_string(f.get_as_text())
-	if typeof(data) != TYPE_DICTIONARY:
-		return PackedStringArray(["JSON invalide: " + path])
 	if int(data.get("schema", 0)) != SCHEMA:
 		errs.append("schéma non supporté")
 	meta = data

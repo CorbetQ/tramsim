@@ -83,7 +83,7 @@ static func available(c: String) -> bool:
 ## Ouvre la scène d'une ville et la cale sur le repère de la ligne (origine lat/lon de la ligne).
 func open(c: String, net_origin: Array) -> bool:
 	city = c
-	_file = FileAccess.get_file_as_bytes(path_for(c))
+	_file = CityDataStore.bytes(path_for(c))
 	buf = _file
 	var magic := _file.slice(0, 4).get_string_from_ascii() if _file.size() >= 8 else ""
 	if magic not in ["TSC1", "TSC2", "TSC3", "TSC4"]:
@@ -91,7 +91,7 @@ func open(c: String, net_origin: Array) -> bool:
 	v4 = magic == "TSC4"
 	v2 = magic != "TSC1"
 	v3 = magic == "TSC3" or v4
-	var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s.json" % c))
+	var meta = CityDataStore.document("res://data/scenes/%s.json" % c)
 	tile_m = float(meta.tile_m)
 	var n := _file.decode_u32(4)
 	for i in n:
@@ -101,18 +101,22 @@ func open(c: String, net_origin: Array) -> bool:
 			table[k] = Vector2i(_file.decode_u32(o + 8), _file.decode_u32(o + 16)); _tsc_cs[k] = _file.decode_u32(o + 12)
 		else:
 			table[k] = Vector2i(_file.decode_u32(o + 8), _file.decode_u32(o + 12))
-	# origine de la ville exprimée dans le repère de la ligne
-	var lat_n := float(net_origin[0]); var lon_n := float(net_origin[1])
-	var lat_c := float(meta.origin[0]); var lon_c := float(meta.origin[1])
-	position = Vector3(deg_to_rad(lon_c - lon_n) * R * cos(deg_to_rad(lat_n)), 0.0, -deg_to_rad(lat_c - lat_n) * R)
-	_x_scale = cos(deg_to_rad(lat_n)) / cos(deg_to_rad(lat_c))
-	scale.x = _x_scale
+	align_to_origin(net_origin)
 	_load_style(c)
 	_load_track_nature(c)
 	_load_terrain(c)
 	_load_road_levels(c)
 	return true
 
+## Reuse prepared city bytes/terrain metadata in a different line coordinate system.
+func align_to_origin(net_origin: Array) -> void:
+	var meta: Dictionary = CityDataStore.document("res://data/scenes/%s.json" % city)
+	# origine de la ville exprimée dans le repère de la ligne
+	var lat_n := float(net_origin[0]); var lon_n := float(net_origin[1])
+	var lat_c := float(meta.origin[0]); var lon_c := float(meta.origin[1])
+	position = Vector3(deg_to_rad(lon_c - lon_n) * R * cos(deg_to_rad(lat_n)), 0.0, -deg_to_rad(lat_c - lat_n) * R)
+	_x_scale = cos(deg_to_rad(lat_n)) / cos(deg_to_rad(lat_c))
+	scale.x = _x_scale
 ## Contenu d'une tuile de décor : `buf` et décalage de début (TSC4 : tuile décompressée, gardée jusqu'à la suivante).
 func _tile_data(k: Vector2i) -> int:
 	var e: Vector2i = table[k]
@@ -125,7 +129,7 @@ func _tile_data(k: Vector2i) -> int:
 func _load_road_levels(c: String) -> void:
 	var path:="res://data/scenes/%s_road_levels.json"%c
 	if not FileAccess.file_exists(path):return
-	var data:Dictionary=JSON.parse_string(FileAccess.get_file_as_string(path))
+	var data:Dictionary=CityDataStore.document(path)
 	for segment in data.get("segments",[]):
 		var a:=Vector2(segment[0],segment[1]);var b:=Vector2(segment[2],segment[3])
 		var count:=maxi(1,ceili(a.distance_to(b)/16.0))
@@ -153,7 +157,7 @@ func _load_terrain(c: String) -> void:
 		if tv.open(c):
 			terrain = tv
 			add_child(tv)
-			var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s_terrain.json" % c))
+			var meta = CityDataStore.document("res://data/scenes/%s_terrain.json" % c)
 			if typeof(meta) == TYPE_DICTIONARY: alt0 = float(meta.get("alt0", 0.0))
 			var d := tv.meta_bytes()
 			var q := 0
@@ -164,12 +168,12 @@ func _load_terrain(c: String) -> void:
 		tv.free()
 	var path := "res://data/scenes/%s_terrain.bin" % c
 	if not FileAccess.file_exists(path): return
-	_ter = FileAccess.get_file_as_bytes(path)
+	_ter = CityDataStore.bytes(path)
 	if _ter.size() < 8: return
 	var magic := _ter.slice(0, 4).get_string_from_ascii()
 	if magic not in ["TTR1", "TTR2"]: return
 	_ter_float = magic == "TTR2"
-	var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s_terrain.json" % c))
+	var meta = CityDataStore.document("res://data/scenes/%s_terrain.json" % c)
 	if typeof(meta) == TYPE_DICTIONARY: alt0 = float(meta.get("alt0", 0.0))
 	var n := _ter.decode_u32(4)
 	min_height = INF
@@ -332,7 +336,7 @@ func _load_track_nature(c: String) -> void:
 	_track_nat.clear()
 	var path := "res://data/scenes/%s_track.json" % c
 	if not FileAccess.file_exists(path): return
-	var d = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var d = CityDataStore.document(path)
 	if typeof(d) != TYPE_DICTIONARY: return
 	_track_cell = float(d.get("cell_m", 8.0))
 	for e in d.get("cells", []):
@@ -351,10 +355,10 @@ func track_nature_at(p_net: Vector3) -> int:
 
 func _load_style(c: String) -> void:
 	if _styles.is_empty():
-		_styles = JSON.parse_string(FileAccess.get_file_as_string("res://data/city_styles.json"))
+		_styles = CityDataStore.document("res://data/city_styles.json")
 	var key: String = _styles.cities.get(c, "")
 	style = _styles.styles.get(key, _styles.default).duplicate(true)
-	var identities: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/city_identity.json"))
+	var identities: Dictionary = CityDataStore.document("res://data/city_identity.json")
 	style.merge(identities.get(c, {}), true)
 
 func _pal(name: String, h: int) -> Color:
@@ -1874,8 +1878,8 @@ func _to_net(x: float, z: float) -> Vector3:
 func landmarks() -> Array:
 	var out: Array = []
 	if not FileAccess.file_exists("res://data/landmarks.json"): return out
-	var d = JSON.parse_string(FileAccess.get_file_as_string("res://data/landmarks.json"))
-	var meta = JSON.parse_string(FileAccess.get_file_as_string("res://data/scenes/%s.json" % city))
+	var d = CityDataStore.document("res://data/landmarks.json")
+	var meta = CityDataStore.document("res://data/scenes/%s.json" % city)
 	if not d is Dictionary or not meta is Dictionary: return out
 	var lat0 := float(meta.origin[0]); var lon0 := float(meta.origin[1])
 	for lm in d.get("cities", {}).get(city, []):

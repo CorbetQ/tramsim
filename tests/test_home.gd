@@ -39,7 +39,7 @@ func _run() -> void:
 	for i in 3: await process_frame
 	check(main.find_child("card_mission", true, false) != null and main.find_child("card_free", true, false) != null, "accueil : cartes de mode")
 	check(main.find_child("settings", true, false) != null, "accueil : réglages accessibles")
-	check(main.home_bg is HomeBackground, "accueil : fond 3D de la ville créé")
+	check(main.home_bg is HomeBackground or main._city_loading_layer.visible, "accueil : fond 3D différé pendant le chargement obligatoire")
 	var t0 := Time.get_ticks_msec()
 	check(await _wait_city(main, "Bordeaux"), "accueil : Bordeaux vue du ciel chargée")
 	print("chargement fond Bordeaux : %d ms" % (Time.get_ticks_msec() - t0))
@@ -85,11 +85,13 @@ func _run() -> void:
 	for i in 3: await process_frame
 	# lancement (Entrée) : intro puis caméra de jeu
 	await _key(KEY_ENTER)
-	check(main.session != null and main.intro != null, "Entrée : partie lancée avec l'intro")
+	var launch_deadline := Time.get_ticks_msec() + 120000
+	while main.intro == null and Time.get_ticks_msec() < launch_deadline: await process_frame
+	check(main.session != null and main.intro != null, "Entrée : sortie du menu puis partie lancée avec l'intro")
 	check(main.home_bg == null, "fond d'accueil libéré au lancement")
 	if main.intro == null: _end(main); return
 	var intro: IntroCamera = main.intro
-	check(main.view.city == null or main.view.city.queue.is_empty(), "décor de la zone de départ chargé avant l'intro")
+	check(main.city_preload.ready_city == "" and CityDataStore.document("res://data/scenes/angers.json") is Dictionary, "données réutilisées ; LOD préparé pendant l’intro")
 	check(intro.duration >= 4.0 and intro.duration <= 6.0, "durée de l'intro %.1f s" % intro.duration)
 	check(intro.cam.current and not main.view.cam.current, "caméra d'intro active")
 	var hud: Node = main.find_child("trip", true, false)
@@ -122,11 +124,16 @@ func _run() -> void:
 	main._persist(); main.menu_page = "home"; main._build_menu()
 	for i in 3: await process_frame
 	check(main.find_child("resume", true, false) != null, "accueil : « Reprendre la dernière partie »")
+	var resume_ready := Time.get_ticks_msec() + 120000
+	while (not main._ready_for_launch(main.menu_city) or main._city_loading_layer.visible) and Time.get_ticks_msec() < resume_ready: await process_frame
 	await _key(KEY_R)
+	var resume_deadline := Time.get_ticks_msec() + 120000
+	while main.intro == null and Time.get_ticks_msec() < resume_deadline: await process_frame
 	check(main.intro != null, "R : reprise avec intro")
 	await create_timer(0.6).timeout
 	await _key(KEY_SPACE)
-	await process_frame
+	var skip_deadline := Time.get_ticks_msec() + 60000
+	while main.intro != null and Time.get_ticks_msec() < skip_deadline: await process_frame
 	check(main.intro == null and main.view.cam.current, "touche : intro passée")
 	check(not main.emergency, "la touche de passage n'actionne pas la rame")
 	_end(main)

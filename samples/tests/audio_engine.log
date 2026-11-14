@@ -1,0 +1,80 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ok: flux motor chargé (8.00 s)
+ok: motor : bouclage correct
+ok: flux motor_hum chargé (8.00 s)
+ok: motor_hum : bouclage correct
+ok: flux carrier chargé (8.00 s)
+ok: carrier : bouclage correct
+ok: flux rolling chargé (8.00 s)
+ok: rolling : bouclage correct
+ok: flux squeal chargé (5.60 s)
+ok: squeal : bouclage correct
+ok: flux hvac chargé (6.00 s)
+ok: hvac : bouclage correct
+ok: flux ambience chargé (19.20 s)
+ok: ambience : bouclage correct
+ok: flux real_rail chargé (3.32 s)
+ok: real_rail : bouclage correct
+ok: flux regen chargé (8.00 s)
+ok: regen : bouclage correct
+ok: flux joint chargé (0.60 s)
+ok: joint : bouclage correct
+ok: flux brake_mech chargé (2.80 s)
+ok: brake_mech : bouclage correct
+ok: flux brake_release chargé (0.80 s)
+ok: brake_release : bouclage correct
+ok: flux emergency chargé (3.40 s)
+ok: emergency : bouclage correct
+ok: flux door_open chargé (3.00 s)
+ok: door_open : bouclage correct
+ok: flux door_chime chargé (2.20 s)
+ok: door_chime : bouclage correct
+ok: flux door_close chargé (3.00 s)
+ok: door_close : bouclage correct
+ok: flux gong chargé (2.00 s)
+ok: gong : bouclage correct
+ok: data/audio : 488 Ko (≤ 10 Mo)
+ok: provenance des sons documentée
+ok: sources.json : licence et sonie normalisée (±1,5 LU) pour chaque fichier
+ok: 16 lecteurs créés
+ok: gong attribué à la cloche (bus TramFX)
+ok: bus TramFX : égaliseur, compresseur, limiteur
+ok: bus TramCabin : passe-bas -> TramFX
+ok: bus créés une seule fois
+ok: lecteurs 3D sur TramFX
+ok: onduleur : la hauteur monte au démarrage
+ok: onduleur : palier de mode à 18 km/h
+ok: onduleur : palier de mode à 38 km/h
+ok: onduleur : raie 100-700 Hz (pas de sifflement strident, max 620)
+ok: ronronnement moteur : hauteur suit la vitesse
+ok: à l'arrêt : climatisation, pas de roulement ni d'onduleur
+ok: ambiance urbaine jouée
+ok: traction : onduleur 1.00, moteurs 1.00, roulement 0.60
+ok: vue extérieure : onduleur spatialisé, hauteur 1.32
+ok: porteuse asynchrone éteinte à vitesse établie
+ok: crissement en courbe (0.97)
+ok: pas de crissement en alignement
+ok: pas de crissement en courbe douce
+ok: crissement rare : 22 courbes serrées sur 40
+ok: crissement discret dans le mixage
+ok: cabine : lecteurs 2D
+ok: cabine : roulement étouffé (TramCabin), climatisation directe
+ok: freinage électrique audible (0.57)
+ok: freinage mécanique final déclenché une fois
+ok: ouverture des portes
+ok: signal de fermeture des portes
+ok: fermeture des vantaux
+ok: freinage d'urgence
+ok: pantographe baissé : onduleur muet
+ok: traction APS audible avec pantographe baissé
+ok: changement de régime interpolé sans saut de hauteur
+ok: tunnel : source extérieure réverbérée
+ok: sortie de tunnel : retour au bus extérieur
+ok: pont : résonance grave conservée en cabine
+ok: tunnel : réverbération derrière le filtrage cabine
+ok: texture réelle de roulement présente dans le mixage
+ok: pause : boucles suspendues
+ok: reprise après pause
+ok: gong
+ok: MissionSession : état transmis (5.3 m/s)

@@ -1,0 +1,104 @@
+[
+  {
+    "file": "samples/raw/spotting-citadis302-paris-t7-testing-reference.mp3",
+    "sha256": "bdad20242b9914a6fa82b5e465c915fef4f6b507e7297cccb463b465f3222895",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2
+        }
+      ],
+      "format": {
+        "duration": "73.404082"
+      }
+    }
+  },
+  {
+    "file": "samples/raw/spotting-rotterdam-citadis-lg-14279-preview.mp3",
+    "sha256": "b8110276c7ebb28a85125e3870b59b0a7f9dcfba45f90eddfc9e1a21400a6d1e",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "22050",
+          "channels": 1,
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "14.001633"
+      }
+    }
+  },
+  {
+    "file": "samples/raw/spotting-rotterdam-citadis-lg-18723-preview.mp3",
+    "sha256": "22e5476ac92a1e3352bd6346545b3c527214500d1b7905bda725d06d38fa50b0",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "22050",
+          "channels": 1,
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "13.244082"
+      }
+    }
+  },
+  {
+    "file": "samples/raw/spotting-rotterdam-citadis-lg-56878-lq-preview.mp3",
+    "sha256": "31e94eb92c16cafe755a18095553a682dfbed8134a66c4e9f0bfe708e5fb0ae0",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "24000",
+          "channels": 2,
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "122.160000"
+      }
+    }
+  },
+  {
+    "file": "samples/raw/spotting-rotterdam-citadis-lg-56878-preview.mp3",
+    "sha256": "cd3e6ceb867041187fc1ca471a6ba7d929d0c52c5e7ee37be35c5da7e64abc45",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "48000",
+          "channels": 2,
+          "side_data_list": [
+            {}
+          ]
+        }
+      ],
+      "format": {
+        "duration": "122.136000"
+      }
+    }
+  }
+]

@@ -1,0 +1,250 @@
+{
+  "generator": "tools/audio/design_samples.py",
+  "seed": 305302,
+  "files": {
+    "banks/citadis302_motor_designed.ogg": {
+      "source": {
+        "path": "banks/citadis302_motor.ogg",
+        "licence": "CC BY 3.0",
+        "author": "trolleway",
+        "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -6.57,
+      "sha256": "3fada542c637c77fc821f42379be332db640f263093433f9b39cec0a1e378be4"
+    },
+    "banks/citadis302_motor_hum_designed.ogg": {
+      "source": {
+        "path": "banks/citadis302_motor_hum.ogg",
+        "licence": "CC BY 3.0",
+        "author": "trolleway",
+        "page": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -7.31,
+      "sha256": "56ffa5d77a7dda13a6a1926e6ce9de4b18318e406a1e5b4c6198e719336aff5e"
+    },
+    "banks/citadis402_motor_designed.ogg": {
+      "source": {
+        "path": "banks/citadis402_motor.ogg",
+        "licence": "CC BY-SA 4.0",
+        "author": "Litlok",
+        "page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -7.11,
+      "sha256": "1a0a3e0d706a1549018dd97240d3ff62db3dd71a6ced988d6ae6e58cdd598474"
+    },
+    "banks/citadis402_motor_hum_designed.ogg": {
+      "source": {
+        "path": "banks/citadis402_motor_hum.ogg",
+        "licence": "CC BY-SA 4.0",
+        "author": "Litlok",
+        "page": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -5.74,
+      "sha256": "7f646e3473f5a2381920693c18d389545d8c962e70d83d92dff051188829846f"
+    },
+    "banks/citadis403_motor_designed.ogg": {
+      "source": {
+        "path": "banks/citadis403_motor.ogg",
+        "licence": "CC BY-SA 4.0",
+        "author": "Kevin.B",
+        "page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -5.18,
+      "sha256": "aa6aedf5b0755132ee819dd94ecd3098e03da0dd8d9f8091a59377e58c73e645"
+    },
+    "banks/citadis403_motor_hum_designed.ogg": {
+      "source": {
+        "path": "banks/citadis403_motor_hum.ogg",
+        "licence": "CC BY-SA 4.0",
+        "author": "Kevin.B",
+        "page": "https://commons.wikimedia.org/wiki/File:Citadis_403_n%C2%B02040_CTS,_ligne_A,_Langstross_-_Porte_de_l%27H%C3%B4pital.ogg"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -6.4,
+      "sha256": "e47a6c8faa0e3c9cdf1b6bbac2a1af22a519655f3efbb59858e9dbf07666886c"
+    },
+    "banks/avanto_motor_designed.ogg": {
+      "source": {
+        "path": "banks/avanto_motor.ogg",
+        "licence": "CC BY-SA 3.0",
+        "author": "Clicsouris",
+        "page": "https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -6.57,
+      "sha256": "ccf5e4a44d4b592ad3af1c1b261d4d9e53903495172f0d1521fb21f811639b29"
+    },
+    "banks/avanto_motor_hum_designed.ogg": {
+      "source": {
+        "path": "banks/avanto_motor_hum.ogg",
+        "licence": "CC BY-SA 3.0",
+        "author": "Clicsouris",
+        "page": "https://commons.wikimedia.org/wiki/File:T4_Bondy_-_Aulnay_07.ogv"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -4.4,
+      "sha256": "57005df76476bf30bea5c29c940af8b7faeeca8d63e02cf2133bc5e63b9c7586"
+    },
+    "banks/tfs_motor_designed.ogg": {
+      "source": {
+        "path": "banks/tfs_motor.ogg",
+        "licence": "CC BY-SA 3.0",
+        "author": "Clément Bucco-Lechat",
+        "page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -4.66,
+      "sha256": "0e55a2ce14b70c7d0420977454c48878a079d708543b1041c9426b60cbab34f7"
+    },
+    "banks/tfs_motor_hum_designed.ogg": {
+      "source": {
+        "path": "banks/tfs_motor_hum.ogg",
+        "licence": "CC BY-SA 3.0",
+        "author": "Clément Bucco-Lechat",
+        "page": "https://commons.wikimedia.org/wiki/File:Arriv%C3%A9e_du_tram.webm"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -1.9,
+      "sha256": "3e99e9cf20874bd5b1bf655941be34270063eb39598af2d7595a97da1606e9af"
+    },
+    "banks/flexity_motor_designed.ogg": {
+      "source": {
+        "path": "banks/flexity_motor.ogg",
+        "licence": "CC BY-SA 3.0",
+        "author": "Clicsouris",
+        "page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -5.74,
+      "sha256": "d62b4d035d4a609f7b74521a22b84ca686763e25da815654d578c2b8d24743d2"
+    },
+    "banks/flexity_motor_hum_designed.ogg": {
+      "source": {
+        "path": "banks/flexity_motor_hum.ogg",
+        "licence": "CC BY-SA 3.0",
+        "author": "Clicsouris",
+        "page": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -5.02,
+      "sha256": "5f053253f78c25e18e49e56b7c6c7e66ef388f4fb7d85287cb88b0e7a6239972"
+    },
+    "banks/urbos_motor_designed.ogg": {
+      "source": {
+        "path": "banks/urbos_motor.ogg",
+        "licence": "CC BY-SA 4.0",
+        "author": "GilPe",
+        "page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -2.41,
+      "sha256": "9c7ff0a3f240b74df36d5846d29645688a1afd18c42fceedb11f34c2e4680317"
+    },
+    "banks/urbos_motor_hum_designed.ogg": {
+      "source": {
+        "path": "banks/urbos_motor_hum.ogg",
+        "licence": "CC BY-SA 4.0",
+        "author": "GilPe",
+        "page": "https://commons.wikimedia.org/wiki/File:Luxembourg_tram_testing_August_2017_(1).webm"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -5.98,
+      "sha256": "14f4923e550f1fa3056ce396e24dd5254ee76d707ab2cde97fa340721e7c8561"
+    },
+    "banks/lemans302_motor_designed.ogg": {
+      "source": {
+        "path": "banks/lemans302_motor.ogg",
+        "licence": "CC0",
+        "author": "SamuelGremaud",
+        "page": "https://freesound.org/people/SamuelGremaud/sounds/458858/"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -3.7,
+      "sha256": "d4269e569c1e50ce84186a955152ff0a800d675ee713ce9095c2ad4402b8f257"
+    },
+    "banks/lemans302_motor_hum_designed.ogg": {
+      "source": {
+        "path": "banks/lemans302_motor_hum.ogg",
+        "licence": "CC0",
+        "author": "SamuelGremaud",
+        "page": "https://freesound.org/people/SamuelGremaud/sounds/458858/"
+      },
+      "duration_s": 4.07,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -3.15,
+      "sha256": "b9f4e46c0d2c568f710021f9da36f2554e7ef967ec45fe7b38ba0ff76ad6ea97"
+    },
+    "banks/real_rail_designed.ogg": {
+      "source": {
+        "path": "real_rail.ogg",
+        "licence": "inherit data/audio/sources.json attribution"
+      },
+      "duration_s": 3.32,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -1.53,
+      "sha256": "5573d5817f8aec4fe5cb95206a37facd6fafed4d7df0842a92fa7908af49896a"
+    },
+    "motor.ogg": {
+      "source": "original procedural model, project code licence",
+      "duration_s": 8.0,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -6.05,
+      "sha256": "bacb42a9e8803252b90ed117a9ea7108a0f2dd23f797d2c7ddfd6ddf8718aa15"
+    },
+    "motor_hum.ogg": {
+      "source": "original procedural model, project code licence",
+      "duration_s": 8.0,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -6.25,
+      "sha256": "07a1f08fd4c3b0d84c525a2212d47fa553a3beea101f069ee7d14917982af93e"
+    },
+    "banks/citadis305_motor.ogg": {
+      "source": "original procedural model, project code licence",
+      "duration_s": 8.0,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -6.56,
+      "sha256": "7ee8f8ba4c6a0e4657e789ee0e43968f8bd392d1f2fabd4d01f395d029178b92"
+    },
+    "banks/citadis305_motor_hum.ogg": {
+      "source": "original procedural model, project code licence",
+      "duration_s": 8.0,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -6.7,
+      "sha256": "f44131496c6344073c50a3809fd5d5e93512a40dc866bdc124b64090ade99fb7"
+    },
+    "regen.ogg": {
+      "source": "original procedural model, project code licence",
+      "duration_s": 8.0,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -6.84,
+      "sha256": "e1282e7a85f94579f1236689aa752df4f7be24ebcdccaeef8cde67489f1b0482"
+    },
+    "carrier.ogg": {
+      "source": "original procedural model, project code licence",
+      "duration_s": 8.0,
+      "lufs_before_vorbis": -20.0,
+      "peak_dbfs": -5.62,
+      "sha256": "8c340a45f76f43135fc94910680d3da78bcfd5fdf66bbf2e0a61e876878b2e63"
+    }
+  }
+}

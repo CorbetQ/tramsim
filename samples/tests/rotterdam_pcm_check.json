@@ -1,0 +1,8 @@
+{
+  "bank": "rotterdam_citadis_traction",
+  "duration_s": 47.84,
+  "peak_dbfs": -15.07795892791072,
+  "clipped_samples": 0,
+  "source_loop_hashes_match": true,
+  "method": "Godot AudioEffectRecord on Master; MissionSession with prescribed speed; controlled acoustic zones"
+}

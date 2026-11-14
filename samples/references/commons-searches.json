@@ -1,0 +1,42 @@
+[
+  {
+    "query": "\"Citadis 305\"",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "query": "\"Citadis 405\"",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "query": "\"Citadis X05\"",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "query": "\"tram\" \"Angers\" filetype:video",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "query": "\"tram\" \"Caen\" filetype:video",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "query": "\"tram\" \"Nice\" filetype:video",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "query": "\"Incentro\" filetype:video",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "query": "\"Dualis\" filetype:video",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "query": "\"Translohr\" filetype:video",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "query": "\"Rhônexpress\" filetype:video",
+    "error": "HTTP Error 403: Forbidden"
+  }
+]

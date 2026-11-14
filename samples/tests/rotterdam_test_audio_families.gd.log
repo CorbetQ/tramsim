@@ -1,0 +1,150 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ok: avanto : couverture déclarée
+ok: avanto : tous les flux chargés
+ok: avanto : apparentement honnête
+ok: avanto : captation effectivement sélectionnée
+ok: avanto : régime bas
+ok: avanto : fondu régime haut
+ok: avanto : hauteur bornée, sans accélérer excessivement les captations
+ok: avanto : silence de traction à l’arrêt
+ok: avanto : réverbération en tunnel
+ok: avanto : résonance de pont
+ok: breda_vlc : couverture déclarée
+ok: breda_vlc : tous les flux chargés
+ok: breda_vlc : réverbération en tunnel
+ok: breda_vlc : résonance de pont
+ok: citadis_302 : couverture déclarée
+ok: citadis_302 : tous les flux chargés
+ok: citadis_302 : apparentement honnête
+ok: citadis_302 : captation effectivement sélectionnée
+ok: citadis_302 : régime bas
+ok: citadis_302 : fondu régime haut
+ok: citadis_302 : hauteur bornée, sans accélérer excessivement les captations
+ok: citadis_302 : silence de traction à l’arrêt
+ok: citadis_302 : réverbération en tunnel
+ok: citadis_302 : résonance de pont
+ok: citadis_402 : couverture déclarée
+ok: citadis_402 : tous les flux chargés
+ok: citadis_402 : apparentement honnête
+ok: citadis_402 : captation effectivement sélectionnée
+ok: citadis_402 : régime bas
+ok: citadis_402 : fondu régime haut
+ok: citadis_402 : hauteur bornée, sans accélérer excessivement les captations
+ok: citadis_402 : silence de traction à l’arrêt
+ok: citadis_402 : réverbération en tunnel
+ok: citadis_402 : résonance de pont
+ok: citadis_403_strasbourg : couverture déclarée
+ok: citadis_403_strasbourg : tous les flux chargés
+ok: citadis_403_strasbourg : apparentement honnête
+ok: citadis_403_strasbourg : captation effectivement sélectionnée
+ok: citadis_403_strasbourg : régime bas
+ok: citadis_403_strasbourg : fondu régime haut
+ok: citadis_403_strasbourg : hauteur bornée, sans accélérer excessivement les captations
+ok: citadis_403_strasbourg : silence de traction à l’arrêt
+ok: citadis_403_strasbourg : réverbération en tunnel
+ok: citadis_403_strasbourg : résonance de pont
+ok: citadis_compact : couverture déclarée
+ok: citadis_compact : tous les flux chargés
+ok: citadis_compact : apparentement honnête
+ok: citadis_compact : captation effectivement sélectionnée
+ok: citadis_compact : régime bas
+ok: citadis_compact : fondu régime haut
+ok: citadis_compact : hauteur bornée, sans accélérer excessivement les captations
+ok: citadis_compact : silence de traction à l’arrêt
+ok: citadis_compact : réverbération en tunnel
+ok: citadis_compact : résonance de pont
+ok: citadis_dualis : couverture déclarée
+ok: citadis_dualis : tous les flux chargés
+ok: citadis_dualis : réverbération en tunnel
+ok: citadis_dualis : résonance de pont
+ok: citadis_reims : couverture déclarée
+ok: citadis_reims : tous les flux chargés
+ok: citadis_reims : apparentement honnête
+ok: citadis_reims : captation effectivement sélectionnée
+ok: citadis_reims : régime bas
+ok: citadis_reims : fondu régime haut
+ok: citadis_reims : hauteur bornée, sans accélérer excessivement les captations
+ok: citadis_reims : silence de traction à l’arrêt
+ok: citadis_reims : réverbération en tunnel
+ok: citadis_reims : résonance de pont
+ok: citadis_tours : couverture déclarée
+ok: citadis_tours : tous les flux chargés
+ok: citadis_tours : apparentement honnête
+ok: citadis_tours : captation effectivement sélectionnée
+ok: citadis_tours : régime bas
+ok: citadis_tours : fondu régime haut
+ok: citadis_tours : hauteur bornée, sans accélérer excessivement les captations
+ok: citadis_tours : silence de traction à l’arrêt
+ok: citadis_tours : réverbération en tunnel
+ok: citadis_tours : résonance de pont
+ok: citadis_x01 : couverture déclarée
+ok: citadis_x01 : tous les flux chargés
+ok: citadis_x01 : réverbération en tunnel
+ok: citadis_x01 : résonance de pont
+ok: citadis_x05 : couverture déclarée
+ok: citadis_x05 : tous les flux chargés
+ok: citadis_x05 : réverbération en tunnel
+ok: citadis_x05 : résonance de pont
+ok: citadis_x05_nantes : couverture déclarée
+ok: citadis_x05_nantes : tous les flux chargés
+ok: citadis_x05_nantes : réverbération en tunnel
+ok: citadis_x05_nantes : résonance de pont
+ok: eurotram : couverture déclarée
+ok: eurotram : tous les flux chargés
+ok: eurotram : réverbération en tunnel
+ok: eurotram : résonance de pont
+ok: flexity_marseille : couverture déclarée
+ok: flexity_marseille : tous les flux chargés
+ok: flexity_marseille : apparentement honnête
+ok: flexity_marseille : captation effectivement sélectionnée
+ok: flexity_marseille : régime bas
+ok: flexity_marseille : fondu régime haut
+ok: flexity_marseille : hauteur bornée, sans accélérer excessivement les captations
+ok: flexity_marseille : silence de traction à l’arrêt
+ok: flexity_marseille : réverbération en tunnel
+ok: flexity_marseille : résonance de pont
+ok: incentro : couverture déclarée
+ok: incentro : tous les flux chargés
+ok: incentro : réverbération en tunnel
+ok: incentro : résonance de pont
+ok: tango_rhonexpress : couverture déclarée
+ok: tango_rhonexpress : tous les flux chargés
+ok: tango_rhonexpress : réverbération en tunnel
+ok: tango_rhonexpress : résonance de pont
+ok: tfs : couverture déclarée
+ok: tfs : tous les flux chargés
+ok: tfs : apparentement honnête
+ok: tfs : captation effectivement sélectionnée
+ok: tfs : régime bas
+ok: tfs : fondu régime haut
+ok: tfs : hauteur bornée, sans accélérer excessivement les captations
+ok: tfs : silence de traction à l’arrêt
+ok: tfs : réverbération en tunnel
+ok: tfs : résonance de pont
+ok: translohr : couverture déclarée
+ok: translohr : tous les flux chargés
+ok: Translohr : pas de texture métallique ferroviaire
+ok: Translohr : roulement de pneus, pas de crissement
+ok: translohr : réverbération en tunnel
+ok: translohr : résonance de pont
+ok: urbos : couverture déclarée
+ok: urbos : tous les flux chargés
+ok: urbos : apparentement honnête
+ok: urbos : captation effectivement sélectionnée
+ok: urbos : régime bas
+ok: urbos : fondu régime haut
+ok: urbos : hauteur bornée, sans accélérer excessivement les captations
+ok: urbos : silence de traction à l’arrêt
+ok: urbos : réverbération en tunnel
+ok: urbos : résonance de pont
+ok: vevey_saint_etienne : couverture déclarée
+ok: vevey_saint_etienne : tous les flux chargés
+ok: vevey_saint_etienne : réverbération en tunnel
+ok: vevey_saint_etienne : résonance de pont
+ok: 20 familles : 6 captées, 4 apparentées, 8 synthétiques, 2 modélisées
+TOTAL_ECHECS|0
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)

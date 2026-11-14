@@ -1,0 +1,1473 @@
+{
+  "decode_sample_rate": 16000,
+  "limitations": [
+    "No perceptual listening or speech recognition performed.",
+    "16kHz analysis does not inspect content above 8kHz.",
+    "Peak track is not a motor fundamental estimate.",
+    "A seam jump within typical steps does not guarantee an inaudible loop."
+  ],
+  "files": [
+    {
+      "path": "data/audio/ambience.ogg",
+      "sha256": "f7ed2b9252ad21221867cb8932ecb501e0bfcfc38fff1938022702c99ee94c5a",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 19.2,
+      "rms_dbfs": -16.153,
+      "sample_peak_dbfs": -2.41,
+      "oversampled_peak_dbfs": -2.405,
+      "near_clip_samples_pct": 0.0,
+      "dc": -0.0002873,
+      "crest_db": 13.743,
+      "bands_energy_pct": {
+        "0-80_Hz": 67.842,
+        "80-250_Hz": 23.021,
+        "250-800_Hz": 8.177,
+        "800-1600_Hz": 0.947,
+        "1600-3000_Hz": 0.012,
+        "3000-6000_Hz": 0.0,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        31.25,
+        66.41,
+        78.12,
+        128.91,
+        136.72,
+        144.53
+      ],
+      "strongest_bin_energy_pct": 6.321,
+      "dominant_track_p10_p50_p90_hz": [
+        85.94,
+        101.56,
+        156.25
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -18.492,
+        -16.276,
+        -14.61
+      ],
+      "seam_jump_dbfs": -34.272,
+      "seam_jump_over_typical_step_db": 4.969,
+      "head_tail_50ms_rms_difference_db": -0.83
+    },
+    {
+      "path": "data/audio/banks/avanto_motor.ogg",
+      "sha256": "e27277ae4adf29e1fb6b832610dc77926ce7a2413a9455b7e6f5fb1d9fac8875",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -19.776,
+      "sample_peak_dbfs": -6.938,
+      "oversampled_peak_dbfs": -6.913,
+      "near_clip_samples_pct": 0.0,
+      "dc": -5.4e-06,
+      "crest_db": 12.838,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.16,
+        "80-250_Hz": 5.048,
+        "250-800_Hz": 79.882,
+        "800-1600_Hz": 13.839,
+        "1600-3000_Hz": 0.849,
+        "3000-6000_Hz": 0.22,
+        "6000-8001_Hz": 0.002
+      },
+      "dominant_peaks_hz": [
+        742.19,
+        695.31,
+        707.03,
+        718.75,
+        726.56,
+        781.25
+      ],
+      "strongest_bin_energy_pct": 3.753,
+      "dominant_track_p10_p50_p90_hz": [
+        546.88,
+        714.84,
+        781.25
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -21.241,
+        -20.436,
+        -18.126
+      ],
+      "seam_jump_dbfs": -30.394,
+      "seam_jump_over_typical_step_db": 0.201,
+      "head_tail_50ms_rms_difference_db": 0.536
+    },
+    {
+      "path": "data/audio/banks/avanto_motor_hum.ogg",
+      "sha256": "aa50dd415f780835ed2c0b0a34930deac6dbd60cfe651c4271b07c643d7cb2b0",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -19.347,
+      "sample_peak_dbfs": -4.411,
+      "oversampled_peak_dbfs": -4.406,
+      "near_clip_samples_pct": 0.0,
+      "dc": -2e-06,
+      "crest_db": 14.936,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.282,
+        "80-250_Hz": 17.293,
+        "250-800_Hz": 69.67,
+        "800-1600_Hz": 11.337,
+        "1600-3000_Hz": 1.275,
+        "3000-6000_Hz": 0.141,
+        "6000-8001_Hz": 0.001
+      },
+      "dominant_peaks_hz": [
+        277.34,
+        742.19,
+        292.97,
+        335.94,
+        167.97,
+        136.72
+      ],
+      "strongest_bin_energy_pct": 3.893,
+      "dominant_track_p10_p50_p90_hz": [
+        265.62,
+        289.06,
+        757.81
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -21.316,
+        -19.502,
+        -17.673
+      ],
+      "seam_jump_dbfs": -63.222,
+      "seam_jump_over_typical_step_db": -31.563,
+      "head_tail_50ms_rms_difference_db": 2.364
+    },
+    {
+      "path": "data/audio/banks/citadis302_motor.ogg",
+      "sha256": "ef32304d49cf2a174194a87dfe4ef3589dd21a5b8fe3c9f95289bc62428507bc",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -20.617,
+      "sample_peak_dbfs": -7.47,
+      "oversampled_peak_dbfs": -7.409,
+      "near_clip_samples_pct": 0.0,
+      "dc": 5.3e-06,
+      "crest_db": 13.147,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.167,
+        "80-250_Hz": 21.787,
+        "250-800_Hz": 24.875,
+        "800-1600_Hz": 24.593,
+        "1600-3000_Hz": 20.656,
+        "3000-6000_Hz": 7.73,
+        "6000-8001_Hz": 0.192
+      },
+      "dominant_peaks_hz": [
+        175.78,
+        121.09,
+        363.28,
+        97.66,
+        199.22,
+        89.84
+      ],
+      "strongest_bin_energy_pct": 2.035,
+      "dominant_track_p10_p50_p90_hz": [
+        93.75,
+        164.06,
+        310.16
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -21.92,
+        -20.906,
+        -19.113
+      ],
+      "seam_jump_dbfs": -20.144,
+      "seam_jump_over_typical_step_db": 4.882,
+      "head_tail_50ms_rms_difference_db": 0.331
+    },
+    {
+      "path": "data/audio/banks/citadis302_motor_hum.ogg",
+      "sha256": "2dfc94137bb66e867252f9de084c775bf08e8fa6644773d67a933508c99dd31a",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -20.306,
+      "sample_peak_dbfs": -7.24,
+      "oversampled_peak_dbfs": -6.831,
+      "near_clip_samples_pct": 0.0,
+      "dc": 1e-06,
+      "crest_db": 13.066,
+      "bands_energy_pct": {
+        "0-80_Hz": 1.298,
+        "80-250_Hz": 9.029,
+        "250-800_Hz": 32.839,
+        "800-1600_Hz": 39.103,
+        "1600-3000_Hz": 13.874,
+        "3000-6000_Hz": 3.727,
+        "6000-8001_Hz": 0.131
+      },
+      "dominant_peaks_hz": [
+        74.22,
+        347.66,
+        238.28,
+        253.91,
+        300.78,
+        312.5
+      ],
+      "strongest_bin_energy_pct": 0.715,
+      "dominant_track_p10_p50_p90_hz": [
+        242.19,
+        332.03,
+        1132.03
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -22.093,
+        -20.348,
+        -19.205
+      ],
+      "seam_jump_dbfs": -33.274,
+      "seam_jump_over_typical_step_db": -7.102,
+      "head_tail_50ms_rms_difference_db": 0.276
+    },
+    {
+      "path": "data/audio/banks/citadis402_motor.ogg",
+      "sha256": "525bb922a840a4d17a763ad5fb820cc2bd8e2228ee858a27671815fde14c6b2a",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -18.477,
+      "sample_peak_dbfs": -6.857,
+      "oversampled_peak_dbfs": -6.852,
+      "near_clip_samples_pct": 0.0,
+      "dc": 6.75e-05,
+      "crest_db": 11.62,
+      "bands_energy_pct": {
+        "0-80_Hz": 28.002,
+        "80-250_Hz": 48.654,
+        "250-800_Hz": 14.114,
+        "800-1600_Hz": 7.821,
+        "1600-3000_Hz": 1.313,
+        "3000-6000_Hz": 0.095,
+        "6000-8001_Hz": 0.001
+      },
+      "dominant_peaks_hz": [
+        50.78,
+        160.16,
+        70.31,
+        105.47,
+        82.03,
+        187.5
+      ],
+      "strongest_bin_energy_pct": 5.803,
+      "dominant_track_p10_p50_p90_hz": [
+        91.41,
+        156.25,
+        210.94
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -19.304,
+        -18.443,
+        -17.596
+      ],
+      "seam_jump_dbfs": -41.123,
+      "seam_jump_over_typical_step_db": -7.515,
+      "head_tail_50ms_rms_difference_db": 1.062
+    },
+    {
+      "path": "data/audio/banks/citadis402_motor_hum.ogg",
+      "sha256": "0300fb52c3043a31f8fb01def5c0d1b6f9b622c82b246655da289f494893dede",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -19.063,
+      "sample_peak_dbfs": -5.699,
+      "oversampled_peak_dbfs": -5.597,
+      "near_clip_samples_pct": 0.0,
+      "dc": 6.6e-06,
+      "crest_db": 13.364,
+      "bands_energy_pct": {
+        "0-80_Hz": 8.112,
+        "80-250_Hz": 45.536,
+        "250-800_Hz": 38.124,
+        "800-1600_Hz": 5.693,
+        "1600-3000_Hz": 2.257,
+        "3000-6000_Hz": 0.276,
+        "6000-8001_Hz": 0.001
+      },
+      "dominant_peaks_hz": [
+        203.12,
+        218.75,
+        183.59,
+        195.31,
+        70.31,
+        386.72
+      ],
+      "strongest_bin_energy_pct": 2.979,
+      "dominant_track_p10_p50_p90_hz": [
+        179.69,
+        210.94,
+        353.91
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -20.4,
+        -18.917,
+        -18.235
+      ],
+      "seam_jump_dbfs": -30.581,
+      "seam_jump_over_typical_step_db": 1.995,
+      "head_tail_50ms_rms_difference_db": 0.346
+    },
+    {
+      "path": "data/audio/banks/citadis403_motor.ogg",
+      "sha256": "fcbfc615ed6e87949f94d520fdbe3769152cea3df5d7c90b3be27c7d24079083",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -19.925,
+      "sample_peak_dbfs": -5.086,
+      "oversampled_peak_dbfs": -5.029,
+      "near_clip_samples_pct": 0.0,
+      "dc": -1.8e-06,
+      "crest_db": 14.839,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.002,
+        "80-250_Hz": 20.807,
+        "250-800_Hz": 62.172,
+        "800-1600_Hz": 11.548,
+        "1600-3000_Hz": 4.053,
+        "3000-6000_Hz": 1.409,
+        "6000-8001_Hz": 0.009
+      },
+      "dominant_peaks_hz": [
+        246.09,
+        261.72,
+        214.84,
+        289.06,
+        339.84,
+        304.69
+      ],
+      "strongest_bin_energy_pct": 4.412,
+      "dominant_track_p10_p50_p90_hz": [
+        242.19,
+        265.62,
+        343.75
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -22.498,
+        -20.794,
+        -17.762
+      ],
+      "seam_jump_dbfs": -31.903,
+      "seam_jump_over_typical_step_db": -1.821,
+      "head_tail_50ms_rms_difference_db": -0.19
+    },
+    {
+      "path": "data/audio/banks/citadis403_motor_hum.ogg",
+      "sha256": "4d7d2f07fa7b3e270cb00aad506e5e533512a82431192d93e85f3cca8d2c5ae6",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -19.214,
+      "sample_peak_dbfs": -6.166,
+      "oversampled_peak_dbfs": -6.16,
+      "near_clip_samples_pct": 0.0,
+      "dc": 3.3e-06,
+      "crest_db": 13.048,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.001,
+        "80-250_Hz": 27.033,
+        "250-800_Hz": 63.115,
+        "800-1600_Hz": 6.968,
+        "1600-3000_Hz": 2.083,
+        "3000-6000_Hz": 0.794,
+        "6000-8001_Hz": 0.007
+      },
+      "dominant_peaks_hz": [
+        222.66,
+        296.88,
+        238.28,
+        257.81,
+        246.09,
+        269.53
+      ],
+      "strongest_bin_energy_pct": 3.655,
+      "dominant_track_p10_p50_p90_hz": [
+        226.56,
+        261.72,
+        312.5
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -20.772,
+        -19.303,
+        -18.304
+      ],
+      "seam_jump_dbfs": -37.847,
+      "seam_jump_over_typical_step_db": -6.439,
+      "head_tail_50ms_rms_difference_db": -1.87
+    },
+    {
+      "path": "data/audio/banks/flexity_motor.ogg",
+      "sha256": "e4e7eda20c6123d76f88ced63d167cb441978521e7145b8642f7e6ecd65005cc",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -20.126,
+      "sample_peak_dbfs": -6.254,
+      "oversampled_peak_dbfs": -6.248,
+      "near_clip_samples_pct": 0.0,
+      "dc": 4.7e-06,
+      "crest_db": 13.872,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.168,
+        "80-250_Hz": 19.405,
+        "250-800_Hz": 44.899,
+        "800-1600_Hz": 24.236,
+        "1600-3000_Hz": 7.253,
+        "3000-6000_Hz": 3.865,
+        "6000-8001_Hz": 0.174
+      },
+      "dominant_peaks_hz": [
+        109.38,
+        367.19,
+        160.16,
+        324.22,
+        351.56,
+        300.78
+      ],
+      "strongest_bin_energy_pct": 2.177,
+      "dominant_track_p10_p50_p90_hz": [
+        109.38,
+        367.19,
+        874.22
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -23.823,
+        -20.706,
+        -17.887
+      ],
+      "seam_jump_dbfs": -26.417,
+      "seam_jump_over_typical_step_db": 0.988,
+      "head_tail_50ms_rms_difference_db": 1.321
+    },
+    {
+      "path": "data/audio/banks/flexity_motor_hum.ogg",
+      "sha256": "3baf6f0ee79e6d3ce1446e9e8efbc450c62dfe7b5a40cc8efe60a3e7037ac6b5",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -19.925,
+      "sample_peak_dbfs": -5.19,
+      "oversampled_peak_dbfs": -5.079,
+      "near_clip_samples_pct": 0.0,
+      "dc": -1.12e-05,
+      "crest_db": 14.735,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.292,
+        "80-250_Hz": 17.945,
+        "250-800_Hz": 52.657,
+        "800-1600_Hz": 19.695,
+        "1600-3000_Hz": 7.255,
+        "3000-6000_Hz": 2.043,
+        "6000-8001_Hz": 0.114
+      },
+      "dominant_peaks_hz": [
+        355.47,
+        300.78,
+        332.03,
+        160.16,
+        371.09,
+        109.38
+      ],
+      "strongest_bin_energy_pct": 1.2,
+      "dominant_track_p10_p50_p90_hz": [
+        125.0,
+        335.94,
+        720.31
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -22.189,
+        -20.03,
+        -17.984
+      ],
+      "seam_jump_dbfs": -65.646,
+      "seam_jump_over_typical_step_db": -37.52,
+      "head_tail_50ms_rms_difference_db": 0.035
+    },
+    {
+      "path": "data/audio/banks/lemans302_motor.ogg",
+      "sha256": "444f136881d9611ac3f9af058affb3abf81412032bf272ed7475426a6ca1d2d0",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -20.947,
+      "sample_peak_dbfs": -5.079,
+      "oversampled_peak_dbfs": -5.073,
+      "near_clip_samples_pct": 0.0,
+      "dc": -5.8e-06,
+      "crest_db": 15.868,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.212,
+        "80-250_Hz": 20.098,
+        "250-800_Hz": 63.595,
+        "800-1600_Hz": 11.932,
+        "1600-3000_Hz": 3.474,
+        "3000-6000_Hz": 0.681,
+        "6000-8001_Hz": 0.007
+      },
+      "dominant_peaks_hz": [
+        261.72,
+        246.09,
+        289.06,
+        300.78,
+        214.84,
+        226.56
+      ],
+      "strongest_bin_energy_pct": 2.769,
+      "dominant_track_p10_p50_p90_hz": [
+        216.41,
+        265.62,
+        322.66
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -32.677,
+        -22.776,
+        -16.439
+      ],
+      "seam_jump_dbfs": -53.306,
+      "seam_jump_over_typical_step_db": -21.504,
+      "head_tail_50ms_rms_difference_db": -2.805
+    },
+    {
+      "path": "data/audio/banks/lemans302_motor_hum.ogg",
+      "sha256": "144a83d6b6737926ba495615780ea2fe0b45472814790144d883c50b1b0ae24b",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -19.085,
+      "sample_peak_dbfs": -2.624,
+      "oversampled_peak_dbfs": -2.579,
+      "near_clip_samples_pct": 0.0,
+      "dc": -7.2e-06,
+      "crest_db": 16.461,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.151,
+        "80-250_Hz": 11.375,
+        "250-800_Hz": 67.836,
+        "800-1600_Hz": 15.115,
+        "1600-3000_Hz": 4.951,
+        "3000-6000_Hz": 0.563,
+        "6000-8001_Hz": 0.008
+      },
+      "dominant_peaks_hz": [
+        339.84,
+        292.97,
+        351.56,
+        226.56,
+        324.22,
+        605.47
+      ],
+      "strongest_bin_energy_pct": 2.382,
+      "dominant_track_p10_p50_p90_hz": [
+        239.84,
+        328.12,
+        625.0
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -27.708,
+        -20.656,
+        -14.99
+      ],
+      "seam_jump_dbfs": -26.946,
+      "seam_jump_over_typical_step_db": 2.12,
+      "head_tail_50ms_rms_difference_db": 2.77
+    },
+    {
+      "path": "data/audio/banks/tfs_motor.ogg",
+      "sha256": "990c2492d35e3d3f5a805ef9171345b8e63f5fa43942ac501f4bb3850649154f",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.2501,
+      "rms_dbfs": -19.929,
+      "sample_peak_dbfs": -5.213,
+      "oversampled_peak_dbfs": -5.207,
+      "near_clip_samples_pct": 0.0,
+      "dc": -2.15e-05,
+      "crest_db": 14.716,
+      "bands_energy_pct": {
+        "0-80_Hz": 6.533,
+        "80-250_Hz": 29.44,
+        "250-800_Hz": 30.108,
+        "800-1600_Hz": 21.591,
+        "1600-3000_Hz": 10.825,
+        "3000-6000_Hz": 1.495,
+        "6000-8001_Hz": 0.008
+      },
+      "dominant_peaks_hz": [
+        70.31,
+        117.19,
+        93.75,
+        156.25,
+        164.06,
+        191.41
+      ],
+      "strongest_bin_energy_pct": 2.211,
+      "dominant_track_p10_p50_p90_hz": [
+        117.19,
+        152.34,
+        658.59
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -21.762,
+        -20.142,
+        -18.624
+      ],
+      "seam_jump_dbfs": -49.957,
+      "seam_jump_over_typical_step_db": -21.85,
+      "head_tail_50ms_rms_difference_db": 0.052
+    },
+    {
+      "path": "data/audio/banks/tfs_motor_hum.ogg",
+      "sha256": "103211ba6db538087ac6e19ca622e5f3471f0d880b299368b0c7ea40f609c2ce",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -19.191,
+      "sample_peak_dbfs": -1.575,
+      "oversampled_peak_dbfs": -1.569,
+      "near_clip_samples_pct": 0.0,
+      "dc": -6.2e-06,
+      "crest_db": 17.616,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.646,
+        "80-250_Hz": 9.654,
+        "250-800_Hz": 85.414,
+        "800-1600_Hz": 2.269,
+        "1600-3000_Hz": 1.636,
+        "3000-6000_Hz": 0.373,
+        "6000-8001_Hz": 0.008
+      },
+      "dominant_peaks_hz": [
+        347.66,
+        394.53,
+        375.0,
+        410.16,
+        183.59,
+        101.56
+      ],
+      "strongest_bin_energy_pct": 24.187,
+      "dominant_track_p10_p50_p90_hz": [
+        101.56,
+        164.06,
+        414.06
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -27.334,
+        -26.187,
+        -16.659
+      ],
+      "seam_jump_dbfs": -32.071,
+      "seam_jump_over_typical_step_db": 0.886,
+      "head_tail_50ms_rms_difference_db": 1.071
+    },
+    {
+      "path": "data/audio/banks/tyre_rolling.ogg",
+      "sha256": "f9d12776d2dbb663da89300022c4b528a3fe795c3dd85482fd292b635343e5d4",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -18.864,
+      "sample_peak_dbfs": -5.953,
+      "oversampled_peak_dbfs": -5.948,
+      "near_clip_samples_pct": 0.0,
+      "dc": -6.1e-05,
+      "crest_db": 12.911,
+      "bands_energy_pct": {
+        "0-80_Hz": 8.08,
+        "80-250_Hz": 57.887,
+        "250-800_Hz": 30.479,
+        "800-1600_Hz": 3.319,
+        "1600-3000_Hz": 0.229,
+        "3000-6000_Hz": 0.006,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        109.38,
+        93.75,
+        125.0,
+        140.62,
+        160.16,
+        74.22
+      ],
+      "strongest_bin_energy_pct": 2.622,
+      "dominant_track_p10_p50_p90_hz": [
+        93.75,
+        117.19,
+        176.56
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -19.549,
+        -18.823,
+        -18.206
+      ],
+      "seam_jump_dbfs": -35.121,
+      "seam_jump_over_typical_step_db": 1.143,
+      "head_tail_50ms_rms_difference_db": 3.11
+    },
+    {
+      "path": "data/audio/banks/urbos_motor.ogg",
+      "sha256": "bfc1c9a6496e70f7485306047079a2d1b7f97841d5bc1ada63226d31f32a9440",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -19.548,
+      "sample_peak_dbfs": -3.229,
+      "oversampled_peak_dbfs": -3.224,
+      "near_clip_samples_pct": 0.0,
+      "dc": 1.03e-05,
+      "crest_db": 16.319,
+      "bands_energy_pct": {
+        "0-80_Hz": 2.238,
+        "80-250_Hz": 54.841,
+        "250-800_Hz": 28.626,
+        "800-1600_Hz": 6.099,
+        "1600-3000_Hz": 4.171,
+        "3000-6000_Hz": 2.861,
+        "6000-8001_Hz": 1.164
+      },
+      "dominant_peaks_hz": [
+        277.34,
+        93.75,
+        105.47,
+        218.75,
+        191.41,
+        230.47
+      ],
+      "strongest_bin_energy_pct": 2.693,
+      "dominant_track_p10_p50_p90_hz": [
+        93.75,
+        164.06,
+        275.78
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -26.594,
+        -19.17,
+        -17.707
+      ],
+      "seam_jump_dbfs": -55.856,
+      "seam_jump_over_typical_step_db": -28.057,
+      "head_tail_50ms_rms_difference_db": 4.497
+    },
+    {
+      "path": "data/audio/banks/urbos_motor_hum.ogg",
+      "sha256": "8d38d80caa106bc36405afbb22209ecc88ca260670b9ae452cdc336bbdf9c1b4",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.25,
+      "rms_dbfs": -20.072,
+      "sample_peak_dbfs": -6.653,
+      "oversampled_peak_dbfs": -6.534,
+      "near_clip_samples_pct": 0.0,
+      "dc": -2.55e-05,
+      "crest_db": 13.419,
+      "bands_energy_pct": {
+        "0-80_Hz": 2.432,
+        "80-250_Hz": 39.432,
+        "250-800_Hz": 32.86,
+        "800-1600_Hz": 15.962,
+        "1600-3000_Hz": 5.521,
+        "3000-6000_Hz": 2.571,
+        "6000-8001_Hz": 1.222
+      },
+      "dominant_peaks_hz": [
+        820.31,
+        226.56,
+        238.28,
+        218.75,
+        210.94,
+        304.69
+      ],
+      "strongest_bin_energy_pct": 4.38,
+      "dominant_track_p10_p50_p90_hz": [
+        169.53,
+        234.38,
+        367.19
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -22.621,
+        -20.219,
+        -18.312
+      ],
+      "seam_jump_dbfs": -27.939,
+      "seam_jump_over_typical_step_db": -0.111,
+      "head_tail_50ms_rms_difference_db": -0.602
+    },
+    {
+      "path": "data/audio/brake_mech.ogg",
+      "sha256": "23d5153ed1a0ed77aa8ec814ca86e157dc29a1f6a86a570477a861ddc0ec0c30",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 2.8,
+      "rms_dbfs": -22.416,
+      "sample_peak_dbfs": -5.505,
+      "oversampled_peak_dbfs": -5.484,
+      "near_clip_samples_pct": 0.0,
+      "dc": 0.0004787,
+      "crest_db": 16.911,
+      "bands_energy_pct": {
+        "0-80_Hz": 8.721,
+        "80-250_Hz": 0.214,
+        "250-800_Hz": 39.618,
+        "800-1600_Hz": 41.271,
+        "1600-3000_Hz": 10.143,
+        "3000-6000_Hz": 0.034,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        42.97,
+        484.38,
+        632.81,
+        437.5,
+        652.34,
+        503.91
+      ],
+      "strongest_bin_energy_pct": 2.258,
+      "dominant_track_p10_p50_p90_hz": [
+        85.94,
+        609.38,
+        989.06
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -80.332,
+        -23.428,
+        -18.742
+      ],
+      "seam_jump_dbfs": -162.201,
+      "seam_jump_over_typical_step_db": -131.829,
+      "head_tail_50ms_rms_difference_db": 182.354
+    },
+    {
+      "path": "data/audio/brake_release.ogg",
+      "sha256": "7cfad3078bebbfb70ad6ca7b662c11150ce73d6097b706faf6bdda90c1a8325b",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 0.796,
+      "rms_dbfs": -22.389,
+      "sample_peak_dbfs": -2.206,
+      "oversampled_peak_dbfs": -2.018,
+      "near_clip_samples_pct": 0.0,
+      "dc": 5.51e-05,
+      "crest_db": 20.183,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.001,
+        "80-250_Hz": 3.947,
+        "250-800_Hz": 13.578,
+        "800-1600_Hz": 40.796,
+        "1600-3000_Hz": 35.498,
+        "3000-6000_Hz": 6.165,
+        "6000-8001_Hz": 0.015
+      },
+      "dominant_peaks_hz": [
+        160.16,
+        867.19,
+        1242.19,
+        792.97,
+        1128.91,
+        1027.34
+      ],
+      "strongest_bin_energy_pct": 1.388,
+      "dominant_track_p10_p50_p90_hz": [
+        341.41,
+        855.47,
+        1083.59
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -38.167,
+        -29.913,
+        -18.081
+      ],
+      "seam_jump_dbfs": -21.791,
+      "seam_jump_over_typical_step_db": 5.625,
+      "head_tail_50ms_rms_difference_db": 47.434
+    },
+    {
+      "path": "data/audio/carrier.ogg",
+      "sha256": "0bd323cbfeb1fdc8155069301ece4117ec0178de33ec7cd3e95a7e67957332d6",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.0,
+      "rms_dbfs": -19.243,
+      "sample_peak_dbfs": -8.647,
+      "oversampled_peak_dbfs": -8.637,
+      "near_clip_samples_pct": 0.0,
+      "dc": 5.3e-06,
+      "crest_db": 10.596,
+      "bands_energy_pct": {
+        "0-80_Hz": 1.53,
+        "80-250_Hz": 14.241,
+        "250-800_Hz": 84.074,
+        "800-1600_Hz": 0.155,
+        "1600-3000_Hz": 0.0,
+        "3000-6000_Hz": 0.0,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        421.88,
+        445.31,
+        394.53,
+        117.19,
+        195.31,
+        164.06
+      ],
+      "strongest_bin_energy_pct": 22.988,
+      "dominant_track_p10_p50_p90_hz": [
+        421.88,
+        421.88,
+        421.88
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -19.587,
+        -19.244,
+        -18.939
+      ],
+      "seam_jump_dbfs": -32.01,
+      "seam_jump_over_typical_step_db": 3.533,
+      "head_tail_50ms_rms_difference_db": -0.067
+    },
+    {
+      "path": "data/audio/door_chime.ogg",
+      "sha256": "cb002453f323c3abd1d9e44d09ebf8d8feac1ae70e24c644d95bbdb6699f81ca",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 2.2,
+      "rms_dbfs": -20.632,
+      "sample_peak_dbfs": -11.996,
+      "oversampled_peak_dbfs": -11.89,
+      "near_clip_samples_pct": 0.0,
+      "dc": -2.8e-06,
+      "crest_db": 8.636,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.0,
+        "80-250_Hz": 0.0,
+        "250-800_Hz": 0.001,
+        "800-1600_Hz": 98.971,
+        "1600-3000_Hz": 1.028,
+        "3000-6000_Hz": 0.0,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        1000.0,
+        2000.0,
+        976.56,
+        1023.44,
+        968.75,
+        1031.25
+      ],
+      "strongest_bin_energy_pct": 38.657,
+      "dominant_track_p10_p50_p90_hz": [
+        85.94,
+        1000.0,
+        1000.0
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -124.68,
+        -18.922,
+        -17.983
+      ],
+      "seam_jump_dbfs": -80.205,
+      "seam_jump_over_typical_step_db": -51.525,
+      "head_tail_50ms_rms_difference_db": 223.947
+    },
+    {
+      "path": "data/audio/door_close.ogg",
+      "sha256": "dbaaa7da021c1fc29df86b8dbac0a666ce8a43c51843f8e499ff3323bbd5b6f1",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 3.0,
+      "rms_dbfs": -18.856,
+      "sample_peak_dbfs": -4.056,
+      "oversampled_peak_dbfs": -4.047,
+      "near_clip_samples_pct": 0.0,
+      "dc": 0.0002329,
+      "crest_db": 14.8,
+      "bands_energy_pct": {
+        "0-80_Hz": 2.61,
+        "80-250_Hz": 73.867,
+        "250-800_Hz": 19.808,
+        "800-1600_Hz": 3.675,
+        "1600-3000_Hz": 0.039,
+        "3000-6000_Hz": 0.0,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        128.91,
+        140.62,
+        148.44,
+        78.12,
+        273.44,
+        257.81
+      ],
+      "strongest_bin_energy_pct": 8.299,
+      "dominant_track_p10_p50_p90_hz": [
+        85.94,
+        132.81,
+        156.25
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -39.088,
+        -17.168,
+        -16.979
+      ],
+      "seam_jump_dbfs": -123.42,
+      "seam_jump_over_typical_step_db": -86.145,
+      "head_tail_50ms_rms_difference_db": 196.711
+    },
+    {
+      "path": "data/audio/door_open.ogg",
+      "sha256": "790550ac5515825edc94aa129ec1e913dfb6a366304ca20c371491554595b4c5",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 3.0,
+      "rms_dbfs": -18.702,
+      "sample_peak_dbfs": -7.57,
+      "oversampled_peak_dbfs": -7.564,
+      "near_clip_samples_pct": 0.0,
+      "dc": 9.18e-05,
+      "crest_db": 11.132,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.262,
+        "80-250_Hz": 74.771,
+        "250-800_Hz": 20.614,
+        "800-1600_Hz": 4.048,
+        "1600-3000_Hz": 0.291,
+        "3000-6000_Hz": 0.015,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        132.81,
+        140.62,
+        265.62,
+        250.0,
+        292.97,
+        277.34
+      ],
+      "strongest_bin_energy_pct": 11.155,
+      "dominant_track_p10_p50_p90_hz": [
+        93.75,
+        132.81,
+        148.44
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -33.918,
+        -17.113,
+        -16.924
+      ],
+      "seam_jump_dbfs": -26.03,
+      "seam_jump_over_typical_step_db": 9.181,
+      "head_tail_50ms_rms_difference_db": 219.005
+    },
+    {
+      "path": "data/audio/emergency.ogg",
+      "sha256": "237da90883a6c99717c8d57ce50deeac28177c97f9afd7a017b9a9dca4d1db7c",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 3.4,
+      "rms_dbfs": -23.286,
+      "sample_peak_dbfs": -4.065,
+      "oversampled_peak_dbfs": -4.06,
+      "near_clip_samples_pct": 0.0,
+      "dc": 0.0001973,
+      "crest_db": 19.221,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.406,
+        "80-250_Hz": 0.081,
+        "250-800_Hz": 41.494,
+        "800-1600_Hz": 39.258,
+        "1600-3000_Hz": 18.425,
+        "3000-6000_Hz": 0.335,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        621.09,
+        500.0,
+        722.66,
+        828.12,
+        750.0,
+        636.72
+      ],
+      "strongest_bin_energy_pct": 5.112,
+      "dominant_track_p10_p50_p90_hz": [
+        601.56,
+        617.19,
+        1007.81
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -36.37,
+        -25.606,
+        -20.036
+      ],
+      "seam_jump_dbfs": -58.724,
+      "seam_jump_over_typical_step_db": -28.481,
+      "head_tail_50ms_rms_difference_db": 69.525
+    },
+    {
+      "path": "data/audio/gong.ogg",
+      "sha256": "1c10fa0c769615ad0d3b4636e1893b72398bbeea760c1059e5a888bb432be9dc",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 2.0,
+      "rms_dbfs": -22.162,
+      "sample_peak_dbfs": -7.753,
+      "oversampled_peak_dbfs": -7.662,
+      "near_clip_samples_pct": 0.0,
+      "dc": 1.6e-06,
+      "crest_db": 14.409,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.0,
+        "80-250_Hz": 0.0,
+        "250-800_Hz": 91.876,
+        "800-1600_Hz": 7.535,
+        "1600-3000_Hz": 0.581,
+        "3000-6000_Hz": 0.008,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        550.78,
+        660.16,
+        1101.56,
+        1320.31,
+        1519.53,
+        1820.31
+      ],
+      "strongest_bin_energy_pct": 30.441,
+      "dominant_track_p10_p50_p90_hz": [
+        546.88,
+        546.88,
+        656.25
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -41.655,
+        -27.673,
+        -17.81
+      ],
+      "seam_jump_dbfs": -71.589,
+      "seam_jump_over_typical_step_db": -38.192,
+      "head_tail_50ms_rms_difference_db": 30.512
+    },
+    {
+      "path": "data/audio/hvac.ogg",
+      "sha256": "70cc387f53819659ee8bd55aeb89fccbc2ecec0d0683be6be8a5c2db02aa8164",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 6.0,
+      "rms_dbfs": -19.399,
+      "sample_peak_dbfs": -6.611,
+      "oversampled_peak_dbfs": -6.605,
+      "near_clip_samples_pct": 0.0,
+      "dc": -5.02e-05,
+      "crest_db": 12.788,
+      "bands_energy_pct": {
+        "0-80_Hz": 9.013,
+        "80-250_Hz": 35.667,
+        "250-800_Hz": 36.234,
+        "800-1600_Hz": 15.82,
+        "1600-3000_Hz": 3.183,
+        "3000-6000_Hz": 0.084,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        164.06,
+        50.78,
+        101.56,
+        132.81,
+        144.53,
+        117.19
+      ],
+      "strongest_bin_energy_pct": 4.069,
+      "dominant_track_p10_p50_p90_hz": [
+        101.56,
+        164.06,
+        220.31
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -19.854,
+        -19.372,
+        -19.033
+      ],
+      "seam_jump_dbfs": -34.474,
+      "seam_jump_over_typical_step_db": -3.163,
+      "head_tail_50ms_rms_difference_db": -0.885
+    },
+    {
+      "path": "data/audio/joint.ogg",
+      "sha256": "04f1cc141f5917e7f251640acdc32d27e35353fb808d22f25e90d1233713928a",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 0.63,
+      "rms_dbfs": -17.987,
+      "sample_peak_dbfs": -2.33,
+      "oversampled_peak_dbfs": -2.322,
+      "near_clip_samples_pct": 0.0,
+      "dc": 0.0043587,
+      "crest_db": 15.657,
+      "bands_energy_pct": {
+        "0-80_Hz": 88.543,
+        "80-250_Hz": 5.904,
+        "250-800_Hz": 5.46,
+        "800-1600_Hz": 0.069,
+        "1600-3000_Hz": 0.022,
+        "3000-6000_Hz": 0.001,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        66.41,
+        480.47,
+        515.62,
+        523.44,
+        507.81,
+        210.94
+      ],
+      "strongest_bin_energy_pct": 26.468,
+      "dominant_track_p10_p50_p90_hz": [
+        85.94,
+        85.94,
+        476.56
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -39.787,
+        -25.925,
+        -14.68
+      ],
+      "seam_jump_dbfs": -37.254,
+      "seam_jump_over_typical_step_db": 5.95,
+      "head_tail_50ms_rms_difference_db": 230.469
+    },
+    {
+      "path": "data/audio/motor.ogg",
+      "sha256": "d5d0354b76270e90f1dd3bfdcddd6673810fec53b4f0571e7df2177b30e9b146",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.0,
+      "rms_dbfs": -19.118,
+      "sample_peak_dbfs": -11.027,
+      "oversampled_peak_dbfs": -11.021,
+      "near_clip_samples_pct": 0.0,
+      "dc": 0.0001233,
+      "crest_db": 8.091,
+      "bands_energy_pct": {
+        "0-80_Hz": 2.991,
+        "80-250_Hz": 6.938,
+        "250-800_Hz": 89.859,
+        "800-1600_Hz": 0.212,
+        "1600-3000_Hz": 0.0,
+        "3000-6000_Hz": 0.0,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        300.78,
+        601.56,
+        70.31,
+        121.09,
+        97.66,
+        105.47
+      ],
+      "strongest_bin_energy_pct": 53.79,
+      "dominant_track_p10_p50_p90_hz": [
+        296.88,
+        296.88,
+        296.88
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -19.323,
+        -19.088,
+        -18.902
+      ],
+      "seam_jump_dbfs": -31.267,
+      "seam_jump_over_typical_step_db": 6.331,
+      "head_tail_50ms_rms_difference_db": 0.184
+    },
+    {
+      "path": "data/audio/motor_hum.ogg",
+      "sha256": "64d78f2cd790eeb290e3defd60362c5d0ab206ffcefb6c7154683e0a453fdeb2",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 4.0,
+      "rms_dbfs": -18.621,
+      "sample_peak_dbfs": -9.311,
+      "oversampled_peak_dbfs": -9.303,
+      "near_clip_samples_pct": 0.0,
+      "dc": 0.0001395,
+      "crest_db": 9.31,
+      "bands_energy_pct": {
+        "0-80_Hz": 3.895,
+        "80-250_Hz": 86.661,
+        "250-800_Hz": 8.852,
+        "800-1600_Hz": 0.59,
+        "1600-3000_Hz": 0.001,
+        "3000-6000_Hz": 0.0,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        121.09,
+        238.28,
+        359.38,
+        480.47,
+        601.56,
+        46.88
+      ],
+      "strongest_bin_energy_pct": 42.294,
+      "dominant_track_p10_p50_p90_hz": [
+        117.19,
+        117.19,
+        117.19
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -18.845,
+        -18.656,
+        -18.308
+      ],
+      "seam_jump_dbfs": -44.656,
+      "seam_jump_over_typical_step_db": -4.047,
+      "head_tail_50ms_rms_difference_db": 0.76
+    },
+    {
+      "path": "data/audio/real_rail.ogg",
+      "sha256": "6a8172e68192b22aaa05d24e1dbdebe1a57ee265f706cd6f428b4f5811df806d",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 3.5,
+      "rms_dbfs": -18.54,
+      "sample_peak_dbfs": -1.154,
+      "oversampled_peak_dbfs": -1.14,
+      "near_clip_samples_pct": 0.0,
+      "dc": 9.62e-05,
+      "crest_db": 17.386,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.025,
+        "80-250_Hz": 26.445,
+        "250-800_Hz": 69.293,
+        "800-1600_Hz": 3.959,
+        "1600-3000_Hz": 0.269,
+        "3000-6000_Hz": 0.009,
+        "6000-8001_Hz": 0.0
+      },
+      "dominant_peaks_hz": [
+        273.44,
+        265.62,
+        246.09,
+        234.38,
+        304.69,
+        292.97
+      ],
+      "strongest_bin_energy_pct": 4.43,
+      "dominant_track_p10_p50_p90_hz": [
+        242.19,
+        273.44,
+        335.94
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -25.483,
+        -22.208,
+        -15.0
+      ],
+      "seam_jump_dbfs": -7.293,
+      "seam_jump_over_typical_step_db": 27.001,
+      "head_tail_50ms_rms_difference_db": -13.319
+    },
+    {
+      "path": "data/audio/reference/lyon-citadis-original.ogg",
+      "sha256": "83aa37070a8721234eaf9c9bcc2e38329ad70144fa26c190794343bfd433fb88",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 77.6107,
+      "rms_dbfs": -37.015,
+      "sample_peak_dbfs": -12.125,
+      "oversampled_peak_dbfs": -12.073,
+      "near_clip_samples_pct": 0.0,
+      "dc": 1.77e-05,
+      "crest_db": 24.89,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.22,
+        "80-250_Hz": 28.079,
+        "250-800_Hz": 64.853,
+        "800-1600_Hz": 3.112,
+        "1600-3000_Hz": 2.97,
+        "3000-6000_Hz": 0.662,
+        "6000-8001_Hz": 0.104
+      },
+      "dominant_peaks_hz": [
+        265.62,
+        296.88,
+        253.91,
+        167.97,
+        320.31,
+        183.59
+      ],
+      "strongest_bin_energy_pct": 4.228,
+      "dominant_track_p10_p50_p90_hz": [
+        164.06,
+        207.03,
+        601.56
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -60.041,
+        -46.111,
+        -34.54
+      ],
+      "seam_jump_dbfs": -71.676,
+      "seam_jump_over_typical_step_db": -22.231,
+      "head_tail_50ms_rms_difference_db": 37.987
+    },
+    {
+      "path": "data/audio/rolling.ogg",
+      "sha256": "9f3b60bc6b7e4f44ba012226af5df4f6f51fd9a1be480c02e7e504511def2d57",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 8.0,
+      "rms_dbfs": -17.822,
+      "sample_peak_dbfs": -5.437,
+      "oversampled_peak_dbfs": -5.417,
+      "near_clip_samples_pct": 0.0,
+      "dc": -2.25e-05,
+      "crest_db": 12.385,
+      "bands_energy_pct": {
+        "0-80_Hz": 49.456,
+        "80-250_Hz": 14.19,
+        "250-800_Hz": 21.056,
+        "800-1600_Hz": 10.998,
+        "1600-3000_Hz": 3.613,
+        "3000-6000_Hz": 0.647,
+        "6000-8001_Hz": 0.039
+      },
+      "dominant_peaks_hz": [
+        23.44,
+        46.88,
+        70.31,
+        93.75,
+        85.94,
+        105.47
+      ],
+      "strongest_bin_energy_pct": 4.836,
+      "dominant_track_p10_p50_p90_hz": [
+        85.94,
+        109.38,
+        378.91
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -18.648,
+        -17.902,
+        -16.948
+      ],
+      "seam_jump_dbfs": -28.458,
+      "seam_jump_over_typical_step_db": 1.095,
+      "head_tail_50ms_rms_difference_db": -0.321
+    },
+    {
+      "path": "data/audio/squeal.ogg",
+      "sha256": "c0d53f239a5a228328c319b605dd83db0ba614539bf7ec2b7364ac1e19176f4f",
+      "method": "mono ffmpeg 16kHz decode; not listening",
+      "duration_s": 5.6,
+      "rms_dbfs": -22.865,
+      "sample_peak_dbfs": -10.011,
+      "oversampled_peak_dbfs": -9.397,
+      "near_clip_samples_pct": 0.0,
+      "dc": 0.0,
+      "crest_db": 12.854,
+      "bands_energy_pct": {
+        "0-80_Hz": 0.0,
+        "80-250_Hz": 0.0,
+        "250-800_Hz": 0.026,
+        "800-1600_Hz": 0.577,
+        "1600-3000_Hz": 91.365,
+        "3000-6000_Hz": 7.982,
+        "6000-8001_Hz": 0.051
+      },
+      "dominant_peaks_hz": [
+        2398.44,
+        2378.91,
+        2390.62,
+        2414.06,
+        3566.41,
+        3597.66
+      ],
+      "strongest_bin_energy_pct": 16.09,
+      "dominant_track_p10_p50_p90_hz": [
+        2265.62,
+        2398.44,
+        2421.88
+      ],
+      "rms_200ms_p10_p50_p90_dbfs": [
+        -35.252,
+        -29.344,
+        -17.521
+      ],
+      "seam_jump_dbfs": -39.546,
+      "seam_jump_over_typical_step_db": -16.173,
+      "head_tail_50ms_rms_difference_db": 0.3
+    }
+  ]
+}

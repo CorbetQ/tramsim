@@ -44,6 +44,13 @@ var intro: IntroCamera          # zoom de lancement en cours
 var settings_layer: Control
 var _menu: Dictionary = {}      # références de la page de menu courante (raccourcis)
 var _intro_radius := 0.0
+var city_preload: CityPreload
+var _city_loading_layer: CanvasLayer
+var _city_loading_title: Label
+var _city_loading_detail: Label
+var _city_retry: Button
+var _launching := false
+var _departure_context: Dictionary = {}
 
 # interface de conduite
 var hud_speed: Speedometer
@@ -128,7 +135,7 @@ func _persist() -> void:
 func _clear() -> void:
 	camera_gestures.reset()
 	for c in get_children():
-		if c != bell and c != home_bg: c.queue_free()
+		if c != bell and c != home_bg and c != city_preload and c != _city_loading_layer: c.queue_free()
 	if is_instance_valid(intro): intro.queue_free()
 	intro = null; settings_layer = null
 	view = null; tram_audio = null; session = null; free = null; tuto = null; plan_panel = null; pause_layer = null; debrief_layer = null
@@ -150,14 +157,75 @@ func _backdrop() -> void:
 func _bg_allowed() -> bool:
 	return DisplayServer.get_name() != "headless" and not get_viewport().disable_3d and bool(save.settings.get("home_bg", true))
 
+func _ensure_city_preload() -> void:
+	if is_instance_valid(city_preload): return
+	city_preload = CityPreload.new(); city_preload.name = "city_preload"; add_child(city_preload)
+	city_preload.completed.connect(_city_data_completed)
+	_city_loading_layer = CanvasLayer.new(); _city_loading_layer.layer = 90; _city_loading_layer.name = "city_loading"; add_child(_city_loading_layer)
+	var shade := ColorRect.new(); shade.color = Color(0.025, 0.04, 0.06, 0.95)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	_city_loading_layer.add_child(shade)
+	var center := CenterContainer.new(); center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); shade.add_child(center)
+	var box := VBoxContainer.new(); box.custom_minimum_size.x = 280; box.add_theme_constant_override("separation", 18); center.add_child(box)
+	_city_loading_title = UiTheme.label_("", 24, UiTheme.TEXT, true); _city_loading_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; box.add_child(_city_loading_title)
+	var bar := ProgressBar.new(); bar.indeterminate = true; bar.show_percentage = false; bar.custom_minimum_size.y = 8; box.add_child(bar)
+	_city_loading_detail = UiTheme.label_("Préparation de la ville…", 16, UiTheme.MUTED); _city_loading_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; box.add_child(_city_loading_detail)
+	_city_retry = UiTheme.button("Réessayer", "play", "primary", Vector2(0, 52)); box.add_child(_city_retry)
+	_city_retry.pressed.connect(func(): city_preload.invalidate(); _show_bg(menu_city))
+	_city_loading_layer.hide()
+
 func _show_bg(city: String) -> void:
+	_ensure_city_preload()
+	city_preload.request(city)
+	if not city_preload.is_ready(city):
+		_city_loading_title.text = "Chargement de " + city
+		_city_loading_detail.text = "Préparation de la ville…"
+		_city_retry.hide(); _city_loading_layer.show()
+		var go: Button = _menu.get("go")
+		if is_instance_valid(go): go.disabled = true; go.text = "Chargement…"
+		return
+	_install_home_bg(city)
+	_city_loading_layer.visible = not _ready_for_launch(city)
+	_city_loading_title.text = "Chargement de " + city
+	_city_loading_detail.text = "Préparation de la vue aérienne…"
+	_city_retry.hide()
+
+func _install_home_bg(city: String) -> void:
 	if not _bg_allowed():
 		if is_instance_valid(home_bg): home_bg.queue_free()
 		home_bg = null; return
 	if not is_instance_valid(home_bg):
 		home_bg = HomeBackground.new(); add_child(home_bg)
+		home_bg.city_ready.connect(_home_city_ready)
 	move_child(home_bg, 1)
 	home_bg.show_city(city)
+
+func _city_data_completed(city: String, error: String) -> void:
+	if city != menu_city or session != null or is_instance_valid(explore): return
+	if error != "":
+		_city_loading_detail.text = error; _city_retry.show(); _city_loading_layer.show()
+		return
+	if has_meta("deferred_catalogue_pick"):
+		set_meta("catalogue_pick", get_meta("deferred_catalogue_pick")); remove_meta("deferred_catalogue_pick")
+		_build_menu(); return
+	_install_home_bg(city)
+	_city_loading_layer.visible = not _ready_for_launch(city)
+	_city_loading_detail.text = "Préparation de la vue aérienne…"
+	var reload: Callable = _menu.get("reload_city", Callable())
+	if reload.is_valid(): reload.call()
+
+func _ready_for_launch(city: String) -> bool:
+	if not is_instance_valid(city_preload) or not city_preload.is_ready(city): return false
+	return not _bg_allowed() or (is_instance_valid(home_bg) and home_bg.shown == city and not home_bg.is_loading() and home_bg.layer_count() > 0)
+
+func _home_city_ready(city: String) -> void:
+	if city != menu_city or session != null or is_instance_valid(explore): return
+	_city_loading_layer.hide()
+	var refresh: Callable = _menu.get("refresh", Callable())
+	if refresh.is_valid(): refresh.call()
+	var go: Button = _menu.get("go")
+	if _menu.get("auto_start", false) and is_instance_valid(go) and not go.disabled:
+		_menu["auto_start"] = false; go.pressed.emit()
 
 ## Classe MissionCatalog (autre module) si présente : aucune dépendance à la compilation.
 static func _catalog() -> Script:
@@ -496,15 +564,18 @@ func _build_setup() -> void:
 		line_row.visible = true; mis_row.visible = not is_free and scen_ref[0].is_empty(); st_row.visible = is_free
 		city_nets.clear()
 		city_nets.append_array(all_nets.filter(func(e): return e.city == city_ref[0] and (is_free or not e.get("free_only", false))))
-		if city_nets.is_empty(): return
+		if city_nets.is_empty():
+			vehicles.clear(); st_list.clear(); line_opt.clear(); mis_opt.clear(); st_opt.clear()
+			go.disabled = true; go.text = "Aucun service disponible"; return
 		var reset: bool = line_opt.item_count == 0 or line_opt.get_meta("city", "") != city_ref[0] or line_opt.get_meta("free_mode", not is_free) != is_free
 		if reset and not is_free:
 			line_opt.clear()
 			for e in city_nets:
 				line_opt.add_icon_item(_swatch(_line_color(str(e.path))), "%s — %s%s" % [e.line, e.long_name, "  (tram-train)" if e.kind == "tram-train" else ""])
-		var n := NetworkLoader.new()
-		if is_free and FileAccess.file_exists(free_path.call()): n.load_file(free_path.call())
-		else: n.load_file(city_nets[clampi(line_opt.selected, 0, city_nets.size() - 1)].path)
+		var selected_path: String = free_path.call() if is_free and FileAccess.file_exists(free_path.call()) else str(city_nets[clampi(line_opt.selected, 0, city_nets.size() - 1)].path)
+		var n: NetworkLoader = city_preload.network(selected_path) if city_preload.is_ready(city_ref[0]) else null
+		if n == null:
+			vehicles.clear(); st_list.clear(); go.disabled = true; go.text = "Chargement…"; return
 		cur_meta.clear(); cur_meta.merge(n.meta)
 		free_lines.clear()
 		if is_free:
@@ -541,7 +612,7 @@ func _build_setup() -> void:
 				vehicles.append(VehicleLibrary.for_fleet(f,n.meta));veh_opt.add_item(f.name)
 		cur_meta["required_supplies"] = n.supplies.duplicate()
 	var refresh := func(_i = 0):
-		if vehicles.is_empty(): return
+		if vehicles.is_empty(): go.disabled = true; return
 		var is_free := b_free.button_pressed
 		var v: VehicleProfile = vehicles[maxi(veh_opt.selected, 0)]
 		var supply:Array=cur_meta.get("required_supplies",[str(cur_meta.get("supply","overhead"))])
@@ -565,17 +636,25 @@ func _build_setup() -> void:
 		if is_free: sheet.text = st_opt.get_item_text(st_opt.selected) if st_opt.selected >= 0 else ""
 		elif not scen_ref[0].is_empty(): sheet.text = str(scen_ref[0].get("title", ""))
 		else: sheet.text = mis_opt.get_item_text(mis_opt.selected) if mis_opt.selected >= 0 else ""
-		go.disabled = not ok or (is_free and st_list.is_empty())
+		go.disabled = not ok or (is_free and st_list.is_empty()) or not _ready_for_launch(city_ref[0])
 		go.text = "Départ indisponible" if is_free and st_list.is_empty() else ("Lancer" if ok else "Matériel incompatible")
 	refresh_ref[0] = refresh
+	_menu["refresh"] = refresh
 	var full := func(_i = 0):
-		fill.call(); veh_opt.select(0); refresh.call()
+		fill.call()
+		if veh_opt.item_count > 0: veh_opt.select(0)
+		refresh.call()
+	var reload_city := func():
+		if not city_preload.is_ready(city_ref[0]): return
+		var src := _source_of(all_nets.filter(func(e): return e.city == city_ref[0]))
+		scen_list.clear(); scen_list.append_array(_scenarios(city_ref[0], src))
+		build_scen.call(); full.call()
+	_menu["reload_city"] = reload_city
 	var city_changed := func(c: String):
 		city_ref[0] = c; menu_city = c
-		var src := _source_of(all_nets.filter(func(e): return e.city == c))
-		scen_list.clear(); scen_list.append_array(_scenarios(c, src))
-		build_scen.call(); full.call()
+		go.disabled = true; go.text = "Chargement…"
 		_show_bg(c)
+		if city_preload.is_ready(c): reload_city.call()
 	if picker is CityPicker: picker.chosen.connect(city_changed)
 	else: (picker as TouchChoice).item_selected.connect(func(i): city_changed.call(cities[i]))
 	line_opt.item_selected.connect(full)
@@ -584,11 +663,13 @@ func _build_setup() -> void:
 	veh_opt.item_selected.connect(refresh)
 	mis_opt.item_selected.connect(refresh)
 	st_opt.item_selected.connect(refresh)
-	var src0 := _source_of(all_nets.filter(func(e): return e.city == city_ref[0]))
-	scen_list.append_array(_scenarios(city_ref[0], src0)); build_scen.call()
-	full.call()
+	if city_preload.is_ready(city_ref[0]): reload_city.call()
+	else: go.disabled = true; go.text = "Chargement…"
 	# choix venu du catalogue (« Conduire cette rame ») : ville, ligne et matériel, puis départ
 	var pick: Dictionary = get_meta("catalogue_pick", {})
+	if not pick.is_empty() and not city_preload.is_ready(str(pick.city)):
+		remove_meta("catalogue_pick"); set_meta("deferred_catalogue_pick", pick)
+		menu_city = str(pick.city); city_changed.call(menu_city); pick = {}
 	if not pick.is_empty():
 		remove_meta("catalogue_pick")
 		if pick.get("free",false):b_free.button_pressed=true;b_mis.button_pressed=false;free_mode=true
@@ -631,12 +712,13 @@ func _build_setup() -> void:
 		_remember_run(city_ref[0])
 		_start(true))
 	UiTheme.fade_in(page, 0.25)
-	if pick.get("start", false) and not go.disabled: go.pressed.emit()
+	_menu["auto_start"] = bool(pick.get("start", false))
+	if _menu.auto_start and not go.disabled: _menu.auto_start = false; go.pressed.emit()
 
 ## Mémorise la partie lancée (bouton « Reprendre la dernière partie »).
 func _remember_run(city: String) -> void:
 	var label := "%s · %s · %s" % [city, "mode libre" if free_mode else ("mission « %s »" % scenario.get("title", "") if not scenario.is_empty()
-		else "ligne %s %s" % [Catalogue.meta_of(net_path).get("line", ""), str(mission.get("start_time", "")).substr(0, 5)]), vehicle.family]
+		else "ligne %s %s" % [CityDataStore.document(net_path).get("line", ""), str(mission.get("start_time", "")).substr(0, 5)]), vehicle.family]
 	save.settings.last_run = {"label": label, "city": city, "free": free_mode, "net_path": net_path, "vehicle": vehicle.id,
 		"mission_key": "%s|%s" % [mission.get("start_time", ""), mission.get("headsign", "")] if not mission.is_empty() else "",
 		"scenario": str(scenario.get("id", "")), "station": start_station.duplicate() if free_mode else {}}
@@ -653,8 +735,15 @@ func _vehicle_by_id(id: String, meta: Dictionary) -> VehicleProfile:
 func _resume() -> void:
 	var r := _resume_info()
 	if r.is_empty(): return
-	var n := NetworkLoader.new()
-	if not n.load_file(str(r.net_path)).is_empty(): return
+	if _launching: return
+	_launching = true
+	menu_city = str(r.get("city", menu_city)); _show_bg(menu_city)
+	while not city_preload.is_ready(menu_city):
+		await get_tree().process_frame
+		if city_preload.error != "": _launching = false; return
+	_launching = false
+	var n: NetworkLoader = city_preload.network(str(r.net_path))
+	if n == null: return
 	net_path = str(r.net_path); free_mode = bool(r.free); mission = {}; scenario = {}; start_station = {}
 	vehicle = _vehicle_by_id(str(r.vehicle), n.meta)
 	menu_city = str(r.get("city", menu_city))
@@ -701,6 +790,7 @@ func _close_settings() -> void:
 
 ## Raccourcis des menus (accueil, configuration). Renvoie vrai si la touche est consommée.
 func _menu_key(k: int, ev: InputEventKey) -> bool:
+	if _launching or (is_instance_valid(_city_loading_layer) and _city_loading_layer.visible): return true
 	if not get_tree().get_nodes_in_group("touch_choice_modal").is_empty(): return false
 	for c in get_children():
 		if c is Catalogue: return false
@@ -772,7 +862,7 @@ static var _sources: Dictionary = {}
 func _source_of(city_nets: Array) -> String:
 	if city_nets.is_empty(): return ""
 	var path := str(city_nets[0].path)
-	if not _sources.has(path): _sources[path] = str(Catalogue.meta_of(path).get("source_id", ""))
+	if not _sources.has(path): _sources[path] = str(CityDataStore.document(path).get("source_id", ""))
 	return _sources[path]
 
 func _opt(parent: Control, label: String) -> TouchChoice:
@@ -790,6 +880,34 @@ func _row(parent: Control, label: String) -> HBoxContainer:
 
 ## Lance la partie choisie. `with_intro` : zoom ville -> quartier -> station (lancement depuis le menu).
 func _start(with_intro: bool = false) -> void:
+	if _launching: return
+	_launching = true
+	if with_intro:
+		_show_bg(menu_city)
+		while not _ready_for_launch(menu_city):
+			await get_tree().process_frame
+			if city_preload.error != "": _launching = false; return
+		var input_layer := CanvasLayer.new(); input_layer.layer = 100; input_layer.name = "departure_input"
+		add_child(input_layer)
+		var blocker := Control.new(); blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		blocker.mouse_filter = Control.MOUSE_FILTER_STOP; blocker.focus_mode = Control.FOCUS_ALL
+		input_layer.add_child(blocker); blocker.grab_focus()
+		if bool(save.settings.get("intro", true)):
+			var tw := create_tween().set_parallel(true)
+			for child in get_children():
+				if child is Control and child != home_bg and not child.is_queued_for_deletion():
+					child.pivot_offset = child.size * 0.5
+					tw.tween_property(child, "modulate:a", 0.0, 0.42)
+					tw.tween_property(child, "scale", Vector2(1.07, 1.07), 0.42).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+			if is_instance_valid(home_bg): home_bg.departure_zoom(0.42)
+			await tw.finished
+	_start_prepared(with_intro)
+	_launching = false
+
+func _start_prepared(with_intro: bool = false) -> void:
+	if is_instance_valid(_city_loading_layer): _city_loading_layer.hide()
+	var prepared_network: NetworkLoader = city_preload.network(net_path) if is_instance_valid(city_preload) else null
+	_departure_context = home_bg.departure_context(prepared_network.meta.get("origin", [])) if is_instance_valid(home_bg) and prepared_network != null else {}
 	if is_instance_valid(home_bg): home_bg.queue_free()
 	home_bg = null
 	with_intro = with_intro and bool(save.settings.get("intro", true))
@@ -800,8 +918,8 @@ func _start(with_intro: bool = false) -> void:
 	paused = false
 	emergency = false
 	notch = -0.75 # F3 : immobilisation dès l’apparition, y compris en rampe.
-	net = NetworkLoader.new()
-	var errs := net.load_file(net_path)
+	net = prepared_network if prepared_network != null else NetworkLoader.new()
+	var errs := PackedStringArray() if prepared_network != null else net.load_file(net_path)
 	if not errs.is_empty():
 		push_error(str(errs)); _build_menu(); return
 	var first: String = net.meta.edges[0].id
@@ -833,7 +951,9 @@ func _start(with_intro: bool = false) -> void:
 	session.event.connect(func(_k, text): _log(text))
 	# 3D directement dans la fenêtre principale : pleine résolution sur grand écran
 	view = LineView.new(); view.view_distance = float(save.settings.view_distance)
-	add_child(view); view.build(net, first, vehicle)
+	add_child(view)
+	var prepared_scene: CityScene = city_preload.take_scene(net.meta.get("origin", [])) if is_instance_valid(city_preload) else null
+	view.build(net, first, vehicle, prepared_scene)
 	hour0 = _start_hour()
 	view.set_hour(hour0)
 	# Rames en circulation (missions sur réseau complet, poste d'aiguillage) : fréquences approchées.
@@ -845,8 +965,10 @@ func _start(with_intro: bool = false) -> void:
 	view.update_from(session, true)
 	# intro : tuiles de la zone de départ (et de ses abords vus d'en haut) construites avant la première image
 	_intro_radius = view.city.radius if view.city else 0.0
-	if with_intro and view.city and not OS.has_feature("mobile"): view.city.radius = maxf(_intro_radius, 1000.0)
-	if view.city: view.city.warm(view.cam.global_position)
+	if with_intro and view.city and not OS.has_feature("mobile"): view.city.radius = maxf(_intro_radius, 700.0)
+	if view.city:
+		if with_intro: view.city.update(view.cam.global_position, 0)
+		else: view.city.warm(view.cam.global_position)
 	view.cam.current = true
 	tram_audio = TramAudio.new(view, bell); add_child(tram_audio)   # moteur sonore de la rame
 	_build_hud()
@@ -854,12 +976,13 @@ func _start(with_intro: bool = false) -> void:
 	if free and free.adaptation_notice != "": _log(free.adaptation_notice)
 	if with_intro: _begin_intro()
 	elif not save.settings.tutorial_done: _show_tuto()
+	if is_instance_valid(city_preload): city_preload.invalidate()
 
 ## Session d'une mission scénarisée (MissionCatalog.create_session), sinon faux (repli GTFS).
 func _scenario_session() -> bool:
 	var cat := _catalog()
 	if cat == null or not _has_static(cat, "create_session"): return false
-	var s = cat.call("create_session", scenario, vehicle)
+	var s = cat.call("create_session", scenario, vehicle, net)
 	if not s is MissionSession: return false
 	session = s
 	if s.net != null: net = s.net
@@ -875,7 +998,7 @@ func _begin_intro() -> void:
 		str(start_station.get("name", "")) if free_mode and not start_station.is_empty() else str(st.get("name", ""))])
 	intro = IntroCamera.new(); view.add_child(intro)
 	intro.finished.connect(_end_intro)
-	intro.start(view, view.pos3(session.edge_id, session.offset), caps)
+	intro.start(view, view.pos3(session.edge_id, session.offset), caps, _departure_context)
 
 func _end_intro() -> void:
 	intro = null

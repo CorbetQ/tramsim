@@ -1,0 +1,130 @@
+{
+  "v2_before_citadis_302": {
+    "bank": "citadis302",
+    "duration": 47.808,
+    "peak_dbfs": -14.33,
+    "clipped_samples": 0,
+    "bands": [
+      {
+        "seconds": [
+          7,
+          15
+        ],
+        "rms_dbfs": -31.68,
+        "energy_800_3000_pct": 8.264
+      },
+      {
+        "seconds": [
+          15,
+          23
+        ],
+        "rms_dbfs": -29.41,
+        "energy_800_3000_pct": 21.057
+      },
+      {
+        "seconds": [
+          27,
+          35
+        ],
+        "rms_dbfs": -31.33,
+        "energy_800_3000_pct": 12.831
+      }
+    ]
+  },
+  "v2_after_citadis_302": {
+    "bank": "citadis302",
+    "duration": 47.808,
+    "peak_dbfs": -14.16,
+    "clipped_samples": 0,
+    "bands": [
+      {
+        "seconds": [
+          7,
+          15
+        ],
+        "rms_dbfs": -33.54,
+        "energy_800_3000_pct": 16.523
+      },
+      {
+        "seconds": [
+          15,
+          23
+        ],
+        "rms_dbfs": -30.63,
+        "energy_800_3000_pct": 41.917
+      },
+      {
+        "seconds": [
+          27,
+          35
+        ],
+        "rms_dbfs": -35.77,
+        "energy_800_3000_pct": 35.175
+      }
+    ]
+  },
+  "v2_before_citadis_305": {
+    "bank": "citadis305_model",
+    "duration": 47.861333333333334,
+    "peak_dbfs": -13.94,
+    "clipped_samples": 0,
+    "bands": [
+      {
+        "seconds": [
+          7,
+          15
+        ],
+        "rms_dbfs": -29.45,
+        "energy_800_3000_pct": 3.589
+      },
+      {
+        "seconds": [
+          15,
+          23
+        ],
+        "rms_dbfs": -27.76,
+        "energy_800_3000_pct": 5.738
+      },
+      {
+        "seconds": [
+          27,
+          35
+        ],
+        "rms_dbfs": -29.46,
+        "energy_800_3000_pct": 7.133
+      }
+    ]
+  },
+  "v2_after_citadis_305": {
+    "bank": "citadis305_model",
+    "duration": 48.032,
+    "peak_dbfs": -14.35,
+    "clipped_samples": 0,
+    "bands": [
+      {
+        "seconds": [
+          7,
+          15
+        ],
+        "rms_dbfs": -31.22,
+        "energy_800_3000_pct": 2.623
+      },
+      {
+        "seconds": [
+          15,
+          23
+        ],
+        "rms_dbfs": -30.16,
+        "energy_800_3000_pct": 7.061
+      },
+      {
+        "seconds": [
+          27,
+          35
+        ],
+        "rms_dbfs": -33.92,
+        "energy_800_3000_pct": 6.863
+      }
+    ]
+  }
+}

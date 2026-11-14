@@ -1,0 +1,1112 @@
+[
+  {
+    "file": "samples/raw/avanto-full.ogg",
+    "start_s": 12.0,
+    "end_s": 16.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -13.535,
+    "rms_variation_p90_p10_db": 2.793,
+    "peaks_hz": [
+      695.31,
+      707.03,
+      742.19
+    ],
+    "high_3_6khz_pct": 0.231
+  },
+  {
+    "file": "samples/raw/avanto-full.ogg",
+    "start_s": 34.0,
+    "end_s": 38.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -15.568,
+    "rms_variation_p90_p10_db": 2.634,
+    "peaks_hz": [
+      742.19,
+      292.97,
+      308.59
+    ],
+    "high_3_6khz_pct": 0.396
+  },
+  {
+    "file": "samples/raw/avanto-full.ogg",
+    "start_s": 48.0,
+    "end_s": 52.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -18.368,
+    "rms_variation_p90_p10_db": 1.357,
+    "peaks_hz": [
+      335.94,
+      167.97,
+      472.66
+    ],
+    "high_3_6khz_pct": 0.419
+  },
+  {
+    "file": "samples/raw/avanto-full.ogg",
+    "start_s": 60.0,
+    "end_s": 64.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -21.145,
+    "rms_variation_p90_p10_db": 1.049,
+    "peaks_hz": [
+      167.97,
+      335.94,
+      117.19
+    ],
+    "high_3_6khz_pct": 0.585
+  },
+  {
+    "file": "samples/raw/citadis302-full.ogg",
+    "start_s": 2.0,
+    "end_s": 6.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -17.26,
+    "rms_variation_p90_p10_db": 0.733,
+    "peaks_hz": [
+      812.5,
+      332.03,
+      222.66
+    ],
+    "high_3_6khz_pct": 4.133
+  },
+  {
+    "file": "samples/raw/citadis302-full.ogg",
+    "start_s": 20.0,
+    "end_s": 24.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -23.061,
+    "rms_variation_p90_p10_db": 0.875,
+    "peaks_hz": [
+      601.56,
+      812.5,
+      167.97
+    ],
+    "high_3_6khz_pct": 4.179
+  },
+  {
+    "file": "samples/raw/citadis302-full.ogg",
+    "start_s": 22.0,
+    "end_s": 26.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -23.001,
+    "rms_variation_p90_p10_db": 0.884,
+    "peaks_hz": [
+      601.56,
+      164.06,
+      632.81
+    ],
+    "high_3_6khz_pct": 3.739
+  },
+  {
+    "file": "samples/raw/citadis302-full.ogg",
+    "start_s": 36.0,
+    "end_s": 40.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -12.961,
+    "rms_variation_p90_p10_db": 2.406,
+    "peaks_hz": [
+      175.78,
+      89.84,
+      97.66
+    ],
+    "high_3_6khz_pct": 12.814
+  },
+  {
+    "file": "samples/raw/citadis302-full.ogg",
+    "start_s": 100.0,
+    "end_s": 104.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -12.491,
+    "rms_variation_p90_p10_db": 10.444,
+    "peaks_hz": [
+      1023.44,
+      1035.16,
+      957.03
+    ],
+    "high_3_6khz_pct": 5.447
+  },
+  {
+    "file": "samples/raw/citadis302-full.ogg",
+    "start_s": 158.0,
+    "end_s": 162.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -15.942,
+    "rms_variation_p90_p10_db": 2.022,
+    "peaks_hz": [
+      97.66,
+      210.94,
+      144.53
+    ],
+    "high_3_6khz_pct": 1.192
+  },
+  {
+    "file": "samples/raw/citadis302-full.ogg",
+    "start_s": 160.0,
+    "end_s": 164.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -16.214,
+    "rms_variation_p90_p10_db": 1.903,
+    "peaks_hz": [
+      210.94,
+      144.53,
+      93.75
+    ],
+    "high_3_6khz_pct": 1.604
+  },
+  {
+    "file": "samples/raw/citadis402-full.ogg",
+    "start_s": 4.0,
+    "end_s": 8.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -25.441,
+    "rms_variation_p90_p10_db": 2.11,
+    "peaks_hz": [
+      50.78,
+      58.59,
+      70.31
+    ],
+    "high_3_6khz_pct": 0.117
+  },
+  {
+    "file": "samples/raw/citadis402-full.ogg",
+    "start_s": 12.0,
+    "end_s": 16.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -20.203,
+    "rms_variation_p90_p10_db": 1.56,
+    "peaks_hz": [
+      183.59,
+      203.12,
+      50.78
+    ],
+    "high_3_6khz_pct": 0.51
+  },
+  {
+    "file": "samples/raw/citadis402-full.ogg",
+    "start_s": 20.0,
+    "end_s": 24.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -25.715,
+    "rms_variation_p90_p10_db": 1.602,
+    "peaks_hz": [
+      50.78,
+      66.41,
+      101.56
+    ],
+    "high_3_6khz_pct": 0.062
+  },
+  {
+    "file": "samples/raw/citadis403-full.ogg",
+    "start_s": 4.0,
+    "end_s": 8.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -18.147,
+    "rms_variation_p90_p10_db": 4.089,
+    "peaks_hz": [
+      246.09,
+      261.72,
+      289.06
+    ],
+    "high_3_6khz_pct": 2.584
+  },
+  {
+    "file": "samples/raw/citadis403-full.ogg",
+    "start_s": 10.0,
+    "end_s": 14.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -11.381,
+    "rms_variation_p90_p10_db": 1.643,
+    "peaks_hz": [
+      246.09,
+      257.81,
+      226.56
+    ],
+    "high_3_6khz_pct": 1.888
+  },
+  {
+    "file": "samples/raw/citadis403-full.ogg",
+    "start_s": 12.0,
+    "end_s": 16.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -12.251,
+    "rms_variation_p90_p10_db": 3.832,
+    "peaks_hz": [
+      222.66,
+      238.28,
+      257.81
+    ],
+    "high_3_6khz_pct": 1.533
+  },
+  {
+    "file": "samples/raw/eurotram-porto-full.ogg",
+    "start_s": 8.0,
+    "end_s": 12.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -15.25,
+    "rms_variation_p90_p10_db": 7.355,
+    "peaks_hz": [
+      167.97,
+      152.34,
+      187.5
+    ],
+    "high_3_6khz_pct": 0.422
+  },
+  {
+    "file": "samples/raw/eurotram-porto-full.ogg",
+    "start_s": 18.0,
+    "end_s": 22.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -22.351,
+    "rms_variation_p90_p10_db": 4.661,
+    "peaks_hz": [
+      183.59,
+      156.25,
+      113.28
+    ],
+    "high_3_6khz_pct": 0.416
+  },
+  {
+    "file": "samples/raw/eurotram-porto-full.ogg",
+    "start_s": 20.0,
+    "end_s": 24.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -23.471,
+    "rms_variation_p90_p10_db": 7.636,
+    "peaks_hz": [
+      156.25,
+      183.59,
+      199.22
+    ],
+    "high_3_6khz_pct": 0.454
+  },
+  {
+    "file": "samples/raw/eurotram-porto-full.ogg",
+    "start_s": 24.0,
+    "end_s": 28.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -28.992,
+    "rms_variation_p90_p10_db": 5.225,
+    "peaks_hz": [
+      171.88,
+      183.59,
+      97.66
+    ],
+    "high_3_6khz_pct": 3.731
+  },
+  {
+    "file": "samples/raw/flexity-full.ogg",
+    "start_s": 0.0,
+    "end_s": 4.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -18.878,
+    "rms_variation_p90_p10_db": 2.926,
+    "peaks_hz": [
+      109.38,
+      714.84,
+      363.28
+    ],
+    "high_3_6khz_pct": 5.056
+  },
+  {
+    "file": "samples/raw/flexity-full.ogg",
+    "start_s": 2.0,
+    "end_s": 6.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -15.963,
+    "rms_variation_p90_p10_db": 5.248,
+    "peaks_hz": [
+      109.38,
+      160.16,
+      367.19
+    ],
+    "high_3_6khz_pct": 7.929
+  },
+  {
+    "file": "samples/raw/flexity-full.ogg",
+    "start_s": 6.0,
+    "end_s": 10.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -18.154,
+    "rms_variation_p90_p10_db": 2.939,
+    "peaks_hz": [
+      335.94,
+      355.47,
+      300.78
+    ],
+    "high_3_6khz_pct": 7.532
+  },
+  {
+    "file": "samples/raw/flexity-full.ogg",
+    "start_s": 8.0,
+    "end_s": 12.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -18.494,
+    "rms_variation_p90_p10_db": 7.118,
+    "peaks_hz": [
+      355.47,
+      109.38,
+      300.78
+    ],
+    "high_3_6khz_pct": 3.851
+  },
+  {
+    "file": "samples/raw/tfs-full.ogg",
+    "start_s": 4.0,
+    "end_s": 8.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -22.23,
+    "rms_variation_p90_p10_db": 2.282,
+    "peaks_hz": [
+      70.31,
+      117.19,
+      93.75
+    ],
+    "high_3_6khz_pct": 2.187
+  },
+  {
+    "file": "samples/raw/tfs-full.ogg",
+    "start_s": 6.0,
+    "end_s": 10.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -21.67,
+    "rms_variation_p90_p10_db": 1.679,
+    "peaks_hz": [
+      70.31,
+      93.75,
+      183.59
+    ],
+    "high_3_6khz_pct": 3.029
+  },
+  {
+    "file": "samples/raw/tfs-full.ogg",
+    "start_s": 8.0,
+    "end_s": 12.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -17.197,
+    "rms_variation_p90_p10_db": 9.374,
+    "peaks_hz": [
+      347.66,
+      382.81,
+      183.59
+    ],
+    "high_3_6khz_pct": 0.808
+  },
+  {
+    "file": "samples/raw/tfs-full.ogg",
+    "start_s": 12.0,
+    "end_s": 16.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -24.774,
+    "rms_variation_p90_p10_db": 1.883,
+    "peaks_hz": [
+      125.0,
+      101.56,
+      328.12
+    ],
+    "high_3_6khz_pct": 3.454
+  },
+  {
+    "file": "samples/raw/urbos-full.ogg",
+    "start_s": 0.0,
+    "end_s": 4.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -30.874,
+    "rms_variation_p90_p10_db": 1.255,
+    "peaks_hz": [
+      97.66,
+      281.25,
+      160.16
+    ],
+    "high_3_6khz_pct": 1.878
+  },
+  {
+    "file": "samples/raw/urbos-full.ogg",
+    "start_s": 12.0,
+    "end_s": 16.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -33.322,
+    "rms_variation_p90_p10_db": 1.838,
+    "peaks_hz": [
+      281.25,
+      93.75,
+      105.47
+    ],
+    "high_3_6khz_pct": 1.333
+  },
+  {
+    "file": "samples/raw/urbos-full.ogg",
+    "start_s": 22.0,
+    "end_s": 26.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -20.513,
+    "rms_variation_p90_p10_db": 10.537,
+    "peaks_hz": [
+      105.47,
+      300.78,
+      281.25
+    ],
+    "high_3_6khz_pct": 5.58
+  },
+  {
+    "file": "samples/raw/urbos-full.ogg",
+    "start_s": 28.0,
+    "end_s": 32.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -18.454,
+    "rms_variation_p90_p10_db": 4.323,
+    "peaks_hz": [
+      820.31,
+      230.47,
+      218.75
+    ],
+    "high_3_6khz_pct": 5.572
+  },
+  {
+    "file": "samples/raw/urbos-full.ogg",
+    "start_s": 32.0,
+    "end_s": 36.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -18.286,
+    "rms_variation_p90_p10_db": 2.943,
+    "peaks_hz": [
+      246.09,
+      167.97,
+      179.69
+    ],
+    "high_3_6khz_pct": 4.798
+  },
+  {
+    "file": "samples/raw/arriv-e-d-une-rame-citadis-402-la-station-porte-d-ivry.ogg",
+    "start_s": 8.0,
+    "end_s": 12.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -17.046,
+    "rms_variation_p90_p10_db": 1.592,
+    "peaks_hz": [
+      179.69,
+      285.16,
+      50.78
+    ],
+    "high_3_6khz_pct": 0.603
+  },
+  {
+    "file": "samples/raw/arriv-e-d-une-rame-citadis-402-la-station-porte-d-ivry.ogg",
+    "start_s": 6.0,
+    "end_s": 10.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -16.593,
+    "rms_variation_p90_p10_db": 2.007,
+    "peaks_hz": [
+      285.16,
+      50.78,
+      199.22
+    ],
+    "high_3_6khz_pct": 0.615
+  },
+  {
+    "file": "samples/raw/arriv-e-d-une-rame-citadis-402-la-station-porte-d-ivry.ogg",
+    "start_s": 14.0,
+    "end_s": 18.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -15.783,
+    "rms_variation_p90_p10_db": 4.174,
+    "peaks_hz": [
+      78.12,
+      50.78,
+      39.06
+    ],
+    "high_3_6khz_pct": 0.066
+  },
+  {
+    "file": "samples/raw/arriv-e-d-une-rame-citadis-402-la-station-porte-d-ivry.ogg",
+    "start_s": 12.0,
+    "end_s": 16.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -16.253,
+    "rms_variation_p90_p10_db": 3.586,
+    "peaks_hz": [
+      82.03,
+      50.78,
+      183.59
+    ],
+    "high_3_6khz_pct": 0.131
+  },
+  {
+    "file": "samples/raw/diverse-bellen-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 54.0,
+    "end_s": 58.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -40.035,
+    "rms_variation_p90_p10_db": 12.751,
+    "peaks_hz": [
+      898.44,
+      1558.59,
+      2312.5
+    ],
+    "high_3_6khz_pct": 0.534
+  },
+  {
+    "file": "samples/raw/diverse-bellen-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 24.0,
+    "end_s": 28.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -30.914,
+    "rms_variation_p90_p10_db": 14.798,
+    "peaks_hz": [
+      3324.22,
+      2519.53,
+      3351.56
+    ],
+    "high_3_6khz_pct": 58.628
+  },
+  {
+    "file": "samples/raw/diverse-bellen-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 0.0,
+    "end_s": 4.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -12.887,
+    "rms_variation_p90_p10_db": 57.612,
+    "peaks_hz": [
+      2511.72,
+      3320.31,
+      1117.19
+    ],
+    "high_3_6khz_pct": 53.446
+  },
+  {
+    "file": "samples/raw/diverse-bellen-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 2.0,
+    "end_s": 6.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -15.202,
+    "rms_variation_p90_p10_db": 39.29,
+    "peaks_hz": [
+      2511.72,
+      3320.31,
+      1117.19
+    ],
+    "high_3_6khz_pct": 55.234
+  },
+  {
+    "file": "samples/raw/het-vertrekken-van-een-elektrische-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 8.0,
+    "end_s": 12.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -30.333,
+    "rms_variation_p90_p10_db": 2.63,
+    "peaks_hz": [
+      42.97,
+      54.69,
+      70.31
+    ],
+    "high_3_6khz_pct": 0.209
+  },
+  {
+    "file": "samples/raw/het-vertrekken-van-een-elektrische-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 10.0,
+    "end_s": 14.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -30.784,
+    "rms_variation_p90_p10_db": 3.238,
+    "peaks_hz": [
+      42.97,
+      54.69,
+      601.56
+    ],
+    "high_3_6khz_pct": 0.202
+  },
+  {
+    "file": "samples/raw/het-voorbijrijden-van-een-elektrische-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 94.0,
+    "end_s": 98.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -43.551,
+    "rms_variation_p90_p10_db": 4.022,
+    "peaks_hz": [
+      39.06,
+      54.69,
+      605.47
+    ],
+    "high_3_6khz_pct": 0.221
+  },
+  {
+    "file": "samples/raw/het-voorbijrijden-van-een-elektrische-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 12.0,
+    "end_s": 16.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -43.203,
+    "rms_variation_p90_p10_db": 4.436,
+    "peaks_hz": [
+      39.06,
+      54.69,
+      27.34
+    ],
+    "high_3_6khz_pct": 0.179
+  },
+  {
+    "file": "samples/raw/het-voorbijrijden-van-een-elektrische-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 18.0,
+    "end_s": 22.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -23.207,
+    "rms_variation_p90_p10_db": 4.67,
+    "peaks_hz": [
+      562.5,
+      42.97,
+      609.38
+    ],
+    "high_3_6khz_pct": 0.06
+  },
+  {
+    "file": "samples/raw/het-voorbijrijden-van-een-elektrische-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 16.0,
+    "end_s": 20.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -25.149,
+    "rms_variation_p90_p10_db": 16.867,
+    "peaks_hz": [
+      609.38,
+      566.41,
+      42.97
+    ],
+    "high_3_6khz_pct": 0.083
+  },
+  {
+    "file": "samples/raw/lemans302-original.mp3",
+    "start_s": 8.0,
+    "end_s": 12.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -18.906,
+    "rms_variation_p90_p10_db": 7.172,
+    "peaks_hz": [
+      339.84,
+      292.97,
+      351.56
+    ],
+    "high_3_6khz_pct": 1.109
+  },
+  {
+    "file": "samples/raw/lemans302-original.mp3",
+    "start_s": 14.0,
+    "end_s": 18.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -37.535,
+    "rms_variation_p90_p10_db": 7.77,
+    "peaks_hz": [
+      339.84,
+      277.34,
+      250.0
+    ],
+    "high_3_6khz_pct": 0.572
+  },
+  {
+    "file": "samples/raw/lemans302-original.mp3",
+    "start_s": 6.0,
+    "end_s": 10.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -17.43,
+    "rms_variation_p90_p10_db": 12.824,
+    "peaks_hz": [
+      265.62,
+      246.09,
+      289.06
+    ],
+    "high_3_6khz_pct": 1.24
+  },
+  {
+    "file": "samples/raw/lyon-citadis-original.ogg",
+    "start_s": 24.0,
+    "end_s": 28.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -39.942,
+    "rms_variation_p90_p10_db": 4.55,
+    "peaks_hz": [
+      167.97,
+      191.41,
+      230.47
+    ],
+    "high_3_6khz_pct": 2.214
+  },
+  {
+    "file": "samples/raw/lyon-citadis-original.ogg",
+    "start_s": 4.0,
+    "end_s": 8.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -43.037,
+    "rms_variation_p90_p10_db": 4.939,
+    "peaks_hz": [
+      679.69,
+      210.94,
+      257.81
+    ],
+    "high_3_6khz_pct": 0.914
+  },
+  {
+    "file": "samples/raw/lyon-citadis-original.ogg",
+    "start_s": 54.0,
+    "end_s": 58.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -28.174,
+    "rms_variation_p90_p10_db": 10.778,
+    "peaks_hz": [
+      253.91,
+      296.88,
+      273.44
+    ],
+    "high_3_6khz_pct": 0.214
+  },
+  {
+    "file": "samples/raw/lyon-citadis-original.ogg",
+    "start_s": 10.0,
+    "end_s": 14.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -29.241,
+    "rms_variation_p90_p10_db": 9.519,
+    "peaks_hz": [
+      265.62,
+      246.09,
+      187.5
+    ],
+    "high_3_6khz_pct": 0.729
+  },
+  {
+    "file": "samples/raw/noodrem-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 14.0,
+    "end_s": 18.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -22.16,
+    "rms_variation_p90_p10_db": 1.216,
+    "peaks_hz": [
+      54.69,
+      42.97,
+      74.22
+    ],
+    "high_3_6khz_pct": 0.369
+  },
+  {
+    "file": "samples/raw/noodrem-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 16.0,
+    "end_s": 20.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -22.309,
+    "rms_variation_p90_p10_db": 1.26,
+    "peaks_hz": [
+      46.88,
+      54.69,
+      74.22
+    ],
+    "high_3_6khz_pct": 0.302
+  },
+  {
+    "file": "samples/raw/noodrem-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 26.0,
+    "end_s": 30.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -16.664,
+    "rms_variation_p90_p10_db": 4.515,
+    "peaks_hz": [
+      54.69,
+      74.22,
+      85.94
+    ],
+    "high_3_6khz_pct": 0.463
+  },
+  {
+    "file": "samples/raw/noodrem-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 24.0,
+    "end_s": 28.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -17.516,
+    "rms_variation_p90_p10_db": 4.694,
+    "peaks_hz": [
+      58.59,
+      78.12,
+      97.66
+    ],
+    "high_3_6khz_pct": 0.33
+  },
+  {
+    "file": "samples/raw/omvormer-en-compressor-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 92.0,
+    "end_s": 96.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -23.833,
+    "rms_variation_p90_p10_db": 0.634,
+    "peaks_hz": [
+      414.06,
+      304.69,
+      250.0
+    ],
+    "high_3_6khz_pct": 2.135
+  },
+  {
+    "file": "samples/raw/omvormer-en-compressor-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 88.0,
+    "end_s": 92.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -23.341,
+    "rms_variation_p90_p10_db": 0.742,
+    "peaks_hz": [
+      421.88,
+      308.59,
+      253.91
+    ],
+    "high_3_6khz_pct": 1.917
+  },
+  {
+    "file": "samples/raw/omvormer-en-compressor-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 12.0,
+    "end_s": 16.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -18.039,
+    "rms_variation_p90_p10_db": 15.797,
+    "peaks_hz": [
+      394.53,
+      183.59,
+      574.22
+    ],
+    "high_3_6khz_pct": 33.746
+  },
+  {
+    "file": "samples/raw/omvormer-en-compressor-van-een-tram-soundcloud-beeld-en-geluid.ogg",
+    "start_s": 14.0,
+    "end_s": 18.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -19.326,
+    "rms_variation_p90_p10_db": 16.896,
+    "peaks_hz": [
+      3988.28,
+      3714.84,
+      6800.78
+    ],
+    "high_3_6khz_pct": 44.988
+  },
+  {
+    "file": "samples/raw/ratelend-voetgangerslicht-en-voorbij-rijdende-tram-soundcloud-campos.ogg",
+    "start_s": 46.0,
+    "end_s": 50.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -35.673,
+    "rms_variation_p90_p10_db": 0.802,
+    "peaks_hz": [
+      1871.09,
+      199.22,
+      1859.38
+    ],
+    "high_3_6khz_pct": 0.589
+  },
+  {
+    "file": "samples/raw/ratelend-voetgangerslicht-en-voorbij-rijdende-tram-soundcloud-campos.ogg",
+    "start_s": 48.0,
+    "end_s": 52.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -35.805,
+    "rms_variation_p90_p10_db": 1.057,
+    "peaks_hz": [
+      1871.09,
+      199.22,
+      1859.38
+    ],
+    "high_3_6khz_pct": 0.558
+  },
+  {
+    "file": "samples/raw/ratelend-voetgangerslicht-en-voorbij-rijdende-tram-soundcloud-campos.ogg",
+    "start_s": 20.0,
+    "end_s": 24.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -16.191,
+    "rms_variation_p90_p10_db": 3.264,
+    "peaks_hz": [
+      50.78,
+      66.41,
+      93.75
+    ],
+    "high_3_6khz_pct": 0.411
+  },
+  {
+    "file": "samples/raw/ratelend-voetgangerslicht-en-voorbij-rijdende-tram-soundcloud-campos.ogg",
+    "start_s": 22.0,
+    "end_s": 26.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -17.31,
+    "rms_variation_p90_p10_db": 9.464,
+    "peaks_hz": [
+      50.78,
+      70.31,
+      85.94
+    ],
+    "high_3_6khz_pct": 0.355
+  },
+  {
+    "file": "samples/raw/tram-doors-cologne-original.ogg",
+    "start_s": 2.0,
+    "end_s": 6.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -36.586,
+    "rms_variation_p90_p10_db": 11.371,
+    "peaks_hz": [
+      19.53,
+      50.78,
+      35.16
+    ],
+    "high_3_6khz_pct": 2.151
+  },
+  {
+    "file": "samples/raw/tram-doors-cologne-original.ogg",
+    "start_s": 0.0,
+    "end_s": 4.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -30.807,
+    "rms_variation_p90_p10_db": 12.854,
+    "peaks_hz": [
+      19.53,
+      39.06,
+      54.69
+    ],
+    "high_3_6khz_pct": 6.871
+  },
+  {
+    "file": "samples/raw/tram-doors-cologne-original.ogg",
+    "start_s": 8.0,
+    "end_s": 12.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -23.662,
+    "rms_variation_p90_p10_db": 20.654,
+    "peaks_hz": [
+      2558.59,
+      50.78,
+      74.22
+    ],
+    "high_3_6khz_pct": 1.613
+  },
+  {
+    "file": "samples/raw/tram-doors-cologne-original.ogg",
+    "start_s": 6.0,
+    "end_s": 10.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -30.52,
+    "rms_variation_p90_p10_db": 17.761,
+    "peaks_hz": [
+      2558.59,
+      15.62,
+      140.62
+    ],
+    "high_3_6khz_pct": 0.624
+  },
+  {
+    "file": "samples/raw/urbos3-birmingham-original.ogg",
+    "start_s": 8.0,
+    "end_s": 12.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -28.947,
+    "rms_variation_p90_p10_db": 3.904,
+    "peaks_hz": [
+      58.59,
+      148.44,
+      97.66
+    ],
+    "high_3_6khz_pct": 2.434
+  },
+  {
+    "file": "samples/raw/urbos3-birmingham-original.ogg",
+    "start_s": 18.0,
+    "end_s": 22.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -12.124,
+    "rms_variation_p90_p10_db": 4.811,
+    "peaks_hz": [
+      105.47,
+      164.06,
+      152.34
+    ],
+    "high_3_6khz_pct": 4.867
+  },
+  {
+    "file": "samples/raw/urbos3-birmingham-original.ogg",
+    "start_s": 16.0,
+    "end_s": 20.0,
+    "status": "objective_candidate_not_auditioned",
+    "speech_status": "unknown; do not certify absence",
+    "rms_dbfs": -13.809,
+    "rms_variation_p90_p10_db": 16.1,
+    "peaks_hz": [
+      152.34,
+      113.28,
+      144.53
+    ],
+    "high_3_6khz_pct": 5.942
+  }
+]
