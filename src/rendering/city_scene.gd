@@ -1093,10 +1093,13 @@ func _water_level(k: Vector2i, verts: PackedVector2Array) -> float:
 		inner.append(_ground_h(verts[i].lerp(c, 0.5)))
 	inner.append(_ground_h(c))
 	inner.sort()
+	if is_nan(lv) and terrain != null:   # niveau inconnu (lacs) : le MNT donne la surface ; eau posée dessus
+		return maxf(bank, inner[inner.size() - 1]) + 0.1
 	var bed := inner[inner.size() / 4] + 0.05
 	var y := minf(lv if not is_nan(lv) else bank, bank - 0.15)
 	if y < bed: y = minf(bed, bank + 0.25)
-	return y
+	# lit non abaissé (grands plans d'eau couvrant la tuile) : l'eau ne passe jamais sous le sol intérieur
+	return maxf(y, inner[inner.size() - 1] + 0.05)
 
 ## Tablier de pont BD TOPO (route ou voie ferrée) : dalle, garde-corps, piles jusqu'au sol (ou au lit de la rivière).
 func _deck(S: _Arrays, d: Array) -> void:

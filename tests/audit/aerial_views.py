@@ -163,8 +163,13 @@ def compose(city, outdir):
     thumbs = []
     for v in js["views"]:
         raw = os.path.join(d, "raw_" + v["file"] + ".png")
+        final = os.path.join(d, v["file"] + ".png")
         if not os.path.exists(raw):
-            print("  absente :", raw); continue
+            if os.path.exists(final):        # vue déjà composée : reprise dans la planche
+                thumbs.append(Image.open(final).convert("RGB").resize((400, 400), Image.LANCZOS))
+            else:
+                print("  absente :", raw)
+            continue
         img = Image.open(raw).convert("RGB")
         sub = f"vue verticale du jeu, {v['size'] / 1000:.1f} km de côté" + (f", {v['km']} km de voies" if v.get("km") else "")
         caption(img, v["name"], sub).save(os.path.join(d, v["file"] + ".png"), optimize=True)

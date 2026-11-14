@@ -160,6 +160,7 @@ func _init() -> void:
 	check(main.autopilot.enabled, "L : pilote automatique réactivé")
 	await _key(KEY_L)
 	check(not main.autopilot.enabled, "L : pilote automatique désactivé")
-	var spn2 := main.find_child("signal_panel", true, false) as SignalPanel
+	var spn2: SignalPanel = main.signal_panel
+	for i in 15: await process_frame
 	check(spn2 != null and spn2.aspect_l.text != "", "répétiteur de signalisation affiché (%s)" % (spn2.aspect_l.text if spn2 else ""))
 	quit(1 if fails > 0 else 0)

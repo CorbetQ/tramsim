@@ -218,7 +218,7 @@ void fragment() {
 		float k = smoothstep(0.38, 0.62, m + edge);
 		// pelouse de l'orthophoto teintée par l'occupation du sol (sous-bois sombre, prairie, culture) : pas de
 		// rupture de teinte entre tuiles avec et sans masque
-		vec3 vc = land_rgb.r >= 0.0 && land_rgb.g > land_rgb.r ? mix(veg_color, land_rgb, 0.6) : veg_color;
+		vec3 vc = land_rgb.r >= 0.0 && land_rgb.g > land_rgb.r ? mix(veg_color, land_rgb, 0.85) : veg_color;
 		vec3 grass = vc * (1.0 + oct3(xz, vec3(0.28, 0.16, 0.14) * detail, px));
 		ALBEDO = mix(ALBEDO, grass, k);
 	}

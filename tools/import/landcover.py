@@ -66,7 +66,7 @@ def classify(rgb, ok, south=False):
     cls[(exg >= 0.02) & (exg < 0.045) & (rb >= -0.01) & (lum >= 0.33)] = 10 if south else 3   # friche / garrigue
     cls[exg >= 0.045] = 2                                         # pelouse, prairie
     cls[(exg >= 0.08) & (lum >= 0.40)] = 6                        # culture verte
-    cls[(exg >= 0.05) & (lum < 0.31)] = 7                         # bois
+    cls[(exg >= 0.05) & (lum < 0.27)] = 7                         # bois (prairies humides sombres : prairie)
     cls[(lum < 0.25) & (exg < 0.05) & (rb < 0.02)] = 8            # eau (sombre, non verte)
     cls[~ok] = 255
     return cls
