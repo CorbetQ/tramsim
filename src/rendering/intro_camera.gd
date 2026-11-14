@@ -25,6 +25,8 @@ var _final_fov := 62.0
 var _fog0 := -1.0
 var _fog_enabled := true
 var _fog_height := 0.0
+var _shadow0 := false
+var _edges0 := false
 var _layer: CanvasLayer
 var _veil: ColorRect
 var _caption: Label
@@ -46,6 +48,8 @@ func start(v: LineView, focus: Vector3, captions: PackedStringArray = PackedStri
 		_fog0 = v.day_night.env.fog_density
 		_fog_enabled = v.day_night.env.fog_enabled
 		_fog_height = v.day_night.env.fog_height_density
+	_shadow0 = v.day_night.sun.shadow_enabled if v.day_night else false
+	_edges0 = v.day_night.edges.visible if v.day_night and v.day_night.edges else false
 	_final = v.cam.global_transform; _final_fov = v.cam.fov
 	var h := _final.origin - focus; h.y = 0.0
 	h = h.normalized() if h.length() > 0.5 else Vector3(0, 0, 1)
@@ -126,7 +130,7 @@ func _process(dt: float) -> void:
 		if view.city and not view.city.queue.is_empty():
 			view.city.update(view.cam.global_position, 2); return
 		finish(); return
-	var next := t + minf(dt, 0.1)
+	var next := t + minf(dt, 0.5)
 	# Hold the aerial move while the next visible LOD tiles are prepared, never reveal empty squares.
 	if is_instance_valid(_aerial) and next < HOLD + _pan_duration + STAGES[0][3]:
 		_aerial.update(pose_at(next).origin, 2)
@@ -179,6 +183,9 @@ func _apply(time: float) -> void:
 	if is_instance_valid(_aerial):
 		_aerial.visible = time < zoom_start + STAGES[0][3]
 		if view.city: view.city.visible = not _aerial.visible
+		if view.day_night:
+			view.day_night.sun.shadow_enabled = _shadow0 and not _aerial.visible
+			if view.day_night.edges: view.day_night.edges.visible = _edges0 and not _aerial.visible
 		if _aerial.visible: _aerial.update(cam.global_position, 2)
 	if view.day_night: view.day_night.set_hour(lerpf(_departure_hour, _arrival_hour, smoothstep(zoom_start, duration, time)))
 	cam.fov = lerpf(55.0, _final_fov, u)
@@ -200,6 +207,8 @@ func finish() -> void:
 			view.day_night.set_hour(_arrival_hour)
 			view.day_night.env.fog_enabled = _fog_enabled
 			view.day_night.env.fog_height_density = _fog_height
+			view.day_night.sun.shadow_enabled = _shadow0
+			if view.day_night.edges: view.day_night.edges.visible = _edges0
 		view.remove_meta("intro_camera")
 		view.cam.current = true
 	cam.current = false
