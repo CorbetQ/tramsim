@@ -13,16 +13,16 @@ extends Node
 const DIR := "res://data/audio/"
 ## Boucles : nom -> volume de référence (dB à gain 1).
 const LOOPS := {"motor": -25.0, "motor_hum": -11.0, "carrier": -32.0, "rolling": -8.0, "squeal": -26.0, "hvac": -21.0,
-	"ambience": -20.0, "real_rail": -21.0, "regen": -21.0}
+	"ambience": -23.0, "birds": -15.0, "air": -32.0, "real_rail": -21.0, "regen": -21.0}
 ## Ponctuels : nom -> volume de référence (dB).
 const SHOTS := {"joint": -13.0, "brake_mech": -14.0, "brake_release": -20.0, "emergency": -9.0,
 	"door_open": -15.0, "door_chime": -17.0, "door_close": -14.0}
 const GONG_DB := -11.0
-const TWO_D_ONLY := ["ambience"]          # l'ambiance entoure l'auditeur, elle ne suit pas la rame
+const TWO_D_ONLY := ["ambience", "birds", "air"]          # l'ambiance entoure l'auditeur, elle ne suit pas la rame
 ## Cabine : correction de niveau (dB) et sources extérieures étouffées (bus TramCabin, passe-bas).
-const CAB_DB := {"motor": -4.0, "motor_hum": 1.0, "rolling": -3.0, "squeal": -6.0, "ambience": -6.0, "hvac": 3.0,
+const CAB_DB := {"motor": -4.0, "motor_hum": 1.0, "rolling": -3.0, "squeal": -6.0, "ambience": -6.0, "birds": -11.0, "air": -8.0, "hvac": 3.0,
 	"real_rail": -4.0, "regen": -3.0, "carrier": -3.0, "joint": -2.0, "door_open": -3.0, "door_close": -3.0, "door_chime": 2.0}
-const CAB_MUFFLED := ["rolling", "squeal", "ambience", "joint", "brake_mech", "emergency", "carrier", "motor", "real_rail", "regen"]
+const CAB_MUFFLED := ["rolling", "squeal", "ambience", "birds", "air", "joint", "brake_mech", "emergency", "carrier", "motor", "real_rail", "regen"]
 const BUS := "TramFX"
 const CAB_BUS := "TramCabin"
 const TUNNEL_BUS := "TramTunnel"
@@ -125,6 +125,8 @@ func _route() -> void:
 
 ## Flux de data/audio/<nom>.ogg (importé, sinon lu directement).
 static func load_stream(n: String, loop: bool) -> AudioStream:
+	if n == "birds": return stream_path(DIR + "free_sfx/garden_day.ogg", loop)
+	if n == "air": return stream_path(DIR + "free_sfx/air_movement.ogg", loop)
 	return stream_path(DIR + ("banks/real_rail_designed.ogg" if n == "real_rail" else n + ".ogg"), loop)
 
 static func stream_path(path: String, loop: bool) -> AudioStream:
@@ -220,6 +222,8 @@ func update(s: Object, notch: float, emergency: bool, ext: bool, paused: bool, d
 		"doors_open": bool(s.doors_open), "emergency": emergency, "pantograph_up": bool(s.pantograph_up),
 		"wheel_slip":s.phys.slip_ratio, "power_ok": bool(s.power_ok), "supply": s.power_mode, "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
 		"external": ext, "bridge": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].bridge, s.offset), "underground": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].tunnel, s.offset), "curvature": _curvature()}
+	st.hour = float(view.day_night.hour) if view != null and "day_night" in view and view.day_night else 12.0
+	st.traffic_enabled = s.traffic.enabled if s.get("traffic") != null else true
 	update_state(st, dt)
 
 ## Courbure apparente (degrés entre caisses voisines) lue sur la rame affichée.
@@ -300,7 +304,11 @@ func update_state(st: Dictionary, dt: float) -> void:
 	t.hvac = (0.6 + 0.4 * (1.0 - smoothstep(0.5, 6.0, v))) * (1.0 if powered else 0.25)
 	t.real_rail = (0.30 * load * smoothstep(0.3, 3.0, v) + 0.65 * t.rolling) * (1.25 if on_bridge else 1.0)
 	t.rolling *= 1.25 if on_bridge else 1.0
-	t.ambience = 0.12 if in_tunnel else 1.0
+	var hour := fposmod(float(st.get("hour", 12.0)), 24.0)
+	var daylight := smoothstep(5.0, 7.5, hour) * (1.0 - smoothstep(19.0, 21.0, hour))
+	t.birds = daylight * (1.0 - 0.7 * smoothstep(2.0, 14.0, v)) if not in_tunnel else 0.0
+	t.air = (0.12 + 0.75 * smoothstep(3.0, 19.0, v)) * (1.2 if on_bridge else 1.0) if not in_tunnel else 0.03
+	t.ambience = 0.0 if in_tunnel else (0.45 + 0.55 * daylight) * (1.0 if bool(st.get("traffic_enabled", true)) else 0.3)
 	# Different attack/release times avoid abrupt effort and coasting transitions.
 	var elapsed := clampf(dt, 0.0, 0.25)
 	for n in t:

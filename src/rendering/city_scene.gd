@@ -367,6 +367,7 @@ func _pal(name: String, h: int) -> Color:
 
 ## À appeler à chaque image avec la position de la caméra (repère de la ligne).
 func update(center_net: Vector3, budget_tiles: int = 1) -> void:
+	_poll_lod_tile()
 	var c := center_net - position
 	c.x /= _x_scale
 	var r := radius
@@ -375,7 +376,7 @@ func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 	for tx in range(t0.x, t1.x + 1):
 		for tz in range(t0.y, t1.y + 1):
 			var k := Vector2i(tx, tz)
-			if (table.has(k) or _ter_table.has(k) or (terrain != null and terrain.has_tile(k))) and not built.has(k) and not k in queue:
+			if (table.has(k) or _ter_table.has(k) or (terrain != null and terrain.has_tile(k))) and not built.has(k) and not k in queue and not (_lod_task >= 0 and _lod_job.key == k):
 				queue.append(k)
 	var ctile := Vector2(c.x, c.z) / tile_m
 	queue.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
@@ -386,23 +387,95 @@ func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 	queue = queue.filter(func(k: Vector2i) -> bool: return (Vector2(k) + Vector2(0.5, 0.5)).distance_to(ctile) * tile_m <= r * 1.5)
 	for i in budget_tiles:
 		if queue.is_empty(): break
+		if async_lod:
+			if _lod_task < 0: _start_lod_tile(queue.pop_front())
+			break
 		var k: Vector2i = queue.pop_front()
 		built[k] = _build_tile(k)
 		add_child(built[k])
 	if terrain != null and not _horizon_deferred: terrain.update_far(c, built)
 
+## Independent builder owns all mutable terrain/decompression caches. Scene nodes are
+## constructed off-tree and attached only after the worker has completed.
+var async_lod := false
+var _lod_task := -1
+var _lod_job: Dictionary = {}
+var _lod_builder: CityScene
+static var retired_lod_jobs := 0
+
+func enable_async_lod() -> void:
+	async_lod = true
+
+func lod_pending() -> bool:
+	return not queue.is_empty() or _lod_task >= 0
+
+func _start_lod_tile(k: Vector2i) -> void:
+	if _lod_builder == null:
+		_lod_builder = CityScene.new()
+		# Metadata/files already cached at city selection; worker has its own mutable caches.
+		var meta: Dictionary = CityDataStore.document("res://data/scenes/%s.json" % city)
+		_lod_job = {"key": k, "city": city, "origin": meta.origin, "initialize": true, "profile": {}}
+		for field in ["position", "scale", "_x_scale", "_keepout", "_portal_cut", "_hangar_footprints", "_track_pts", "_track_dirs", "_decks", "_deck_cells", "_road_level_cells", "_track_nat", "lite"]:
+			_lod_job.profile[field] = get(field)
+	else: _lod_job = {"key": k, "initialize": false}
+	_lod_job.builder = _lod_builder
+	_lod_task = WorkerThreadPool.add_task(_build_lod_tile.bind(_lod_job), false, "city_detail_lod")
+
+static func _build_lod_tile(job: Dictionary) -> void:
+	# Static callable owns the independent builder, never the disappearing scene node.
+	var builder: CityScene = job.builder
+	if job.initialize:
+		builder.open(job.city, job.origin)
+		for field in job.profile: builder.set(field, job.profile[field])
+	job.node = builder._build_tile(job.key)
+
+func _poll_lod_tile() -> void:
+	if _lod_task < 0 or not WorkerThreadPool.is_task_completed(_lod_task): return
+	WorkerThreadPool.wait_for_task_completion(_lod_task); _lod_task = -1
+	var node: Node3D = _lod_job.node
+	var k: Vector2i = _lod_job.key
+	if built.has(k): node.free()
+	else:
+		built[k] = node; add_child(node)
+		if _lod_builder._water_tiles.has(k): _water_tiles[k] = _lod_builder._water_tiles[k]
+	_lod_job = {}
+
+func _exit_tree() -> void:
+	if _lod_task >= 0:
+		# Tree removal holds Godot's tree lock. Joining here can deadlock an off-tree
+		# builder doing add_child(). Reap on later frames, after that lock is released.
+		retired_lod_jobs += 1
+		get_tree().process_frame.connect(_reap_lod_task.bind(_lod_task, _lod_job), CONNECT_ONE_SHOT)
+		_lod_task = -1; _lod_builder = null; _lod_job = {}
+	elif is_instance_valid(_lod_builder): _lod_builder.free()
+
+static func _reap_lod_task(task: int, job: Dictionary) -> void:
+	if not WorkerThreadPool.is_task_completed(task):
+		(Engine.get_main_loop() as SceneTree).process_frame.connect(_reap_lod_task.bind(task, job), CONNECT_ONE_SHOT)
+		return
+	WorkerThreadPool.wait_for_task_completion(task)
+	if job.has("node"): job.node.free()
+	job.builder.free()
+	retired_lod_jobs -= 1
+
 ## Construit toutes les tuiles proches d'un coup (chargement initial).
 func warm(center_net: Vector3, cancellation = null) -> bool:
 	if cancellation != null and cancellation.cancelled(): return false
+	if _lod_task >= 0:
+		WorkerThreadPool.wait_for_task_completion(_lod_task); _poll_lod_tile()
+	var was_async := async_lod
+	async_lod = false
 	_horizon_deferred = true
 	update(center_net, 0)
 	while not queue.is_empty():
 		if cancellation != null and cancellation.cancelled():
 			_horizon_deferred = false
+			async_lod = was_async
 			return false
 		update(center_net, 4)
 	_horizon_deferred = false
 	update(center_net, 0)
+	async_lod = was_async
 	return true
 
 func _build_tile(k: Vector2i) -> Node3D:

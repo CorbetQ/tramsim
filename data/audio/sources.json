@@ -244,6 +244,18 @@
    "description": "Modèle mécanique à bruit coloré dominant, composantes périodiques amorties ; aucune captation constructeur.",
    "lufs": -20.0,
    "duree_s": 8.0
+  },
+  "free_sfx/garden_day.ogg": {
+   "origine": "Joseph Sardin, Réveil des oiseaux, CC0",
+   "licence": "CC0-1.0",
+   "lufs": -20.21,
+   "provenance": "free_sfx/SOURCES.json"
+  },
+  "free_sfx/air_movement.ogg": {
+   "origine": "Synthèse locale déterministe de bruit brun",
+   "licence": "création du projet (même licence que le code)",
+   "lufs": -20.06,
+   "provenance": "free_sfx/SOURCES.json"
   }
  },
  "references": [

@@ -34,16 +34,26 @@ var _captions: PackedStringArray
 var _done := false
 var _skip_requested := false
 var _clouds: ShaderMaterial
+var _cloud_rect: ColorRect
+var _render_scale0 := 1.0
+var _msaa0 := Viewport.MSAA_DISABLED
+var _render_restored := false
 var _pan_duration := 0.0
 var _start_pose: Transform3D
 var _top_size := 1800.0
 var _aerial: CityScene
 var _arrival_hour := 12.0
 var _departure_hour := 12.0
+var _hidden_detail: Array[Node3D] = []
+var _showing_aerial := false
 
 ## `focus` : point de départ de la rame (repère LineView) ; `captions` : un texte par palier.
 func start(v: LineView, focus: Vector3, captions: PackedStringArray = PackedStringArray(), departure: Dictionary = {}) -> void:
 	view = v; _captions = captions
+	_render_scale0 = get_viewport().scaling_3d_scale
+	_msaa0 = get_viewport().msaa_3d
+	get_viewport().msaa_3d = Viewport.MSAA_DISABLED
+	get_viewport().scaling_3d_scale = minf(_render_scale0, 0.65)
 	if v.day_night and v.day_night.env:
 		_fog0 = v.day_night.env.fog_density
 		_fog_enabled = v.day_night.env.fog_enabled
@@ -77,6 +87,8 @@ func start(v: LineView, focus: Vector3, captions: PackedStringArray = PackedStri
 	var clouds := ColorRect.new(); clouds.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	clouds.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_clouds = ShaderMaterial.new(); _clouds.shader = load("res://src/rendering/shaders/transition_clouds.gdshader")
+	_clouds.set_shader_parameter("cloud_noise", load("res://src/rendering/transition_noise.tres"))
+	_cloud_rect = clouds
 	clouds.material = _clouds; _layer.add_child(clouds)
 	_caption = Label.new(); _caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_caption.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM); _caption.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -127,18 +139,19 @@ func _xf(p: Vector3, look: Vector3) -> Transform3D:
 func _process(dt: float) -> void:
 	if _done: return
 	if _skip_requested:
-		if view.city and not view.city.queue.is_empty():
+		if view.city and view.city.lod_pending():
 			view.city.update(view.cam.global_position, 2); return
 		finish(); return
+	# Start detail streaming immediately while only the cheap aerial proxy is visible.
+	if view.city: view.city.update(view.cam.global_position, 1)
 	var next := t + minf(dt, 0.5)
 	# Hold the aerial move while the next visible LOD tiles are prepared, never reveal empty squares.
 	if is_instance_valid(_aerial) and next < HOLD + _pan_duration + STAGES[0][3]:
-		_aerial.update(pose_at(next).origin, 2)
-		if not _aerial.queue.is_empty(): next = t
-	var detail_switch := HOLD + _pan_duration + STAGES[0][3]
-	if next >= detail_switch and view.city and not view.city.queue.is_empty():
+		_aerial.update(pose_at(next).origin, 0)
+	var detail_switch := HOLD + _pan_duration + STAGES[0][3] + STAGES[1][3] + 0.18
+	if next >= detail_switch and view.city and view.city.lod_pending():
 		view.city.update(view.cam.global_position, 2)
-		if not view.city.queue.is_empty(): next = minf(next, detail_switch - 0.001)
+		if view.city.lod_pending(): next = minf(next, detail_switch - 0.001)
 	t = next
 	_apply(t)
 	if t >= duration: finish()
@@ -162,6 +175,7 @@ func _apply(time: float) -> void:
 	for i in 2:
 		elapsed += STAGES[i][3]
 		cloud_strength = maxf(cloud_strength, 0.9 * (1.0 - smoothstep(0.0, 0.45, absf(time - elapsed))))
+	_cloud_rect.visible = cloud_strength > 0.005
 	_clouds.set_shader_parameter("strength", cloud_strength)
 	_clouds.set_shader_parameter("travel", time)
 	stage = mini(stage, STAGES.size() - 1)
@@ -181,12 +195,19 @@ func _apply(time: float) -> void:
 			cam.size = exp(lerpf(log(sizes[i]), log(sizes[i + 1]), q)); break
 		local -= d
 	if is_instance_valid(_aerial):
-		_aerial.visible = time < zoom_start + STAGES[0][3]
+		_aerial.visible = time < last_zoom + 0.18
+		if _aerial.visible != _showing_aerial:
+			_showing_aerial = _aerial.visible
+			if _showing_aerial:
+				for child in view.get_children():
+					if child is Node3D and child != self and child != view.cam and child != view.city and not child is Light3D and child.visible:
+						_hidden_detail.append(child); child.visible = false
+			else: _restore_detail()
 		if view.city: view.city.visible = not _aerial.visible
 		if view.day_night:
-			view.day_night.sun.shadow_enabled = _shadow0 and not _aerial.visible
-			if view.day_night.edges: view.day_night.edges.visible = _edges0 and not _aerial.visible
-		if _aerial.visible: _aerial.update(cam.global_position, 2)
+			view.day_night.sun.shadow_enabled = false
+			if view.day_night.edges: view.day_night.edges.visible = false
+
 	if view.day_night: view.day_night.set_hour(lerpf(_departure_hour, _arrival_hour, smoothstep(zoom_start, duration, time)))
 	cam.fov = lerpf(55.0, _final_fov, u)
 	# brume allégée en altitude (DayNight la recalcule à chaque image avant ce nœud)
@@ -197,10 +218,27 @@ func _apply(time: float) -> void:
 		env.fog_height_density = _fog_height * (1.0 - high)
 		env.fog_density *= 1.0 - high
 
+func _restore_render_settings() -> void:
+	if _render_restored: return
+	_render_restored = true
+	get_viewport().scaling_3d_scale = _render_scale0
+	get_viewport().msaa_3d = _msaa0
+
+func _exit_tree() -> void:
+	_restore_render_settings()
+	_restore_detail()
+
+func _restore_detail() -> void:
+	for node in _hidden_detail:
+		if is_instance_valid(node): node.visible = true
+	_hidden_detail.clear()
+
 ## Fin (ou passage) : la caméra de jeu reprend la main, à la même pose.
 func finish() -> void:
 	if _done: return
 	_done = true
+	_restore_render_settings()
+	_restore_detail()
 	if is_instance_valid(view):
 		if view.city: view.city.visible = true
 		if view.day_night:
@@ -216,7 +254,7 @@ func finish() -> void:
 	queue_free()
 
 func skip() -> void:
-	if view.city and not view.city.queue.is_empty():
+	if view.city and view.city.lod_pending():
 		_skip_requested = true
 		if _caption: _caption.text = "Arrivée en station…"
 		return

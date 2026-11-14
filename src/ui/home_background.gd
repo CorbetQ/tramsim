@@ -114,7 +114,7 @@ static func _load(job: Dictionary) -> void:
 	job.center = Vector3(center.x, 0.0, center.y)
 	if CityScene.available(src):
 		var meta = CityDataStore.document("res://data/scenes/%s.json" % src)
-		var cs := CityScene.new()
+		var cs := AerialCityLOD.new()
 		if meta is Dictionary and cs.open(src, origin):
 			cs.radius = job.radius * job.dist
 			cs.lite = true
