@@ -122,7 +122,7 @@ func _bell_sound() -> AudioStreamWAV:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST and is_node_ready():
 		_quit_safely(); return
-	if what == NOTIFICATION_WM_GO_BACK_REQUEST and session == null and menu_page == "home" and settings_layer == null and is_node_ready() and get_tree().get_nodes_in_group("touch_choice_modal").is_empty():
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST and session == null and not is_instance_valid(explore) and menu_page == "home" and settings_layer == null and is_node_ready() and get_tree().get_nodes_in_group("touch_choice_modal").is_empty():
 		_quit_safely(); return
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST and is_instance_valid(explore):
 		explore.leave(); return
