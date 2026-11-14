@@ -140,6 +140,7 @@ func build_platform(pf: Dictionary) -> bool:
 			_fence(details, a + Vector3(0, .02, 0), b + Vector3(0, .02, 0), Color("#535d5b"))
 		if view.city: view.city.add_keepout(poly[i], poly[j], .6)
 	_mesh(owner, g, _paving, 340.0); _mesh(owner, details, _metal)
+	view._platform_people(pf, owner, false)
 	stats.platforms += 1
 	return true
 
@@ -217,6 +218,7 @@ func _canopy(owner: Node3D, profile: Dictionary, model: Dictionary) -> void:
 			g.box_basis(_v(c - n * .04 + t * L * -.21, y + .47) + Vector3(n.x, 0, n.y) * (i * .09), Vector3(.075, .065, 2.0), basis, Color("#90755b"))
 		for side in [-.95, .95]: g.box_basis(_v(c + t * (L * -.21 + side), y + .25), Vector3(.30, .48, .06), basis, dark)
 		_sign(owner, str(profile.name), _v(c - n * W * .47, y + 2.25), t, .38, minf(L - .4, 5.8))
+		g.box_basis(_v(c, y + roof_h - .19), Vector3(.055, .035, L * .72), basis, Color(.90, .83, .67, .1))
 		# Irigo's six coloured strokes at the canopy fascia.
 		for j in 6:
 			var palette := ["#c83b57", "#db7736", "#dfc63f", "#79a34c", "#35a19e", "#6463a3"]
@@ -256,7 +258,7 @@ func _info(owner: Node3D, profile: Dictionary, p: Vector2, tangent: Vector2, y: 
 	var led := p + tangent * 2.4
 	_pole(g, _v(led, y), 3.1, .06, Color("#45504e"))
 	g.box_basis(_v(led, y + 2.85), Vector3(.24, .52, 1.0), basis, Color("#293331"))
-	for i in 2: g.box_basis(_v(led + n * .13, y + 2.94 - i * .17), Vector3(.018, .035, .65), basis, Color("#cc8a41"))
+	for i in 2: g.box_basis(_v(led + n * .13, y + 2.94 - i * .17), Vector3(.018, .035, .65), basis, Color(.80, .54, .25, .1))
 	_mesh(owner, g, _metal, 180.0)
 
 func _surface(owner: Node3D, model: Dictionary) -> void:
@@ -339,6 +341,7 @@ func _landmark(owner: Node3D, model: Dictionary) -> void:
 	if view.city: view.city.replace_hangar(poly)
 	var f := _frame(poly); var c: Vector2 = f.c
 	var base := view.ground_at(_v(c, 0)); var h := float(model.height_m)
+	if view.city: view.city.add_building_obstacle(poly, base, h + (3.0 if str(model.kind) in ["townhouse", "church", "theatre"] else .4))
 	var kind := str(model.kind); var wall := Color(model.wall); var roof := Color(model.roof)
 	var g := _solid(owner, poly, base, h, wall, roof)
 	var detail := LineView._Geo.new(); var glass_color := Color("#344b52")

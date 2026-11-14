@@ -27,6 +27,13 @@ func _run() -> void:
 	check(finite and vertices > 10000, "géométrie finie, non vide (%d sommets)" % vertices)
 	check(ground_faces_up, "triangulation des sols orientée vers le ciel, sans dallage noir")
 	check(culled, "tous les détails ont une distance de visibilité")
+	check(not identity.find_children("*", "MultiMeshInstance3D", true, false).is_empty(), "voyageurs en attente conservés dans les quais personnalisés")
+	var obstacle: Array = view.city._authored_camera_blocks[0]
+	var middle := Vector2.ZERO
+	for p in obstacle[0]: middle += p
+	middle /= obstacle[0].size()
+	var target := Vector3(middle.x, (float(obstacle[1]) + float(obstacle[2])) * .5, middle.y)
+	check(view.city.camera_clear(target - Vector3(200, 0, 0), target) < 1.0, "les bâtiments personnalisés restent des obstacles pour la caméra")
 	var profile: Dictionary = identity.by_name[StationIdentityView.key("Les Gares")]
 	var max_error := 0.0
 	for platform in identity._platforms[profile.id]:

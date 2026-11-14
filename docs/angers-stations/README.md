@@ -28,6 +28,8 @@ Les implantations cartographiques sont documentées ; les moulures, mosaïques, 
 - Sols piétons tracés individuellement et découpés contre les bâtiments, les chaussées et les voies. Triangulation contrainte pour ne pas créer de trous dans les surfaces concaves ni refermer la cour du dépôt.
 - Verrières des Gares posées sur l’altimétrie des quais du pont, indépendamment du terrain SNCF inférieur.
 - Revêtement minéral des voies de service à l’intérieur du périmètre du dépôt ; les parcours, aiguillages et contraintes de conduite restent issus du réseau physique.
+- Conservation des voyageurs en attente, de l’éclairage du mobilier et des obstacles de caméra des bâtiments remplacés.
+- Calcul de visibilité des tuiles depuis leur emprise, pour éviter un décor vide à faible rayon de LOD.
 - Détails de façade limités à 190 m, volumes et toitures caractéristiques gardés plus loin ; culling indépendant du mobilier et matériaux partagés. Les données sont préchargées dès le choix de la ville.
 
 ## Reproduire

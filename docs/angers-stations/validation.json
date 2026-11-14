@@ -1,0 +1,32 @@
+{
+  "engine": "Godot 4.6.3",
+  "source_checks": {
+    "suite": "test_station_models.py",
+    "tests": 6,
+    "success": true
+  },
+  "integration_checks": [
+    {
+      "suite": "test-identities",
+      "passed": 16,
+      "success": true
+    },
+    {
+      "suite": "test-preload",
+      "passed": 9,
+      "success": true
+    },
+    {
+      "suite": "test-platform-stops",
+      "passed": 35,
+      "success": true
+    },
+    {
+      "suite": "test-power-routing",
+      "passed": 19,
+      "success": true
+    }
+  ],
+  "captures": "43 north-up before, 43 north-up after, 8 oblique; 1280x960; same before/after camera poses",
+  "limitations": "No physical Android performance measurement was available in this environment."
+}
