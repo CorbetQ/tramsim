@@ -1,0 +1,82 @@
+[
+	{
+		"camera_size": 145.0,
+		"center": [
+			-3695.22705078125,
+			6.43954992294312,
+			-3783.63500976562
+		],
+		"file": "07-belle-beille-campus.png",
+		"name": "Belle-Beille Campus"
+	},
+	{
+		"camera_size": 320.0,
+		"center": [
+			349.766998291016,
+			-15.8188467025757,
+			-3946.53588867188
+		],
+		"file": "08-berges-de-maine.png",
+		"name": "Berges de Maine"
+	},
+	{
+		"camera_size": 190.0,
+		"center": [
+			595.528930664062,
+			-8.00432300567627,
+			-3370.98999023438
+		],
+		"file": "13-centre-de-congres.png",
+		"name": "Centre de Congrès"
+	},
+	{
+		"camera_size": 220.0,
+		"center": [
+			324.047729492188,
+			8.26630687713623,
+			-2785.10327148438
+		],
+		"file": "20-foch-maison-bleue.png",
+		"name": "Foch-Maison Bleue"
+	},
+	{
+		"camera_size": 190.0,
+		"center": [
+			-103.40348815918,
+			7.47856712341309,
+			-2287.06030273438
+		],
+		"file": "29-les-gares.png",
+		"name": "Les Gares"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			179.959671020508,
+			0.118097610771656,
+			-3033.40185546875
+		],
+		"file": "35-ralliement.png",
+		"name": "Ralliement"
+	},
+	{
+		"camera_size": 175.0,
+		"center": [
+			-2631.5625,
+			10.8290615081787,
+			-6925.78564453125
+		],
+		"file": "37-st-gilles.png",
+		"name": "St-Gilles"
+	},
+	{
+		"camera_size": 460.0,
+		"center": [
+			-1107.0341796875,
+			13.1203918457031,
+			-5687.16552734375
+		],
+		"file": "43-depot-raymond-perron.png",
+		"name": "Dépôt Raymond-Perron"
+	}
+]
