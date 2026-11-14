@@ -10,6 +10,7 @@ def main():
  lookup={s['name']:s for s in models['stations']};lookup['Dépôt Raymond-Perron']=models['depot'];cards=[]
  def encode(path):
   target=path.with_suffix('.webp')
+  if target.exists() and target.stat().st_mtime>=path.stat().st_mtime:return str(target.relative_to(out))
   Image.open(path).convert('RGB').save(target,'WEBP',quality=92,method=5)
   return str(target.relative_to(out))
  for directory in ['after','before','oblique']:

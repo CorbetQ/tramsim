@@ -67,6 +67,7 @@ var _authored_camera_blocks: Array = []
 var _camera_boxes: Array = []    # obstacles caméra de la tuile : [0, emprise, y0, y1, Rect2] ou [1, centre, rayon, demi-hauteur]
 var _portal_cut := TrackView.KeepOut.new()
 var _hangar_footprints: Array[PackedVector2Array] = []
+var _ornament_footprints: Array[PackedVector2Array] = []
 const K_CHURCH := 1
 const K_CATHEDRAL := 2
 const K_CASTLE := 3
@@ -423,7 +424,7 @@ func _start_lod_tile(k: Vector2i) -> void:
 		# Metadata/files already cached at city selection; worker has its own mutable caches.
 		var meta: Dictionary = CityDataStore.document("res://data/scenes/%s.json" % city)
 		_lod_job = {"key": k, "city": city, "origin": meta.origin, "initialize": true, "profile": {}}
-		for field in ["position", "scale", "_x_scale", "_keepout", "_portal_cut", "_hangar_footprints", "_track_pts", "_track_dirs", "_decks", "_deck_cells", "_road_level_cells", "_track_nat", "lite"]:
+		for field in ["position", "scale", "_x_scale", "_keepout", "_portal_cut", "_hangar_footprints", "_ornament_footprints", "_track_pts", "_track_dirs", "_decks", "_deck_cells", "_road_level_cells", "_track_nat", "lite"]:
 			_lod_job.profile[field] = get(field)
 	else: _lod_job = {"key": k, "initialize": false}
 	_lod_job.builder = _lod_builder
@@ -724,6 +725,10 @@ func _build_tile(k: Vector2i) -> Node3D:
 	_crossroads(seed)
 	# éléments ponctuels (clochers isolés, tours, cheminées)
 	for p in points:
+		var ornament_replaced := false
+		for footprint in _ornament_footprints:
+			if Geometry2D.is_point_in_polygon(_tile_origin + p[2], footprint): ornament_replaced = true; break
+		if ornament_replaced: continue
 		if p[0] == 1 and p.size() > 3: continue  # clocher déjà rattaché à une église
 		if _keepout != null and _keepout.blocked(_tile_origin + p[2], 3.0): continue
 		var q0 := S.count()
@@ -838,10 +843,11 @@ func _ground_material(k: Vector2i, veg: Image, ground: Color) -> ShaderMaterial:
 	return tm
 
 ## Le hangar détaillé remplace son extrusion de décor, afin de garder ses entrées ouvertes.
-func replace_hangar(footprint_net: PackedVector2Array) -> void:
+func replace_hangar(footprint_net: PackedVector2Array, remove_inferred_ornaments := false) -> void:
 	var polygon := PackedVector2Array()
 	for p in footprint_net: polygon.append(Vector2((p.x - position.x) / _x_scale, p.y - position.z))
 	_hangar_footprints.append(polygon)
+	if remove_inferred_ornaments: _ornament_footprints.append(polygon)
 
 ## Detailed station landmarks retain camera occlusion when their generic extrusion is removed.
 ## Depot halls are deliberately not registered as closed prisms: their rail portals remain open.

@@ -25,8 +25,24 @@
       "suite": "test-power-routing",
       "passed": 19,
       "success": true
+    },
+    {
+      "suite": "test-lod-shutdown",
+      "passed": 4,
+      "success": true
+    },
+    {
+      "suite": "test-cinematic",
+      "passed": 7,
+      "success": true
     }
   ],
   "captures": "43 north-up before, 43 north-up after, 8 oblique; 1280x960; same before/after camera poses",
-  "limitations": "No physical Android performance measurement was available in this environment."
+  "limitations": "No physical Android performance measurement was available in this environment.",
+  "cinematic_software_gpu": {
+    "duration_s": 13.7,
+    "frames": 45,
+    "median_frame_ms": 214.91,
+    "renderer": "Mesa llvmpipe; software rendering; not an Android device benchmark"
+  }
 }

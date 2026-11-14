@@ -338,10 +338,11 @@ func _landmark(owner: Node3D, model: Dictionary) -> void:
 	var poly := PackedVector2Array()
 	for ll in model.footprint: poly.append(_point(ll))
 	if poly.size() < 3: return
-	if view.city: view.city.replace_hangar(poly)
+	if view.city: view.city.replace_hangar(poly, str(model.kind) == "church")
 	var f := _frame(poly); var c: Vector2 = f.c
 	var base := view.ground_at(_v(c, 0)); var h := float(model.height_m)
-	if view.city: view.city.add_building_obstacle(poly, base, h + (3.0 if str(model.kind) in ["townhouse", "church", "theatre"] else .4))
+	var roof_rise := float({"church": 10.5, "townhouse": 2.6, "theatre": 3.2, "iceparc": 2.4, "congress": 2.4}.get(str(model.kind), .4))
+	if view.city: view.city.add_building_obstacle(poly, base, h + roof_rise)
 	var kind := str(model.kind); var wall := Color(model.wall); var roof := Color(model.roof)
 	var g := _solid(owner, poly, base, h, wall, roof)
 	var detail := LineView._Geo.new(); var glass_color := Color("#344b52")

@@ -40,7 +40,7 @@ func _run() -> void:
 			point.z = -deg_to_rad(float(s.lat) - float(net.meta.origin[0])) * CityScene.R
 		point.y = view.ground_at(point)
 		cam.size = float(s.get("span", 145.0))
-		cam.position = point + (Vector3(95.0, 125.0, 95.0) if OS.get_environment("STATION_OBLIQUE") == "1" else Vector3(0, 250.0, 0))
+		cam.position = point + (Vector3(65.0, 95.0, 65.0) if OS.get_environment("STATION_OBLIQUE") == "1" else Vector3(0, 250.0, 0))
 		cam.look_at(point, Vector3.UP if OS.get_environment("STATION_OBLIQUE") == "1" else Vector3.FORWARD)
 		view.view_distance = 550.0 if s.has("net_position") else 260.0
 		view.update_sectors(point)
