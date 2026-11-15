@@ -1,0 +1,45 @@
+name: P0 Save compatibility
+on:
+  pull_request:
+    paths:
+      - 'src/catalogue/save*.gd'
+      - 'src/ui/main.gd'
+      - 'tests/test_save*.gd'
+      - 'tests/fixtures/saves/**'
+      - '.github/workflows/p0-save.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  save:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Godot 4.6.3
+        shell: python
+        run: |
+          import os, platform, urllib.request, zipfile
+          from pathlib import Path
+          suffix = 'win64.exe' if platform.system() == 'Windows' else 'linux.x86_64'
+          name = 'Godot_v4.6.3-stable_' + suffix
+          target = Path('.cache/godot'); target.mkdir(parents=True)
+          urllib.request.urlretrieve('https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/' + name + '.zip', target/'godot.zip')
+          with zipfile.ZipFile(target/'godot.zip') as archive: archive.extractall(target)
+          exe = (target/name).resolve(); exe.chmod(0o755)
+          with open(os.environ['GITHUB_ENV'], 'a') as env: env.write('GODOT=' + str(exe) + '\n')
+      - name: Import and real save/recovery fixtures
+        shell: python
+        run: |
+          import os, subprocess
+          command = [os.environ['GODOT'], '--headless', '--path', '.']
+          subprocess.run(command + ['--import'], check=True, timeout=180)
+          for script in ['test_save', 'test_save_migrations', 'test_power_routing']:
+              subprocess.run(command + ['-s', 'tests/' + script + '.gd'], check=True, timeout=180)
