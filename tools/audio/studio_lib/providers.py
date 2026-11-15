@@ -8,6 +8,8 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from email.utils import parsedate_to_datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from .core import safe_path, sha256, write_json, permitted, license_id, utc, register
 
@@ -54,7 +56,18 @@ class Client:
                 if ex.code not in (429, 500, 502, 503, 504) or attempt == 2:
                     raise
                 wait = ex.headers.get('Retry-After', '')
-                self.sleep(min(float(wait) if wait.isdigit() else 2 ** (attempt + 1), 30))
+                if wait.isdigit():
+                    seconds = float(wait)
+                elif wait:
+                    try:
+                        seconds = max(0, (parsedate_to_datetime(wait) - datetime.now(timezone.utc)).total_seconds())
+                    except (TypeError, ValueError):
+                        seconds = 2 ** (attempt + 1)
+                else:
+                    seconds = 2 ** (attempt + 1)
+                if seconds > 30:
+                    raise ValueError('Provider rate limit: Retry-After exceeds 30 seconds; retry the command later') from ex
+                self.sleep(seconds)
 
     def json(self, url, headers=None, refresh=False):
         # Credentials never persisted, and distinct tokens never share a cached response.
@@ -73,23 +86,23 @@ class Client:
         return result
 
 
-def commons_api(client, **params):
-    return client.json('https://commons.wikimedia.org/w/api.php?' + urllib.parse.urlencode(dict(action='query', format='json', **params)))
+def commons_api(client, refresh=False, **params):
+    return client.json('https://commons.wikimedia.org/w/api.php?' + urllib.parse.urlencode(dict(action='query', format='json', **params)), refresh=refresh)
 
 
 def clean(meta, key):
     return html.unescape(re.sub('<[^>]+>', '', meta.get(key, {}).get('value', ''))).strip()
 
 
-def commons_inspect(client, title):
+def commons_inspect(client, title, refresh=False):
     if not title.startswith('File:') or '|' in title:
         raise ValueError('Expected a single Commons File: title')
     params = dict(prop='videoinfo', titles=title, viprop='url|size|extmetadata|mediatype')
-    result = commons_api(client, **params)
+    result = commons_api(client, refresh=refresh, **params)
     page = next(iter(result.get('query', {}).get('pages', {}).values()), {})
     infos = page.get('videoinfo', [])
     if not infos:
-        result = commons_api(client, prop='imageinfo', titles=title, iiprop='url|size|extmetadata|mediatype')
+        result = commons_api(client, refresh=refresh, prop='imageinfo', titles=title, iiprop='url|size|extmetadata|mediatype')
         page = next(iter(result.get('query', {}).get('pages', {}).values()), {})
         infos = page.get('imageinfo', [])
     if not infos:
@@ -147,7 +160,7 @@ def refresh_source(root, candidate):
     """Do not trust editable candidate JSON as proof of licence or download rights."""
     client = Client(root)
     if candidate.get('provider') == 'commons':
-        return commons_inspect(client, candidate['name'])
+        return commons_inspect(client, candidate['name'], refresh=True)
     if candidate.get('provider') == 'freesound':
         ident = str(candidate['id']).removeprefix('freesound-')
         if not ident.isdigit():

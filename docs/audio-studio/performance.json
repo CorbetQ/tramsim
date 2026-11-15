@@ -1,5 +1,5 @@
 {
-  "limitations": "One run on a shared 2-core CPU. Controller timing with Dummy mixer, not a mobile CPU/GPU/mixer benchmark. Equal command-draining yields in both runs.",
+  "limitations": "One run on a shared 2-core CPU. Controller timing with Dummy mixer, not a mobile CPU/GPU/mixer benchmark. Equal command-draining yields in both runs. Both controller revisions use the same current bank assets; this isolates controller changes, not historical 192 kHz mixer cost.",
   "before": {
     "results": [
       {
@@ -27,21 +27,21 @@
     "results": [
       {
         "family": "citadis_302",
-        "load_us": 9295,
+        "load_us": 11591,
         "max_active_reader_voices": 21,
-        "static_memory_delta_bytes": 2982292,
-        "update_max_us": 7643,
-        "update_p50_us": 54,
-        "update_p95_us": 145
+        "static_memory_delta_bytes": 2946696,
+        "update_max_us": 5925,
+        "update_p50_us": 57,
+        "update_p95_us": 123
       },
       {
         "family": "citadis_x05",
-        "load_us": 7035,
+        "load_us": 3097,
         "max_active_reader_voices": 23,
-        "static_memory_delta_bytes": 340522,
-        "update_max_us": 7452,
-        "update_p50_us": 46,
-        "update_p95_us": 138
+        "static_memory_delta_bytes": 422370,
+        "update_max_us": 7809,
+        "update_p50_us": 49,
+        "update_p95_us": 110
       }
     ],
     "scope": "headless controller CPU; Dummy mixer; no physical-device audio latency measurement"

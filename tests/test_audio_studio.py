@@ -174,6 +174,12 @@ class StudioTests(unittest.TestCase):
         self.assertTrue(client.json(url)['query']['ok'])
         self.assertTrue(client.json(url)['query']['ok']); self.assertEqual(opener.count, 2)
         self.assertIn(2, delays)
+        class LongBackoff:
+            def open(self, request, timeout):
+                raise urllib.error.HTTPError(request.full_url, 429, 'Rate limited', {'Retry-After': '120'}, None)
+        client = providers.Client(self.root, opener=LongBackoff(), sleeper=delays.append)
+        with self.assertRaisesRegex(ValueError, 'retry the command later'):
+            client.open(url)
 
     def test_commons_search_uses_separate_media_queries(self):
         calls = []

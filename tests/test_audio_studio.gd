@@ -17,6 +17,8 @@ func _run() -> void:
 	for i in 120: ta.update_state(drive(), 1.0 / 60.0)
 	check(ta.players.motor.p3.playing, "traction external starts")
 	var count := ta.players.size()
+	ta.set_external(false); ta.set_external(true); ta.update_state(drive(), .016)
+	check(not ta.players.motor.p2.playing, "same-frame view reversal leaves no inactive voice")
 	ta.update_state(drive({"external": false}), 1.0 / 60.0)
 	check(ta.players.motor.p2.playing and ta.players.motor.p3.playing, "view crossfade overlaps readers")
 	for i in 15: ta.update_state(drive({"external": false}), 1.0 / 60.0)
@@ -25,7 +27,7 @@ func _run() -> void:
 	for i in 10:
 		ta.update_state(drive({"external": true}), .01)
 		ta.update_state(drive({"external": false}), .01)
-	check(ta.active_voice_count() <= 31, "rapid reversals respect fixed loop/shot voice envelope")
+	check(ta.active_voice_count() <= TramAudio.LOOPS.size() * 2 - TramAudio.TWO_D_ONLY.size() + TramAudio.MAX_SHOT_VOICES * 2 + 1, "rapid reversals respect fixed loop/shot voice envelope")
 	await process_frame
 	ta.gong(); ta.update_state(drive({"paused": true}), .016)
 	check(bell.stream_paused, "gong pauses")
@@ -50,6 +52,8 @@ func _run() -> void:
 	check("motor" in ta.fallback_layers and ta.streams.motor != null, "missing bank layer falls back")
 	ta.update_state(drive({"finished": true}), .016)
 	check(ta.active_voice_count() == 0 and not bell.playing, "finished session stops every voice")
+	var finished_gongs: int = int(ta.shots.get("gong", 0)); ta.gong()
+	check(int(ta.shots.get("gong", 0)) == finished_gongs, "finished session rejects new gong")
 	var anchor := ta.anchor
 	ta.queue_free(); await process_frame; await process_frame
 	check(not is_instance_valid(anchor), "view-owned 3D anchor freed with audio")

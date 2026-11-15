@@ -89,10 +89,10 @@ Les niveaux ne sont pas normalisés pour donner artificiellement une impression 
 | Capture | LUFS intégré aperçu OGG | Crête estimée 4× | Samples écrêtés |
 |---|---:|---:|---:|
 | 302 avant | −30,93 | −15,56 dBFS | 0 |
-| 302 après, banque conservée | −30,86 | −15,59 dBFS | 0 |
-| 302 candidat Moscou | −31,13 | −14,85 dBFS | 0 |
+| 302 après, banque conservée | −30,94 | −15,79 dBFS | 0 |
+| 302 candidat Moscou | −31,10 | −15,16 dBFS | 0 |
 | 305 avant, modélisé | −30,68 | −16,26 dBFS | 0 |
-| 305 après, même modèle | −30,72 | −15,85 dBFS | 0 |
+| 305 après, même modèle | −30,70 | −14,96 dBFS | 0 |
 
 Ces chiffres ne prouvent ni le réalisme ni une préférence d'écoute. **Aucune audition
 humaine n'est revendiquée.** Comparer les changements de vue à 23 et 33 s ; la faible
@@ -103,9 +103,11 @@ Les comparaisons spectrales sont livrées avec les démos, sans score d'authenti
 
 [Mesures avant/après](performance.json), même scénario, deux familles, même rendement
 de commandes au thread audio, un seul passage sur CPU partagé à quota deux cœurs.
-Le p95 du **contrôleur** est passé de 205 à 145 µs (302), de 191 à 138 µs (305).
+Le p95 du **contrôleur** est passé de 205 à 123 µs (302), de 191 à 110 µs (305).
 Ce n'est pas une preuve de gain stable sur appareil : le benchmark utilise Dummy,
 mesure le thread de contrôle, pas le coût de mixage réel, la latence DAC ou le GPU.
+Les deux versions du contrôleur utilisent les mêmes assets courants pour cette mesure ;
+le coût historique du mixage à 192 kHz n’est pas comparé par ce benchmark.
 Le nombre de lecteurs alloués reste fixe. Jusqu'à 21/23 voix actives observées pendant
 les chevauchements de vue, contre 15 avant ; le budget des ponctuels borne leur coût.
 Aucune inférence ni analyse spectrale n'a lieu pendant une conduite.

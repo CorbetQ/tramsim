@@ -32,6 +32,7 @@
   "applied_gain_db": -2.66,
   "toolchain": {
     "ffmpeg": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers",
-    "numpy": "2.3.5"
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
   }
 }

@@ -56,5 +56,6 @@ jobs:
           name: audio-studio-report
           path: |
             .cache/audio-studio/*report.json
+            docs/audio-studio/
             samples/demos/ci_*.wav
             samples/demos/ci_*.json

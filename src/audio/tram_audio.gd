@@ -37,6 +37,7 @@ const VIEW_FADE_SECONDS := 0.15
 const MAX_SHOT_VOICES := 4
 const SHOT_PRIORITY := {"emergency": 100, "door_chime": 90, "door_close": 70, "door_open": 70, "brake_mech": 50, "brake_release": 40, "joint": 10}
 var _view_mix := 1.0
+var _view_dirty := false
 var _metrics_timer := 0.0
 var _last_voice_count := 0
 var in_tunnel := false
@@ -194,6 +195,7 @@ func _inactive(n: String) -> Node:
 func set_external(on: bool) -> void:
 	if on == external: return
 	external = on
+	_view_dirty = true
 	_route()
 	for n in players:
 		var old: Node = _inactive(n)
@@ -206,10 +208,11 @@ func set_external(on: bool) -> void:
 			cur.stream_paused = is_paused
 
 func _apply_view_mix(dt: float) -> void:
-	if _view_mix == (1.0 if external else 0.0): return
+	if not _view_dirty and _view_mix == (1.0 if external else 0.0): return
 	_view_mix = move_toward(_view_mix, 1.0 if external else 0.0, maxf(dt, 0.0) / VIEW_FADE_SECONDS)
 	# Correlated readers contain the same PCM. Complementary amplitudes avoid a +3 dB bump.
 	var ext_weight := smoothstep(0.0, 1.0, _view_mix)
+	_view_dirty = false
 	for n in players:
 		var e: Dictionary = players[n]
 		if e.p3 == null: continue
@@ -309,6 +312,7 @@ func _curvature() -> float:
 func update_state(st: Dictionary, dt: float) -> void:
 	state = st.duplicate()
 	if bool(st.get("finished", false)):
+		is_paused = true
 		stop_all(); return
 	state.audio_family = audio_family
 	state.audio_quality = sound_profile.get("quality", "synthetic")
@@ -390,6 +394,9 @@ func update_state(st: Dictionary, dt: float) -> void:
 		var p: Node = _active(n)
 		var g := float(gain[n])
 		var db := float(players[n].db) + linear_to_db(maxf(g, 0.0001)) + (float(CAB_DB.get(n, 0.0)) if not external else 0.0)
+		if players[n].p3 != null and (_view_dirty or _view_mix != (1.0 if external else 0.0)):
+			var weight := smoothstep(0.0, 1.0, _view_mix)
+			db += linear_to_db(maxf(weight if external else 1.0 - weight, 0.0001))
 		p.volume_db = db
 		if g > 0.002 and not p.playing: p.play()
 		elif g <= 0.002 and p.playing: p.stop()

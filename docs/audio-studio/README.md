@@ -33,13 +33,13 @@ python tools/audio/studio.py fetch .cache/audio-studio/moscow.json --family cita
 ```
 
 `inspect` affiche auteur, licence, URL légale et métadonnées officielles. `fetch`
-revérifie via le fournisseur (métadonnées API mises en cache), refuse une licence
+revérifie via le fournisseur (nouvelle vérification des métadonnées avant téléchargement), refuse une licence
 inconnue, NC, ND ou nouvelle BY-SA et télécharge **l'original**, sans substituer une
 version réduite. Budget par téléchargement : 128 Mio. Le contenu est sondé avant
 publication atomique ; cache adressé par SHA-256, `.part` effacé après interruption,
 redémarrage complet plutôt qu'une reprise Range non vérifiable. Le cache existant
 est rehaché avant réutilisation. User-Agent descriptif, temporisation, retries
-bornés et Retry-After. Le verrou du Studio sérialise les commandes du même checkout.
+bornés et Retry-After (attente longue : arrêt explicite, sans réessayer trop tôt). Le verrou du Studio sérialise les commandes du même checkout.
 
 Les résultats de recherche ne certifient pas le modèle : Commons peut renvoyer une
 rame différente ou une vidéo sans intérêt sonore. La validation humaine des

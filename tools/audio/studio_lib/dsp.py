@@ -4,6 +4,7 @@ import math
 import subprocess
 from pathlib import Path
 import numpy as np
+import scipy
 from scipy import signal
 from .core import sha256, write_json
 
@@ -167,7 +168,7 @@ def process(source, output, recipe):
         output.unlink()
         raise ValueError('Encoded output exceeds safety ceiling')
     result.update(source_sha256=sha256(source), recipe=recipe, applied_gain_db=gain_db,
-                  toolchain={'ffmpeg': run(['ffmpeg', '-version']).stdout.decode().splitlines()[0], 'numpy': np.__version__})
+                  toolchain={'ffmpeg': run(['ffmpeg', '-version']).stdout.decode().splitlines()[0], 'numpy': np.__version__, 'scipy': scipy.__version__})
     write_json(str(output) + '.recipe.json', result)
     return result
 
