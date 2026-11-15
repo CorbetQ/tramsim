@@ -6,6 +6,10 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
+      audio_studio_release:
+        description: Publier les binaires Audio Studio déjà compilés et validés par la CI audio
+        type: boolean
+        default: false
       rolling_stock_preview:
         description: Construire et déposer uniquement l’aperçu des rames dans sa release en brouillon
         type: boolean
@@ -24,7 +28,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && inputs.rolling_stock_preview
     uses: ./.github/workflows/stock-preview.yml
   build:
-    if: github.event_name != 'workflow_dispatch' || !inputs.rolling_stock_preview
+    if: github.event_name != 'workflow_dispatch' || (!inputs.rolling_stock_preview && !inputs.audio_studio_release)
     runs-on: ubuntu-latest
     env:
       GODOT_VERSION: 4.6.3
@@ -128,3 +132,68 @@ jobs:
             build/TramSimFrance-arm64.msi
             build/TramSimFrance-windows-x64.zip
             build/TramSimFrance-windows-arm64.zip
+
+  audio_studio_release:
+    if: github.event_name == 'workflow_dispatch' && inputs.audio_studio_release
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      AUDIO_SOURCE_SHA: 3500c295d356c3cc1e057829715f114b0a0864b0
+    steps:
+      - name: Vérifier la provenance et les résultats audio/compilation
+        run: |
+          for run_id in 43660157830 43660157834; do
+            actual=$(gh api "repos/$GH_REPO/actions/runs/$run_id" --jq '.head_sha + " " + .conclusion')
+            test "$actual" = "$AUDIO_SOURCE_SHA success"
+          done
+      - uses: actions/checkout@v4
+        with:
+          ref: 3500c295d356c3cc1e057829715f114b0a0864b0
+      - name: APK compilé
+        uses: actions/download-artifact@v4
+        with:
+          name: TramSimFrance-Android
+          path: build/android
+          run-id: 43660157830
+          github-token: ${{ github.token }}
+      - name: EXE compilé et données Windows
+        uses: actions/download-artifact@v4
+        with:
+          name: TramSimFrance-Windows
+          path: build/windows-x64
+          run-id: 43660157830
+          github-token: ${{ github.token }}
+      - name: Préparer et vérifier les archives publiables
+        run: |
+          test -s build/android/TramSimFrance.apk
+          test -s build/windows-x64/TramSimFrance.exe
+          mkdir -p build/release
+          cp build/android/TramSimFrance.apk build/release/TramSimFrance-AudioStudio.apk
+          (cd build/windows-x64 && zip -q -r ../release/TramSimFrance-AudioStudio-windows-x64.zip .)
+          zip -q -r build/release/TramSim-Audio-Studio-demos.zip docs/audio-studio -x '*.import'
+          unzip -tq build/release/TramSimFrance-AudioStudio-windows-x64.zip
+          unzip -tq build/release/TramSim-Audio-Studio-demos.zip
+          unzip -tq build/release/TramSimFrance-AudioStudio.apk
+          (cd build/release && sha256sum *.apk *.zip > SHA256SUMS.txt)
+      - name: Publier la préversion Audio Studio
+        run: |
+          cat > build/release-notes.md <<'NOTES'
+          ## TramSim Audio Studio — préversion de test
+
+          - **Android** : `TramSimFrance-AudioStudio.apk`.
+          - **Windows x64** : extraire `TramSimFrance-AudioStudio-windows-x64.zip`, puis lancer `TramSimFrance.exe`. Conserver tous les fichiers extraits avec l'EXE.
+          - **Écoute A/B** : extraire `TramSim-Audio-Studio-demos.zip`, puis ouvrir `docs/audio-studio/demos/index.html`. Cinq véritables captures Godot, attributions et rapport inclus.
+          - `SHA256SUMS.txt` contient les empreintes des fichiers téléchargés.
+
+          Binaires issus du commit `3500c295d356c3cc1e057829715f114b0a0864b0`, compilés par le run 43660157830. CI audio réussie : run 43660157834 (26 tests Python et suites Godot, dont les 76 variantes). Aucun nouveau téléchargement de modèle ni traitement IA pendant le jeu.
+
+          **Limites de cette préversion** : la suite globale du run 43660157836 a échoué, notamment sur un contrôle géographique d'Angers et des tests cherchant le binaire Godot dans le PATH. Les contrôles audio autonomes et la compilation ont réussi ; cette publication ne prétend pas que toute la CI est verte. Le 305 reste modélisé, le candidat 302 de Moscou n'est pas activé par défaut et aucune audition humaine n'est revendiquée. Les nouvelles signatures ne remplacent pas automatiquement les banques approuvées.
+
+          Application de développement non signée par un certificat de distribution. Aucune fusion automatique : PR #12 toujours ouverte. Sources, licences, provenance et limites détaillées dans `docs/audio-studio/REPORT.md` et `CREDITS.md`.
+          NOTES
+          gh release create v0.13.1-audio-studio.1 build/release/*             --target "$AUDIO_SOURCE_SHA" --prerelease             --title 'Tram Sim France 0.13.1 — Audio Studio (préversion)'             --notes-file build/release-notes.md
