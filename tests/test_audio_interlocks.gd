@@ -28,5 +28,6 @@ func _run() -> void:
 		if ta.state.traction_load != 0.0 or ta.state.regen_load != 0.0: failures += 1; printerr("ECHEC urgence prioritaire sur cran positif : ",entry.id)
 		if ta.shots.get("emergency",0) != 1: failures += 1; printerr("ECHEC événement urgence : ",entry.id)
 		ta.queue_free(); view.queue_free(); await process_frame
+	await create_timer(0.1).timeout
 	print("VARIANTES|",catalog.entries.size(),"|TOTAL_ECHECS|",failures)
 	quit(1 if failures else 0)

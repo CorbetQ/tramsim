@@ -128,3 +128,22 @@ LG, « Streetcar04.wav », https://freesound.org/people/LG/sounds/14279/ , Creat
 - Souffle d'air : synthèse originale locale de bruit brun filtré. Aucune captation constructeur, voix ni musique.
 
 Provenance, empreintes des originaux et traitements : `data/audio/free_sfx/SOURCES.json`. Reproduction : `tools/audio/build_free_sfx.py`. Aucun service de génération payant utilisé pour ces effets.
+
+## Audio Studio
+
+Le catalogue normalisé dans `data/audio/sources.json` conserve les licences,
+provenances, classifications et empreintes des fichiers actuels. Les anciennes
+attributions ci-dessus restent valables. Voir
+[attributions générées](docs/audio-studio/ATTRIBUTIONS.md) et
+[rapport Audio Studio](docs/audio-studio/REPORT.md).
+
+Le candidat `studio_citadis302_reference_v1` utilise l'original Commons
+« Alstom Citadis 302 in Moscow », trolleway, CC BY 3.0 :
+https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm .
+Modifications : extraits 37,066–41,366 s et 101,932–106,232 s, mono 32 kHz,
+filtrage 65–12 000 Hz, recouvrement 180 ms, gain constant vers -20 LUFS,
+mesure après encodage. Captation extérieure de famille exacte, pas une motrice
+isolée ni une captation d'Angers. Candidat non activé dans les profils de jeu.
+Les démos reprennent aussi les sources du moteur actuel (notamment LG/Rotterdam,
+CC BY 4.0, Joseph Sardin/CC0 et les synthèses du projet), sans supprimer leurs droits.
+Aucun son IA ni poids de modèle ajouté.

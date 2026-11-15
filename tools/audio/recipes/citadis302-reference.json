@@ -1,0 +1,10 @@
+{
+  "id": "studio_citadis302_reference_v1",
+  "label": "Citadis 302 Moscou — candidat Studio, captation extérieure, pas motrice isolée",
+  "compatible_families": ["citadis_302"],
+  "mix": {"motor": -10, "motor_hum": -11, "carrier": -90, "rolling": -23, "real_rail": -90, "regen": -28, "hvac": -32, "ambience": -31},
+  "layers": {
+    "motor": {"source_id": "commons-47577164", "recipe": {"start": 37.066, "duration": 4.3, "rate": 32000, "channels": 1, "highpass": 65, "lowpass": 12000, "target_lufs": -20, "max_gain_db": 8, "ceiling_db": -2, "loop_overlap": 0.18}},
+    "motor_hum": {"source_id": "commons-47577164", "recipe": {"start": 101.932, "duration": 4.3, "rate": 32000, "channels": 1, "highpass": 65, "lowpass": 12000, "target_lufs": -20, "max_gain_db": 8, "ceiling_db": -2, "loop_overlap": 0.18}}
+  }
+}

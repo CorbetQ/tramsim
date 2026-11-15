@@ -1,0 +1,1360 @@
+{
+  "provider": "Commons official API",
+  "started_at": "2026-11-15T00:27:10.793781+00:00",
+  "families": {
+    "avanto": {
+      "query": "Avanto tram",
+      "candidates": [
+        {
+          "id": "commons-3639231",
+          "name": "File:T4 Marchepied Avanto.ogv",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:T4_Marchepied_Avanto.ogv",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/T4_Marchepied_Avanto.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Clicsouris",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "bytes": 302283,
+          "duration_s": 3.28,
+          "media_type": "VIDEO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:12.182611+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2008-03-01 12:30:01",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "T4 Marchepied Avanto",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "SNCF Class U 25500 of Transilien|Self-published work|Videos of 2008|Trams of Paris Tramway Line 4|Video display resolution 320 x 240|Videos of Paris Tramway ligne 4",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Marchepied rétractable au départ d'rame Avanto (U 25500) de la ligne T4 de Bondy à Aulnay (Seine-Saint-Denis).",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2008-02",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "Self-published work by <a href=\"//commons.wikimedia.org/wiki/User:Clicsouris\" title=\"User:Clicsouris\">Clicsouris</a>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Clicsouris\" title=\"User:Clicsouris\">Clicsouris</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": false
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:12.183303+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "breda_vlc": {
+      "query": "tram Lille",
+      "candidates": [],
+      "status": "no_results",
+      "checked_at": "2026-11-15T00:27:13.086422+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_302": {
+      "query": "Citadis 302",
+      "candidates": [
+        {
+          "id": "commons-47577164",
+          "name": "File:Alstom Citadis 302 in Moscow.webm",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_302_in_Moscow.webm",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Alstom_Citadis_302_in_Moscow.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "trolleway",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "bytes": 41930379,
+          "duration_s": 185.322,
+          "media_type": "VIDEO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:13.935929+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2016-03-17 06:18:34",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Alstom Citadis 302 in Moscow",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "WebM videos|Files from external sources with reviewed licenses|Videos from YouTube|Media of the day|February 2012 in Moscow|Uploaded with video2commons|Videos of 2012 from Moscow|Video display resolution 1280 x 720|Citadis 302 in Moscow|Videos by Artem Svetlov|Videos of Moscow trams",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Demonstration of a tram Alstom Citadis 302 in Moscow. Tram rides on a circle track around the Bauman tram depot.",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2012-02-27",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<bdi lang=\"en\" dir=\"ltr\"><a href=\"//commons.wikimedia.org/wiki/Commons:YouTube_files\" title=\"Commons:YouTube files\">YouTube</a>: <a rel=\"nofollow\" class=\"external text\" href=\"https://www.youtube.com/watch?v=eOOfDYHyHN4\"><bdi lang=\"\">Alstom Citadis 302 show in Moscow</bdi></a> – View/save archived versions on <a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/*/https://www.youtube.com/watch?v=eOOfDYHyHN4\">archive.org</a></bdi>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "trolleway",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": true
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:13.936024+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_402": {
+      "query": "Citadis 402",
+      "candidates": [
+        {
+          "id": "commons-47678059",
+          "name": "File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Litlok",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "bytes": 439108,
+          "duration_s": 24,
+          "media_type": "AUDIO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:15.338109+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2016-03-22 08:31:04",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Départ d'une rame Citadis 402 de la station Porte d'Ivry",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Supported by Wikimedia France|Self-published work|Media supported by Wikimedia France|Citadis 402 trams in Paris|Audio files supported by Wikimedia France - Zoom H4n|Sounds of Paris Tramway Line 3a|Files with coordinates missing SDC location of creation (48° N, 2° E)",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "GPSLatitude": {
+                "value": "48.825579",
+                "source": "commons-desc-page"
+              },
+              "GPSLongitude": {
+                "value": "2.380940",
+                "source": "commons-desc-page"
+              },
+              "GPSMapDatum": {
+                "value": "WGS-84",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Départ d'une rame Citadis 402 de la station Porte d'Ivry",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2016-03-17",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Litlok\" title=\"User:Litlok\">Litlok</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 4.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 4.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/4.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-4.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": false
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:15.338209+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_403_strasbourg": {
+      "query": "Citadis 403 Strasbourg",
+      "candidates": [
+        {
+          "id": "commons-11347388",
+          "name": "File:Tramway Strasbourg Gare Centrale.ogv",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Tramway_Strasbourg_Gare_Centrale.ogv",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/6/64/Tramway_Strasbourg_Gare_Centrale.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Tael",
+          "license": "Public domain",
+          "license_url": "",
+          "bytes": 683868,
+          "duration_s": 19.2,
+          "media_type": "VIDEO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:16.715169+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2010-08-31 15:05:38",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Tramway Strasbourg Gare Centrale",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Self-published work|PD-self|Videos of rail transport in France|Video display resolution 320 x 240|Gare Centrale (Strasbourg tramway) - underground section|Files with coordinates missing SDC location of creation (48° N, 7° E)|Videos of Citadis|Alstom Citadis 403 (First generation)",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "GPSLatitude": {
+                "value": "48.584756",
+                "source": "commons-desc-page"
+              },
+              "GPSLongitude": {
+                "value": "7.735211",
+                "source": "commons-desc-page"
+              },
+              "GPSMapDatum": {
+                "value": "WGS-84",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "A tramway in Strasbourg (Alsace, France)",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2010-08-31",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Tael\" class=\"mw-redirect\" title=\"User:Tael\">Tael</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "Public domain",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Public domain",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "false",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Copyrighted": {
+                "value": "False",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "pd",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": false
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:16.715240+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_compact": {
+      "query": "Citadis Compact",
+      "candidates": [],
+      "status": "no_results",
+      "checked_at": "2026-11-15T00:27:17.629230+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_dualis": {
+      "query": "Citadis Dualis",
+      "candidates": [
+        {
+          "id": "commons-47678059",
+          "name": "File:Départ d'une rame Citadis 402 de la station Porte d'Ivry.ogg",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/D%C3%A9part_d%27une_rame_Citadis_402_de_la_station_Porte_d%27Ivry.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Litlok",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "bytes": 439108,
+          "duration_s": 24,
+          "media_type": "AUDIO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:18.555028+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2016-03-22 08:31:04",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Départ d'une rame Citadis 402 de la station Porte d'Ivry",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Supported by Wikimedia France|Self-published work|Media supported by Wikimedia France|Citadis 402 trams in Paris|Audio files supported by Wikimedia France - Zoom H4n|Sounds of Paris Tramway Line 3a|Files with coordinates missing SDC location of creation (48° N, 2° E)",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "GPSLatitude": {
+                "value": "48.825579",
+                "source": "commons-desc-page"
+              },
+              "GPSLongitude": {
+                "value": "2.380940",
+                "source": "commons-desc-page"
+              },
+              "GPSMapDatum": {
+                "value": "WGS-84",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Départ d'une rame Citadis 402 de la station Porte d'Ivry",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2016-03-17",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Litlok\" title=\"User:Litlok\">Litlok</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 4.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 4.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/4.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-4.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": false
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:18.555100+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_reims": {
+      "query": "tram Reims",
+      "candidates": [],
+      "status": "no_results",
+      "checked_at": "2026-11-15T00:27:19.400535+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_tours": {
+      "query": "tram Tours",
+      "candidates": [
+        {
+          "id": "commons-79365349",
+          "name": "File:LL-Q150 (fra)-Exilexi-Suzanne Valadon.wav",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:LL-Q150_(fra)-Exilexi-Suzanne_Valadon.wav",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/3/3d/LL-Q150_%28fra%29-Exilexi-Suzanne_Valadon.wav?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Speaker: Exilexi\nRecorder: Exilexi",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "bytes": 133932,
+          "duration_s": 1.3946666666666667,
+          "media_type": "AUDIO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:20.834608+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2019-05-31 12:07:15",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "LL-Q150 (fra)-Exilexi-Suzanne Valadon",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Lingua Libre pronunciation-fra|Lingua Libre pronunciation by Exilexi",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "<span class=\"plainlinks\">Audio pronunciation file from the <b><a rel=\"nofollow\" class=\"external text\" href=\"https://lingualibre.org\">Lingua Libre</a></b> <span typeof=\"mw:File\"><a href=\"https://lingualibre.org\" rel=\"nofollow\"><img alt=\"Lingua Libre\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/Lingualibre-logo-no-text.svg/40px-Lingualibre-logo-no-text.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"22\" height=\"22\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/Lingualibre-logo-no-text.svg/60px-Lingualibre-logo-no-text.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"185\" data-file-height=\"185\"></a></span> project. </span>",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2019-05-31",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span> (<a href=\"//lingualibre.org/wiki/Q148219\" class=\"extiw\" title=\"lingualibre:Q148219\">Lingua Libre</a>)",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<ul><li>Speaker: <a href=\"//lingualibre.org/wiki/Q43803\" class=\"extiw\" title=\"lingualibre:Q43803\">Exilexi</a></li>\n<li>Recorder: <a href=\"//commons.wikimedia.org/wiki/User:Exilexi\" title=\"User:Exilexi\">Exilexi</a></li></ul>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 4.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 4.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/4.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-4.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": false
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:20.836036+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_x01": {
+      "query": "Citadis 301",
+      "candidates": [],
+      "status": "no_results",
+      "checked_at": "2026-11-15T00:27:24.059712+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_x05": {
+      "query": "Citadis 305",
+      "candidates": [],
+      "status": "no_results",
+      "checked_at": "2026-11-15T00:27:25.463456+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "citadis_x05_nantes": {
+      "query": "Citadis Nantes",
+      "candidates": [],
+      "status": "no_results",
+      "checked_at": "2026-11-15T00:27:27.432515+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "eurotram": {
+      "query": "Eurotram",
+      "candidates": [
+        {
+          "id": "commons-148088741",
+          "name": "File:Porto, with a view on the Dom Luís I Bridge.webm",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Porto,_with_a_view_on_the_Dom_Lu%C3%ADs_I_Bridge.webm",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/6/67/Porto%2C_with_a_view_on_the_Dom_Lu%C3%ADs_I_Bridge.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Mophidox",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "bytes": 49187954,
+          "duration_s": 10.28,
+          "media_type": "VIDEO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:33.504077+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2024-05-05 23:15:52",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Porto, with a view on the Dom Luís I Bridge",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Self-published work|April 2024 in Porto|Videos from Porto|Porto Metro rolling stock in 2024|Videos of bridges|Luiz I bridge|Luiz I bridge from Jardim do Morro|Eurotram on Luiz I bridge|Luiz I bridge in 2024|1 bridge in Porto",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Porto, with a view on the Dom Luís I Bridge",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2024-04-17",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Mophidox&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Mophidox (page does not exist)\">Mophidox</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY 4.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution 4.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by/4.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-4.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": true
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:33.504262+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "flexity_marseille": {
+      "query": "tram Marseille",
+      "candidates": [
+        {
+          "id": "commons-5711254",
+          "name": "File:Tramway de Marseille - Ligne 2 - Boulevard Philippon.ogv",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Tramway_de_Marseille_-_Ligne_2_-_Boulevard_Philippon.ogv?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Clicsouris",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "bytes": 1347445,
+          "duration_s": 12.024,
+          "media_type": "VIDEO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:38.157048+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2009-01-14 04:40:46",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Tramway de Marseille - Ligne 2 - Boulevard Philippon",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Self-published work|Videos of trams|Videos of 2008|Videos of rail transport in France|Video display resolution 320 x 240|Bombardier Flexity Outlook Cityrunner (Marseille)",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Une rame Citadis du tramway de Marseille, France. Ligne 2, boulevard Philippon.",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2008-11",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "Vidéo personnelle (own work)",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"https://fr.wikipedia.org/wiki/Utilisateur:Clicsouris\" class=\"extiw\" title=\"fr:Utilisateur:Clicsouris\">Clicsouris</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": false
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:38.157272+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "incentro": {
+      "query": "Incentro",
+      "candidates": [],
+      "status": "no_results",
+      "checked_at": "2026-11-15T00:27:39.867545+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "tango_rhonexpress": {
+      "query": "Stadler Tango Rhonexpress",
+      "candidates": [],
+      "status": "no_results",
+      "checked_at": "2026-11-15T00:27:41.066391+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "tfs": {
+      "query": "tram Nantes",
+      "candidates": [
+        {
+          "id": "commons-96587493",
+          "name": "File:On a la solution a Nantes version Drone.webm",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:On_a_la_solution_a_Nantes_version_Drone.webm",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/c/cf/On_a_la_solution_a_Nantes_version_Drone.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Damien-VICART",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "bytes": 139943976,
+          "duration_s": 57.76,
+          "media_type": "VIDEO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:42.807484+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2020-11-22 21:57:18",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "On a la solution a Nantes version Drone",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Allée du Port-Maillard (Nantes)|2020 in Nantes|Uploaded with video2commons|Files by User:Pyb|Videos from Vimeo|License reviewed by YouTubeReviewBot|Drone videos from France|Trams of Nantes Tramway Line 1|Views of Nantes|Damien Vicart|Exterior views of château des ducs de Bretagne (Nantes)|Videos from Nantes",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "On a la solution a Nantes version Drone.",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2020-06-26",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/Category:Vimeo\" title=\"Category:Vimeo\">Vimeo</a>: <a rel=\"nofollow\" class=\"external text\" data-mw-original-href=\"//vimeo.com/432763353\" href=\"https://vimeo.com/432763353\">On a la solution a Nantes version Drone</a> (<a rel=\"nofollow\" class=\"external text\" href=\"//web.archive.org/web/*/https://vimeo.com/432763353\"><span style=\"color:#9602fc\">view archived source</span></a>)",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://vimeo.com/damienvicart\">Damien-VICART</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY 3.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution 3.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Attribution": {
+                "value": "Damien-VICART",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by/3.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-3.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": true
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:42.807700+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "translohr": {
+      "query": "Translohr",
+      "candidates": [
+        {
+          "id": "commons-155210701",
+          "name": "File:Entre Colombier et Mabilais dans une rame Cityval.ogg",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Entre_Colombier_et_Mabilais_dans_une_rame_Cityval.ogg",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Entre_Colombier_et_Mabilais_dans_une_rame_Cityval.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Philt3r",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "bytes": 3185862,
+          "duration_s": 91.456,
+          "media_type": "AUDIO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:44.168454+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2024-11-15 17:41:08",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Entre Colombier et Mabilais dans une rame Cityval",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Self-published work|Sounds of rail transport in France|Files with coordinates missing SDC location of creation|CityVal of Rennes|Rennes Metro Line B",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "GPSLatitude": {
+                "value": "48.105920",
+                "source": "commons-desc-page"
+              },
+              "GPSLongitude": {
+                "value": "-1.682071",
+                "source": "commons-desc-page"
+              },
+              "GPSMapDatum": {
+                "value": "WGS-84",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Trajet sur la ligne b du métro à Rennes en direction de Gaîté entre les stations Colombier et Mabilais à bord d'une rame Cityval.",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2024-11-15",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Philt3r&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Philt3r (page does not exist)\">Philt3r</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY 4.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution 4.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by/4.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-4.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": true
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:44.168710+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "urbos": {
+      "query": "Urbos tram",
+      "candidates": [
+        {
+          "id": "commons-88462476",
+          "name": "File:Creaky West Midlands Metro tram - 2020-03-05 - Andy Mabbett.ogg",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Creaky_West_Midlands_Metro_tram_-_2020-03-05_-_Andy_Mabbett.ogg",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Creaky_West_Midlands_Metro_tram_-_2020-03-05_-_Andy_Mabbett.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Andy Mabbett",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "bytes": 567565,
+          "duration_s": 42.68835416666667,
+          "media_type": "AUDIO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:45.514587+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2020-03-22 19:54:09",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Creaky West Midlands Metro tram - 2020-03-05 - Andy Mabbett",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Taken with Medion Life E5020 MD 99616|2020-03-05|Self-published work|Audio files by Andy Mabbett|Audio files of 2020|Urbos 3 trams in the West Midlands (county)|March 2020 in Birmingham",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Somewhat alarming creaking noises made by the articulated joint of an unidentified Midland Metro Urbos 3 tram tram set. Also includes warning beeps before the doors close, and automated announcements. Recorded inside the vehicle as it departs from Bull Street and travels towards St. Chads.",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2020-03-05",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<bdi><a href=\"https://en.wikipedia.org/wiki/en:Andy_Mabbett\" class=\"extiw\" title=\"w:en:Andy Mabbett\"><span title=\"freelance consultant in digital and open content matters, Wikipedian, author, Fellow of the Royal Society of Arts\">Andy Mabbett</span></a></bdi>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 4.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 4.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/4.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-4.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": false
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:45.514640+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    },
+    "vevey_saint_etienne": {
+      "query": "tram Saint Etienne",
+      "candidates": [
+        {
+          "id": "commons-121393644",
+          "name": "File:Retrait d'une ancienne canalisation sur le chantier de tram.webm",
+          "provider": "commons",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Retrait_d%27une_ancienne_canalisation_sur_le_chantier_de_tram.webm",
+          "download_url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Retrait_d%27une_ancienne_canalisation_sur_le_chantier_de_tram.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+          "author": "Touam (Hervé Agnoux)",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "bytes": 588533239,
+          "duration_s": 171.848,
+          "media_type": "VIDEO",
+          "evidence": {
+            "api": "Commons videoinfo/imageinfo",
+            "retrieved_at": "2026-11-15T00:27:46.903217+00:00",
+            "metadata": {
+              "DateTime": {
+                "value": "2022-08-04 08:54:49",
+                "source": "mediawiki-metadata",
+                "hidden": ""
+              },
+              "ObjectName": {
+                "value": "Retrait d'une ancienne canalisation sur le chantier de tram",
+                "source": "mediawiki-metadata"
+              },
+              "CommonsMetadataExtension": {
+                "value": 1.2,
+                "source": "extension",
+                "hidden": ""
+              },
+              "Categories": {
+                "value": "Self-published work|Rail track construction and maintenance in France|Files with coordinates missing SDC location of creation|La Terrasse, Bergson, Bel Air, Momey, Le Golf|Tram transport in Saint-Étienne|2022 heat events in France",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "Assessments": {
+                "value": "",
+                "source": "commons-categories",
+                "hidden": ""
+              },
+              "GPSLatitude": {
+                "value": "45.453820",
+                "source": "commons-desc-page"
+              },
+              "GPSLongitude": {
+                "value": "4.383100",
+                "source": "commons-desc-page"
+              },
+              "GPSMapDatum": {
+                "value": "WGS-84",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "ImageDescription": {
+                "value": "Removal of an old pipe on a maintenance site of the <a href=\"https://en.wikipedia.org/wiki/Saint-%C3%89tienne_tramway\" class=\"extiw\" title=\"en:Saint-Étienne tramway\">en:Saint-Étienne tramway</a>, at Chaléassière station. The work is done during the <a href=\"https://en.wikipedia.org/wiki/2022_European_heat_waves\" class=\"extiw\" title=\"en:2022 European heat waves\">en:2022 European heat waves</a>.",
+                "source": "commons-desc-page"
+              },
+              "DateTimeOriginal": {
+                "value": "2022-08-03",
+                "source": "commons-desc-page"
+              },
+              "Credit": {
+                "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                "source": "commons-desc-page"
+              },
+              "Artist": {
+                "value": "<a href=\"//commons.wikimedia.org/wiki/User:Touam\" title=\"User:Touam\">Touam (Hervé Agnoux)</a>",
+                "source": "commons-desc-page"
+              },
+              "LicenseShortName": {
+                "value": "CC BY-SA 4.0",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "UsageTerms": {
+                "value": "Creative Commons Attribution-Share Alike 4.0",
+                "source": "commons-desc-page"
+              },
+              "AttributionRequired": {
+                "value": "true",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "LicenseUrl": {
+                "value": "https://creativecommons.org/licenses/by-sa/4.0",
+                "source": "commons-desc-page"
+              },
+              "Copyrighted": {
+                "value": "True",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "Restrictions": {
+                "value": "",
+                "source": "commons-desc-page",
+                "hidden": ""
+              },
+              "License": {
+                "value": "cc-by-sa-4.0",
+                "source": "commons-templates",
+                "hidden": ""
+              }
+            }
+          },
+          "download_permitted": false
+        }
+      ],
+      "status": "metadata_candidates_human_review",
+      "checked_at": "2026-11-15T00:27:46.903272+00:00",
+      "material_identity_verified": false,
+      "note": "Search ranking may return unrelated material; human identification is required before assignment."
+    }
+  }
+}

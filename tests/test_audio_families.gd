@@ -38,4 +38,5 @@ func _run() -> void:
 		check(ta.players.motor.p3.bus==TramAudio.BRIDGE_BUS,family+" : résonance de pont")
 		ta.queue_free(); await process_frame
 	check(counts.exact_family==6 and counts.related_family==4 and counts.synthetic==8 and counts.modeled==2,"20 familles : 6 captées, 4 apparentées, 8 synthétiques, 2 modélisées")
+	await create_timer(0.1).timeout
 	print("TOTAL_ECHECS|",failures); quit(1 if failures else 0)

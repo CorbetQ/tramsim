@@ -14,6 +14,7 @@ var family := "citadis_302"
 var variant := "angers__citadis_302"
 var output_name := ""
 var expected_bank := ""
+var audition_bank := ""
 # Diagnostic audition only. Recorded motor layers can still contain rolling/environment.
 const TRACTION_LAYERS := ["motor", "motor_hum", "carrier", "regen"]
 var capture_mode := "full_mix"
@@ -34,6 +35,7 @@ func _run() -> void:
 	if args.size() > 3: expected_bank = args[3]
 	if args.size() > 4: capture_mode = args[4]
 	if args.size() > 5: filter_mode = args[5]
+	if args.size() > 6: audition_bank = args[6]
 	if capture_mode not in ["full_mix", "traction_solo"]:
 		printerr("CAPTURE_INVALID_MODE|",capture_mode); quit(2); return
 	if filter_mode not in ["production_filters", "bypass_cabin"] or (filter_mode == "bypass_cabin" and capture_mode != "traction_solo"):
@@ -42,6 +44,8 @@ func _run() -> void:
 		output_name = family + "_godot_mix"
 		if capture_mode == "traction_solo": output_name += "_traction_solo"
 		if filter_mode == "bypass_cabin": output_name += "_bypass_cabin"
+	if not output_name.is_valid_filename():
+		printerr("CAPTURE_INVALID_OUTPUT|",output_name); quit(2); return
 	# Refuse silencieux de familles inconnues et variantes incohérentes.
 	if not family in TramModel.plan_ids():
 		printerr("CAPTURE_INVALID_FAMILY|",family); quit(2); return
@@ -54,7 +58,7 @@ func _run() -> void:
 	var view := AudioView.new(); view.family = family; view.livery = {"variant_id":variant}; root.add_child(view)
 	var camera := Camera3D.new(); view.add_child(camera); camera.position = Vector3(3, 2, 7); camera.current = true
 	var bell := AudioStreamPlayer.new(); root.add_child(bell)
-	ta = TramAudio.new(view, bell, family); root.add_child(ta)
+	ta = TramAudio.new(view, bell, family); ta.audition_bank = audition_bank; root.add_child(ta)
 	if not expected_bank.is_empty() and str(ta.sound_profile.get("bank", "")) != expected_bank:
 		printerr("CAPTURE_INVALID_BANK|",ta.sound_profile.get("bank"),"|expected|",expected_bank); quit(2); return
 	for key in ta.streams: stream_paths[key] = ta.streams[key].resource_path
@@ -128,7 +132,7 @@ func _frame() -> void:
 		var recording := recorder.get_recording()
 		var out := "res://samples/demos/" + output_name + ".wav"
 		var err := recording.save_to_wav(out)
-		var report := {"family":family,"resolved_family":TramModel.family_id(family),"resolved_bank":ta.sound_profile.get("bank",""),"stream_paths":stream_paths,"variant":variant,"driver":AudioServer.get_driver_name(),"mix_rate":AudioServer.get_mix_rate(),"recording_rate":recording.mix_rate,"duration":recording.get_length(),"capture_mode":capture_mode,"filter_mode":filter_mode,"muted_layers":muted_layers,"production_reference_db":production_reference_db,"retained_layers":TRACTION_LAYERS if capture_mode == "traction_solo" else [],"audition_disclosure":"Layer solo, not source separation: recorded motor streams may contain rolling and environment. No loudness normalization. bypass_cabin routes retained layers directly to TramFX, bypassing cabin and environment buses." if capture_mode == "traction_solo" else "Production mix, no audition muting or filter bypass.","method":"Godot AudioEffectRecord on Master; MissionSession with prescribed speed; controlled acoustic zones","timeline":log_rows}
+		var report := {"engine_version":Engine.get_version_info().string,"audio_code_sha256":FileAccess.get_sha256("res://src/audio/tram_audio.gd"),"family":family,"resolved_family":TramModel.family_id(family),"resolved_bank":ta.sound_profile.get("bank",""),"stream_paths":stream_paths,"variant":variant,"driver":AudioServer.get_driver_name(),"mix_rate":AudioServer.get_mix_rate(),"recording_rate":recording.mix_rate,"duration":recording.get_length(),"capture_mode":capture_mode,"filter_mode":filter_mode,"muted_layers":muted_layers,"production_reference_db":production_reference_db,"retained_layers":TRACTION_LAYERS if capture_mode == "traction_solo" else [],"audition_disclosure":"Layer solo, not source separation: recorded motor streams may contain rolling and environment. No loudness normalization. bypass_cabin routes retained layers directly to TramFX, bypassing cabin and environment buses." if capture_mode == "traction_solo" else "Production mix, no audition muting or filter bypass.","method":"Godot AudioEffectRecord on Master; MissionSession with prescribed speed; controlled acoustic zones","timeline":log_rows}
 		var f := FileAccess.open("res://samples/demos/" + output_name + ".json",FileAccess.WRITE); f.store_string(JSON.stringify(report,"\t")); f.close()
 		print("CAPTURE_END|",out,"|",err,"|",recording.get_length(),"|",recording.data.size())
 		quit(err)

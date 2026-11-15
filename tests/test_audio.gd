@@ -88,7 +88,9 @@ func _run() -> void:
 	check(TramAudio.LOOPS.squeal <= TramAudio.LOOPS.rolling - 12.0, "crissement discret dans le mixage")
 	# vue cabine : bascule 2D en conservant la lecture
 	ta.update_state(_st(6.0, 0.5, {"external": false}), dt)
-	check(not ta.players.motor.p3.playing and (ta.players.motor.p2 as AudioStreamPlayer).playing, "cabine : lecteurs 2D")
+	check(ta.players.motor.p3.playing and ta.players.motor.p2.playing, "bascule cabine : fondu sur les deux lecteurs")
+	for i in 12: ta.update_state(_st(6.0, 0.5, {"external": false}), dt)
+	check(not ta.players.motor.p3.playing and ta.players.motor.p2.playing, "cabine : lecteur extérieur arrêté après fondu")
 	check((ta.players.rolling.p2 as AudioStreamPlayer).bus == TramAudio.CAB_BUS and (ta.players.hvac.p2 as AudioStreamPlayer).bus == TramAudio.BUS, "cabine : roulement étouffé (TramCabin), climatisation directe")
 	# freinage électrique puis mécanique jusqu'à l'arrêt
 	var ebrake := 0.0
@@ -146,4 +148,5 @@ func _run() -> void:
 	check(s.phys.speed > 1.0 and ta.state.speed == s.phys.speed, "MissionSession : état transmis (%.1f m/s)" % s.phys.speed)
 	ta.queue_free()
 	await process_frame
+	await create_timer(0.1).timeout
 	quit(1 if fails > 0 else 0)

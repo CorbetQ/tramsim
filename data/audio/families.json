@@ -652,6 +652,102 @@
       "braking_provenance": "No real deceleration available: captured traction layers mute on braking/coasting; separate existing regen remains procedural estimate.",
       "speed_policy": "Anchors and regime mapping are design estimates, not measured tram speed or inverter settings.",
       "generator": "tools/audio/build_rotterdam_bank.py"
+    },
+    "studio_citadis302_reference_v1": {
+      "label": "Citadis 302 Moscou — candidat Studio, captation extérieure, pas motrice isolée",
+      "recorded": true,
+      "streams": {
+        "motor": "studio/studio_citadis302_reference_v1_motor.ogg",
+        "motor_hum": "studio/studio_citadis302_reference_v1_motor_hum.ogg"
+      },
+      "segments": {
+        "motor": {
+          "sha256": "cd8464c6b7994c8d7b6c5af8fcdcd97273673e203bd8aca8d9870255768262c9",
+          "duration_s": 4.12,
+          "sample_rate": 32000,
+          "channels": 1,
+          "integrated_lufs": -20.16,
+          "true_peak_dbfs_4x": -7.907720591369349,
+          "seam_to_peak": 0.024484508212773377
+        },
+        "motor_hum": {
+          "sha256": "3b8431577e53a919c58918ae1bc26a69ac81fea80e947d51435ca27e07c7ee77",
+          "duration_s": 4.12,
+          "sample_rate": 32000,
+          "channels": 1,
+          "integrated_lufs": -20.17,
+          "true_peak_dbfs_4x": -6.775183238329352,
+          "seam_to_peak": 0.014197271544387583
+        }
+      },
+      "compatible_families": [
+        "citadis_302"
+      ],
+      "production_status": "candidate_human_audition_required",
+      "mix": {
+        "motor": -10,
+        "motor_hum": -11,
+        "carrier": -90,
+        "rolling": -23,
+        "real_rail": -90,
+        "regen": -28,
+        "hvac": -32,
+        "ambience": -31
+      },
+      "studio_recipe": {
+        "id": "studio_citadis302_reference_v1",
+        "label": "Citadis 302 Moscou — candidat Studio, captation extérieure, pas motrice isolée",
+        "compatible_families": [
+          "citadis_302"
+        ],
+        "mix": {
+          "motor": -10,
+          "motor_hum": -11,
+          "carrier": -90,
+          "rolling": -23,
+          "real_rail": -90,
+          "regen": -28,
+          "hvac": -32,
+          "ambience": -31
+        },
+        "layers": {
+          "motor": {
+            "source_id": "commons-47577164",
+            "recipe": {
+              "start": 37.066,
+              "duration": 4.3,
+              "rate": 32000,
+              "channels": 1,
+              "highpass": 65,
+              "lowpass": 12000,
+              "target_lufs": -20,
+              "max_gain_db": 8,
+              "ceiling_db": -2,
+              "loop_overlap": 0.18
+            }
+          },
+          "motor_hum": {
+            "source_id": "commons-47577164",
+            "recipe": {
+              "start": 101.932,
+              "duration": 4.3,
+              "rate": 32000,
+              "channels": 1,
+              "highpass": 65,
+              "lowpass": 12000,
+              "target_lufs": -20,
+              "max_gain_db": 8,
+              "ceiling_db": -2,
+              "loop_overlap": 0.18
+            }
+          }
+        }
+      },
+      "reference_speed_estimated": true,
+      "recorded_family": "citadis_302",
+      "source_classification": [
+        "recorded_exact"
+      ]
     }
   },
   "unavailable_sources": {},

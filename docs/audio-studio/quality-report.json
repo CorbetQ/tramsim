@@ -1,0 +1,29 @@
+{
+  "created_at": "2026-11-15T00:39:10.192143+00:00",
+  "catalogue": {
+    "ok": true,
+    "entries": 70,
+    "errors": [],
+    "warnings": [
+      "asset:free_sfx/ui_confirm.ogg: limited headroom"
+    ],
+    "duplicates": []
+  },
+  "banks": {
+    "ok": true,
+    "banks": 11,
+    "errors": [],
+    "runtime_bytes": 3453772
+  },
+  "hardware": {
+    "disk_free_bytes": 3560308736,
+    "cpu_host_count": 3,
+    "cpu_quota": "200000 100000",
+    "memory_limit_bytes": "8589934592",
+    "gpu_devices": [],
+    "torch_installed": false,
+    "ffmpeg": "/usr/bin/ffmpeg",
+    "godot": "/usr/local/bin/godot"
+  },
+  "ok": true
+}

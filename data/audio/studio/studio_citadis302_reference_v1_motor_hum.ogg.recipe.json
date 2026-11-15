@@ -1,0 +1,37 @@
+{
+  "path": "data/audio/studio/studio_citadis302_reference_v1_motor_hum.ogg",
+  "sha256": "3b8431577e53a919c58918ae1bc26a69ac81fea80e947d51435ca27e07c7ee77",
+  "bytes": 36286,
+  "duration_s": 4.12,
+  "sample_rate": 32000,
+  "channels": 1,
+  "rms_dbfs": -20.790033403008266,
+  "peak_dbfs": -6.869276689574151,
+  "true_peak_dbfs_4x": -6.775183238329352,
+  "integrated_lufs": -20.17,
+  "clipped_samples": 0,
+  "silent_fraction_20ms": 0.0,
+  "seam_delta": 0.00643785297870636,
+  "seam_to_peak": 0.014197271544387583,
+  "derivative_p95": 0.06266632555052637,
+  "spectral_centroid_hz": 1248.8939030113904,
+  "energy_above_12khz": 9.883755544862887e-06,
+  "source_sha256": "25b04914761b524aa9d3c31814c6f54425cd261cd6bb175905488868625de6f7",
+  "recipe": {
+    "start": 101.932,
+    "duration": 4.3,
+    "rate": 32000,
+    "channels": 1,
+    "highpass": 65,
+    "lowpass": 12000,
+    "target_lufs": -20,
+    "max_gain_db": 8,
+    "ceiling_db": -2,
+    "loop_overlap": 0.18
+  },
+  "applied_gain_db": -2.66,
+  "toolchain": {
+    "ffmpeg": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers",
+    "numpy": "2.3.5"
+  }
+}

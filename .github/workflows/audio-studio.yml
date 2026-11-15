@@ -1,0 +1,60 @@
+name: Audio Studio
+on:
+  pull_request:
+    paths:
+      - 'src/audio/**'
+      - 'data/audio/**'
+      - 'tools/audio/**'
+      - 'tools/import/*audio*'
+      - 'tests/test_audio*'
+      - '.github/workflows/audio-studio.yml'
+  workflow_dispatch:
+    inputs:
+      capture:
+        description: 'Capture real Godot ALSA mixes (optional ~2 minutes)'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: audio-studio-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: tools/audio/requirements.txt
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg libasound2-dev
+          python -m pip install -r tools/audio/requirements.txt
+      - name: Godot 4.6.3
+        run: |
+          curl --fail --location --retry 3 -o /tmp/godot.zip https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          sudo install /tmp/godot/Godot_v4.6.3-stable_linux.x86_64 /usr/local/bin/godot
+          godot --headless --path . --import
+      - name: Syntax, licences, encoded waveform and runtime tests
+        run: |
+          python -m compileall -q tools/audio/studio.py tools/audio/studio_lib
+          python tools/audio/studio.py report --waveforms --output .cache/audio-studio/ci-report.json
+          python tools/audio/studio.py test --godot
+      - name: Optional actual mixer capture
+        if: github.event_name == 'workflow_dispatch' && inputs.capture
+        run: |
+          python tools/audio/studio.py demo --name ci_302
+          python tools/audio/studio.py demo --family citadis_x05 --variant toulouse__citadis_305 --expected-bank citadis305_model --name ci_305
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: audio-studio-report
+          path: |
+            .cache/audio-studio/*report.json
+            samples/demos/ci_*.wav
+            samples/demos/ci_*.json

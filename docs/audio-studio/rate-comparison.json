@@ -1,0 +1,102 @@
+{
+  "32000": {
+    "path": ".cache/audio-studio/rates/32000.ogg",
+    "sha256": "7ce1dcf64209de3f38181ff27970d4ad23aeac7e95917e2c8d1c204394207b5e",
+    "bytes": 42052,
+    "duration_s": 4.3,
+    "sample_rate": 32000,
+    "channels": 1,
+    "rms_dbfs": -15.679661558601099,
+    "peak_dbfs": -2.0875148192791517,
+    "true_peak_dbfs_4x": -1.930602950082004,
+    "integrated_lufs": -14.59,
+    "clipped_samples": 0,
+    "silent_fraction_20ms": 0.0,
+    "seam_delta": 0.006921104621142149,
+    "seam_to_peak": 0.008801387763398791,
+    "derivative_p95": 0.13900330811738965,
+    "spectral_centroid_hz": 1543.1567021159328,
+    "energy_above_12khz": 0.00023954105812772346,
+    "source_sha256": "25b04914761b524aa9d3c31814c6f54425cd261cd6bb175905488868625de6f7",
+    "recipe": {
+      "start": 37.066,
+      "duration": 4.3,
+      "rate": 32000,
+      "channels": 1,
+      "ceiling_db": -2
+    },
+    "applied_gain_db": -2.844577225053028,
+    "toolchain": {
+      "ffmpeg": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers",
+      "numpy": "2.3.5"
+    },
+    "pcm_float_memory_bytes": 550400
+  },
+  "44100": {
+    "path": ".cache/audio-studio/rates/44100.ogg",
+    "sha256": "c199260abd2dc8efd60748b7f6be98e7b5232ef5b55cbe1a221a6650b71daff4",
+    "bytes": 43546,
+    "duration_s": 4.3,
+    "sample_rate": 44100,
+    "channels": 1,
+    "rms_dbfs": -15.683299025936181,
+    "peak_dbfs": -2.0193323822587104,
+    "true_peak_dbfs_4x": -1.9913263346031276,
+    "integrated_lufs": -14.59,
+    "clipped_samples": 0,
+    "silent_fraction_20ms": 0.0,
+    "seam_delta": 0.0060406208503991365,
+    "seam_to_peak": 0.007621635875827669,
+    "derivative_p95": 0.10304206907749178,
+    "spectral_centroid_hz": 1544.34258603746,
+    "energy_above_12khz": 0.0002809116821919969,
+    "source_sha256": "25b04914761b524aa9d3c31814c6f54425cd261cd6bb175905488868625de6f7",
+    "recipe": {
+      "start": 37.066,
+      "duration": 4.3,
+      "rate": 44100,
+      "channels": 1,
+      "ceiling_db": -2
+    },
+    "applied_gain_db": -2.8426529426251457,
+    "toolchain": {
+      "ffmpeg": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers",
+      "numpy": "2.3.5"
+    },
+    "pcm_float_memory_bytes": 758520
+  },
+  "48000": {
+    "path": ".cache/audio-studio/rates/48000.ogg",
+    "sha256": "fffa7e7c965621811e18d6cc250019b63f6fbd2483ace6cf715a68a21ac8e6c3",
+    "bytes": 43780,
+    "duration_s": 4.3,
+    "sample_rate": 48000,
+    "channels": 1,
+    "rms_dbfs": -15.791026213923784,
+    "peak_dbfs": -2.6445972078783826,
+    "true_peak_dbfs_4x": -2.635199573127387,
+    "integrated_lufs": -14.72,
+    "clipped_samples": 0,
+    "silent_fraction_20ms": 0.0,
+    "seam_delta": 0.0007958626374602318,
+    "seam_to_peak": 0.0010791156157372072,
+    "derivative_p95": 0.09347168840467929,
+    "spectral_centroid_hz": 1530.4259382174505,
+    "energy_above_12khz": 0.00027435043987155056,
+    "source_sha256": "25b04914761b524aa9d3c31814c6f54425cd261cd6bb175905488868625de6f7",
+    "recipe": {
+      "start": 37.066,
+      "duration": 4.3,
+      "rate": 48000,
+      "channels": 1,
+      "ceiling_db": -2
+    },
+    "applied_gain_db": -2.8454157652905097,
+    "toolchain": {
+      "ffmpeg": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers",
+      "numpy": "2.3.5"
+    },
+    "pcm_float_memory_bytes": 825600
+  },
+  "note": "Upsampling does not create absent detail. Compare the decoded source bandwidth and human audition before choosing a rate."
+}
