@@ -1,0 +1,2395 @@
+{
+  "schema_version": 1,
+  "kind": "geometry_summary",
+  "revision": "ec1ef1aa8637a0498bbe9649a9bf59ec01ffbc8a",
+  "configuration": {
+    "spacing_m": 2,
+    "horizontal_tolerance_m": 0.05,
+    "vertical_tolerance_m": 0.05,
+    "plan_sha256": null,
+    "verify_osm": true,
+    "route_sha256": null
+  },
+  "summary": {
+    "networks": 148,
+    "findings": 24765,
+    "open_errors": 24765,
+    "documented_exclusions": 0,
+    "regressions": null
+  },
+  "kinds": {
+    "source_endpoint_offset": 12808,
+    "length_mismatch": 11731,
+    "junction_discontinuity": 226
+  },
+  "networks": [
+    {
+      "id": "angers_libre",
+      "findings": 548,
+      "source": {
+        "path": "data/free/angers.json",
+        "sha256": "dec14c15c6e3e063c13280ebac00d2350f055cebc5c9737e2d0feb8bceb23022",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "aubagne_libre",
+      "findings": 103,
+      "source": {
+        "path": "data/free/aubagne.json",
+        "sha256": "96d67b9f4a3f868a09602a8763ae5bda60df6c5cb5ea288624c04c7daefb5f57",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "avignon_libre",
+      "findings": 159,
+      "source": {
+        "path": "data/free/avignon.json",
+        "sha256": "628e676822777cae3f4c898efb501e6fb9e6593c25319e473541d6daf4d16a1b",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "besancon_libre",
+      "findings": 296,
+      "source": {
+        "path": "data/free/besancon.json",
+        "sha256": "34d1d2b60e415113a2c17470e9f7a1623a460821e12414460e62a54370883747",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_libre",
+      "findings": 1290,
+      "source": {
+        "path": "data/free/bordeaux.json",
+        "sha256": "ea3b2e7164ce5424771e8b60e9f00225d2b5a720c2171578c3adaba55393e874",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "brest_libre",
+      "findings": 581,
+      "source": {
+        "path": "data/free/brest.json",
+        "sha256": "7afc0d77c9df91ee0e38da3fec97d51e44d4294593769617a643f1e6f3673054",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "caen_libre",
+      "findings": 332,
+      "source": {
+        "path": "data/free/caen.json",
+        "sha256": "ecacfe559c2ad0a190c6fa17d9d9d82dcd078509add67449ba7d04f5438946db",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "clermont_libre",
+      "findings": 284,
+      "source": {
+        "path": "data/free/clermont.json",
+        "sha256": "706588a8371013dd7b070ae3463e6c00fafb7a3913feefc4fed1cd2fa7df0569",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "dijon_libre",
+      "findings": 182,
+      "source": {
+        "path": "data/free/dijon.json",
+        "sha256": "d4a2e2d3efdb9f58d9a6780e7337956dec1ea90cc6d79ac5ae4d74d16e2e3168",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_libre",
+      "findings": 936,
+      "source": {
+        "path": "data/free/grenoble.json",
+        "sha256": "9ad979df4d0fa49ccfd34aeed244f7b18fa31966bcd51bd60de69f14ae244eac",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_libre",
+      "findings": 3103,
+      "source": {
+        "path": "data/free/idf.json",
+        "sha256": "f0033615b938b4045ccdb6b654a012dbe17d1da6fb01f6208966a4a17893b572",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lehavre_libre",
+      "findings": 127,
+      "source": {
+        "path": "data/free/lehavre.json",
+        "sha256": "6320ce4c1c6a6acad434be5b2899c38a9f2fdce06b4db076e5b37bd614f166e3",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lemans_libre",
+      "findings": 555,
+      "source": {
+        "path": "data/free/lemans.json",
+        "sha256": "5d2b4e26f9571b7aba2f4e05f95522e0f6183404bea31e5749a275860ef6bf6d",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lille_libre",
+      "findings": 513,
+      "source": {
+        "path": "data/free/lille.json",
+        "sha256": "53cc7d552ee0b41646a4e3628976da9d9959763d5cf7194f74158fe4bd11c09f",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lyon_libre",
+      "findings": 2188,
+      "source": {
+        "path": "data/free/lyon.json",
+        "sha256": "1096ae7085a20dc92e4f40d222f69bc7fedd05f14d839e5a9760857d062c7c5a",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "marseille_libre",
+      "findings": 278,
+      "source": {
+        "path": "data/free/marseille.json",
+        "sha256": "ab1154b02c1d521d59ae7776c296d6fcd3a7303db0f4d6672b1e27d356f06482",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_libre",
+      "findings": 1110,
+      "source": {
+        "path": "data/free/montpellier.json",
+        "sha256": "310d0735cc1ea84639d1daf87d927f4aae1992af1e369a7e847085f6ac117672",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "mulhouse_libre",
+      "findings": 238,
+      "source": {
+        "path": "data/free/mulhouse.json",
+        "sha256": "d48cb4605cb792e14db6eb03c7bc28b1648e3bf8f2e7cef129d2d017842e0448",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nantes_libre",
+      "findings": 1816,
+      "source": {
+        "path": "data/free/nantes.json",
+        "sha256": "ad779bbd5ddde4dba8fea31a5b40070d5554e538643d06abae88eb02698d6557",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nice_libre",
+      "findings": 574,
+      "source": {
+        "path": "data/free/nice.json",
+        "sha256": "713d7453d5056c055872911636899acc09082d2a874f5da1ba16fbb484a91385",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "orleans_libre",
+      "findings": 314,
+      "source": {
+        "path": "data/free/orleans.json",
+        "sha256": "007969bdc01c8546264a5130f073b717301182c50b26735db4a8257a2063d585",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "reims_libre",
+      "findings": 319,
+      "source": {
+        "path": "data/free/reims.json",
+        "sha256": "2f4e7cc1a59a5b104774f7c7ceb35a0a1069e108d8aa8723c446c63223ae5d48",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "rouen_libre",
+      "findings": 357,
+      "source": {
+        "path": "data/free/rouen.json",
+        "sha256": "79b2117c468cd99d4c896ff3ba4f088da0b82bcadd3d22abc378f286ae706286",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "saintetienne_libre",
+      "findings": 291,
+      "source": {
+        "path": "data/free/saintetienne.json",
+        "sha256": "5f99a4cb847f195bd2e39ddc0a18750fc511fc25ca716158a53265b26d1e26f5",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "strasbourg_libre",
+      "findings": 2804,
+      "source": {
+        "path": "data/free/strasbourg.json",
+        "sha256": "76f7273cbe7556f323635e88eda150b257f5748764e9f0d537a802066e780550",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "toulouse_libre",
+      "findings": 460,
+      "source": {
+        "path": "data/free/toulouse.json",
+        "sha256": "6e37ca9e0adba3f698b3932628433811f3e7b510b27558080d89667c96a1e844",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "tours_libre",
+      "findings": 446,
+      "source": {
+        "path": "data/free/tours.json",
+        "sha256": "0ad8f401591abfff3db9eb4322477a607a793df827168f5e7a90c1e6a9689d81",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "valenciennes_libre",
+      "findings": 348,
+      "source": {
+        "path": "data/free/valenciennes.json",
+        "sha256": "1a5409f7d7f316b7c018f94540d67280c5961adc6437d515a79bbb6d44144df9",
+        "provenance": "OpenStreetMap (ODbL 1.0), voies physiques et topologie des nœuds OSM ; altitudes interpolées des profils IGN existants et du terrain livré."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": true,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "angers_a",
+      "findings": 43,
+      "source": {
+        "path": "data/networks/angers_a.json",
+        "sha256": "f1c1bfafd3322443b7b0b2cbe5fabf4ca2084ba7f383623b96e968cb41184ad4",
+        "provenance": "GTFS Irigo / Angers Loire Métropole (licence ODbL), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "angers_b",
+      "findings": 34,
+      "source": {
+        "path": "data/networks/angers_b.json",
+        "sha256": "6ae41c763b9c8624c2ab8162da43ec756b9e8ca28d2bc488ead56236163025bb",
+        "provenance": "GTFS Irigo / Angers Loire Métropole (licence ODbL), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "angers_c",
+      "findings": 34,
+      "source": {
+        "path": "data/networks/angers_c.json",
+        "sha256": "30728f74c921c20ccdfddca1c96810ee336e4c3b90446350b82c577f31b962fa",
+        "provenance": "GTFS Irigo / Angers Loire Métropole (licence ODbL), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "aubagne_t",
+      "findings": 14,
+      "source": {
+        "path": "data/networks/aubagne_t.json",
+        "sha256": "c7875b14ca0537250c3195b16e92ee3093e91e06dc79c9bf9a4226b17623380d",
+        "provenance": "GTFS Les lignes de l'agglo / Métropole Aix-Marseille-Provence (licence Licence Ouverte 2.0), données du 2026-09-28 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "avignon_t1",
+      "findings": 19,
+      "source": {
+        "path": "data/networks/avignon_t1.json",
+        "sha256": "568dbc5caa4c9caf7f17c15f9feec9d2df65ff23754bfbd756999b64bf4b76e1",
+        "provenance": "GTFS Orizo (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "besancon_t1",
+      "findings": 54,
+      "source": {
+        "path": "data/networks/besancon_t1.json",
+        "sha256": "ea319c5100dc47b024e11753a515138c22b8ae25a518ea432b55211cb62311c3",
+        "provenance": "GTFS Ginko (licence Licence Ouverte 2.0), données du 2026-10-19 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "besancon_t2",
+      "findings": 36,
+      "source": {
+        "path": "data/networks/besancon_t2.json",
+        "sha256": "a4e7a9e3de58158970e0fd0c88a37f0af0e77cf61f15762d4a4c48ed4f3b287f",
+        "provenance": "GTFS Ginko (licence Licence Ouverte 2.0), données du 2026-10-19 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_a",
+      "findings": 68,
+      "source": {
+        "path": "data/networks/bordeaux_a.json",
+        "sha256": "b2d97aa0b4ec2d5b3e4d427599067af95cffe86eb8f029219d1302606e8cf031",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_a_2",
+      "findings": 48,
+      "source": {
+        "path": "data/networks/bordeaux_a_2.json",
+        "sha256": "cfa5f2309766c1fbe32747cce761110d15a0ca38692ece5ce2269ff72622daf7",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_b",
+      "findings": 52,
+      "source": {
+        "path": "data/networks/bordeaux_b.json",
+        "sha256": "3a481ea4d095bee74d41f7f04033645f24d3e94f88c2e7d75ab0619e1509bebf",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_b_2",
+      "findings": 54,
+      "source": {
+        "path": "data/networks/bordeaux_b_2.json",
+        "sha256": "2031ea55295c1de0d77afae77704a4e06328e45dcfe3ae6bb3eea9aad841e7c3",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_b_3",
+      "findings": 55,
+      "source": {
+        "path": "data/networks/bordeaux_b_3.json",
+        "sha256": "bdde3a4f83a9f85cacb13dd07c92df28e78f8dfa06faf240d7844467eb04c542",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_c",
+      "findings": 54,
+      "source": {
+        "path": "data/networks/bordeaux_c.json",
+        "sha256": "399c642f67b7a9d0c4fed1018c98ec35bcb705fe1cba8cf68ad8b9cb10883652",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_d",
+      "findings": 44,
+      "source": {
+        "path": "data/networks/bordeaux_d.json",
+        "sha256": "e905a4576a7c7971e543492fd00be9f9df9c73444b78590e174944a042a4d649",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_e",
+      "findings": 42,
+      "source": {
+        "path": "data/networks/bordeaux_e.json",
+        "sha256": "ba77a65809292225b5128915bf3baa6bceb0723b93ffe4d44d721fa13e12bbfd",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_e_2",
+      "findings": 3,
+      "source": {
+        "path": "data/networks/bordeaux_e_2.json",
+        "sha256": "5c53e1aca8f41cd3de831dd4cdb8debd57969191599c0ec0a34db548401620c3",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "bordeaux_f",
+      "findings": 62,
+      "source": {
+        "path": "data/networks/bordeaux_f.json",
+        "sha256": "fd62edc0167a10e61dd06f6672e5a1bfa12b07595be16d1d75e40b2ec071c4a0",
+        "provenance": "GTFS TBM / Bordeaux Métropole (licence Licence Ouverte), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "brest_a",
+      "findings": 41,
+      "source": {
+        "path": "data/networks/brest_a.json",
+        "sha256": "43315344f5cb9ac950b6536491301cba590a69e3ffd0a45f5adf897268d2a23d",
+        "provenance": "GTFS Bibus / Brest Métropole (licence Licence Ouverte 2.0), données du 2026-11-09 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "brest_a_2",
+      "findings": 39,
+      "source": {
+        "path": "data/networks/brest_a_2.json",
+        "sha256": "d94ca7157aee7814020154ebbf6656a5a303f155d609f7a77f90d4b2bf7eed62",
+        "provenance": "GTFS Bibus / Brest Métropole (licence Licence Ouverte 2.0), données du 2026-11-09 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "brest_b",
+      "findings": 21,
+      "source": {
+        "path": "data/networks/brest_b.json",
+        "sha256": "846c3fa36fb6303713f3bcf611f9d80452317e92a7f0bf5be96177dd57e0a6e4",
+        "provenance": "GTFS Bibus / Brest Métropole (licence Licence Ouverte 2.0), données du 2026-11-09 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "caen_t1",
+      "findings": 47,
+      "source": {
+        "path": "data/networks/caen_t1.json",
+        "sha256": "c1f238ed8e91b2e3ade77614e9661b9906445bc8917de08ca0d052dfab43259c",
+        "provenance": "GTFS Twisto / Caen la Mer (licence non précisée sur le portail (à vérifier)), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "caen_t2",
+      "findings": 16,
+      "source": {
+        "path": "data/networks/caen_t2.json",
+        "sha256": "7f92c467c32309d943d4bfa7e26d19196e363b4be1ec48c78ab746a1366b08e4",
+        "provenance": "GTFS Twisto / Caen la Mer (licence non précisée sur le portail (à vérifier)), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "caen_t2_2",
+      "findings": 15,
+      "source": {
+        "path": "data/networks/caen_t2_2.json",
+        "sha256": "d146d5a5475a5ab15b8fc527791db9e11ed6fedf483e56501eee9e8acbb0e875",
+        "provenance": "GTFS Twisto / Caen la Mer (licence non précisée sur le portail (à vérifier)), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "caen_t3",
+      "findings": 26,
+      "source": {
+        "path": "data/networks/caen_t3.json",
+        "sha256": "b80d2fc830f73741096a72bd6177b9d175e3ec697cb7e7aca5e840267a75bd65",
+        "provenance": "GTFS Twisto / Caen la Mer (licence non précisée sur le portail (à vérifier)), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "clermont_a",
+      "findings": 61,
+      "source": {
+        "path": "data/networks/clermont_a.json",
+        "sha256": "801346c42d9ac802bb7c27474458a450e78e3ecd445de81d4a6ec4f1d4d000f6",
+        "provenance": "GTFS T2C / SMTC-AC (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "dijon_t1",
+      "findings": 32,
+      "source": {
+        "path": "data/networks/dijon_t1.json",
+        "sha256": "b8d3589635f01e16993014a23c5905f44e0b98319e02545248570f46b3c2e456",
+        "provenance": "GTFS DiviaMobilités (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "dijon_t2",
+      "findings": 36,
+      "source": {
+        "path": "data/networks/dijon_t2.json",
+        "sha256": "716b7189148f87d23d7dcf4ce6880701bacc41f417e73b552d5e9ea1bb40e189",
+        "provenance": "GTFS DiviaMobilités (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_a",
+      "findings": 58,
+      "source": {
+        "path": "data/networks/grenoble_a.json",
+        "sha256": "5cf6048f636c4f8f8e8893b2a6bb7d9db5b5a36db1e57b5105a0298b8baad469",
+        "provenance": "GTFS M réso / SMMAG (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_b",
+      "findings": 40,
+      "source": {
+        "path": "data/networks/grenoble_b.json",
+        "sha256": "b4e6d2467009aac1da17138ccc12032f5bd80c8852b741800f9d883e5114d0be",
+        "provenance": "GTFS M réso / SMMAG (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_b_2",
+      "findings": 33,
+      "source": {
+        "path": "data/networks/grenoble_b_2.json",
+        "sha256": "c081780cbeda2da06a84fb49c757939fd01f6db7c49077b1b92d9676206abcb4",
+        "provenance": "GTFS M réso / SMMAG (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_c",
+      "findings": 34,
+      "source": {
+        "path": "data/networks/grenoble_c.json",
+        "sha256": "1b044a6ce01935fddb7419539c7994d49f2ee17ad7a22497d5a58b66848105b7",
+        "provenance": "GTFS M réso / SMMAG (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_c_2",
+      "findings": 41,
+      "source": {
+        "path": "data/networks/grenoble_c_2.json",
+        "sha256": "fdc4c11b8ff2bfaf917f152c73bc28b90ba8110a1b82dcc17565025e19c6166e",
+        "provenance": "GTFS M réso / SMMAG (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_d",
+      "findings": 30,
+      "source": {
+        "path": "data/networks/grenoble_d.json",
+        "sha256": "2316999fbc0c163e09b73d7641e48cb29d424bf5e9fbb97cad109af9a61fcc62",
+        "provenance": "GTFS M réso / SMMAG (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_d_2",
+      "findings": 24,
+      "source": {
+        "path": "data/networks/grenoble_d_2.json",
+        "sha256": "b2bb06ef88f91c153bab4945968c788004e8b531f3a48f0fc7263ed32d3865a4",
+        "provenance": "GTFS M réso / SMMAG (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_e",
+      "findings": 27,
+      "source": {
+        "path": "data/networks/grenoble_e.json",
+        "sha256": "beadc81a4a4c5a4c2f8e4e5d5c9eef7af3ecfbe4814bb9ad17ecc917f21c4e05",
+        "provenance": "GTFS M réso / SMMAG (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "grenoble_e_2",
+      "findings": 49,
+      "source": {
+        "path": "data/networks/grenoble_e_2.json",
+        "sha256": "f717900b3ef4f0a81606f4d4d35a2e9728f95125ecc8622958ef86ce0ed3fa9a",
+        "provenance": "GTFS M réso / SMMAG (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t1",
+      "findings": 48,
+      "source": {
+        "path": "data/networks/idf_t1.json",
+        "sha256": "aac4bd333b0cce5a5d3dbb2959f55f22ab99e4bd922001dc9c3e1b3de80651bb",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t10",
+      "findings": 15,
+      "source": {
+        "path": "data/networks/idf_t10.json",
+        "sha256": "93eeff058aa628febfd3ba218cf8b8f5abec51c80264afb97086ab51fcfb8945",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t11",
+      "findings": 5,
+      "source": {
+        "path": "data/networks/idf_t11.json",
+        "sha256": "9848c3242d38a6aa2db59a18633ca3197b8d95fd6fd158f425319d96e6126696",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t12",
+      "findings": 21,
+      "source": {
+        "path": "data/networks/idf_t12.json",
+        "sha256": "e7f3d3e67166971beed5d43689636f29e7011ae2e97a453404a5721b7ee2b4c2",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t13",
+      "findings": 15,
+      "source": {
+        "path": "data/networks/idf_t13.json",
+        "sha256": "b0d7db03794ce3163ddeb9ad326332799b93848149ac5c0f9b88620a9973da2d",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t14",
+      "findings": 6,
+      "source": {
+        "path": "data/networks/idf_t14.json",
+        "sha256": "16bff3c6122804b9ba60e3ebb8f5674b51aa31b4eb50eb540b4bd9e6c7e90ee6",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t2",
+      "findings": 17,
+      "source": {
+        "path": "data/networks/idf_t2.json",
+        "sha256": "caa1950e2c010cccff67034f3d9ff2536484a8c8fbc943a2d2ca74b5f39a834c",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t2_2",
+      "findings": 14,
+      "source": {
+        "path": "data/networks/idf_t2_2.json",
+        "sha256": "680f0f79be58812b26e5730782d221dcb897a9cad703a6325614da28999e9217",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t3a",
+      "findings": 33,
+      "source": {
+        "path": "data/networks/idf_t3a.json",
+        "sha256": "9c111024b1ff6b5e6a6b65045a2f0213952643fda615bcd170b7a89099f8416c",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t3b",
+      "findings": 46,
+      "source": {
+        "path": "data/networks/idf_t3b.json",
+        "sha256": "8aacfc1cb190b7d7ffa43591ef9493deefd25a56db264eb0efac301111e03837",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t3b_2",
+      "findings": 26,
+      "source": {
+        "path": "data/networks/idf_t3b_2.json",
+        "sha256": "926af90f272093aa04a9ca202cb6c0a6cd237d4b236a6275f6fce14800247af2",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t4",
+      "findings": 20,
+      "source": {
+        "path": "data/networks/idf_t4.json",
+        "sha256": "3ffe0886a5503f348b6a59e414c2031dfe39452f3bbd7afa83ed1090b3e52d65",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t4_2",
+      "findings": 28,
+      "source": {
+        "path": "data/networks/idf_t4_2.json",
+        "sha256": "fc7d883c15b65fbd2001a9f1230d2cdac4dd4778ccbfce5f2463f24f5024de97",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t5",
+      "findings": 28,
+      "source": {
+        "path": "data/networks/idf_t5.json",
+        "sha256": "230aae67dac590316d5fdca82dee363f79d80a4d9df193cc9e85322f820208de",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t6",
+      "findings": 33,
+      "source": {
+        "path": "data/networks/idf_t6.json",
+        "sha256": "764eff7d63ddfa53aede7d7b74ba518980f9b03a2cfd9d9b4b549f698972594d",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t7",
+      "findings": 34,
+      "source": {
+        "path": "data/networks/idf_t7.json",
+        "sha256": "64b438fb6fbac02be8cf7e9608c24a52bf12ec92aa76f4686e8cb98efbab93a5",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t8",
+      "findings": 15,
+      "source": {
+        "path": "data/networks/idf_t8.json",
+        "sha256": "9e952a73a6e807662b7b2fd9a0374291a50ae675d2f4f88dc070d6b28437ac1c",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t8_2",
+      "findings": 20,
+      "source": {
+        "path": "data/networks/idf_t8_2.json",
+        "sha256": "b8898f0716e4da0ba40d3ad3cdeb964749d418a94dd547f0ea14ee50652629ac",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "idf_t9",
+      "findings": 27,
+      "source": {
+        "path": "data/networks/idf_t9.json",
+        "sha256": "b20ac80aeef867c2d0e4b15f3dca2020cfc2ac7f7e766b920d6be4e320faa4c4",
+        "provenance": "GTFS Île-de-France Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lehavre_a",
+      "findings": 23,
+      "source": {
+        "path": "data/networks/lehavre_a.json",
+        "sha256": "faa6093c97c015690d7ae4c817075f741bf15e783ad5d641b7fbb2dbbe0d0f16",
+        "provenance": "GTFS LiA (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lehavre_b",
+      "findings": 24,
+      "source": {
+        "path": "data/networks/lehavre_b.json",
+        "sha256": "f5d4de36ddccea71180f81b76ed1f14ff6a9ceb9259d20b7bdd571f3a21840a2",
+        "provenance": "GTFS LiA (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lemans_t1",
+      "findings": 40,
+      "source": {
+        "path": "data/networks/lemans_t1.json",
+        "sha256": "7938052cd15cf093327d5b20bd6e0e9c82d6176f096c6598551fba7274cac059",
+        "provenance": "GTFS SETRAM (licence Licence Ouverte 2.0), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lemans_t2",
+      "findings": 30,
+      "source": {
+        "path": "data/networks/lemans_t2.json",
+        "sha256": "ce38091205f5e54e7bc9fcf3d7845b0b8555a80259807245827e50c8fdae9584",
+        "provenance": "GTFS SETRAM (licence Licence Ouverte 2.0), données du 2026-11-04 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lille_tram",
+      "findings": 36,
+      "source": {
+        "path": "data/networks/lille_tram.json",
+        "sha256": "96a8748cbfebdec37a2dac7b0b5102619154c512c330ee2315091d457f8293e7",
+        "provenance": "GTFS Ilévia / MEL (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lille_tram_2",
+      "findings": 32,
+      "source": {
+        "path": "data/networks/lille_tram_2.json",
+        "sha256": "ca32b9b571b12bd2e17706f41cf2da7f65b78f6ade085fc07c943c175bb6ac10",
+        "provenance": "GTFS Ilévia / MEL (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lyon_rhonexpress",
+      "findings": 2,
+      "source": {
+        "path": "data/networks/lyon_rhonexpress.json",
+        "sha256": "a994140fc386ce038db749191145986f2b43acbcf4c259eb02d94d5d3930d8a7",
+        "provenance": "GTFS TCL / Sytral Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-10-12 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lyon_t1",
+      "findings": 46,
+      "source": {
+        "path": "data/networks/lyon_t1.json",
+        "sha256": "cecbe4d21f43afbebb2cfc01fbe1eea7de20bd846f5d1bbb70bd9accdec36372",
+        "provenance": "GTFS TCL / Sytral Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-10-12 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lyon_t2",
+      "findings": 55,
+      "source": {
+        "path": "data/networks/lyon_t2.json",
+        "sha256": "9d74b37b1d78152c3e90d85424fb591de320ad9964d0e029795fae26bbd73c66",
+        "provenance": "GTFS TCL / Sytral Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-10-12 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lyon_t3",
+      "findings": 16,
+      "source": {
+        "path": "data/networks/lyon_t3.json",
+        "sha256": "d5552349f6b94e70cc0d484cb8d202c6f4630e3efcc059be849ce63ceb89dd65",
+        "provenance": "GTFS TCL / Sytral Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-10-12 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lyon_t4",
+      "findings": 53,
+      "source": {
+        "path": "data/networks/lyon_t4.json",
+        "sha256": "9e52c483273766a30aae18f95a745845d4976f0d29937d07b88b83817e5d741a",
+        "provenance": "GTFS TCL / Sytral Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-10-12 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lyon_t5",
+      "findings": 20,
+      "source": {
+        "path": "data/networks/lyon_t5.json",
+        "sha256": "cf72f062f0ad23e3ed5edf3dd73dd6fb1723efec6eb612cd21bca4d26bbf6bd9",
+        "provenance": "GTFS TCL / Sytral Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-10-12 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lyon_t6",
+      "findings": 39,
+      "source": {
+        "path": "data/networks/lyon_t6.json",
+        "sha256": "1dacb2e1ce4e5c13f1f1c62ed5939d5985957ca55bc7148478d6a511989e0648",
+        "provenance": "GTFS TCL / Sytral Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-10-12 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "lyon_t7",
+      "findings": 6,
+      "source": {
+        "path": "data/networks/lyon_t7.json",
+        "sha256": "4aa466a1fab559df2bdbee187c5e745a700ae3d2f1f1138a54c45dcbbf346f26",
+        "provenance": "GTFS TCL / Sytral Mobilités (licence Licence Mobilités (vérifier les conditions)), données du 2026-10-12 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "marseille_t1",
+      "findings": 28,
+      "source": {
+        "path": "data/networks/marseille_t1.json",
+        "sha256": "8c05e122f05ea6efcfac1492661354ee0bb525da44f346533984ab8a87dfe8b1",
+        "provenance": "GTFS RTM / Métropole Aix-Marseille-Provence (licence Licence Ouverte 2.0), données du 2026-11-09 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "marseille_t2",
+      "findings": 26,
+      "source": {
+        "path": "data/networks/marseille_t2.json",
+        "sha256": "0e94643d7166e76b024de77ce652da4be9e6c6a8af2ba8a2dd66799939f50bbf",
+        "provenance": "GTFS RTM / Métropole Aix-Marseille-Provence (licence Licence Ouverte 2.0), données du 2026-11-09 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "marseille_t3",
+      "findings": 38,
+      "source": {
+        "path": "data/networks/marseille_t3.json",
+        "sha256": "3ae4c1c5756b656cea8f01b73b13c3980167367c1dad6e483dbe3a1d552e5a43",
+        "provenance": "GTFS RTM / Métropole Aix-Marseille-Provence (licence Licence Ouverte 2.0), données du 2026-11-09 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_1",
+      "findings": 55,
+      "source": {
+        "path": "data/networks/montpellier_1.json",
+        "sha256": "800a6a93dafb4089037bd0c660d0e1bdb3511108b01624bfd009acd9fca96645",
+        "provenance": "GTFS TaM (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_2",
+      "findings": 41,
+      "source": {
+        "path": "data/networks/montpellier_2.json",
+        "sha256": "153786a74991d28a5838d0dc1f5c9ef1eb41c04ec445d2d6cfc83831a6f38c11",
+        "provenance": "GTFS TaM (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_2_2",
+      "findings": 38,
+      "source": {
+        "path": "data/networks/montpellier_2_2.json",
+        "sha256": "890cdcd158c495756f16d0dc0b9e62cac49dcc65f265a98bc8cb08e943ef9bf2",
+        "provenance": "GTFS TaM (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_2_3",
+      "findings": 45,
+      "source": {
+        "path": "data/networks/montpellier_2_3.json",
+        "sha256": "e12641ebe23f079ab7729a1032645ca6aea9353eb965d498b36b06e25235ecb3",
+        "provenance": "GTFS TaM (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_3",
+      "findings": 42,
+      "source": {
+        "path": "data/networks/montpellier_3.json",
+        "sha256": "aa7612226ff38fb380266b310908be957381be3e4d6fd8d9ec6ebb59244b723d",
+        "provenance": "GTFS TaM (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_3_2",
+      "findings": 40,
+      "source": {
+        "path": "data/networks/montpellier_3_2.json",
+        "sha256": "44506f71cfe1c52eeb72ea84ebef61d855fb6b60971f66384ce58e3c7144aa7c",
+        "provenance": "GTFS TaM (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_3_3",
+      "findings": 40,
+      "source": {
+        "path": "data/networks/montpellier_3_3.json",
+        "sha256": "7238ca533179c06a2bd0d43fd7703005f407dad9ce12097ad2291ef6a763ba17",
+        "provenance": "GTFS TaM (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_4",
+      "findings": 35,
+      "source": {
+        "path": "data/networks/montpellier_4.json",
+        "sha256": "2145ec1334da24acefd52ddd9d718d3d5b6b5f57a3b1bcf194229200d198db82",
+        "provenance": "GTFS TaM (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "montpellier_5",
+      "findings": 47,
+      "source": {
+        "path": "data/networks/montpellier_5.json",
+        "sha256": "7da30c40f30531acd3bd01438d04c847bb602b5f274e639bad945d6fdc62c598",
+        "provenance": "GTFS TaM (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "mulhouse_1",
+      "findings": 21,
+      "source": {
+        "path": "data/networks/mulhouse_1.json",
+        "sha256": "c0cd8d32ed153fd3ec2e10cef328ecf2ab8e4f424d87db2978fbcc23c52f17c3",
+        "provenance": "GTFS Soléa (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "mulhouse_2",
+      "findings": 24,
+      "source": {
+        "path": "data/networks/mulhouse_2.json",
+        "sha256": "0ccf05d8a5d49b9856f46730ab4bcbea205fb0ce6d65123f7c6f9aa180ac9129",
+        "provenance": "GTFS Soléa (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "mulhouse_2_2",
+      "findings": 2,
+      "source": {
+        "path": "data/networks/mulhouse_2_2.json",
+        "sha256": "1a3b3d147f409265b7c7051ed433996d1eec9604aecca2d068e21dea146b21c7",
+        "provenance": "GTFS Soléa (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "mulhouse_3",
+      "findings": 18,
+      "source": {
+        "path": "data/networks/mulhouse_3.json",
+        "sha256": "c6ce3c232d331ebe3f4030df650479be730d4c0009c9910c93e3017b971c9ec0",
+        "provenance": "GTFS Soléa (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "mulhouse_tt",
+      "findings": 23,
+      "source": {
+        "path": "data/networks/mulhouse_tt.json",
+        "sha256": "2b4b41ddd44aa006a2d677a35018b82e2b6040574b7381f3f4d17c60614b87ba",
+        "provenance": "GTFS Soléa (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nantes_1",
+      "findings": 56,
+      "source": {
+        "path": "data/networks/nantes_1.json",
+        "sha256": "2b590513b70bb2b4a0a0d665416f9682fe0b1ef61ee53e2d7cf333e48ca8eac5",
+        "provenance": "GTFS Naolib / Nantes Métropole (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nantes_1_2",
+      "findings": 31,
+      "source": {
+        "path": "data/networks/nantes_1_2.json",
+        "sha256": "2a5368e08a2da451fc7e1e94fa64cb7352de675a0dffdef31c645aa07b117608",
+        "provenance": "GTFS Naolib / Nantes Métropole (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nantes_1_3",
+      "findings": 53,
+      "source": {
+        "path": "data/networks/nantes_1_3.json",
+        "sha256": "4a8e4f71ac7ac25988d9113aa120b918173215c1d258ae44d79ca041a9efce59",
+        "provenance": "GTFS Naolib / Nantes Métropole (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nantes_2",
+      "findings": 47,
+      "source": {
+        "path": "data/networks/nantes_2.json",
+        "sha256": "3c075967939d025db640d92658830699f1280bd83fca711455de477935c206c2",
+        "provenance": "GTFS Naolib / Nantes Métropole (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nantes_2_2",
+      "findings": 54,
+      "source": {
+        "path": "data/networks/nantes_2_2.json",
+        "sha256": "b3da1c1f310039ee9b802694cb44501c3d41c7cc8582b484ac7c76eb1a98411f",
+        "provenance": "GTFS Naolib / Nantes Métropole (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nantes_2_3",
+      "findings": 60,
+      "source": {
+        "path": "data/networks/nantes_2_3.json",
+        "sha256": "f3fb11f1251d4855d77f0ce2b982bd84a1166d96e2da6ed199e2accb307155e0",
+        "provenance": "GTFS Naolib / Nantes Métropole (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nantes_3",
+      "findings": 48,
+      "source": {
+        "path": "data/networks/nantes_3.json",
+        "sha256": "d533220ff0d6ea75ae75668f1d1e58309f8a936565be8f89bd6458c92d99f0cb",
+        "provenance": "GTFS Naolib / Nantes Métropole (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nice_b",
+      "findings": 12,
+      "source": {
+        "path": "data/networks/nice_b.json",
+        "sha256": "af4bbfaf05ddf8036600b69544d2e2bcba0aa52e37fa191706eecbe7b6c4528e",
+        "provenance": "GTFS Lignes d'Azur (licence Licence Ouverte 2.0), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nice_l1",
+      "findings": 38,
+      "source": {
+        "path": "data/networks/nice_l1.json",
+        "sha256": "0edff8a478a97555c90e5a41eac21efb03b7d1efd12b38608fa72af735939753",
+        "provenance": "GTFS Lignes d'Azur (licence Licence Ouverte 2.0), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nice_l2",
+      "findings": 26,
+      "source": {
+        "path": "data/networks/nice_l2.json",
+        "sha256": "283df69bcced8357bf1659d3c7df36ec9c40f5923de2d77a9567a6798683bfc6",
+        "provenance": "GTFS Lignes d'Azur (licence Licence Ouverte 2.0), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nice_l3",
+      "findings": 34,
+      "source": {
+        "path": "data/networks/nice_l3.json",
+        "sha256": "4b89a386996e239036d9be01b279221626e74d6a199c22f13860542a32bd322c",
+        "provenance": "GTFS Lignes d'Azur (licence Licence Ouverte 2.0), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nice_l3_2",
+      "findings": 30,
+      "source": {
+        "path": "data/networks/nice_l3_2.json",
+        "sha256": "249f07b7c4a4cc861375a9dac8bce90ea9832c30cc27a4dd68b83e7e42d8d53a",
+        "provenance": "GTFS Lignes d'Azur (licence Licence Ouverte 2.0), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "nice_l3_3",
+      "findings": 10,
+      "source": {
+        "path": "data/networks/nice_l3_3.json",
+        "sha256": "59e035b75bb13c68632c5750fe5b25858b2694feddfaf1acc18cd51f929c5716",
+        "provenance": "GTFS Lignes d'Azur (licence Licence Ouverte 2.0), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "orleans_a",
+      "findings": 49,
+      "source": {
+        "path": "data/networks/orleans_a.json",
+        "sha256": "4eab77bb19d8ca8f8319c86b1ece651691d06a20377d661ad00095b3a045bfc3",
+        "provenance": "GTFS TAO / Orléans Métropole (licence Licence Ouverte 2.0), données du 2026-10-01 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "orleans_b",
+      "findings": 45,
+      "source": {
+        "path": "data/networks/orleans_b.json",
+        "sha256": "e5fa48bae8a3e78ec2d5a567cc4c77c16f1eb2819f4ccf903177831f0330a748",
+        "provenance": "GTFS TAO / Orléans Métropole (licence Licence Ouverte 2.0), données du 2026-10-01 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "reims_tram",
+      "findings": 41,
+      "source": {
+        "path": "data/networks/reims_tram.json",
+        "sha256": "072a797af15d33c57a4e03ae59056e573ae638bd95b7a3fc8b2985b4e05a161b",
+        "provenance": "GTFS Grand Reims Mobilités (licence Licence Ouverte 2.0), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "reims_tram_2",
+      "findings": 41,
+      "source": {
+        "path": "data/networks/reims_tram_2.json",
+        "sha256": "b58320c6d96364f6fd0a7afcd1d749fa73df967179e8538346a1081aedd53998",
+        "provenance": "GTFS Grand Reims Mobilités (licence Licence Ouverte 2.0), données du 2026-11-11 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "rouen_metro",
+      "findings": 36,
+      "source": {
+        "path": "data/networks/rouen_metro.json",
+        "sha256": "5307443990c603ba66e5d0c86e848bd4af78391aecf851cec633dc5c4175ee96",
+        "provenance": "GTFS Astuce / Métropole Rouen Normandie (licence Licence Ouverte 2.0), données du 2026-11-09 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "rouen_metro_2",
+      "findings": 31,
+      "source": {
+        "path": "data/networks/rouen_metro_2.json",
+        "sha256": "23272c717e1061eedc0fd98ed964216e17516080ab9614158825d98f820c4a50",
+        "provenance": "GTFS Astuce / Métropole Rouen Normandie (licence Licence Ouverte 2.0), données du 2026-11-09 via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "saintetienne_t1",
+      "findings": 43,
+      "source": {
+        "path": "data/networks/saintetienne_t1.json",
+        "sha256": "627ad690b7de9a336004ee9cdf3a040989bd5c3d32fee592fe1c36b4c26af813",
+        "provenance": "GTFS STAS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "saintetienne_t2",
+      "findings": 18,
+      "source": {
+        "path": "data/networks/saintetienne_t2.json",
+        "sha256": "6f3bc684c0808898a7b0af63c009278930bfb7f95ac034230319a830590a7ec3",
+        "provenance": "GTFS STAS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "saintetienne_t3",
+      "findings": 40,
+      "source": {
+        "path": "data/networks/saintetienne_t3.json",
+        "sha256": "60e0a02dd02b924c05843fc7e5a44e7fd2f694f56af82eb657239012dd693d93",
+        "provenance": "GTFS STAS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "saintetienne_t3_2",
+      "findings": 49,
+      "source": {
+        "path": "data/networks/saintetienne_t3_2.json",
+        "sha256": "4153a8d55eda8c30ac96f224e7bdb2108f0898a69d654bacf9c018e9c594f804",
+        "provenance": "GTFS STAS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "strasbourg_a",
+      "findings": 46,
+      "source": {
+        "path": "data/networks/strasbourg_a.json",
+        "sha256": "3f1e4ff1adaf62d3af8f5baac14ddd15268272badc6e803c7bbc58ba463264b4",
+        "provenance": "GTFS CTS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "strasbourg_b",
+      "findings": 46,
+      "source": {
+        "path": "data/networks/strasbourg_b.json",
+        "sha256": "3aeab611f97a9166db57134303410e9aa8c8995f27d5036b8dd9da62d14a947f",
+        "provenance": "GTFS CTS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "strasbourg_c",
+      "findings": 32,
+      "source": {
+        "path": "data/networks/strasbourg_c.json",
+        "sha256": "f9bf6884cbe218408db9a3e7688ff78d8e0db9ce2b00e5788a9368f245996251",
+        "provenance": "GTFS CTS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "strasbourg_d",
+      "findings": 43,
+      "source": {
+        "path": "data/networks/strasbourg_d.json",
+        "sha256": "d91ed9461ec2bb340568edd7d02aaa97bbe876ca63058226fb0b400f00221627",
+        "provenance": "GTFS CTS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "strasbourg_e",
+      "findings": 43,
+      "source": {
+        "path": "data/networks/strasbourg_e.json",
+        "sha256": "ebfa0fba98a6f4d8721f6cec8483882c5f4867b19f105467207fef4db9079ea6",
+        "provenance": "GTFS CTS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "strasbourg_f",
+      "findings": 35,
+      "source": {
+        "path": "data/networks/strasbourg_f.json",
+        "sha256": "454b1f82164a77dc4c8ac5f9f28878afd54dc8324806ed7541386ba291aeb09a",
+        "provenance": "GTFS CTS (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "toulouse_t1",
+      "findings": 44,
+      "source": {
+        "path": "data/networks/toulouse_t1.json",
+        "sha256": "028e94d3d25bd60654360afc957a7437660d3b1c648b9f3236df0adb02d16277",
+        "provenance": "GTFS Tisséo (licence ODbL), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "tours_a",
+      "findings": 53,
+      "source": {
+        "path": "data/networks/tours_a.json",
+        "sha256": "416bbe948a16233a85a07823bb5144c1074f86d8bbbd79076d7364c1b5a22f89",
+        "provenance": "GTFS Fil Bleu / SMT (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "valenciennes_t1",
+      "findings": 44,
+      "source": {
+        "path": "data/networks/valenciennes_t1.json",
+        "sha256": "1d327fd897d13b5cc23e5c43c973d2281c7d77c663b8419121f474120486a79e",
+        "provenance": "GTFS Transvilles / SIMOUV (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "valenciennes_t2",
+      "findings": 51,
+      "source": {
+        "path": "data/networks/valenciennes_t2.json",
+        "sha256": "05908ba903c8af858e050f6caa10fd8c05cec2467a09bd7ba1915643506192da",
+        "provenance": "GTFS Transvilles / SIMOUV (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    },
+    {
+      "id": "valenciennes_t2_2",
+      "findings": 62,
+      "source": {
+        "path": "data/networks/valenciennes_t2_2.json",
+        "sha256": "9757fd4b85e1c85b7bba3de32d2e5aed584f8795f1212193e21f17d183d89adb",
+        "provenance": "GTFS Transvilles / SIMOUV (licence Licence Ouverte 2.0), données du inconnue via transport.data.gouv.fr. Tracé = shapes.txt ; arrêts et horaires = stops/stop_times. Une ligne = un réseau (tronçons communs non fusionnés). Altitudes : MNT IGN RGE ALTI® et BD TOPO® (Licence Ouverte 2.0), profil lissé, rampes <= 8 % (tools/import/terrain.py)."
+      },
+      "coverage": {
+        "topology": true,
+        "osm_reference": false,
+        "swept_obstacles": false,
+        "rail_route_continuity": "node endpoints; edge envelopes extrapolate at boundaries",
+        "native_rendered_clearance": "separate existing tests/run_clearance.sh; tunnels skipped there"
+      }
+    }
+  ]
+}
