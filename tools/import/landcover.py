@@ -41,7 +41,7 @@ Z_DETAIL, Z_FAR = 15, 13
 
 # nom, couleur de rendu (sRGB), drapeaux (bit 0 sillons, bit 1 boisé, bit 2 minéral)
 CLASSES = [
-    ("urbain clair", "#a7a39a", 4),
+    ("urbain clair", "#a3a29e", 4),
     ("urbain dense", "#85817a", 4),
     ("pelouse, prairie", "#76874f", 0),
     ("prairie sèche, friche", "#9c9a6c", 0),
@@ -50,7 +50,7 @@ CLASSES = [
     ("culture verte", "#7c9248", 1),
     ("bois, forêt", "#4a5938", 2),
     ("eau", "#4a6670", 0),
-    ("sable, roche, carrière", "#cbc2ab", 4),
+    ("sable, roche, carrière", "#bcb6a7", 4),
     ("garrigue, vigne", "#958d6b", 0),
 ]
 
@@ -166,6 +166,7 @@ def urban_override(det, dens, big):
     open_ = np.isin(det, (3, 4, 5, 9, 10))
     green = np.isin(det, (2, 6))
     out[open_ & (dens >= 0.10)] = 1
+    out[(det == 9) & (dens >= 0.05)] = 0      # cours, places minérales claires (pas de « carrière » en ville)
     out[green & (dens >= 0.25)] = 1
     out[(np.isin(det, (1, 3, 4, 5, 9, 10)) | green & (dens >= 0.15)) & (big >= 0.12)] = 0
     out[det == 255] = 255

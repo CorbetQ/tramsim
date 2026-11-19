@@ -4,13 +4,13 @@
  "alt0": 7.0,
  "tile_m": 400.0,
  "tiles": 155,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
-  "tuiles_relief_lointain": 278,
+  "tuiles_relief_lointain": 249,
   "décalques": 6764,
-  "sommets": 345032,
-  "triangles": 645686,
-  "ponts": 95,
+  "sommets": 359440,
+  "triangles": 674552,
+  "ponts": 108,
   "niveaux_eau": 65
  },
  "terrain_format": "TGR2",
@@ -29,5 +29,6 @@
   "format": "TGR2",
   "source": "IGN RGE ALTI WMS, surface terrestre, valeurs littorales < -20 m traitées comme NODATA",
   "source_date": "2026-11-13"
- }
+ },
+ "lidar_mnt_coverage": 0.91
 }

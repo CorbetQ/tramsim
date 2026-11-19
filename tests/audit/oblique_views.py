@@ -7,8 +7,8 @@
   oblique_views.py compose VILLE DOSSIER       -> <site>_<vue>.jpg (jeu | référence) et planche.jpg
 Sites : ouvrages BD TOPO (tronçons de route et de voie ferrée au-dessus ou au-dessous du sol, fusionnés), les plus
 longs, à 700 m les uns des autres, dans le décor détaillé ; plus les sites manuels de tests/audit/oblique_sites.json.
-Vues : « obl » (caméra à 38°, 170 m de recul, perpendiculaire à l'ouvrage), « haut » (60°, 320 m), « rue » (1,8 m,
-dans l'axe, à 60 m de l'ouvrage).
+Vues : « proche » (30°, 75 m : hauteurs de bâti, arbres, talus), « obl » (38°, 170 m, perpendiculaire à l'ouvrage),
+« haut » (60°, 320 m), « rue » (1,7 m, sur la chaussée au sol la plus proche, hors bâti et hors tablier, vers l'ouvrage).
 """
 import json, math, os, sys
 
@@ -67,6 +67,44 @@ def sites(city, frame, n):
     return out
 
 
+def street_point(frame, s, cache):
+    """Caméra « rue » : point de chaussée au sol (BD TOPO, position 0) le plus proche entre 45 et 140 m du site,
+    hors emprise bâtie et à plus de 10 m de tout ouvrage (pas sous un tablier) ; regard vers le site."""
+    from shapely.geometry import Point, box
+    from shapely.strtree import STRtree
+    from shapely import prepared
+    x, z = s["x"], s["z"]
+    la, lo = frame.inv(x - 200, z + 200); lb, lob = frame.inv(x + 200, z - 200)
+    llb = (min(la, lb), min(lo, lob), max(la, lb), max(lo, lob))
+    ground, decks = [], []
+    for f in T.cached_features("troncon_de_route", cache, llb):
+        pr = f["properties"]
+        if not f.get("geometry") or pr.get("nature") in ("Sentier", "Chemin", "Escalier"):
+            continue
+        for l in T.lines3d(f["geometry"], frame):
+            if len(l) >= 2:
+                (ground if T.pos_sol(pr) == 0 else decks).append(LineString(l[:, :2]))
+    blds = []
+    for f in T.cached_features("batiment", cache, llb):
+        if f.get("geometry"):
+            from shapely.geometry import shape
+            from ign_scene import project_geom, polys_of
+            blds += polys_of(project_geom(shape(f["geometry"]), frame))
+    bp = prepared.prep(box(0, 0, 0, 0).union(__import__("shapely").union_all(blds))) if blds else None
+    dk = __import__("shapely").union_all(decks).buffer(10.0) if decks else None
+    best = None
+    c = Point(x, z)
+    for l in ground:
+        for t in np.arange(0, l.length, 5.0):
+            p = l.interpolate(t)
+            d = p.distance(c)
+            if not 45.0 <= d <= 140.0 or (bp and bp.contains(p)) or (dk is not None and dk.contains(p)):
+                continue
+            if best is None or d < best[0]:
+                best = (d, p.x, p.y)
+    return [best[1], best[2]] if best else None
+
+
 def reference(frame, alt0, s, path, cache):
     """Hauteurs (MNS LiDAR HD, sinon MNT) à 2 m et orthophoto à 1 m sur ±HALF autour du site."""
     import subprocess
@@ -97,6 +135,8 @@ def reference(frame, alt0, s, path, cache):
     o.prefetch(17, o.keys_for(17, lat[::25, ::25], lon[::25, ::25]))
     rgb, ok = o.sample(17, lat, lon)
     Image.fromarray((rgb * 255).astype(np.uint8)).save(path + ".png")
+    from scipy import ndimage          # MNS lissé : pas de pics (arbres, arêtes de bâti) dans la référence drapée
+    h = ndimage.gaussian_filter(ndimage.median_filter(np.nan_to_num(h, nan=float(np.nanmedian(h))), size=5), 1.0)
     np.save(path + ".npy", (h - alt0).astype(np.float32))
     return src
 
@@ -109,6 +149,7 @@ def prepare(city, out, n=6):
     ss = sites(city, frame, int(n))
     for s in ss:
         s["ref"] = reference(frame, alt0, s, os.path.join(d, "ref_" + s["name"]), T.SCRATCH)
+        s["street"] = street_point(frame, s, os.path.join(T.SCRATCH, "ign_cache"))
         s["half"] = HALF
     json.dump({"city": city, "origin": meta["origin"], "sites": ss}, open(os.path.join(d, "sites.json"), "w"), indent=1)
     print(f"{city}: {len(ss)} sites -> {d}")
@@ -121,7 +162,7 @@ def compose(city, out, tag="apres"):
     f = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20)
     rows = []
     for s in js["sites"]:
-        for v in ("obl", "haut", "rue"):
+        for v in ("proche", "obl", "haut", "rue"):
             a, b = os.path.join(d, f"jeu_{s['name']}_{v}.png"), os.path.join(d, f"ref_{s['name']}_{v}.png")
             if not (os.path.exists(a) and os.path.exists(b)):
                 continue

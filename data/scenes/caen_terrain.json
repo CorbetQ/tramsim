@@ -4,13 +4,13 @@
  "alt0": 30.7,
  "tile_m": 400.0,
  "tiles": 99,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
   "tuiles_relief_lointain": 156,
   "décalques": 2403,
-  "sommets": 206964,
-  "triangles": 385028,
-  "ponts": 25,
+  "sommets": 220475,
+  "triangles": 412050,
+  "ponts": 26,
   "niveaux_eau": 29
  },
  "terrain_format": "TGR2",
@@ -18,5 +18,6 @@
  "shared_vertices": true,
  "ground_file": "caen_ground.bin",
  "far_ring_m": 8000.0,
- "far_step_m": 100.0
+ "far_step_m": 100.0,
+ "lidar_mnt_coverage": 1.0
 }

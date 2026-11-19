@@ -4,13 +4,13 @@
  "alt0": 140.4,
  "tile_m": 400.0,
  "tiles": 318,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
-  "tuiles_relief_lointain": 340,
+  "tuiles_relief_lointain": 352,
   "décalques": 14878,
-  "sommets": 699404,
-  "triangles": 1305182,
-  "ponts": 246,
+  "sommets": 739236,
+  "triangles": 1384794,
+  "ponts": 293,
   "niveaux_eau": 298
  },
  "terrain_format": "TGR2",
@@ -20,5 +20,6 @@
  "extended_tiles": 13,
  "ground_file": "strasbourg_ground.bin",
  "far_ring_m": 8000.0,
- "far_step_m": 100.0
+ "far_step_m": 100.0,
+ "lidar_mnt_coverage": 0.933
 }

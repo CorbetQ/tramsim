@@ -4,13 +4,13 @@
  "alt0": 107.8,
  "tile_m": 400.0,
  "tiles": 173,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
   "tuiles_relief_lointain": 299,
   "décalques": 5999,
-  "sommets": 317332,
-  "triangles": 585359,
-  "ponts": 47,
+  "sommets": 339770,
+  "triangles": 630235,
+  "ponts": 57,
   "niveaux_eau": 89
  },
  "terrain_format": "TGR2",
@@ -18,5 +18,6 @@
  "shared_vertices": true,
  "ground_file": "orleans_ground.bin",
  "far_ring_m": 8000.0,
- "far_step_m": 100.0
+ "far_step_m": 100.0,
+ "lidar_mnt_coverage": 1.0
 }

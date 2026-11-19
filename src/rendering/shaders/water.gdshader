@@ -10,7 +10,7 @@ uniform vec3 deep : source_color = vec3(0.20, 0.27, 0.25);
 uniform vec3 shallow : source_color = vec3(0.30, 0.37, 0.32);
 uniform vec3 sky_day : source_color = vec3(0.55, 0.66, 0.76);
 uniform vec3 sky_night : source_color = vec3(0.07, 0.09, 0.16);
-uniform float spec_max = 0.45;           // plafond du reflet solaire
+uniform float spec_max = 0.22;           // plafond du reflet solaire (pas de tache blanche saturée en vue oblique)
 
 varying vec3 v_world;
 varying vec3 v_n;
@@ -61,6 +61,6 @@ void light() {
 	vec3 h = normalize(LIGHT + VIEW);
 	float nh = clamp(dot(NORMAL, h), 0.0, 1.0);
 	// Blinn normalisé, plafonné ; deux paliers doux pour rester dans le style
-	float s = pow(nh, 220.0) * 1.2 + pow(nh, 40.0) * 0.12;
+	float s = pow(nh, 220.0) * 0.9 + pow(nh, 40.0) * 0.05;
 	SPECULAR_LIGHT += LIGHT_COLOR * min(s, spec_max) * ATTENUATION * (1.0 - v_top * 0.9);
 }

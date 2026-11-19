@@ -4311,9 +4311,9 @@
    2
   ]
  ],
- "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-14",
+ "source": "BD TOPO® IGN (Licence Ouverte 2.0), WFS data.geopf.fr, extrait du 2026-11-19",
  "stats": {
-  "remarquables": 1655,
+  "remarquables": 1668,
   "bâtiments": 69459,
   "bâtiments_sur_voie": 93,
   "surfaces_1": 373,
@@ -4328,9 +4328,13 @@
   "lignes_10": 278,
   "ponctuels": 109,
   "étiquettes": 131,
-  "toits_ortho": 32438,
-  "arbres_ortho": 147365,
-  "cellules_vertes": 712649,
+  "toits_ortho": 34980,
+  "arbres_ortho": 158384,
+  "cellules_vertes": 773933,
+  "hauteurs_lidar": 43277,
+  "arbres_lidar": 846385,
+  "tuiles_lidar": 1431,
+  "tuiles_sans_lidar": 13,
   "luminance_enrobe": 0.639,
   "plateforme_gazon": 1438,
   "plateforme_enrobe": 3607,

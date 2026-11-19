@@ -784,6 +784,16 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None, periphery_m=0.0, extra_
         zones.append((k, ft["properties"].get("toponyme") or "", g))
         zgeoms.append(g)
     ztree = STRtree(zgeoms) if zgeoms else None
+    # monuments emblématiques : château (enceinte et tours), cathédrale ; rayon d'emprise autour du point
+    lm_list = []
+    lm_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data/landmarks.json")
+    if os.path.exists(lm_path):
+        for lm in json.load(open(lm_path)).get("cities", {}).get(city, []):
+            k = {"castle": K_CASTLE, "cathedral": K_CATHEDRAL}.get(lm.get("kind"))
+            if k:
+                from shapely.geometry import Point as _P
+                lm_list.append((k, _P(*frame.fwd(lm["lat"], lm["lon"])).buffer(130.0 if k == K_CASTLE else 45.0)))
+    lm_tree = STRtree([g for _, g in lm_list]) if lm_list else None
     zone_best = {}   # index de zone -> (aire, centroïde) du plus grand bâtiment, pour l'étiquette
     # bâtiments : centroïde dans le corridor, emprise simplifiée (<= 32 sommets)
     for ft in feats["batiment"].values():
@@ -821,6 +831,11 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None, periphery_m=0.0, extra_
                     kind = zones[best][0]
                     if p.area > zone_best.get(best, (0, None))[0]:
                         zone_best[best] = (p.area, (c.x, c.y), tile_of(c.x, c.y), len(tiles[tile_of(c.x, c.y)]["b"]))
+            if kind == K_NONE and lm_tree is not None and p.area > 150:      # monuments emblématiques (data/landmarks.json)
+                for li in lm_tree.query(c):
+                    lk, lg = lm_list[int(li)]
+                    if lg.contains(c):
+                        kind = lk; break
             if cls == 3 and kind == K_NONE:
                 kind = K_CHURCH
             if kind == K_CHURCH and p.area > 1500:

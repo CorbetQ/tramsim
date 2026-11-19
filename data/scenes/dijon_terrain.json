@@ -4,12 +4,12 @@
  "alt0": 249.7,
  "tile_m": 400.0,
  "tiles": 124,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
   "tuiles_relief_lointain": 225,
   "décalques": 2674,
-  "sommets": 236460,
-  "triangles": 437363,
+  "sommets": 253614,
+  "triangles": 471671,
   "ponts": 46,
   "niveaux_eau": 41
  },
@@ -20,5 +20,6 @@
  "extended_tiles": 4,
  "ground_file": "dijon_ground.bin",
  "far_ring_m": 8000.0,
- "far_step_m": 100.0
+ "far_step_m": 100.0,
+ "lidar_mnt_coverage": 1.0
 }

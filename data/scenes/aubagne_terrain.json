@@ -4,12 +4,12 @@
  "alt0": 98.4,
  "tile_m": 400.0,
  "tiles": 23,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
   "tuiles_relief_lointain": 110,
   "décalques": 805,
-  "sommets": 63845,
-  "triangles": 120728,
+  "sommets": 66557,
+  "triangles": 126152,
   "ponts": 19,
   "niveaux_eau": 28
  },
@@ -20,5 +20,6 @@
  "extended_tiles": 17,
  "ground_file": "aubagne_ground.bin",
  "far_ring_m": 8000.0,
- "far_step_m": 100.0
+ "far_step_m": 100.0,
+ "lidar_mnt_coverage": 1.0
 }

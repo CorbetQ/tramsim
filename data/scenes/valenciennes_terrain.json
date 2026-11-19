@@ -4,12 +4,12 @@
  "alt0": 26.9,
  "tile_m": 400.0,
  "tiles": 229,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
   "tuiles_relief_lointain": 407,
   "décalques": 5199,
-  "sommets": 334652,
-  "triangles": 607151,
+  "sommets": 342297,
+  "triangles": 622441,
   "ponts": 42,
   "niveaux_eau": 151
  },
@@ -18,5 +18,6 @@
  "shared_vertices": true,
  "ground_file": "valenciennes_ground.bin",
  "far_ring_m": 8000.0,
- "far_step_m": 100.0
+ "far_step_m": 100.0,
+ "lidar_mnt_coverage": 0.298
 }

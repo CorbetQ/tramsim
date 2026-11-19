@@ -4,13 +4,13 @@
  "alt0": 506.8,
  "tile_m": 400.0,
  "tiles": 89,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
   "tuiles_relief_lointain": 171,
   "décalques": 1802,
-  "sommets": 188849,
-  "triangles": 351914,
-  "ponts": 37,
+  "sommets": 201063,
+  "triangles": 376342,
+  "ponts": 42,
   "niveaux_eau": 13
  },
  "terrain_format": "TGR2",
@@ -18,5 +18,6 @@
  "shared_vertices": true,
  "ground_file": "saintetienne_ground.bin",
  "far_ring_m": 8000.0,
- "far_step_m": 100.0
+ "far_step_m": 100.0,
+ "lidar_mnt_coverage": 1.0
 }

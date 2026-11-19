@@ -1362,9 +1362,9 @@ func _round_tower(S: _Arrays, p: Vector2, r: float, h: float, wall: Color, roof:
 		var y := 0.0
 		var band := 0
 		while y < h:
-			var y1 := minf(h, y + (1.6 if striped else h))
+			var y1 := minf(h, y + (1.0 if striped else h))     # Angers : bandes d'environ 1 m
 			var col := wall
-			if striped and band % 2 == 1: col = Color("#3e3b3d")
+			if striped and band % 2 == 1: col = Color("#5a5d66")   # schiste gris-bleu (tuffeau crème : `wall`)
 			S.wall(Vector3(A.x, y, A.y), Vector3(B.x, y, B.y), y1 - y, Color(col.r, col.g, col.b, SOLID_A), 0.0, 0.0)
 			y = y1; band += 1
 	if cap: S.cone(Vector3(p.x, h, p.y), r * 1.15, r * 2.2, sides, Color(roof.r, roof.g, roof.b, SOLID_A))
@@ -1426,8 +1426,8 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 			if striped:
 				var y := 0.0; var band := 0
 				while y < h:
-					var y1 := minf(h, y + 1.6)
-					_walls(S, ring, y, y1, Color("#3e3b3d") if band % 2 == 1 else Color("#d8cfbd"), false)
+					var y1 := minf(h, y + 1.0)
+					_walls(S, ring, y, y1, Color("#5a5d66") if band % 2 == 1 else Color("#ddd3bf"), false)
 					y = y1; band += 1
 			else:
 				_walls(S, ring, 0.0, h, Color(stone.r, stone.g, stone.b, SOLID_A), false)
@@ -1437,7 +1437,8 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 				for i in n:
 					var p := ring[i]; var pa := ring[(i - 1 + n) % n]; var pb := ring[(i + 1) % n]
 					if (pa - p).normalized().dot((pb - p).normalized()) > -0.4 and p.distance_to(pa) > 8.0:
-						_round_tower(S, p, clampf(sqrt(area) * 0.08, 3.0, 7.0), h + 3.0, stone, SLATE, not striped, striped)
+						# tours nettement plus hautes que les courtines
+						_round_tower(S, p, clampf(sqrt(area) * 0.08, 3.0, 7.0), h + (6.0 if striped else 3.0), Color("#ddd3bf") if striped else stone, SLATE, not striped, striped)
 			return
 		K_STATION:
 			_walls(S, ring, 0.0, h, Color("#e6dfcf", _wall_a(seed)))
@@ -1490,7 +1491,11 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 		_mansard(S, ring, h, ZINC)
 		return
 	var sud := ftype == F_OCRE or str(style.get("pitched", "")) in ["#b76c47", "#ad6242", "#b16946", "#b16f4e"]
-	if lidar and lidar_rise > 0.0 and n <= 12 and cls != 2:   # toit à pentes mesuré
+	# toit à pentes mesuré : emprises simples et moyennes seulement (une grande emprise n'est pas un toit unique),
+	# hausse plafonnée par la largeur
+	if lidar and lidar_rise > 0.0 and (area > 600.0 or n > 8): lidar_rise = 0.0
+	lidar_rise = minf(lidar_rise, sqrt(area) * 0.35)
+	if lidar and lidar_rise > 0.0 and n <= 8 and cls != 2:
 		if n == 4: _gable_roof(S, ring, h, lidar_rise, pitched if has_ortho or sud else SLATE, wall)
 		else: _hip_roof(S, ring, h, lidar_rise, pitched if has_ortho or sud else SLATE)
 		if cls == 0 and not sud and h >= 6.0 and lidar_rise > 2.2 and n == 4: _dormers(_D, ring, h, lidar_rise, wall, seed)

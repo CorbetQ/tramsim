@@ -2,7 +2,7 @@ extends SceneTree
 ## Vues en perspective des zones complexes : décor du jeu (CityScene complet, 13 h) et référence réelle (orthophoto IGN
 ## drapée sur le MNS LiDAR HD, préparée par tests/audit/oblique_views.py), même caméra.
 ## Args : -- <sites.json>   Sortie : jeu_<site>_<vue>.png et ref_<site>_<vue>.png (1280 x 720) à côté de sites.json.
-const VIEWS := {"obl": [170.0, 38.0], "haut": [320.0, 60.0]}
+const VIEWS := {"proche": [75.0, 30.0], "obl": [170.0, 38.0], "haut": [320.0, 60.0]}
 
 var game_vp: SubViewport
 var ref_vp: SubViewport
@@ -53,7 +53,8 @@ func _run() -> void:
 			var pos := c + p * dist * cos(pitch) + Vector3.UP * dist * sin(pitch)
 			await _shot(dir, s.name, v, pos, c)
 		var q := c - d * 60.0
-		var street := Vector3(q.x, cs.height_city(q.x, q.z) + 1.8, q.z)
+		if s.get("street") != null: q = Vector3(float(s.street[0]), 0.0, float(s.street[1]))
+		var street := Vector3(q.x, cs.height_city(q.x, q.z) + 1.7, q.z)
 		await _shot(dir, s.name, "rue", street, c + Vector3.UP * 4.0)
 		print("OBLIQUE|%s|%s" % [s.name, s.ref])
 	quit()

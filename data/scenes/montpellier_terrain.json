@@ -4,13 +4,13 @@
  "alt0": 30.1,
  "tile_m": 400.0,
  "tiles": 370,
- "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-14",
+ "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
   "tuiles_relief_lointain": 382,
   "décalques": 18559,
-  "sommets": 838504,
-  "triangles": 1569449,
-  "ponts": 115,
+  "sommets": 882144,
+  "triangles": 1656729,
+  "ponts": 133,
   "niveaux_eau": 273
  },
  "terrain_format": "TGR2",
@@ -20,5 +20,6 @@
  "extended_tiles": 5,
  "ground_file": "montpellier_ground.bin",
  "far_ring_m": 8000.0,
- "far_step_m": 100.0
+ "far_step_m": 100.0,
+ "lidar_mnt_coverage": 0.996
 }
