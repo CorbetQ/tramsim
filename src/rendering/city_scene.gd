@@ -618,7 +618,8 @@ func _build_tile(k: Vector2i) -> Node3D:
 		# essence d'alignement de la ville majoritaire, sinon mélange régional (t[2] = 1 : houppier sombre, non utilisé)
 		var kind := int(style.get("trees", [0])[0]) if trng.randf() < 0.55 else _pick_tree(trng)
 		var sc := clampf(float(t[1]) / CROWN_R[kind], 0.55, 2.0)
-		_add_tree(kind, Vector3(t[0].x, 0.02, t[0].y), trng, sc, true)
+		# octet >= 12 : hauteur mesurée par le LiDAR HD (quarts de mètre), sinon houppier de l'orthophoto
+		_add_tree(kind, Vector3(t[0].x, 0.02, t[0].y), trng, sc, true, float(t[2]) * 0.25 if int(t[2]) >= 12 else 0.0)
 	# bâtiments
 	for i in blds.size():
 		var b: Array = blds[i]
@@ -1382,7 +1383,10 @@ func _crenels(S: _Arrays, ring: PackedVector2Array, y: float, col: Color) -> voi
 
 func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: int, h: float, kind_raw: int, seed: int, points: Array, roof_ortho: Color = Color(0, 0, 0, 0)) -> void:
 	var principal := (kind_raw & 0x80) != 0
-	var kind := kind_raw & 0x7f
+	var kind := kind_raw & 0x07
+	# LiDAR HD (tools/import/lidar.py) : bit 6 = hauteur d'égout mesurée, bits 3-5 = hausse du toit (pas de 1,5 m)
+	var lidar := (kind_raw & 0x40) != 0
+	var lidar_rise := float((kind_raw >> 3) & 7) * 1.5
 	var n := ring.size()
 	var area := _area(ring)
 	var c := _centroid(ring)
@@ -1486,6 +1490,16 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 		_mansard(S, ring, h, ZINC)
 		return
 	var sud := ftype == F_OCRE or str(style.get("pitched", "")) in ["#b76c47", "#ad6242", "#b16946", "#b16f4e"]
+	if lidar and lidar_rise > 0.0 and n <= 12 and cls != 2:   # toit à pentes mesuré
+		if n == 4: _gable_roof(S, ring, h, lidar_rise, pitched if has_ortho or sud else SLATE, wall)
+		else: _hip_roof(S, ring, h, lidar_rise, pitched if has_ortho or sud else SLATE)
+		if cls == 0 and not sud and h >= 6.0 and lidar_rise > 2.2 and n == 4: _dormers(_D, ring, h, lidar_rise, wall, seed)
+		return
+	if lidar and lidar_rise == 0.0 and cls != 2:     # toit plat mesuré
+		_flat_roof(S, ring, idx, h, roof_ortho if has_ortho else _pal("roofs", seed / 7))
+		if h > 5.0 and n <= 16:
+			_ledge(S, ring, h, 0.3, Color(wall.r * 1.08, wall.g * 1.08, wall.b * 1.06))
+		return
 	if cls == 0 and h <= 12.0 and area < 320.0 and n == 4:
 		var rise := clampf(sqrt(area) * (0.22 if sud else 0.35), 1.2, 4.0)
 		_gable_roof(S, ring, h, rise, pitched, wall)
@@ -2069,7 +2083,7 @@ func add_keepout(a_net: Vector2, b_net: Vector2, clearance: float) -> void:
 func blocked(p_city: Vector2, extra: float = 0.0) -> bool:
 	return _keepout != null and _keepout.blocked(p_city, extra)
 
-func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float = 1.0, exact: bool = false) -> void:
+func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float = 1.0, exact: bool = false, height: float = 0.0) -> void:
 	var local_ := Vector2(pos.x,pos.z)
 	if _street_keepout.blocked(local_,0.3):return
 	if _in_water(local_): return
@@ -2084,6 +2098,9 @@ func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float
 		if lim <= 1.2 and _keepout.blocked(w, lim * 0.8): return
 		sc *= lim / crown
 	var b := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * sc)
+	if height > 0.0:   # hauteur mesurée (LiDAR HD, MNH) : étirement vertical seul, houppier au rayon mesuré
+		var top := _tree_mesh(kind).get_aabb().end.y
+		if top > 0.5: b = Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3(sc, clampf(height / top, 0.4, 3.0), sc))
 	if has_terrain: pos.y += _ground_h(Vector2(pos.x, pos.z))
 	_trees_cur[kind].append(Transform3D(b, pos))
 	var crown_pos := pos + Vector3(0, 5.0 * sc, 0)

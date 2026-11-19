@@ -138,7 +138,8 @@ def scene(city):
                 raise SystemExit(f"{city}: origine {d['origin']} différente de la scène {old['origin']}")
             json.dump(d, open(os.path.join(nd, "%03d.json" % i), "w"))
         ign_scene.main(city, nd, od, cache, ortho, periphery_m=PERIPH_M.get(city, PERIPH_M["default"]),
-                       extra_areas=extra, track_json=False, light_tiles=light)
+                       extra_areas=extra, track_json=False, light_tiles=light,
+                       lidar_cache=None if os.environ.get("NO_LIDAR") else T.SCRATCH)
         new = json.load(open(os.path.join(od, city + ".json")))
         # mesures de plateforme et d'enrobé du corridor historique conservées (le *_track.json n'est pas régénéré)
         for k, v in old.get("stats", {}).items():

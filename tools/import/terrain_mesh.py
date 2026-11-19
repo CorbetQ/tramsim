@@ -438,7 +438,8 @@ def build(city, workers=1):
     tmeta = json.load(open(tmeta_path))
     alt0 = float(tmeta["alt0"])
     frame = T.Frame(*meta["origin"])
-    dem = T.Dem(frame, os.path.join(T.SCRATCH, "dem"), city)
+    # MNT LiDAR HD (repli RGE ALTI hors couverture) ; TERRAIN_LIDAR=0 : RGE ALTI seul
+    dem = (T.Dem if os.environ.get("TERRAIN_LIDAR") == "0" else T.LidarDem)(frame, os.path.join(T.SCRATCH, "dem"), city)
     cache = os.path.join(T.SCRATCH, "ign_cache")
     scene_tiles, keys = tile_keys(city)
     lo = np.array(keys).min(0) * TILE_M; hi = (np.array(keys).max(0) + 1) * TILE_M
@@ -499,6 +500,9 @@ def build(city, workers=1):
     for k in ("grid", "ground_profile_signature", "ground_conformity"):
         tmeta.pop(k, None)
     json.dump(tmeta, open(tmeta_path, "w"), ensure_ascii=False, indent=1)
+    if getattr(dem, "coverage", None):
+        tmeta["lidar_mnt_coverage"] = round(float(np.mean(dem.coverage)), 3)
+        json.dump(tmeta, open(tmeta_path, "w"), ensure_ascii=False, indent=1)
     print(f"{city}: {len(keys)} tuiles, {os.path.getsize(path) / 1e6:.2f} Mo, {dict(st)}, {time.time() - t0:.0f} s", flush=True)
 
 

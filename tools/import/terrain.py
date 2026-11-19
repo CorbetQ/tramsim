@@ -84,6 +84,8 @@ def interpolate_elevation(vertices, samples):
 
 # ------------------------------------------------------------------------------------------------ MNT
 class Dem:
+    block_m = property(lambda self: BLOCK)
+
     def __init__(self, frame, cache, tag):
         self.frame, self.cache, self.tag, self.blocks = frame, cache, tag, {}
         os.makedirs(cache, exist_ok=True)
@@ -118,6 +120,7 @@ class Dem:
     def __call__(self, x, z):
         x = np.asarray(x, dtype=np.float64); z = np.asarray(z, dtype=np.float64)
         out = np.zeros(x.shape)
+        BLOCK = self.block_m
         bx = np.floor(x / BLOCK).astype(int); bz = np.floor(z / BLOCK).astype(int)
         lat, lon = self.frame.inv(x, z)
         for k in set(zip(bx.ravel().tolist(), bz.ravel().tolist())):
@@ -131,6 +134,58 @@ class Dem:
             out[sel] = (a[iy, ix] * (1 - tx) * (1 - ty) + a[iy, ix + 1] * tx * (1 - ty)
                         + a[iy + 1, ix] * (1 - tx) * ty + a[iy + 1, ix + 1] * tx * ty)
         return out
+
+
+LIDAR_MNT = ("https://data.geopf.fr/wms-r?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap"
+             "&LAYERS=IGNF_LIDAR-HD_MNT_ELEVATION.ELEVATIONGRIDCOVERAGE.WGS84G&STYLES=normal&CRS=EPSG:4326"
+             "&BBOX={:.6f},{:.6f},{:.6f},{:.6f}&WIDTH=1040&HEIGHT=1040&FORMAT=image/geotiff")
+LIDAR_BLOCK = 2560.0
+
+
+class LidarDem(Dem):
+    """MNT LiDAR HD (pas ~2,5 m : talus, trémies, quais, rives), complété par le MNT RGE ALTI (~10 m) hors
+    couverture LiDAR HD (pixel par pixel). Cache : <tag>_lidar_<bx>_<bz>.npy (float32)."""
+
+    def __init__(self, frame, cache, tag):
+        super().__init__(frame, cache, tag)
+        self.base = Dem(frame, cache, tag)
+        self.coverage = []
+
+    def _block(self, bx, bz):
+        k = (bx, bz)
+        if k in self.blocks:
+            return self.blocks[k]
+        (bb, base) = self.base._block(bx, bz)          # même emprise (BLOCK identique)
+        path = os.path.join(self.cache, "%s_lidar_%d_%d.npy" % (self.tag, bx, bz))
+        if os.path.exists(path):
+            a = np.load(path)
+        else:
+            a = None
+            for attempt in range(5):
+                r = subprocess.run(["curl", "-sS", "--fail", "-m", "180", "-o", path + ".tif", LIDAR_MNT.format(*bb)], capture_output=True)
+                if r.returncode == 0:
+                    try:
+                        a = np.array(Image.open(path + ".tif"), dtype=np.float32); break
+                    except Exception:
+                        pass
+                time.sleep(2 ** attempt)
+            if os.path.exists(path + ".tif"):
+                os.remove(path + ".tif")
+            if a is None:
+                a = np.full((1040, 1040), np.nan, np.float32)
+            a[~np.isfinite(a) | (a < -20) | (a > 5000)] = np.nan
+            np.save(path, a)
+        a = a.astype(np.float64)
+        miss = ~np.isfinite(a)
+        self.coverage.append(1.0 - miss.mean())
+        if miss.any():                                  # repli RGE ALTI, rééchantillonné bilinéairement
+            from scipy import ndimage
+            n = a.shape[0]
+            f = (np.arange(n) + 0.5) / n * base.shape[0] - 0.5
+            yy, xx = np.meshgrid(f, (np.arange(a.shape[1]) + 0.5) / a.shape[1] * base.shape[1] - 0.5, indexing="ij")
+            a[miss] = ndimage.map_coordinates(base, [yy[miss], xx[miss]], order=1, mode="nearest")
+        self.blocks[k] = (bb, a)
+        return self.blocks[k]
 
 
 # ------------------------------------------------------------------------------------------------ BD TOPO (cache)

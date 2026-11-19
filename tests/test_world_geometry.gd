@@ -26,7 +26,7 @@ func _init()->void:
   var a:=tv.tile(k);var b:=tv.tile(k+Vector2i(1,0))
   for i in 40:
    var z:=i*10.0+3.3
-   var ha:=tv.tile_height(a,tv.tile_m-0.001,z);var hb:=tv.tile_height(b,0.001,z)
+   var ha:=tv.tile_height(a,tv.tile_m-0.0001,z);var hb:=tv.tile_height(b,0.0001,z)  # 0,1 mm du bord : quais et murs LiDAR très raides
    if not is_nan(ha) and not is_nan(hb):seam=maxf(seam,absf(ha-hb));tested+=1
   for m in a.mat:
    if m&31 in [RoadView.ASPHALT,RoadView.ASPHALT_MAJOR,RoadView.SIDEWALK]:paved+=1

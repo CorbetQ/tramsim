@@ -632,13 +632,66 @@ def recompress(path):
     return "TSC4"
 
 
-def main(city, nets_dir, out_dir, cache, ortho_dir=None, periphery_m=0.0, extra_areas=(), track_json=True, light_tiles=()):
+def apply_lidar(city, frame, tiles, light_tiles, cache, track_zone, stats):
+    """LiDAR HD : hauteur d'égout et pente de toit mesurées (kind : bit 6 = mesuré, bits 3-5 = hausse du toit par
+    pas de 1,5 m, 0 = toit plat) ; arbres réels du MNH (hauteur en quarts de mètre dans l'octet « kind » des
+    houppiers, >= 12) à la place des houppiers de l'orthophoto. Tuiles hors couverture : inchangées."""
+    import lidar as L
+    from shapely.prepared import prep
+    from PIL import Image, ImageDraw
+    lid = L.Lidar(cache, frame, TILE_M)
+    tz_p = prep(track_zone.buffer(max(0.0, TREE_CLEAR - TRACK_CLEAR)))
+    for i, t in enumerate(sorted(tiles)):
+        tile = tiles[t]
+        step = 2.0 if t in light_tiles else 1.0
+        mnh = lid.tile(t, step)
+        if mnh is None:
+            continue
+        h, x0, z0, st = mnh
+        blds = []
+        for j, (p, cls, hb, kind) in enumerate(tile["b"]):
+            m = L.building_measure(p, mnh)
+            if m is not None and not (kind & 7):           # monuments : silhouettes stylisées conservées
+                eave, rise = m
+                k = min(7, int(round(rise / 1.5)))
+                blds.append((p, cls, eave, (kind & 0x87) | 0x40 | (k << 3)))
+                stats["hauteurs_lidar"] += 1
+            else:
+                blds.append((p, cls, hb, kind))
+        tile["b"] = blds
+        im = Image.new("L", (h.shape[1], h.shape[0]), 0); d = ImageDraw.Draw(im)
+        wim = Image.new("L", (h.shape[1], h.shape[0]), 0); dw = ImageDraw.Draw(wim)
+        for dx in (-1, 0, 1):
+            for dz in (-1, 0, 1):
+                nb = tiles.get((t[0] + dx, t[1] + dz))
+                if not nb:
+                    continue
+                for p, *_r in nb["b"]:
+                    d.polygon([((x - x0) / st, (z - z0) / st) for x, z in p.exterior.coords], fill=1)
+        ox, oz = t[0] * TILE_M, t[1] * TILE_M
+        for cls, verts, idx in tile["p"]:
+            if cls == P_WATER:
+                for a in range(0, len(idx), 3):
+                    dw.polygon([((verts[k][0] - x0) / st, (verts[k][1] - z0) / st) for k in idx[a:a + 3]], fill=1)
+        from shapely.geometry import Point
+        tr = L.trees(mnh, np.asarray(im, bool), np.asarray(wim, bool),
+                     keep=lambda x, z: not tz_p.contains(Point(x, z)))
+        tile["tr"] = [(x, z, r, max(12, min(255, int(round(hh * 4))))) for x, z, r, hh in tr]
+        stats["arbres_lidar"] += len(tr)
+        if i % 100 == 0:
+            print(f"  lidar tuile {i + 1}/{len(tiles)}", file=sys.stderr, flush=True)
+    stats.update(lid.stats)
+
+
+def main(city, nets_dir, out_dir, cache, ortho_dir=None, periphery_m=0.0, extra_areas=(), track_json=True, light_tiles=(),
+         lidar_cache=None):
     """periphery_m > 0 : emprise élargie aux tuiles entières à moins de periphery_m des voies (et extra_areas, polygones
     du repère de la ville : vue aérienne de l'accueil, monuments). Orthophotos z17 dans le corridor historique,
     z16 (2,4 m/px) au-delà. track_json=False : nature des plateformes non recalculée (fichier *_track.json intact).
     light_tiles : tuiles de décor lointain (vue globale de l'agglomération) : bâtiments >= 30 m² simplifiés à 1 m, sans
     chemins ni analyse d'orthophoto (le sol y vient de l'occupation du sol, tools/import/landcover.py)."""
     light_tiles = set(map(tuple, light_tiles))
+    # lidar_cache : produits LiDAR HD (tools/import/lidar.py) : hauteurs mesurées des bâtiments, arbres du MNH
     os.makedirs(cache, exist_ok=True)
     nets = []
     for f in sorted(os.listdir(nets_dir)):
@@ -912,6 +965,8 @@ def main(city, nets_dir, out_dir, cache, ortho_dir=None, periphery_m=0.0, extra_
         os.makedirs(out_dir, exist_ok=True)
         with open(os.path.join(out_dir, city + "_track.json"), "w") as f:
             json.dump(tj, f, ensure_ascii=False, separators=(",", ":"))
+    if lidar_cache:
+        apply_lidar(city, frame, tiles, light_tiles, lidar_cache, track_zone, stats)
     # écriture (emprise élargie : toutes les tuiles, même vides hors de France ou en mer : sol teinté par
     # l'occupation du sol au lieu de l'horizon lointain)
     if zone_tiles is not None:
