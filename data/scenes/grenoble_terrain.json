@@ -8,8 +8,9 @@
  "stats": {
   "tuiles_relief_lointain": 273,
   "décalques": 7149,
-  "sommets": 526178,
-  "triangles": 977391,
+  "sommets": 526176,
+  "triangles": 977387,
+  "sol_au_dessus_eau": 0,
   "ponts": 72,
   "niveaux_eau": 83
  },

@@ -508,7 +508,11 @@ func _build_tile(k: Vector2i) -> Node3D:
 	elif terrain != null and table.has(k): _far_ground(S, k, ground)   # décor lointain allégé (light_tiles)
 	else: S.quad(Vector3(0, 0, 0), Vector3(tile_m, 0, 0), Vector3(tile_m, 0, tile_m), Vector3(0, 0, tile_m), ground, -1.0)
 	for di in _decks.size():
-		if _decks[di][3] == k: _deck(S, _decks[di])
+		if _decks[di][3] == k:
+			var i0 := S.count()
+			_deck(S, _decks[di])
+			# tablier : hors du sol pour le shader (ni teinte d'occupation du sol, ni masque de pelouse)
+			for j in range(i0, S.count()): S.set_rel(j, 3.0)
 	if not table.has(k):   # couronne de relief autour du décor
 		var gi := MeshInstance3D.new(); gi.mesh = S.mesh(); gi.material_override = Materials.building()
 		node.add_child(gi)
@@ -1272,6 +1276,57 @@ const ZINC := Color("#7e8a95")
 const GLASS_SHOP := 0.45     # alpha des vitrines (éclairées la nuit)
 const SOLID_A := 0.35        # alpha sans fenêtres
 
+## Halle à voûte (gare) : rectangle orienté de l'emprise, murs bas en pierre claire, berceau vitré à 8 pans dans
+## l'axe le plus long, arcs métalliques tous les 12 m, pignons vitrés.
+func _vault(S: _Arrays, ring: PackedVector2Array, h: float) -> void:
+	var best := INF; var ax := Vector2.RIGHT; var lo := Vector2.ZERO; var hi := Vector2.ZERO
+	for i in ring.size():
+		var d := (ring[(i + 1) % ring.size()] - ring[i]).normalized()
+		if d.length_squared() < 0.5: continue
+		var nn := Vector2(-d.y, d.x)
+		var a := Vector2(INF, INF); var b := Vector2(-INF, -INF)
+		for q in ring:
+			var u := Vector2(q.dot(d), q.dot(nn)); a = a.min(u); b = b.max(u)
+		var ar := (b.x - a.x) * (b.y - a.y)
+		if ar < best: best = ar; ax = d; lo = a; hi = b
+	var nrm := Vector2(-ax.y, ax.x)
+	if hi.x - lo.x < hi.y - lo.y:   # axe long
+		var t := ax; ax = nrm; nrm = -t
+		var a2 := Vector2(INF, INF); var b2 := Vector2(-INF, -INF)
+		for q in ring:
+			var u := Vector2(q.dot(ax), q.dot(nrm)); a2 = a2.min(u); b2 = b2.max(u)
+		lo = a2; hi = b2
+	var w := hi.y - lo.y
+	var wall_h := clampf(h * 0.35, 3.0, 8.0)
+	var rise := clampf(w * 0.32, 4.0, maxf(4.0, h + 6.0 - wall_h))
+	var P := func(u: float, v: float, y: float) -> Vector3:
+		var q: Vector2 = ax * u + nrm * v
+		return Vector3(q.x, y, q.y)
+	var stone := Color("#d9d2c2", SOLID_A); var glass := Color("#9fb6c3", SOLID_A); var iron := Color("#4f5a61", SOLID_A)
+	# murs bas
+	var c4 := [Vector2(lo.x, lo.y), Vector2(hi.x, lo.y), Vector2(hi.x, hi.y), Vector2(lo.x, hi.y)]
+	for i in 4:
+		var a: Vector2 = c4[i]; var b: Vector2 = c4[(i + 1) % 4]
+		S.quad(P.call(a.x, a.y, 0.0), P.call(b.x, b.y, 0.0), P.call(b.x, b.y, wall_h), P.call(a.x, a.y, wall_h), stone, -1.0)
+	var seg := 8
+	var prof: Array[Vector2] = []
+	for k in seg + 1:
+		var th := PI * float(k) / seg
+		prof.append(Vector2(lo.y + w * 0.5 * (1.0 - cos(th)), wall_h + rise * sin(th)))
+	for k in seg:
+		var a: Vector2 = prof[k]; var b: Vector2 = prof[k + 1]
+		S.quad(P.call(lo.x, a.x, a.y), P.call(hi.x, a.x, a.y), P.call(hi.x, b.x, b.y), P.call(lo.x, b.x, b.y), glass, -1.0)
+	for u in [lo.x, hi.x]:   # pignons vitrés
+		var mid: Vector3 = P.call(u, lo.y + w * 0.5, wall_h)
+		for k in seg:
+			S.tri(mid, P.call(u, prof[k].x, prof[k].y), P.call(u, prof[k + 1].x, prof[k + 1].y), glass)
+	var u2 := lo.x
+	while u2 <= hi.x:   # arcs métalliques
+		for k in seg:
+			var a: Vector2 = prof[k]; var b: Vector2 = prof[k + 1]
+			S.quad(P.call(u2 - 0.3, a.x, a.y + 0.15), P.call(u2 + 0.3, a.x, a.y + 0.15), P.call(u2 + 0.3, b.x, b.y + 0.15), P.call(u2 - 0.3, b.x, b.y + 0.15), iron, -1.0)
+		u2 += 12.0
+
 func _wall_a(seed: int) -> float:
 	return 0.52 + float(style.get("masonry",2))*0.1 + float(absi(seed)%97)*0.0008
 
@@ -1443,6 +1498,9 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 						_round_tower(S, p, clampf(sqrt(area) * 0.08, 3.0, 7.0), h + (6.0 if striped else 3.0), Color("#ddd3bf") if striped else stone, SLATE, not striped, striped)
 			return
 		K_STATION:
+			if area > 2500.0:   # grande halle voyageurs : voûte vitrée en long sur arcs métalliques
+				_vault(S, ring, h)
+				return
 			_walls(S, ring, 0.0, h, Color("#e6dfcf", _wall_a(seed)))
 			if n == 4: _gable_roof(S, ring, h, clampf(sqrt(area) * 0.18, 2.0, 9.0), Color("#a9c3d1"), Color("#e6dfcf"))
 			else: _flat_roof(S, ring, idx, h, Color("#a9c3d1"))

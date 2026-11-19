@@ -656,7 +656,7 @@ def apply_lidar(city, frame, tiles, light_tiles, cache, track_zone, stats):
             if k7 in (K_CHURCH, K_CATHEDRAL, K_CASTLE):     # monuments : silhouettes stylisées conservées
                 blds.append((p, cls, hb, kind)); rf.append(roof); continue
             pieces = [p]
-            if p.area > 3000:                                 # grands ouvrages (gares, dalles, centres commerciaux) :
+            if p.area > 3000 and k7 != K_STATION:      # (gares : halle à voûte, CityScene)                                 # grands ouvrages (gares, dalles, centres commerciaux) :
                 x0_, z0_, x1_, z1_ = p.bounds                  # hauteur mesurée par secteur de 30 m
                 pieces = []
                 for gx in np.arange(x0_, x1_, 30.0):
@@ -666,18 +666,44 @@ def apply_lidar(city, frame, tiles, light_tiles, cache, track_zone, stats):
                             if q.geom_type == "Polygon" and q.area > 20 and len(q.exterior.coords) <= 33:
                                 pieces.append(Polygon(q.exterior.coords) if q.exterior.is_ccw else Polygon(list(q.exterior.coords)[::-1]))
                 pieces = pieces or [p]
-            for q in pieces:
-                m = L.building_measure(q, mnh)
+            if len(pieces) == 1:
+                m = L.building_measure(p, mnh)
                 if m is not None:
                     eave, rise = m
                     k = min(7, int(round(rise / 1.5)))
-                    blds.append((q, cls, eave, (kind & 0x87) | 0x40 | (k << 3)))
+                    blds.append((p, cls, eave, (kind & 0x87) | 0x40 | (k << 3)))
                     stats["hauteurs_lidar"] += 1
-                elif len(pieces) == 1:
-                    blds.append((q, cls, hb, kind))
                 else:
-                    continue
+                    blds.append((p, cls, hb, kind))
                 rf.append(roof)
+                continue
+            # secteurs : toit plat à la médiane mesurée, secteurs voisins de hauteur proche (±2 m) fusionnés
+            groups = []                                  # [polygone, hauteur, aire]
+            for q in pieces:
+                m = L.building_measure(q, mnh)
+                if m is None:
+                    continue
+                hq = m[0] + m[1] * 0.5
+                for g in groups:
+                    if abs(g[1] - hq) <= 2.0 and g[0].distance(q) < 0.5:
+                        a2 = g[2] + q.area
+                        g[1] = (g[1] * g[2] + hq * q.area) / a2; g[2] = a2
+                        g[0] = g[0].union(q.buffer(0.05)).buffer(-0.05)
+                        break
+                else:
+                    groups.append([q, hq, q.area])
+            for g, hq, _a in groups:
+                for q in polys_of(g.simplify(0.5)):
+                    if q.area < 20:
+                        continue
+                    if len(q.exterior.coords) > 33:
+                        q = q.simplify(1.5)
+                    if q.geom_type != "Polygon" or len(q.exterior.coords) > 33 or len(q.exterior.coords) < 4:
+                        continue
+                    q = Polygon(q.exterior.coords) if Polygon(q.exterior.coords).exterior.is_ccw else Polygon(list(q.exterior.coords)[::-1])
+                    blds.append((q, cls, max(2.5, hq), (kind & 0x87) | 0x40))
+                    rf.append(roof)
+                    stats["hauteurs_lidar"] += 1
         if rf0 is not None:
             tile["rf"] = rf
         tile["b"] = blds

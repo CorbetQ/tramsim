@@ -39,9 +39,9 @@ void fragment() {
 	float fade = 1.0 - smoothstep(0.3, 0.8, px * 0.9);
 	vec3 nw = normalize(v_n + vec3(n2(q) - 0.5, 0.0, n2(q + 31.0) - 0.5) * 0.12 * fade);
 	NORMAL = normalize((VIEW_MATRIX * vec4(nw, 0.0)).xyz);
-	float t = 0.5 + 0.5 * sin(v_world.x * 0.05 + v_world.z * 0.04 + TIME * 0.3);
-	// bandes claires fondues au loin (pas de rayures en vue aérienne)
-	vec3 water = mix(deep, shallow, step(0.5, t) * 0.5 * (1.0 - smoothstep(0.5, 2.0, px)));
+	// teinte : variation douce par taches (bruit métrique ~40 m), sans bandes (rayons en éventail en perspective)
+	float t = n2(v_world.xz * 0.025 + vec2(TIME * 0.01, 0.0));
+	vec3 water = mix(deep, shallow, t * 0.35);
 	// vue plongeante (aérienne) : ni reflet du ciel ni tache spéculaire sur toute la surface
 	v_top = smoothstep(0.85, 0.97, abs(dot(VIEW, (VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz)));
 	float fres = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 4.0);
