@@ -38,6 +38,7 @@ func _init() -> void:
 ## Construit la vue de la ville (réseau complet `path`) et l'interface.
 func start(city_name: String, path: String, hour_: float, view_distance: float = 400.0, with_trams: bool = true) -> bool:
 	city = city_name; hour = hour_
+	CityScene.show_labels = true   # noms des monuments affichés en exploration
 	net = NetworkLoader.new()
 	if not net.load_file(path).is_empty() and net.graph.edges.is_empty(): return false
 	NormalRouting.initialize(net)
@@ -293,3 +294,6 @@ class _Joystick extends Control:
 		draw_circle(c, r, Color(UiTheme.SURFACE, 0.7))
 		draw_arc(c, r - 1.0, 0.0, TAU, 48, Color(1, 1, 1, 0.25), 2.0, true)
 		draw_circle(c + Vector2(value.x, -value.y) * r * 0.8, r * 0.36, Color(UiTheme.ACCENT, 0.85))
+
+func _exit_tree() -> void:
+	CityScene.show_labels = false

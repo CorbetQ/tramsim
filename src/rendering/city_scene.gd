@@ -25,6 +25,8 @@ var queue: Array[Vector2i] = []
 var radius := 650.0
 ## Vue lointaine (fond d'accueil, vue aérienne) : ni détails de façade, ni mobilier, ni étiquettes.
 var lite := false
+## Noms des monuments en 3D (Label3D) : seulement pour la carte et le mode Explorer (à activer par l'appelant).
+static var show_labels := false
 var _horizon_deferred := false
 var style: Dictionary = {}
 var city := ""
@@ -754,7 +756,7 @@ func _build_tile(k: Vector2i) -> Node3D:
 		node.add_child(mmi)
 	# noms des monuments
 	for lb in labels:
-		if lite: break
+		if lite or not show_labels: break
 		var l3 := Label3D.new(); l3.text = lb[2]
 		l3.font_size = 72; l3.pixel_size = 0.03; l3.outline_size = 14
 		l3.billboard = BaseMaterial3D.BILLBOARD_ENABLED; l3.no_depth_test = false

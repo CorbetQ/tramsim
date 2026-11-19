@@ -1,13 +1,38 @@
 {
  "angers": [
-  {"name": "chateau_basse_chaine", "lat": 47.4692, "lon": -0.5612, "dir_deg": 70},
-  {"name": "gare_saint_laud", "lat": 47.4646, "lon": -0.5568, "dir_deg": 0}
+  {
+   "name": "chateau_basse_chaine",
+   "lat": 47.4692,
+   "lon": -0.5612,
+   "dir_deg": 70
+  },
+  {
+   "name": "gare_saint_laud",
+   "lat": 47.4646,
+   "lon": -0.5568,
+   "dir_deg": 0
+  }
  ],
  "lyon": [
-  {"name": "perrache", "lat": 45.7485, "lon": 4.8259, "dir_deg": 0},
-  {"name": "pont_raymond_barre", "lat": 45.7378, "lon": 4.8180, "dir_deg": 0}
+  {
+   "name": "perrache",
+   "lat": 45.7485,
+   "lon": 4.8259,
+   "dir_deg": 0
+  },
+  {
+   "name": "pont_raymond_barre",
+   "lat": 45.7333,
+   "lon": 4.8226,
+   "dir_deg": 80
+  }
  ],
  "nantes": [
-  {"name": "pont_anne_de_bretagne", "lat": 47.2078, "lon": -1.5650, "dir_deg": 90}
+  {
+   "name": "pont_anne_de_bretagne",
+   "lat": 47.2078,
+   "lon": -1.565,
+   "dir_deg": 90
+  }
  ]
 }

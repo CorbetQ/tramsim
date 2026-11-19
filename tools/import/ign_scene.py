@@ -648,16 +648,38 @@ def apply_lidar(city, frame, tiles, light_tiles, cache, track_zone, stats):
         if mnh is None:
             continue
         h, x0, z0, st = mnh
-        blds = []
+        blds, rf = [], []
+        rf0 = tile.get("rf")
         for j, (p, cls, hb, kind) in enumerate(tile["b"]):
-            m = L.building_measure(p, mnh)
-            if m is not None and not (kind & 7):           # monuments : silhouettes stylisées conservées
-                eave, rise = m
-                k = min(7, int(round(rise / 1.5)))
-                blds.append((p, cls, eave, (kind & 0x87) | 0x40 | (k << 3)))
-                stats["hauteurs_lidar"] += 1
-            else:
-                blds.append((p, cls, hb, kind))
+            roof = rf0[j] if rf0 and j < len(rf0) else 0
+            k7 = kind & 7
+            if k7 in (K_CHURCH, K_CATHEDRAL, K_CASTLE):     # monuments : silhouettes stylisées conservées
+                blds.append((p, cls, hb, kind)); rf.append(roof); continue
+            pieces = [p]
+            if p.area > 3000:                                 # grands ouvrages (gares, dalles, centres commerciaux) :
+                x0_, z0_, x1_, z1_ = p.bounds                  # hauteur mesurée par secteur de 30 m
+                pieces = []
+                for gx in np.arange(x0_, x1_, 30.0):
+                    for gz in np.arange(z0_, z1_, 30.0):
+                        for q in polys_of(p.intersection(box(gx, gz, gx + 30.0, gz + 30.0))):
+                            q = q.simplify(0.3)
+                            if q.geom_type == "Polygon" and q.area > 20 and len(q.exterior.coords) <= 33:
+                                pieces.append(Polygon(q.exterior.coords) if q.exterior.is_ccw else Polygon(list(q.exterior.coords)[::-1]))
+                pieces = pieces or [p]
+            for q in pieces:
+                m = L.building_measure(q, mnh)
+                if m is not None:
+                    eave, rise = m
+                    k = min(7, int(round(rise / 1.5)))
+                    blds.append((q, cls, eave, (kind & 0x87) | 0x40 | (k << 3)))
+                    stats["hauteurs_lidar"] += 1
+                elif len(pieces) == 1:
+                    blds.append((q, cls, hb, kind))
+                else:
+                    continue
+                rf.append(roof)
+        if rf0 is not None:
+            tile["rf"] = rf
         tile["b"] = blds
         im = Image.new("L", (h.shape[1], h.shape[0]), 0); d = ImageDraw.Draw(im)
         wim = Image.new("L", (h.shape[1], h.shape[0]), 0); dw = ImageDraw.Draw(wim)
