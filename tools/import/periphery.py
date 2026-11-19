@@ -30,7 +30,7 @@ PERIPH_M = {"default": 650.0, "idf": 450.0, "lyon": 550.0, "nantes": 700.0, "bor
             "grenoble": 550.0, "montpellier": 550.0, "lille": 700.0, "marseille": 600.0, "toulouse": 600.0, "angers": 850.0}
 LANDMARK_M = 320.0
 # décor lointain allégé : cadre de la vue globale, à au plus LIGHT_M des voies (0 : tout le cadre)
-LIGHT_M = {"default": 0, "idf": 1500.0, "lyon": 4000.0, "mulhouse": 3000.0, "valenciennes": 3000.0, "bordeaux": 4000.0}
+LIGHT_M = {"default": 0, "idf": 1500.0}
 
 
 def city_lines(city):

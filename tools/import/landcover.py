@@ -9,7 +9,7 @@ Deux rasters de classes, alignés sur le repère de la ville :
   orthophoto z13 (~13 m/px) ; couleur des sommets de l'horizon (src/rendering/terrain_view.gd).
 Hors de France (Kehl, Belgique, Suisse : pas d'orthophoto IGN) : ESA WorldCover 10 m (2021, CC BY 4.0), voir
 tools/import/worldcover.py.
-Classes : règles sur la couleur moyenne de la cellule (indice de verdure, luminance, chroma), puis filtre modal 3 x 3 (pas de pixels isolés). Le jeu affiche la couleur de rendu
+Bâti dense (emprises BD TOPO de la scène) prioritaire sur l'apparence (urban_override). Classes : règles sur la couleur moyenne de la cellule (indice de verdure, luminance, chroma), puis filtre modal 3 x 3 (pas de pixels isolés). Le jeu affiche la couleur de rendu
 de la classe (palette cel shading), pas l'image : aucune orthophoto n'est embarquée.
 
 Format (little endian) : "TLC1", u32 version (1), u8 n classes, n x (u8 r, g, b, drapeaux : bit 0 culture à sillons,
@@ -72,7 +72,7 @@ def classify(rgb, ok, south=False):
     cls[exg >= 0.045] = 2                                         # pelouse, prairie
     cls[(exg >= 0.08) & (lum >= 0.40)] = 6                        # culture verte
     cls[(exg >= 0.05) & (lum < 0.27)] = 7                         # bois (prairies humides sombres : prairie)
-    cls[(lum < 0.25) & (exg < 0.05) & (rb < 0.02)] = 8            # eau (sombre, non verte)
+    cls[(lum < 0.23) & (exg < 0.04) & (rb < 0.0)] = 8             # eau (sombre, bleutée ; pas les labours sombres)
     cls[~ok] = 255
     return cls
 
@@ -128,6 +128,50 @@ def pack(x0, z0, step, a):
     return struct.pack("<fffHHI", x0, z0, step, a.shape[1], a.shape[0], len(c)) + c
 
 
+def built_density(city, lo, nx, nz):
+    """Part bâtie par cellule de 25 m (emprises BD TOPO de la scène, tracées à 5 m) : toutes, et grands
+    bâtiments (>= 1500 m², entrepôts, centres commerciaux)."""
+    from PIL import Image, ImageDraw
+    import ign_scene
+    f = 5
+    W, H = nx * f, nz * f
+    im, big = Image.new("L", (W, H), 0), Image.new("L", (W, H), 0)
+    d, db = ImageDraw.Draw(im), ImageDraw.Draw(big)
+    tiles, _ = ign_scene.read_tiles(open(os.path.join(ROOT, "data/scenes", city + ".bin"), "rb").read())
+    sc = f / CELL
+    for (tx, tz), b in tiles.items():
+        if len(b) < 2:
+            continue
+        o = 2
+        ox, oz = tx * TILE_M - lo[0], tz * TILE_M - lo[1]
+        for _ in range(struct.unpack_from("<H", b, 0)[0]):
+            n = b[o]; o += 5
+            ring = np.frombuffer(b, "<i2", n * 2, o).reshape(n, 2) * 0.1; o += n * 4
+            o += 1 + b[o] * 3
+            pts = [((x + ox) * sc, (z + oz) * sc) for x, z in ring]
+            if len(pts) >= 3:
+                d.polygon(pts, fill=255)
+                a = 0.5 * abs(float(np.dot(ring[:, 0], np.roll(ring[:, 1], 1)) - np.dot(ring[:, 1], np.roll(ring[:, 0], 1))))
+                if a >= 1500:
+                    db.polygon(pts, fill=255)
+    a = (np.asarray(im) > 0).reshape(nz, f, nx, f).mean((1, 3))
+    g = (np.asarray(big) > 0).reshape(nz, f, nx, f).mean((1, 3))
+    return ndimage.uniform_filter(a, 3, mode="nearest"), ndimage.uniform_filter(g, 3, mode="nearest")
+
+
+def urban_override(det, dens, big):
+    """Le bâti dense prime sur l'apparence de l'orthophoto (toits beiges et cours lus comme des champs) ;
+    zones d'activités (grands toits, parkings) en minéral clair."""
+    out = det.copy()
+    open_ = np.isin(det, (3, 4, 5, 9, 10))
+    green = np.isin(det, (2, 6))
+    out[open_ & (dens >= 0.10)] = 1
+    out[green & (dens >= 0.25)] = 1
+    out[(np.isin(det, (1, 3, 4, 5, 9, 10)) | green & (dens >= 0.15)) & (big >= 0.12)] = 0
+    out[det == 255] = 255
+    return out
+
+
 def build(city):
     t0 = time.time()
     meta = json.load(open(os.path.join(ROOT, "data/scenes", city + ".json")))
@@ -145,6 +189,8 @@ def build(city):
         mask[max(0, iz - 1):iz + per + 1, max(0, ix - 1):ix + per + 1] = True
     south = meta["origin"][0] < 44.6
     det = raster(ortho, frame, Z_DETAIL, float(lo[0]), float(lo[1]), CELL, nx, nz, 5, mask, south)
+    dens, big = built_density(city, lo, nx, nz)
+    det = urban_override(det, dens, big)
     flo = lo - FAR_MARGIN; fhi = hi + FAR_MARGIN
     fnx = int((fhi[0] - flo[0]) // FAR_STEP) + 1; fnz = int((fhi[1] - flo[1]) // FAR_STEP) + 1
     far = raster(ortho, frame, Z_FAR, float(flo[0]), float(flo[1]), FAR_STEP, fnx, fnz, 4, None, south)

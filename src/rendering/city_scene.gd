@@ -960,7 +960,8 @@ func avoid_camera(target_net: Vector3, desired_net: Vector3) -> Vector3:
 static func _ortho_roof(code: int) -> Color:
 	var c := Color(((code >> 8) & 15) / 15.0, ((code >> 4) & 15) / 15.0, (code & 15) / 15.0)
 	# moyenne orthophoto = pans au soleil ET à l'ombre (×0,9 sur la valeur) ; voile bleuté de l'ortho retiré
-	var sat := c.s / 1.3 * (0.45 if c.h > 0.5 and c.h < 0.85 else 1.0)
+	# tuiles rouges/orangées : saturation modérée (centres anciens trop orangés en vue aérienne sinon)
+	var sat := c.s / 1.3 * (0.45 if c.h > 0.5 and c.h < 0.85 else (0.75 if c.h < 0.12 or c.h > 0.94 else 1.0))
 	return Color.from_hsv(c.h, sat, clampf((c.v - 0.05) / 1.12 * 0.9, 0.0, 1.0))
 
 var _water_cur: Array = []          # triangles d'eau de la tuile en cours : [PackedVector2Array(3), Rect2]
