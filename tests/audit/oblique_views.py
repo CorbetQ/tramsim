@@ -63,7 +63,23 @@ def sites(city, frame, n):
     if os.path.exists(man):
         for s in json.load(open(man)).get(city, []):
             x, z = frame.fwd(s["lat"], s["lon"])
-            out.append({"name": s["name"], "x": float(x), "z": float(z), "dir": math.radians(s.get("dir_deg", 0)), "len": 0})
+            site = {"name": s["name"], "x": float(x), "z": float(z), "dir": math.radians(s.get("dir_deg", 0)), "len": 0}
+            if s["name"].startswith("pont"):        # recalage sur l'ouvrage BD TOPO le plus proche (< 500 m)
+                from shapely.geometry import Point
+                best = None
+                for up, g in segs:
+                    if not up:
+                        continue
+                    dd = g.distance(Point(x, z))
+                    if dd < 500 and (best is None or dd < best[0]):
+                        best = (dd, g)
+                if best:
+                    m = linemerge([g for up, g in segs if up and g.distance(best[1]) < 1.0])
+                    g = max(([m] if m.geom_type == "LineString" else list(m.geoms)), key=lambda q: q.length)
+                    c = g.interpolate(0.5, normalized=True)
+                    a, b = g.interpolate(0.4, normalized=True), g.interpolate(0.6, normalized=True)
+                    site.update(x=c.x, z=c.y, dir=math.atan2(b.y - a.y, b.x - a.x), len=round(g.length))
+            out.append(site)
     return out
 
 

@@ -439,6 +439,7 @@ def build(city, workers=1):
     alt0 = float(tmeta["alt0"])
     frame = T.Frame(*meta["origin"])
     # MNT LiDAR HD (repli RGE ALTI hors couverture) ; TERRAIN_LIDAR=0 : RGE ALTI seul
+    st = defaultdict(int)
     dem = (T.Dem if os.environ.get("TERRAIN_LIDAR") == "0" else T.LidarDem)(frame, os.path.join(T.SCRATCH, "dem"), city)
     cache = os.path.join(T.SCRATCH, "ign_cache")
     scene_tiles, keys = tile_keys(city)
@@ -447,7 +448,23 @@ def build(city, workers=1):
     llb = (float(la0), float(lo0), float(la1), float(lo1))
     tp, ty, axes, tunnels = free_tracks(city, frame)
     water = T.water_surfaces(frame, cache, llb)
+    # niveau inconnu (Z BD TOPO absent) : estimé sur le MNT RGE ALTI (surface de l'eau), jamais sur le MNT LiDAR
+    # HD (interpolé et bruité sur l'eau) ; le lit est alors toujours creusé sous le plan d'eau
+    base = getattr(dem, "base", dem)
+    fixed = []
+    for p, lv in water:
+        if not (np.isfinite(lv) and lv >= -20) and p.area > 50:
+            x0, z0, x1, z1 = p.bounds
+            gx, gz = np.meshgrid(np.linspace(x0, x1, 12), np.linspace(z0, z1, 12))
+            ins = shapely.contains_xy(p, gx.ravel(), gz.ravel())
+            if ins.sum() >= 3:
+                lv = float(np.percentile(base(gx.ravel()[ins], gz.ravel()[ins]), 30))
+                st["niveaux_eau_estimés"] += 1
+        fixed.append((p, lv))
+    water = fixed
     height = Height(dem, alt0, (tp, ty), water)
+    wl_chk = [(p, lv - alt0) for p, lv in water if np.isfinite(lv) and lv >= -20]
+    wtree_chk = shapely.STRtree([p for p, _ in wl_chk]) if wl_chk else None
     curv = lambda x, z: dem(x, z)
     # points fins autour des portails de tunnel peu profonds (découpe nette par city_scene.add_portal_cut)
     extra = []
@@ -459,7 +476,7 @@ def build(city, workers=1):
                         extra.append((p[0] + dx, p[1] + dz))
     roads = RM.CityRoads(city, frame, cache, llb, axes, full_tiles=bool(meta.get("periphery_m")))
     scene = RM.read_scene(os.path.join(ROOT, "data/scenes", city + ".bin"))
-    blobs, ymins, st = [], [], defaultdict(int)
+    blobs, ymins = [], []
     # périphérie (tools/import/periphery.py) hors corridor historique : pas de maillage de sol propre (relief lointain
     # et voirie en rubans, CityScene._far_ground) ; la couronne lointaine couvre toute l'emprise
     all_keys = keys
@@ -469,6 +486,13 @@ def build(city, workers=1):
         coarse = False
         parts, decals = roads.tile_parts(t, scene.get(t), t in scene_tiles, coarse)
         V, Tt, M = tile_mesh(t, parts, height, curv, extra, t in scene_tiles and not coarse, 0.8 if coarse else SIMPLIFY)
+        if wtree_chk is not None:   # contrôle : aucun sommet de sol au-dessus du plan d'eau dans un polygone d'eau
+            ox, oz = t[0] * TILE_M, t[1] * TILE_M
+            pts = shapely.points(V[:, 0] + ox, V[:, 2] + oz)
+            for wi in np.unique(wtree_chk.query(pts, predicate="within")[1]):
+                pw, lvw = wl_chk[int(wi)]
+                inn = shapely.contains_xy(pw.buffer(-1.0), V[:, 0] + ox, V[:, 2] + oz)
+                st["sol_au_dessus_eau"] += int(np.sum(V[inn, 1] > lvw - 0.05))
         raw, ymin = encode_tile(V, Tt, M)
         raw += encode_decals(t, decals)
         st["décalques"] += len(decals["lines"]) + len(decals["rects"])
