@@ -6,7 +6,9 @@
  "tiles": 173,
  "source": "MNT IGN RGE ALTI® (WMS data.geopf.fr) et BD TOPO® IGN, Licence Ouverte 2.0, extrait du 2026-11-19",
  "stats": {
+  "niveaux_eau_estimés": 14,
   "tuiles_relief_lointain": 299,
+  "sol_au_dessus_eau": 12,
   "décalques": 5999,
   "sommets": 339770,
   "triangles": 630235,

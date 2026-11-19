@@ -10,6 +10,7 @@
   "décalques": 2362,
   "sommets": 225811,
   "triangles": 428265,
+  "sol_au_dessus_eau": 1,
   "ponts": 26,
   "niveaux_eau": 31
  },
