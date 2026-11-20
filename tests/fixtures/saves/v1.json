@@ -1,0 +1,1 @@
+{"version":1,"settings":{"traffic":false,"custom_theme":"old"},"results":[{"network":"angers_a","vehicle":"citadis_302","success":true,"time_s":600,"stops":[]}],"free":{"network":"res://data/free/old.json","edge":"old_edge","offset":20,"vehicle":"citadis_302"},"plugin_extension":{"preserved":true}}

@@ -102,6 +102,11 @@ func _ready() -> void:
 	ui_audio = UiAudio.new(); ui_audio.enabled = bool(save.settings.get("ui_sounds", true)); add_child(ui_audio)
 	bell = AudioStreamPlayer.new(); bell.stream = _bell_sound(); add_child(bell)
 	_build_menu()
+	if not SaveGame.last_load_report.get("ok", true):
+		var notice := AcceptDialog.new()
+		notice.title = "Sauvegarde protégée"
+		notice.dialog_text = str(SaveGame.last_load_report.get("message", "Sauvegarde non modifiée."))
+		add_child(notice); notice.popup_centered(Vector2i(520, 180))
 
 ## Cloche de tram : deux coups (« ding-ding ») générés en PCM 16 bits.
 func _bell_sound() -> AudioStreamWAV:
@@ -326,8 +331,11 @@ func _build_menu() -> void:
 ## Dernière partie lancée (réglage last_run), si son réseau existe encore.
 func _resume_info() -> Dictionary:
 	var r = save.settings.get("last_run", {})
-	if not r is Dictionary or not r.has("net_path") or not FileAccess.file_exists(str(r.net_path)): return {}
-	return r
+	if not r is Dictionary or not r.has("net_path") or not r.has("free") or not r.has("vehicle"): return {}
+	var current_path := SaveResume.network_path(r)
+	if current_path.is_empty(): return {}
+	var restored: Dictionary = r.duplicate(true); restored.net_path = current_path
+	return restored
 
 func _build_home() -> void:
 	var page := _page()
@@ -749,7 +757,7 @@ func _build_setup() -> void:
 func _remember_run(city: String) -> void:
 	var label := "%s · %s · %s" % [city, "mode libre" if free_mode else ("mission « %s »" % scenario.get("title", "") if not scenario.is_empty()
 		else "ligne %s %s" % [CityDataStore.document(net_path).get("line", ""), str(mission.get("start_time", "")).substr(0, 5)]), vehicle.family]
-	save.settings.last_run = {"label": label, "city": city, "free": free_mode, "net_path": net_path, "vehicle": vehicle.id,
+	save.settings.last_run = {"label": label, "city": city, "free": free_mode, "net_path": net_path, "network_id": CityDataStore.document(net_path).get("id", ""), "vehicle": vehicle.id,
 		"mission_key": "%s|%s" % [mission.get("start_time", ""), mission.get("headsign", "")] if not mission.is_empty() else "",
 		"scenario": str(scenario.get("id", "")), "station": start_station.duplicate() if free_mode else {}}
 	SaveGame.save_data(save)
@@ -779,9 +787,14 @@ func _resume() -> void:
 	menu_city = str(r.get("city", menu_city))
 	if free_mode:
 		var f: Dictionary = save.get("free", {})
-		if str(f.get("network", "")) == net_path and n.edge_info.has(str(f.get("edge", ""))):
-			start_station = {"edge": str(f.edge), "offset": float(f.offset), "name": "reprise"}
-		elif r.get("station", {}) is Dictionary and not r.station.is_empty(): start_station = r.station
+		var checkpoint := SaveResume.resolve(f, n, net_path)
+		if checkpoint.ok:
+			start_station = checkpoint.station
+		elif not f.is_empty():
+			push_warning(str(checkpoint.get("message", "Reprise impossible ; checkpoint conservé.")))
+			_build_menu(); return
+		elif r.get("station", {}) is Dictionary and not r.station.is_empty():
+			if n.edge_info.has(str(r.station.get("edge", ""))): start_station = r.station
 	elif str(r.get("scenario", "")) != "":
 		for m in _scenarios(menu_city, str(n.meta.get("source_id", ""))):
 			if str(m.get("id", "")) == str(r.scenario): scenario = m
@@ -962,7 +975,7 @@ func _start_prepared(with_intro: bool = false) -> void:
 			e = start_station.edge; o = float(start_station.offset)
 		free = FreeSession.new(net, vehicle, e, o, save.settings.traffic)
 		var normal := int(net.edge_info[e].get("preferred_direction", 0))
-		free.direction = normal if normal != 0 else int(start_station.get("direction", 1))
+		free.direction = int(start_station.get("direction", 1)) if bool(start_station.get("restored", false)) else (normal if normal != 0 else int(start_station.get("direction", 1)))
 		free.route_dir = [free.direction]; free.checkpoint_dir = free.direction; free.update_spans()
 		session = free
 		first = e
