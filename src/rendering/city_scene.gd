@@ -345,12 +345,13 @@ func _bridge_approach(x: float,z: float,id: int,ground: float) -> float:
 			return lerpf(tip.y,ground,smoothstep(0.0,reach,along))
 	return ground
 
-## Segment de voie ferrée BD TOPO (repère tuile) longé par une voie du réseau (à moins de 8 m, parallèle).
+## Segment de voie ferrée BD TOPO (repère tuile) longé par une voie du réseau (à moins de 12 m, parallèle : axe BD TOPO
+## d'un faisceau décalé de l'axe OSM de la voie).
 func _rail_drawn(a: Vector2, b: Vector2) -> bool:
 	var d := (b - a).normalized()
 	for f in [0.25, 0.75]:
 		var dirs := []
-		var near := _tracks_near(a.lerp(b, f) + _tile_origin, 8.0, dirs)
+		var near := _tracks_near(a.lerp(b, f) + _tile_origin, 12.0, dirs)
 		var ok := false
 		for i in near.size():
 			if absf((dirs[i] as Vector2).dot(d)) > 0.9: ok = true; break
