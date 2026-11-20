@@ -1,0 +1,85 @@
+{
+  "revision": 3,
+  "asset_bytes": 3138516,
+  "previous_revision_bytes": 13831720,
+  "additional_meshy_credits": 0,
+  "authorship": "Local reference-constrained reconstruction. Dedicated Naolib facade uses photographed landmarks, without the generic/Meshy front fit; Angers fronts retain reference-constrained contour fitting. Meshy seat geometry retained.",
+  "visible_legacy_geometry": false,
+  "photographic_textures": false,
+  "default_enabled": true,
+  "families": {
+    "angers302": {
+      "recorded_meshy_task": "01a1f9c3-8907-715d-8358-86366f4b804a",
+      "raw_source_sha256": "20d4342fdbb75d67624ecebb31b7f8f14133382da4db8b2599bfc30d2b369006",
+      "body_triangles": 10106,
+      "max_surfaces_per_piece": 1,
+      "visible_parts": 28,
+      "original_shell_triangles_retained": 0,
+      "contour_width_fit_weight": 0.1,
+      "dimensional_and_reference_profile_weight": 0.9,
+      "front_details": {
+        "profile": "angers302",
+        "references": [
+          28965152,
+          28980217
+        ],
+        "recognition_features": [
+          "wide_arched_windscreen",
+          "inclined_three_lamp_clusters",
+          "black_chin_badge",
+          "diagonal_wiper_linkage"
+        ]
+      }
+    },
+    "angers305": {
+      "recorded_meshy_task": "01a1f9c4-5964-7275-865e-dfc2c7acad0e",
+      "raw_source_sha256": "44390d197a4d340591aec73db8c3729c7e9c8159172cbda60d996ff887747b71",
+      "body_triangles": 10460,
+      "max_surfaces_per_piece": 1,
+      "visible_parts": 32,
+      "original_shell_triangles_retained": 0,
+      "contour_width_fit_weight": 0.1,
+      "dimensional_and_reference_profile_weight": 0.9,
+      "front_details": {
+        "profile": "angers305",
+        "references": [
+          197513329,
+          188202395
+        ],
+        "recognition_features": [
+          "wide_arched_windscreen",
+          "inclined_three_lamp_clusters",
+          "black_chin_badge",
+          "diagonal_wiper_linkage"
+        ]
+      }
+    },
+    "nantes405": {
+      "recorded_meshy_task": "01a1f9c4-65f3-74e9-aca9-7c273b10b9e5",
+      "raw_source_sha256": "3cb62c838eea79aeeb412e1cda20d92c2a27e55892fca2757d2ba511451e30ed",
+      "body_triangles": 10950,
+      "max_surfaces_per_piece": 1,
+      "visible_parts": 42,
+      "original_shell_triangles_retained": 0,
+      "contour_width_fit_weight": 0,
+      "dimensional_and_reference_profile_weight": 1,
+      "front_details": {
+        "profile": "naolib_405",
+        "hexagonal_lenses_per_end": 68,
+        "references": [
+          151228963,
+          200396073,
+          200396076
+        ],
+        "recognition_features": [
+          "broad_rounded_rectangle_glazing",
+          "continuous_curved_led_crown",
+          "full_width_honeycomb_optics",
+          "white_cheeks",
+          "green_lower_apron",
+          "asymmetric_wiper_viewer_right"
+        ]
+      }
+    }
+  }
+}

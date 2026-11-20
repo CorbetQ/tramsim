@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "planned_credits_estimate": 90,
+  "price_source": "https://docs.meshy.ai/api/pricing.md",
+  "price_consulted": "2026-11-20",
+  "tasks": [
+    {
+      "component": "angers302_exterior",
+      "resource": "image-to-3d",
+      "task_id": "01a1f9bc-e458-75fc-8fde-ee27eb5ea828",
+      "geometry_model": "meshy-t2.5",
+      "target_polycount": 30000,
+      "source_photo_id": 28980217,
+      "estimated_geometry_credits": 5,
+      "status": "SUCCEEDED",
+      "consumed_credits": 5
+    },
+    {
+      "component": "angers305_exterior",
+      "resource": "image-to-3d",
+      "task_id": "01a1f9be-6add-70de-8916-d867f8c58d99",
+      "geometry_model": "meshy-t2.5",
+      "target_polycount": 30000,
+      "source_photo_id": 188202395,
+      "estimated_geometry_credits": 5,
+      "status": "SUCCEEDED",
+      "consumed_credits": 5
+    },
+    {
+      "component": "nantes405_exterior",
+      "resource": "image-to-3d",
+      "task_id": "01a1f9be-ead4-74d6-8394-9d54d65e8c4d",
+      "geometry_model": "meshy-t2.5",
+      "target_polycount": 30000,
+      "source_photo_id": 200396066,
+      "estimated_geometry_credits": 5,
+      "status": "SUCCEEDED",
+      "consumed_credits": 5
+    },
+    {
+      "component": "angers302_exterior_texture",
+      "resource": "retexture",
+      "task_id": "01a1f9c3-8907-715d-8358-86366f4b804a",
+      "input_task_id": "01a1f9bc-e458-75fc-8fde-ee27eb5ea828",
+      "texture_model": "meshy-n1",
+      "reference_ids": [
+        28965152,
+        28980217,
+        28980687
+      ],
+      "estimated_credits": 10,
+      "status": "SUCCEEDED",
+      "consumed_credits": 10
+    },
+    {
+      "component": "angers305_exterior_texture",
+      "resource": "retexture",
+      "task_id": "01a1f9c4-5964-7275-865e-dfc2c7acad0e",
+      "input_task_id": "01a1f9be-6add-70de-8916-d867f8c58d99",
+      "texture_model": "meshy-n1",
+      "reference_ids": [
+        197513329,
+        188202395,
+        171177511
+      ],
+      "estimated_credits": 10,
+      "status": "SUCCEEDED",
+      "consumed_credits": 10
+    },
+    {
+      "component": "nantes405_exterior_texture",
+      "resource": "retexture",
+      "task_id": "01a1f9c4-65f3-74e9-aca9-7c273b10b9e5",
+      "input_task_id": "01a1f9be-ead4-74d6-8394-9d54d65e8c4d",
+      "texture_model": "meshy-n1",
+      "reference_ids": [
+        151228963,
+        200396066,
+        173374039
+      ],
+      "estimated_credits": 10,
+      "status": "SUCCEEDED",
+      "consumed_credits": 10
+    },
+    {
+      "component": "angers302_interior_seat",
+      "resource": "image-to-3d",
+      "task_id": "01a1f9c5-a139-76bc-bfcd-4f955a4116f3",
+      "geometry_model": "meshy-t2.5",
+      "texture_model": "meshy-n1",
+      "target_polycount": 3500,
+      "input": "reference-studied original seat blockout rendered with Blender",
+      "input_sha256": "0e66349da400ad8550b45770b6b9dc17c475c1c40f358f58ecb323378e468f7c",
+      "estimated_credits": 15,
+      "status": "SUCCEEDED",
+      "consumed_credits": 15
+    },
+    {
+      "component": "angers305_interior_seat",
+      "resource": "image-to-3d",
+      "task_id": "01a1f9c5-a73f-7778-a9ef-196c72c8f7ae",
+      "geometry_model": "meshy-t2.5",
+      "texture_model": "meshy-n1",
+      "target_polycount": 3500,
+      "input": "reference-studied original seat blockout rendered with Blender",
+      "input_sha256": "232ccc0ec09496ce40eb9972d0a364595e40fbb52af37fd1a37270db4bac3500",
+      "estimated_credits": 15,
+      "status": "SUCCEEDED",
+      "consumed_credits": 15
+    },
+    {
+      "component": "nantes405_interior_seat",
+      "resource": "image-to-3d",
+      "task_id": "01a1f9c5-adf3-726c-9dd4-099412c865b6",
+      "geometry_model": "meshy-t2.5",
+      "texture_model": "meshy-n1",
+      "target_polycount": 3500,
+      "input": "reference-studied original seat blockout rendered with Blender",
+      "input_sha256": "c6de6cdc2c5e6929f1872c6d1e1f4697603ccbbf11b6374ff6b32a259f7b9723",
+      "estimated_credits": 15,
+      "status": "SUCCEEDED",
+      "consumed_credits": 15
+    }
+  ],
+  "actual_credits": 90
+}

@@ -1,0 +1,135 @@
+"""Blender 4.3+ offline adaptation of the recorded Meshy tasks (no API calls).
+
+Usage: blender -b --python tools/rolling_stock/prepare_meshy_citadis.py
+Originals stay in ignored meshy_output/. Output GLBs use metres, -Z forward in
+Godot. Doors/pantographs are deliberately NOT baked into an animation clip:
+the existing Godot mechanical rig remains the animation authority.
+"""
+import json
+from pathlib import Path
+
+import bpy
+from mathutils import Vector
+
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT / "data/rolling_stock/meshy_citadis"
+PROFILES = {
+    "angers302": ("citadis_302", 32.4, 2.4, 3.35),
+    "angers305": ("citadis_x05", 33.0, 2.4, 3.35),
+    "nantes405": ("citadis_x05_nantes", 45.6, 2.4, 3.35),
+}
+
+
+def clear():
+    bpy.ops.object.select_all(action="SELECT")
+    bpy.ops.object.delete(use_global=False)
+
+
+def load(path):
+    clear()
+    bpy.ops.import_scene.gltf(filepath=str(path))
+    objects = [o for o in bpy.context.scene.objects if o.type == "MESH"]
+    bpy.ops.object.select_all(action="DESELECT")
+    for obj in objects:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = objects[0]
+    bpy.ops.object.join()
+    obj = bpy.context.object
+    bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+    return obj
+
+
+def bounds(obj):
+    return ([min(v.co[i] for v in obj.data.vertices) for i in range(3)],
+            [max(v.co[i] for v in obj.data.vertices) for i in range(3)])
+
+
+def save(path, objects):
+    bpy.ops.object.select_all(action="DESELECT")
+    for obj in objects:
+        obj.select_set(True)
+    bpy.ops.export_scene.gltf(filepath=str(path), use_selection=True,
+                             export_format="GLB", export_yup=True,
+                             export_cameras=False, export_lights=False,
+                             export_materials="EXPORT", export_animations=False)
+
+
+def seat(key):
+    obj = load(ROOT / "meshy_output" / (key+"_interior_seat") / "model.glb")
+    lo, hi = bounds(obj)
+    # Reference render is a frontal three-quarter view. Inspect orientation
+    # independently in the Godot contact sheet; geometry is never auto-rigged.
+    width = .94 if key == "nantes405" else .46
+    for v in obj.data.vertices:
+        x, y, z = v.co
+        v.co = ((x-(lo[0]+hi[0])*.5)*width/(hi[0]-lo[0]),
+                (y-(lo[1]+hi[1])*.5)*.56/(hi[1]-lo[1]),
+                (z-lo[2])*1.08/(hi[2]-lo[2]))
+    obj.name = "Seat"
+    obj.data.update()
+    # AI basecolour inherits the noisy lighting of the reference render.
+    # Reassign clean DA materials by sampled source UV rather than shipping
+    # that baked grain as fabric. The generated seat geometry is retained.
+    original = list(obj.data.materials)
+    pixels = {}
+    for index, material in enumerate(original):
+        if not material.use_nodes:
+            continue
+        image_node = next((n for n in material.node_tree.nodes if n.type=="TEX_IMAGE" and n.image), None)
+        if image_node:
+            image = image_node.image
+            pixels[index] = (list(image.pixels), image.size[0], image.size[1])
+    def material(name, color, metal=0):
+        m = bpy.data.materials.new(name); m.use_nodes = True
+        node = m.node_tree.nodes.get("Principled BSDF")
+        node.inputs["Base Color"].default_value = (*color,1)
+        node.inputs["Metallic"].default_value = metal
+        node.inputs["Roughness"].default_value = .62 if metal==0 else .35
+        m.diffuse_color = (*color,1)
+        return m
+    palette = [material("Pale plywood" if key=="nantes405" else "Warm moulded shell",
+                        (.74,.63,.45) if key=="nantes405" else (.80,.82,.78)),
+               material("Charcoal wool" if key=="nantes405" else "Irigo lime upholstery",
+                        (.07,.10,.12) if key=="nantes405" else (.45,.58,.10)),
+               material("Seat support steel",(.42,.49,.51),.65)]
+    groups = []
+    uv_layer = obj.data.uv_layers.active
+    for face in obj.data.polygons:
+        color = (.7,.7,.7)
+        if face.material_index in pixels and uv_layer:
+            data,w,h = pixels[face.material_index]
+            uv = sum((uv_layer.data[i].uv for i in face.loop_indices), Vector((0,0))) / len(face.loop_indices)
+            at = (min(h-1,max(0,int(uv.y*h)))*w+min(w-1,max(0,int(uv.x*w))))*4
+            color = data[at:at+3]
+        low = sum(obj.data.vertices[i].co.z for i in face.vertices)/len(face.vertices)<.37
+        fabric = (max(color)<.52) if key=="nantes405" else (color[1]>color[0]*1.04 and color[1]>color[2]*1.5)
+        groups.append(2 if low else (1 if fabric else 0))
+    obj.data.materials.clear()
+    for m in palette:obj.data.materials.append(m)
+    for face,index in zip(obj.data.polygons,groups):face.material_index=index
+    bpy.context.view_layer.objects.active = obj
+    decimate = obj.modifiers.new("Mobile seat geometry budget", "DECIMATE")
+    decimate.ratio = .34
+    decimate.delimit = {"MATERIAL"}
+    bpy.ops.object.modifier_apply(modifier=decimate.name)
+    save(OUT / (key+"_seat.glb"), [obj])
+    return {"faces":len(obj.data.polygons), "width_m":width,
+            "height_m":1.08, "origin":"floor"}
+
+
+def main():
+    import sys
+    sys.path.insert(0,str(ROOT/'tools/rolling_stock'))
+    from retopologize_citadis import mesh_y_contour, palette, build
+    OUT.mkdir(parents=True,exist_ok=True)
+    seats = {key:seat(key) for key in PROFILES}
+    contours = {key:mesh_y_contour(key) for key in PROFILES}
+    (OUT/'contour_study.json').write_text(json.dumps(contours,indent=2)+'\n')
+    palette()
+    report={}
+    for key,(family,length,width,height) in PROFILES.items():
+        report[key]=build(key,family,length,contours[key])
+        report[key]['seat']=seats[key]
+    (OUT/'build_report.json').write_text(json.dumps(report,indent=2)+'\n')
+
+if __name__=='__main__':main()

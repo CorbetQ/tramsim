@@ -1,0 +1,64 @@
+{
+  "rig": {
+    "positive_checks": 640,
+    "failed": false
+  },
+  "stock": {
+    "positive_checks": 301,
+    "failed": false
+  },
+  "families": {
+    "positive_checks": 0,
+    "failed": false,
+    "family_count": 20
+  },
+  "passenger_render": {
+    "positive_checks": 24,
+    "failed": false
+  },
+  "render_material_checks": {
+    "angers302-facade-v3-face": "0.72813099622726",
+    "angers305-facade-v3-face": "0.72813099622726",
+    "nantes405-facade-v3-face": "0.72813099622726"
+  },
+  "animations": {
+    "angers302": {
+      "frames": 64,
+      "fps": 8,
+      "duration_seconds": 8,
+      "bytes": 153518,
+      "file": "angers302-animation.mp4"
+    },
+    "angers305": {
+      "frames": 64,
+      "fps": 8,
+      "duration_seconds": 8,
+      "bytes": 163541,
+      "file": "angers305-animation.mp4"
+    },
+    "nantes405": {
+      "frames": 64,
+      "fps": 8,
+      "duration_seconds": 8,
+      "bytes": 206351,
+      "file": "nantes405-animation.mp4"
+    }
+  },
+  "revision": 3,
+  "visible_legacy_meshes": 0,
+  "photographic_textures": 0,
+  "renderer": "Godot 4.6.3 / OpenGL Compatibility / llvmpipe",
+  "android_performance_tested": false,
+  "vulkan_tested": false,
+  "asset_bytes": 3138516,
+  "extra_meshy_credits": 0,
+  "facade_landmarks": {
+    "naolib_honeycomb_lenses_per_end": 68,
+    "unique_naolib_front_profile": true,
+    "source_reference_ids": [
+      151228963,
+      200396073,
+      200396076
+    ]
+  }
+}
