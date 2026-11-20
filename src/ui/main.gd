@@ -408,6 +408,9 @@ func _start_explore(passenger: bool = false) -> void:
 	if not explore.start(menu_city, path, _start_hour() if int(save.settings.get("time_mode", 0)) != 0 else 15.0, float(save.settings.view_distance), bool(save.settings.get("ai_trams", true))):
 		explore.queue_free(); explore = null; _build_menu()
 	else:explore.weather.configure(str(save.settings.get("weather","clear")))
+	if explore is PassengerMode:
+		var time_mode := int(save.settings.get("time_mode",0))
+		(explore as PassengerMode).time_rate_hours_per_second=1.0/60.0 if time_mode==4 else (1.0/3600.0 if time_mode==0 else 0.0)
 	var effects := VisualEffects.new()
 	if is_instance_valid(explore):explore.view.add_child(effects);effects.setup(explore.view,str(save.settings.get("visual_profile","economy" if OS.has_feature("mobile") else "balanced")))
 	else:effects.free()

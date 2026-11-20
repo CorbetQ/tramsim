@@ -3,6 +3,7 @@ Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
 
 ok: passenger starts on existing city network
 ok: actual AI services available
+ok: passenger day/night clock wraps midnight
 ok: boardable door found in actual family plan
 ok: closed opposite-side door cannot be used
 ok: boards actual stationary AI through open door

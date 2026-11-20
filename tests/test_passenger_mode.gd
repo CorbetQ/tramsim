@@ -9,6 +9,9 @@ func run() -> void:
 	check(mode.start("Angers","res://data/free/angers.json",12,200,true),"passenger starts on existing city network")
 	mode.set_process(false)
 	check(mode.ai!=null and not mode.ai.trams.is_empty(),"actual AI services available")
+	mode.hour=23.99;mode.time_rate_hours_per_second=1;mode._process(.02)
+	check(mode.hour<.02,"passenger day/night clock wraps midnight")
+	mode.hour=12;mode.time_rate_hours_per_second=0
 	if mode.ai==null or mode.ai.trams.is_empty():mode.queue_free();quit(1);return
 	var t: AiTram=mode.ai.trams[0]
 	mode.view.ai_view.forced_detail=t.train_id
@@ -61,6 +64,9 @@ func run() -> void:
 	check(not AiTramView.potentially_visible(camera,Vector3(0,2,20),2),"frustum rejects tram behind camera")
 	check(AiTramView.potentially_visible(camera,Vector3(0,2,1),3),"frustum preserves train containing viewer")
 	if DisplayServer.get_name()!="headless":
+		# Capture actual occupied/foot states, rather than leaving the HUD stale after a camera pose.
+		mode.interact();mode._process(.001)
+		check(mode.walker.train_id==t.train_id,"rendered interior capture is actually aboard the service")
 		var effects := VisualEffects.new();mode.view.add_child(effects);effects.setup(mode.view,"cinematic")
 		mode.view.cam.position=rig.modules[module_index].global_transform*Vector3(0,float(plan.get("floor_m",.32))+1.65,0)
 		mode.view.cam.global_basis=rig.modules[module_index].global_basis*Basis(Vector3.UP,PI)
@@ -69,7 +75,9 @@ func run() -> void:
 		await RenderingServer.frame_post_draw
 		DirAccess.make_dir_recursive_absolute("res://.cache/next")
 		root.get_texture().get_image().save_png("res://.cache/next/passenger-interior.png")
-		TramInterior.show(rig,false)
+		mode.walker.ride_distance=rig.module_starts[module_index]+float(door.z_m)
+		mode._process(.001);rig.set_doors(true,"both");rig.snap();mode.interact();mode._process(.001)
+		check(mode.walker.train_id=="","rendered exterior capture is actually on foot")
 		var at_station := mode.view.pos3(t.edge_id,t.offset)
 		mode.view.cam.position=at_station+Vector3(5,2.3,8)
 		mode.view.cam.look_at(at_station+Vector3(0,1.2,-15))

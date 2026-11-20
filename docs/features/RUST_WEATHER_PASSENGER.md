@@ -46,6 +46,7 @@ L'intégration des bibliothèques natives aux APK/EXE de release reste une étap
   ouverte et à l'arrêt. La caméra suit les modules articulés de la **véritable rame IA**.
   Marche dans l'allée, sièges proches utilisables. Moteur audio existant réutilisé à bord,
   avec libération des voix à la descente. Pas de duplication du trafic tramway.
+  L'horloge passager respecte les heures fixes et le cycle normal/accéléré des réglages.
 
 ## Utilisation
 

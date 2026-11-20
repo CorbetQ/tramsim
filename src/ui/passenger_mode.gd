@@ -10,6 +10,7 @@ var _look_finger := -1
 var _mouse_look := false
 var _candidate: Dictionary = {}
 var onboard_audio: TramAudio
+var time_rate_hours_per_second := 0.0
 
 func start(city_name: String, path: String, hour_: float, distance: float = 400.0, with_trams: bool = true) -> bool:
 	if not super.start(city_name,path,hour_,distance,true):return false
@@ -140,6 +141,7 @@ func toggle_seat() -> void:
 func _process(dt: float) -> void:
 	if view==null:return
 	dt=minf(dt,.1)
+	hour=fposmod(hour+dt*time_rate_hours_per_second,24.0)
 	weather.step(dt)
 	var movement := touch_move
 	if not get_viewport().gui_get_focus_owner() is LineEdit:

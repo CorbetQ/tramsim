@@ -28,13 +28,13 @@
     },
     "passenger-render": {
       "passed": true,
-      "ok_lines": 18,
-      "log_sha256": "e9e097ace9ebf6d2040fe411bc4c452e3c48687b1e9593e007986749d4395e55"
+      "ok_lines": 23,
+      "log_sha256": "887826814ab0c903dfcd404c1bf1b71177ace836b5a3c71be16cd9c69a06fa91"
     },
     "passenger-final-headless": {
       "passed": true,
-      "ok_lines": 20,
-      "log_sha256": "92ae058f92a2f564d6fe0b45b69d282fdf4f1fee9310d873d29292038c9d17b5"
+      "ok_lines": 21,
+      "log_sha256": "627c691bb8b2823569d9416ce06713bdf7f02a5ecff6782181081356f06868a9"
     },
     "adhesion": {
       "passed": true,
@@ -62,16 +62,24 @@
     "native/godot/src/lib.rs": "1e2754e7dc2f33055da425029643d94f45393a3fc7c6ca00232a3343ec6ef78d",
     "src/simulation/train_physics.gd": "3ca140f102ab43a8727026f883704a7ba4af281a45994369e35e55e1a615b37e",
     "src/simulation/weather_state.gd": "5176e44a1aa698fc398dda9b34a69c914ce8734ac3e34b3b5048119a1ccb9987",
-    "src/ui/passenger_mode.gd": "e47625b95ab414553f90ea97a13d420c93f85f4517abd4848f7d1ed2c6666e5c",
-    "src/rendering/tram_interior.gd": "646bd01b0d8e6bbe3a079f35d1e32e6966fe24995a18fa24604a17f7ac4947d9"
+    "src/ui/passenger_mode.gd": "0a91182d9c52704c5e65b26de255d539be30b6b4b1113417312f860eed81f7fb",
+    "src/rendering/tram_interior.gd": "646bd01b0d8e6bbe3a079f35d1e32e6966fe24995a18fa24604a17f7ac4947d9",
+    "src/ui/main.gd": "171094a8ed9e94f255986ff02744ba83216dc3de239f9e030e91e5531f51e001",
+    "src/rendering/weather_view.gd": "40fd777c27e27184ec24ad27d5b9ef1d2e50f385ebd8d0168515dfe16a92255e"
   },
-  "revision_note": "Local receipts cover successive targeted revisions; final passenger headless receipt includes opposite-door and view-relative walking checks. Full CI is attached to each exact PR SHA.",
+  "revision_note": "Receipts cover successive targeted revisions. Final passenger checks include door side, view-relative walking and midnight wrap; final rendered captures validate occupied/on-foot state. CI certifies the exact PR SHA.",
   "ci_validated_revisions": {
     "365b269": {
       "url": "https://github.com/CorbetQ/tramsim/actions/runs/44728883516",
       "linux": "passed: native, fallback, menu, families and rendered passenger",
       "windows": "passed: compiled DLL loaded in Godot and parity checks",
       "android": "passed: ARM64 cross-compilation and ELF header; no device test"
+    },
+    "3d45a94": {
+      "url": "https://github.com/CorbetQ/tramsim/actions/runs/44730068909",
+      "linux": "passed",
+      "windows": "passed: DLL loaded in Godot",
+      "android": "passed: cross-compiled ARM64, ELF checked; no device test"
     }
   }
 }
