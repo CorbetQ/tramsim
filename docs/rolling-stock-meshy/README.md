@@ -1,4 +1,4 @@
-# Citadis Angers / Nantes — version stylisée corrigée
+# Citadis Angers / Nantes — façades spécifiques V3
 
 La V1 mélangeait une caisse Meshy aux textures photographiques avec des portes,
 un toit et des équipements de l'ancien modèle. Ce rendu est **rejeté**.
@@ -6,7 +6,42 @@ La V2 remplace tout le maillage visible de chaque rame par un ensemble cohérent
 caisses, vitrages, livrée, portes, bogies, toiture, soufflets et pantographe.
 Les nouveaux modèles sont activés sur cette branche, sans fusion dans la principale.
 
-## Ce qui a changé
+## Façades V3 : rendre chaque rame identifiable
+
+Le 405 Naolib n'utilise plus le gabarit de façade des Citadis angevins. Sa face
+avant est reconstruite séparément depuis les références rapprochées et les vues
+frontales : grand vitrage presque rectangulaire, visière noire, couronne lumineuse
+continue et incurvée, joues blanches, panneau noir alvéolé sur toute la largeur,
+tablier vert et essuie-glace asymétrique à droite vu de face. Les logos sont sur
+les joues latérales. Les 68 motifs hexagonaux de chaque extrémité sont de la
+**géométrie**, avec un gradient de taille : blancs à l'avant, rouges à l'arrière.
+
+| Photo réelle du 405 | Nouveau rendu Godot, façade V3 |
+|---|---|
+| ![Référence réelle Naolib](reference-nantes405-face.jpg) | ![Façade Naolib V3](captures/nantes405-facade-v3-portrait.png) |
+
+Photo : JFGChenel, [Commons 151228963](https://commons.wikimedia.org/wiki/File:Alstom_Citadis_X05_-_405.jpg), CC0.
+L'angle de la photo et celui du rendu sont différents ; ce tableau sert à vérifier
+les éléments caractéristiques, pas à prétendre à un relevé dimensionnel exact.
+
+[Ancienne façade générique V2](captures/nantes405-v2-archived-face.png)
+· [Façade arrière V3](captures/nantes405-facade-v3-rear.png)
+· [Vue trois-quarts V3](captures/nantes405-facade-v3-front.png).
+
+À Angers, les deux faces gagnent un pare-brise plus large et arqué, des groupes
+de trois optiques inclinés vers le centre, l'emblème dans le bas du masque noir
+et un essuie-glace diagonal. Le modèle 305 conserve son profil de nez distinct.
+
+| Citadis 302 Irigo | Citadis 305 Irigo |
+|---|---|
+| ![](captures/angers302-facade-v3-portrait.png) | ![](captures/angers305-facade-v3-portrait.png) |
+
+Les tests inspectent les deux faces Naolib dans le vrai maillage importé :
+répartition des optiques sur cinq rangées et toute la largeur, pas simplement
+présence d'un nom de fichier ou d'un drapeau. Les portes, le pantographe et les
+articulations gardent leurs animations. Aucun nouveau crédit Meshy utilisé.
+
+## Ensemble stylisé conservé
 
 - Suppression complète de `MechanicalScaffold` et des morceaux de coque historique.
   Chaque pièce est remplacée avant que la rame entre dans la scène.
@@ -20,7 +55,7 @@ Les nouveaux modèles sont activés sur cette branche, sans fusion dans la princ
   d'animation. Les modules et l'intérieur suivent toujours la courbure de la voie.
 - Ensemble validé avant remplacement : si une pièce manque, toute la rame reste
   sur son ancien modèle. Aucun assemblage partiel entre générations.
-- Environ **3,2 Mo** pour les six GLB, contre 13,8 Mo en V1 ; moins de 12 000
+- Environ **3,1 Mo** pour les six GLB, contre 13,8 Mo en V1 ; moins de 12 000
   triangles par extérieur complet, LOD Godot conservés. Ces chiffres ne sont pas
   une mesure de FPS sur téléphone.
 
@@ -28,7 +63,9 @@ Les trois générations Meshy d'origine ne sont **pas** présentées comme des m
 stylisés réussis. Les caisses V2 sont reconstruites **localement dans Blender**, à
 partir de l'étude des références et d'un échantillonnage des contours Meshy (10 %
 du profil de largeur, contraint à 90 % par le profil choisi depuis les références).
-Aucun triangle de leurs caisses brutes ni aucune de leurs textures n'est conservé.
+La façade Naolib V3 utilise désormais uniquement un profil spécifique tiré des
+références, sans cette pondération de contour générique. Aucun triangle des caisses
+brutes ni aucune de leurs textures n'est conservé.
 Les sièges gardent leur géométrie Meshy, optimisée et recolorée. Aucune nouvelle
 requête payante : **0 crédit supplémentaire**, 90 crédits utilisés au premier lot.
 
@@ -37,7 +74,7 @@ requête payante : **0 crédit supplémentaire**, 90 crédits utilisés au premi
 Même atelier, mêmes réglages et même caméra pour l'ancien modèle du jeu et la V2.
 Les photos réelles ont leur propre cadrage. Le seul rendu V1 conservé ci-dessous
 sert à identifier le résultat rejeté ; son ancien cadrage est différent.
-Les anciennes URL `meshy-experimental-*.png` affichent désormais la V2 pour éviter
+Les anciennes URL `meshy-experimental-*.png` affichent désormais la dernière révision V3 pour éviter
 que les liens déjà partagés continuent à montrer les défauts corrigés.
 
 ### Angers — Citadis 302

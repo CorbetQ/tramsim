@@ -1,4 +1,4 @@
-# Citadis — ensemble stylisé V2
+# Citadis — ensemble stylisé, façades V3
 
 Caisses reconstruites localement depuis l'étude photo et les contours des bases
 Meshy ; sièges conservant leur géométrie Meshy. Aucun triangle des anciennes
@@ -15,7 +15,11 @@ Une surface par pièce : palette via `COLOR_0`, propriétés de matériau via `U
 aucune image embarquée. Unités métriques, -Z vers l'avant dans Godot. LOD activés.
 Conversion linéaire / sRGB adaptée au renderer dans le shader commun.
 
-Les trois variantes sont activées par défaut sur cette branche.
+Les trois variantes sont activées par défaut sur cette branche. La façade Naolib
+est une construction dédiée depuis les références : panneau alvéolé de 68 motifs,
+visière et couronne lumineuse, tablier vert, joues blanches et essuie-glace
+asymétrique. Elle ne réutilise pas la façade des rames angevines. Les profils
+angevins gardent leurs groupes de trois feux et leur masque cintré.
 `TRAMSIM_CITADIS_LEGACY=1` permet la comparaison avec l'ensemble historique complet.
 Les intérieurs sont générés à l'embarquement, avec aménagement estimé depuis les
 photos et pièces regroupées en MultiMesh. Autres variantes et cartes inchangées.

@@ -22,6 +22,25 @@ func run() -> void:
 		check(rig.modules[0].has_meta("meshy_experimental"),id+" loads complete reconstructed GLB")
 		check(rig.modules.size()==old.modules.size() and rig.leaves.size()==old.leaves.size(),id+" preserves module and leaf topology")
 		check(rig.triangles<25000 and rig.triangles>2500,id+" exterior triangle budget "+str(rig.triangles))
+		if key=="nantes405":
+			for end_index in [0,rig.modules.size()-1]:
+				var module: MeshInstance3D=rig.modules[end_index]
+				var arrays := module.mesh.surface_get_arrays(0)
+				var positions: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+				var tags: PackedVector2Array=arrays[Mesh.ARRAY_TEX_UV]
+				var indices: PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+				var cells := {};var rows := {};var luminous_triangles := 0
+				var direction := -1.0 if end_index==0 else 1.0
+				for triangle in range(0,indices.size(),3):
+					var a := indices[triangle];var b := indices[triangle+1];var c := indices[triangle+2]
+					var centre := (positions[a]+positions[b]+positions[c])/3.0
+					if tags[a].x>.2 or centre.y<.64 or centre.y>1.20:continue
+					if direction*centre.z<rig.module_lengths[end_index]*.5-.70:continue
+					luminous_triangles+=1
+					var row := floori((centre.y-.64)/.109)
+					rows[row]=true;cells[Vector2i(floori((centre.x+1.04)/.14),row)]=true
+				check(luminous_triangles>=240 and cells.size()>=45 and rows.size()>=5,"Naolib end %d: full-width five-row honeycomb optics (%d triangles / %d occupied cells)"%[end_index,luminous_triangles,cells.size()])
+			check(not rig.modules[0].has_node("Brand") and rig.modules[0].has_node("NaolibLeft") and rig.modules[0].has_node("NaolibRight"),"Naolib logos are on the white side cheeks, not in place of the optics")
 		for i in rig.modules.size():
 			check(absf(rig.module_lengths[i]-old.module_lengths[i])<.001,id+" module anchor "+str(i))
 			var aabb := rig.modules[i].mesh.get_aabb()

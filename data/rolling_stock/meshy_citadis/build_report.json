@@ -1,11 +1,11 @@
 {
   "angers302": {
-    "status": "stylised_local_reconstruction_v2",
+    "status": "reference_facades_v3",
     "modules": [
       {
         "name": "Module00",
         "length_m": 9.0,
-        "faces": 971
+        "faces": 999
       },
       {
         "name": "Module01",
@@ -25,13 +25,26 @@
       {
         "name": "Module04",
         "length_m": 9.0,
-        "faces": 1027
+        "faces": 1055
       }
     ],
     "doors": 20,
     "photographic_textures": 0,
     "legacy_visible_meshes": 0,
     "original_meshy_triangles_retained": 0,
+    "front_details": {
+      "profile": "angers302",
+      "references": [
+        28965152,
+        28980217
+      ],
+      "recognition_features": [
+        "wide_arched_windscreen",
+        "inclined_three_lamp_clusters",
+        "black_chin_badge",
+        "diagonal_wiper_linkage"
+      ]
+    },
     "contour_source": "recorded Meshy geometry; 10% width fit, reference-constrained reconstruction",
     "seat": {
       "faces": 1200,
@@ -41,12 +54,12 @@
     }
   },
   "angers305": {
-    "status": "stylised_local_reconstruction_v2",
+    "status": "reference_facades_v3",
     "modules": [
       {
         "name": "Module00",
         "length_m": 9.239999999999998,
-        "faces": 994
+        "faces": 1018
       },
       {
         "name": "Module01",
@@ -66,13 +79,26 @@
       {
         "name": "Module04",
         "length_m": 9.239999999999998,
-        "faces": 997
+        "faces": 1021
       }
     ],
     "doors": 24,
     "photographic_textures": 0,
     "legacy_visible_meshes": 0,
     "original_meshy_triangles_retained": 0,
+    "front_details": {
+      "profile": "angers305",
+      "references": [
+        197513329,
+        188202395
+      ],
+      "recognition_features": [
+        "wide_arched_windscreen",
+        "inclined_three_lamp_clusters",
+        "black_chin_badge",
+        "diagonal_wiper_linkage"
+      ]
+    },
     "contour_source": "recorded Meshy geometry; 10% width fit, reference-constrained reconstruction",
     "seat": {
       "faces": 1222,
@@ -82,12 +108,12 @@
     }
   },
   "nantes405": {
-    "status": "stylised_local_reconstruction_v2",
+    "status": "reference_facades_v3",
     "modules": [
       {
         "name": "Module00",
         "length_m": 9.600000000000001,
-        "faces": 916
+        "faces": 706
       },
       {
         "name": "Module01",
@@ -117,14 +143,31 @@
       {
         "name": "Module06",
         "length_m": 9.600000000000001,
-        "faces": 916
+        "faces": 706
       }
     ],
     "doors": 32,
     "photographic_textures": 0,
     "legacy_visible_meshes": 0,
     "original_meshy_triangles_retained": 0,
-    "contour_source": "recorded Meshy geometry; 10% width fit, reference-constrained reconstruction",
+    "front_details": {
+      "profile": "naolib_405",
+      "hexagonal_lenses_per_end": 68,
+      "references": [
+        151228963,
+        200396073,
+        200396076
+      ],
+      "recognition_features": [
+        "broad_rounded_rectangle_glazing",
+        "continuous_curved_led_crown",
+        "full_width_honeycomb_optics",
+        "white_cheeks",
+        "green_lower_apron",
+        "asymmetric_wiper_viewer_right"
+      ]
+    },
+    "contour_source": "dedicated Naolib reference profile; no generic/Meshy front fit",
     "seat": {
       "faces": 1205,
       "width_m": 0.94,

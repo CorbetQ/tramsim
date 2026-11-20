@@ -194,23 +194,80 @@ def shell(mesh,key,definition,length,ratio,global_centre,cab_front,cab_rear):
     return doors
 
 
+def naolib_front(mesh,length,direction):
+    """Dedicated X05 Nantes front: broad glazing, curved continuous light crown,
+    full-width black honeycomb lamp panel, green apron and white cheek fairings.
+    Reference: Commons 151228963 (detail), 200396073/200396076 (front/rear).
+    No geometry template or lamp clusters borrowed from the Angers fronts.
+    """
+    end=direction*length*.5
+    profile=[(.28,.96),(.36,.99),(.62,1),(1.28,1),(2.60,.98),(2.85,.95),(3.0,.89),(3.08,.81)]
+    rake=[(.28,.10),(.62,0),(1.20,.01),(1.28,.015),(2.65,.29),(3.08,.52)]
+    def width(y):return 1.2*lerp_curve(profile,y)
+    def surface(x,y,offset=0):
+        inset=lerp_curve(rake,y)+.38*(abs(x)/1.2)**2
+        return (x,y,end-direction*inset+direction*offset)
+    # (height, central half-width, crown sag at the ends, material above row).
+    # These regions are disjoint faces, not superimposed coloured panels.
+    rows=[(.28,1.03,0,'frame'),(.36,1.03,0,'teal'),(.60,1.025,0,'frame'),
+          (.64,1.02,0,'frame'),(1.20,1.02,0,'teal'),(1.28,1.02,0,'glass'),
+          (2.45,1.02,0,'glass'),(2.73,1.00,.025,'frame'),
+          (2.78,.995,.045,'glass'),(2.975,.965,.09,'led'),
+          (3.01,.955,.09,'frame'),(3.035,.94,.09,'porcelain'),(3.08,.90,.075,'porcelain')]
+    ts=[-1,-.85,-.65,-.4,0,.4,.65,.85,1]
+    def point(row,t):return surface(t*row[1],row[0]-row[2]*abs(t)**6)
+    for lower,upper in zip(rows,rows[1:]):
+        for ta,tb in zip(ts,ts[1:]):
+            mat=lower[3]
+            if mat=='glass' and 1.28<=lower[0]<2.73 and ta==-.65:mat='glass_reflection'
+            mesh.face([point(lower,ta),point(upper,ta),point(upper,tb),point(lower,tb)],mat,(0,0,direction))
+        for side in [-1,1]:
+            outer0=surface(side*width(lower[0]),lower[0])
+            outer1=surface(side*width(upper[0]),upper[0])
+            mat='frame' if upper[0]<=.36 else 'porcelain'
+            mesh.face([point(lower,side),point(upper,side),outer1,outer0],mat,(0,0,direction))
+            side_mat='glass' if lower[0]>=1.28 and upper[0]<=2.78 else 'porcelain'
+            if upper[0]<=.36:side_mat='frame'
+            mesh.face([outer0,outer1,(side*1.2,upper[0],end-direction*1.72),
+                       (side*1.2,lower[0],end-direction*1.72)],side_mat,(side,0,0))
+    mesh.face([surface(-width(3.08),3.08),surface(width(3.08),3.08),
+               (1.05,3.08,end-direction*1.72),(-1.05,3.08,end-direction*1.72)],'porcelain',(0,1,0))
+    # Sixty-plus hexagonal lenses: large at the sides, smaller near the centre.
+    # Reference rear view uses red optics; front uses white. Same modelled layout.
+    cells=0
+    for row in range(5):
+        for column in range(14):
+            x=(column-6.5)*.14+(row%2)*.07
+            radius=.026+.039*min(1,max(0,(abs(x)-.18)/.55))
+            if abs(x)+radius>1.005:continue
+            y=.695+row*.109
+            points=[surface(x+radius*math.cos(math.tau*k/6),y+radius*math.sin(math.tau*k/6),.018) for k in range(6)]
+            mesh.face(points,'headlamp' if direction<0 else 'tail_lamp',(0,0,direction));cells+=1
+    # One asymmetric pantograph-style wiper assembly, parked on the right.
+    for delta in [0,.065]:
+        mesh.tube(surface(direction*(.34+delta),1.30,.035),surface(direction*(.84+delta),2.08,.035),.012,'frame',6)
+    mesh.tube(surface(direction*.82,1.94,.052),surface(direction*.96,2.46,.052),.023,'frame',6)
+    return {'profile':'naolib_405','hexagonal_lenses_per_end':cells,
+            'references':[151228963,200396073,200396076],
+            'recognition_features':['broad_rounded_rectangle_glazing','continuous_curved_led_crown',
+              'full_width_honeycomb_optics','white_cheeks','green_lower_apron','asymmetric_wiper_viewer_right']}
+
+
 def front(mesh,key,length,direction,contour):
     # Reference-constrained low-poly patch layout. 10% sampled Meshy contour,
     # 90% explicit proportions from the reviewed train photographs. This is
     # local retopology/reconstruction, not another Meshy-generated model.
+    if key=='nantes405':return naolib_front(mesh,length,direction)
     end=direction*length*.5
-    profile=[(.28,.88),(.75,.99),(1.2,1),(2.2,.97),(2.75,.88),(3.08,.70)]
-    if key=='nantes405':profile=[(.28,.93),(.9,1),(2.4,.98),(2.9,.89),(3.08,.76)]
+    profile=[(.28,.90),(.75,.99),(1.2,1),(2.2,.99),(2.75,.97),(2.96,.93),(3.08,.84)]
     rake=[(.28,.18),(.8,0),(1.13,.025),(2.0,.27),(2.8,.73),(3.08,1.02)]
     if key=='angers305':rake=[(.28,.15),(.8,0),(1.13,.02),(2,.23),(2.8,.59),(3.08,.88)]
-    if key=='nantes405':rake=[(.28,.12),(.85,0),(1.15,.02),(2.4,.19),(2.9,.39),(3.08,.58)]
     def width(y):return 1.2*lerp_curve(profile,y)*(.9+.1*lerp_curve(contour,y/3.08))
     def surface(x,y,offset=0):
         inset=lerp_curve(rake,y)+.42*(abs(x)/max(width(y),.1))**2
         return (x,y,end-direction*inset+direction*offset)
-    shield=[(1.10,.60),(1.25,.78),(1.65,.87),(2.3,.88),(2.68,.80),(2.86,.64),(2.94,.39)]
-    if key=='angers305':shield=[(1.06,.66),(1.25,.81),(1.8,.88),(2.45,.88),(2.79,.79),(2.97,.50)]
-    if key=='nantes405':shield=[(.99,.64),(1.18,.83),(1.9,.88),(2.60,.87),(2.88,.77),(2.98,.49)]
+    shield=[(1.03,.64),(1.16,.79),(1.65,.88),(2.35,.90),(2.70,.88),(2.88,.81),(2.98,.64),(3.01,.47)]
+    if key=='angers305':shield=[(1.03,.70),(1.20,.83),(1.8,.90),(2.45,.90),(2.79,.86),(2.96,.73),(3.01,.50)]
     shield=[(y,w*1.14) for y,w in shield]
     ys=sorted({.28,.48,.72,.9,1.08,1.14,1.28,1.65,2.0,2.35,2.6,2.8,2.96,3.08,*[r[0] for r in shield]})
     ts=[-1,-.90,-.72,-.45,0,.45,.72,.90,1]
@@ -232,23 +289,26 @@ def front(mesh,key,length,direction,contour):
             mesh.face([surface(side*width(y0),y0),surface(side*width(y1),y1),(side*1.2,y1,end-direction*1.72),(side*1.2,y0,end-direction*1.72)],mat,(side,0,0))
     mesh.face([surface(-width(3.08),3.08),surface(width(3.08),3.08),(1.05,3.08,end-direction*1.72),(-1.05,3.08,end-direction*1.72)],'porcelain',(0,1,0))
     for side in [-1,1]:
-        if key=='nantes405':
-            for j in range(4):
-                p=surface(side*(.55+j*.09),.93,.025);mesh.tube(p,(p[0],p[1],p[2]+direction*.009),.022,'frame',8)
-            lamp_x=[.77];lamp_y=1.06
-        else:lamp_x=[.86,.65,.45];lamp_y=.86
+        lamp_x=[.86,.65,.45];lamp_y=.86
         for j,x in enumerate(lamp_x):
-            p=surface(side*x,lamp_y,.025);q=(p[0],p[1],p[2]+direction*.016)
+            p=surface(side*x,lamp_y+.13-.055*j,.025);q=(p[0],p[1],p[2]+direction*.016)
             mesh.tube(p,q,.091 if j==0 else .070,'steel',16)
             q2=(q[0],q[1],q[2]+direction*.006)
             mesh.tube(q,q2,.066 if j==0 else .050,'tail_lamp' if j==2 else 'headlamp',16)
-    for x in [-.22,.2]:
-        mesh.tube(surface(x,1.13,.04),surface(x+.17,2.03,.04),.014,'frame',6)
-    if key=='nantes405':
-        for j in range(12):
-            x=-.65+j*.118;p=surface(x,2.89,.025)
-            mesh.box(p,(.085,.026,.014),'led')
-    return surface
+    # The manufacturer mark sits within the black lower windscreen. A diagonal
+    # wiper linkage replaces the generic pair of vertical bars.
+    for delta in [0,.065]:
+        mesh.tube(surface(direction*(-.12+delta),1.17,.04),surface(direction*(.65+delta),1.96,.04),.012,'frame',6)
+    mesh.tube(surface(direction*.50,1.77,.055),surface(direction*.82,2.35,.055),.018,'frame',6)
+    # Raised manufacturer's ring inside the black chin insert.
+    for j in range(16):
+        aa=math.tau*j/16;bb=math.tau*(j+1)/16
+        mesh.face([surface(r*math.cos(angle),1.16+r*math.sin(angle),.008)
+                   for r,angle in [(.043,aa),(.043,bb),(.035,bb),(.035,aa)]],
+                  'porcelain',(0,0,direction))
+    return {'profile':key,'references':[28965152,28980217] if key=='angers302' else [197513329,188202395],
+            'recognition_features':['wide_arched_windscreen','inclined_three_lamp_clusters',
+               'black_chin_badge','diagonal_wiper_linkage']}
 
 
 def equipment(mesh,definition,length,ratio,roof_height):
@@ -312,13 +372,13 @@ def pantographs():
 
 def build(key,family,length,contour):
     plan=json.loads((ROOT/'data/rolling_stock/plans'/(family+'.json')).read_text());ratio=length/sum(m['length_m'] for m in plan['modules'])
-    objects=[];position=0;leaf_index=0;report=[]
+    objects=[];position=0;leaf_index=0;report=[];front_details=None
     for i,definition in enumerate(plan['modules']):
         l=definition['length_m']*ratio;centre=position+l*.5
         first=i==0;last=i==len(plan['modules'])-1
         body=Mesh('Module%02d'%i)
         doors=shell(body,key,definition,l,ratio,centre,first,last)
-        if first:front(body,key,l,-1,contour)
+        if first:front_details=front(body,key,l,-1,contour)
         if last:front(body,key,l,1,contour)
         equipment(body,definition,l,ratio,plan['height_m']);gangway(body,l,first,last)
         objects.append(body.object());report.append({'name':body.name,'length_m':l,'faces':len(body.f)})
@@ -334,7 +394,7 @@ def build(key,family,length,contour):
     for obj in objects:obj.select_set(True)
     bpy.ops.export_scene.gltf(filepath=str(OUT/(key+'_body.glb')),use_selection=True,export_format='GLB',export_yup=True,export_animations=False,export_cameras=False,export_lights=False)
     for obj in objects:bpy.data.objects.remove(obj,do_unlink=True)
-    return {'status':'stylised_local_reconstruction_v2','modules':report,'doors':leaf_index,'photographic_textures':0,'legacy_visible_meshes':0,'original_meshy_triangles_retained':0,'contour_source':'recorded Meshy geometry; 10% width fit, reference-constrained reconstruction'}
+    return {'status':'reference_facades_v3','modules':report,'doors':leaf_index,'photographic_textures':0,'legacy_visible_meshes':0,'original_meshy_triangles_retained':0,'front_details':front_details,'contour_source':'dedicated Naolib reference profile; no generic/Meshy front fit' if key=='nantes405' else 'recorded Meshy geometry; 10% width fit, reference-constrained reconstruction'}
 
 
 def main():

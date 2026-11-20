@@ -87,17 +87,27 @@ static func apply_exterior(rig, livery: Dictionary) -> bool:
 		if module.has_node("Girouette"):
 			var label: Label3D=module.get_node("Girouette")
 			var direction := -1.0 if i==0 else 1.0
-			var inset := .615 if key=="angers302" else (.50 if key=="angers305" else .274)
+			var inset := .615 if key=="angers302" else (.50 if key=="angers305" else .284)
 			label.position=Vector3(0,2.62,direction*(float(rig.module_lengths[i])*.5-inset+.09))
 			label.pixel_size=minf(.004,1.25/maxf(label.text.length()*36.0,1.0))
 			label.visible=true
-			var brand := Label3D.new();brand.name="Brand";brand.text="naolib" if key=="nantes405" else "ALSTOM"
-			brand.font_size=64;brand.pixel_size=.0018 if key=="nantes405" else .0011
-			brand.outline_size=0;brand.modulate=Color("#172e39");brand.shaded=false;brand.double_sided=false
-			brand.rotation.y=label.rotation.y
-			var brand_y := .70 if key=="nantes405" else 1.0
-			brand.position=Vector3(0,brand_y,direction*(float(rig.module_lengths[i])*.5+.025))
-			module.add_child(brand)
+			if key=="nantes405":
+				label.modulate=Color("#dcebd8")
+				for side in [-1,1]:
+					var brand := Label3D.new();brand.name="NaolibLeft" if side<0 else "NaolibRight"
+					brand.text="naolib";brand.font_size=64;brand.pixel_size=.0025
+					brand.outline_size=0;brand.modulate=Color("#173a38");brand.shaded=false;brand.double_sided=false
+					brand.rotation.y=side*PI*.5
+					brand.position=Vector3(side*1.215,.77,direction*(float(rig.module_lengths[i])*.5-.93))
+					module.add_child(brand)
+			else:
+				var brand := Label3D.new();brand.name="Brand";brand.text="ALSTOM"
+				brand.font_size=64;brand.pixel_size=.0011
+				brand.outline_size=0;brand.modulate=Color("#dde7e4");brand.shaded=false;brand.double_sided=false
+				brand.rotation.y=label.rotation.y
+				brand.position=Vector3(0,1.065,direction*(float(rig.module_lengths[i])*.5-.015))
+				module.add_child(brand)
+
 	for i in rig.leaves.size():replace_mesh(rig,rig.leaves[i].node,imported["Door%03d"%i])
 	for pair in [["lower","PantoLower"],["upper","PantoUpper"],["head","PantoHead"]]:
 		replace_mesh(rig,rig.panto[pair[0]],imported[pair[1]])

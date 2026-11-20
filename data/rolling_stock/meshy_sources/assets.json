@@ -1,8 +1,8 @@
 {
   "angers302_body.glb": {
-    "bytes": 913732,
-    "sha256": "9da355d77e00ca44e69609657d82ceabb027bff8a3a428302310d66ddd1001c2",
-    "triangles": 9986,
+    "bytes": 924660,
+    "sha256": "c120490bd7ee534814ab1e87d23c7eac11362f36dbe5e7414b87c96631459aca",
+    "triangles": 10106,
     "mesh_count": 28,
     "embedded_images": 0,
     "max_surfaces": 1,
@@ -18,9 +18,9 @@
     "vertex_palette": false
   },
   "angers305_body.glb": {
-    "bytes": 950448,
-    "sha256": "115945e165e81d9d1695f7d74d4a06a9af300a8183d94ad365439a80a867c798",
-    "triangles": 10356,
+    "bytes": 959872,
+    "sha256": "74acb335135471a40dc4fd2f65499b4c9cdefc474708f7ddae207a51f6b19ed8",
+    "triangles": 10460,
     "mesh_count": 32,
     "embedded_images": 0,
     "max_surfaces": 1,
@@ -36,9 +36,9 @@
     "vertex_palette": false
   },
   "nantes405_body.glb": {
-    "bytes": 1074668,
-    "sha256": "ee4d16242aa21098ab81c955022925a8f883d8f57797f7fb954ce9d9430c22d1",
-    "triangles": 11830,
+    "bytes": 996316,
+    "sha256": "890f7e2d54c65542f6c74b599f43c35d7b59d0f7ca387a98536b8b88014ceed6",
+    "triangles": 10950,
     "mesh_count": 42,
     "embedded_images": 0,
     "max_surfaces": 1,

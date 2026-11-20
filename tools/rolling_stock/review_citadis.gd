@@ -15,13 +15,18 @@ func capture(name_: String) -> void:
 	var frame := root.get_texture().get_image()
 	frame.save_png(directory+name_+".png")
 	# Existing PR image URLs must show the corrected model, not the rejected V1.
-	if name_.contains("stylised-v2"):
-		frame.save_png(directory+name_.replace("stylised-v2","meshy-experimental")+".png")
-	if name_.contains("stylised-v2") and name_.ends_with("-face"):
+	if name_.contains("facade-v3"):
+		frame.save_png(directory+name_.replace("facade-v3","meshy-experimental")+".png")
+		frame.save_png(directory+name_.replace("facade-v3","stylised-v2")+".png")
+	if name_.contains("facade-v3") and name_.ends_with("-face"):
 		# Regression check for the black untextured-material bug; not a realism score.
 		var luminance := 0.0
-		for x in range(620,660,2):
-			for y in range(535,545,2):luminance+=frame.get_pixel(x,y).get_luminance()/100.0
+		var x0 := 804 if name_.begins_with("nantes405") else 620
+		var y0 := 518 if name_.begins_with("nantes405") else 535
+		var width_ := 16 if name_.begins_with("nantes405") else 40
+		for x in range(x0,x0+width_,2):
+			for y in range(y0,y0+10,2):luminance+=frame.get_pixel(x,y).get_luminance()/(width_*2.5)
+
 		print("RENDER_BODY|",name_,"|",luminance)
 		if luminance<.25:render_failures+=1;printerr("FAIL: body material rendered black: ",name_)
 
@@ -57,7 +62,7 @@ func run() -> void:
 			var rig := TramModel.build_rig(livery,-1,true)
 			rig.layout_straight()
 			for module in rig.modules:world.add_child(module)
-			var state := "stylised-v2" if after else "before"
+			var state := "facade-v3" if after else "before"
 			label.text=entry.name+" · "+state+" · exterior / closed doors"
 			camera.position=Vector3(6,3.6,-rig.length*.5-6)
 			camera.look_at(Vector3(0,1.5,-rig.length*.5+2.3))
@@ -66,6 +71,16 @@ func run() -> void:
 			camera.fov=35;camera.look_at(Vector3(0,1.65,-rig.length*.5+1))
 			label.text=entry.name+" · "+state+" · front detail"
 			await capture(key+"-"+state+"-face")
+			if after:
+				root.size=Vector2i(720,900)
+				label.text=entry.name+"\nFaçade · références photographiques"
+				await capture(key+"-"+state+"-portrait")
+				root.size=Vector2i(1280,720)
+				if key=="nantes405":
+					camera.position=Vector3(0,1.65,rig.length*.5+7)
+					camera.look_at(Vector3(0,1.65,rig.length*.5-1))
+					label.text=entry.name+" · façade arrière / optiques rouges"
+					await capture(key+"-"+state+"-rear")
 			camera.fov=55
 			camera.position=Vector3(28,9,2);camera.look_at(Vector3(0,1.6,0))
 			label.text=entry.name+" · "+state+" · full articulated train"
