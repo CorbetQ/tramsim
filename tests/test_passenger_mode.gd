@@ -34,6 +34,8 @@ func run() -> void:
 	check(rig.modules[module_index].has_node("PassengerInterior"),"interior generated lazily on boarding")
 	check(is_instance_valid(mode.onboard_audio),"boarded train uses existing family audio engine")
 	var interior := rig.modules[module_index].get_node("PassengerInterior")
+	if CitadisMeshy.key_for(t.phys.profile.variant_id)!="":
+		check(str(interior.get_meta("reference_profile",""))==CitadisMeshy.key_for(t.phys.profile.variant_id),"actual boarded service uses exact Meshy interior profile")
 	check(not interior.find_children("*","MultiMeshInstance3D",true,false).is_empty(),"interior objects batched instead of individual draw nodes")
 	check(int(interior.get_meta("batched_draw_groups"))<int(interior.get_meta("unbatched_meshes")),"batching reduces interior draw groups")
 	print("INTERIOR_BATCH|",interior.get_meta("unbatched_meshes"),"|",interior.get_meta("batched_draw_groups"))

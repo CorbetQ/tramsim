@@ -166,3 +166,27 @@ La liaison godot-rust 0.4.5 et les données d'API associées sont sous **MPL-2.0
 Notices, versions exactes, sources correspondantes et textes de licences :
 [native/THIRD_PARTY.md](native/THIRD_PARTY.md) et [native/licenses/](native/licenses/).
 Ces notices doivent accompagner toute distribution du module natif.
+
+
+## Citadis Meshy : Angers 302 / 305 et Nantes 405 (expérimental)
+
+Model created with Meshy – CC BY 4.0 License. https://creativecommons.org/licenses/by/4.0/
+
+Caisses adaptées depuis des photos libres, redistribution des adaptations sous
+CC BY-SA 4.0 : https://creativecommons.org/licenses/by-sa/4.0/.
+Crédits des images effectivement envoyées à Meshy :
+
+- File:3,52 Verneau Citadis n°1016 (tram Angers) par Cramos.JPG — Cramos, CC BY-SA 3.0. https://commons.wikimedia.org/wiki/File:3,52_Verneau_Citadis_n%C2%B01016_(tram_Angers)_par_Cramos.JPG ; https://creativecommons.org/licenses/by-sa/3.0
+- File:0,00 Ardennes Citadis n°1014 (tram Angers) par Cramos.JPG — Cramos, CC BY-SA 3.0. https://commons.wikimedia.org/wiki/File:0,00_Ardennes_Citadis_n%C2%B01014_(tram_Angers)_par_Cramos.JPG ; https://creativecommons.org/licenses/by-sa/3.0
+- File:4,76 Jean Moulin Citadis n°1004 (tram Angers) par Cramos.JPG — Cramos, CC BY-SA 3.0. https://commons.wikimedia.org/wiki/File:4,76_Jean_Moulin_Citadis_n%C2%B01004_(tram_Angers)_par_Cramos.JPG ; https://creativecommons.org/licenses/by-sa/3.0
+- File:Citadis 305.jpg — Blauer Pfeil, CC BY-SA 4.0. https://commons.wikimedia.org/wiki/File:Citadis_305.jpg ; https://creativecommons.org/licenses/by-sa/4.0
+- File:Tramway à la station Farcy, Angers, 2026.jpg — Antimuonium, CC BY-SA 4.0. https://commons.wikimedia.org/wiki/File:Tramway_%C3%A0_la_station_Farcy,_Angers,_2026.jpg ; https://creativecommons.org/licenses/by-sa/4.0
+- File:Angers - 15 boulevard du Maréchal-Foch 02.jpg — Fab5669, CC0. https://commons.wikimedia.org/wiki/File:Angers_-_15_boulevard_du_Mar%C3%A9chal-Foch_02.jpg ; http://creativecommons.org/publicdomain/zero/1.0/deed.en
+- File:Nantes tram 2026 04.jpg — Smiley.toerist, CC BY-SA 4.0. https://commons.wikimedia.org/wiki/File:Nantes_tram_2026_04.jpg ; https://creativecommons.org/licenses/by-sa/4.0
+- File:Alstom Citadis X05 - 405.jpg — JFGChenel, CC0. https://commons.wikimedia.org/wiki/File:Alstom_Citadis_X05_-_405.jpg ; http://creativecommons.org/publicdomain/zero/1.0/deed.en
+- File:Nantes - Bouffay 20250726-02.jpg — Pymouss, CC BY-SA 4.0. https://commons.wikimedia.org/wiki/File:Nantes_-_Bouffay_20250726-02.jpg ; https://creativecommons.org/licenses/by-sa/4.0
+
+Les sièges proviennent de rendus de travail originaux et de générations Meshy ;
+matériaux, adaptation métrique, découpe, assemblage et rig par TramSim/Codex.
+Les photos institutionnelles à droits réservés n’ont été ni redistribuées ni
+envoyées à Meshy. Dossier complet : `data/rolling_stock/meshy_sources/CREDITS.md`.
