@@ -1,0 +1,250 @@
+{
+	"configuration": {
+		"gpu_timing": true,
+		"network": "res://data/free/angers.json",
+		"phase_seconds": 0.25,
+		"phases": [
+			"dense_driving",
+			"free_camera",
+			"night",
+			"rain",
+			"terminus"
+		],
+		"request_id": "r_0788f9de3bc64cbe97537b5da3667c2b",
+		"run_id": "isolated_smoke",
+		"schema_version": 1.0,
+		"seed": 7.0,
+		"view_distance": 400.0,
+		"warmup_frames": 0.0
+	},
+	"events": [
+		{
+			"phase": "loading",
+			"reason": "",
+			"seconds": 0.00015,
+			"status": "started"
+		},
+		{
+			"phase": "loading",
+			"reason": "",
+			"seconds": 23.810504,
+			"status": "completed"
+		},
+		{
+			"phase": "dense_driving",
+			"reason": "",
+			"seconds": 23.81164,
+			"status": "started"
+		},
+		{
+			"phase": "dense_driving",
+			"reason": "",
+			"seconds": 24.066281,
+			"status": "completed"
+		},
+		{
+			"phase": "free_camera",
+			"reason": "",
+			"seconds": 24.06631,
+			"status": "started"
+		},
+		{
+			"phase": "free_camera",
+			"reason": "",
+			"seconds": 24.321628,
+			"status": "completed"
+		},
+		{
+			"phase": "night",
+			"reason": "",
+			"seconds": 24.321652,
+			"status": "started"
+		},
+		{
+			"phase": "night",
+			"reason": "",
+			"seconds": 24.57686,
+			"status": "completed"
+		},
+		{
+			"phase": "rain",
+			"reason": "WeatherState absent on this revision; rain data not fabricated",
+			"seconds": 24.576871,
+			"status": "skipped"
+		},
+		{
+			"phase": "terminus",
+			"reason": "",
+			"seconds": 24.577463,
+			"status": "started"
+		},
+		{
+			"phase": "terminus",
+			"reason": "",
+			"seconds": 24.929838,
+			"status": "completed"
+		}
+	],
+	"kind": "performance",
+	"limitations": [
+		"Headless data is not gameplay FPS; physical hardware requires ADB evidence.",
+		"Unavailable GPU, energy, thermal and RSS are not fabricated.",
+		"Fixed 1/60 simulation; rendering and asynchronous streaming are not bit-identical."
+	],
+	"measurements": {
+		"dense_driving": {
+			"budgets": {
+
+			},
+			"cpu_process_ms_p95": 23234.838,
+			"fps": {
+				"p50": 144.949886292392,
+				"p95": 196.485067885516,
+				"p99": 433.363463700978
+			},
+			"frametime_ms": {
+				"p50": 6.899,
+				"p95": 8.72189999999999,
+				"p99": 15590.61956
+			},
+			"gpu_render_ms_p95": null,
+			"maxima": {
+				"draw_calls": 0.0,
+				"nodes": 4504.0,
+				"objects": 9160.0,
+				"resources": 186.0,
+				"static_memory_bytes": 315692953.0
+			},
+			"sampled_frames": 34
+		},
+		"free_camera": {
+			"budgets": {
+
+			},
+			"cpu_process_ms_p95": 23234.838,
+			"fps": {
+				"p50": 144.634075788256,
+				"p95": 155.092846402103,
+				"p99": 166.037726034176
+			},
+			"frametime_ms": {
+				"p50": 6.914,
+				"p95": 7.3358,
+				"p99": 7.7838
+			},
+			"gpu_render_ms_p95": null,
+			"maxima": {
+				"draw_calls": 0.0,
+				"nodes": 4438.0,
+				"objects": 8978.0,
+				"resources": 186.0,
+				"static_memory_bytes": 315327557.0
+			},
+			"sampled_frames": 37
+		},
+		"loading": {
+			"budgets": {
+
+			},
+			"cpu_process_ms_p95": 42.821,
+			"fps": {
+				"p50": 144.864551644213,
+				"p95": 156.176929458003,
+				"p99": 12528.1803542673
+			},
+			"frametime_ms": {
+				"p50": 6.903,
+				"p95": 7.3314,
+				"p99": 91.4240399999996
+			},
+			"gpu_render_ms_p95": null,
+			"maxima": {
+				"draw_calls": 0.0,
+				"nodes": 82.0,
+				"objects": 2308.0,
+				"resources": 80.0,
+				"static_memory_bytes": 128704077.0
+			},
+			"sampled_frames": 57
+		},
+		"night": {
+			"budgets": {
+
+			},
+			"cpu_process_ms_p95": 23234.838,
+			"fps": {
+				"p50": 145.222189950624,
+				"p95": 154.246675407977,
+				"p99": 159.52639686216
+			},
+			"frametime_ms": {
+				"p50": 6.886,
+				"p95": 7.3076,
+				"p99": 7.53608
+			},
+			"gpu_render_ms_p95": null,
+			"maxima": {
+				"draw_calls": 0.0,
+				"nodes": 4438.0,
+				"objects": 8977.0,
+				"resources": 186.0,
+				"static_memory_bytes": 315399129.0
+			},
+			"sampled_frames": 37
+		},
+		"terminus": {
+			"budgets": {
+
+			},
+			"cpu_process_ms_p95": 23234.838,
+			"fps": {
+				"p50": 128.221566867547,
+				"p95": 128.221566867547,
+				"p99": 128.221566867547
+			},
+			"frametime_ms": {
+				"p50": 7.799,
+				"p95": 7.799,
+				"p99": 7.799
+			},
+			"gpu_render_ms_p95": null,
+			"maxima": {
+				"draw_calls": 0.0,
+				"nodes": 4442.0,
+				"objects": 8988.0,
+				"resources": 186.0,
+				"static_memory_bytes": 315449693.0
+			},
+			"sampled_frames": 1
+		}
+	},
+	"metadata": {
+		"build": {
+			"reason": "unstamped_local_build",
+			"source_sha": null,
+			"version": "0.13.1"
+		},
+		"display_driver": "headless",
+		"energy": null,
+		"godot": "4.6.3-stable (official)",
+		"gpu_unavailable_reason": "unsupported_or_no_nonzero_gpu_timestamp",
+		"instrumentation_note": "Setup and source fingerprinting are included in loading; compare the same protocol.",
+		"memory_scope": "Godot static allocations, NOT Android RSS; zero/unsupported maps to null",
+		"model": "GenericDevice",
+		"network_sha256": "dec14c15c6e3e063c13280ebac00d2350f055cebc5c9737e2d0feb8bceb23022",
+		"os": "Linux",
+		"os_version": "13",
+		"physical_device_verified": false,
+		"physical_verification": "Requires external ADB emulator/hardware evidence; Android OS alone is not proof.",
+		"power_mode": "not_reported",
+		"processor": "INTEL(R) XEON(R) PLATINUM 8573C",
+		"rendering_method": "gl_compatibility",
+		"sample_source": "runtime_monitors",
+		"thermal": null
+	},
+	"request_id": "r_0788f9de3bc64cbe97537b5da3667c2b",
+	"run_id": "isolated_smoke",
+	"schema_version": 1,
+	"status": "completed_with_skips",
+	"warmup_frames_excluded": 0
+}

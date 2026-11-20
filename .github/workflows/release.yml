@@ -76,6 +76,8 @@ jobs:
         run: |
           sudo apt-get install -y xvfb mesa-utils > /dev/null 2>&1 || true
           GODOT=$PWD/godot tests/run_all.sh
+      - name: Stamp benchmark build identity
+        run: python tools/perf/write_build_info.py
       - name: Export
         run: |
           mkdir -p build

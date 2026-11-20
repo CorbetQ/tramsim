@@ -7,3 +7,6 @@ android/
 .cache/
 __pycache__/
 *.pyc
+
+# Generated only by tools/perf/write_build_info.py during export.
+/data/build_info.json

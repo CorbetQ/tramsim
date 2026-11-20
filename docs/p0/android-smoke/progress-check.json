@@ -1,0 +1,15 @@
+{
+  "scope": "actual desktop game, headless; not Android physical",
+  "save_fixture_unchanged": true,
+  "before_sha256": "a311747d71300aeb4bbf9983cc2df95b6bab69b75627e50130b160fd9e3056b1",
+  "after_sha256": "a311747d71300aeb4bbf9983cc2df95b6bab69b75627e50130b160fd9e3056b1",
+  "completed_phases": [
+    "dense_driving",
+    "free_camera",
+    "loading",
+    "night",
+    "terminus"
+  ],
+  "rain": "skipped; unavailable",
+  "gpu": "null; unavailable"
+}
