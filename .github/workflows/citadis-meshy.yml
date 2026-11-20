@@ -44,6 +44,17 @@ jobs:
             "$G" --headless --path . --script "tests/$test.gd" > "reports/$test.log" 2>&1
             ! grep -Eq 'SCRIPT ERROR|^FAIL:|^ECHEC:|TOTAL_FAILURES\|[1-9]|TOTAL_ECHECS\|[1-9]' "reports/$test.log"
           done
+      - name: Rendu Compatibility et contrôle des matériaux
+        shell: bash
+        run: |
+          set -euo pipefail
+          G="$RUNNER_TEMP/godot/Godot_v4.6.3-stable_linux.x86_64"
+          if command -v xvfb-run >/dev/null; then
+            TRAMSIM_REVIEW_ONLY_V2=1 TRAMSIM_REVIEW_CAPTURE_ROOT=res://reports/render/ xvfb-run -a -s '-screen 0 1280x720x24' "$G" --path . --audio-driver Dummy --rendering-method gl_compatibility --script tools/rolling_stock/review_citadis.gd > reports/render.log 2>&1
+            ! grep -Eq 'SCRIPT ERROR|^FAIL:' reports/render.log
+          else
+            echo 'SKIP: Xvfb unavailable; local rendered validation remains documented.' > reports/render.log
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:

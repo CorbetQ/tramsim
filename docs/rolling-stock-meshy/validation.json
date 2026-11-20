@@ -1,33 +1,55 @@
 {
-  "baseline_stock": {
+  "rig": {
+    "positive_checks": 637,
+    "failed": false
+  },
+  "stock": {
     "positive_checks": 301,
-    "script_error": false,
-    "exit_code": 0
+    "failed": false
   },
-  "meshy_rig": {
-    "positive_checks": 229,
-    "script_error": false,
-    "exit_code": 0
-  },
-  "stock_regression": {
-    "positive_checks": 301,
-    "script_error": false,
-    "exit_code": 0
-  },
-  "twenty_interior_families": {
+  "families": {
     "positive_checks": 0,
-    "script_error": false,
-    "exit_code": 0,
-    "families_exercised": 20
+    "failed": false,
+    "family_count": 20
   },
-  "actual_passenger_render": {
+  "passenger_render": {
     "positive_checks": 24,
-    "script_error": false,
-    "exit_code": 0
+    "failed": false
   },
-  "renderer": "Godot 4.6.3; OpenGL Compatibility; Mesa llvmpipe; desktop",
-  "phone_performance_tested": false,
-  "new_exteriors_default_enabled": false,
-  "new_interiors_enabled": true,
-  "gltf_bytes": 13831720
+  "render_material_checks": {
+    "angers302-stylised-v2-face": "0.72813099622726",
+    "angers305-stylised-v2-face": "0.72813099622726",
+    "nantes405-stylised-v2-face": "0.72813099622726"
+  },
+  "animations": {
+    "angers302": {
+      "frames": 64,
+      "fps": 8,
+      "duration_seconds": 8,
+      "bytes": 153310,
+      "file": "angers302-animation.mp4"
+    },
+    "angers305": {
+      "frames": 64,
+      "fps": 8,
+      "duration_seconds": 8,
+      "bytes": 163560,
+      "file": "angers305-animation.mp4"
+    },
+    "nantes405": {
+      "frames": 64,
+      "fps": 8,
+      "duration_seconds": 8,
+      "bytes": 203018,
+      "file": "nantes405-animation.mp4"
+    }
+  },
+  "revision": 2,
+  "visible_legacy_meshes": 0,
+  "photographic_textures": 0,
+  "renderer": "Godot 4.6.3 / OpenGL Compatibility / llvmpipe",
+  "android_performance_tested": false,
+  "vulkan_tested": false,
+  "asset_bytes": 3196516,
+  "extra_meshy_credits": 0
 }

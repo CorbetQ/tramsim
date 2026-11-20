@@ -116,6 +116,11 @@ static func attach(rig, profile: VehicleProfile) -> bool:
 			TramInterior.box(root,Vector3(0,1.51,z),Vector3(width-.2,2.24,.025),glass)
 			for side in [-1,1]:pipe(root,Vector3(side*.50,floor_y,z),Vector3(side*.50,2.61,z),silver,.024)
 		root.set_meta("seats",seats);root.set_meta("door_zones",doors)
+		for fixture in root.get_children():
+			if fixture is MeshInstance3D and fixture.material_override is BaseMaterial3D:
+				var source: BaseMaterial3D=fixture.material_override
+				if source.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED:
+					fixture.material_override=CitadisMeshy.textured_material(source)
 		TramInterior.batch(root)
 		var lamp := OmniLight3D.new();lamp.position=Vector3(0,2.3,0);lamp.omni_range=minf(length,8)
 		lamp.light_energy=.5;lamp.shadow_enabled=false;lamp.distance_fade_enabled=true

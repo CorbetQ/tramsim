@@ -38,7 +38,9 @@ def glb_info(path):
             assert primitive.get("mode", 4) == 4
             triangles += doc["accessors"][primitive["indices"]]["count"] // 3
     return {"bytes":size,"sha256":sha(path),"triangles":triangles,
-            "mesh_count":len(doc["meshes"]),"embedded_images":len(doc.get("images", []))}
+            "mesh_count":len(doc["meshes"]),"embedded_images":len(doc.get("images", [])),
+            "max_surfaces":max(len(m["primitives"]) for m in doc["meshes"]),
+            "vertex_palette":all("COLOR_0" in p["attributes"] and "TEXCOORD_0" in p["attributes"] for m in doc["meshes"] for p in m["primitives"])}
 
 
 def allowed(row):
@@ -110,8 +112,9 @@ def main():
     assert len(manifest)==6
     for name, data in manifest.items():
         assert data["bytes"]<6*1024*1024
-        assert data["triangles"]<45000 if "body" in name else data["triangles"]<1600
-        if "body" in name:assert data["embedded_images"]>=1
+        assert data["triangles"]<12000 if "body" in name else data["triangles"]<1600
+        if "body" in name:assert data["max_surfaces"]==1 and data["vertex_palette"]
+        assert data["embedded_images"]==0, "Photographic textures must not return"
         settings = (ASSETS/(name+".import")).read_text()
         assert "meshes/generate_lods=true" in settings
         assert "gltf/embedded_image_handling=2" in settings

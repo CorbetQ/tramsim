@@ -1,0 +1,42 @@
+{
+  "revision": 2,
+  "asset_bytes": 3196516,
+  "previous_revision_bytes": 13831720,
+  "additional_meshy_credits": 0,
+  "authorship": "Local reference-constrained reconstruction; original Meshy contour study only for shells; original Meshy seat geometry retained. Not a new Meshy generation.",
+  "visible_legacy_geometry": false,
+  "photographic_textures": false,
+  "default_enabled": true,
+  "families": {
+    "angers302": {
+      "recorded_meshy_task": "01a1f9c3-8907-715d-8358-86366f4b804a",
+      "raw_source_sha256": "20d4342fdbb75d67624ecebb31b7f8f14133382da4db8b2599bfc30d2b369006",
+      "body_triangles": 9986,
+      "max_surfaces_per_piece": 1,
+      "visible_parts": 28,
+      "original_shell_triangles_retained": 0,
+      "contour_width_fit_weight": 0.1,
+      "dimensional_and_reference_profile_weight": 0.9
+    },
+    "angers305": {
+      "recorded_meshy_task": "01a1f9c4-5964-7275-865e-dfc2c7acad0e",
+      "raw_source_sha256": "44390d197a4d340591aec73db8c3729c7e9c8159172cbda60d996ff887747b71",
+      "body_triangles": 10356,
+      "max_surfaces_per_piece": 1,
+      "visible_parts": 32,
+      "original_shell_triangles_retained": 0,
+      "contour_width_fit_weight": 0.1,
+      "dimensional_and_reference_profile_weight": 0.9
+    },
+    "nantes405": {
+      "recorded_meshy_task": "01a1f9c4-65f3-74e9-aca9-7c273b10b9e5",
+      "raw_source_sha256": "3cb62c838eea79aeeb412e1cda20d92c2a27e55892fca2757d2ba511451e30ed",
+      "body_triangles": 11830,
+      "max_surfaces_per_piece": 1,
+      "visible_parts": 42,
+      "original_shell_triangles_retained": 0,
+      "contour_width_fit_weight": 0.1,
+      "dimensional_and_reference_profile_weight": 0.9
+    }
+  }
+}

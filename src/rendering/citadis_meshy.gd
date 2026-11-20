@@ -1,6 +1,7 @@
 class_name CitadisMeshy
 extends RefCounted
-## Meshy geometry is adapted offline, never generated/downloaded during play.
+## Locally reconstructed shells from reference study/Meshy contours; Meshy seats.
+## No generation or download during play, and no retained legacy visible geometry.
 ## Exact variants only: a fictitious 405 Irigo must not inherit a 305 shell.
 const ROOT := "res://data/rolling_stock/meshy_citadis/"
 const VARIANTS := {
@@ -11,7 +12,7 @@ const VARIANTS := {
 const LENGTHS := {"angers302":32.4,"angers305":33.0,"nantes405":45.6}
 static var _parts := {}
 static var _materials := {}
-static var preview_exteriors := false
+static var exteriors_enabled := true
 static var reference_interiors_enabled := true
 
 static func key_for(variant: String) -> String:
@@ -40,7 +41,12 @@ static func textured_material(source: Material, palette: int=0) -> Material:
 	var material := ShaderMaterial.new()
 	material.shader=load("res://src/rendering/shaders/meshy_citadis.gdshader")
 	material.set_shader_parameter("base_texture",source.albedo_texture)
+	material.set_shader_parameter("use_texture",source.albedo_texture!=null)
 	material.set_shader_parameter("base_color",source.albedo_color)
+	material.set_shader_parameter("vertex_palette",source.resource_name.begins_with("CitadisPalette"))
+	material.set_shader_parameter("surface_roughness",source.roughness)
+	material.set_shader_parameter("surface_metallic",source.metallic)
+	if source.emission_enabled:material.set_shader_parameter("emission_color",source.emission*source.emission_energy_multiplier)
 	material.set_shader_parameter("seat_palette",palette if source.albedo_texture!=null else 0)
 	_materials[id]=material
 	return material
@@ -60,55 +66,52 @@ static func seat(key: String) -> Mesh:
 	return styled_mesh(result.values()[0],2 if key=="nantes405" else 1)
 
 static func apply_exterior(rig, livery: Dictionary) -> bool:
-	# Whole-train reconstruction currently has visual defects. It is available
-	# in the animation review tool, not silently shipped as an approved replacement.
-	if not preview_exteriors and OS.get_environment("TRAMSIM_MESHY_PREVIEW")!="1":return false
+	# One coherent reconstructed mesh set. Animation transforms remain authoritative.
+	if not exteriors_enabled or OS.get_environment("TRAMSIM_CITADIS_LEGACY")=="1":return false
 	var key := key_for(str(livery.get("variant_id","")))
 	if key=="":return false
 	if absf(rig.length-float(LENGTHS[key]))>.02 or absf(float(livery.get("width",2.4))-2.4)>.01:return false
 	var imported := parts(key,"body")
-	if imported.size()!=rig.modules.size():return false
-	for i in rig.modules.size():
-		if not imported.has("Module%02d"%i):return false
+	# Validate the complete set before touching the rig. Never mix generations.
+	var required: Array[String]=[]
+	for i in rig.modules.size():required.append("Module%02d"%i)
+	for i in rig.leaves.size():required.append("Door%03d"%i)
+	for name_ in ["PantoLower","PantoUpper","PantoHead"]:required.append(name_)
+	if imported.size()!=required.size():return false
+	for name_ in required:
+		if not imported.has(name_):return false
 	for i in rig.modules.size():
 		var module: MeshInstance3D=rig.modules[i]
-		var scaffold := mechanical_scaffold(module.mesh,float(rig.module_lengths[i]))
-		if scaffold!=null:
-			var fittings := MeshInstance3D.new();fittings.name="MechanicalScaffold"
-			fittings.mesh=scaffold;fittings.material_override=module.material_override;module.add_child(fittings)
-		rig.triangles-=module.mesh.get_faces().size()/3
-		module.mesh=styled_mesh(imported["Module%02d"%i])
-		rig.triangles+=module.mesh.get_faces().size()/3
-		if scaffold!=null:rig.triangles+=scaffold.get_faces().size()/3
-		module.material_override=null
+		replace_mesh(rig,module,imported["Module%02d"%i])
 		module.set_meta("meshy_experimental",key)
-		if module.has_node("Girouette"):module.get_node("Girouette").visible=false
+		if module.has_node("Girouette"):
+			var label: Label3D=module.get_node("Girouette")
+			var direction := -1.0 if i==0 else 1.0
+			var inset := .615 if key=="angers302" else (.50 if key=="angers305" else .274)
+			label.position=Vector3(0,2.62,direction*(float(rig.module_lengths[i])*.5-inset+.09))
+			label.pixel_size=minf(.004,1.25/maxf(label.text.length()*36.0,1.0))
+			label.visible=true
+			var brand := Label3D.new();brand.name="Brand";brand.text="naolib" if key=="nantes405" else "ALSTOM"
+			brand.font_size=64;brand.pixel_size=.0018 if key=="nantes405" else .0011
+			brand.outline_size=0;brand.modulate=Color("#172e39");brand.shaded=false;brand.double_sided=false
+			brand.rotation.y=label.rotation.y
+			var brand_y := .70 if key=="nantes405" else 1.0
+			brand.position=Vector3(0,brand_y,direction*(float(rig.module_lengths[i])*.5+.025))
+			module.add_child(brand)
+	for i in rig.leaves.size():replace_mesh(rig,rig.leaves[i].node,imported["Door%03d"%i])
+	for pair in [["lower","PantoLower"],["upper","PantoUpper"],["head","PantoHead"]]:
+		replace_mesh(rig,rig.panto[pair[0]],imported[pair[1]])
 	return true
 
-static func mechanical_scaffold(mesh: Mesh, length: float) -> ArrayMesh:
-	# Reuse only the verified roof equipment, underframe and gangway mechanics.
-	# In particular the pantograph base cannot float above an inferred AI roof.
-	var tool := SurfaceTool.new();tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var count := 0
-	for surface in mesh.get_surface_count():
-		var arrays := mesh.surface_get_arrays(surface)
-		var vertices: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
-		var indices: PackedInt32Array=arrays[Mesh.ARRAY_INDEX] if arrays[Mesh.ARRAY_INDEX]!=null else PackedInt32Array()
-		if indices.is_empty():
-			for i in vertices.size():indices.append(i)
-		for i in range(0,indices.size(),3):
-			var keep_roof := true;var keep_bottom := true;var keep_end := true
-			for j in 3:
-				var v := vertices[indices[i+j]]
-				keep_roof=keep_roof and v.y>=2.75
-				keep_bottom=keep_bottom and v.y<=.7 and absf(v.x)<=1.0
-				keep_end=keep_end and absf(v.z)>=length*.5-.20 and absf(v.x)<=1.1
-			if not keep_roof and not keep_bottom and not keep_end:continue
-			for j in 3:
-				var idx := indices[i+j]
-				if arrays[Mesh.ARRAY_NORMAL]!=null:tool.set_normal(arrays[Mesh.ARRAY_NORMAL][idx])
-				if arrays[Mesh.ARRAY_COLOR]!=null:tool.set_color(arrays[Mesh.ARRAY_COLOR][idx])
-				if arrays[Mesh.ARRAY_TEX_UV]!=null:tool.set_uv(arrays[Mesh.ARRAY_TEX_UV][idx])
-				if arrays[Mesh.ARRAY_TEX_UV2]!=null:tool.set_uv2(arrays[Mesh.ARRAY_TEX_UV2][idx])
-				tool.add_vertex(vertices[idx]);count+=1
-	return tool.commit() if count>0 else null
+static func replace_mesh(rig, node: MeshInstance3D, mesh: Mesh) -> void:
+	rig.triangles-=node.mesh.get_faces().size()/3
+	node.mesh=styled_mesh(mesh)
+	rig.triangles+=node.mesh.get_faces().size()/3
+	node.material_override=null
+	if str(node.name).begins_with("Module"):
+		if not _materials.has("body_outline"):
+			var outline := ShaderMaterial.new();outline.shader=load("res://src/rendering/shaders/outline.gdshader")
+			outline.set_shader_parameter("width",.018);outline.set_shader_parameter("axis_center",Vector3(0,1.55,0))
+			_materials["body_outline"]=outline
+		node.material_overlay=_materials["body_outline"]
+	node.set_meta("citadis_asset_revision",2)

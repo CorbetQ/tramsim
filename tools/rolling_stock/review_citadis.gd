@@ -5,16 +5,29 @@ var world: Node3D
 var camera: Camera3D
 var label: Label
 var directory := "res://docs/rolling-stock-meshy/captures/"
+var render_failures := 0
 
 func _initialize() -> void:run.call_deferred()
 
 func capture(name_: String) -> void:
 	for i in 5:await process_frame
 	await RenderingServer.frame_post_draw
-	root.get_texture().get_image().save_png(directory+name_+".png")
+	var frame := root.get_texture().get_image()
+	frame.save_png(directory+name_+".png")
+	# Existing PR image URLs must show the corrected model, not the rejected V1.
+	if name_.contains("stylised-v2"):
+		frame.save_png(directory+name_.replace("stylised-v2","meshy-experimental")+".png")
+	if name_.contains("stylised-v2") and name_.ends_with("-face"):
+		# Regression check for the black untextured-material bug; not a realism score.
+		var luminance := 0.0
+		for x in range(620,660,2):
+			for y in range(535,545,2):luminance+=frame.get_pixel(x,y).get_luminance()/100.0
+		print("RENDER_BODY|",name_,"|",luminance)
+		if luminance<.25:render_failures+=1;printerr("FAIL: body material rendered black: ",name_)
 
 func run() -> void:
 	if DisplayServer.get_name()=="headless":printerr("A rendering display is required");quit(2);return
+	if OS.get_environment("TRAMSIM_REVIEW_CAPTURE_ROOT")!="":directory=OS.get_environment("TRAMSIM_REVIEW_CAPTURE_ROOT")
 	DirAccess.make_dir_recursive_absolute(directory)
 	root.size=Vector2i(1280,720)
 	world=Node3D.new();root.add_child(world)
@@ -33,21 +46,27 @@ func run() -> void:
 	label.add_theme_color_override("font_shadow_color",Color.BLACK);label.add_theme_constant_override("shadow_offset_x",2)
 	label.add_theme_constant_override("shadow_offset_y",2);overlay.add_child(label)
 	for variant in CitadisMeshy.VARIANTS:
+		if OS.get_environment("TRAMSIM_REVIEW_VARIANT")!="" and variant!=OS.get_environment("TRAMSIM_REVIEW_VARIANT"):continue
 		var entry := StockCatalog.find(variant)
 		var key := CitadisMeshy.key_for(variant)
 		var profile := VehicleProfile.new();profile.variant_id=variant;profile.width_m=float(entry.width)
 		profile.fleet=entry;profile.origin_city=str(entry.network)
 		var livery := TramModel.livery_for({"source_id":str(entry.network),"id":str(entry.network)+"_1"},entry)
-		for after in [false,true]:
-			CitadisMeshy.preview_exteriors=after;CitadisMeshy.reference_interiors_enabled=after
+		for after in ([true] if OS.get_environment("TRAMSIM_REVIEW_ONLY_V2")=="1" else [false,true]):
+			CitadisMeshy.exteriors_enabled=after;CitadisMeshy.reference_interiors_enabled=after
 			var rig := TramModel.build_rig(livery,-1,true)
 			rig.layout_straight()
 			for module in rig.modules:world.add_child(module)
-			var state := "meshy-experimental" if after else "before"
+			var state := "stylised-v2" if after else "before"
 			label.text=entry.name+" · "+state+" · exterior / closed doors"
-			camera.position=Vector3(10,5,-rig.length*.5-9)
-			camera.look_at(Vector3(0,1.4,-rig.length*.5+5))
+			camera.position=Vector3(6,3.6,-rig.length*.5-6)
+			camera.look_at(Vector3(0,1.5,-rig.length*.5+2.3))
 			await capture(key+"-"+state+"-front")
+			camera.position=Vector3(0,1.65,-rig.length*.5-7)
+			camera.fov=35;camera.look_at(Vector3(0,1.65,-rig.length*.5+1))
+			label.text=entry.name+" · "+state+" · front detail"
+			await capture(key+"-"+state+"-face")
+			camera.fov=55
 			camera.position=Vector3(28,9,2);camera.look_at(Vector3(0,1.6,0))
 			label.text=entry.name+" · "+state+" · full articulated train"
 			await capture(key+"-"+state+"-side")
@@ -57,6 +76,26 @@ func run() -> void:
 			label.text=entry.name+" · "+state+" · doors open / pantograph down"
 			await capture(key+"-"+state+"-open")
 			assert(rig.leaves[0].node.position.distance_to(closed)>.3)
+			if after and OS.get_environment("TRAMSIM_REVIEW_ANIMATION")=="1":
+				var animation_path := "res://.cache/citadis-v2/animation/"+key+"/"
+				DirAccess.make_dir_recursive_absolute(animation_path)
+				rig.set_doors(false);rig.set_pantograph(true);rig.snap()
+				for frame_index in 64:
+					if frame_index==0:rig.set_doors(true,"both");rig.set_pantograph(false)
+					if frame_index==32:rig.set_doors(false);rig.set_pantograph(true)
+					rig.update(.125)
+					var curvature := sin(frame_index/63.0*PI)/90.0
+					for i in rig.modules.size():
+						var d: float=rig.module_starts[i]+rig.module_lengths[i]*.5-rig.length*.5
+						var angle := d*curvature
+						rig.modules[i].position=Vector3((1.0-cos(angle))/curvature if curvature>.00001 else 0.0,0,sin(angle)/curvature if curvature>.00001 else d)
+						rig.modules[i].rotation.y=angle
+					label.text=entry.name+" · portes / pantographe / articulation · "+("ouverture" if frame_index<32 else "fermeture")
+					await process_frame;await RenderingServer.frame_post_draw
+					root.get_texture().get_image().save_png(animation_path+"%03d.png"%frame_index)
+				rig.layout_straight()
+				for module in rig.modules:module.rotation=Vector3.ZERO
+				rig.set_doors(true,"both");rig.set_pantograph(false);rig.snap()
 			TramInterior.attach(rig,profile);TramInterior.show(rig,true)
 			camera.cull_mask=1|2
 			camera.position=Vector3(0,1.98,-rig.length*.5+3.4)
@@ -65,5 +104,5 @@ func run() -> void:
 			await capture(key+"-"+state+"-interior")
 			for module in rig.modules:module.queue_free()
 			await process_frame
-		CitadisMeshy.preview_exteriors=false;CitadisMeshy.reference_interiors_enabled=true
-	quit()
+		CitadisMeshy.exteriors_enabled=false;CitadisMeshy.reference_interiors_enabled=true
+	quit(1 if render_failures else 0)

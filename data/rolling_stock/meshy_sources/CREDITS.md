@@ -6,8 +6,10 @@ Les photos institutionnelles sont consultées localement : ni publiées ici, ni
 envoyées à Meshy. Les sources exclues sont documentées, notamment l'intérieur
 anciennement attribué à tort au 405 nantais.
 
-Les trois caisses sont des adaptations Meshy + découpe/étalonnage Blender,
-licence CC BY-SA 4.0 pour la redistribution des adaptations photographiques.
+Les caisses V2 sont des reconstructions locales à partir de l'étude photo et
+l'échantillonnage des contours des bases Meshy ; aucun de leurs triangles bruts
+ni de leurs textures photographiques n'est conservé. La licence CC BY-SA 4.0 et
+les attributions des références sont conservées pour la redistribution.
 Attribution Meshy ajoutée aussi par prudence (type d'abonnement non déterminé).
 Les sièges Meshy viennent de rendus originaux préparés depuis l'étude des photos ;
 ils ne sont pas des scans ni des plans constructeur. Leur attribution Meshy

@@ -91,7 +91,6 @@ static func batch(root: Node3D) -> void:
 static func show(rig: TramModel.Rig, visible_: bool) -> void:
 	for module in rig.modules:
 		if module.has_node("PassengerInterior"):module.get_node("PassengerInterior").visible=visible_
-		if module.has_node("MechanicalScaffold"):module.get_node("MechanicalScaffold").visible=not visible_
 		# Interior and exterior are separate draw layers; the painted exterior glazing
 		# must not act as an opaque wall in the passenger camera.
 		module.layers=EXTERIOR_LAYER if visible_ else 1
