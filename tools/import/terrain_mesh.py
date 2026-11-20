@@ -128,9 +128,9 @@ class Height:
         return h
 
 
-def free_tracks(city, frame):
+def free_tracks(city, frame, path=None):
     """Voies physiques au sol (data/free) : échantillons tous les 2 m hors ponts et tunnels, repère de la ville."""
-    path = os.path.join(ROOT, "data/free", city + ".json")
+    path = path or os.path.join(ROOT, "data/free", city + ".json")
     if not os.path.exists(path):
         return np.zeros((0, 2)), np.zeros(0), [], []
     d = json.load(open(path))
