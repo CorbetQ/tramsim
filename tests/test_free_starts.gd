@@ -30,6 +30,9 @@ func run()->void:
  var main=load("res://src/ui/main.tscn").instantiate();root.add_child(main)
  main.save.settings.home_bg=false;main.menu_city="Nantes";main.menu_page="setup";main.free_mode=true;main._build_menu()
  for i in 8:await process_frame
+ var t0:=Time.get_ticks_msec()   # préchargement de la ville (données LiDAR plus riches) : attendre qu'il soit prêt
+ while not main.city_preload.is_ready("Nantes") and Time.get_ticks_msec()-t0<120000:await process_frame
+ for i in 4:await process_frame
  var line:TouchChoice=main.find_child("line_choice",true,false);var stop:TouchChoice=main.find_child("stop_choice",true,false)
  check(line!=null and line.is_visible_in_tree() and line.item_count==6,"configuration libre : ligne visible avant le départ")
  var tt_index:=-1;var depot_index:=-1

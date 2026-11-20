@@ -56,6 +56,8 @@ func _run() -> void:
 	var final: Transform3D = main.view.cam.global_transform
 	check(intro.cam.global_transform.is_equal_approx(final), "arrivée exactement sur la caméra de conduite")
 	intro.skip(); await process_frame
+	var skip_deadline := Time.get_ticks_msec() + 60000   # le passage attend la fin des tuiles LOD en cours
+	while main.intro != null and Time.get_ticks_msec() < skip_deadline: await process_frame
 	check(main.intro == null and main.view.cam.current and main.view.city.visible, "passage et restitution de la caméra/HUD")
 	check(is_equal_approx(root.scaling_3d_scale, render_scale0) and root.msaa_3d == msaa0, "qualité de rendu restaurée après passage")
 	await shot("07_driving")

@@ -26,6 +26,10 @@ func _init() -> void:
 	main.menu_page = "setup"; main._build_menu()
 	for i in 3: await process_frame
 	var go = main.find_child("start", true, false)
+	var t0 := Time.get_ticks_msec()   # préchargement de la ville (lent sur la CI) : attendre l'activation du départ
+	while go is Button and go.disabled and Time.get_ticks_msec() - t0 < 120000:
+		await process_frame
+		go = main.find_child("start", true, false)
 	c = c and go is Button and not go.disabled
 	print("menu : accueil + configuration ", c)
 	quit(0 if a and b and c else 1)

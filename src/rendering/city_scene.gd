@@ -480,7 +480,10 @@ static func _reap_lod_task(task: int, job: Dictionary) -> void:
 func warm(center_net: Vector3, cancellation = null) -> bool:
 	if cancellation != null and cancellation.cancelled(): return false
 	if _lod_task >= 0:
-		WorkerThreadPool.wait_for_task_completion(_lod_task); _poll_lod_tile()
+		# Ne pas joindre ici : _poll_lod_tile() joint lui-même la tâche (une double jointure
+		# invalide l'identifiant et bloquait ensuite la récupération à la sortie de scène).
+		while not WorkerThreadPool.is_task_completed(_lod_task): OS.delay_msec(1)
+		_poll_lod_tile()
 	var was_async := async_lod
 	async_lod = false
 	_horizon_deferred = true

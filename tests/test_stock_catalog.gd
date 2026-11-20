@@ -36,7 +36,9 @@ func _init()->void:
  check(StockCatalog.find("idf__citadis_302__t8").id=="idf__citadis_302__t7","T7 et T8 regroupés avec migration de l'ancien identifiant")
  check(StockCatalog.find("idf__citadis_dualis__t12").id=="idf__citadis_dualis__t11","Dualis IDFM regroupés")
  check(StockCatalog.native_for(angers).all(func(stock):return not stock.fictional),"concepts absents des flottes de mission")
- var lemans:=TramAudio.profile_for("citadis_302","lemans__citadis_302")
+ # Depuis 66cb61c (Codex), toutes les Citadis 302 utilisent la traction enregistrée approuvée (Rotterdam) ;
+ # la captation du Mans reste sélectionnée pour la Citadis 402 du Mans.
+ var lemans:=TramAudio.profile_for("citadis_302","lemans__citadis_402")
  check(str(lemans.bank_data.source.page).contains("458858"),"captation du Mans effectivement sélectionnée")
  check(TramAudio.profile_for("avanto","sarreguemines__flexity_link").quality=="synthetic","pas de fausse captation Avanto pour le Saarbahn")
  print("MAX_TRIANGLES|",maximum);print("TOTAL_ECHECS|",failures);quit(1 if failures else 0)

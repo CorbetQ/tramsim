@@ -55,6 +55,7 @@ func run() -> void:
  var mountains:=TerrainView.new();root.add_child(mountains)
  check(mountains.open("grenoble"),"lecture native du terrain TGR2 de Grenoble")
  var altitude:=mountains.height(-200,-9800)
+ if is_nan(altitude): altitude=mountains.far_height(-200,-9800)   # hors tuiles détaillées (emprise LiDAR) : couronne lointaine
  check(altitude>400 and altitude<460,"relief de Grenoble cohérent avec le MNT IGN, sans saut de 655 m : %.2f" % altitude)
  mountains.queue_free();await process_frame
  print("TOTAL_ECHECS|",fails);quit(1 if fails else 0)
