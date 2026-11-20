@@ -128,3 +128,13 @@ LG, « Streetcar04.wav », https://freesound.org/people/LG/sounds/14279/ , Creat
 - Souffle d'air : synthèse originale locale de bruit brun filtré. Aucune captation constructeur, voix ni musique.
 
 Provenance, empreintes des originaux et traitements : `data/audio/free_sfx/SOURCES.json`. Reproduction : `tools/audio/build_free_sfx.py`. Aucun service de génération payant utilisé pour ces effets.
+
+## Noyau Rust optionnel et intérieurs passager
+
+Le noyau numérique et l'aménagement procédural des intérieurs de cette tranche sont
+créés pour TramSim ; les aménagements sont estimés, sans asset Meshy téléchargé.
+Les plans, livrées et références antérieurs conservent leurs crédits ci-dessus.
+La liaison godot-rust 0.4.5 et les données d'API associées sont sous **MPL-2.0**.
+Notices, versions exactes, sources correspondantes et textes de licences :
+[native/THIRD_PARTY.md](native/THIRD_PARTY.md) et [native/licenses/](native/licenses/).
+Ces notices doivent accompagner toute distribution du module natif.

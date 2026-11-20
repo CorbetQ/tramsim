@@ -68,6 +68,8 @@ var autopilot_button: Button
 var cam_hud: HBoxContainer       # commandes caméra (zoom vue du dessus) et sortie du mode auto
 var ai_trams: AiTrams           # rames en circulation (mode mission)
 var explore: ExploreMode        # mode Explorer (caméra libre dans la ville)
+var weather := WeatherState.new()
+var weather_view: WeatherView
 var notch_label: Label
 var lever: NotchLever
 var power_button: Button
@@ -155,6 +157,7 @@ func _quit_safely() -> void:
 func _persist() -> void:
 	if free != null and vehicle != null:
 		SaveGame.store_free(save, free, net_path, vehicle.id)
+		save.free["weather"]=weather.snapshot()
 	SaveGame.save_data(save)
 
 func _clear() -> void:
@@ -352,6 +355,7 @@ func _build_home() -> void:
 		["mission", "Mission", "Service horaire réel ou mission scénarisée (aléas).   ·   1", func(): _open_setup(false)],
 		["free", "Mode libre", "Le réseau complet : aiguillages, changements de sens, trafic.   ·   2", func(): _open_setup(true)],
 		["camera", "Explorer la ville", "Caméra libre au-dessus de %s : stations, monuments, jour et nuit.   ·   3" % menu_city, func(): _start_explore()],
+		["tram", "Mode passager", "À pied, montez dans une rame à l’arrêt et voyagez à bord. Intérieurs estimés.", func(): _start_explore(true)],
 		["catalogue", "Catalogue des rames", "Fiches techniques, livrées et lignes de chaque matériel.   ·   C", func(): _open_catalogue("")]]
 	for c in cards:
 		var b := _card_button(c[0], c[1], c[2]); b.pressed.connect(c[3]); left.add_child(b)
@@ -385,7 +389,7 @@ func _city_caption(city: String) -> Control:
 	return p
 
 ## Mode Explorer : visite libre de la ville sélectionnée (réseau complet, décor en streaming).
-func _start_explore() -> void:
+func _start_explore(passenger: bool = false) -> void:
 	var path := ""
 	var first := ""
 	for e in NetworkRegistry.entries():
@@ -399,10 +403,14 @@ func _start_explore() -> void:
 	home_bg = null
 	get_tree().quit_on_go_back = false
 	_clear()
-	explore = ExploreMode.new(); add_child(explore)
+	explore = PassengerMode.new() if passenger else ExploreMode.new(); add_child(explore)
 	explore.exited.connect(func(): explore = null; _build_menu())
 	if not explore.start(menu_city, path, _start_hour() if int(save.settings.get("time_mode", 0)) != 0 else 15.0, float(save.settings.view_distance), bool(save.settings.get("ai_trams", true))):
 		explore.queue_free(); explore = null; _build_menu()
+	else:explore.weather.configure(str(save.settings.get("weather","clear")))
+	var effects := VisualEffects.new()
+	if is_instance_valid(explore):explore.view.add_child(effects);effects.setup(explore.view,str(save.settings.get("visual_profile","economy" if OS.has_feature("mobile") else "balanced")))
+	else:effects.free()
 
 func _open_setup(free_: bool) -> void:
 	free_mode = free_; menu_page = "setup"; _build_menu()
@@ -788,12 +796,23 @@ func _resume() -> void:
 	if not free_mode and scenario.is_empty():
 		for m in n.missions():
 			if "%s|%s" % [m.get("start_time", ""), m.get("headsign", "")] == str(r.get("mission_key", "")): mission = m
+	if free_mode and save.get("free",{}).has("weather"):set_meta("resume_weather",save.free.weather)
 	_start(true)
 
 ## Réglages (accueil) : distance de vue, trafic, ambiance, fond animé, astuces.
 func _open_settings() -> void:
 	if settings_layer: return
 	var v := VBoxContainer.new(); v.add_theme_constant_override("separation", 10)
+	var weather_choice := _opt(v,"Météo")
+	var weather_ids := ["clear","rain","fog","storm","dynamic"]
+	for label in ["Temps sec","Pluie","Brouillard","Forte pluie","Dynamique (simulée)"]:weather_choice.add_item(label)
+	weather_choice.select(maxi(0,weather_ids.find(str(save.settings.get("weather","clear")))))
+	weather_choice.item_selected.connect(func(i):save.settings.weather=weather_ids[i])
+	var effects_choice := _opt(v,"Effets")
+	var effect_ids := ["economy","balanced","cinematic"]
+	for label in ["Économie","Équilibré","Cinématique · flou caméra"]:effects_choice.add_item(label)
+	effects_choice.select(maxi(0,effect_ids.find(str(save.settings.get("visual_profile","economy" if OS.has_feature("mobile") else "balanced")))))
+	effects_choice.item_selected.connect(func(i):save.settings.visual_profile=effect_ids[i])
 	var dists := [300.0, 400.0, 600.0, 900.0]
 	var dist := _opt(v, "Vue"); for d in dists: dist.add_item("Distance de vue : %d m" % int(d))
 	dist.selected = maxi(0, dists.find(float(save.settings.get("view_distance", 400.0))))
@@ -986,6 +1005,11 @@ func _start_prepared(with_intro: bool = false) -> void:
 	add_child(view)
 	var prepared_scene: CityScene = city_preload.take_scene(net.meta.get("origin", [])) if is_instance_valid(city_preload) else null
 	view.build(net, first, vehicle, prepared_scene)
+	weather=WeatherState.new();weather.configure(str(save.settings.get("weather","clear")))
+	if has_meta("resume_weather"):
+		weather.restore(get_meta("resume_weather"));remove_meta("resume_weather")
+	weather_view=WeatherView.new();view.add_child(weather_view)
+	var effects := VisualEffects.new();view.add_child(effects);effects.setup(view,str(save.settings.get("visual_profile","economy" if OS.has_feature("mobile") else "balanced")))
 	hour0 = _start_hour()
 	view.set_hour(hour0)
 	# Rames en circulation (missions sur réseau complet, poste d'aiguillage) : fréquences approchées.
@@ -1535,6 +1559,9 @@ func _process(dt: float) -> void:
 	if intro != null:   # Camera owns the frozen world; no duplicate detailed tile builds.
 		return
 	if not paused and not session.finished:
+		weather.step(minf(dt,.1));weather.apply_to(session)
+		if session.ai!=null:
+			for train in session.ai.trams:weather.apply_to(train)
 		if autopilot.enabled:
 			if free == null or free.incident != "": _set_autopilot(false, "Pilote automatique coupé : incident")
 			else: notch = autopilot.control(session, minf(dt, 0.1))
@@ -1542,6 +1569,7 @@ func _process(dt: float) -> void:
 		if emergency and session.phys.speed < 0.05: emergency = false
 	view.set_hour(current_hour())
 	view.update_from(session, external_cam)
+	if is_instance_valid(weather_view):weather_view.apply(weather,view,NetworkLoader.in_spans(net.edge_info[session.edge_id].tunnel,session.offset))
 	if is_instance_valid(tram_audio): tram_audio.update(session, notch, emergency, external_cam, paused, dt)
 	if plan_panel and Engine.get_process_frames() % 15 == 0: plan_panel.canvas.queue_redraw()
 	_tick_toasts(dt)

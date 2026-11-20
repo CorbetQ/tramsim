@@ -1,0 +1,12 @@
+[package]
+name = "tramsim-native"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+godot = { version = "0.4", default-features = false, features = ["api-4-3"] }
+tramsim-core = { path = "../core" }

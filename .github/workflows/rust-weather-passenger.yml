@@ -1,0 +1,106 @@
+name: Rust weather passenger
+on:
+  pull_request:
+    paths:
+      - 'native/**'
+      - 'src/simulation/**'
+      - 'src/ui/**'
+      - 'src/modes/passenger_controller.gd'
+      - 'src/rendering/**'
+      - 'src/ui/main.gd'
+      - 'tools/build_native.py'
+      - 'tools/qa/run_godot_check.py'
+      - 'tests/test_native_weather.gd'
+      - 'tests/test_passenger_mode.gd'
+      - 'tests/test_passenger_families.gd'
+      - 'tests/test_feature_menu.gd'
+      - '.github/workflows/rust-weather-passenger.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rust-passenger-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  kernel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Godot and virtual display
+        run: |
+          curl --fail -L -o /tmp/godot.zip https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          sudo install /tmp/godot/Godot_v4.6.3-stable_linux.x86_64 /usr/local/bin/godot
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb
+      - name: Fallback without native library
+        run: |
+          godot --headless --path . --import
+          python tools/qa/run_godot_check.py tests/test_native_weather.gd
+      - name: Compile actual Rust kernel and check parity in Godot
+        run: |
+          cargo test --manifest-path native/Cargo.toml --locked -p tramsim-core
+          python tools/build_native.py --release
+          godot --headless --path . --import
+          python tools/qa/run_godot_check.py tests/test_native_weather.gd -- --require-native
+          python tools/qa/run_godot_check.py tests/test_adhesion.gd
+          python tools/qa/run_godot_check.py tests/test_power_routing.gd
+      - name: Family fit-out envelopes
+        run: python tools/qa/run_godot_check.py tests/test_passenger_families.gd
+      - name: Actual menu and saved weather in isolated player profile
+        run: XDG_DATA_HOME="$PWD/.cache/TramSimFeatureFixture" python tools/qa/run_godot_check.py tests/test_feature_menu.gd
+      - name: Actual passenger boarding and rendered interior
+        run: |
+          xvfb-run -a python tools/qa/run_godot_check.py --display tests/test_passenger_mode.gd
+          echo 'Passenger boarding, movement, alighting and rendered capture executed. No physical Android performance claim.' >> "$GITHUB_STEP_SUMMARY"
+  windows-native:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile native Windows DLL
+        shell: bash
+        run: |
+          cargo test --manifest-path native/Cargo.toml --locked -p tramsim-core
+          python tools/build_native.py --release
+      - name: Load actual extension in Windows Godot
+        shell: bash
+        run: |
+          curl --fail -L -o godot.zip https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_win64.exe.zip
+          mkdir -p .cache/godot
+          unzip -q godot.zip -d .cache/godot
+          .cache/godot/Godot_v4.6.3-stable_win64_console.exe --headless --path . --import
+          python tools/qa/run_godot_check.py --godot .cache/godot/Godot_v4.6.3-stable_win64_console.exe tests/test_native_weather.gd -- --require-native
+  android-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Cross-compile ARM64 with preinstalled Android NDK
+        shell: bash
+        run: |
+          NDK_PATH=$(find "${ANDROID_HOME}/ndk" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)
+          test -n "$NDK_PATH"
+          export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android21-clang"
+          test -x "$CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER"
+          python tools/build_native.py --release --target aarch64-linux-android
+          mkdir -p .cache
+          file addons/tramsim_native/android.arm64/libtramsim_native.so
+          "$NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-readelf" -h addons/tramsim_native/android.arm64/libtramsim_native.so | tee .cache/android-elf.txt
+          grep -q AArch64 .cache/android-elf.txt
+          echo 'Android ARM64 cross-compilation only; no device/runtime or APK validation.' >> "$GITHUB_STEP_SUMMARY"

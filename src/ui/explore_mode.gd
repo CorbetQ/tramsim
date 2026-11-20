@@ -29,6 +29,8 @@ var joystick: _Joystick
 var _dummy: MissionSession
 var _ai_t := 0.0
 var compact := false
+var weather := WeatherState.new()
+var weather_view: WeatherView
 
 func _init() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -49,6 +51,7 @@ func start(city_name: String, path: String, hour_: float, view_distance: float =
 	view.tram.visible = false
 	if view.headlight: view.headlight.visible = false
 	view.set_hour(hour)
+	weather_view=WeatherView.new();view.add_child(weather_view)
 	if OS.has_feature("mobile") and view.city: view.city.radius = 450.0
 	view.cam.current = true
 	fly = FreeCamera.new(view.cam)
@@ -223,13 +226,17 @@ func _process(dt: float) -> void:
 	fly.move = joystick.value if is_instance_valid(joystick) and joystick.visible else Vector2.ZERO
 	fly.step(dt)
 	var p := fly.pos
+	weather.step(dt)
+	view.day_night.set_hour(hour)
 	view.update_sectors(p)
 	view.day_night.set_ground(view.ground_at(p))
 	if view.city: view.city.update(p, 1)
 	if ai != null:
+		for train in ai.trams:weather.apply_to(train)
 		ai.focus = Vector2(p.x, p.z)
 		ai.step(dt, _dummy)
 		view.ai_view.sync(view, ai, p, dt)
+	weather_view.apply(weather,view)
 	if view.signal_view: view.signal_view.update(p, false, dt)
 	if _alt_label: _alt_label.text = "Altitude %d m%s%s" % [roundi(fly.agl()), " · accéléré" if fly.boost else "", (" · %d rames en ligne" % ai.trams.size()) if ai != null else ""]
 

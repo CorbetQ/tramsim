@@ -1,0 +1,1 @@
+# Source, Cargo cache and native build outputs are not Godot runtime resources.
