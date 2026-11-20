@@ -74,7 +74,8 @@ jobs:
       - name: Tests
         if: github.event_name != 'pull_request' && !(github.event_name == 'workflow_dispatch' && inputs.skip_tests)
         run: |
-          sudo apt-get install -y xvfb mesa-utils > /dev/null 2>&1 || true
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb mesa-utils ffmpeg
           GODOT=$PWD/godot tests/run_all.sh
       - name: Export
         run: |

@@ -7,3 +7,9 @@ android/
 .cache/
 __pycache__/
 *.pyc
+
+# Audio Studio: originals, jobs and weights belong in .cache; listenable OGG proofs in docs.
+.venv-audio/
+.audio-models/
+/samples/demos/studio_*.wav
+/samples/demos/studio_*.json

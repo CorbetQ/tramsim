@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "bank": "studio_citadis302_reference_v1",
+  "layers": {
+    "motor": {
+      "expected_sha256": "cd8464c6b7994c8d7b6c5af8fcdcd97273673e203bd8aca8d9870255768262c9",
+      "rebuilt_sha256": "cd8464c6b7994c8d7b6c5af8fcdcd97273673e203bd8aca8d9870255768262c9",
+      "identical": true
+    },
+    "motor_hum": {
+      "expected_sha256": "3b8431577e53a919c58918ae1bc26a69ac81fea80e947d51435ca27e07c7ee77",
+      "rebuilt_sha256": "3b8431577e53a919c58918ae1bc26a69ac81fea80e947d51435ca27e07c7ee77",
+      "identical": true
+    }
+  },
+  "note": "Byte identity is expected for the recorded FFmpeg/NumPy/SciPy toolchain; inspect differences after dependency upgrades."
+}

@@ -1,0 +1,45 @@
+{
+  "config": {
+    "enabled": false,
+    "reason": "No reviewed local weights configured. No AI inference has been performed."
+  },
+  "hardware": {
+    "disk_free_bytes": 3563098112,
+    "cpu_host_count": 3,
+    "cpu_quota": "200000 100000",
+    "memory_limit_bytes": "8589934592",
+    "gpu_devices": [],
+    "torch_installed": false,
+    "ffmpeg": "/usr/bin/ffmpeg",
+    "godot": "/usr/local/bin/godot"
+  },
+  "models": {
+    "stable-audio-open-small": {
+      "code_license": "MIT (stable-audio-tools)",
+      "weights_license": "Stability AI Community (conditional)",
+      "weights_url": "https://huggingface.co/stabilityai/stable-audio-open-small",
+      "weights_bytes": 1676829212,
+      "max_duration_s": 11,
+      "cpu": true,
+      "commercial": "conditional; registration and current agreement must be reviewed",
+      "approved": false
+    },
+    "audiocpp-stable-audio-3-sfx": {
+      "code_license": "MIT (Soundbox); inspect installed audio.cpp revision separately",
+      "weights_license": "Stability AI Community (conditional)",
+      "weights_url": "https://huggingface.co/stabilityai/stable-audio-3-small-sfx",
+      "max_duration_s": 120,
+      "cpu": true,
+      "commercial": "conditional; gated weights",
+      "approved": false
+    },
+    "audiogen": {
+      "code_license": "MIT",
+      "weights_license": "CC-BY-NC-4.0",
+      "weights_url": "https://github.com/facebookresearch/audiocraft/blob/main/LICENSE_weights",
+      "cpu": true,
+      "commercial": "NO",
+      "approved": false
+    }
+  }
+}

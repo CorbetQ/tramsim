@@ -15,5 +15,5 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: python -m pip install -r tools/import/requirements.txt
-      - run: sudo apt-get install -y xvfb > /dev/null 2>&1 || true
+      - run: sudo apt-get update -qq && sudo apt-get install -y xvfb ffmpeg
       - run: GODOT=$PWD/Godot_v4.6.3-stable_linux.x86_64 tests/run_all.sh

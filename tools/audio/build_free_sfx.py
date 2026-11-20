@@ -36,7 +36,7 @@ def main():
         subprocess.run(cmd,check=True)
     sources.append(dict(file='garden_day.ogg', author='Joseph Sardin', license='CC0-1.0', page='https://commons.wikimedia.org/wiki/File:Réveil_des_oiseaux.ogg', download='https://upload.wikimedia.org/wikipedia/commons/3/33/R%C3%A9veil_des_oiseaux.ogg', sha256_original=hashlib.sha256(src.read_bytes()).hexdigest(), processing='8–40 s, mono 32 kHz, 2 s overlap linear crossfade, 180–6500 Hz, -20 LUFS, loop 30 s', specificity='European garden birds, generic daytime outdoor layer; no tram or city attribution'))
     # Low wind body is generated locally; deliberately contains no chirps, voices or music.
-    subprocess.run(['ffmpeg','-v','error','-y','-f','lavfi','-i','anoisesrc=color=brown:amplitude=0.3:duration=18:sample_rate=32000:seed=849', '-af','highpass=f=90,lowpass=f=900,afade=t=in:d=0.6,afade=t=out:st=17.4:d=0.6,loudnorm=I=-20:TP=-3:LRA=11', '-ac','1','-c:a','libvorbis','-q:a','4',str(OUT/'air_movement.ogg')],check=True)
+    subprocess.run(['ffmpeg','-v','error','-y','-f','lavfi','-i','anoisesrc=color=brown:amplitude=0.3:duration=18:sample_rate=32000:seed=849', '-af','highpass=f=90,lowpass=f=900,afade=t=in:d=0.6,afade=t=out:st=17.4:d=0.6,loudnorm=I=-20:TP=-3:LRA=11', '-ar','32000','-ac','1','-c:a','libvorbis','-q:a','4',str(OUT/'air_movement.ogg')],check=True)
     sources.append(dict(file='air_movement.ogg', author='Tram Sim France', license='project', processing='Local deterministic brown-noise synthesis, filtered 90–900 Hz, 0.6 s edge fades', specificity='Designed air movement; not a field recording'))
     (OUT/'SOURCES.json').write_text(json.dumps(sources,ensure_ascii=False,indent=2)+'\n')
     manifest_path = ROOT / 'data/audio/sources.json'

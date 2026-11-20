@@ -1,0 +1,937 @@
+{
+  "family": "citadis_x05",
+  "resolved_family": "citadis_x05",
+  "resolved_bank": "citadis305_model",
+  "variant": "toulouse__citadis_305",
+  "driver": "ALSA",
+  "mix_rate": 48000.0,
+  "recording_rate": 48000,
+  "duration": 47.84,
+  "capture_mode": "full_mix",
+  "filter_mode": "production_filters",
+  "method": "Godot AudioEffectRecord on Master; MissionSession with prescribed speed; controlled acoustic zones",
+  "stream_paths": {
+    "air": "res://data/audio/free_sfx/air_movement.ogg",
+    "ambience": "res://data/audio/ambience.ogg",
+    "birds": "res://data/audio/free_sfx/garden_day.ogg",
+    "brake_mech": "res://data/audio/brake_mech.ogg",
+    "brake_release": "res://data/audio/brake_release.ogg",
+    "carrier": "res://data/audio/carrier.ogg",
+    "door_chime": "res://data/audio/door_chime.ogg",
+    "door_close": "res://data/audio/door_close.ogg",
+    "door_open": "res://data/audio/door_open.ogg",
+    "emergency": "res://data/audio/emergency.ogg",
+    "hvac": "res://data/audio/hvac.ogg",
+    "joint": "res://data/audio/joint.ogg",
+    "motor": "res://data/audio/banks/citadis305_motor.ogg",
+    "motor_hum": "res://data/audio/banks/citadis305_motor_hum.ogg",
+    "real_rail": "res://data/audio/banks/real_rail_designed.ogg",
+    "regen": "res://data/audio/regen.ogg",
+    "rolling": "res://data/audio/rolling.ogg",
+    "squeal": "res://data/audio/squeal.ogg"
+  },
+  "original_wav_sha256": "26f465c65a03ce89200356ced3ad1f88a386010fca600b10f831e47b4a7526b0",
+  "preview_sha256": "863592ce284a489e713cbf4aa1d5a5ef5bc5c19fa08b1f230ab54fec4c08d1d2",
+  "audio_code_sha256": "baseline: see baseline.json",
+  "engine_version": "4.6.3 (capture log)",
+  "level_processing": "No normalization; one Vorbis preview encode of original PCM Master capture",
+  "encoded_metrics": {
+    "path": "studio_baseline_305.ogg",
+    "sha256": "863592ce284a489e713cbf4aa1d5a5ef5bc5c19fa08b1f230ab54fec4c08d1d2",
+    "bytes": 524105,
+    "duration_s": 47.84,
+    "sample_rate": 48000,
+    "channels": 2,
+    "rms_dbfs": -32.607102898555986,
+    "peak_dbfs": -16.265882174258756,
+    "true_peak_dbfs_4x": -16.260354799227684,
+    "integrated_lufs": -30.68,
+    "clipped_samples": 0,
+    "silent_fraction_20ms": 0.04096989966555184,
+    "seam_delta": 0.0020850092694644218,
+    "seam_to_peak": 0.013564447181336401,
+    "derivative_p95": 0.003175381897017355,
+    "spectral_centroid_hz": 322.35978334986567,
+    "energy_above_12khz": 1.1310875274980894e-07
+  },
+  "attributions": [
+    "Glaneur de sons | https://commons.wikimedia.org/wiki/File:Tram_sound_in_Lyon,_France.ogg | CC-BY-3.0",
+    "Joseph Sardin | https://commons.wikimedia.org/wiki/File:Réveil_des_oiseaux.ogg | CC0-1.0",
+    "TramSim contributors | https://github.com/CorbetQ/tramsim | LicenseRef-TramSim-Original"
+  ],
+  "timeline": [
+    {
+      "seconds": 0.1,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 0.5,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 1.0,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 1.5,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 2.0,
+      "phase": "doors_open",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 2.51,
+      "phase": "doors_open",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 3.0,
+      "phase": "doors_open",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 3.5,
+      "phase": "doors_open",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 4.0,
+      "phase": "doors_open",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 4.5,
+      "phase": "doors_open",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 5.0,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 5.5,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 6.0,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 6.5,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 7.01,
+      "phase": "traction",
+      "kmh": 0.0168170138889007,
+      "notch": 0.15,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 7.5,
+      "phase": "traction",
+      "kmh": 1.56921875000001,
+      "notch": 0.15,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 8.01,
+      "phase": "traction",
+      "kmh": 3.14308750000001,
+      "notch": 0.251447000000001,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 8.5,
+      "phase": "traction",
+      "kmh": 4.69574062500002,
+      "notch": 0.375659250000002,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 9.01,
+      "phase": "traction",
+      "kmh": 6.26889062499987,
+      "notch": 0.50151124999999,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 9.5,
+      "phase": "traction",
+      "kmh": 7.82049062499973,
+      "notch": 0.625639249999978,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 10.01,
+      "phase": "traction",
+      "kmh": 9.39364062499958,
+      "notch": 0.751491249999966,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 10.5,
+      "phase": "traction",
+      "kmh": 10.9452406249994,
+      "notch": 0.875619249999954,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 11.01,
+      "phase": "traction",
+      "kmh": 12.5183906249993,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 11.5,
+      "phase": "traction",
+      "kmh": 14.0699906249991,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 12.01,
+      "phase": "traction",
+      "kmh": 15.643140624999,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 12.5,
+      "phase": "traction",
+      "kmh": 17.1947406249988,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 13.01,
+      "phase": "traction",
+      "kmh": 18.7678906249987,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 13.5,
+      "phase": "traction",
+      "kmh": 20.3194906249985,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 14.01,
+      "phase": "traction",
+      "kmh": 21.8926406249984,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 14.5,
+      "phase": "traction",
+      "kmh": 23.4442406249982,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 15.01,
+      "phase": "traction",
+      "kmh": 25.0173906249981,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 15.5,
+      "phase": "traction",
+      "kmh": 26.568990624998,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 16.01,
+      "phase": "traction",
+      "kmh": 28.1421406249978,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 16.5,
+      "phase": "traction",
+      "kmh": 29.6937406249981,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 17.01,
+      "phase": "traction",
+      "kmh": 31.2668906249983,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 17.5,
+      "phase": "traction",
+      "kmh": 32.8184906249986,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 18.0,
+      "phase": "traction",
+      "kmh": 34.3770545138873,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 18.5,
+      "phase": "traction",
+      "kmh": 35.939554513887,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 19.01,
+      "phase": "traction",
+      "kmh": 37.5163906249981,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 19.5,
+      "phase": "traction",
+      "kmh": 39.0679906249984,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 20.01,
+      "phase": "traction",
+      "kmh": 40.6411406249986,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 20.51,
+      "phase": "traction",
+      "kmh": 42.2091277777766,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 21.01,
+      "phase": "traction",
+      "kmh": 43.7674874999987,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 21.5,
+      "phase": "traction",
+      "kmh": 45.319087499999,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 22.01,
+      "phase": "traction",
+      "kmh": 46.8922374999992,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 22.5,
+      "phase": "traction",
+      "kmh": 48.4438374999995,
+      "notch": 1.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 23.01,
+      "phase": "coasting",
+      "kmh": 49.9945640000001,
+      "notch": 0.0,
+      "external": true,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 23.5,
+      "phase": "coasting",
+      "kmh": 49.498052,
+      "notch": 0.0,
+      "external": true,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 24.01,
+      "phase": "coasting",
+      "kmh": 48.9949971005291,
+      "notch": 0.0,
+      "external": true,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 24.51,
+      "phase": "coasting",
+      "kmh": 48.4947613333333,
+      "notch": 0.0,
+      "external": true,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 25.01,
+      "phase": "coasting",
+      "kmh": 47.9937239999999,
+      "notch": 0.0,
+      "external": true,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 25.5,
+      "phase": "coasting",
+      "kmh": 47.4972119999998,
+      "notch": 0.0,
+      "external": true,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 26.01,
+      "phase": "coasting",
+      "kmh": 46.9938039999997,
+      "notch": 0.0,
+      "external": true,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 26.5,
+      "phase": "coasting",
+      "kmh": 46.4972919999997,
+      "notch": 0.0,
+      "external": true,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 27.01,
+      "phase": "braking",
+      "kmh": 45.9765553333317,
+      "notch": -0.250305800000021,
+      "external": true,
+      "tunnel": true,
+      "bridge": false
+    },
+    {
+      "seconds": 27.5,
+      "phase": "braking",
+      "kmh": 44.0732593333314,
+      "notch": -0.275131400000025,
+      "external": true,
+      "tunnel": true,
+      "bridge": false
+    },
+    {
+      "seconds": 28.01,
+      "phase": "braking",
+      "kmh": 42.1435286666644,
+      "notch": -0.30030180000003,
+      "external": true,
+      "tunnel": true,
+      "bridge": false
+    },
+    {
+      "seconds": 28.5,
+      "phase": "braking",
+      "kmh": 40.2402326666641,
+      "notch": -0.325127400000034,
+      "external": true,
+      "tunnel": true,
+      "bridge": false
+    },
+    {
+      "seconds": 29.01,
+      "phase": "braking",
+      "kmh": 38.3105019999971,
+      "notch": -0.350297800000038,
+      "external": true,
+      "tunnel": true,
+      "bridge": false
+    },
+    {
+      "seconds": 29.5,
+      "phase": "braking",
+      "kmh": 36.4072059999968,
+      "notch": -0.375123400000042,
+      "external": true,
+      "tunnel": true,
+      "bridge": false
+    },
+    {
+      "seconds": 30.01,
+      "phase": "braking",
+      "kmh": 34.4774753333298,
+      "notch": -0.400293800000046,
+      "external": true,
+      "tunnel": true,
+      "bridge": false
+    },
+    {
+      "seconds": 30.5,
+      "phase": "braking",
+      "kmh": 32.568422518515,
+      "notch": -0.425194488888935,
+      "external": true,
+      "tunnel": true,
+      "bridge": false
+    },
+    {
+      "seconds": 31.0,
+      "phase": "braking",
+      "kmh": 30.6517558518488,
+      "notch": -0.450194488888929,
+      "external": true,
+      "tunnel": false,
+      "bridge": true
+    },
+    {
+      "seconds": 31.5,
+      "phase": "braking",
+      "kmh": 28.7411526666637,
+      "notch": -0.475115400000039,
+      "external": true,
+      "tunnel": false,
+      "bridge": true
+    },
+    {
+      "seconds": 32.01,
+      "phase": "braking",
+      "kmh": 26.8114219999967,
+      "notch": -0.500285800000043,
+      "external": true,
+      "tunnel": false,
+      "bridge": true
+    },
+    {
+      "seconds": 32.5,
+      "phase": "braking",
+      "kmh": 24.9081259999974,
+      "notch": -0.525111400000034,
+      "external": true,
+      "tunnel": false,
+      "bridge": true
+    },
+    {
+      "seconds": 33.01,
+      "phase": "braking",
+      "kmh": 22.9783953333314,
+      "notch": -0.550281800000025,
+      "external": false,
+      "tunnel": false,
+      "bridge": true
+    },
+    {
+      "seconds": 33.5,
+      "phase": "braking",
+      "kmh": 21.0738918333321,
+      "notch": -0.575123150000017,
+      "external": false,
+      "tunnel": false,
+      "bridge": true
+    },
+    {
+      "seconds": 34.01,
+      "phase": "braking",
+      "kmh": 19.1441611666661,
+      "notch": -0.600293550000008,
+      "external": false,
+      "tunnel": false,
+      "bridge": true
+    },
+    {
+      "seconds": 34.5,
+      "phase": "braking",
+      "kmh": 17.2408651666667,
+      "notch": -0.625119149999999,
+      "external": false,
+      "tunnel": false,
+      "bridge": true
+    },
+    {
+      "seconds": 35.01,
+      "phase": "braking",
+      "kmh": 15.3111345000008,
+      "notch": -0.65028954999999,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 35.5,
+      "phase": "braking",
+      "kmh": 13.4078385000014,
+      "notch": -0.675115149999981,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 36.01,
+      "phase": "braking",
+      "kmh": 11.4781078333354,
+      "notch": -0.700285549999973,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 36.5,
+      "phase": "braking",
+      "kmh": 9.57973638889146,
+      "notch": -0.725046916666633,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 37.0,
+      "phase": "braking",
+      "kmh": 7.65514750000247,
+      "notch": -0.750150249999968,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 37.51,
+      "phase": "braking",
+      "kmh": 5.72541683333649,
+      "notch": -0.775320649999959,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 38.0,
+      "phase": "braking",
+      "kmh": 3.82212083333716,
+      "notch": -0.80014624999995,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 38.51,
+      "phase": "braking",
+      "kmh": 1.89239016667117,
+      "notch": -0.825316649999941,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 39.0,
+      "phase": "doors_open_final",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 39.51,
+      "phase": "doors_open_final",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 40.01,
+      "phase": "doors_open_final",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 40.5,
+      "phase": "doors_open_final",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 41.01,
+      "phase": "doors_open_final",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 41.5,
+      "phase": "doors_open_final",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 42.0,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 42.5,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 43.0,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 43.5,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 44.0,
+      "phase": "paused",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 44.5,
+      "phase": "paused",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 45.0,
+      "phase": "paused",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 45.5,
+      "phase": "paused",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 46.0,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 46.5,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 47.0,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 47.5,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    },
+    {
+      "seconds": 48.0,
+      "phase": "idle",
+      "kmh": 0.0,
+      "notch": 0.0,
+      "external": false,
+      "tunnel": false,
+      "bridge": false
+    }
+  ]
+}

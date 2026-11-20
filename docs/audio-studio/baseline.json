@@ -1,0 +1,652 @@
+{
+  "commit": "be7eda97e5de6b4cdd1cedc9ee16e911537313d3",
+  "files": [
+    {
+      "file": "data/audio/design-manifest-v2.json",
+      "sha256": "298289c7533df6b34b9bcd9bb0b0654623d07769a80b8e72f744c7e7e487f994",
+      "bytes": 1639
+    },
+    {
+      "file": "data/audio/design-manifest.json",
+      "sha256": "d5257d6ee16d029926035f9f4f99dcb223a560f2ca065221c7973ac62a4c2379",
+      "bytes": 9431
+    },
+    {
+      "file": "data/audio/families.json",
+      "sha256": "36b4b069aec835f81b5ec7a2c196b8763469b14f6a84192c21329d7e85280451",
+      "bytes": 26841
+    },
+    {
+      "file": "data/audio/rotterdam-traction-manifest.json",
+      "sha256": "4b2c661aa4fcb6ef75cd77432c0f888c879a853f91f5fef5091cf78605c0f355",
+      "bytes": 4034
+    },
+    {
+      "file": "data/audio/sources.json",
+      "sha256": "56d2e3d28301e17b3bc50379fcda72835e512f8c4caefb024f1c6e7fa5c7ddd7",
+      "bytes": 17992
+    },
+    {
+      "file": "src/audio/tram_audio.gd",
+      "sha256": "571c31a34fc4dbd2cf06dc88d5426a18c89e806b8087e55237454eb1273b5b87",
+      "bytes": 22283
+    },
+    {
+      "file": "src/audio/ui_audio.gd",
+      "sha256": "6907495faeaab246b4e59d7790089082f6d97a072673ec1b5b4922dcb081dda6",
+      "bytes": 1876
+    },
+    {
+      "file": "tools/audio/alsa_null_clock.c",
+      "sha256": "b3420042c17f352eb0068fe95b6f06bf5e0bd8ce1fbdeaee0ce4051938c6eda4",
+      "bytes": 1208
+    },
+    {
+      "file": "tools/audio/analyze_samples.py",
+      "sha256": "88f4540c2f9f0df2031f141d632267da9fee682fe0da497f279a19c9b299f808",
+      "bytes": 4157
+    },
+    {
+      "file": "tools/audio/build_free_sfx.py",
+      "sha256": "c2b1824715b607d11d2a969dd2d06d038ef9a17acfe1974f7b4462c8c19ac8db",
+      "bytes": 5009
+    },
+    {
+      "file": "tools/audio/build_rotterdam_bank.py",
+      "sha256": "0e3e200db2993b96a38e799e6aae1e2b31f56ae02d48c84915e70b095cd5eea6",
+      "bytes": 5174
+    },
+    {
+      "file": "tools/audio/capture_driving_audio.gd",
+      "sha256": "b59d0a2a13bef91417c5b140a0301498f617f6e609091cd01aebaf7b06cf4377",
+      "bytes": 8346
+    },
+    {
+      "file": "tools/audio/capture_driving_audio.gd.uid",
+      "sha256": "a1752850b5c76371880a41efbe91947e318d9dd73da35700040a6016c71bb831",
+      "bytes": 20
+    },
+    {
+      "file": "tools/audio/capture_driving_audio.sh",
+      "sha256": "37193458d8cb2e699ea73d055f2ca178bb2cf4e638a618e9abbdf889ff4ba435",
+      "bytes": 1357
+    },
+    {
+      "file": "tools/audio/compare_captures.py",
+      "sha256": "aad1f49ae380bb7fba1a861084f98bfd3f18309810e58378ace6803566c02897",
+      "bytes": 2018
+    },
+    {
+      "file": "tools/audio/design_samples.py",
+      "sha256": "8540a1842bed3b3e242d8ceda9a1aeff453f936af6ff865f61b5db14a930aca4",
+      "bytes": 7025
+    },
+    {
+      "file": "tools/audio/design_samples_v2.py",
+      "sha256": "9bcb07b2f06b3399928d63d6487c79415f80a59788201135181fe87f917b60e3",
+      "bytes": 3146
+    },
+    {
+      "file": "tools/audio/fetch_samples.py",
+      "sha256": "528030fd70e9df41fdd3b605405024b5e713b1fb2fcb6d0d28958cd4103e6d5f",
+      "bytes": 3307
+    },
+    {
+      "file": "tools/audio/render_approved_demo.py",
+      "sha256": "d488c577be0e00ea0512684c1f9738b4dfa43f49e160e676928c5e53ae86f69b",
+      "bytes": 1863
+    },
+    {
+      "file": "tools/audio/traction_study.py",
+      "sha256": "71cf7277f8830ede2f55b407e309d4dfe63e6ec6867b5ae4ce5cd95e1fec9780",
+      "bytes": 10291
+    },
+    {
+      "file": "tools/import/build_audio_banks.py",
+      "sha256": "49e2516504ef7142b13e3a248a8fdd26e4b2799e91a39e8092b6d31fb734b241",
+      "bytes": 8650
+    },
+    {
+      "file": "tools/import/find_audio_sources.py",
+      "sha256": "517f92a276c9bd05e8648620db5096fa2c0e38a99b2a11ff788d3cc5bfedb631",
+      "bytes": 3417
+    },
+    {
+      "file": "tools/import/recorded_audio.py",
+      "sha256": "86463f5c0232f9ad36c32bb9497cb2faac3f4239e2d0a0896c5343651485a27b",
+      "bytes": 1947
+    }
+  ],
+  "assets": [
+    {
+      "file": "data/audio/ambience.ogg",
+      "sha256": "f7ed2b9252ad21221867cb8932ecb501e0bfcfc38fff1938022702c99ee94c5a",
+      "bytes": 67243,
+      "duration_s": 19.2,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/avanto_motor.ogg",
+      "sha256": "e27277ae4adf29e1fb6b832610dc77926ce7a2413a9455b7e6f5fb1d9fac8875",
+      "bytes": 26962,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/avanto_motor_designed.ogg",
+      "sha256": "ccf5e4a44d4b592ad3af1c1b261d4d9e53903495172f0d1521fb21f811639b29",
+      "bytes": 24141,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/avanto_motor_hum.ogg",
+      "sha256": "aa50dd415f780835ed2c0b0a34930deac6dbd60cfe651c4271b07c643d7cb2b0",
+      "bytes": 27338,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/avanto_motor_hum_designed.ogg",
+      "sha256": "57005df76476bf30bea5c29c940af8b7faeeca8d63e02cf2133bc5e63b9c7586",
+      "bytes": 24719,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis302_motor.ogg",
+      "sha256": "ef32304d49cf2a174194a87dfe4ef3589dd21a5b8fe3c9f95289bc62428507bc",
+      "bytes": 31101,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis302_motor_designed.ogg",
+      "sha256": "3fada542c637c77fc821f42379be332db640f263093433f9b39cec0a1e378be4",
+      "bytes": 28447,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis302_motor_hum.ogg",
+      "sha256": "2dfc94137bb66e867252f9de084c775bf08e8fa6644773d67a933508c99dd31a",
+      "bytes": 32242,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis302_motor_hum_designed.ogg",
+      "sha256": "56ffa5d77a7dda13a6a1926e6ce9de4b18318e406a1e5b4c6198e719336aff5e",
+      "bytes": 29064,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis305_motor.ogg",
+      "sha256": "7ee8f8ba4c6a0e4657e789ee0e43968f8bd392d1f2fabd4d01f395d029178b92",
+      "bytes": 28338,
+      "duration_s": 8.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis305_motor_hum.ogg",
+      "sha256": "f44131496c6344073c50a3809fd5d5e93512a40dc866bdc124b64090ade99fb7",
+      "bytes": 28298,
+      "duration_s": 8.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis402_motor.ogg",
+      "sha256": "525bb922a840a4d17a763ad5fb820cc2bd8e2228ee858a27671815fde14c6b2a",
+      "bytes": 33187,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis402_motor_designed.ogg",
+      "sha256": "1a0a3e0d706a1549018dd97240d3ff62db3dd71a6ced988d6ae6e58cdd598474",
+      "bytes": 24841,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis402_motor_hum.ogg",
+      "sha256": "0300fb52c3043a31f8fb01def5c0d1b6f9b622c82b246655da289f494893dede",
+      "bytes": 31190,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis402_motor_hum_designed.ogg",
+      "sha256": "7f646e3473f5a2381920693c18d389545d8c962e70d83d92dff051188829846f",
+      "bytes": 25308,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis403_motor.ogg",
+      "sha256": "fcbfc615ed6e87949f94d520fdbe3769152cea3df5d7c90b3be27c7d24079083",
+      "bytes": 31206,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis403_motor_designed.ogg",
+      "sha256": "aa6aedf5b0755132ee819dd94ecd3098e03da0dd8d9f8091a59377e58c73e645",
+      "bytes": 26514,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis403_motor_hum.ogg",
+      "sha256": "4d7d2f07fa7b3e270cb00aad506e5e533512a82431192d93e85f3cca8d2c5ae6",
+      "bytes": 30762,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/citadis403_motor_hum_designed.ogg",
+      "sha256": "e47a6c8faa0e3c9cdf1b6bbac2a1af22a519655f3efbb59858e9dbf07666886c",
+      "bytes": 26079,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/flexity_motor.ogg",
+      "sha256": "e4e7eda20c6123d76f88ced63d167cb441978521e7145b8642f7e6ecd65005cc",
+      "bytes": 27925,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/flexity_motor_designed.ogg",
+      "sha256": "d62b4d035d4a609f7b74521a22b84ca686763e25da815654d578c2b8d24743d2",
+      "bytes": 27447,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/flexity_motor_hum.ogg",
+      "sha256": "3baf6f0ee79e6d3ce1446e9e8efbc450c62dfe7b5a40cc8efe60a3e7037ac6b5",
+      "bytes": 28123,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/flexity_motor_hum_designed.ogg",
+      "sha256": "5f053253f78c25e18e49e56b7c6c7e66ef388f4fb7d85287cb88b0e7a6239972",
+      "bytes": 27012,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/lemans302_motor.ogg",
+      "sha256": "444f136881d9611ac3f9af058affb3abf81412032bf272ed7475426a6ca1d2d0",
+      "bytes": 33647,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/lemans302_motor_designed.ogg",
+      "sha256": "d4269e569c1e50ce84186a955152ff0a800d675ee713ce9095c2ad4402b8f257",
+      "bytes": 26869,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/lemans302_motor_hum.ogg",
+      "sha256": "144a83d6b6737926ba495615780ea2fe0b45472814790144d883c50b1b0ae24b",
+      "bytes": 33768,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/lemans302_motor_hum_designed.ogg",
+      "sha256": "b9f4e46c0d2c568f710021f9da36f2554e7ef967ec45fe7b38ba0ff76ad6ea97",
+      "bytes": 27078,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/real_rail_designed.ogg",
+      "sha256": "5573d5817f8aec4fe5cb95206a37facd6fafed4d7df0842a92fa7908af49896a",
+      "bytes": 18911,
+      "duration_s": 3.32,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/rotterdam_traction_carrier.ogg",
+      "sha256": "86cd4861434c8843eedde7e8f6f53d7023dafbeca1739351821d8a1b11df4c80",
+      "bytes": 6699,
+      "duration_s": 0.72,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/rotterdam_traction_motor.ogg",
+      "sha256": "70245b24bfe42adcf481158e7f259bef894f5b84eb77775ffbb01ce8fbc7b581",
+      "bytes": 9268,
+      "duration_s": 1.35,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/rotterdam_traction_motor_hum.ogg",
+      "sha256": "8ea27e4de7ba7b34587bf200e2a34b4f15ecbfa1b65e870889e4538e1122c6e1",
+      "bytes": 12710,
+      "duration_s": 2.32,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/tfs_motor.ogg",
+      "sha256": "990c2492d35e3d3f5a805ef9171345b8e63f5fa43942ac501f4bb3850649154f",
+      "bytes": 33070,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/tfs_motor_designed.ogg",
+      "sha256": "0e55a2ce14b70c7d0420977454c48878a079d708543b1041c9426b60cbab34f7",
+      "bytes": 24716,
+      "duration_s": 4.070031,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/tfs_motor_hum.ogg",
+      "sha256": "103211ba6db538087ac6e19ca622e5f3471f0d880b299368b0c7ea40f609c2ce",
+      "bytes": 32335,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/tfs_motor_hum_designed.ogg",
+      "sha256": "3e99e9cf20874bd5b1bf655941be34270063eb39598af2d7595a97da1606e9af",
+      "bytes": 25513,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/tyre_rolling.ogg",
+      "sha256": "f9d12776d2dbb663da89300022c4b528a3fe795c3dd85482fd292b635343e5d4",
+      "bytes": 23608,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/urbos_motor.ogg",
+      "sha256": "bfc1c9a6496e70f7485306047079a2d1b7f97841d5bc1ada63226d31f32a9440",
+      "bytes": 34212,
+      "duration_s": 4.3,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/urbos_motor_designed.ogg",
+      "sha256": "9c7ff0a3f240b74df36d5846d29645688a1afd18c42fceedb11f34c2e4680317",
+      "bytes": 32098,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/urbos_motor_hum.ogg",
+      "sha256": "8d38d80caa106bc36405afbb22209ecc88ca260670b9ae452cdc336bbdf9c1b4",
+      "bytes": 38067,
+      "duration_s": 4.29,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/banks/urbos_motor_hum_designed.ogg",
+      "sha256": "14f4923e550f1fa3056ce396e24dd5254ee76d707ab2cde97fa340721e7c8561",
+      "bytes": 32570,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/brake_mech.ogg",
+      "sha256": "23d5153ed1a0ed77aa8ec814ca86e157dc29a1f6a86a570477a861ddc0ec0c30",
+      "bytes": 15234,
+      "duration_s": 2.8,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/brake_release.ogg",
+      "sha256": "7cfad3078bebbfb70ad6ca7b662c11150ce73d6097b706faf6bdda90c1a8325b",
+      "bytes": 9586,
+      "duration_s": 0.8,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/carrier.ogg",
+      "sha256": "8c340a45f76f43135fc94910680d3da78bcfd5fdf66bbf2e0a61e876878b2e63",
+      "bytes": 41130,
+      "duration_s": 8.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/door_chime.ogg",
+      "sha256": "cb002453f323c3abd1d9e44d09ebf8d8feac1ae70e24c644d95bbdb6699f81ca",
+      "bytes": 7108,
+      "duration_s": 2.2,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/door_close.ogg",
+      "sha256": "dbaaa7da021c1fc29df86b8dbac0a666ce8a43c51843f8e499ff3323bbd5b6f1",
+      "bytes": 13751,
+      "duration_s": 3.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/door_open.ogg",
+      "sha256": "790550ac5515825edc94aa129ec1e913dfb6a366304ca20c371491554595b4c5",
+      "bytes": 14976,
+      "duration_s": 3.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/emergency.ogg",
+      "sha256": "237da90883a6c99717c8d57ce50deeac28177c97f9afd7a017b9a9dca4d1db7c",
+      "bytes": 22956,
+      "duration_s": 3.4,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/free_sfx/air_movement.ogg",
+      "sha256": "9f65fc31ed076642fb966f46c39493c0b21eeb557acf347c3e98ab7804ceeb09",
+      "bytes": 174135,
+      "duration_s": 18.0,
+      "sample_rate": 192000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/free_sfx/garden_day.ogg",
+      "sha256": "500cd085340996b341e2b89ef3aef2d41bd454a3d6de9e3a98170a59310dd301",
+      "bytes": 251276,
+      "duration_s": 30.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/free_sfx/ui_back.ogg",
+      "sha256": "12ea0dc96ea22cdbdcdef6c926616aa7d6e68ca3c7830ef15e4316d4ad1fd9aa",
+      "bytes": 5108,
+      "duration_s": 0.078219,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/free_sfx/ui_click.ogg",
+      "sha256": "3bfb112372aad6bda6a1babc394b3aec374241f368be2f99565b5dccc72bc7b3",
+      "bytes": 4952,
+      "duration_s": 0.124656,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/free_sfx/ui_confirm.ogg",
+      "sha256": "5ecb272e701d89a31697760dd18c8be1a5f72ea122ad55598a79dd487d5b1187",
+      "bytes": 4561,
+      "duration_s": 0.304625,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/gong.ogg",
+      "sha256": "1c10fa0c769615ad0d3b4636e1893b72398bbeea760c1059e5a888bb432be9dc",
+      "bytes": 11874,
+      "duration_s": 2.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/hvac.ogg",
+      "sha256": "70cc387f53819659ee8bd55aeb89fccbc2ecec0d0683be6be8a5c2db02aa8164",
+      "bytes": 44082,
+      "duration_s": 6.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/joint.ogg",
+      "sha256": "04f1cc141f5917e7f251640acdc32d27e35353fb808d22f25e90d1233713928a",
+      "bytes": 6261,
+      "duration_s": 0.6,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/motor.ogg",
+      "sha256": "bacb42a9e8803252b90ed117a9ea7108a0f2dd23f797d2c7ddfd6ddf8718aa15",
+      "bytes": 28037,
+      "duration_s": 8.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/motor_hum.ogg",
+      "sha256": "07a1f08fd4c3b0d84c525a2212d47fa553a3beea101f069ee7d14917982af93e",
+      "bytes": 28130,
+      "duration_s": 8.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/real_rail.ogg",
+      "sha256": "6a8172e68192b22aaa05d24e1dbdebe1a57ee265f706cd6f428b4f5811df806d",
+      "bytes": 25277,
+      "duration_s": 3.5,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/reference/lyon-citadis-original.ogg",
+      "sha256": "83aa37070a8721234eaf9c9bcc2e38329ad70144fa26c190794343bfd433fb88",
+      "bytes": 1275898,
+      "duration_s": 77.610667,
+      "sample_rate": 96000,
+      "channels": 2
+    },
+    {
+      "file": "data/audio/regen.ogg",
+      "sha256": "e1282e7a85f94579f1236689aa752df4f7be24ebcdccaeef8cde67489f1b0482",
+      "bytes": 50842,
+      "duration_s": 8.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/rolling.ogg",
+      "sha256": "9f3b60bc6b7e4f44ba012226af5df4f6f51fd9a1be480c02e7e504511def2d57",
+      "bytes": 65626,
+      "duration_s": 8.0,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/squeal.ogg",
+      "sha256": "c0d53f239a5a228328c319b605dd83db0ba614539bf7ec2b7364ac1e19176f4f",
+      "bytes": 48036,
+      "duration_s": 5.6,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/v2/citadis302_motor.ogg",
+      "sha256": "5dc469bb1f01d2bd5dc1d698e8c1e91391644213d557554bdac11cd1f6d27227",
+      "bytes": 34092,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/v2/citadis302_motor_hum.ogg",
+      "sha256": "587599f5792b0146cce89f3d94e195eb2501cee2c6e113a4e0a9002845bc6a72",
+      "bytes": 35222,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/v2/lemans302_motor.ogg",
+      "sha256": "9816f5aca4673d115625dd308655511d26dabbc1ac07168f6f694b7dd9ca1a8b",
+      "bytes": 36401,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    },
+    {
+      "file": "data/audio/v2/lemans302_motor_hum.ogg",
+      "sha256": "214df47831afb4196f22f1a0e45820451b473989e10ffcdfba6da6dd3d7e2a55",
+      "bytes": 36428,
+      "duration_s": 4.07,
+      "sample_rate": 32000,
+      "channels": 1
+    }
+  ],
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "ffmpeg": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+}

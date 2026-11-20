@@ -30,6 +30,16 @@ static var _family_manifest: Dictionary = {}
 var audio_family := ""
 var sound_profile: Dictionary = {}
 var sound_bank: Dictionary = {}
+## Studio audition only; game routing remains unchanged unless explicitly set before _ready.
+var audition_bank := ""
+var fallback_layers: Array[String] = []
+const VIEW_FADE_SECONDS := 0.15
+const MAX_SHOT_VOICES := 4
+const SHOT_PRIORITY := {"emergency": 100, "door_chime": 90, "door_close": 70, "door_open": 70, "brake_mech": 50, "brake_release": 40, "joint": 10}
+var _view_mix := 1.0
+var _view_dirty := false
+var _metrics_timer := 0.0
+var _last_voice_count := 0
 var in_tunnel := false
 var on_bridge := false
 const BRIDGE_BUS := "TramBridge"
@@ -70,12 +80,13 @@ func _ready() -> void:
 	if audio_family == "" and view != null and "family" in view: audio_family = str(view.family)
 	var variant_id:=""
 	if view!=null and "livery" in view:variant_id=str(view.livery.get("variant_id",""))
-	sound_profile = profile_for(audio_family,variant_id)
+	sound_profile = profile_for(audio_family,variant_id,audition_bank)
 	sound_bank = sound_profile.get("bank_data", {})
 	for n in LOOPS: _make(n, true, LOOPS[n])
 	for n in SHOTS: _make(n, false, SHOTS[n])
 	_route()
-	var g := load_stream("gong", false)
+	var g := stream_path(DIR + str(sound_bank.get("streams", {}).get("gong", "gong.ogg")), false)
+	if g == null: g = load_stream("gong", false)
 	if bell and g: bell.stream = g; bell.volume_db = GONG_DB; bell.bus = BUS
 
 ## Bus TramFX (-> Master) : égaliseur (atténue 3-10 kHz, léger creux 250 Hz), compresseur doux, limiteur -1 dB.
@@ -120,7 +131,7 @@ func _route() -> void:
 	AudioServer.set_bus_send(AudioServer.get_bus_index(CAB_BUS), environment_bus)
 	for n in players:
 		var e: Dictionary = players[n]
-		(e.p2 as AudioStreamPlayer).bus = CAB_BUS if (not external and n in CAB_MUFFLED) else environment_bus
+		(e.p2 as AudioStreamPlayer).bus = CAB_BUS if (n in CAB_MUFFLED and (e.p3 != null or not external)) else environment_bus
 		if e.p3 != null: (e.p3 as AudioStreamPlayer3D).bus = environment_bus
 
 ## Flux de data/audio/<nom>.ogg (importé, sinon lu directement).
@@ -142,6 +153,10 @@ func _make(n: String, loop: bool, db: float) -> void:
 	var s := stream_path(DIR + str(overrides[n]), loop) if overrides.has(n) else load_stream(n, loop)
 	db = float(sound_bank.get("mix", {}).get(n, db))
 	if bool(sound_profile.get("rubber", false)) and n in ["real_rail", "squeal", "joint"]: db = -90.0
+	if s == null and overrides.has(n):
+		push_warning("TramAudio : repli du flux manquant " + n)
+		fallback_layers.append(n)
+		s = load_stream(n, loop)
 	if s == null:
 		push_warning("TramAudio : flux manquant " + n); return
 	streams[n] = s
@@ -155,7 +170,7 @@ func _make(n: String, loop: bool, db: float) -> void:
 		p3.attenuation_filter_cutoff_hz = 6000.0; p3.attenuation_filter_db = -18.0
 		p3.position = _offset(n)
 		anchor.add_child(p3)
-	players[n] = {"p2": p2, "p3": p3, "loop": loop, "db": db}
+	players[n] = {"p2": p2, "p3": p3, "loop": loop, "db": db, "shot_db": db}
 	gain[n] = 0.0
 
 ## Position des sources sur la rame (repère du module central, avant vers -z).
@@ -176,27 +191,82 @@ func _inactive(n: String) -> Node:
 	if e.p3 == null: return null
 	return e.p2 if external else e.p3
 
-## Bascule cabine / extérieur : les boucles reprennent au même point sur l'autre lecteur.
+## Crossfade reuses the same two readers; no extra voices or runtime DSP allocation.
 func set_external(on: bool) -> void:
 	if on == external: return
 	external = on
+	_view_dirty = true
 	_route()
 	for n in players:
 		var old: Node = _inactive(n)
 		var cur: Node = _active(n)
 		if old == null or old == cur: continue
-		if old.playing:
-			var pos: float = old.get_playback_position()
-			old.stop()
-			cur.volume_db = old.volume_db
+		if old.playing and not cur.playing:
+			cur.volume_db = -80.0
 			cur.pitch_scale = old.pitch_scale
-			cur.stream_paused = old.stream_paused
-			cur.play(pos)
+			cur.play(old.get_playback_position())
+			cur.stream_paused = is_paused
+
+func _apply_view_mix(dt: float) -> void:
+	if not _view_dirty and _view_mix == (1.0 if external else 0.0): return
+	_view_mix = move_toward(_view_mix, 1.0 if external else 0.0, maxf(dt, 0.0) / VIEW_FADE_SECONDS)
+	# Correlated readers contain the same PCM. Complementary amplitudes avoid a +3 dB bump.
+	var ext_weight := smoothstep(0.0, 1.0, _view_mix)
+	_view_dirty = false
+	for n in players:
+		var e: Dictionary = players[n]
+		if e.p3 == null: continue
+		var active: Node = _active(n)
+		var base_db := float(e.db) + linear_to_db(maxf(float(gain[n]), 0.0001)) if e.loop else float(e.shot_db)
+		for pair in [[e.p2, 1.0 - ext_weight, float(CAB_DB.get(n, 0.0))], [e.p3, ext_weight, 0.0]]:
+			var reader: Node = pair[0]
+			var weight: float = pair[1]
+			reader.volume_db = base_db + float(pair[2]) + linear_to_db(maxf(weight, 0.0001))
+			reader.pitch_scale = active.pitch_scale
+			if weight <= 0.0001:
+				reader.stop()
+			elif e.loop and float(gain[n]) > 0.002 and not reader.playing:
+				reader.play(active.get_playback_position() if active.playing else 0.0)
+			elif e.loop and float(gain[n]) <= 0.002:
+				reader.stop()
+
+func active_voice_count() -> int:
+	var count := 1 if is_instance_valid(bell) and bell.playing else 0
+	for e in players.values():
+		for reader in [e.p2, e.p3]:
+			if reader != null and reader.playing: count += 1
+	return count
+
+func stop_all() -> void:
+	_close_delay = -1.0
+	for e in players.values():
+		for reader in [e.p2, e.p3]:
+			if is_instance_valid(reader): reader.stop()
+	if is_instance_valid(bell): bell.stop()
+
+func _exit_tree() -> void:
+	stop_all()
+	# Anchor may belong to the view rather than to this Node.
+	if is_instance_valid(anchor) and anchor.get_parent() != self: anchor.queue_free()
 
 func _shot(n: String, vol: float = 1.0, pitch: float = 1.0) -> void:
-	if not players.has(n): return
+	if is_paused or not players.has(n): return
+	var busy: Array[String] = []
+	for key in players:
+		if not players[key].loop and (_active(key).playing or (_inactive(key) != null and _inactive(key).playing)):
+			if key != n: busy.append(key)
+	if busy.size() >= MAX_SHOT_VOICES:
+		var lowest := busy[0]
+		for key in busy:
+			if int(SHOT_PRIORITY.get(key, 0)) < int(SHOT_PRIORITY.get(lowest, 0)): lowest = key
+		if int(SHOT_PRIORITY.get(n, 0)) <= int(SHOT_PRIORITY.get(lowest, 0)): return
+		for reader in [players[lowest].p2, players[lowest].p3]:
+			if reader != null: reader.stop()
+	players[n].shot_db = float(players[n].db) + linear_to_db(maxf(vol, 0.001))
+	for reader in [players[n].p2, players[n].p3]:
+		if reader != null: reader.stop()
 	var p: Node = _active(n)
-	p.volume_db = float(players[n].db) + linear_to_db(maxf(vol, 0.001)) + (float(CAB_DB.get(n, 0.0)) if not external else 0.0)
+	p.volume_db = float(players[n].shot_db) + (float(CAB_DB.get(n, 0.0)) if not external else 0.0)
 	p.pitch_scale = pitch
 	p.play()
 	shots[n] = int(shots.get(n, 0)) + 1
@@ -220,7 +290,7 @@ func update(s: Object, notch: float, emergency: bool, ext: bool, paused: bool, d
 	if s == null: return
 	var st := {"speed": float(s.phys.speed), "max_speed": float(s.phys.profile.max_speed_ms), "notch": notch,
 		"doors_open": bool(s.doors_open), "emergency": emergency, "pantograph_up": bool(s.pantograph_up),
-		"wheel_slip":s.phys.slip_ratio, "power_ok": bool(s.power_ok), "supply": s.power_mode, "speed_limit": float(s.speed_limit()), "paused": paused or bool(s.finished),
+		"wheel_slip":s.phys.slip_ratio, "power_ok": bool(s.power_ok), "supply": s.power_mode, "speed_limit": float(s.speed_limit()), "paused": paused, "finished": bool(s.finished),
 		"external": ext, "bridge": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].bridge, s.offset), "underground": NetworkLoader.in_spans(s.net.edge_info[s.edge_id].tunnel, s.offset), "curvature": _curvature()}
 	st.hour = float(view.day_night.hour) if view != null and "day_night" in view and view.day_night else 12.0
 	st.traffic_enabled = s.traffic.enabled if s.get("traffic") != null else true
@@ -241,8 +311,19 @@ func _curvature() -> float:
 ## paused, external, curvature} -> gains et hauteurs des couches, déclenchement des ponctuels.
 func update_state(st: Dictionary, dt: float) -> void:
 	state = st.duplicate()
+	if bool(st.get("finished", false)):
+		is_paused = true
+		stop_all(); return
 	state.audio_family = audio_family
 	state.audio_quality = sound_profile.get("quality", "synthetic")
+	var paused := bool(st.get("paused", false))
+	if paused != is_paused:
+		for e in players.values():
+			for reader in [e.p2, e.p3]:
+				if reader != null: reader.stream_paused = paused
+		if is_instance_valid(bell): bell.stream_paused = paused
+	is_paused = paused
+	if paused: return
 	var tunnel := bool(st.get("underground", false))
 	var bridge := bool(st.get("bridge", false))
 	if tunnel != in_tunnel or bridge != on_bridge:
@@ -251,12 +332,6 @@ func update_state(st: Dictionary, dt: float) -> void:
 	if view is Node3D and "modules" in view and not (view.modules as Array).is_empty():
 		var mods: Array = view.modules
 		anchor.global_transform = (mods[mods.size() / 2] as Node3D).global_transform
-	var paused := bool(st.get("paused", false))
-	is_paused = paused
-	for n in players:
-		var p: Node = _active(n)
-		p.stream_paused = paused
-	if paused: return
 	var v := maxf(float(st.get("speed", 0.0)), 0.0)
 	var vmax := maxf(float(st.get("max_speed", 19.4)), 1.0)
 	var notch := float(st.get("notch", 0.0))
@@ -319,6 +394,9 @@ func update_state(st: Dictionary, dt: float) -> void:
 		var p: Node = _active(n)
 		var g := float(gain[n])
 		var db := float(players[n].db) + linear_to_db(maxf(g, 0.0001)) + (float(CAB_DB.get(n, 0.0)) if not external else 0.0)
+		if players[n].p3 != null and (_view_dirty or _view_mix != (1.0 if external else 0.0)):
+			var weight := smoothstep(0.0, 1.0, _view_mix)
+			db += linear_to_db(maxf(weight if external else 1.0 - weight, 0.0001))
 		p.volume_db = db
 		if g > 0.002 and not p.playing: p.play()
 		elif g <= 0.002 and p.playing: p.stop()
@@ -366,15 +444,21 @@ func update_state(st: Dictionary, dt: float) -> void:
 	if _close_delay >= 0.0:
 		_close_delay -= dt
 		if _close_delay < 0.0: _shot("door_close")
+	_apply_view_mix(elapsed)
+	_metrics_timer -= elapsed
+	if _metrics_timer <= 0.0:
+		_last_voice_count = active_voice_count(); _metrics_timer = 0.25
+	state.active_voices = _last_voice_count
+	state.fallback_layers = fallback_layers.duplicate()
 	_prev = st.duplicate()
 
 ## Gong de tram (cloche de main.gd).
 func gong() -> void:
-	if bell:
+	if is_instance_valid(bell) and not is_paused:
 		bell.play()
 		shots["gong"] = int(shots.get("gong", 0)) + 1
 
-static func profile_for(family_id: String,variant_id:String="") -> Dictionary:
+static func profile_for(family_id: String,variant_id:String="",bank_override:String="") -> Dictionary:
 	if family_id.is_empty(): return {}
 	if _family_manifest.is_empty() and FileAccess.file_exists(DIR + "families.json"):
 		var data = CityDataStore.document(DIR + "families.json")
@@ -382,6 +466,11 @@ static func profile_for(family_id: String,variant_id:String="") -> Dictionary:
 	var key := TramModel.family_id(family_id)
 	var profile: Dictionary = _family_manifest.get("profiles", {}).get(key, {}).duplicate(true)
 	profile.merge(_family_manifest.get("variant_profiles",{}).get(variant_id,{}),true)
+	if not bank_override.is_empty():
+		var candidate: Dictionary = _family_manifest.get("banks", {}).get(bank_override, {})
+		if key in candidate.get("compatible_families", []):
+			profile.bank = bank_override
+		else: push_warning("TramAudio : banque d'audition absente ou incompatible : " + bank_override)
 	profile.bank_data = _family_manifest.get("banks", {}).get(str(profile.get("bank", "")), {}).duplicate(true)
 	return profile
 
