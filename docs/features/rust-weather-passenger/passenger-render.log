@@ -1,0 +1,26 @@
+Initialize godot-rust (API v4.3.stable.official, runtime v4.6.3.stable.official, safeguards balanced)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+ok: passenger starts on existing city network
+ok: actual AI services available
+ok: boardable door found in actual family plan
+ok: boards actual stationary AI through open door
+ok: interior generated lazily on boarding
+ok: boarded train uses existing family audio engine
+ok: interior objects batched instead of individual draw nodes
+ok: batching reduces interior draw groups
+INTERIOR_BATCH|31|12
+ok: usable passenger seats exist
+ok: passenger takes a nearby modeled seat
+ok: passenger stands back into aisle
+ok: passenger is carried by real moving articulated rig
+ok: cannot alight from moving tram
+ok: can alight after actual session stops and doors open
+ok: alighting releases onboard audio
+ok: frustum keeps visible tram
+ok: frustum rejects tram behind camera
+ok: frustum preserves train containing viewer
+TOTAL_ECHECS|0

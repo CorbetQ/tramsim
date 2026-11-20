@@ -1,0 +1,23 @@
+Initialize godot-rust (API v4.3.stable.official, runtime v4.6.3.stable.official, safeguards balanced)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ok: passenger starts on existing city network
+ok: actual AI services available
+ok: boardable door found in actual family plan
+ok: boards actual stationary AI through open door
+ok: interior generated lazily on boarding
+ok: boarded train uses existing family audio engine
+ok: interior objects batched instead of individual draw nodes
+ok: batching reduces interior draw groups
+INTERIOR_BATCH|31|12
+ok: usable passenger seats exist
+ok: passenger takes a nearby modeled seat
+ok: passenger stands back into aisle
+ok: passenger is carried by real moving articulated rig
+ok: cannot alight from moving tram
+ok: can alight after actual session stops and doors open
+ok: alighting releases onboard audio
+ok: frustum keeps visible tram
+ok: frustum rejects tram behind camera
+ok: frustum preserves train containing viewer
+TOTAL_ECHECS|0

@@ -4,6 +4,7 @@ extends RefCounted
 ## Not a manufacturer-verified interior. Only built for the boarded/nearby train.
 static var _meshes := {}
 static var _materials := {}
+const EXTERIOR_LAYER := 1 << 19 # reserved only for the currently boarded shell
 
 static func material(key: String, color: Color, metal: float = 0.0) -> StandardMaterial3D:
 	if not _materials.has(key):
@@ -91,5 +92,5 @@ static func show(rig: TramModel.Rig, visible_: bool) -> void:
 		if module.has_node("PassengerInterior"):module.get_node("PassengerInterior").visible=visible_
 		# Interior and exterior are separate draw layers; the painted exterior glazing
 		# must not act as an opaque wall in the passenger camera.
-		module.layers=2 if visible_ else 1
+		module.layers=EXTERIOR_LAYER if visible_ else 1
 		if module.material_override is ShaderMaterial:module.material_override.set_shader_parameter("passenger_shell",visible_)

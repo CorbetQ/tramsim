@@ -13,6 +13,8 @@ var _has_camera := false
 func setup(line: LineView, name_: String) -> void:
 	view=line;profile=name_ if PROFILES.has(name_) else "balanced"
 	var params: Dictionary=PROFILES[profile]
+	set_process(bool(params.reflection) or float(params.blur)>0)
+	view.day_night.env.glow_enabled=profile!="economy"
 	view.speed_material.set_shader_parameter("bloom_amount",params.glow if RenderingServer.get_current_rendering_method()=="gl_compatibility" else 0.0)
 	view.speed_material.set_shader_parameter("motion_amount",params.blur)
 	if params.reflection:

@@ -1,0 +1,20 @@
+Initialize godot-rust (API v4.3.stable.official, runtime v4.6.3.stable.official, safeguards balanced)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+BACKEND|rust
+ok: native availability matches requested backend
+ok: 6000-step Rust/GDScript parity: slopes, braking, power, slip, sanding
+ok: rain wets rail and reduces grip progressively
+ok: wet braking prediction is longer than dry
+ok: rail stays wet after rainfall stops
+ok: weather state roundtrip including RNG
+ok: weather continuation deterministic after restore
+ok: malformed snapshot rejected
+ok: Rust/GDScript weather parity
+ok: moving tram cannot be boarded
+ok: closed doors prevent boarding
+ok: vertically separated tracks prevent boarding
+ok: stationary accessible door permits boarding
+ok: walking has human speed and no flying
+ok: obstruction callback blocks movement
+CHECKS|15|TOTAL_ECHECS|0

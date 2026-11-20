@@ -14,7 +14,7 @@ var onboard_audio: TramAudio
 func start(city_name: String, path: String, hour_: float, distance: float = 400.0, with_trams: bool = true) -> bool:
 	if not super.start(city_name,path,hour_,distance,true):return false
 	view.cam.near=.08
-	view.cam.cull_mask=view.cam.cull_mask & ~2
+	view.cam.cull_mask=view.cam.cull_mask & ~TramInterior.EXTERIOR_LAYER
 	var p: Vector3 = places[0].pos if not places.is_empty() else view.pos3(str(net.graph.edges.keys()[0]),0)
 	# Start alongside the station track, not standing on it.
 	walker.position=p+Vector3(3,0,0);walker.position.y=view.ground_at(walker.position)+PassengerController.EYE
