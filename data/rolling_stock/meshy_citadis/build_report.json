@@ -1,0 +1,120 @@
+{
+  "angers302": {
+    "status": "experimental_visual_review_required",
+    "modules": [
+      {
+        "name": "Module00",
+        "length_m": 9.0,
+        "faces": 10165
+      },
+      {
+        "name": "Module01",
+        "length_m": 4.8,
+        "faces": 3479
+      },
+      {
+        "name": "Module02",
+        "length_m": 4.8,
+        "faces": 4696
+      },
+      {
+        "name": "Module03",
+        "length_m": 4.8,
+        "faces": 6093
+      },
+      {
+        "name": "Module04",
+        "length_m": 9.0,
+        "faces": 7992
+      }
+    ],
+    "seat": {
+      "faces": 1200,
+      "width_m": 0.46,
+      "height_m": 1.08,
+      "origin": "floor"
+    }
+  },
+  "angers305": {
+    "status": "experimental_visual_review_required",
+    "modules": [
+      {
+        "name": "Module00",
+        "length_m": 9.239999999999998,
+        "faces": 13133
+      },
+      {
+        "name": "Module01",
+        "length_m": 4.873846153846153,
+        "faces": 1713
+      },
+      {
+        "name": "Module02",
+        "length_m": 4.772307692307693,
+        "faces": 3144
+      },
+      {
+        "name": "Module03",
+        "length_m": 4.873846153846153,
+        "faces": 2393
+      },
+      {
+        "name": "Module04",
+        "length_m": 9.239999999999998,
+        "faces": 5668
+      }
+    ],
+    "seat": {
+      "faces": 1222,
+      "width_m": 0.46,
+      "height_m": 1.08,
+      "origin": "floor"
+    }
+  },
+  "nantes405": {
+    "status": "experimental_visual_review_required",
+    "modules": [
+      {
+        "name": "Module00",
+        "length_m": 9.600000000000001,
+        "faces": 11345
+      },
+      {
+        "name": "Module01",
+        "length_m": 5.6000000000000005,
+        "faces": 2530
+      },
+      {
+        "name": "Module02",
+        "length_m": 4.1000000000000005,
+        "faces": 2324
+      },
+      {
+        "name": "Module03",
+        "length_m": 7.000000000000002,
+        "faces": 1696
+      },
+      {
+        "name": "Module04",
+        "length_m": 4.1000000000000005,
+        "faces": 1765
+      },
+      {
+        "name": "Module05",
+        "length_m": 5.6000000000000005,
+        "faces": 2210
+      },
+      {
+        "name": "Module06",
+        "length_m": 9.600000000000001,
+        "faces": 7311
+      }
+    ],
+    "seat": {
+      "faces": 1205,
+      "width_m": 0.94,
+      "height_m": 1.08,
+      "origin": "floor"
+    }
+  }
+}

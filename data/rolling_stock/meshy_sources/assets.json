@@ -1,0 +1,44 @@
+{
+  "angers302_body.glb": {
+    "bytes": 5115752,
+    "sha256": "0f1dee470a095dda9ee203fa0fbdf527b00f77b8fc9c8d0e4d84e3a8aa022c39",
+    "triangles": 41388,
+    "mesh_count": 5,
+    "embedded_images": 1
+  },
+  "angers302_seat.glb": {
+    "bytes": 85504,
+    "sha256": "39ee873f31e0fc7a9ef86cf040f4edf682d20715aa662ac7ab51e1c769a0aa63",
+    "triangles": 1200,
+    "mesh_count": 1,
+    "embedded_images": 0
+  },
+  "angers305_body.glb": {
+    "bytes": 4183640,
+    "sha256": "7ab56eb9afd7ac743d4f76ed2ba5fc8502f831706bce09ca7da1fb12eb3f827c",
+    "triangles": 28936,
+    "mesh_count": 5,
+    "embedded_images": 1
+  },
+  "angers305_seat.glb": {
+    "bytes": 81804,
+    "sha256": "488afbfe85acaf359b360ee9ef8ae3d5de0e67414e6118872c14feb44dd1c16f",
+    "triangles": 1222,
+    "mesh_count": 1,
+    "embedded_images": 0
+  },
+  "nantes405_body.glb": {
+    "bytes": 4274660,
+    "sha256": "7dd0de1f1ac60e3ee83b2578628b119ab8a903a7a9da02572729e36269689f0c",
+    "triangles": 33254,
+    "mesh_count": 7,
+    "embedded_images": 1
+  },
+  "nantes405_seat.glb": {
+    "bytes": 90360,
+    "sha256": "5cba2cd54a0217e465b46bd3c492f65758a53c7c8bf9ba5ee28029e086b365f8",
+    "triangles": 1205,
+    "mesh_count": 1,
+    "embedded_images": 0
+  }
+}

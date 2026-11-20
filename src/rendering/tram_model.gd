@@ -170,7 +170,9 @@ static func build_rig(livery: Dictionary, length_m: float = -1.0, passenger_shel
 		p=p.duplicate(true);p["passenger_shell"]=true
 	var L := length_m if length_m > 0.0 else float(livery.get("length", p.get("length_m", 32.0)))
 	var bld := _Body.new(p, _variant(livery), L)
-	return bld.make_rig()
+	var rig := bld.make_rig()
+	CitadisMeshy.apply_exterior(rig,livery)
+	return rig
 
 ## Compatibilité : modules seuls (sans animation).
 static func build(length_m: float, livery: Dictionary, family: String = "") -> Array[MeshInstance3D]:

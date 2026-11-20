@@ -1,0 +1,33 @@
+{
+  "baseline_stock": {
+    "positive_checks": 301,
+    "script_error": false,
+    "exit_code": 0
+  },
+  "meshy_rig": {
+    "positive_checks": 229,
+    "script_error": false,
+    "exit_code": 0
+  },
+  "stock_regression": {
+    "positive_checks": 301,
+    "script_error": false,
+    "exit_code": 0
+  },
+  "twenty_interior_families": {
+    "positive_checks": 0,
+    "script_error": false,
+    "exit_code": 0,
+    "families_exercised": 20
+  },
+  "actual_passenger_render": {
+    "positive_checks": 24,
+    "script_error": false,
+    "exit_code": 0
+  },
+  "renderer": "Godot 4.6.3; OpenGL Compatibility; Mesa llvmpipe; desktop",
+  "phone_performance_tested": false,
+  "new_exteriors_default_enabled": false,
+  "new_interiors_enabled": true,
+  "gltf_bytes": 13831720
+}

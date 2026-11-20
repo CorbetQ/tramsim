@@ -9,3 +9,7 @@ addons/tramsim_native/
 .cache/
 __pycache__/
 *.pyc
+
+# Meshy raw tasks and signed download sidecars; curated assets live under data/.
+meshy_output/*
+!meshy_output/.gdignore

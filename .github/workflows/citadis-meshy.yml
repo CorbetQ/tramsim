@@ -1,0 +1,51 @@
+name: citadis-meshy
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'data/rolling_stock/meshy_*/**'
+      - 'src/rendering/citadis_*.gd'
+      - 'src/rendering/tram_model.gd'
+      - 'src/rendering/tram_interior.gd'
+      - 'src/rendering/shaders/meshy_citadis.gdshader'
+      - 'tools/rolling_stock/**'
+      - 'tests/test_citadis_meshy.gd'
+      - '.github/workflows/citadis-meshy.yml'
+permissions:
+  contents: read
+jobs:
+  assets-and-rig:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Provenance, licences, empreintes et budgets
+        run: |
+          python -m py_compile tools/rolling_stock/*.py
+          python tools/rolling_stock/audit_citadis.py
+      - name: Godot 4.6.3
+        run: |
+          curl --fail -sSL -o "$RUNNER_TEMP/godot.zip" https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          chmod +x "$RUNNER_TEMP/godot/Godot_v4.6.3-stable_linux.x86_64"
+          echo "$RUNNER_TEMP/godot" >> "$GITHUB_PATH"
+      - name: Import et tests mécaniques
+        shell: bash
+        run: |
+          set -euo pipefail
+          G="$RUNNER_TEMP/godot/Godot_v4.6.3-stable_linux.x86_64"
+          mkdir -p reports
+          "$G" --headless --editor --path . --import > reports/import.log 2>&1
+          ! grep -Eq 'SCRIPT ERROR|Parse Error' reports/import.log
+          for test in test_citadis_meshy test_rolling_stock test_passenger_families; do
+            "$G" --headless --path . --script "tests/$test.gd" > "reports/$test.log" 2>&1
+            ! grep -Eq 'SCRIPT ERROR|^FAIL:|^ECHEC:|TOTAL_FAILURES\|[1-9]|TOTAL_ECHECS\|[1-9]' "reports/$test.log"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: citadis-meshy-validation
+          path: reports/

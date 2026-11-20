@@ -20,6 +20,7 @@ static func box(parent: Node3D, pos: Vector3, size_: Vector3, mat: Material) -> 
 	n.visibility_range_end=65;n.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;parent.add_child(n);return n
 
 static func attach(rig: TramModel.Rig, profile: VehicleProfile) -> void:
+	if CitadisInterior.attach(rig,profile):return
 	var plan := TramModel.plan(rig.family)
 	var floor_y := float(plan.get("floor_m",0.32))
 	var width := profile.width_m
@@ -75,7 +76,7 @@ static func batch(root: Node3D) -> void:
 	for child in root.get_children():
 		if child is MeshInstance3D:
 			source_count+=1
-			var key := str(child.mesh.get_instance_id())+"/"+str(child.material_override.get_instance_id())
+			var key := str(child.mesh.get_instance_id())+"/"+str(child.material_override.get_instance_id() if child.material_override!=null else 0)
 			if not groups.has(key):groups[key]=[]
 			groups[key].append(child)
 	for key in groups:
@@ -90,6 +91,7 @@ static func batch(root: Node3D) -> void:
 static func show(rig: TramModel.Rig, visible_: bool) -> void:
 	for module in rig.modules:
 		if module.has_node("PassengerInterior"):module.get_node("PassengerInterior").visible=visible_
+		if module.has_node("MechanicalScaffold"):module.get_node("MechanicalScaffold").visible=not visible_
 		# Interior and exterior are separate draw layers; the painted exterior glazing
 		# must not act as an opaque wall in the passenger camera.
 		module.layers=EXTERIOR_LAYER if visible_ else 1
