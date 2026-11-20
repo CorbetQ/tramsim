@@ -84,6 +84,7 @@ func _near_door() -> Dictionary:
 			var scale := length/float(defs[i].length_m)
 			for door in defs[i].get("doors",[]):
 				for side in [-1,1]:
+					if bool(plan.get("unidirectional",false)) and side<0:continue
 					var openness := rig.door_t_right if side>0 else rig.door_t_left
 					var local := Vector3(side*t.phys.profile.width_m*.5,float(plan.get("floor_m",.32))+PassengerController.EYE,float(door.z_m)*scale-length*.5)
 					var at := rig.modules[i].global_transform*local
@@ -98,6 +99,8 @@ func interact() -> void:
 		if _candidate.is_empty():return
 		var t: AiTram=_candidate.train
 		var rig := view.ai_view.ensure_passenger_rig(view,t)
+		var look := (rig.modules[int(_candidate.module)].global_basis.inverse()*view.cam.global_basis).get_euler()
+		walker.yaw=look.y;walker.pitch=clampf(look.x,-1.2,1.2)
 		TramInterior.attach(rig,t.phys.profile)
 		TramInterior.show(rig,true)
 		if is_instance_valid(onboard_audio):onboard_audio.queue_free()
@@ -111,6 +114,7 @@ func interact() -> void:
 		_candidate=_near_door()
 		if _candidate.is_empty() or _candidate.train.train_id!=walker.train_id:return
 		walker.position=_candidate.outside;walker.position.y=view.ground_at(walker.position)+PassengerController.EYE
+		var look := view.cam.global_basis.get_euler();walker.yaw=look.y;walker.pitch=clampf(look.x,-1.2,1.2)
 		TramInterior.show(_candidate.rig,false)
 		if is_instance_valid(onboard_audio):onboard_audio.queue_free()
 		onboard_audio=null
@@ -160,8 +164,9 @@ func _process(dt: float) -> void:
 	elif view.ai_view.rigs.has(t.train_id):
 		var rig: TramModel.Rig=view.ai_view.rigs[t.train_id]
 		if not walker.seated:
-			walker.ride_distance=clampf(walker.ride_distance+movement.y*1.1*dt,2.0,rig.length-2.0)
-			walker.lateral=clampf(walker.lateral+movement.x*dt,-.26,.26)
+			var relative_move := Vector3(movement.x,0,movement.y).limit_length().rotated(Vector3.UP,walker.yaw)
+			walker.ride_distance=clampf(walker.ride_distance+relative_move.z*1.1*dt,2.0,rig.length-2.0)
+			walker.lateral=clampf(walker.lateral+relative_move.x*dt,-.26,.26)
 		var module_index := 0
 		for i in rig.modules.size():
 			if walker.ride_distance>=rig.module_starts[i]:module_index=i

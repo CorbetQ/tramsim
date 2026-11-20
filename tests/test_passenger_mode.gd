@@ -22,6 +22,8 @@ func run() -> void:
 	var at := Vector3(t.phys.profile.width_m*.5,float(plan.get("floor_m",.32))+1.65,float(door.z_m)-rig.module_lengths[module_index]*.5)
 	t.phys.velocity=0;t.doors_open=true;t.driver.state="dwell";t.driver.dwell_left=100
 	rig.set_doors(true,"right");rig.snap()
+	mode.walker.position=rig.modules[module_index].global_transform*(Vector3(-at.x,at.y,at.z)-Vector3(.5,0,0))
+	mode.interact();check(mode.walker.train_id=="","closed opposite-side door cannot be used")
 	mode.walker.position=rig.modules[module_index].global_transform*(at+Vector3(.5,0,0))
 	mode.interact()
 	rig=mode.view.ai_view.rigs[t.train_id]
@@ -39,6 +41,10 @@ func run() -> void:
 		mode.toggle_seat();check(mode.walker.seated,"passenger takes a nearby modeled seat")
 		mode._process(.01);mode.toggle_seat();check(not mode.walker.seated,"passenger stands back into aisle")
 	mode._process(.01)
+	mode.walker.yaw=PI;mode.touch_move=Vector2.UP
+	var distance_before := mode.walker.ride_distance
+	mode._process(.1);mode.touch_move=Vector2.ZERO
+	check(mode.walker.ride_distance>distance_before,"walking forward while looking rearwards moves toward rear")
 	var ride_before := mode.walker.position
 	t.doors_open=false;t.phys.velocity=3
 	mode._process(.1)

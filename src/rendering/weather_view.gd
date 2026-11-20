@@ -18,6 +18,7 @@ func apply(state: WeatherState, view: LineView, sheltered: bool = false) -> void
 	if drops==null or view.cam==null:return
 	global_position=view.cam.global_position+Vector3(0,9,0)
 	drops.emitting=state.rain>0.03 and not sheltered
+	drops.visible=not sheltered
 	drops.color=Color(0.65,0.8,0.92,state.rain*.4)
 	var env := view.day_night.env
 	env.fog_density+=state.fog*0.012+state.rain*0.001
