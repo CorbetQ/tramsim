@@ -237,6 +237,8 @@ func _structures(g: _Geo, id: String) -> void:
 		var n := maxi(1, ceili((b - a) / 5.0))
 		for i in n:
 			var f0 := _frame(id, a + (b - a) * i / n); var f1 := _frame(id, a + (b - a) * (i + 1) / n)
+			# voie portée par le tablier unique de l'ouvrage (CityScene) : pas de dalle ni de garde-corps propres
+			if city != null and city.deck_carries(f0.interpolate_with(f1, 0.5).origin, net.point_on(id, a + (b - a) * (i + 0.5) / n).dir): continue
 			var p := func(f: Transform3D, x: float, y: float) -> Vector3: return f.origin + f.basis.x * x + Vector3(0, y, 0)
 			g.quad(p.call(f0, 2.9, 0.05), p.call(f1, 2.9, 0.05), p.call(f1, 2.9, -1.1), p.call(f0, 2.9, -1.1), concrete)
 			g.quad(p.call(f0, inner, -1.1), p.call(f0, 2.9, -1.1), p.call(f1, 2.9, -1.1), p.call(f1, inner, -1.1), concrete.darkened(0.25))
@@ -261,7 +263,7 @@ func _structures(g: _Geo, id: String) -> void:
 			var f := _frame(id, s)
 			var top := f.origin + f.basis.x * 1.0
 			var gh := ground_at(top)
-			if top.y - gh > 2.5:
+			if top.y - gh > 2.5 and not (city != null and city.deck_carries(f.origin, net.point_on(id, s).dir)):
 				# pile-voile sous l'axe de l'ouvrage et chevêtre sur toute la largeur
 				var mid_x := (inner + 2.9) * 0.5
 				var span_x := 2.9 - inner

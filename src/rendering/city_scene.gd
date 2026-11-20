@@ -169,6 +169,7 @@ func _load_terrain(c: String) -> void:
 			for k in tv.keys: q = _ter_records(k, d, q)
 			min_height = tv.min_height
 			has_terrain = not tv.table.is_empty()
+			_seat_decks()
 			return
 		tv.free()
 	var path := "res://data/scenes/%s_terrain.bin" % c
@@ -285,6 +286,22 @@ func _drape(S: _Arrays, i0: int, chosen_deck: int = -1) -> void:
 		S.v[i] = Vector3(q.x, q.y + h + 0.04, q.z)
 		S.set_rel(i, q.y + 0.04)
 
+## Vrai si un tablier d'ouvrage (BD TOPO, tools/import/bridges.py) porte la voie au point p (repère de la ligne,
+## y = rail) : tablier parallèle, voie à l'intérieur de sa largeur, dessus à moins de 0,35 m de rail - 0,1. La voie
+## n'a alors pas de dalle propre (LineView._structures) : un seul tablier par ouvrage.
+func deck_carries(p_net: Vector3, dir: Vector2) -> bool:
+	var c := Vector2((p_net.x - position.x) / _x_scale, p_net.z - position.z)
+	for it in _deck_cells.get(Vector2i(floori(c.x / 32.0), floori(c.y / 32.0)), []):
+		var d: Array = _decks[it[0]]
+		var pl: PackedVector3Array = d[2]
+		var a := Vector2(pl[it[1]].x, pl[it[1]].z); var b := Vector2(pl[it[1] + 1].x, pl[it[1] + 1].z)
+		if (b - a).length() < 0.01 or absf((b - a).normalized().dot(dir.normalized())) < 0.9: continue
+		var t := (c - a).dot(b - a) / (b - a).length_squared()
+		if t < -0.01 or t > 1.01: continue
+		if (a + (b - a) * clampf(t, 0, 1)).distance_to(c) > float(d[1]) * 0.5 - 1.2: continue
+		if absf(lerpf(pl[it[1]].y, pl[it[1] + 1].y, clampf(t, 0, 1)) - (p_net.y - 0.1)) < 0.35: return true
+	return false
+
 ## Tablier suivi par une route : même orientation et même type, jamais le pont qui la croise.
 func _deck_for_line(raw_pts: PackedVector2Array, rail: bool) -> int:
 	var pts:=PackedVector2Array()
@@ -302,7 +319,7 @@ func _deck_for_line(raw_pts: PackedVector2Array, rail: bool) -> int:
 		var found := -1; var best := INF
 		for item in _deck_cells.get(Vector2i(floori(p.x / 32.0), floori(p.y / 32.0)), []):
 			var d: Array = _decks[item[0]]
-			if (int(d[0]) == 1) != rail: continue
+			if int(d[0]) != 2 and (int(d[0]) == 1) != rail: continue   # 2 : ouvrage mixte (route + rail)
 			var line: PackedVector3Array = d[2]; var u: Vector3 = line[item[1]]; var v: Vector3 = line[item[1] + 1]
 			var a := Vector2(u.x, u.z); var b := Vector2(v.x, v.z)
 			if absf((b - a).normalized().dot(vector.normalized())) < 0.85: continue
@@ -430,6 +447,7 @@ func _start_lod_tile(k: Vector2i) -> void:
 			_lod_job.profile[field] = get(field)
 	else: _lod_job = {"key": k, "initialize": false}
 	_lod_job.builder = _lod_builder
+	if terrain != null: _lod_job.corridor = terrain.corridor_data()
 	_lod_task = WorkerThreadPool.add_task(_build_lod_tile.bind(_lod_job), false, "city_detail_lod")
 
 static func _build_lod_tile(job: Dictionary) -> void:
@@ -438,6 +456,8 @@ static func _build_lod_tile(job: Dictionary) -> void:
 	if job.initialize:
 		builder.open(job.city, job.origin)
 		for field in job.profile: builder.set(field, job.profile[field])
+	if builder.terrain != null and job.has("corridor") and not job.corridor.is_empty() and not is_same(builder.terrain.corridor_data()[0], job.corridor[0]):
+		builder.terrain.set_corridor_data(job.corridor)
 	job.node = builder._build_tile(job.key)
 
 func _poll_lod_tile() -> void:
@@ -795,6 +815,13 @@ func _far_ground(S: _Arrays, k: Vector2i, ground: Color) -> void:
 	var col := ground; col.a = 1.0
 	for iz in n:
 		for ix in n:
+			# cellule traversée par une voie au sol : maillage du corridor (plateforme au niveau du rail, talus)
+			var ck := Vector2i(floori(_tile_origin.x / st) + ix, floori(_tile_origin.y / st) + iz)
+			if terrain.is_corridor(ck):
+				var ct := terrain.corridor_tris(ck, terrain.table)
+				var o0 := Vector3(_tile_origin.x, 0, _tile_origin.y)
+				for t in range(0, ct.size(), 3): S.tri(ct[t] - o0, ct[t + 1] - o0, ct[t + 2] - o0, col)
+				continue
 			var p := [Vector2(ix, iz), Vector2(ix + 1, iz), Vector2(ix + 1, iz + 1), Vector2(ix, iz + 1)]
 			var q: Array[Vector3] = []
 			for c in p:
@@ -1106,6 +1133,7 @@ func _fit_decks_to_tracks() -> void:
 ## Dernier contrôle, point de voie par point de voie (mêmes règles que tests/test_clearance.gd) : un segment de
 ## tablier encore dans le gabarit est abaissé au rail (moins de 2,5 m au-dessus) ou relevé au-dessus du gabarit.
 func _enforce_gauge() -> void:
+	var moved := {}   # tablier -> {sommet: true} déplacés
 	for it_ in 2:
 		for ck in _track_pts:
 			for q in _track_pts[ck]:
@@ -1115,13 +1143,37 @@ func _enforce_gauge() -> void:
 					var pl: PackedVector3Array = d[2]
 					var m: int = it[1]
 					var a := Vector2(pl[m].x, pl[m].z); var b := Vector2(pl[m + 1].x, pl[m + 1].z)
-					var t := clampf((c - a).dot(b - a) / maxf((b - a).length_squared(), 1e-4), 0.0, 1.0)
+					var t := (c - a).dot(b - a) / maxf((b - a).length_squared(), 1e-4)
+					if t < -0.02 or t > 1.02: continue   # au-delà de l'extrémité : segment voisin ou hors tablier
+					t = clampf(t, 0.0, 1.0)
 					if (a + (b - a) * t).distance_to(c) > float(d[1]) * 0.5 + GAUGE_HW + 0.5: continue
 					var y := lerpf(pl[m].y, pl[m + 1].y, t)
 					if y <= q.y + 0.2 or y - 1.1 >= q.y + GAUGE_H: continue
+					# segment translé verticalement (pente conservée) : au droit de la voie, tablier au rail - 0,1 m ou
+					# au-dessus du gabarit
+					var shift: float = (q.y - 0.1 - y) if y - q.y < 2.5 else (q.y + GAUGE_H + 1.5 - y)
 					for e in [m, m + 1]:
-						pl[e].y = minf(pl[e].y, q.y - 0.1) if y - q.y < 2.5 else maxf(pl[e].y, q.y + GAUGE_H + 1.5)
+						pl[e].y = minf(pl[e].y, pl[e].y + shift) if shift < 0.0 else maxf(pl[e].y, pl[e].y + shift)
+						if not moved.has(it[0]): moved[it[0]] = {}
+						moved[it[0]][e] = true
 					d[2] = pl
+	# raccord des sommets voisins aux sommets déplacés : pente <= 8 % (pas de marche ni de bosse isolée)
+	for di in moved:
+		var pl: PackedVector3Array = _decks[di][2]
+		var fixed: Dictionary = moved[di]
+		for pass_ in 2:
+			var order := range(1, pl.size()) if pass_ == 0 else range(pl.size() - 2, -1, -1)
+			for k in order:
+				if fixed.has(k): continue
+				var j: int = k - 1 if pass_ == 0 else k + 1
+				var lim := Vector2(pl[k].x - pl[j].x, pl[k].z - pl[j].z).length() * 0.08
+				pl[k].y = clampf(pl[k].y, pl[j].y - lim, pl[j].y + lim) if fixed.has(j) or absf(pl[k].y - pl[j].y) > lim and _moved_near(fixed, k) else pl[k].y
+		_decks[di][2] = pl
+
+func _moved_near(fixed: Dictionary, k: int) -> bool:
+	for j in fixed:
+		if absi(int(j) - k) <= 12: return true
+	return false
 
 ## Sommet j d'un tablier face aux voies : Vector2(altitude si la voie est portée (parallèle), altitude minimale
 ## si le tablier la franchit dans le gabarit) ; NAN sinon. `merge` : premier passage, la voie parallèle proche
@@ -1133,16 +1185,86 @@ func _deck_conflict(rs: PackedVector3Array, j: int, hw: float, merge: bool) -> V
 	var dirs := []
 	var near := _tracks_near(p, hw + GAUGE_HW + 6.0, dirs)
 	var ride := NAN; var top := NAN
+	# voies portées : altitude de chaque voie interpolée au droit du sommet (points de part et d'autre, même
+	# position latérale), tablier à la moyenne des voies portées moins 0,1 m (dévers de quelques cm entre voies)
+	var lanes := {}   # position latérale (m) -> [along-, y-, along+, y+]
 	for t in near.size():
 		var dy := rs[j].y - near[t].y
 		var rel := Vector2(near[t].x, near[t].z) - p
 		if absf(rel.cross(sd)) > hw + GAUGE_HW + 0.5 or absf(rel.dot(sd)) > 6.0: continue
 		var parallel := absf((dirs[t] as Vector2).dot(sd)) > 0.9
 		if parallel and dy > (-6.0 if merge else 0.2) and dy < (15.0 if merge else GAUGE_H + 1.7):
-			ride = near[t].y - 0.1 if is_nan(ride) else minf(ride, near[t].y - 0.1)
+			var key := roundi(rel.cross(sd))
+			var al := rel.dot(sd)
+			var l: Array = lanes.get(key, [-INF, NAN, INF, NAN])
+			if al <= 0.0 and al > l[0]: l[0] = al; l[1] = near[t].y
+			if al >= 0.0 and al < l[2]: l[2] = al; l[3] = near[t].y
+			lanes[key] = l
 		elif not parallel and dy > 0.2 and dy < GAUGE_H + 1.7:
 			top = maxf(top, near[t].y + GAUGE_H + 2.0) if not is_nan(top) else near[t].y + GAUGE_H + 2.0
+	if not lanes.is_empty():
+		var acc := 0.0
+		for l in lanes.values():
+			if is_nan(l[1]): acc += l[3]
+			elif is_nan(l[3]): acc += l[1]
+			else: acc += lerpf(l[1], l[3], -l[0] / maxf(l[2] - l[0], 0.01))
+		ride = acc / lanes.size() - 0.1
 	return Vector2(ride, top)
+
+## Culées posées sur le sol affiché (maillage de sol, qui peut différer du MNT de l'import) : extrémité de tablier à
+## moins de 2,5 m du sol ramenée au sol, écart réparti linéairement le long du tablier (pente <= 4 %, 10 m au moins).
+## Extrémités sur un autre tablier (ouvrages contigus) laissées telles quelles.
+func _seat_decks() -> void:
+	for di in _decks.size():
+		var pl: PackedVector3Array = _decks[di][2]
+		if pl.size() < 2: continue
+		for end: int in [pl.size() - 1, 0]:   # fin d'abord : un prolongement au début ne décale rien d'autre
+			var p := pl[end]
+			var other := false
+			for it in _deck_cells.get(Vector2i(floori(p.x / 32.0), floori(p.z / 32.0)), []):
+				if int(it[0]) != di and absf(deck_city(p.x, p.z, int(it[0])) - p.y) < 0.5: other = true; break
+			if other: continue
+			var dy := p.y - height_city(p.x, p.z)
+			if dy > 2.5:
+				# extrémité en l'air : rampe dans l'axe (6 %) jusqu'au sol affiché, 90 m au plus
+				var inner := p
+				var ii: int = end
+				while Vector2(inner.x - p.x, inner.z - p.z).length() < 3.0:
+					ii += 1 if end == 0 else -1
+					if ii < 0 or ii >= pl.size(): break
+					inner = pl[ii]
+				if Vector2(inner.x - p.x, inner.z - p.z).length() < 1.0: continue
+				var tg := Vector3(p.x - inner.x, 0, p.z - inner.z).normalized()
+				var ext := PackedVector3Array()
+				var cur := p.y
+				var g0 := height_city(p.x, p.z)
+				for k in range(1, 19):
+					var q := p + tg * 5.0 * k
+					var g := height_city(q.x, q.z)
+					if g < g0 - 1.0 or not is_nan(water_at(Vector2(q.x, q.z))):
+						ext.clear(); break   # vallée ou plan d'eau : pas de rampe vers le fond
+					cur -= 0.3
+					if cur <= g + 0.05: ext.append(Vector3(q.x, g, q.z)); break
+					ext.append(Vector3(q.x, cur, q.z))
+				if end == 0:
+					ext.reverse(); ext.append_array(pl); pl = ext
+				else: pl.append_array(ext)
+				continue
+			if absf(dy) < 0.02 or absf(dy) > 2.5: continue
+			var L := maxf(10.0, absf(dy) / 0.04)
+			var acc := 0.0
+			var j: int = end
+			while true:
+				var f := clampf(1.0 - acc / L, 0.0, 1.0)
+				if f <= 0.0: break
+				pl[j].y -= dy * f
+				var nj: int = j + (1 if end == 0 else -1)
+				if nj < 0 or nj >= pl.size(): break
+				acc += Vector2(pl[nj].x - pl[j].x, pl[nj].z - pl[j].z).length()
+				j = nj
+		_decks[di][2] = pl
+	_index_decks()
+	_water_tiles.clear()   # plans d'eau évalués pendant la pose (water_at) : à recalculer avec les tabliers posés
 
 ## Index spatial des tabliers (cellules de 32 m).
 func _index_decks() -> void:
@@ -1195,10 +1317,15 @@ func _water_cut(a: Vector2, b: Vector2, c: Vector2, y: float) -> bool:
 	for cx in range(floori(r.position.x / 16.0), floori(r.end.x / 16.0) + 1):
 		for cz in range(floori(r.position.y / 16.0), floori(r.end.y / 16.0) + 1):
 			for q in _track_pts.get(Vector2i(cx, cz), PackedVector3Array()):
-				if q.y < y + 1.2 and q.y > y - 6.0 and r.has_point(Vector2(q.x, q.z)): return true
+				if q.y < y + 1.2 and q.y > y - 6.0 and r.has_point(Vector2(q.x, q.z)):
+					# voie dans le triangle (grands triangles de fleuve : une voie de quai voisine ne le vide pas)
+					var ql := Vector2(q.x, q.z) - _tile_origin
+					if Geometry2D.point_is_inside_triangle(ql, a, b, c) or Geometry2D.get_closest_point_to_segment(ql, a, b).distance_to(ql) < 4.0 \
+							or Geometry2D.get_closest_point_to_segment(ql, b, c).distance_to(ql) < 4.0 or Geometry2D.get_closest_point_to_segment(ql, c, a).distance_to(ql) < 4.0:
+						return true
 	var m := (a + b + c) / 3.0 + _tile_origin
 	var dk := deck_city(m.x, m.y)
-	return not is_nan(dk) and dk < y + 1.5
+	return not is_nan(dk) and dk < y - 0.3   # tablier sous l'eau (données incohérentes) ; une culée au ras de l'eau ne vide pas le fleuve
 
 ## Niveau de l'eau affichée au point p (repère ville), NAN hors eau (mêmes règles que _build_tile ; tests).
 var _water_tiles: Dictionary = {}   # Vector2i -> Array de [a, b, c, niveau] (repère tuile), triangles affichés
@@ -2133,6 +2260,7 @@ const CROWN_R := [2.6, 2.3, 1.9, 3.4, 3.0, 1.1, 3.6, 1.4, 0.5, 0.5]
 ## tests/test_clearance.gd (même état que le jeu).
 func bind_network(net: NetworkLoader) -> void:
 	var polys: Array = []
+	var cor_p := PackedVector3Array(); var cor_d := PackedVector2Array()
 	var prof := PackedVector3Array()
 	for id in net.edge_info:
 		var info: Dictionary = net.edge_info[id]
@@ -2164,6 +2292,17 @@ func bind_network(net: NetworkLoader) -> void:
 			buried.append(not NetworkLoader.in_spans(info.tunnel, L * i / n) and top > q.y + 0.3)
 		for i in buried.size():
 			if buried[i]: add_portal_cut(axis[maxi(i - 1, 0)], axis[mini(i + 1, axis.size() - 1)], 3.6)
+		# axe au sol (hors ponts et tunnels) : corridors du relief lointain
+		var cor_s: Array = []
+		for i in n + 1: cor_s.append(L * i / n)
+		for sp in info.tunnel + info.get("bridge", []):   # aux bords des ouvrages : corridor jusqu'à la culée / au portail
+			for e in [float(sp[0]) - 0.5, float(sp[1]) + 0.5]:
+				if e > 0.0 and e < L: cor_s.append(e)
+		for s_ in cor_s:
+			if NetworkLoader.in_spans(info.tunnel, s_) or NetworkLoader.in_spans(info.get("bridge", []), s_): continue
+			var q2 := net.point_on(id, s_)
+			cor_p.append(Vector3((q2.p.x - position.x) / _x_scale, q2.y, q2.p.y - position.z)); cor_d.append(q2.dir)
+	if terrain != null: terrain.set_corridor(cor_p, cor_d)
 	set_tracks(polys)
 	set_track_profile(prof)
 

@@ -1,7 +1,9 @@
 extends SceneTree
 ## Vues en perspective des zones complexes : décor du jeu (CityScene complet, 13 h) et référence réelle (orthophoto IGN
 ## drapée sur le MNS LiDAR HD, préparée par tests/audit/oblique_views.py), même caméra.
-## Args : -- <sites.json>   Sortie : jeu_<site>_<vue>.png et ref_<site>_<vue>.png (1280 x 720) à côté de sites.json.
+## Args : -- <sites.json> [réseau]   Sortie : jeu_<site>_<vue>.png et ref_<site>_<vue>.png (1280 x 720) à côté de
+## sites.json. [réseau] (res://data/free/<ville>.json ou une ligne) : voies, ouvrages et caténaire affichés (LineView,
+## même état que le jeu : tabliers calés sur les voies, corridors du relief lointain).
 const VIEWS := {"proche": [75.0, 30.0], "obl": [170.0, 38.0], "haut": [320.0, 60.0]}
 
 var game_vp: SubViewport
@@ -29,7 +31,16 @@ func _run() -> void:
 	var cs := CityScene.new()
 	if not cs.open(str(js.city), js.origin): quit(1); return
 	cs.radius = 700.0
-	gw.add_child(cs)
+	var lv: LineView = null
+	if OS.get_cmdline_user_args().size() > 1:
+		var net := NetworkLoader.new(); net.load_file(OS.get_cmdline_user_args()[1])
+		lv = LineView.new(); lv.view_distance = 900.0
+		gw.add_child(lv)
+		lv.build(net, str(net.meta.edges[0].id), null, cs)
+		lv.day_night.queue_free(); lv.cam.current = false
+		cs.radius = 700.0
+	else:
+		gw.add_child(cs)
 	game_cam = Camera3D.new(); game_cam.fov = 55.0; game_cam.far = 4000.0; gw.add_child(game_cam); game_cam.current = true
 	var rw := Node3D.new(); ref_vp.add_child(rw)
 	var env := WorldEnvironment.new(); env.environment = Environment.new()
@@ -41,6 +52,7 @@ func _run() -> void:
 		var c := Vector3(float(s.x), 0.0, float(s.z))
 		cs.warm(c)
 		c.y = cs.height_city(c.x, c.z)
+		if lv != null: lv.update_sectors(c + cs.position)
 		ref_mesh.mesh = _ref_mesh(dir.path_join("ref_%s" % s.name), c, float(s.half))
 		var mat := StandardMaterial3D.new(); mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		mat.albedo_texture = ImageTexture.create_from_image(Image.load_from_file(dir.path_join("ref_%s.png" % s.name)))
