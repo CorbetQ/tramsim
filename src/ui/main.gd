@@ -1221,10 +1221,36 @@ func _build_hud() -> void:
 		tools.add_child(b)
 		if spec[1] == "power": power_button = b
 		if spec[1] == "autopilot": autopilot_button = b; b.name = "tool_autopilot"
+	hud_alert.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; hud_alert.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_fit_hud.call_deferred(trip, mid, lp, rp, dock, safe)
 	for c in [trip, tr, lp, rp, dock, signal_panel]: UiTheme.fade_in(c, 0.35)
 	for c in get_children():
 		if not c in before: c.add_to_group("driving_hud")
 	_build_cam_hud(safe)
+
+## Ajuste après la mise en page : le bandeau d'alertes reste entre le panneau « prochain arrêt » et le
+## répétiteur de signalisation, la barre d'outils entre le manipulateur et la colonne tachymètre/urgence.
+func _fit_hud(trip: Control, mid: Control, lp: Control, rp: Control, dock: Control, safe: Vector4) -> void:
+	if not is_instance_valid(mid): return
+	await get_tree().process_frame
+	if not is_instance_valid(mid): return
+	var vw := get_viewport_rect().size.x
+	var left := trip.get_global_rect().end.x + 12.0
+	var right := vw - 14.0 - safe.z
+	if is_instance_valid(signal_panel) and signal_panel.is_inside_tree() and signal_panel.get_parent() == self:
+		right = minf(right, signal_panel.get_global_rect().position.x - 12.0)
+	var top := 92.0
+	if right - left < 300.0:   # écran étroit : bandeau sous les panneaux du haut, sur toute la largeur utile
+		top = trip.get_global_rect().end.y + 8.0
+		if is_instance_valid(signal_panel) and signal_panel.get_parent() == self: top = maxf(top, signal_panel.get_global_rect().end.y + 8.0)
+		left = 14.0 + safe.x; right = vw - 14.0 - safe.z
+	var width := maxf(right - left, 220.0)
+	mid.set_anchors_preset(Control.PRESET_TOP_LEFT); mid.position = Vector2(left, top); mid.size.x = width
+	mid.custom_minimum_size.x = width
+	hud_alert.custom_minimum_size.x = maxf(width - 90.0, 120.0)
+	if is_instance_valid(dock):
+		dock.offset_left = lp.get_global_rect().end.x + 10.0
+		dock.offset_right = -(vw - rp.get_global_rect().position.x) - 10.0
 
 ## Barre caméra : en conduite automatique, seuls « Quitter le mode auto » et « Caméra » restent ;
 ## en vue du dessus, boutons de zoom − / +.

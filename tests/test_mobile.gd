@@ -59,6 +59,14 @@ func _run() -> void:
 		var sig_panel := main.find_child("signal_panel", true, false) as Control
 		check(sig_panel != null and viewport.grow(1).encloses(sig_panel.get_global_rect()) and sig_panel.size.y >= 44.0, "%s : répétiteur de signalisation accessible (≥ 44 px)" % dimensions)
 		if sig_panel: check(not sig_panel.get_global_rect().intersects(rects.trip) and not sig_panel.get_global_rect().intersects(rects.btn_home) and not sig_panel.get_global_rect().intersects(rects.emergency), "%s : répétiteur sans chevauchement" % dimensions)
+		# Bandeau d'alertes long et barre d'outils : aucun chevauchement (retour joueur 0.13.1).
+		main.hud_alert.text = "RALENTIR : 55 km/h dans 33 m  ·  SURVITESSE  ·  COUPURE — MODE LAC"; main._alert_box.visible = true
+		for i in 3: await process_frame
+		var alert_rect: Rect2 = main._alert_box.get_global_rect()
+		check(not alert_rect.intersects(rects.trip) and (sig_panel == null or sig_panel.get_parent() != main or not alert_rect.intersects(sig_panel.get_global_rect())), "%s : alertes sans chevauchement du trajet ni du répétiteur" % dimensions)
+		var dock_rect: Rect2 = (main.find_child("dock", true, false) as Control).get_global_rect()
+		check(not dock_rect.intersects(rects.emergency) and not dock_rect.intersects(rects.lever), "%s : barre d'outils sans chevauchement du manipulateur ni de l'urgence" % dimensions)
+		main._alert_box.visible = false
 		main._set_autopilot(true); main._camera(); main._camera()
 		for i in 3: await process_frame
 		for n in ["quit_auto", "auto_camera", "zoom_in", "zoom_out"]:
