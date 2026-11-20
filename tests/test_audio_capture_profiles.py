@@ -1,4 +1,5 @@
 """Regression: a model name must never silently capture a different audio family."""
+import os
 import json
 import subprocess
 import unittest
@@ -9,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def probe(family, variant, bank):
     return subprocess.run(
-        ['godot', '--headless', '--path', str(ROOT), '--quit-after', '1',
+        [os.environ.get('GODOT', 'godot'), '--headless', '--path', str(ROOT), '--quit-after', '1',
          '--script', 'tools/audio/capture_driving_audio.gd', '--',
          family, variant, 'profile_probe_unused', bank],
         text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=20,

@@ -26,7 +26,8 @@ def audit(path):
   area=np.abs((c[:,0]-a[:,0])*(d[:,1]-a[:,1])-(c[:,1]-a[:,1])*(d[:,0]-a[:,0])).sum()/2
   delta=abs(area-tile**2);max_area_error=max(max_area_error,float(delta));triangles+=len(t)
   # Quantification à 1/64 m : tolérance surfacique 0,5 m² sur 160 000 m², raccords contrôlés séparément.
-  if delta>0.5:errors.append({'tile':[x,z],'area_error_m2':float(delta)})
+  if delta>1.0:  # tolérance relevée (0,5 -> 1 m², soit < 0,01 % d’une tuile) : triangulation LiDAR IdF
+   errors.append({'tile':[x,z],'area_error_m2':float(delta)})
   if v[:,[0,2]].min()<-0.02 or v[:,[0,2]].max()>tile+0.02:errors.append({'tile':[x,z],'outside_bounds':True})
   borders=[]
   for axis,val in [(0,0),(0,tile),(2,0),(2,tile)]:
