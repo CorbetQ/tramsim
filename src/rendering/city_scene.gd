@@ -1145,34 +1145,73 @@ func _fit_decks_to_tracks() -> void:
 			d[2] = rs; touched = true
 	if touched: _index_decks()
 	_enforce_gauge()
+	_cut_conflicts()
+
+## Dernier recours : segment de tablier qui reste dans le gabarit d'une voie (voie passant sous un tablier fusionné
+## trop large, ou à la fois portée et franchie) retiré, le tablier étant scindé de part et d'autre (même règle que
+## tests/test_clearance.gd : dessus à plus de 0,25 m au-dessus du rail et sous-face sous le gabarit).
+func _cut_conflicts() -> void:
+	var bad := {}   # tablier -> {segment: true}
+	for q in _gauge_pts:
+		var c := Vector2(q.x, q.z)
+		for it in _deck_cells.get(Vector2i(floori(c.x / 32.0), floori(c.y / 32.0)), []):
+			var d: Array = _decks[it[0]]
+			var pl: PackedVector3Array = d[2]
+			var m: int = it[1]
+			var a := Vector2(pl[m].x, pl[m].z); var b := Vector2(pl[m + 1].x, pl[m + 1].z)
+			var t := clampf((c - a).dot(b - a) / maxf((b - a).length_squared(), 1e-4), 0.0, 1.0)
+			if (a + (b - a) * t).distance_to(c) > float(d[1]) * 0.5 + 3.4: continue   # voie à ± 1,75 m de l'axe + demi-caisse
+			var y := lerpf(pl[m].y, pl[m + 1].y, t)
+			if y > q.y + 0.22 and y - 1.1 < q.y + GAUGE_H + 0.05:
+				if not bad.has(it[0]): bad[it[0]] = {}
+				bad[it[0]][m] = true
+	if bad.is_empty(): return
+	var out: Array = []
+	for di in _decks.size():
+		var d: Array = _decks[di]
+		if not bad.has(di): out.append(d); continue
+		var pl: PackedVector3Array = d[2]
+		var piece := PackedVector3Array()
+		for m in pl.size():
+			piece.append(pl[m])
+			if m < pl.size() - 1 and bad[di].has(m):
+				if piece.size() >= 2: out.append([d[0], d[1], piece, d[3]])
+				piece = PackedVector3Array()
+		if piece.size() >= 2: out.append([d[0], d[1], piece, d[3]])
+	_decks.clear(); _decks.append_array(out)   # même tableau (partagé avec le constructeur de tuiles LOD)
+	_index_decks()
 
 ## Dernier contrôle, point de voie par point de voie (mêmes règles que tests/test_clearance.gd) : un segment de
 ## tablier encore dans le gabarit est abaissé au rail (moins de 2,5 m au-dessus) ou relevé au-dessus du gabarit.
+var _gauge_pts := PackedVector3Array()   # voie tous les 2 m sous ou près des tabliers (repère ville), bind_network
+
 func _enforce_gauge() -> void:
+	var pts := _gauge_pts
+	if pts.is_empty():
+		for ck in _track_pts: pts.append_array(_track_pts[ck])
 	for it_ in 3:
-		for ck in _track_pts:
-			for q in _track_pts[ck]:
-				var c := Vector2(q.x, q.z)
-				for it in _deck_cells.get(Vector2i(floori(c.x / 32.0), floori(c.y / 32.0)), []):
-					var d: Array = _decks[it[0]]
-					var pl: PackedVector3Array = d[2]
-					var m: int = it[1]
-					var a := Vector2(pl[m].x, pl[m].z); var b := Vector2(pl[m + 1].x, pl[m + 1].z)
-					var t := (c - a).dot(b - a) / maxf((b - a).length_squared(), 1e-4)
-					# projection hors du segment (extérieur d'un coude, extrémité) : segment translaté au droit du sommet
-					var only := -1
-					if t < 0.0: only = m
-					elif t > 1.0: only = m + 1
-					t = clampf(t, 0.0, 1.0)
-					if (a + (b - a) * t).distance_to(c) > float(d[1]) * 0.5 + GAUGE_HW + 0.5: continue
-					var y := lerpf(pl[m].y, pl[m + 1].y, t)
-					if y <= q.y + 0.1 or y - 1.8 >= q.y + GAUGE_H: continue
-					# segment translé verticalement (pente conservée) : au droit de la voie, tablier au rail - 0,1 m ou
-					# au-dessus du gabarit
-					var shift: float = (q.y - 0.2 - y) if y - q.y < 2.5 else (q.y + GAUGE_H + 2.0 - y)
-					for e in ([only] if only >= 0 else [m, m + 1]):
-						pl[e].y = minf(pl[e].y, pl[e].y + shift) if shift < 0.0 else maxf(pl[e].y, pl[e].y + shift)
-					d[2] = pl
+		for q in pts:
+			var c := Vector2(q.x, q.z)
+			for it in _deck_cells.get(Vector2i(floori(c.x / 32.0), floori(c.y / 32.0)), []):
+				var d: Array = _decks[it[0]]
+				var pl: PackedVector3Array = d[2]
+				var m: int = it[1]
+				var a := Vector2(pl[m].x, pl[m].z); var b := Vector2(pl[m + 1].x, pl[m + 1].z)
+				var t := (c - a).dot(b - a) / maxf((b - a).length_squared(), 1e-4)
+				# projection hors du segment (extérieur d'un coude, extrémité) : segment translaté au droit du sommet
+				var only := -1
+				if t < 0.0: only = m
+				elif t > 1.0: only = m + 1
+				t = clampf(t, 0.0, 1.0)
+				if (a + (b - a) * t).distance_to(c) > float(d[1]) * 0.5 + GAUGE_HW + 0.5: continue
+				var y := lerpf(pl[m].y, pl[m + 1].y, t)
+				if y <= q.y + 0.02 or y - 1.8 >= q.y + GAUGE_H: continue
+				# segment translé verticalement (pente conservée) : au droit de la voie, tablier au rail - 0,1 m ou
+				# au-dessus du gabarit
+				var shift: float = (q.y - 0.1 - y) if y - q.y < 2.5 else (q.y + GAUGE_H + 2.0 - y)
+				for e in ([only] if only >= 0 else [m, m + 1]):
+					pl[e].y = minf(pl[e].y, pl[e].y + shift) if shift < 0.0 else maxf(pl[e].y, pl[e].y + shift)
+				d[2] = pl
 
 ## Sommet j d'un tablier face aux voies : Vector2(altitude si la voie est portée (parallèle), altitude minimale
 ## si le tablier la franchit dans le gabarit) ; NAN sinon. `merge` : premier passage, la voie parallèle proche
@@ -2260,6 +2299,7 @@ const CROWN_R := [2.6, 2.3, 1.9, 3.4, 3.0, 1.1, 3.6, 1.4, 0.5, 0.5]
 ## ni de bâtiment dessus), profil 3D des voies (eau, tabliers et piles hors gabarit). Utilisé par LineView et par
 ## tests/test_clearance.gd (même état que le jeu).
 func bind_network(net: NetworkLoader) -> void:
+	_gauge_pts = PackedVector3Array()
 	var polys: Array = []
 	var cor_p := PackedVector3Array(); var cor_d := PackedVector2Array()
 	var prof := PackedVector3Array()
@@ -2291,6 +2331,12 @@ func bind_network(net: NetworkLoader) -> void:
 			var side := Vector2(-q.dir.y, q.dir.x) * 1.75
 			var top := maxf(height_at(Vector3(q.p.x, 0, q.p.y)), maxf(height_at(Vector3(q.p.x + side.x, 0, q.p.y + side.y)), height_at(Vector3(q.p.x - side.x, 0, q.p.y - side.y))))
 			buried.append(not NetworkLoader.in_spans(info.tunnel, L * i / n) and top > q.y + 0.3)
+		# voie dense (2 m) près des tabliers : contrôle du gabarit au pas de tests/test_clearance.gd
+		var n2 := maxi(1, ceili(L / 2.0))
+		for i in n2 + 1:
+			var q3 := net.point_on(id, L * i / n2)
+			var cc := Vector2((q3.p.x - position.x) / _x_scale, q3.p.y - position.z)
+			if _deck_cells.has(Vector2i(floori(cc.x / 32.0), floori(cc.y / 32.0))): _gauge_pts.append(Vector3(cc.x, q3.y, cc.y))
 		for i in buried.size():
 			if buried[i]: add_portal_cut(axis[maxi(i - 1, 0)], axis[mini(i + 1, axis.size() - 1)], 3.6)
 		# axe au sol (hors ponts et tunnels) : corridors du relief lointain

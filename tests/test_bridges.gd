@@ -2,7 +2,7 @@ extends SceneTree
 ## Ouvrages d'art cohérents (tablier unique par pont, tools/import/bridges.py), même état que le jeu en mode libre
 ## (réseau physique, tram-trains compris ; CityScene.bind_network : tabliers calés sur les voies) :
 ## 1. voies portées : sur les tronçons de pont des voies, un tablier présent sous la voie est à moins de
-##    DECK_TOL m du profil (rail - 0,1 m) ;
+##    DECK_TOL m de la voie portée la plus basse au droit du point (rail - 0,1 m), jamais au-dessus du rail ;
 ## 2. rampes continues : pas de marche (dénivelé entre sommets > rampe de 10 % + STEP_MAX m),
 ##    cassure d'axe <= ANGLE_MAX° par tranche de 5 m, extrémités raccordées au sol (au plus STEP_MAX m au-dessus du
 ##    sol affiché) sauf raccord à un autre tablier ou à une voie portée ;
@@ -11,7 +11,7 @@ extends SceneTree
 ## Chaque critère est compté ; la ville échoue si une part dépasse MAX_SHARE (tolérance pour les défauts des données
 ## sources, voir la sortie détaillée ; état avant tools/import/bridges.py à Nantes : 133 segments non fusionnés,
 ## 107 marches pour 80 tabliers).
-## 4. aucun tablier à plus de HIGH_MAX m au-dessus du sol affiché (altitude aberrante).
+## 4. aucun sommet de tablier à plus de HIGH_MAX m au-dessus du sol et de HIGH_MAX/2 au-dessus des culées.
 ## Args optionnels : -- <villes séparées par des virgules>
 const DECK_TOL := 0.3
 const STEP_MAX := 0.2
@@ -83,8 +83,11 @@ func _city(c: String, src: String, net: NetworkLoader) -> void:
 				if turn > ANGLE_MAX * maxf(1.0, (u.length() + v.length()) * 0.5 / 5.0):
 					bad.axe += 1
 					if shown < 12: shown += 1; print("  %s tablier %d sommet %d : cassure d'axe %.1f°" % [c, di, i, turn])
-		for p in pl:   # aucun tablier à plus de HIGH_MAX m au-dessus du sol (altitude aberrante)
-			if p.y - city.height_city(p.x, p.z) > HIGH_MAX:
+		# altitude aberrante : sommet à plus de HIGH_MAX m au-dessus du sol ET des culées (les viaducs de vallée ou
+		# de rade, ex. Brest, restent au niveau de leurs culées ; une bosse isolée non)
+		var ends := maxf(maxf(pl[0].y, pl[pl.size() - 1].y), maxf(city.height_city(pl[0].x, pl[0].z), city.height_city(pl[pl.size() - 1].x, pl[pl.size() - 1].z)))
+		for p in pl:
+			if p.y - city.height_city(p.x, p.z) > HIGH_MAX and p.y - ends > HIGH_MAX * 0.5:
 				bad.haut += 1
 				if shown < 20: shown += 1; print("  %s tablier %d : %.0f m au-dessus du sol en (%.0f, %.0f)" % [c, di, p.y - city.height_city(p.x, p.z), p.x, p.z])
 				break
@@ -123,7 +126,16 @@ func _carrying_deck(city: CityScene, p: Vector2, dir: Vector2, rail: float) -> f
 		if t < -0.01 or t > 1.01 or (a + (b - a) * t).distance_to(p) > float(d[1]) * 0.5: continue
 		t = clampf(t, 0.0, 1.0)
 		var y := lerpf(pl[it[1]].y, pl[it[1] + 1].y, t)
-		var dy := y - (rail - 0.1)
+		# référence : voie portée la plus basse au droit du point (réseau physique : les deux sens peuvent différer de
+		# quelques décimètres ; le tablier unique se cale sur la plus basse, gabarit oblige, la plus haute garde sa dalle)
+		var ref := rail
+		var dirs := []
+		var near := city._tracks_near(p, float(d[1]) * 0.5 + 2.0, dirs)
+		for k in near.size():
+			var rel := Vector2(near[k].x, near[k].z) - p
+			if absf(rel.dot(dir)) < 3.0 and absf((dirs[k] as Vector2).dot(dir)) > 0.9 and absf(near[k].y - rail) < 1.0: ref = minf(ref, near[k].y)
+		var dy := y - (ref - 0.1)
+		if y > rail - 0.1 + DECK_TOL: dy = y - (rail - 0.1)   # jamais au-dessus du rail
 		if dy < -2.0 or dy > 2.0: continue
 		if is_nan(best) or absf(dy) < absf(best): best = dy
 	return best
