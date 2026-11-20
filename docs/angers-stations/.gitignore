@@ -1,0 +1,3 @@
+# Keep original lossless captures locally; publish compact WebP views and the gallery.
+**/*.png
+**/*.import

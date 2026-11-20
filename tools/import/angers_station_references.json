@@ -1,0 +1,4346 @@
+{
+  "accessed": "2026-11-14",
+  "stations": {
+    "Acacias": {
+      "street": [
+        {
+          "id": "8cf07148-2fb8-42ea-87ec-05b5b21570c6",
+          "page": "https://panoramax.xyz/#pic=8cf07148-2fb8-42ea-87ec-05b5b21570c6",
+          "date": "2026-04-18T09:21:40.517114+00:00",
+          "distance_m": 73.4,
+          "position": [
+            -0.58696636,
+            47.50317335
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3264,
+              1542
+            ]
+          },
+          "azimuth": 18
+        },
+        {
+          "id": "5b2e0029-9e1e-4f0f-b182-269e8ffa99c6",
+          "page": "https://panoramax.xyz/#pic=5b2e0029-9e1e-4f0f-b182-269e8ffa99c6",
+          "date": "2026-08-16T09:54:41.011882+00:00",
+          "distance_m": 149.4,
+          "position": [
+            -0.58770405,
+            47.50270392
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              1660,
+              3264
+            ]
+          },
+          "azimuth": 77
+        },
+        {
+          "id": "fe9880f7-78af-4b65-97ba-87afa287a949",
+          "page": "https://panoramax.xyz/#pic=fe9880f7-78af-4b65-97ba-87afa287a949",
+          "date": "2026-08-16T09:38:14.323805+00:00",
+          "distance_m": 78.8,
+          "position": [
+            -0.58724569,
+            47.5033376
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              1660,
+              3264
+            ]
+          },
+          "azimuth": 203
+        },
+        {
+          "id": "d995ca5f-d36a-4eb9-8865-64482abb6e49",
+          "page": "https://panoramax.xyz/#pic=d995ca5f-d36a-4eb9-8865-64482abb6e49",
+          "date": "2026-08-16T09:44:25.791098+00:00",
+          "distance_m": 167.6,
+          "position": [
+            -0.5882741,
+            47.50294372
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3264,
+              1542
+            ]
+          },
+          "azimuth": 47
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-65394.22326484459%2C6024550.376107897%2C-65142.57386305339%2C6024802.025509688&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.503666,
+            -0.586316
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-65534.85087172792%2C6024409.748501013%2C-65001.946256170064%2C6024942.653116572&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.503666,
+            -0.586316
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Allonneau-Dunant": {
+      "street": [
+        {
+          "id": "196cba47-0420-4071-b854-38370c2243d1",
+          "page": "https://panoramax.xyz/#pic=196cba47-0420-4071-b854-38370c2243d1",
+          "date": "2026-05-08T15:19:43.743000+00:00",
+          "distance_m": 11.6,
+          "position": [
+            -0.5266813,
+            47.4838915
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 357
+        },
+        {
+          "id": "05cd1370-f46f-4f5b-bb89-05a4111d4046",
+          "page": "https://panoramax.xyz/#pic=05cd1370-f46f-4f5b-bb89-05a4111d4046",
+          "date": "2026-05-08T15:19:41.743000+00:00",
+          "distance_m": 16.7,
+          "position": [
+            -0.5266658,
+            47.4837429
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 356
+        },
+        {
+          "id": "4d5e9e77-c4de-4839-9ad2-4a3d08725654",
+          "page": "https://panoramax.xyz/#pic=4d5e9e77-c4de-4839-9ad2-4a3d08725654",
+          "date": "2026-05-08T15:19:45.743000+00:00",
+          "distance_m": 25.0,
+          "position": [
+            -0.5266995,
+            47.4840578
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 356
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-58771.44532552108%2C6021285.49151305%2C-58519.89087084845%2C6021537.045967723&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.483849,
+            -0.526823
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-58912.01987372049%2C6021144.916964851%2C-58379.31632264904%2C6021677.620515922&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.483849,
+            -0.526823
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Avrillé-Ardenne": {
+      "street": [
+        {
+          "id": "232b7a5c-2d79-4046-a4f6-c3c00656558c",
+          "page": "https://panoramax.xyz/#pic=232b7a5c-2d79-4046-a4f6-c3c00656558c",
+          "date": "2026-11-10T14:41:29.565114+00:00",
+          "distance_m": 45.9,
+          "position": [
+            -0.59539022,
+            47.51134337
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3264,
+              1508
+            ]
+          },
+          "azimuth": 311
+        },
+        {
+          "id": "b876dd1d-0e16-4d3c-8a76-7ea7de9fcf61",
+          "page": "https://panoramax.xyz/#pic=b876dd1d-0e16-4d3c-8a76-7ea7de9fcf61",
+          "date": "2026-11-10T14:41:54.744949+00:00",
+          "distance_m": 53.7,
+          "position": [
+            -0.59524544,
+            47.51143413
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3264,
+              1508
+            ]
+          },
+          "azimuth": 299
+        },
+        {
+          "id": "6d06e05f-d96e-4253-ab21-4fc543f2f1b3",
+          "page": "https://panoramax.xyz/#pic=6d06e05f-d96e-4253-ab21-4fc543f2f1b3",
+          "date": "2026-11-10T14:42:12.183402+00:00",
+          "distance_m": 61.3,
+          "position": [
+            -0.59514061,
+            47.51155746
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3264,
+              1508
+            ]
+          },
+          "azimuth": 304
+        },
+        {
+          "id": "294deffe-e019-48c7-bc23-3c190aa7d75d",
+          "page": "https://panoramax.xyz/#pic=294deffe-e019-48c7-bc23-3c190aa7d75d",
+          "date": "2026-11-10T14:42:30.047948+00:00",
+          "distance_m": 73.4,
+          "position": [
+            -0.59501124,
+            47.51167959
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3264,
+              1508
+            ]
+          },
+          "azimuth": 301
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-66467.02798836127%2C6025842.040117261%2C-66215.34100508627%2C6026093.727100535&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.511504,
+            -0.595953
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-66607.676596662%2C6025701.39150896%2C-66074.69239678554%2C6026234.375708836&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.511504,
+            -0.595953
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Bamako": {
+      "street": [
+        {
+          "id": "43e34ca8-1aff-4e29-936f-c76269f55227",
+          "page": "https://panoramax.xyz/#pic=43e34ca8-1aff-4e29-936f-c76269f55227",
+          "date": "2026-03-07T16:08:16.296806+00:00",
+          "distance_m": 43.9,
+          "position": [
+            -0.55662023,
+            47.45174514
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 24
+        },
+        {
+          "id": "c1bd258a-64b8-40ee-b027-57380be9c282",
+          "page": "https://panoramax.xyz/#pic=c1bd258a-64b8-40ee-b027-57380be9c282",
+          "date": "2026-03-07T16:08:13.540805+00:00",
+          "distance_m": 77.8,
+          "position": [
+            -0.55687313,
+            47.45148658
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 24
+        },
+        {
+          "id": "2498bc31-2c61-4aff-a7ba-ee471f8f8124",
+          "page": "https://panoramax.xyz/#pic=2498bc31-2c61-4aff-a7ba-ee471f8f8124",
+          "date": "2026-04-30T11:20:25.099028+00:00",
+          "distance_m": 114.3,
+          "position": [
+            -0.5579042,
+            47.45185469
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 319
+        },
+        {
+          "id": "25e29551-f384-4485-9604-2b4b7b3f4bf3",
+          "page": "https://panoramax.xyz/#pic=25e29551-f384-4485-9604-2b4b7b3f4bf3",
+          "date": "2026-03-07T16:08:39.352715+00:00",
+          "distance_m": 87.1,
+          "position": [
+            -0.55562778,
+            47.45268239
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 18
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62067.762182818995%2C6016060.648135358%2C-61816.35953629137%2C6016312.050781886&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.45212,
+            -0.556435
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62208.25189705502%2C6015920.158421122%2C-61675.86982205534%2C6016452.540496122&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.45212,
+            -0.556435
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Bascule": {
+      "street": [
+        {
+          "page": "https://commons.wikimedia.org/wiki/File:0,44_Bascule_Citadis_n°1007_(tram_Angers)_par_Cramos.JPG",
+          "date": "2012",
+          "author": "Cramos",
+          "license": "See Commons file page",
+          "note": "Only one station-specific street photo available; municipal furniture detail is a shared reference"
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-65973.65337067783%2C6025386.030043097%2C-65721.97965637811%2C6025637.703757398&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.508737,
+            -0.591521
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-66114.29456396298%2C6025245.388849813%2C-65581.33846309296%2C6025778.3449506825&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.508737,
+            -0.591521
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Beaussier": {
+      "street": [
+        {
+          "id": "6b3d6b28-4506-4704-b3af-2597dcbc0c97",
+          "page": "https://panoramax.xyz/#pic=6b3d6b28-4506-4704-b3af-2597dcbc0c97",
+          "date": "2025-08-09T18:30:34.081404+00:00",
+          "distance_m": 65.8,
+          "position": [
+            -0.599438237,
+            47.477033274
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 104
+        },
+        {
+          "id": "3c92d2c6-6f82-44fa-a543-d63062319844",
+          "page": "https://panoramax.xyz/#pic=3c92d2c6-6f82-44fa-a543-d63062319844",
+          "date": "2025-08-09T18:29:21.047670+00:00",
+          "distance_m": 80.2,
+          "position": [
+            -0.59975267,
+            47.47708909
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 76
+        },
+        {
+          "id": "e8db7b52-96ad-4c66-beaa-373edfb60e62",
+          "page": "https://panoramax.xyz/#pic=e8db7b52-96ad-4c66-beaa-373edfb60e62",
+          "date": "2026-04-20T10:25:02.004907+00:00",
+          "distance_m": 74.9,
+          "position": [
+            -0.59846783,
+            47.47688438
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3264,
+              1542
+            ]
+          },
+          "azimuth": 126
+        },
+        {
+          "id": "f280c3d7-f8b5-487b-947e-3cc120082469",
+          "page": "https://panoramax.xyz/#pic=f280c3d7-f8b5-487b-947e-3cc120082469",
+          "date": "2025-08-09T18:31:43.881586+00:00",
+          "distance_m": 112.1,
+          "position": [
+            -0.597797896,
+            47.47672118
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 172
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-66832.62855608178%2C6020067.96228532%2C-66581.10949187756%2C6020319.481349525&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.476457,
+            -0.599238
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-66973.18332725472%2C6019927.407514147%2C-66440.55472070462%2C6020460.036120698&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.476457,
+            -0.599238
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Belle-Beille Campus": {
+      "street": [
+        {
+          "id": "dfc0a25a-4742-43ef-b87b-3480fe811dd6",
+          "page": "https://panoramax.xyz/#pic=dfc0a25a-4742-43ef-b87b-3480fe811dd6",
+          "date": "2025-08-09T18:28:20.104030+00:00",
+          "distance_m": 75.7,
+          "position": [
+            -0.60415084,
+            47.47808244
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 104
+        },
+        {
+          "id": "e2e257dd-1339-4f5b-abdb-18f6417c3833",
+          "page": "https://panoramax.xyz/#pic=e2e257dd-1339-4f5b-abdb-18f6417c3833",
+          "date": "2025-08-09T18:28:42.370150+00:00",
+          "distance_m": 49.8,
+          "position": [
+            -0.60256493,
+            47.47774507
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 73
+        },
+        {
+          "id": "c86c1962-69d3-42a6-983c-2877b38b9bb6",
+          "page": "https://panoramax.xyz/#pic=c86c1962-69d3-42a6-983c-2877b38b9bb6",
+          "date": "2025-08-09T18:28:49.570757+00:00",
+          "distance_m": 89.3,
+          "position": [
+            -0.60206534,
+            47.47763145
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 108
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-67270.22899755248%2C6020310.40033426%2C-67018.70288702357%2C6020561.926444788&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.477929,
+            -0.603169
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-67410.78770637745%2C6020169.841625435%2C-66878.14417819859%2C6020702.485153614&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.477929,
+            -0.603169
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Berges de Maine": {
+      "street": [
+        {
+          "id": "a442f445-4edd-467a-8c9b-380da745b448",
+          "page": "https://panoramax.xyz/#pic=a442f445-4edd-467a-8c9b-380da745b448",
+          "date": "2026-04-19T11:29:06+00:00",
+          "distance_m": 9.6,
+          "position": [
+            -0.5494769,
+            47.4793368
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 32
+        },
+        {
+          "id": "4ac5bcdd-de7d-4cfa-ae24-b4afb239005f",
+          "page": "https://panoramax.xyz/#pic=4ac5bcdd-de7d-4cfa-ae24-b4afb239005f",
+          "date": "2026-04-19T11:29:02+00:00",
+          "distance_m": 24.1,
+          "position": [
+            -0.5491928,
+            47.4792189
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 32
+        },
+        {
+          "id": "8a2fd34d-6e93-4a03-a1d4-df06a97e81f3",
+          "page": "https://panoramax.xyz/#pic=8a2fd34d-6e93-4a03-a1d4-df06a97e81f3",
+          "date": "2026-04-19T11:29:09+00:00",
+          "distance_m": 30.2,
+          "position": [
+            -0.5497704,
+            47.4794621
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 32
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61282.57973345048%2C6020551.69222841%2C-61031.04660954838%2C6020803.225352313&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.479394,
+            -0.549381
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61423.14236151341%2C6020411.129600348%2C-60890.48398148545%2C6020943.787980376&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.479394,
+            -0.549381
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Bois du Roy": {
+      "street": [
+        {
+          "id": "fbc6f855-5afd-4680-8574-ace27a0a7396",
+          "page": "https://panoramax.xyz/#pic=fbc6f855-5afd-4680-8574-ace27a0a7396",
+          "date": "2026-05-08T13:23:25.746000+00:00",
+          "distance_m": 8.6,
+          "position": [
+            -0.5830068,
+            47.4996712
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 332
+        },
+        {
+          "id": "83b7b1e6-4fad-4a37-a2e5-b0854bddd473",
+          "page": "https://panoramax.xyz/#pic=83b7b1e6-4fad-4a37-a2e5-b0854bddd473",
+          "date": "2026-05-08T13:23:22.746000+00:00",
+          "distance_m": 20.9,
+          "position": [
+            -0.5828828,
+            47.499511
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 332
+        },
+        {
+          "id": "93fe5d68-c73c-4bdf-ae9d-b45cd8b7a44c",
+          "page": "https://panoramax.xyz/#pic=93fe5d68-c73c-4bdf-ae9d-b45cd8b7a44c",
+          "date": "2026-05-08T13:23:28.746000+00:00",
+          "distance_m": 24.9,
+          "position": [
+            -0.5831429,
+            47.4998494
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 333
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-65036.3214219964%2C6023884.843985143%2C-64784.69138010082%2C6024136.474027039&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.499627,
+            -0.583101
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-65176.93821011452%2C6023744.227197025%2C-64644.0745919827%2C6024277.090815157&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.499627,
+            -0.583101
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Brisepotière": {
+      "street": [
+        {
+          "id": "5d5e6825-cb1f-484e-8e48-38dbb35b32fb",
+          "page": "https://panoramax.xyz/#pic=5d5e6825-cb1f-484e-8e48-38dbb35b32fb",
+          "date": "2026-05-08T15:17:04.744000+00:00",
+          "distance_m": 5.3,
+          "position": [
+            -0.5281813,
+            47.4784927
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 356
+        },
+        {
+          "id": "1b5e58a9-1456-462c-a3da-29dd90729e08",
+          "page": "https://panoramax.xyz/#pic=1b5e58a9-1456-462c-a3da-29dd90729e08",
+          "date": "2026-05-08T15:17:07.744000+00:00",
+          "distance_m": 15.5,
+          "position": [
+            -0.5282049,
+            47.4786577
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 353
+        },
+        {
+          "id": "bedb1ad3-d35a-4f2d-820b-e7588d69cd05",
+          "page": "https://panoramax.xyz/#pic=bedb1ad3-d35a-4f2d-820b-e7588d69cd05",
+          "date": "2026-05-08T15:17:02.744000+00:00",
+          "distance_m": 19.7,
+          "position": [
+            -0.5281509,
+            47.4783535
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 349
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-58929.06096702192%2C6020407.739804161%2C-58677.532027274174%2C6020659.268743909&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.47852,
+            -0.528239
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-59069.621256880964%2C6020267.179514302%2C-58536.97173741513%2C6020799.829033768&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.47852,
+            -0.528239
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "CHU-Hôpital": {
+      "street": [
+        {
+          "id": "8ce9b530-ded0-4131-b661-2b8f9f462d8d",
+          "page": "https://panoramax.xyz/#pic=8ce9b530-ded0-4131-b661-2b8f9f462d8d",
+          "date": "2026-06-20T15:19:13.250000+00:00",
+          "distance_m": 6.5,
+          "position": [
+            -0.5542069,
+            47.4813467
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 204
+        },
+        {
+          "id": "0fa7490d-8f45-4040-a499-58f03c220afb",
+          "page": "https://panoramax.xyz/#pic=0fa7490d-8f45-4040-a499-58f03c220afb",
+          "date": "2026-06-20T15:20:22.249000+00:00",
+          "distance_m": 16.0,
+          "position": [
+            -0.5539379,
+            47.4812573
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 25
+        },
+        {
+          "id": "000d2aea-b834-488d-bcba-790449aa8fee",
+          "page": "https://panoramax.xyz/#pic=000d2aea-b834-488d-bcba-790449aa8fee",
+          "date": "2026-06-20T15:19:16.250000+00:00",
+          "distance_m": 17.3,
+          "position": [
+            -0.5542951,
+            47.4812182
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 204
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61810.90665690988%2C6020869.581922369%2C-61559.36429269875%2C6021121.124286581&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.481324,
+            -0.554127
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61951.47444867492%2C6020729.014130604%2C-61418.79650093371%2C6021261.692078345&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.481324,
+            -0.554127
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Capucins": {
+      "street": [
+        {
+          "id": "37b6a003-a3c3-478d-923e-5d95dd6bb81e",
+          "page": "https://panoramax.xyz/#pic=37b6a003-a3c3-478d-923e-5d95dd6bb81e",
+          "date": "2026-06-20T15:12:26.252000+00:00",
+          "distance_m": 7.0,
+          "position": [
+            -0.5551302,
+            47.4867951
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 31
+        },
+        {
+          "id": "a6ee72b4-4ccf-4b1c-b2d8-3882841582aa",
+          "page": "https://panoramax.xyz/#pic=a6ee72b4-4ccf-4b1c-b2d8-3882841582aa",
+          "date": "2026-06-20T12:34:25.755000+00:00",
+          "distance_m": 17.0,
+          "position": [
+            -0.5550188,
+            47.4869081
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 31
+        },
+        {
+          "id": "b2b618fd-aac7-4e2a-991a-81a266147794",
+          "page": "https://panoramax.xyz/#pic=b2b618fd-aac7-4e2a-991a-81a266147794",
+          "date": "2026-06-20T12:32:56.256000+00:00",
+          "distance_m": 19.7,
+          "position": [
+            -0.5553016,
+            47.4866606
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 315
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61931.478841511685%2C6021776.043447956%2C-61679.910125155155%2C6022027.612164313&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.486827,
+            -0.55521
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62072.06135947563%2C6021635.460929993%2C-61539.32760719121%2C6022168.194682277&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.486827,
+            -0.55521
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Centre de Congrès": {
+      "street": [
+        {
+          "id": "a68a2aca-96c6-4005-80fb-eb6cda641e03",
+          "page": "https://panoramax.xyz/#pic=a68a2aca-96c6-4005-80fb-eb6cda641e03",
+          "date": "2026-10-02T16:13:29.739000+00:00",
+          "distance_m": 2.3,
+          "position": [
+            -0.5460991,
+            47.4742367
+          ],
+          "author": "atchisson",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 308
+        },
+        {
+          "id": "cdcddbfa-381d-42c8-8ad4-2de51070f0c3",
+          "page": "https://panoramax.xyz/#pic=cdcddbfa-381d-42c8-8ad4-2de51070f0c3",
+          "date": "2026-05-08T16:10:46.257000+00:00",
+          "distance_m": 16.7,
+          "position": [
+            -0.5462524,
+            47.4743349
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 309
+        },
+        {
+          "id": "e7d34881-ab81-4f37-bf00-e2d6f69e3d44",
+          "page": "https://panoramax.xyz/#pic=e7d34881-ab81-4f37-bf00-e2d6f69e3d44",
+          "date": "2026-10-02T16:13:20.740000+00:00",
+          "distance_m": 18.7,
+          "position": [
+            -0.5458897,
+            47.4741428
+          ],
+          "author": "atchisson",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 301
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-60918.77524928617%2C6019699.212540503%2C-60667.266901887844%2C6019950.7208879&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.474218,
+            -0.546113
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61059.32403165582%2C6019558.663758133%2C-60526.71811951819%2C6020091.26967027&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.474218,
+            -0.546113
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Conservatoire": {
+      "street": [
+        {
+          "id": "1c8612ee-172a-42cc-8ba6-3eed761d6618",
+          "page": "https://panoramax.xyz/#pic=1c8612ee-172a-42cc-8ba6-3eed761d6618",
+          "date": "2026-05-08T14:01:47.732000+00:00",
+          "distance_m": 3.9,
+          "position": [
+            -0.538141,
+            47.4714466
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 109
+        },
+        {
+          "id": "5aae32bf-a56b-4ffc-a859-ae4819adf4f7",
+          "page": "https://panoramax.xyz/#pic=5aae32bf-a56b-4ffc-a859-ae4819adf4f7",
+          "date": "2026-10-02T16:10:12.738000+00:00",
+          "distance_m": 17.4,
+          "position": [
+            -0.5383209,
+            47.4715486
+          ],
+          "author": "atchisson",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 308
+        },
+        {
+          "id": "7d6b9250-4814-42f0-bca4-3134be111164",
+          "page": "https://panoramax.xyz/#pic=7d6b9250-4814-42f0-bca4-3134be111164",
+          "date": "2026-05-08T14:01:56.732000+00:00",
+          "distance_m": 19.8,
+          "position": [
+            -0.537932,
+            47.4713635
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 107
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-60035.67104309692%2C6019239.079690481%2C-59784.17606715102%2C6019490.574666426&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.471424,
+            -0.53818
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-60176.21235318434%2C6019098.538380393%2C-59643.6347570636%2C6019631.115976513&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.471424,
+            -0.53818
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Deux-Croix": {
+      "street": [
+        {
+          "id": "c663f1a4-8d56-4de9-9f50-aeb730554058",
+          "page": "https://panoramax.xyz/#pic=c663f1a4-8d56-4de9-9f50-aeb730554058",
+          "date": "2026-05-08T15:16:11.744000+00:00",
+          "distance_m": 7.7,
+          "position": [
+            -0.5288587,
+            47.47512
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 32
+        },
+        {
+          "id": "ddb6f8a0-0ccd-469e-bc75-a1129057e8c5",
+          "page": "https://panoramax.xyz/#pic=ddb6f8a0-0ccd-469e-bc75-a1129057e8c5",
+          "date": "2026-05-08T15:16:09.744000+00:00",
+          "distance_m": 17.8,
+          "position": [
+            -0.528949,
+            47.4749652
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 34
+        },
+        {
+          "id": "09d6f016-ce9e-46b3-aeff-9017c4f12b30",
+          "page": "https://panoramax.xyz/#pic=09d6f016-ce9e-46b3-aeff-9017c4f12b30",
+          "date": "2026-05-08T15:16:13.244000+00:00",
+          "distance_m": 19.1,
+          "position": [
+            -0.528785,
+            47.4752492
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 32
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-59009.42551376559%2C6019848.588056212%2C-58757.91282523599%2C6020100.100744741&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.475125,
+            -0.528961
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-59149.97672206155%2C6019708.0368479155%2C-58617.361616940034%2C6020240.651953038&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.475125,
+            -0.528961
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Doutre-Maine": {
+      "street": [
+        {
+          "id": "836dd502-ae3d-48f7-9ebb-3d1328447e90",
+          "page": "https://panoramax.xyz/#pic=836dd502-ae3d-48f7-9ebb-3d1328447e90",
+          "date": "2026-06-20T13:50:31.249000+00:00",
+          "distance_m": 5.7,
+          "position": [
+            -0.5606771,
+            47.4740811
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 46
+        },
+        {
+          "id": "1bb838c3-d65f-4571-ba59-4b82f38cd3c5",
+          "page": "https://panoramax.xyz/#pic=1bb838c3-d65f-4571-ba59-4b82f38cd3c5",
+          "date": "2026-06-20T13:51:08.249000+00:00",
+          "distance_m": 17.8,
+          "position": [
+            -0.5604984,
+            47.4741936
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 46
+        },
+        {
+          "id": "7f744261-4253-4f35-b00a-44e50ea0479a",
+          "page": "https://panoramax.xyz/#pic=7f744261-4253-4f35-b00a-44e50ea0479a",
+          "date": "2026-06-20T13:50:28.249000+00:00",
+          "distance_m": 18.7,
+          "position": [
+            -0.5608332,
+            47.4739789
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 46
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62544.03959470629%2C6019684.061033531%2C-62292.53168763133%2C6019935.568940607&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.474126,
+            -0.560713
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62684.58813101288%2C6019543.512497225%2C-62151.98315132474%2C6020076.117476913&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.474126,
+            -0.560713
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Europe": {
+      "street": [
+        {
+          "id": "0e065848-3aa0-4594-961d-be6bbe1f36fe",
+          "page": "https://panoramax.xyz/#pic=0e065848-3aa0-4594-961d-be6bbe1f36fe",
+          "date": "2026-06-14T13:33:27.237000+00:00",
+          "distance_m": 47.7,
+          "position": [
+            -0.5272282,
+            47.4862235
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 120
+        },
+        {
+          "id": "ef6828bd-1aa7-47d1-8d40-158ae3cc2074",
+          "page": "https://panoramax.xyz/#pic=ef6828bd-1aa7-47d1-8d40-158ae3cc2074",
+          "date": "2026-06-14T13:33:22.237000+00:00",
+          "distance_m": 54.0,
+          "position": [
+            -0.5274594,
+            47.4862211
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 93
+        },
+        {
+          "id": "fbde1a69-b116-4e7e-aa82-48964b030184",
+          "page": "https://panoramax.xyz/#pic=fbde1a69-b116-4e7e-aa82-48964b030184",
+          "date": "2026-06-14T13:33:31.237000+00:00",
+          "distance_m": 61.7,
+          "position": [
+            -0.5271229,
+            47.48609
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 181
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-58803.28939489668%2C6021746.062645991%2C-58551.72155020661%2C6021997.630490682&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.486645,
+            -0.527109
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-58943.871425752906%2C6021605.480615135%2C-58411.139519350385%2C6022138.212521538&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.486645,
+            -0.527109
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Farcy": {
+      "street": [
+        {
+          "id": "9a50c0da-7390-4d4d-883b-171c4f82f859",
+          "page": "https://panoramax.xyz/#pic=9a50c0da-7390-4d4d-883b-171c4f82f859",
+          "date": "2025-09-25T17:59:27.049054+00:00",
+          "distance_m": 62.0,
+          "position": [
+            -0.57759546,
+            47.47388021
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 167
+        },
+        {
+          "id": "f2a323e5-fc07-4c0a-b17e-f646be2a4d2b",
+          "page": "https://panoramax.xyz/#pic=f2a323e5-fc07-4c0a-b17e-f646be2a4d2b",
+          "date": "2025-09-25T17:59:30.089832+00:00",
+          "distance_m": 47.0,
+          "position": [
+            -0.57749126,
+            47.47375761
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 121
+        },
+        {
+          "id": "5bae6a82-9a93-42ca-ba57-28032c26522a",
+          "page": "https://panoramax.xyz/#pic=5bae6a82-9a93-42ca-ba57-28032c26522a",
+          "date": "2025-09-25T17:59:24.035411+00:00",
+          "distance_m": 83.7,
+          "position": [
+            -0.57759012,
+            47.47408133
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 185
+        },
+        {
+          "id": "897efcd8-c476-4366-a5c6-7b6ae38885cb",
+          "page": "https://panoramax.xyz/#pic=897efcd8-c476-4366-a5c6-7b6ae38885cb",
+          "date": "2025-05-22T19:43:41.564148+00:00",
+          "distance_m": 40.0,
+          "position": [
+            -0.57738665,
+            47.47298151
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 85
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-64400.29022517518%2C6019554.780232168%2C-64148.786075118114%2C6019806.284382225&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.473341,
+            -0.577388
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-64540.83666197177%2C6019414.233795371%2C-64008.239638321524%2C6019946.830819022&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.473341,
+            -0.577388
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Foch-Haras": {
+      "street": [
+        {
+          "id": "4c3c6546-9710-4f6b-95b2-29f8c4d1b5d7",
+          "page": "https://panoramax.xyz/#pic=4c3c6546-9710-4f6b-95b2-29f8c4d1b5d7",
+          "date": "2026-04-19T12:53:25+00:00",
+          "distance_m": 9.5,
+          "position": [
+            -0.552751,
+            47.4667973
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 311
+        },
+        {
+          "id": "263952de-8a0d-448d-95b0-12ab72022152",
+          "page": "https://panoramax.xyz/#pic=263952de-8a0d-448d-95b0-12ab72022152",
+          "date": "2026-04-19T12:53:15+00:00",
+          "distance_m": 15.7,
+          "position": [
+            -0.5526062,
+            47.4669049
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 313
+        },
+        {
+          "id": "e54eeec6-84e9-42bd-a110-89a9e71056c1",
+          "page": "https://panoramax.xyz/#pic=e54eeec6-84e9-42bd-a110-89a9e71056c1",
+          "date": "2026-04-19T12:53:31+00:00",
+          "distance_m": 23.6,
+          "position": [
+            -0.5529176,
+            47.4666746
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 313
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61644.67181680832%2C6018471.8617401505%2C-61393.199133291564%2C6018723.334423668&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.466765,
+            -0.552634
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61785.200669361795%2C6018331.332887597%2C-61252.670280738086%2C6018863.863276221&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.466765,
+            -0.552634
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Foch-Maison Bleue": {
+      "street": [
+        {
+          "id": "93a8eec0-747d-4ca2-aaf1-022ee13ecd60",
+          "page": "https://panoramax.xyz/#pic=93a8eec0-747d-4ca2-aaf1-022ee13ecd60",
+          "date": "2026-04-19T12:52:23+00:00",
+          "distance_m": 8.6,
+          "position": [
+            -0.5497641,
+            47.4690214
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 314
+        },
+        {
+          "id": "0046b534-7191-4e06-b08b-76524aab20a9",
+          "page": "https://panoramax.xyz/#pic=0046b534-7191-4e06-b08b-76524aab20a9",
+          "date": "2026-04-19T11:21:20+00:00",
+          "distance_m": 12.4,
+          "position": [
+            -0.5496139,
+            47.4688653
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 122
+        },
+        {
+          "id": "fcd20f68-db7c-46d5-b90c-357336277332",
+          "page": "https://panoramax.xyz/#pic=fcd20f68-db7c-46d5-b90c-357336277332",
+          "date": "2026-04-19T11:21:24+00:00",
+          "distance_m": 19.9,
+          "position": [
+            -0.5494688,
+            47.4689982
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 132
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61320.626003771904%2C6018831.502124883%2C-61069.14287092954%2C6019082.985257726&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.468949,
+            -0.549723
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61461.1606956544%2C6018690.967433001%2C-60928.60817904705%2C6019223.5199496085&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.468949,
+            -0.549723
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Hauts de St-Aubin": {
+      "street": [
+        {
+          "id": "3e701244-db9e-4a1d-9d40-f36cc754d729",
+          "page": "https://panoramax.xyz/#pic=3e701244-db9e-4a1d-9d40-f36cc754d729",
+          "date": "2026-06-20T12:29:53.757000+00:00",
+          "distance_m": 8.1,
+          "position": [
+            -0.5604762,
+            47.4921299
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 93
+        },
+        {
+          "id": "d25aa31e-8189-4ba1-b88a-40b3d91a4804",
+          "page": "https://panoramax.xyz/#pic=d25aa31e-8189-4ba1-b88a-40b3d91a4804",
+          "date": "2026-05-08T13:37:24.741000+00:00",
+          "distance_m": 17.4,
+          "position": [
+            -0.5602489,
+            47.4921033
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 96
+        },
+        {
+          "id": "fe2699c2-9dfc-4140-89b3-0e5bb128b53e",
+          "page": "https://panoramax.xyz/#pic=fe2699c2-9dfc-4140-89b3-0e5bb128b53e",
+          "date": "2026-05-08T13:37:21.241000+00:00",
+          "distance_m": 20.3,
+          "position": [
+            -0.5606834,
+            47.4921245
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 94
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62513.13604231209%2C6022660.688589688%2C-62261.54160314448%2C6022912.283028856&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.492197,
+            -0.560435
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62653.73293478812%2C6022520.091697212%2C-62120.94471066845%2C6023052.879921332&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.492197,
+            -0.560435
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Hôtel de Ville": {
+      "street": [
+        {
+          "id": "50758332-d2b7-40e8-a75f-91ad31599f78",
+          "page": "https://panoramax.xyz/#pic=50758332-d2b7-40e8-a75f-91ad31599f78",
+          "date": "2026-04-19T12:51:17+00:00",
+          "distance_m": 7.7,
+          "position": [
+            -0.5468278,
+            47.4717001
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 301
+        },
+        {
+          "id": "8fa65e0b-59ef-41a4-98e5-5c73edfc651c",
+          "page": "https://panoramax.xyz/#pic=8fa65e0b-59ef-41a4-98e5-5c73edfc651c",
+          "date": "2026-04-19T11:22:14+00:00",
+          "distance_m": 8.5,
+          "position": [
+            -0.5466546,
+            47.4716147
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 118
+        },
+        {
+          "id": "24159f20-40ff-493f-9e59-fde9c1a5c1ad",
+          "page": "https://panoramax.xyz/#pic=24159f20-40ff-493f-9e59-fde9c1a5c1ad",
+          "date": "2026-04-19T11:22:18+00:00",
+          "distance_m": 18.8,
+          "position": [
+            -0.5465355,
+            47.4717631
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 117
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-60988.56646093331%2C6019278.768066781%2C-60737.07033169548%2C6019530.264196018&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.471665,
+            -0.54674
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61129.10841550739%2C6019138.2261122065%2C-60596.5283771214%2C6019670.806150592&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.471665,
+            -0.54674
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Jean Moulin": {
+      "street": [
+        {
+          "id": "de0e023d-0961-489b-a244-d43323c169d3",
+          "page": "https://panoramax.xyz/#pic=de0e023d-0961-489b-a244-d43323c169d3",
+          "date": "2026-06-20T12:35:35.755000+00:00",
+          "distance_m": 8.3,
+          "position": [
+            -0.5520369,
+            47.4904259
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 16
+        },
+        {
+          "id": "62dffb20-5d65-4b2e-857f-39b908a191cc",
+          "page": "https://panoramax.xyz/#pic=62dffb20-5d65-4b2e-857f-39b908a191cc",
+          "date": "2026-06-20T12:35:33.755000+00:00",
+          "distance_m": 15.9,
+          "position": [
+            -0.5521008,
+            47.4902805
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 17
+        },
+        {
+          "id": "bf29d2e1-a9f2-45ee-9753-9e8b9ab68e70",
+          "page": "https://panoramax.xyz/#pic=bf29d2e1-a9f2-45ee-9753-9e8b9ab68e70",
+          "date": "2026-06-20T12:35:37.755000+00:00",
+          "distance_m": 21.4,
+          "position": [
+            -0.5519733,
+            47.4905731
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 17
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61590.51584620439%2C6022367.938461678%2C-61338.92991986287%2C6022619.524388019&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.49042,
+            -0.552147
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61731.10798151288%2C6022227.346326369%2C-61198.33778455438%2C6022760.116523328&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.49042,
+            -0.552147
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Jean Vilar": {
+      "street": [
+        {
+          "id": "ffd00b91-e1e1-4f2c-b68f-c63388371829",
+          "page": "https://panoramax.xyz/#pic=ffd00b91-e1e1-4f2c-b68f-c63388371829",
+          "date": "2026-07-09T09:04:25.231000+00:00",
+          "distance_m": 133.7,
+          "position": [
+            -0.5626055,
+            47.4436827
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 265
+        },
+        {
+          "id": "7c786088-e674-4ab5-999d-6aa3aae3692d",
+          "page": "https://panoramax.xyz/#pic=7c786088-e674-4ab5-999d-6aa3aae3692d",
+          "date": "2026-07-09T09:04:22.231000+00:00",
+          "distance_m": 142.3,
+          "position": [
+            -0.5624456,
+            47.4435921
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 319
+        },
+        {
+          "id": "67269fc1-9f35-4714-ab73-15bad96970e3",
+          "page": "https://panoramax.xyz/#pic=67269fc1-9f35-4714-ab73-15bad96970e3",
+          "date": "2026-07-09T09:04:07.731000+00:00",
+          "distance_m": 144.8,
+          "position": [
+            -0.5633759,
+            47.4437794
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 112
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62722.74873862445%2C6014867.061909694%2C-62471.380748141164%2C6015118.429900177&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.444869,
+            -0.562319
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62863.21908624746%2C6014726.591562071%2C-62330.91040051815%2C6015258.9002478&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.444869,
+            -0.562319
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Jean XXIII": {
+      "street": [
+        {
+          "id": "bb834d8f-7694-4adc-8c4c-60c0c2d25f3b",
+          "page": "https://panoramax.xyz/#pic=bb834d8f-7694-4adc-8c4c-60c0c2d25f3b",
+          "date": "2025-12-10T15:24:52.688111+00:00",
+          "distance_m": 17.1,
+          "position": [
+            -0.56295602,
+            47.44841115
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              1506,
+              3264
+            ]
+          },
+          "azimuth": 112
+        },
+        {
+          "id": "4b34c70e-c455-451b-b913-3283018f6825",
+          "page": "https://panoramax.xyz/#pic=4b34c70e-c455-451b-b913-3283018f6825",
+          "date": "2026-05-12T11:48:30.172964+00:00",
+          "distance_m": 118.1,
+          "position": [
+            -0.56155149,
+            47.44802478
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "field_of_view": 59,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              1660,
+              3264
+            ]
+          },
+          "azimuth": 321
+        },
+        {
+          "id": "b2caa1c8-3ec2-4b69-a9aa-94b3e0c7e72d",
+          "page": "https://panoramax.xyz/#pic=b2caa1c8-3ec2-4b69-a9aa-94b3e0c7e72d",
+          "date": "2025-12-03T15:40:49.879628+00:00",
+          "distance_m": 72.6,
+          "position": [
+            -0.56342798,
+            47.44801079
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3264,
+              1506
+            ]
+          },
+          "azimuth": 219
+        },
+        {
+          "id": "f3b95cc7-f4b7-4525-9dc5-53d027642fb0",
+          "page": "https://panoramax.xyz/#pic=f3b95cc7-f4b7-4525-9dc5-53d027642fb0",
+          "date": "2025-12-03T15:41:59.015401+00:00",
+          "distance_m": 118.1,
+          "position": [
+            -0.56272971,
+            47.4475057
+          ],
+          "author": "Sébastien Chopin",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP4",
+            "focal_length": 5.58,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3264,
+              1506
+            ]
+          },
+          "azimuth": 203
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62788.21342129129%2C6015474.7810183475%2C-62536.82778664722%2C6015726.166652991&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.448561,
+            -0.562907
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62928.69362888651%2C6015334.300810752%2C-62396.347579052%2C6015866.6468605865&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.448561,
+            -0.562907
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "La Barre": {
+      "street": [
+        {
+          "id": "32f6637c-470f-476e-933a-d7b62a3a2b60",
+          "page": "https://panoramax.xyz/#pic=32f6637c-470f-476e-933a-d7b62a3a2b60",
+          "date": "2025-05-24T12:02:16.938764+00:00",
+          "distance_m": 45.1,
+          "position": [
+            -0.598272366,
+            47.473305705
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 322
+        },
+        {
+          "id": "d7c4f263-72fa-434f-8da2-3b941e7e1cce",
+          "page": "https://panoramax.xyz/#pic=d7c4f263-72fa-434f-8da2-3b941e7e1cce",
+          "date": "2025-05-24T12:02:21.626306+00:00",
+          "distance_m": 26.1,
+          "position": [
+            -0.598575956,
+            47.473346846
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 324
+        },
+        {
+          "id": "fe0b61b8-36b6-4bb5-bbc7-ea501a04dd4f",
+          "page": "https://panoramax.xyz/#pic=fe0b61b8-36b6-4bb5-bbc7-ea501a04dd4f",
+          "date": "2025-05-24T12:02:14.503441+00:00",
+          "distance_m": 57.4,
+          "position": [
+            -0.598106971,
+            47.473310269
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 318
+        },
+        {
+          "id": "6ae5f933-d143-42d5-8d39-8de679cb56de",
+          "page": "https://panoramax.xyz/#pic=6ae5f933-d143-42d5-8d39-8de679cb56de",
+          "date": "2025-05-24T12:02:24.396736+00:00",
+          "distance_m": 17.3,
+          "position": [
+            -0.598759992,
+            47.473349057
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 322
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-66789.98541337968%2C6019532.712109989%2C-66538.48190463203%2C6019784.215618737&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.473207,
+            -0.598855
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-66930.53149179748%2C6019392.166031571%2C-66397.93582621423%2C6019924.7616971545&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.473207,
+            -0.598855
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "La Fayette": {
+      "street": [
+        {
+          "id": "cce446bd-ce6e-4321-88ed-c4a8e260a7ce",
+          "page": "https://panoramax.xyz/#pic=cce446bd-ce6e-4321-88ed-c4a8e260a7ce",
+          "date": "2025-08-07T16:21:26.141598+00:00",
+          "distance_m": 52.5,
+          "position": [
+            -0.555232364,
+            47.461086604
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 114
+        },
+        {
+          "id": "a3ef0ad2-3439-431c-9b48-0b67e4af5d67",
+          "page": "https://panoramax.xyz/#pic=a3ef0ad2-3439-431c-9b48-0b67e4af5d67",
+          "date": "2025-08-07T16:22:57.568679+00:00",
+          "distance_m": 41.0,
+          "position": [
+            -0.554687943,
+            47.460441948
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 304
+        },
+        {
+          "id": "20cfcd79-9f6a-4717-bc4f-141eaa87ce22",
+          "page": "https://panoramax.xyz/#pic=20cfcd79-9f6a-4717-bc4f-141eaa87ce22",
+          "date": "2025-10-15T16:27:45.213385+00:00",
+          "distance_m": 123.3,
+          "position": [
+            -0.55308154,
+            47.46052388
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 264
+        },
+        {
+          "id": "c1c8ea2c-08d0-4839-bb57-297e9cc1b202",
+          "page": "https://panoramax.xyz/#pic=c1c8ea2c-08d0-4839-bb57-297e9cc1b202",
+          "date": "2026-06-01T10:25:14.038077+00:00",
+          "distance_m": 142.1,
+          "position": [
+            -0.55308761,
+            47.46010703
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 308
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61870.85877941569%2C6017491.324789443%2C-61619.41458126808%2C6017742.768987591&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.46081,
+            -0.554666
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62011.37171367465%2C6017350.811855185%2C-61478.90164700912%2C6017883.28192185&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.46081,
+            -0.554666
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Le Quai": {
+      "street": [
+        {
+          "id": "b1937beb-4238-49c6-ab3c-ae33396e64f6",
+          "page": "https://panoramax.xyz/#pic=b1937beb-4238-49c6-ab3c-ae33396e64f6",
+          "date": "2026-06-20T13:44:01.252000+00:00",
+          "distance_m": 8.8,
+          "position": [
+            -0.5666607,
+            47.4722824
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 223
+        },
+        {
+          "id": "3133668c-614a-4e56-abac-3bf5ff46404e",
+          "page": "https://panoramax.xyz/#pic=3133668c-614a-4e56-abac-3bf5ff46404e",
+          "date": "2026-06-20T12:22:04.727000+00:00",
+          "distance_m": 12.8,
+          "position": [
+            -0.5664369,
+            47.4721645
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 41
+        },
+        {
+          "id": "cb167ca1-9aac-4f5d-9352-b5e62471a01b",
+          "page": "https://panoramax.xyz/#pic=cb167ca1-9aac-4f5d-9352-b5e62471a01b",
+          "date": "2026-06-20T13:43:57.752000+00:00",
+          "distance_m": 18.5,
+          "position": [
+            -0.5664934,
+            47.4724056
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 223
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-63194.69751728387%2C6019374.28440726%2C-62943.19861242712%2C6019625.783312116&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.472245,
+            -0.566558
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-63335.241022939124%2C6019233.740901604%2C-62802.65510677187%2C6019766.326817771&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.472245,
+            -0.566558
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Les Gares": {
+      "street": [
+        {
+          "id": "1daa582d-bdf9-42b1-a603-f8eb0b4ff48d",
+          "page": "https://panoramax.xyz/#pic=1daa582d-bdf9-42b1-a603-f8eb0b4ff48d",
+          "date": "2026-04-19T13:04:25+00:00",
+          "distance_m": 27.8,
+          "position": [
+            -0.5553047,
+            47.464229798
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 321
+        },
+        {
+          "id": "81881c3f-b91a-4523-9349-fe8cd4951b78",
+          "page": "https://panoramax.xyz/#pic=81881c3f-b91a-4523-9349-fe8cd4951b78",
+          "date": "2026-04-19T13:04:19+00:00",
+          "distance_m": 33.1,
+          "position": [
+            -0.5551038,
+            47.4642537
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 350
+        },
+        {
+          "id": "d8b8fe41-ae07-4906-b2ae-945b684f56fa",
+          "page": "https://panoramax.xyz/#pic=d8b8fe41-ae07-4906-b2ae-945b684f56fa",
+          "date": "2026-04-19T13:04:31+00:00",
+          "distance_m": 43.5,
+          "position": [
+            -0.5553452,
+            47.4640808
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 263
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61953.355275240734%2C6018093.959030058%2C-61701.893570798646%2C6018345.4207345005&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.46447,
+            -0.555407
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62093.87799242897%2C6017953.43631287%2C-61561.37085361041%2C6018485.943451689&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.46447,
+            -0.555407
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Molière": {
+      "street": [
+        {
+          "id": "ae0a37de-7dcf-488b-8d71-35860571993c",
+          "page": "https://panoramax.xyz/#pic=ae0a37de-7dcf-488b-8d71-35860571993c",
+          "date": "2026-05-08T13:56:08.234000+00:00",
+          "distance_m": 12.5,
+          "position": [
+            -0.5557367,
+            47.4741237
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 25
+        },
+        {
+          "id": "3204a347-02a6-4d74-b920-0feccca72bde",
+          "page": "https://panoramax.xyz/#pic=3204a347-02a6-4d74-b920-0feccca72bde",
+          "date": "2026-05-08T13:56:10.234000+00:00",
+          "distance_m": 20.9,
+          "position": [
+            -0.5556345,
+            47.4742546
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 27
+        },
+        {
+          "id": "918cb436-626e-4a77-b074-8f8a5d16024a",
+          "page": "https://panoramax.xyz/#pic=918cb436-626e-4a77-b074-8f8a5d16024a",
+          "date": "2026-05-08T12:52:37.758000+00:00",
+          "distance_m": 23.9,
+          "position": [
+            -0.5554504,
+            47.4738763
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 256
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61973.97234594996%2C6019674.6737001315%2C-61722.46471168294%2C6019926.181334399&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.474069,
+            -0.555592
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-62114.52072980505%2C6019534.125316276%2C-61581.91632782784%2C6020066.729718254&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.474069,
+            -0.555592
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Monplaisir": {
+      "street": [
+        {
+          "id": "9ac31c79-242d-4611-88bd-e6f447f6a22b",
+          "page": "https://panoramax.xyz/#pic=9ac31c79-242d-4611-88bd-e6f447f6a22b",
+          "date": "2026-06-14T13:53:47.231000+00:00",
+          "distance_m": 15.8,
+          "position": [
+            -0.5270366,
+            47.4888022
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 69
+        },
+        {
+          "id": "6695dda4-44b1-452e-ba39-c6ad42668d8a",
+          "page": "https://panoramax.xyz/#pic=6695dda4-44b1-452e-ba39-c6ad42668d8a",
+          "date": "2026-06-14T13:53:53.231000+00:00",
+          "distance_m": 29.7,
+          "position": [
+            -0.5269289,
+            47.4886534
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 126
+        },
+        {
+          "id": "4f42ec80-5891-4c79-aaa9-3abbce3aaf8b",
+          "page": "https://panoramax.xyz/#pic=4f42ec80-5891-4c79-aaa9-3abbce3aaf8b",
+          "date": "2026-06-14T13:50:39.232000+00:00",
+          "distance_m": 30.5,
+          "position": [
+            -0.5272622,
+            47.4887752
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 42
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-58782.03282037882%2C6022120.830137111%2C-58530.454079241434%2C6022372.408878248&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.48892,
+            -0.526918
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-58922.62094042619%2C6021980.242017063%2C-58389.86595919407%2C6022512.996998296&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.48892,
+            -0.526918
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Montaigne": {
+      "street": [
+        {
+          "id": "59888458-3db1-432a-8817-32e60f614161",
+          "page": "https://panoramax.xyz/#pic=59888458-3db1-432a-8817-32e60f614161",
+          "date": "2026-10-02T16:09:34.244000+00:00",
+          "distance_m": 10.2,
+          "position": [
+            -0.5327692,
+            47.4693381
+          ],
+          "author": "atchisson",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 309
+        },
+        {
+          "id": "7b8d7aaa-bf44-4700-afc1-489102bb5de4",
+          "page": "https://panoramax.xyz/#pic=7b8d7aaa-bf44-4700-afc1-489102bb5de4",
+          "date": "2026-10-02T16:09:35.744000+00:00",
+          "distance_m": 17.0,
+          "position": [
+            -0.5329425,
+            47.4694124
+          ],
+          "author": "atchisson",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 308
+        },
+        {
+          "id": "a07b6130-e90f-4992-ac6c-033a24e8f1bc",
+          "page": "https://panoramax.xyz/#pic=a07b6130-e90f-4992-ac6c-033a24e8f1bc",
+          "date": "2026-10-02T16:09:32.244000+00:00",
+          "distance_m": 24.0,
+          "position": [
+            -0.5325415,
+            47.4692602
+          ],
+          "author": "atchisson",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 303
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-59443.55751797833%2C6018884.362616862%2C-59192.072849210774%2C6019135.847285629&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.46927,
+            -0.532861
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-59584.09306817198%2C6018743.827066668%2C-59051.53729901713%2C6019276.382835823&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.46927,
+            -0.532861
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Patton": {
+      "street": [
+        {
+          "id": "5ee8ebf3-e65a-4bba-91ef-b6bf1cb23382",
+          "page": "https://panoramax.xyz/#pic=5ee8ebf3-e65a-4bba-91ef-b6bf1cb23382",
+          "date": "2025-05-24T11:59:10.031362+00:00",
+          "distance_m": 70.2,
+          "position": [
+            -0.591777829,
+            47.473498861
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 293
+        },
+        {
+          "id": "1cfe4b1f-140f-460d-b47e-ddd9fcac699e",
+          "page": "https://panoramax.xyz/#pic=1cfe4b1f-140f-460d-b47e-ddd9fcac699e",
+          "date": "2025-05-24T11:59:03.507457+00:00",
+          "distance_m": 88.1,
+          "position": [
+            -0.59154389,
+            47.473528276
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 307
+        },
+        {
+          "id": "61225bc0-12ed-462d-a565-79f39f950ecc",
+          "page": "https://panoramax.xyz/#pic=61225bc0-12ed-462d-a565-79f39f950ecc",
+          "date": "2025-05-24T11:58:59.441793+00:00",
+          "distance_m": 106.7,
+          "position": [
+            -0.591293216,
+            47.473528704
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 309
+        },
+        {
+          "id": "6ee612fa-475f-4f95-90f0-474d20e9128c",
+          "page": "https://panoramax.xyz/#pic=6ee612fa-475f-4f95-90f0-474d20e9128c",
+          "date": "2025-05-24T12:00:49.781253+00:00",
+          "distance_m": 48.8,
+          "position": [
+            -0.59334625,
+            47.473454285
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 324
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-66104.92573366303%2C6019564.826187023%2C-65853.42129166506%2C6019816.33062902&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.473402,
+            -0.592701
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-66245.47233360306%2C6019424.279587083%2C-65712.87469172502%2C6019956.87722896&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.473402,
+            -0.592701
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Plateau Mayenne": {
+      "street": [
+        {
+          "id": "ac580f34-70cd-4b87-b623-d1bf3da08bb3",
+          "page": "https://panoramax.xyz/#pic=ac580f34-70cd-4b87-b623-d1bf3da08bb3",
+          "date": "2026-05-08T13:22:04.747000+00:00",
+          "distance_m": 52.9,
+          "position": [
+            -0.5794642,
+            47.4954047
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 34
+        },
+        {
+          "id": "39ea9b14-827c-4301-b598-8e14e5c14101",
+          "page": "https://panoramax.xyz/#pic=39ea9b14-827c-4301-b598-8e14e5c14101",
+          "date": "2026-05-08T13:22:06.747000+00:00",
+          "distance_m": 55.0,
+          "position": [
+            -0.5793204,
+            47.4955175
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 42
+        },
+        {
+          "id": "fc9262da-ee49-4794-8290-8a016f2162cf",
+          "page": "https://panoramax.xyz/#pic=fc9262da-ee49-4794-8290-8a016f2162cf",
+          "date": "2026-06-20T13:21:45.226000+00:00",
+          "distance_m": 60.0,
+          "position": [
+            -0.5804077,
+            47.4961818
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 240
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-64689.66317327161%2C6023241.6053422075%2C-64438.05184016511%2C6023493.216675313&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.495723,
+            -0.579987
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-64830.269506478195%2C6023100.999009%2C-64297.44550695853%2C6023633.8230085205&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.495723,
+            -0.579987
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Ralliement": {
+      "street": [
+        {
+          "id": "37a1d841-ca8d-4f9d-8836-bfa9cbee8eec",
+          "page": "https://panoramax.xyz/#pic=37a1d841-ca8d-4f9d-8836-bfa9cbee8eec",
+          "date": "2026-04-19T11:46:16+00:00",
+          "distance_m": 127.7,
+          "position": [
+            -0.5532518,
+            47.4708188
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 255
+        },
+        {
+          "id": "d18b1fe4-2d84-48b1-aad7-c4fec41535af",
+          "page": "https://panoramax.xyz/#pic=d18b1fe4-2d84-48b1-aad7-c4fec41535af",
+          "date": "2026-04-19T12:58:33+00:00",
+          "distance_m": 128.3,
+          "position": [
+            -0.5531598,
+            47.4706561
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 330
+        },
+        {
+          "id": "fcc4181b-e8ea-44cc-9afb-0a1a84316413",
+          "page": "https://panoramax.xyz/#pic=fcc4181b-e8ea-44cc-9afb-0a1a84316413",
+          "date": "2026-04-19T12:58:29+00:00",
+          "distance_m": 132.2,
+          "position": [
+            -0.5530856,
+            47.4705051
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 72
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61533.91949065248%2C6019199.226815244%2C-61282.42567276882%2C6019450.720633129&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.471182,
+            -0.551639
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61674.46015358746%2C6019058.686152309%2C-61141.88500983384%2C6019591.261296064&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.471182,
+            -0.551639
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Roseraie": {
+      "street": [
+        {
+          "id": "615d6cda-cd80-4026-a15d-cc2cb25466d0",
+          "page": "https://panoramax.xyz/#pic=615d6cda-cd80-4026-a15d-cc2cb25466d0",
+          "date": "2026-07-09T09:06:07.230000+00:00",
+          "distance_m": 7.0,
+          "position": [
+            -0.5539848,
+            47.4438212
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 87
+        },
+        {
+          "id": "ce6d8f47-dd52-47e8-87fc-a5e8ce8537cd",
+          "page": "https://panoramax.xyz/#pic=ce6d8f47-dd52-47e8-87fc-a5e8ce8537cd",
+          "date": "2026-07-09T09:06:05.230000+00:00",
+          "distance_m": 17.7,
+          "position": [
+            -0.5542143,
+            47.443811
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 87
+        },
+        {
+          "id": "33242cf1-69c1-4c4a-85c3-972c1005d6a0",
+          "page": "https://panoramax.xyz/#pic=33242cf1-69c1-4c4a-85c3-972c1005d6a0",
+          "date": "2026-07-09T09:06:09.230000+00:00",
+          "distance_m": 19.3,
+          "position": [
+            -0.5537589,
+            47.4438319
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 87
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61797.12481691681%2C6014704.769277602%2C-61545.76153795667%2C6014956.132556563&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.443883,
+            -0.554004
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61937.59253162982%2C6014564.3015628895%2C-61405.29382324366%2C6015096.600271276&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.443883,
+            -0.554004
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "St-Gilles": {
+      "street": [
+        {
+          "id": "16346861-dcc6-44c9-af38-350112300fa4",
+          "page": "https://panoramax.xyz/#pic=16346861-dcc6-44c9-af38-350112300fa4",
+          "date": "2021-05-31T17:09:31.045630+00:00",
+          "distance_m": 97.8,
+          "position": [
+            -0.589784889,
+            47.506901167
+          ],
+          "author": "Ltrlg,Lucien Guimier / Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP2",
+            "focal_length": 3.851,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              1935,
+              1302
+            ]
+          },
+          "azimuth": 130
+        },
+        {
+          "id": "22d07624-5f2e-40d9-ab86-09f6f81ca9ba",
+          "page": "https://panoramax.xyz/#pic=22d07624-5f2e-40d9-ab86-09f6f81ca9ba",
+          "date": "2021-07-16T08:34:43+00:00",
+          "distance_m": 59.9,
+          "position": [
+            -0.5896376,
+            47.506532
+          ],
+          "author": "mapcomplete,Ltrlg",
+          "license": "https://spdx.org/licenses/CC-BY-SA-4.0.html",
+          "projection": {
+            "sensor_array_dimensions": [
+              1935,
+              1302
+            ]
+          },
+          "azimuth": 307
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-65695.79380835437%2C6024965.8035187535%2C-65444.132320661585%2C6025217.4650064465&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.506187,
+            -0.589025
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-65836.42816912386%2C6024825.169157984%2C-65303.49795989209%2C6025358.099367216&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.506187,
+            -0.589025
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "St-Serge Université": {
+      "street": [
+        {
+          "id": "9007e70b-36f0-4b84-816c-bf87cf5bfc24",
+          "page": "https://panoramax.xyz/#pic=9007e70b-36f0-4b84-816c-bf87cf5bfc24",
+          "date": "2026-10-02T16:20:55.733000+00:00",
+          "distance_m": 4.9,
+          "position": [
+            -0.5506593,
+            47.4762356
+          ],
+          "author": "atchisson",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 307
+        },
+        {
+          "id": "92f3b39b-76b6-4daa-94a5-780e09fe9db2",
+          "page": "https://panoramax.xyz/#pic=92f3b39b-76b6-4daa-94a5-780e09fe9db2",
+          "date": "2026-10-02T16:20:52.234000+00:00",
+          "distance_m": 16.8,
+          "position": [
+            -0.5504848,
+            47.4761641
+          ],
+          "author": "atchisson",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 308
+        },
+        {
+          "id": "5f7bccb6-95a5-4912-a288-b767fba78a58",
+          "page": "https://panoramax.xyz/#pic=5f7bccb6-95a5-4912-a288-b767fba78a58",
+          "date": "2026-05-08T16:00:56.228000+00:00",
+          "distance_m": 17.2,
+          "position": [
+            -0.5508286,
+            47.4763304
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 303
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61429.51382114671%2C6020025.964536301%2C-61177.99597754638%2C6020277.482379901&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.476202,
+            -0.550701
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61570.06791021749%2C6019885.41044723%2C-61037.4418884756%2C6020418.036468972&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.476202,
+            -0.550701
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Strasbourg": {
+      "street": [
+        {
+          "id": "9d6cc94d-b0ed-42d7-968d-bb99978a79e8",
+          "page": "https://panoramax.xyz/#pic=9d6cc94d-b0ed-42d7-968d-bb99978a79e8",
+          "date": "2026-04-19T11:57:00+00:00",
+          "distance_m": 35.1,
+          "position": [
+            -0.5543808,
+            47.4572307
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 31
+        },
+        {
+          "id": "8236d027-de17-42be-9363-a959adb96d26",
+          "page": "https://panoramax.xyz/#pic=8236d027-de17-42be-9363-a959adb96d26",
+          "date": "2026-04-19T11:56:56+00:00",
+          "distance_m": 41.4,
+          "position": [
+            -0.5540985,
+            47.457122
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 29
+        },
+        {
+          "id": "a7edc5fb-3319-4678-9058-4b835ab6a203",
+          "page": "https://panoramax.xyz/#pic=a7edc5fb-3319-4678-9058-4b835ab6a203",
+          "date": "2026-04-19T11:57:04+00:00",
+          "distance_m": 45.2,
+          "position": [
+            -0.5546833,
+            47.4573474
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Max",
+            "focal_length": 3.0,
+            "field_of_view": 360,
+            "camera_manufacturer": "GoPro",
+            "sensor_array_dimensions": [
+              5760,
+              2880
+            ]
+          },
+          "azimuth": 28
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61810.29304747223%2C6016945.367802927%2C-61558.86470722846%2C6017196.79614317&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.457494,
+            -0.554122
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-61950.7971199614%2C6016804.863730438%2C-61418.36063473929%2C6017337.30021566&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.457494,
+            -0.554122
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Terra Botanica": {
+      "street": [
+        {
+          "id": "899ee5ef-c2fe-448a-876e-95d8771db42e",
+          "page": "https://panoramax.xyz/#pic=899ee5ef-c2fe-448a-876e-95d8771db42e",
+          "date": "2026-05-08T13:29:48.244000+00:00",
+          "distance_m": 9.5,
+          "position": [
+            -0.5747413,
+            47.4941175
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 55
+        },
+        {
+          "id": "85529b58-3406-47c3-9494-d4f065bca6d1",
+          "page": "https://panoramax.xyz/#pic=85529b58-3406-47c3-9494-d4f065bca6d1",
+          "date": "2026-05-08T13:29:45.744000+00:00",
+          "distance_m": 20.1,
+          "position": [
+            -0.5749448,
+            47.4940262
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 59
+        },
+        {
+          "id": "20219654-919d-47b4-a6fe-ee8031a77d2e",
+          "page": "https://panoramax.xyz/#pic=20219654-919d-47b4-a6fe-ee8031a77d2e",
+          "date": "2026-05-08T13:29:50.744000+00:00",
+          "distance_m": 21.3,
+          "position": [
+            -0.5745375,
+            47.4942112
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 57
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-64114.24904069374%2C6022988.211446352%2C-63862.64507692213%2C6023239.815410124&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.494185,
+            -0.574818
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-64254.85125574259%2C6022847.609231303%2C-63722.04286187328%2C6023380.417625173&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.494185,
+            -0.574818
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Verneau": {
+      "street": [
+        {
+          "id": "2cc7ee1f-2610-47e4-8310-51850a3d7030",
+          "page": "https://panoramax.xyz/#pic=2cc7ee1f-2610-47e4-8310-51850a3d7030",
+          "date": "2026-06-20T14:07:37.243000+00:00",
+          "distance_m": 66.8,
+          "position": [
+            -0.5674098,
+            47.491885
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 250
+        },
+        {
+          "id": "e26b5b30-9bd9-4af6-a455-7a347a9be8b0",
+          "page": "https://panoramax.xyz/#pic=e26b5b30-9bd9-4af6-a455-7a347a9be8b0",
+          "date": "2026-06-20T14:07:32.243000+00:00",
+          "distance_m": 71.1,
+          "position": [
+            -0.5671975,
+            47.4918452
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 292
+        },
+        {
+          "id": "df2b55c2-a802-4688-b6a1-8246c9d01075",
+          "page": "https://panoramax.xyz/#pic=df2b55c2-a802-4688-b6a1-8246c9d01075",
+          "date": "2026-05-08T13:35:52.742000+00:00",
+          "distance_m": 8.7,
+          "position": [
+            -0.5673126,
+            47.4924032
+          ],
+          "author": "mw014",
+          "license": "https://alliance.numerique.gouv.fr/licence-ouverte-open-licence/",
+          "projection": {
+            "camera_model": "Qoocam 3 Ultra",
+            "focal_length": 1.7,
+            "field_of_view": 360,
+            "camera_manufacturer": "Kandao",
+            "sensor_array_dimensions": [
+              7680,
+              3840
+            ]
+          },
+          "azimuth": 95
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-63277.12238792383%2C6022707.476810132%2C-63025.52658816119%2C6022959.072609895&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.492481,
+            -0.567298
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-63417.72004073236%2C6022566.879157323%2C-62884.92893535266%2C6023099.670262704&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.492481,
+            -0.567298
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    },
+    "Élysée": {
+      "street": [
+        {
+          "id": "17ed780f-e6e7-42d7-b256-b65de3fab1ff",
+          "page": "https://panoramax.xyz/#pic=17ed780f-e6e7-42d7-b256-b65de3fab1ff",
+          "date": "2025-10-24T15:39:45.047595+00:00",
+          "distance_m": 6.4,
+          "position": [
+            -0.58548542,
+            47.47367623
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 169
+        },
+        {
+          "id": "13ee5281-73b1-4227-bad0-3aebeab2533d",
+          "page": "https://panoramax.xyz/#pic=13ee5281-73b1-4227-bad0-3aebeab2533d",
+          "date": "2025-05-24T11:57:17.651891+00:00",
+          "distance_m": 17.5,
+          "position": [
+            -0.585295096,
+            47.473681047
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 309
+        },
+        {
+          "id": "4ca40d98-5216-470f-b6c4-2f30f9cc484d",
+          "page": "https://panoramax.xyz/#pic=4ca40d98-5216-470f-b6c4-2f30f9cc484d",
+          "date": "2025-08-02T17:22:03.363922+00:00",
+          "distance_m": 47.6,
+          "position": [
+            -0.586135595,
+            47.473554748
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              4096,
+              1856
+            ]
+          },
+          "azimuth": 64
+        },
+        {
+          "id": "cbacdd5c-d599-4fc5-9a93-cc175651df18",
+          "page": "https://panoramax.xyz/#pic=cbacdd5c-d599-4fc5-9a93-cc175651df18",
+          "date": "2025-05-24T11:57:12.758808+00:00",
+          "distance_m": 47.3,
+          "position": [
+            -0.5848898,
+            47.473694096
+          ],
+          "author": "Ltrlg",
+          "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "projection": {
+            "camera_model": "FP5",
+            "focal_length": 5.56,
+            "field_of_view": 76,
+            "camera_manufacturer": "Fairphone",
+            "sensor_array_dimensions": [
+              3840,
+              2160
+            ]
+          },
+          "azimuth": 309
+        }
+      ],
+      "aerial": [
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-65304.4277994304%2C6019600.8929079035%2C-65052.92230930882%2C6019852.398398026&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 170,
+          "center": [
+            47.473621,
+            -0.58551
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        },
+        {
+          "url": "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG%3A3857&BBOX=-65444.974985086585%2C6019460.345722248%2C-64912.37512365264%2C6019992.945583682&WIDTH=1024&HEIGHT=1024&FORMAT=image%2Fjpeg",
+          "provider": "IGN BD ORTHO",
+          "license": "Licence Ouverte 2.0",
+          "span_m": 360,
+          "center": [
+            47.473621,
+            -0.58551
+          ],
+          "accessed": "2026-11-14",
+          "capture_date": "not supplied by WMS"
+        }
+      ],
+      "limitations": "Facade ornaments and furniture reconstructed stylistically; aerial image capture date not supplied by IGN service."
+    }
+  },
+  "depot": [
+    "https://tramwaydemontpellier.net/2019/07/24/24-juillet-2019-a-angers-vues-aeriennes-du-centre-technique-des-transports-ctt-raymond-perron/",
+    "https://www.caue-observatoire.fr/ouvrage/centre-technique-des-transports/"
+  ]
+}

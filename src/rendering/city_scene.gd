@@ -65,9 +65,11 @@ var _trees_cur: Array = []
 var _D: _Arrays = null              # détails de façade de la tuile en cours (maillage LOD)
 var _props: Array = []              # par modèle StreetProps : [transformations, couleurs] de la tuile en cours
 var _street_keepout := TrackView.KeepOut.new()
+var _authored_camera_blocks: Array = []
 var _camera_boxes: Array = []    # obstacles caméra de la tuile : [0, emprise, y0, y1, Rect2] ou [1, centre, rayon, demi-hauteur]
 var _portal_cut := TrackView.KeepOut.new()
 var _hangar_footprints: Array[PackedVector2Array] = []
+var _ornament_footprints: Array[PackedVector2Array] = []
 const K_CHURCH := 1
 const K_CATHEDRAL := 2
 const K_CASTLE := 3
@@ -368,6 +370,12 @@ func _pal(name: String, h: int) -> Color:
 	var arr: Array = style.get(name, ["#cccccc"])
 	return Color.from_string(str(arr[absi(h) % arr.size()]), Color.GRAY)
 
+## Distance to the tile footprint, not its centre: a camera at a tile corner can
+## see that tile even when its centre is farther than the small near-LOD radius.
+func _tile_distance(k: Vector2i, center_in_tiles: Vector2) -> float:
+	var nearest := Vector2(clampf(center_in_tiles.x, k.x, k.x + 1.0), clampf(center_in_tiles.y, k.y, k.y + 1.0))
+	return center_in_tiles.distance_to(nearest) * tile_m
+
 ## À appeler à chaque image avec la position de la caméra (repère de la ligne).
 func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 	_poll_lod_tile()
@@ -385,9 +393,9 @@ func update(center_net: Vector3, budget_tiles: int = 1) -> void:
 	queue.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
 		return (Vector2(a) + Vector2(0.5, 0.5)).distance_squared_to(ctile) < (Vector2(b) + Vector2(0.5, 0.5)).distance_squared_to(ctile))
 	for k in built.keys():
-		if (Vector2(k) + Vector2(0.5, 0.5)).distance_to(ctile) * tile_m > r * 1.5:
+		if _tile_distance(k, ctile) > r * 1.5:
 			built[k].queue_free(); built.erase(k)
-	queue = queue.filter(func(k: Vector2i) -> bool: return (Vector2(k) + Vector2(0.5, 0.5)).distance_to(ctile) * tile_m <= r * 1.5)
+	queue = queue.filter(func(k: Vector2i) -> bool: return _tile_distance(k, ctile) <= r * 1.5)
 	for i in budget_tiles:
 		if queue.is_empty(): break
 		if async_lod:
@@ -418,7 +426,7 @@ func _start_lod_tile(k: Vector2i) -> void:
 		# Metadata/files already cached at city selection; worker has its own mutable caches.
 		var meta: Dictionary = CityDataStore.document("res://data/scenes/%s.json" % city)
 		_lod_job = {"key": k, "city": city, "origin": meta.origin, "initialize": true, "profile": {}}
-		for field in ["position", "scale", "_x_scale", "_keepout", "_portal_cut", "_hangar_footprints", "_track_pts", "_track_dirs", "_decks", "_deck_cells", "_road_level_cells", "_track_nat", "lite"]:
+		for field in ["position", "scale", "_x_scale", "_keepout", "_portal_cut", "_hangar_footprints", "_ornament_footprints", "_track_pts", "_track_dirs", "_decks", "_deck_cells", "_road_level_cells", "_track_nat", "lite"]:
 			_lod_job.profile[field] = get(field)
 	else: _lod_job = {"key": k, "initialize": false}
 	_lod_job.builder = _lod_builder
@@ -724,6 +732,10 @@ func _build_tile(k: Vector2i) -> Node3D:
 	_crossroads(seed)
 	# éléments ponctuels (clochers isolés, tours, cheminées)
 	for p in points:
+		var ornament_replaced := false
+		for footprint in _ornament_footprints:
+			if Geometry2D.is_point_in_polygon(_tile_origin + p[2], footprint): ornament_replaced = true; break
+		if ornament_replaced: continue
 		if p[0] == 1 and p.size() > 3: continue  # clocher déjà rattaché à une église
 		if _keepout != null and _keepout.blocked(_tile_origin + p[2], 3.0): continue
 		var q0 := S.count()
@@ -838,10 +850,20 @@ func _ground_material(k: Vector2i, veg: Image, ground: Color) -> ShaderMaterial:
 	return tm
 
 ## Le hangar détaillé remplace son extrusion de décor, afin de garder ses entrées ouvertes.
-func replace_hangar(footprint_net: PackedVector2Array) -> void:
+func replace_hangar(footprint_net: PackedVector2Array, remove_inferred_ornaments := false) -> void:
 	var polygon := PackedVector2Array()
 	for p in footprint_net: polygon.append(Vector2((p.x - position.x) / _x_scale, p.y - position.z))
 	_hangar_footprints.append(polygon)
+	if remove_inferred_ornaments: _ornament_footprints.append(polygon)
+
+## Detailed station landmarks retain camera occlusion when their generic extrusion is removed.
+## Depot halls are deliberately not registered as closed prisms: their rail portals remain open.
+func add_building_obstacle(footprint_net: PackedVector2Array, base_y: float, height_: float) -> void:
+	var poly := PackedVector2Array()
+	for p in footprint_net: poly.append(Vector2((p.x - position.x) / _x_scale, p.y - position.z))
+	var rect := Rect2(poly[0], Vector2.ZERO)
+	for p in poly: rect = rect.expand(p)
+	_authored_camera_blocks.append([poly, base_y, base_y + height_, rect.grow(.8)])
 
 ## Ouvrir le terrain aux portails documentés, sans découper le terrain au-dessus des tunnels profonds.
 func add_portal_cut(a_net: Vector2, b_net: Vector2, width_: float = 2.8) -> void:
@@ -918,6 +940,18 @@ func camera_clear(a: Vector3, b: Vector3) -> float:
 				var t0 := (-qb - sqrt(disc)) / (2.0 * qa); var t1 := (-qb + sqrt(disc)) / (2.0 * qa)
 				if t1 < 0.0 or t0 > 1.0: continue
 				best = minf(best, maxf(t0, 0.0))
+	for ob in _authored_camera_blocks:
+		if not (ob[3] as Rect2).intersects(seg): continue
+		var poly: PackedVector2Array = ob[0]
+		var pa := Vector2(a.x, a.z); var pb := Vector2(b.x, b.z)
+		if Geometry2D.is_point_in_polygon(pb, poly) and b.y > ob[1] and b.y < ob[2]: best = minf(best, .999)
+		for i in poly.size():
+			var hit: Variant = Geometry2D.segment_intersects_segment(pa, pb, poly[i], poly[(i + 1) % poly.size()])
+			if hit == null: continue
+			var t := pa.distance_to(hit) / maxf(pa.distance_to(pb), .001)
+			var y := lerpf(a.y, b.y, t)
+			if y > ob[1] and y < ob[2]: best = minf(best, t)
+
 	return best
 
 var _cam_turn := 0.0   # dernière rotation d'orbite retenue (stabilité d'une image à l'autre)

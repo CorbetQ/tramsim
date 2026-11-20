@@ -1,0 +1,3292 @@
+{
+  "stations": {
+    "Ralliement": [
+      {
+        "id": "0,-8:113",
+        "name": "Grand Théâtre",
+        "kind": "theatre",
+        "footprint": [
+          [
+            47.47098144,
+            -0.55253737
+          ],
+          [
+            47.4710291,
+            -0.55247088
+          ],
+          [
+            47.4710237,
+            -0.55246024
+          ],
+          [
+            47.47106687,
+            -0.55239908
+          ],
+          [
+            47.47105698,
+            -0.55238312
+          ],
+          [
+            47.47108126,
+            -0.55234988
+          ],
+          [
+            47.47094636,
+            -0.55211983
+          ],
+          [
+            47.47093737,
+            -0.55211983
+          ],
+          [
+            47.47088431,
+            -0.55203473
+          ],
+          [
+            47.47054527,
+            -0.55250014
+          ],
+          [
+            47.47073232,
+            -0.55289507
+          ],
+          [
+            47.47087801,
+            -0.55268497
+          ],
+          [
+            47.47086183,
+            -0.55265838
+          ],
+          [
+            47.47096525,
+            -0.5525121
+          ]
+        ],
+        "height_m": 18.9,
+        "wall": "#d8cdb5",
+        "roof": "#69727b",
+        "source": "IGN BD TOPO footprint; IGN BD ORTHO roof; Panoramax street photographs",
+        "source_building_key": "0,-8:113"
+      }
+    ],
+    "Berges de Maine": [
+      {
+        "id": "0,-11:2",
+        "name": "Angers ICEPARC",
+        "kind": "iceparc",
+        "footprint": [
+          [
+            47.48067971,
+            -0.54854016
+          ],
+          [
+            47.4806833,
+            -0.5485016
+          ],
+          [
+            47.4805511,
+            -0.54818246
+          ],
+          [
+            47.48043779,
+            -0.54803486
+          ],
+          [
+            47.48041441,
+            -0.54802289
+          ],
+          [
+            47.48038293,
+            -0.54803752
+          ],
+          [
+            47.4795025,
+            -0.54885398
+          ],
+          [
+            47.47948721,
+            -0.54886861
+          ],
+          [
+            47.47947642,
+            -0.54890318
+          ],
+          [
+            47.47947911,
+            -0.54892579
+          ],
+          [
+            47.47982805,
+            -0.54974092
+          ],
+          [
+            47.48035685,
+            -0.54925158
+          ],
+          [
+            47.4804243,
+            -0.54916913
+          ]
+        ],
+        "height_m": 18.3,
+        "wall": "#d3d7d3",
+        "roof": "#c3c7c6",
+        "source": "IGN BD TOPO footprint; IGN BD ORTHO roof; Panoramax street photographs",
+        "source_building_key": "0,-11:2"
+      }
+    ],
+    "Centre de Congrès": [
+      {
+        "id": "1,-9:161",
+        "name": "Centre de Congrès Jean-Monnier",
+        "kind": "congress",
+        "footprint": [
+          [
+            47.47454994,
+            -0.54648837
+          ],
+          [
+            47.47460839,
+            -0.54649369
+          ],
+          [
+            47.47485031,
+            -0.54628625
+          ],
+          [
+            47.47483233,
+            -0.54624237
+          ],
+          [
+            47.4748674,
+            -0.54601365
+          ],
+          [
+            47.47484851,
+            -0.5459711
+          ],
+          [
+            47.4748611,
+            -0.545886
+          ],
+          [
+            47.47480445,
+            -0.54586738
+          ],
+          [
+            47.47488359,
+            -0.54579159
+          ],
+          [
+            47.47467584,
+            -0.54531288
+          ],
+          [
+            47.4745949,
+            -0.54539
+          ],
+          [
+            47.47457782,
+            -0.54535011
+          ],
+          [
+            47.47461649,
+            -0.54517592
+          ],
+          [
+            47.47459401,
+            -0.54500305
+          ],
+          [
+            47.47423068,
+            -0.54524772
+          ],
+          [
+            47.47419741,
+            -0.54547378
+          ],
+          [
+            47.47415334,
+            -0.54545782
+          ],
+          [
+            47.47413895,
+            -0.54555888
+          ]
+        ],
+        "height_m": 15.9,
+        "wall": "#c1b9a7",
+        "roof": "#8e9599",
+        "source": "IGN BD TOPO footprint; IGN BD ORTHO roof; Panoramax street photographs",
+        "source_building_key": "1,-9:161"
+      }
+    ],
+    "St-Gilles": [
+      {
+        "id": "-7,-18:156",
+        "name": "Église Saint-Gilles",
+        "kind": "church",
+        "footprint": [
+          [
+            47.50634541,
+            -0.58962521
+          ],
+          [
+            47.5062276,
+            -0.58966245
+          ],
+          [
+            47.5062303,
+            -0.58969436
+          ],
+          [
+            47.50616285,
+            -0.58980872
+          ],
+          [
+            47.50618083,
+            -0.58983398
+          ],
+          [
+            47.50618893,
+            -0.58998291
+          ],
+          [
+            47.50629145,
+            -0.590076
+          ],
+          [
+            47.50640746,
+            -0.59003876
+          ],
+          [
+            47.50647131,
+            -0.58988451
+          ],
+          [
+            47.50643714,
+            -0.5897542
+          ],
+          [
+            47.50644703,
+            -0.58971697
+          ],
+          [
+            47.50642005,
+            -0.58972494
+          ]
+        ],
+        "height_m": 5.0,
+        "wall": "#b9ae92",
+        "roof": "#4c535b",
+        "source": "IGN BD TOPO footprint; IGN BD ORTHO roof; Panoramax street photographs",
+        "source_building_key": "-7,-18:156"
+      }
+    ],
+    "Belle-Beille Campus": [
+      {
+        "id": "-10,-10:52",
+        "name": "Université, bâtiment à lames de bois",
+        "kind": "timber",
+        "footprint": [
+          [
+            47.4785681,
+            -0.60313407
+          ],
+          [
+            47.47850425,
+            -0.60285216
+          ],
+          [
+            47.47812294,
+            -0.60304231
+          ],
+          [
+            47.47818949,
+            -0.60332289
+          ]
+        ],
+        "height_m": 4.2,
+        "wall": "#8b7761",
+        "roof": "#a4a397",
+        "source": "IGN BD TOPO footprint; IGN BD ORTHO roof; Panoramax street photographs",
+        "source_building_key": "-10,-10:52"
+      },
+      {
+        "id": "-10,-10:7",
+        "name": "Université, volumes en cour",
+        "kind": "campus",
+        "footprint": [
+          [
+            47.47822096,
+            -0.60266866
+          ],
+          [
+            47.47820747,
+            -0.60261148
+          ],
+          [
+            47.47842331,
+            -0.6025051
+          ],
+          [
+            47.47833878,
+            -0.60213144
+          ],
+          [
+            47.47825334,
+            -0.60218064
+          ],
+          [
+            47.4783055,
+            -0.602416
+          ],
+          [
+            47.47815441,
+            -0.60248914
+          ],
+          [
+            47.47812654,
+            -0.60232691
+          ],
+          [
+            47.4780393,
+            -0.60236813
+          ],
+          [
+            47.47807797,
+            -0.60252903
+          ],
+          [
+            47.47806358,
+            -0.60253701
+          ],
+          [
+            47.47814452,
+            -0.6028854
+          ],
+          [
+            47.47815801,
+            -0.60287743
+          ],
+          [
+            47.4781706,
+            -0.60293726
+          ],
+          [
+            47.47826503,
+            -0.60289205
+          ],
+          [
+            47.47821467,
+            -0.60267132
+          ]
+        ],
+        "height_m": 8.8,
+        "wall": "#b2afa2",
+        "roof": "#aaada8",
+        "source": "IGN BD TOPO footprint; IGN BD ORTHO roof; Panoramax street photographs",
+        "source_building_key": "-10,-10:7"
+      }
+    ],
+    "Jean Moulin": [
+      {
+        "id": "0,-14:40",
+        "name": "Gymnase Jean-Moulin",
+        "kind": "gym",
+        "footprint": [
+          [
+            47.49109474,
+            -0.55269561
+          ],
+          [
+            47.49107495,
+            -0.55270093
+          ],
+          [
+            47.49103628,
+            -0.55240838
+          ],
+          [
+            47.49063698,
+            -0.55252008
+          ],
+          [
+            47.49068105,
+            -0.55287512
+          ],
+          [
+            47.49068554,
+            -0.55287512
+          ],
+          [
+            47.49069544,
+            -0.55293762
+          ],
+          [
+            47.49069184,
+            -0.55294028
+          ],
+          [
+            47.49072691,
+            -0.55320889
+          ],
+          [
+            47.49086721,
+            -0.553169
+          ],
+          [
+            47.49085911,
+            -0.55310916
+          ],
+          [
+            47.4908744,
+            -0.55310517
+          ],
+          [
+            47.4908798,
+            -0.5531424
+          ],
+          [
+            47.49103448,
+            -0.55309985
+          ],
+          [
+            47.49105067,
+            -0.55322485
+          ],
+          [
+            47.49133126,
+            -0.55314639
+          ],
+          [
+            47.49129798,
+            -0.5530214
+          ],
+          [
+            47.4911406,
+            -0.55306528
+          ],
+          [
+            47.49111722,
+            -0.55288709
+          ],
+          [
+            47.49123503,
+            -0.55285518
+          ],
+          [
+            47.49108934,
+            -0.55264508
+          ]
+        ],
+        "height_m": 5.9,
+        "wall": "#6a7276",
+        "roof": "#4d5258",
+        "source": "IGN BD TOPO footprint; IGN BD ORTHO roof; Panoramax street photographs",
+        "source_building_key": "0,-14:40"
+      }
+    ],
+    "Europe": [
+      {
+        "id": "5,-13:1",
+        "name": "Équipement de quartier",
+        "kind": "civic",
+        "footprint": [
+          [
+            47.48696955,
+            -0.52619916
+          ],
+          [
+            47.48692279,
+            -0.52691191
+          ],
+          [
+            47.48707567,
+            -0.52692919
+          ],
+          [
+            47.48707567,
+            -0.52690792
+          ],
+          [
+            47.48715391,
+            -0.52691722
+          ],
+          [
+            47.48715391,
+            -0.52693717
+          ],
+          [
+            47.48719888,
+            -0.52694249
+          ],
+          [
+            47.48744979,
+            -0.52645447
+          ],
+          [
+            47.48746238,
+            -0.52626299
+          ]
+        ],
+        "height_m": 6.6,
+        "wall": "#767d79",
+        "roof": "#8b9290",
+        "source": "IGN BD TOPO footprint; IGN BD ORTHO roof; Panoramax street photographs",
+        "source_building_key": "5,-13:1"
+      },
+      {
+        "id": "4,-12:0",
+        "name": "Pavillon de place",
+        "kind": "civic",
+        "footprint": [
+          [
+            47.48661972,
+            -0.52751029
+          ],
+          [
+            47.48660173,
+            -0.52786001
+          ],
+          [
+            47.48669256,
+            -0.52787331
+          ],
+          [
+            47.48671325,
+            -0.52752093
+          ]
+        ],
+        "height_m": 4.6,
+        "wall": "#777d73",
+        "roof": "#798277",
+        "source": "IGN BD TOPO footprint; IGN BD ORTHO roof; Panoramax street photographs",
+        "source_building_key": "4,-12:0"
+      }
+    ],
+    "Foch-Maison Bleue": [
+      {
+        "id": "0,-8:467",
+        "kind": "maison_bleue",
+        "name": "Maison Bleue",
+        "height_m": 26.4,
+        "footprint": [
+          [
+            47.46992833,
+            -0.54939253
+          ],
+          [
+            47.46990405,
+            -0.54935663
+          ],
+          [
+            47.46990945,
+            -0.54934865
+          ],
+          [
+            47.46986718,
+            -0.54928881
+          ],
+          [
+            47.46986358,
+            -0.54929413
+          ],
+          [
+            47.46969361,
+            -0.54901754
+          ],
+          [
+            47.46960008,
+            -0.5491452
+          ],
+          [
+            47.46959648,
+            -0.54919573
+          ],
+          [
+            47.46981861,
+            -0.54954678
+          ]
+        ],
+        "wall": "#76969c",
+        "roof": "#b9b6a5",
+        "source": "IGN BD TOPO footprint; monument PA49000016; Panoramax; IGN aerial",
+        "source_building_key": "0,-8:467"
+      }
+    ],
+    "Les Gares": [
+      {
+        "id": "marengo-aerial",
+        "name": "Parking Marengo",
+        "kind": "parking",
+        "height_m": 11.8,
+        "footprint": [
+          [
+            47.46489349,
+            -0.55531884
+          ],
+          [
+            47.46494853,
+            -0.5547537
+          ],
+          [
+            47.46457702,
+            -0.55466554
+          ],
+          [
+            47.46451281,
+            -0.55523972
+          ]
+        ],
+        "wall": "#aaa99c",
+        "roof": "#777e7c",
+        "source": "Manual plan traced from IGN BD ORTHO; CMR station connection photographs"
+      }
+    ],
+    "Acacias": [
+      {
+        "id": "-7,-17:7",
+        "name": "Acacias — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.50353413,
+            -0.58695775
+          ],
+          [
+            47.50354852,
+            -0.58697105
+          ],
+          [
+            47.50352964,
+            -0.58701493
+          ],
+          [
+            47.50362047,
+            -0.58710801
+          ],
+          [
+            47.50362856,
+            -0.58709205
+          ],
+          [
+            47.50366903,
+            -0.58712929
+          ],
+          [
+            47.50365914,
+            -0.58714657
+          ],
+          [
+            47.50370411,
+            -0.58719311
+          ],
+          [
+            47.5037131,
+            -0.58717317
+          ],
+          [
+            47.5038489,
+            -0.58731013
+          ],
+          [
+            47.50399728,
+            -0.58698966
+          ],
+          [
+            47.50402157,
+            -0.58700828
+          ],
+          [
+            47.50401437,
+            -0.58702956
+          ],
+          [
+            47.50413398,
+            -0.58712397
+          ],
+          [
+            47.5041061,
+            -0.5871878
+          ],
+          [
+            47.50409261,
+            -0.58720508
+          ],
+          [
+            47.50418434,
+            -0.58729683
+          ],
+          [
+            47.50419693,
+            -0.58727689
+          ],
+          [
+            47.50419963,
+            -0.58728221
+          ],
+          [
+            47.50430755,
+            -0.58704551
+          ],
+          [
+            47.5039739,
+            -0.58678887
+          ],
+          [
+            47.50393253,
+            -0.58688062
+          ],
+          [
+            47.50394243,
+            -0.58688993
+          ],
+          [
+            47.503839,
+            -0.58710934
+          ],
+          [
+            47.5035845,
+            -0.58685004
+          ]
+        ],
+        "height_m": 15.2,
+        "wall": "#d5d0bf",
+        "roof": "#93958b",
+        "source_building_key": "-7,-17:7",
+        "source": "Individual IGN aerial target (u=0.18,v=0.35); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Allonneau-Dunant": [
+      {
+        "id": "4,-12:71",
+        "name": "Allonneau-Dunant — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.48442538,
+            -0.52726562
+          ],
+          [
+            47.48442987,
+            -0.52726695
+          ],
+          [
+            47.48442268,
+            -0.52740391
+          ],
+          [
+            47.48443797,
+            -0.52741189
+          ],
+          [
+            47.48442717,
+            -0.52742917
+          ],
+          [
+            47.48443167,
+            -0.52745311
+          ],
+          [
+            47.48441998,
+            -0.52746508
+          ],
+          [
+            47.48441638,
+            -0.52755284
+          ],
+          [
+            47.48432735,
+            -0.52754752
+          ],
+          [
+            47.48432285,
+            -0.52764592
+          ],
+          [
+            47.48433454,
+            -0.52764725
+          ],
+          [
+            47.48432825,
+            -0.52777624
+          ],
+          [
+            47.48448743,
+            -0.52779352
+          ],
+          [
+            47.48449103,
+            -0.52773502
+          ],
+          [
+            47.48450182,
+            -0.52773369
+          ],
+          [
+            47.48450182,
+            -0.5277164
+          ],
+          [
+            47.48449282,
+            -0.5277164
+          ],
+          [
+            47.48449372,
+            -0.52769113
+          ],
+          [
+            47.48447933,
+            -0.52768847
+          ],
+          [
+            47.48448563,
+            -0.52755284
+          ],
+          [
+            47.48447304,
+            -0.52755284
+          ],
+          [
+            47.48447394,
+            -0.52751295
+          ],
+          [
+            47.48448923,
+            -0.527493
+          ],
+          [
+            47.48449282,
+            -0.52741056
+          ],
+          [
+            47.48458456,
+            -0.52741987
+          ],
+          [
+            47.48458815,
+            -0.52732678
+          ],
+          [
+            47.48457916,
+            -0.52732413
+          ],
+          [
+            47.48458635,
+            -0.52718849
+          ],
+          [
+            47.48443077,
+            -0.52716722
+          ]
+        ],
+        "height_m": 14.4,
+        "wall": "#d1c9b7",
+        "roof": "#93958b",
+        "source_building_key": "4,-12:71",
+        "source": "Individual IGN aerial target (u=0.26,v=0.12); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Avrillé-Ardenne": [
+      {
+        "id": "-8,-19:15",
+        "name": "Avrillé-Ardenne — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.51127548,
+            -0.59628855
+          ],
+          [
+            47.5112494,
+            -0.59624999
+          ],
+          [
+            47.5112548,
+            -0.59624334
+          ],
+          [
+            47.51120714,
+            -0.59616622
+          ],
+          [
+            47.51114868,
+            -0.59624733
+          ],
+          [
+            47.51119095,
+            -0.59631515
+          ],
+          [
+            47.51118106,
+            -0.59632977
+          ],
+          [
+            47.51121073,
+            -0.59637764
+          ]
+        ],
+        "height_m": 3.4,
+        "wall": "#c7bda5",
+        "roof": "#636b72",
+        "source_building_key": "-8,-19:15",
+        "source": "Individual IGN aerial target (u=0.32,v=0.75); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Bamako": [
+      {
+        "id": "-1,-3:78",
+        "name": "Bamako — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.45241137,
+            -0.55680717
+          ],
+          [
+            47.45246803,
+            -0.55674467
+          ],
+          [
+            47.45244195,
+            -0.5566968
+          ],
+          [
+            47.45251029,
+            -0.55662101
+          ],
+          [
+            47.4525031,
+            -0.55661037
+          ],
+          [
+            47.45257505,
+            -0.55653192
+          ],
+          [
+            47.45253188,
+            -0.55644681
+          ],
+          [
+            47.4525085,
+            -0.55647341
+          ],
+          [
+            47.45245544,
+            -0.55637767
+          ],
+          [
+            47.45241047,
+            -0.55642554
+          ],
+          [
+            47.45240417,
+            -0.55641224
+          ],
+          [
+            47.45236011,
+            -0.55646011
+          ],
+          [
+            47.45236191,
+            -0.55646543
+          ],
+          [
+            47.45233583,
+            -0.55649335
+          ],
+          [
+            47.45234032,
+            -0.55650266
+          ],
+          [
+            47.45229805,
+            -0.55655319
+          ],
+          [
+            47.45231154,
+            -0.5565758
+          ],
+          [
+            47.4522405,
+            -0.55665425
+          ],
+          [
+            47.45230075,
+            -0.55677659
+          ],
+          [
+            47.45234482,
+            -0.55672739
+          ],
+          [
+            47.4523772,
+            -0.55678989
+          ],
+          [
+            47.45239338,
+            -0.55677127
+          ]
+        ],
+        "height_m": 19.1,
+        "wall": "#c9c1ad",
+        "roof": "#93958b",
+        "source_building_key": "-1,-3:78",
+        "source": "Individual IGN aerial target (u=0.40,v=0.36); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Bascule": [
+      {
+        "id": "-8,-18:143",
+        "name": "Bascule — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.50852806,
+            -0.59140441
+          ],
+          [
+            47.50845072,
+            -0.59129537
+          ],
+          [
+            47.50838147,
+            -0.5913951
+          ],
+          [
+            47.50839586,
+            -0.59141372
+          ],
+          [
+            47.50827175,
+            -0.59156398
+          ],
+          [
+            47.50831672,
+            -0.59163977
+          ]
+        ],
+        "height_m": 5.8,
+        "wall": "#c5bba6",
+        "roof": "#636b72",
+        "source_building_key": "-8,-18:143",
+        "source": "Individual IGN aerial target (u=0.66,v=0.74); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Beaussier": [
+      {
+        "id": "-9,-9:12",
+        "name": "Beaussier — façade de voisinage",
+        "kind": "campus",
+        "footprint": [
+          [
+            47.47620199,
+            -0.59826721
+          ],
+          [
+            47.47625325,
+            -0.59847864
+          ],
+          [
+            47.47633509,
+            -0.5984321
+          ],
+          [
+            47.47628653,
+            -0.59822466
+          ]
+        ],
+        "height_m": 8.9,
+        "wall": "#b4b8ae",
+        "roof": "#93958b",
+        "source_building_key": "-9,-9:12",
+        "source": "Individual IGN aerial target (u=0.88,v=0.64); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Bois du Roy": [
+      {
+        "id": "-6,-16:7",
+        "name": "Bois du Roy — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.50033705,
+            -0.58343526
+          ],
+          [
+            47.5004018,
+            -0.58325841
+          ],
+          [
+            47.50016078,
+            -0.5830882
+          ],
+          [
+            47.50020665,
+            -0.58295789
+          ],
+          [
+            47.50009693,
+            -0.58287012
+          ],
+          [
+            47.50004657,
+            -0.58300974
+          ],
+          [
+            47.49996743,
+            -0.5829406
+          ],
+          [
+            47.49997462,
+            -0.58292331
+          ],
+          [
+            47.49970123,
+            -0.58273449
+          ],
+          [
+            47.49970933,
+            -0.58271188
+          ],
+          [
+            47.4996149,
+            -0.58263343
+          ],
+          [
+            47.49966256,
+            -0.58242732
+          ],
+          [
+            47.49973451,
+            -0.58246189
+          ],
+          [
+            47.49981005,
+            -0.58221722
+          ],
+          [
+            47.49979026,
+            -0.58220259
+          ],
+          [
+            47.49979386,
+            -0.58215073
+          ],
+          [
+            47.49985591,
+            -0.58196856
+          ],
+          [
+            47.49980016,
+            -0.58192866
+          ],
+          [
+            47.49976239,
+            -0.58204302
+          ],
+          [
+            47.49972461,
+            -0.58201643
+          ],
+          [
+            47.49965986,
+            -0.58214541
+          ],
+          [
+            47.49950608,
+            -0.58260949
+          ],
+          [
+            47.49950968,
+            -0.58277704
+          ],
+          [
+            47.49975339,
+            -0.58293129
+          ],
+          [
+            47.4997408,
+            -0.58296586
+          ],
+          [
+            47.49992696,
+            -0.58310815
+          ],
+          [
+            47.49993955,
+            -0.58307224
+          ],
+          [
+            47.5000034,
+            -0.58311878
+          ],
+          [
+            47.50016258,
+            -0.58325841
+          ],
+          [
+            47.50015179,
+            -0.58329032
+          ]
+        ],
+        "height_m": 16.2,
+        "wall": "#d4d2c3",
+        "roof": "#93958b",
+        "source_building_key": "-6,-16:7",
+        "source": "Individual IGN aerial target (u=0.64,v=0.53); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Brisepotière": [
+      {
+        "id": "4,-10:189",
+        "name": "Brisepotière — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.47865084,
+            -0.52847036
+          ],
+          [
+            47.47856271,
+            -0.52837329
+          ],
+          [
+            47.47851055,
+            -0.52846903
+          ],
+          [
+            47.47854742,
+            -0.52851291
+          ],
+          [
+            47.47856271,
+            -0.52848233
+          ],
+          [
+            47.47861127,
+            -0.52853685
+          ],
+          [
+            47.47855731,
+            -0.52863924
+          ],
+          [
+            47.47860228,
+            -0.52869775
+          ],
+          [
+            47.47867602,
+            -0.52855946
+          ],
+          [
+            47.47862926,
+            -0.52851159
+          ]
+        ],
+        "height_m": 9.0,
+        "wall": "#d3cbba",
+        "roof": "#636b72",
+        "source_building_key": "4,-10:189",
+        "source": "Individual IGN aerial target (u=0.30,v=0.40); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "CHU-Hôpital": [
+      {
+        "id": "-1,-11:41",
+        "name": "CHU-Hôpital — façade de voisinage",
+        "kind": "hospital",
+        "footprint": [
+          [
+            47.48169234,
+            -0.55498277
+          ],
+          [
+            47.4818848,
+            -0.5548591
+          ],
+          [
+            47.48186051,
+            -0.55475671
+          ],
+          [
+            47.48203678,
+            -0.55465166
+          ],
+          [
+            47.48195045,
+            -0.55433252
+          ],
+          [
+            47.48136319,
+            -0.55467427
+          ],
+          [
+            47.48145132,
+            -0.55499872
+          ],
+          [
+            47.48166716,
+            -0.5548724
+          ]
+        ],
+        "height_m": 7.8,
+        "wall": "#cbd0ca",
+        "roof": "#93958b",
+        "source_building_key": "-1,-11:41",
+        "source": "Individual IGN aerial target (u=0.22,v=0.25); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Conservatoire": [
+      {
+        "id": "2,-8:225",
+        "name": "Conservatoire — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.47103719,
+            -0.53940085
+          ],
+          [
+            47.4710273,
+            -0.53937691
+          ],
+          [
+            47.47106147,
+            -0.53934766
+          ],
+          [
+            47.47104978,
+            -0.53931973
+          ],
+          [
+            47.4711649,
+            -0.53923197
+          ],
+          [
+            47.47101471,
+            -0.53891549
+          ],
+          [
+            47.4710309,
+            -0.53888756
+          ],
+          [
+            47.47101561,
+            -0.53885033
+          ],
+          [
+            47.47099223,
+            -0.5388623
+          ],
+          [
+            47.47091399,
+            -0.53868278
+          ],
+          [
+            47.47095176,
+            -0.53860699
+          ],
+          [
+            47.4711613,
+            -0.53841285
+          ],
+          [
+            47.47135375,
+            -0.53885432
+          ],
+          [
+            47.47140681,
+            -0.53886895
+          ],
+          [
+            47.47143739,
+            -0.53893942
+          ],
+          [
+            47.47153002,
+            -0.5388357
+          ],
+          [
+            47.47149495,
+            -0.53875326
+          ],
+          [
+            47.4714293,
+            -0.53881177
+          ],
+          [
+            47.47132138,
+            -0.53854449
+          ],
+          [
+            47.4711595,
+            -0.53839024
+          ],
+          [
+            47.47111633,
+            -0.53827721
+          ],
+          [
+            47.47083664,
+            -0.53852587
+          ],
+          [
+            47.47085013,
+            -0.53855912
+          ],
+          [
+            47.47068646,
+            -0.53871204
+          ],
+          [
+            47.47072873,
+            -0.53880512
+          ],
+          [
+            47.47083035,
+            -0.53874129
+          ],
+          [
+            47.4710318,
+            -0.53918809
+          ],
+          [
+            47.47094187,
+            -0.53928915
+          ],
+          [
+            47.47099582,
+            -0.53944074
+          ]
+        ],
+        "height_m": 12.7,
+        "wall": "#d1c8b5",
+        "roof": "#636b72",
+        "source_building_key": "2,-8:225",
+        "source": "Individual IGN aerial target (u=0.25,v=0.60); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Deux-Croix": [
+      {
+        "id": "4,-9:171",
+        "name": "Deux-Croix — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.47504636,
+            -0.52740657
+          ],
+          [
+            47.47503647,
+            -0.52750497
+          ],
+          [
+            47.47503287,
+            -0.52743715
+          ],
+          [
+            47.47493395,
+            -0.52741721
+          ],
+          [
+            47.47490967,
+            -0.5276898
+          ],
+          [
+            47.47508863,
+            -0.52772571
+          ],
+          [
+            47.47516328,
+            -0.52805814
+          ],
+          [
+            47.47519385,
+            -0.52804485
+          ],
+          [
+            47.47520644,
+            -0.5280874
+          ],
+          [
+            47.47517317,
+            -0.52810601
+          ],
+          [
+            47.47521274,
+            -0.52828154
+          ],
+          [
+            47.47531076,
+            -0.52856876
+          ],
+          [
+            47.47546545,
+            -0.52853153
+          ],
+          [
+            47.4753926,
+            -0.52825627
+          ],
+          [
+            47.47536652,
+            -0.5282709
+          ],
+          [
+            47.47535483,
+            -0.52822436
+          ],
+          [
+            47.47538001,
+            -0.52821106
+          ],
+          [
+            47.47532965,
+            -0.52801825
+          ],
+          [
+            47.47529637,
+            -0.52803687
+          ],
+          [
+            47.47528468,
+            -0.52799432
+          ],
+          [
+            47.47531706,
+            -0.52797038
+          ],
+          [
+            47.47528468,
+            -0.5278507
+          ],
+          [
+            47.4752595,
+            -0.52786533
+          ],
+          [
+            47.47524691,
+            -0.52781879
+          ],
+          [
+            47.47527299,
+            -0.52780416
+          ],
+          [
+            47.47519385,
+            -0.52755284
+          ],
+          [
+            47.4751318,
+            -0.52754087
+          ],
+          [
+            47.47514259,
+            -0.52742519
+          ]
+        ],
+        "height_m": 13.1,
+        "wall": "#d2cac3",
+        "roof": "#93958b",
+        "source_building_key": "4,-9:171",
+        "source": "Individual IGN aerial target (u=0.82,v=0.42); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Doutre-Maine": [
+      {
+        "id": "-2,-9:239",
+        "name": "Doutre-Maine — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.47453015,
+            -0.56055705
+          ],
+          [
+            47.47449958,
+            -0.56060226
+          ],
+          [
+            47.47448069,
+            -0.56057167
+          ],
+          [
+            47.47443483,
+            -0.56063683
+          ],
+          [
+            47.47444112,
+            -0.56064481
+          ],
+          [
+            47.47439975,
+            -0.56068736
+          ],
+          [
+            47.47441414,
+            -0.56072459
+          ],
+          [
+            47.47441954,
+            -0.56071794
+          ],
+          [
+            47.47445821,
+            -0.56077379
+          ],
+          [
+            47.47447799,
+            -0.56074454
+          ],
+          [
+            47.47451127,
+            -0.56080305
+          ],
+          [
+            47.47453555,
+            -0.56075784
+          ],
+          [
+            47.4745985,
+            -0.56068071
+          ]
+        ],
+        "height_m": 12.2,
+        "wall": "#d8ceb7",
+        "roof": "#636b72",
+        "source_building_key": "-2,-9:239",
+        "source": "Individual IGN aerial target (u=0.50,v=0.25); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Farcy": [
+      {
+        "id": "-5,-9:79",
+        "name": "Farcy — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.47278187,
+            -0.57925588
+          ],
+          [
+            47.47277108,
+            -0.57772934
+          ],
+          [
+            47.47268205,
+            -0.57772801
+          ],
+          [
+            47.47269014,
+            -0.57925854
+          ]
+        ],
+        "height_m": 25.8,
+        "wall": "#bdb8ac",
+        "roof": "#93958b",
+        "source_building_key": "-5,-9:79",
+        "source": "Individual IGN aerial target (u=0.20,v=0.82); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Foch-Haras": [
+      {
+        "id": "0,-7:237",
+        "name": "Foch-Haras — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.46687064,
+            -0.55218233
+          ],
+          [
+            47.46695608,
+            -0.55206664
+          ],
+          [
+            47.46684096,
+            -0.55187383
+          ],
+          [
+            47.46675283,
+            -0.55199085
+          ]
+        ],
+        "height_m": 9.8,
+        "wall": "#d2c7b2",
+        "roof": "#636b72",
+        "source_building_key": "0,-7:237",
+        "source": "Individual IGN aerial target (u=0.80,v=0.50); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Hauts de St-Aubin": [
+      {
+        "id": "-2,-14:15",
+        "name": "Hauts de St-Aubin — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.49234209,
+            -0.55996797
+          ],
+          [
+            47.49269193,
+            -0.55988951
+          ],
+          [
+            47.49277916,
+            -0.5598443
+          ],
+          [
+            47.49269373,
+            -0.55945602
+          ],
+          [
+            47.49255883,
+            -0.55951852
+          ],
+          [
+            47.4925984,
+            -0.55969936
+          ],
+          [
+            47.492334,
+            -0.55975787
+          ],
+          [
+            47.4923376,
+            -0.55983367
+          ],
+          [
+            47.49236458,
+            -0.55983101
+          ],
+          [
+            47.49236907,
+            -0.55990148
+          ],
+          [
+            47.49233939,
+            -0.55990281
+          ]
+        ],
+        "height_m": 12.7,
+        "wall": "#c5b6a1",
+        "roof": "#93958b",
+        "source_building_key": "-2,-14:15",
+        "source": "Individual IGN aerial target (u=0.86,v=0.26); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Hôtel de Ville": [
+      {
+        "id": "1,-8:11",
+        "name": "Hôtel de Ville — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.47197878,
+            -0.54705218
+          ],
+          [
+            47.47185917,
+            -0.54715058
+          ],
+          [
+            47.47198058,
+            -0.54747637
+          ],
+          [
+            47.4720921,
+            -0.5473527
+          ],
+          [
+            47.47207591,
+            -0.54730749
+          ],
+          [
+            47.47199227,
+            -0.54737531
+          ],
+          [
+            47.47197608,
+            -0.5473301
+          ],
+          [
+            47.47194731,
+            -0.54735004
+          ],
+          [
+            47.47194101,
+            -0.54732877
+          ],
+          [
+            47.47194731,
+            -0.54730616
+          ],
+          [
+            47.47192932,
+            -0.54725031
+          ],
+          [
+            47.47202195,
+            -0.5471692
+          ]
+        ],
+        "height_m": 9.0,
+        "wall": "#d7d1bd",
+        "roof": "#636b72",
+        "source_building_key": "1,-8:11",
+        "source": "Individual IGN aerial target (u=0.32,v=0.35); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Jean Vilar": [
+      {
+        "id": "-2,-1:11",
+        "name": "Jean Vilar — façade de voisinage",
+        "kind": "vilar",
+        "footprint": [
+          [
+            47.4452213,
+            -0.56270192
+          ],
+          [
+            47.44507561,
+            -0.5624014
+          ],
+          [
+            47.44485978,
+            -0.56262745
+          ],
+          [
+            47.44485078,
+            -0.56260485
+          ],
+          [
+            47.44476805,
+            -0.56269261
+          ],
+          [
+            47.44488046,
+            -0.56292665
+          ],
+          [
+            47.44493082,
+            -0.56287346
+          ],
+          [
+            47.44497489,
+            -0.56296122
+          ]
+        ],
+        "height_m": 3.5,
+        "wall": "#b6bab2",
+        "roof": "#93958b",
+        "source_building_key": "-2,-1:11",
+        "source": "Individual IGN aerial target (u=0.29,v=0.55); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Jean XXIII": [
+      {
+        "id": "-2,-2:32",
+        "name": "Jean XXIII — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.44841299,
+            -0.56261549
+          ],
+          [
+            47.44802988,
+            -0.56182296
+          ],
+          [
+            47.44807125,
+            -0.56177908
+          ],
+          [
+            47.44809283,
+            -0.56182562
+          ],
+          [
+            47.44858206,
+            -0.56130569
+          ],
+          [
+            47.44851102,
+            -0.56115676
+          ],
+          [
+            47.44802089,
+            -0.56167403
+          ],
+          [
+            47.44804967,
+            -0.56173387
+          ],
+          [
+            47.44790757,
+            -0.56188546
+          ],
+          [
+            47.44831227,
+            -0.56272187
+          ],
+          [
+            47.44839051,
+            -0.56263942
+          ],
+          [
+            47.44845346,
+            -0.56276575
+          ],
+          [
+            47.44850382,
+            -0.56271256
+          ],
+          [
+            47.44851012,
+            -0.56272586
+          ],
+          [
+            47.44895528,
+            -0.56225247
+          ],
+          [
+            47.44888334,
+            -0.56210354
+          ],
+          [
+            47.44843727,
+            -0.56257294
+          ],
+          [
+            47.44844087,
+            -0.5625849
+          ]
+        ],
+        "height_m": 15.7,
+        "wall": "#cdc6b9",
+        "roof": "#93958b",
+        "source_building_key": "-2,-2:32",
+        "source": "Individual IGN aerial target (u=0.73,v=0.45); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "La Barre": [
+      {
+        "id": "-9,-9:29",
+        "name": "La Barre — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.47374235,
+            -0.59933898
+          ],
+          [
+            47.47374235,
+            -0.59932967
+          ],
+          [
+            47.47379271,
+            -0.59933233
+          ],
+          [
+            47.47379271,
+            -0.59933898
+          ],
+          [
+            47.47386556,
+            -0.59934563
+          ],
+          [
+            47.47386825,
+            -0.59928579
+          ],
+          [
+            47.47385746,
+            -0.59928446
+          ],
+          [
+            47.47386106,
+            -0.59915149
+          ],
+          [
+            47.47382868,
+            -0.59914883
+          ],
+          [
+            47.47382958,
+            -0.59912888
+          ],
+          [
+            47.4738008,
+            -0.59912622
+          ],
+          [
+            47.4738017,
+            -0.59909963
+          ],
+          [
+            47.47374954,
+            -0.59909564
+          ],
+          [
+            47.47374864,
+            -0.59908367
+          ],
+          [
+            47.47369289,
+            -0.59908101
+          ],
+          [
+            47.47369289,
+            -0.59909165
+          ],
+          [
+            47.47364252,
+            -0.59908899
+          ],
+          [
+            47.47364163,
+            -0.59912888
+          ],
+          [
+            47.47359486,
+            -0.59914617
+          ],
+          [
+            47.47359216,
+            -0.59926452
+          ],
+          [
+            47.47363623,
+            -0.59929377
+          ],
+          [
+            47.47363533,
+            -0.59932169
+          ]
+        ],
+        "height_m": 38.1,
+        "wall": "#c7b9a8",
+        "roof": "#93958b",
+        "source_building_key": "-9,-9:29",
+        "source": "Individual IGN aerial target (u=0.37,v=0.18); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "La Fayette": [
+      {
+        "id": "-1,-5:333",
+        "name": "La Fayette — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.4609657,
+            -0.55381791
+          ],
+          [
+            47.46092883,
+            -0.55429396
+          ],
+          [
+            47.46063386,
+            -0.55424343
+          ],
+          [
+            47.46067253,
+            -0.5537594
+          ],
+          [
+            47.46054212,
+            -0.55373813
+          ],
+          [
+            47.46048996,
+            -0.55439901
+          ],
+          [
+            47.46103765,
+            -0.5545014
+          ],
+          [
+            47.46109431,
+            -0.55383786
+          ]
+        ],
+        "height_m": 13.8,
+        "wall": "#d0c7b2",
+        "roof": "#636b72",
+        "source_building_key": "-1,-5:333",
+        "source": "Individual IGN aerial target (u=0.63,v=0.54); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Le Quai": [
+      {
+        "id": "-3,-8:36",
+        "name": "Le Quai — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.4723475,
+            -0.56687199
+          ],
+          [
+            47.472352,
+            -0.56687997
+          ],
+          [
+            47.47226926,
+            -0.56698369
+          ],
+          [
+            47.47226566,
+            -0.56697704
+          ],
+          [
+            47.47224318,
+            -0.5670063
+          ],
+          [
+            47.47224768,
+            -0.56701294
+          ],
+          [
+            47.47220001,
+            -0.56707943
+          ],
+          [
+            47.47220001,
+            -0.56711002
+          ],
+          [
+            47.47220901,
+            -0.5671273
+          ],
+          [
+            47.4722243,
+            -0.56713794
+          ],
+          [
+            47.47224858,
+            -0.5671273
+          ],
+          [
+            47.47229894,
+            -0.56721374
+          ],
+          [
+            47.47232142,
+            -0.56723501
+          ],
+          [
+            47.4726218,
+            -0.56684939
+          ],
+          [
+            47.47251388,
+            -0.5666712
+          ],
+          [
+            47.47247251,
+            -0.56672439
+          ],
+          [
+            47.47246801,
+            -0.56671641
+          ],
+          [
+            47.47244733,
+            -0.56674301
+          ],
+          [
+            47.47245182,
+            -0.56674966
+          ],
+          [
+            47.47237268,
+            -0.56685205
+          ],
+          [
+            47.47236819,
+            -0.5668454
+          ]
+        ],
+        "height_m": 13.8,
+        "wall": "#d2c6b0",
+        "roof": "#636b72",
+        "source_building_key": "-3,-8:36",
+        "source": "Individual IGN aerial target (u=0.38,v=0.27); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Molière": [
+      {
+        "id": "-1,-9:39",
+        "name": "Molière — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.47353281,
+            -0.55507053
+          ],
+          [
+            47.47352381,
+            -0.55512638
+          ],
+          [
+            47.47376034,
+            -0.55526201
+          ],
+          [
+            47.47379181,
+            -0.55528861
+          ],
+          [
+            47.47381879,
+            -0.55516095
+          ],
+          [
+            47.4738116,
+            -0.55515164
+          ],
+          [
+            47.47374055,
+            -0.55513037
+          ],
+          [
+            47.47366141,
+            -0.55513303
+          ]
+        ],
+        "height_m": 5.7,
+        "wall": "#d6d0bd",
+        "roof": "#636b72",
+        "source_building_key": "-1,-9:39",
+        "source": "Individual IGN aerial target (u=0.67,v=0.76); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Monplaisir": [
+      {
+        "id": "5,-13:7",
+        "name": "Monplaisir — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.48925563,
+            -0.52664729
+          ],
+          [
+            47.48926282,
+            -0.52650899
+          ],
+          [
+            47.48829245,
+            -0.52639331
+          ],
+          [
+            47.48828526,
+            -0.52653293
+          ]
+        ],
+        "height_m": 14.7,
+        "wall": "#d1d3c7",
+        "roof": "#93958b",
+        "source_building_key": "5,-13:7",
+        "source": "Individual IGN aerial target (u=0.76,v=0.55); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Montaigne": [
+      {
+        "id": "3,-8:233",
+        "name": "Montaigne — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.46973857,
+            -0.53260852
+          ],
+          [
+            47.46960637,
+            -0.53272421
+          ],
+          [
+            47.46976915,
+            -0.53313244
+          ],
+          [
+            47.46977994,
+            -0.53312313
+          ],
+          [
+            47.46979613,
+            -0.53316169
+          ],
+          [
+            47.46978444,
+            -0.533171
+          ],
+          [
+            47.46994632,
+            -0.53357125
+          ],
+          [
+            47.47007762,
+            -0.53345291
+          ],
+          [
+            47.47006323,
+            -0.533417
+          ],
+          [
+            47.47007492,
+            -0.5334077
+          ],
+          [
+            47.46992743,
+            -0.53303936
+          ],
+          [
+            47.46991664,
+            -0.53305
+          ],
+          [
+            47.46989955,
+            -0.53300877
+          ],
+          [
+            47.46991124,
+            -0.53299814
+          ],
+          [
+            47.46976466,
+            -0.53263379
+          ],
+          [
+            47.46975206,
+            -0.53264309
+          ]
+        ],
+        "height_m": 10.4,
+        "wall": "#c9bdab",
+        "roof": "#93958b",
+        "source_building_key": "3,-8:233",
+        "source": "Individual IGN aerial target (u=0.53,v=0.30); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Patton": [
+      {
+        "id": "-8,-9:317",
+        "name": "Patton — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.47316229,
+            -0.59293228
+          ],
+          [
+            47.47324592,
+            -0.59294026
+          ],
+          [
+            47.47325402,
+            -0.59267298
+          ],
+          [
+            47.47317038,
+            -0.59266766
+          ]
+        ],
+        "height_m": 16.5,
+        "wall": "#c8c4b3",
+        "roof": "#93958b",
+        "source_building_key": "-8,-9:317",
+        "source": "Individual IGN aerial target (u=0.44,v=0.68); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Plateau Mayenne": [
+      {
+        "id": "-5,-15:24",
+        "name": "Plateau Mayenne — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.49556975,
+            -0.58078509
+          ],
+          [
+            47.49562012,
+            -0.58062419
+          ],
+          [
+            47.49567048,
+            -0.58066009
+          ],
+          [
+            47.49568756,
+            -0.58061754
+          ],
+          [
+            47.49567407,
+            -0.5806069
+          ],
+          [
+            47.49571185,
+            -0.58049121
+          ],
+          [
+            47.4957685,
+            -0.58053775
+          ],
+          [
+            47.49576581,
+            -0.58054839
+          ],
+          [
+            47.49581437,
+            -0.58058429
+          ],
+          [
+            47.49581797,
+            -0.58057499
+          ],
+          [
+            47.49584495,
+            -0.58059759
+          ],
+          [
+            47.4957703,
+            -0.58083562
+          ],
+          [
+            47.49588272,
+            -0.58092471
+          ],
+          [
+            47.49602751,
+            -0.58053509
+          ],
+          [
+            47.49601672,
+            -0.58052579
+          ],
+          [
+            47.49602481,
+            -0.58050451
+          ],
+          [
+            47.49558684,
+            -0.58017473
+          ],
+          [
+            47.49552838,
+            -0.58033297
+          ],
+          [
+            47.49557965,
+            -0.58036888
+          ],
+          [
+            47.49555177,
+            -0.58045531
+          ],
+          [
+            47.49553648,
+            -0.58044467
+          ],
+          [
+            47.49550141,
+            -0.58054041
+          ],
+          [
+            47.4955095,
+            -0.58054839
+          ],
+          [
+            47.49545824,
+            -0.58069466
+          ]
+        ],
+        "height_m": 13.4,
+        "wall": "#c8c7bb",
+        "roof": "#93958b",
+        "source_building_key": "-5,-15:24",
+        "source": "Individual IGN aerial target (u=0.23,v=0.56); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Roseraie": [
+      {
+        "id": "0,0:35",
+        "name": "Roseraie — façade de voisinage",
+        "kind": "commercial",
+        "footprint": [
+          [
+            47.44334622,
+            -0.55354133
+          ],
+          [
+            47.44342356,
+            -0.55352138
+          ],
+          [
+            47.44346943,
+            -0.55391764
+          ],
+          [
+            47.44365469,
+            -0.55387376
+          ],
+          [
+            47.44357555,
+            -0.55320623
+          ],
+          [
+            47.44331384,
+            -0.55327139
+          ]
+        ],
+        "height_m": 6.1,
+        "wall": "#b1b6aa",
+        "roof": "#93958b",
+        "source_building_key": "0,0:35",
+        "source": "Individual IGN aerial target (u=0.66,v=0.75); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "St-Serge Université": [
+      {
+        "id": "0,-9:440",
+        "name": "St-Serge Université — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.47588993,
+            -0.55105471
+          ],
+          [
+            47.47585485,
+            -0.5511172
+          ],
+          [
+            47.47584766,
+            -0.5511079
+          ],
+          [
+            47.47577301,
+            -0.55123555
+          ],
+          [
+            47.47586564,
+            -0.55136587
+          ],
+          [
+            47.47597986,
+            -0.55117172
+          ]
+        ],
+        "height_m": 13.6,
+        "wall": "#d2caba",
+        "roof": "#636b72",
+        "source_building_key": "0,-9:440",
+        "source": "Individual IGN aerial target (u=0.32,v=0.70); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Strasbourg": [
+      {
+        "id": "0,-4:218",
+        "name": "Strasbourg — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.45722723,
+            -0.55384451
+          ],
+          [
+            47.45720924,
+            -0.55385116
+          ],
+          [
+            47.45721554,
+            -0.55377004
+          ],
+          [
+            47.45723353,
+            -0.55377403
+          ],
+          [
+            47.45723802,
+            -0.5537102
+          ],
+          [
+            47.45720115,
+            -0.55370222
+          ],
+          [
+            47.45719575,
+            -0.55370754
+          ],
+          [
+            47.45718406,
+            -0.55385248
+          ],
+          [
+            47.45714179,
+            -0.5539562
+          ],
+          [
+            47.45721734,
+            -0.55396817
+          ]
+        ],
+        "height_m": 14.2,
+        "wall": "#cbc4b1",
+        "roof": "#636b72",
+        "source_building_key": "0,-4:218",
+        "source": "Individual IGN aerial target (u=0.63,v=0.68); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Terra Botanica": [
+      {
+        "id": "-5,-15:4",
+        "name": "Terra Botanica — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.4951084,
+            -0.57568552
+          ],
+          [
+            47.49488087,
+            -0.57498608
+          ],
+          [
+            47.49483501,
+            -0.57497278
+          ],
+          [
+            47.49473249,
+            -0.57504991
+          ],
+          [
+            47.49473968,
+            -0.57508714
+          ],
+          [
+            47.49459939,
+            -0.57512969
+          ],
+          [
+            47.49421268,
+            -0.57542356
+          ],
+          [
+            47.49428822,
+            -0.57561771
+          ],
+          [
+            47.49476936,
+            -0.57529458
+          ],
+          [
+            47.49489167,
+            -0.57566957
+          ],
+          [
+            47.49495282,
+            -0.57561904
+          ],
+          [
+            47.494978,
+            -0.57567755
+          ],
+          [
+            47.49494383,
+            -0.57570813
+          ],
+          [
+            47.49495822,
+            -0.57578127
+          ]
+        ],
+        "height_m": 10.8,
+        "wall": "#bfc3b9",
+        "roof": "#93958b",
+        "source_building_key": "-5,-15:4",
+        "source": "Individual IGN aerial target (u=0.21,v=0.31); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Verneau": [
+      {
+        "id": "-3,-14:92",
+        "name": "Verneau — façade de voisinage",
+        "kind": "townhouse",
+        "footprint": [
+          [
+            47.49222068,
+            -0.56754351
+          ],
+          [
+            47.49236548,
+            -0.56752224
+          ],
+          [
+            47.49226295,
+            -0.56599968
+          ],
+          [
+            47.49211816,
+            -0.56602096
+          ]
+        ],
+        "height_m": 4.2,
+        "wall": "#d3ccb8",
+        "roof": "#636b72",
+        "source_building_key": "-3,-14:92",
+        "source": "Individual IGN aerial target (u=0.60,v=0.65); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Élysée": [
+      {
+        "id": "-6,-9:204",
+        "name": "Élysée — façade de voisinage",
+        "kind": "housing",
+        "footprint": [
+          [
+            47.47383948,
+            -0.58546312
+          ],
+          [
+            47.47384757,
+            -0.58520648
+          ],
+          [
+            47.47386556,
+            -0.58520781
+          ],
+          [
+            47.47387275,
+            -0.58494585
+          ],
+          [
+            47.47386016,
+            -0.58494585
+          ],
+          [
+            47.47386376,
+            -0.58481288
+          ],
+          [
+            47.47372526,
+            -0.58479559
+          ],
+          [
+            47.47371897,
+            -0.58498973
+          ],
+          [
+            47.47373605,
+            -0.58499106
+          ],
+          [
+            47.47373246,
+            -0.58514797
+          ],
+          [
+            47.47371447,
+            -0.58514664
+          ],
+          [
+            47.47370458,
+            -0.58544583
+          ]
+        ],
+        "height_m": 13.3,
+        "wall": "#c7b9a3",
+        "roof": "#93958b",
+        "source_building_key": "-6,-9:204",
+        "source": "Individual IGN aerial target (u=0.61,v=0.43); real IGN footprint/height; façade silhouette and colour vocabulary checked against street photos; ornament simplified",
+        "detail_accuracy": "Stylised reconstruction, not a measured architectural survey"
+      }
+    ],
+    "Capucins": [
+      {
+        "id": "-1,-12:31",
+        "name": "Capucins — résidence de carrefour",
+        "kind": "housing",
+        "height_m": 9.700000000000001,
+        "footprint": [
+          [
+            47.48687153,
+            -0.55563567
+          ],
+          [
+            47.48696146,
+            -0.55555588
+          ],
+          [
+            47.48695426,
+            -0.55553727
+          ],
+          [
+            47.48697135,
+            -0.55552264
+          ],
+          [
+            47.48697765,
+            -0.55554126
+          ],
+          [
+            47.48705409,
+            -0.55547211
+          ],
+          [
+            47.48703161,
+            -0.55541626
+          ],
+          [
+            47.48707387,
+            -0.55537903
+          ],
+          [
+            47.48702621,
+            -0.55526334
+          ],
+          [
+            47.48691919,
+            -0.55536041
+          ],
+          [
+            47.4869102,
+            -0.55533648
+          ],
+          [
+            47.48686883,
+            -0.55537371
+          ],
+          [
+            47.48687872,
+            -0.55539632
+          ],
+          [
+            47.4867789,
+            -0.55548541
+          ],
+          [
+            47.48681127,
+            -0.5555612
+          ],
+          [
+            47.48683106,
+            -0.55554259
+          ]
+        ],
+        "wall": "#c7c3b3",
+        "roof": "#7a827d",
+        "source": "IGN footprint and aerial roof 25; Panoramax white and brown residential street facades",
+        "detail_accuracy": "Stylised facade, actual footprint and height"
+      }
+    ]
+  },
+  "depot": {
+    "workshop_void": [
+      [
+        47.49658577,
+        -0.5675683
+      ],
+      [
+        47.49677758,
+        -0.56701563
+      ],
+      [
+        47.49661037,
+        -0.56686291
+      ],
+      [
+        47.49666938,
+        -0.5667102
+      ],
+      [
+        47.49650217,
+        -0.56658658
+      ],
+      [
+        47.4964038,
+        -0.566892
+      ],
+      [
+        47.49628577,
+        -0.56679746
+      ],
+      [
+        47.49611363,
+        -0.56729196
+      ],
+      [
+        47.49633987,
+        -0.56755376
+      ],
+      [
+        47.49638905,
+        -0.56742286
+      ]
+    ],
+    "oval_shelter": [
+      [
+        47.49584805,
+        -0.56885545
+      ],
+      [
+        47.49597101,
+        -0.56838277
+      ],
+      [
+        47.49592674,
+        -0.56831732
+      ],
+      [
+        47.49585789,
+        -0.56837549
+      ],
+      [
+        47.49573002,
+        -0.56878273
+      ],
+      [
+        47.49574477,
+        -0.56888454
+      ]
+    ],
+    "source": "IGN BD ORTHO 560m; Édouard Paris 21 July 2019; Rolland & Associés workshop photographs",
+    "references": [
+      "https://tramwaydemontpellier.net/2019/07/24/24-juillet-2019-a-angers-vues-aeriennes-du-centre-technique-des-transports-ctt-raymond-perron/",
+      "https://www.caue-observatoire.fr/ouvrage/centre-technique-des-transports/"
+    ],
+    "fence": [
+      [
+        47.49465786,
+        -0.57094979
+      ],
+      [
+        47.49457917,
+        -0.57021532
+      ],
+      [
+        47.49552345,
+        -0.56679746
+      ],
+      [
+        47.49563657,
+        -0.56627388
+      ],
+      [
+        47.49603986,
+        -0.56580847
+      ],
+      [
+        47.49668906,
+        -0.56615025
+      ],
+      [
+        47.49703333,
+        -0.56668111
+      ],
+      [
+        47.49654643,
+        -0.56809189
+      ],
+      [
+        47.49633987,
+        -0.56846276
+      ],
+      [
+        47.49569559,
+        -0.57049165
+      ],
+      [
+        47.49504147,
+        -0.57081162
+      ]
+    ],
+    "bus_parking": [
+      {
+        "start": [
+          47.49572018,
+          -0.57028077
+        ],
+        "end": [
+          47.49562182,
+          -0.56997534
+        ]
+      },
+      {
+        "start": [
+          47.49575952,
+          -0.57016441
+        ],
+        "end": [
+          47.49566116,
+          -0.56985899
+        ]
+      },
+      {
+        "start": [
+          47.49579887,
+          -0.57004806
+        ],
+        "end": [
+          47.49570051,
+          -0.56974264
+        ]
+      },
+      {
+        "start": [
+          47.49583821,
+          -0.56993171
+        ],
+        "end": [
+          47.49573985,
+          -0.56962628
+        ]
+      },
+      {
+        "start": [
+          47.49587756,
+          -0.56981536
+        ],
+        "end": [
+          47.4957792,
+          -0.56950993
+        ]
+      },
+      {
+        "start": [
+          47.49591691,
+          -0.569699
+        ],
+        "end": [
+          47.49581854,
+          -0.56939358
+        ]
+      },
+      {
+        "start": [
+          47.49595625,
+          -0.56958265
+        ],
+        "end": [
+          47.49585789,
+          -0.56927723
+        ]
+      },
+      {
+        "start": [
+          47.4959956,
+          -0.5694663
+        ],
+        "end": [
+          47.49589723,
+          -0.56916087
+        ]
+      },
+      {
+        "start": [
+          47.49603494,
+          -0.56934995
+        ],
+        "end": [
+          47.49593658,
+          -0.56904452
+        ]
+      },
+      {
+        "start": [
+          47.49607429,
+          -0.56923359
+        ],
+        "end": [
+          47.49597592,
+          -0.56892817
+        ]
+      },
+      {
+        "start": [
+          47.49611363,
+          -0.56911724
+        ],
+        "end": [
+          47.49601527,
+          -0.56881182
+        ]
+      },
+      {
+        "start": [
+          47.49615298,
+          -0.56900089
+        ],
+        "end": [
+          47.49605461,
+          -0.56869546
+        ]
+      }
+    ],
+    "oval_skylight": [
+      [
+        47.49654151,
+        -0.56690654
+      ],
+      [
+        47.49652328,
+        -0.56691088
+      ],
+      [
+        47.49650575,
+        -0.5669237
+      ],
+      [
+        47.4964896,
+        -0.56694454
+      ],
+      [
+        47.49647544,
+        -0.56697257
+      ],
+      [
+        47.49646381,
+        -0.56700673
+      ],
+      [
+        47.49645518,
+        -0.56704571
+      ],
+      [
+        47.49644986,
+        -0.567088
+      ],
+      [
+        47.49644807,
+        -0.56713198
+      ],
+      [
+        47.49644986,
+        -0.56717596
+      ],
+      [
+        47.49645518,
+        -0.56721825
+      ],
+      [
+        47.49646381,
+        -0.56725722
+      ],
+      [
+        47.49647544,
+        -0.56729138
+      ],
+      [
+        47.4964896,
+        -0.56731942
+      ],
+      [
+        47.49650575,
+        -0.56734025
+      ],
+      [
+        47.49652328,
+        -0.56735308
+      ],
+      [
+        47.49654151,
+        -0.56735741
+      ],
+      [
+        47.49655974,
+        -0.56735308
+      ],
+      [
+        47.49657727,
+        -0.56734025
+      ],
+      [
+        47.49659343,
+        -0.56731942
+      ],
+      [
+        47.49660759,
+        -0.56729138
+      ],
+      [
+        47.49661921,
+        -0.56725722
+      ],
+      [
+        47.49662784,
+        -0.56721825
+      ],
+      [
+        47.49663316,
+        -0.56717596
+      ],
+      [
+        47.49663496,
+        -0.56713198
+      ],
+      [
+        47.49663316,
+        -0.567088
+      ],
+      [
+        47.49662784,
+        -0.56704571
+      ],
+      [
+        47.49661921,
+        -0.56700673
+      ],
+      [
+        47.49660759,
+        -0.56697257
+      ],
+      [
+        47.49659343,
+        -0.56694454
+      ],
+      [
+        47.49657727,
+        -0.5669237
+      ],
+      [
+        47.49655974,
+        -0.56691088
+      ]
+    ]
+  }
+}

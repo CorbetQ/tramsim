@@ -79,3 +79,20 @@ couleur uniquement ; elles ne sont pas distribuées.
   SIL Open Font License 1.1 (`data/ui/fonts/OFL.txt`). Source : https://github.com/googlefonts/atkinson-hyperlegible
   (commit 1cb3116), fichiers `fonts/ttf/AtkinsonHyperlegible-{Regular,Bold}.ttf` copiés dans `data/ui/fonts/`.
 - **Icônes** `data/ui/icons/*.svg` : dessinées pour le projet (même licence que le code).
+
+## Arrêts d’Angers — relevé de références du 14 novembre 2026
+
+- Empreintes des quais et abris : © les contributeurs OpenStreetMap, ODbL 1.0.
+- Empreintes et hauteurs des bâtiments : IGN BD TOPO, Licence Ouverte 2.0.
+- Orthophotographies de référence : IGN BD ORTHO, Licence Ouverte 2.0, service Géoplateforme.
+  La date de prise de vue n’est pas fournie par le service WMS ; la date du relevé est la date de consultation.
+- Vues de rue : Panoramax ; auteur, date et licence propres à chaque photographie dans
+  data/station_models/angers.json. Les photographies ne sont pas distribuées dans le jeu.
+- Mobilier : charte municipale d’Angers, https://cpu.angers.fr/product/abri-tramway
+- Verrières Ralliement / Gares / Saint-Gilles : photographies de chantier CMR,
+  https://www.cmrsa.fr/projet/auvents-des-stations-ralliement-et-les-gares-du-tramway-dangers
+- Dépôt Raymond-Perron : photographies de référence © Édouard Paris, 21 juillet 2019,
+  https://tramwaydemontpellier.net/2019/07/24/24-juillet-2019-a-angers-vues-aeriennes-du-centre-technique-des-transports-ctt-raymond-perron/
+- Maison Bleue : monument historique PA49000016, ministère de la Culture.
+Les modèles sont des reconstructions stylisées originales, à partir des empreintes géographiques et
+références citées ; les décors photographiques propriétaires ne sont pas incorporés aux textures.

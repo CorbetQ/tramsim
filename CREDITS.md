@@ -128,3 +128,12 @@ LG, « Streetcar04.wav », https://freesound.org/people/LG/sounds/14279/ , Creat
 - Souffle d'air : synthèse originale locale de bruit brun filtré. Aucune captation constructeur, voix ni musique.
 
 Provenance, empreintes des originaux et traitements : `data/audio/free_sfx/SOURCES.json`. Reproduction : `tools/audio/build_free_sfx.py`. Aucun service de génération payant utilisé pour ces effets.
+
+### Stations d’Angers et dépôt Raymond-Perron
+
+Relevé documentaire du 14 novembre 2026 : empreintes OSM (ODbL), IGN BD TOPO et BD ORTHO
+(Licence Ouverte 2.0), vues de rue Panoramax avec auteur/date/licence par image.
+Les photographies de mobilier de la Ville d’Angers, de CMR et d’Édouard Paris servent uniquement
+à la reconstruction de géométrie originale. Références et limites :
+[relevé des stations](docs/angers-stations/README.md) et
+[registre des sources](tools/import/angers_station_references.json).

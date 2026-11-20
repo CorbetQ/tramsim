@@ -22,6 +22,8 @@ var sector_center: Dictionary = {} # edge id -> Vector3
 var view_distance := 400.0
 var car_nodes: Array[MeshInstance3D] = []
 var light_nodes: Array[MeshInstance3D] = []
+var authored_stations := true
+var station_identity: StationIdentityView
 var city: CityScene
 var day_night: DayNight
 var headlight: SpotLight3D
@@ -61,6 +63,8 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 			city.bind_network(net)
 		else:
 			city.free(); city = null
+	if geometric and authored_stations:
+		station_identity = StationIdentityView.new(); add_child(station_identity); station_identity.setup(self, src)
 	if geometric:   # types de stations, entraxe élargi au droit des quais centraux, quais
 		layout = StationLayout.new(self)
 		layout.load_city(src, net.meta.get("origin", [0, 0]))
@@ -88,6 +92,7 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 	if geometric: ElectrificationView.junctions(self)
 	_depot_buildings()
 	_real_platforms()
+	if station_identity: station_identity.build_sites()
 	_crossovers()
 	for s in net.signals:
 		var t2 := _frame(s.edge, float(s.offset))
@@ -206,7 +211,9 @@ func _track(parent: Node3D, id: String) -> void:
 	var g := _Geo.new()
 	var fallback := _bed_color(id)
 	var paved := Color("#a49a8c") if city != null and city.style.get("trees", [0])[0] == 6 else Color("#9a958d")
-	var nature := func(p: Vector3) -> int: return city.track_nature_at(p) if city != null else TrackView.BED_UNKNOWN
+	var nature := func(p: Vector3) -> int:
+		if station_identity and station_identity.depot_track_at(id, p): return TrackView.BED_PAVED
+		return city.track_nature_at(p) if city != null else TrackView.BED_UNKNOWN
 	if geometric and not info.get("tunnel", []).is_empty():
 		# L'orthophoto montre la surface au-dessus du tunnel : elle ne décrit pas son radier.
 		for span_ in info.tunnel:
@@ -312,6 +319,7 @@ func _depot_buildings() -> void:
 	for depot in net.meta.get("depots", []):
 		if not sectors.has(depot.edge): continue
 		for building in depot.get("buildings", []):
+			if station_identity and station_identity.build_depot_building(sectors[depot.edge], depot, building): continue
 			if seen.has(building.source_id): continue
 			seen[building.source_id] = true
 			var polygon := PackedVector2Array()
@@ -338,6 +346,7 @@ func _depot_buildings() -> void:
 ## Quais cartographiés OSM : l'emprise réelle remplace l'implantation estimée GTFS.
 func _real_platforms() -> void:
 	for platform in net.meta.get("platforms", []):
+		if station_identity and station_identity.build_platform(platform): continue
 		if not sectors.has(platform.edge): continue
 		var poly := PackedVector2Array(); var top: Array[Vector3] = []
 		var h := float(platform.get("height_m", 0.3))
@@ -373,28 +382,42 @@ func _real_platforms() -> void:
 				g.box(center + basis.z * side * 1.6 + Vector3.UP * 1.25, Vector3(0.06, 2.5, 0.06), Color("#535b60"))
 			g.box_basis(center + Vector3.UP * 0.5, Vector3(0.5, 0.12, 2.0), basis, Color("#746d5d"))
 		_add_geo(sectors[platform.edge], g, Materials.building())
-		# voyageurs en attente (instances) et poteau d'information, hors abri
-		var rng := RandomNumberGenerator.new(); rng.seed = hash(str(platform.get("id", center)))
-		var peds: Array = []; var pcols: Array = []
-		var want := rng.randi_range(1, 3) if DayNight.low_quality else rng.randi_range(2, 7)
-		for k in want * 3:
-			if peds.size() >= want or triangles.size() < 3: break
-			var t0 := rng.randi_range(0, triangles.size() / 3 - 1) * 3
-			var r1 := sqrt(rng.randf()); var r2 := rng.randf()
-			var q: Vector3 = top[triangles[t0]] * (1.0 - r1) + top[triangles[t0 + 1]] * (r1 * (1.0 - r2)) + top[triangles[t0 + 2]] * (r1 * r2)
-			if Vector2(q.x - center.x, q.z - center.z).length() < 3.5: continue
-			if absf((q - center).dot(tangent)) > longest * 0.5 - 7.0: continue   # extrémités (vue cabine) dégagées
-			var edge_d := INF
-			for i in poly.size():
-				edge_d = minf(edge_d, Vector2(q.x, q.z).distance_to(Geometry2D.get_closest_point_to_segment(Vector2(q.x, q.z), poly[i], poly[(i + 1) % poly.size()])))
-			if edge_d < 0.9: continue
-			var b3 := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * rng.randf_range(0.92, 1.06))
-			peds.append(Transform3D(b3, q)); pcols.append(StreetProps.clothes_color(rng))
-		if not peds.is_empty(): sectors[platform.edge].add_child(StreetProps.instances(StreetProps.PED if rng.randf() < 0.5 else StreetProps.PED_B, peds, pcols))
-		if longest > 10.0:
-			var ip := center + tangent * minf(5.0, longest * 0.3)
-			if Geometry2D.is_point_in_polygon(Vector2(ip.x, ip.z), poly):
-				sectors[platform.edge].add_child(StreetProps.instances(StreetProps.INFO, [Transform3D(basis, ip)]))
+		_platform_people(platform, sectors[platform.edge])
+
+func _platform_people(platform: Dictionary, parent: Node3D, include_info := true) -> void:
+	var poly := PackedVector2Array(); var top: Array[Vector3] = []; var center := Vector3.ZERO
+	var tangent := Vector3.FORWARD; var longest := 0.0
+	for i in platform.pts.size():
+		var q := Vector3(platform.pts[i][0], float(platform.y[i]) + float(platform.get("height_m", .3)), platform.pts[i][1])
+		poly.append(Vector2(q.x, q.z)); top.append(q); center += q
+	center /= maxf(1.0, top.size())
+	var triangles := Geometry2D.triangulate_polygon(poly)
+	for i in top.size():
+		var d := top[(i + 1) % top.size()] - top[i]
+		if d.length() > longest: longest = d.length(); tangent = d.normalized()
+	var basis := Basis.looking_at(tangent, Vector3.UP)
+	# voyageurs en attente (instances) et poteau d'information, hors abri
+	var rng := RandomNumberGenerator.new(); rng.seed = hash(str(platform.get("id", center)))
+	var peds: Array = []; var pcols: Array = []
+	var want := rng.randi_range(1, 3) if DayNight.low_quality else rng.randi_range(2, 7)
+	for k in want * 3:
+		if peds.size() >= want or triangles.size() < 3: break
+		var t0 := rng.randi_range(0, triangles.size() / 3 - 1) * 3
+		var r1 := sqrt(rng.randf()); var r2 := rng.randf()
+		var q: Vector3 = top[triangles[t0]] * (1.0 - r1) + top[triangles[t0 + 1]] * (r1 * (1.0 - r2)) + top[triangles[t0 + 2]] * (r1 * r2)
+		if Vector2(q.x - center.x, q.z - center.z).length() < 3.5: continue
+		if absf((q - center).dot(tangent)) > longest * 0.5 - 7.0: continue   # extrémités (vue cabine) dégagées
+		var edge_d := INF
+		for i in poly.size():
+			edge_d = minf(edge_d, Vector2(q.x, q.z).distance_to(Geometry2D.get_closest_point_to_segment(Vector2(q.x, q.z), poly[i], poly[(i + 1) % poly.size()])))
+		if edge_d < 0.9: continue
+		var b3 := Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * rng.randf_range(0.92, 1.06))
+		peds.append(Transform3D(b3, q)); pcols.append(StreetProps.clothes_color(rng))
+	if not peds.is_empty(): parent.add_child(StreetProps.instances(StreetProps.PED if rng.randf() < 0.5 else StreetProps.PED_B, peds, pcols))
+	if include_info and longest > 10.0:
+		var ip := center + tangent * minf(5.0, longest * 0.3)
+		if Geometry2D.is_point_in_polygon(Vector2(ip.x, ip.z), poly):
+			parent.add_child(StreetProps.instances(StreetProps.INFO, [Transform3D(basis, ip)]))
 
 ## Plateforme par défaut (sans analyse d'orthophoto) : engazonnée en périphérie, pavée ou en enrobé
 ## dans les quartiers denses (densité de bâti IGN).

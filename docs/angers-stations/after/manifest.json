@@ -1,0 +1,432 @@
+[
+	{
+		"camera_size": 145.0,
+		"center": [
+			-2427.8388671875,
+			10.8659620285034,
+			-6645.462890625
+		],
+		"file": "01-acacias.png",
+		"name": "Acacias"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			2046.18591308594,
+			1.51912081241608,
+			-4441.90966796875
+		],
+		"file": "02-allonneau-dunant.png",
+		"name": "Allonneau-Dunant"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-3152.56567382812,
+			19.7059669494629,
+			-7517.009765625
+		],
+		"file": "03-avrille-ardenne.png",
+		"name": "Avrillé-Ardenne"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-180.711700439453,
+			-7.43359899520874,
+			-913.801147460938
+		],
+		"file": "04-bamako.png",
+		"name": "Bamako"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-2819.26806640625,
+			15.3083667755127,
+			-7209.3330078125
+		],
+		"file": "05-bascule.png",
+		"name": "Bascule"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-3399.60595703125,
+			10.2332439422607,
+			-3619.95581054688
+		],
+		"file": "06-beaussier.png",
+		"name": "Beaussier"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-3695.22705078125,
+			6.43954992294312,
+			-3783.63500976562
+		],
+		"file": "07-belle-beille-campus.png",
+		"name": "Belle-Beille Campus"
+	},
+	{
+		"camera_size": 320.0,
+		"center": [
+			349.766998291016,
+			-15.8188467025757,
+			-3946.53588867188
+		],
+		"file": "08-berges-de-maine.png",
+		"name": "Berges de Maine"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-2186.0625,
+			15.0950546264648,
+			-6196.345703125
+		],
+		"file": "09-bois-du-roy.png",
+		"name": "Bois du Roy"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			1939.69909667969,
+			7.73992919921875,
+			-3849.35131835938
+		],
+		"file": "10-brisepotiere.png",
+		"name": "Brisepotière"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-7.14424133300781,
+			-17.3491191864014,
+			-4161.14208984375
+		],
+		"file": "11-chu-hopital.png",
+		"name": "CHU-Hôpital"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-88.5885925292969,
+			2.9100034236908,
+			-4773.048828125
+		],
+		"file": "12-capucins.png",
+		"name": "Capucins"
+	},
+	{
+		"camera_size": 190.0,
+		"center": [
+			595.528930664062,
+			-8.00432300567627,
+			-3370.98999023438
+		],
+		"file": "13-centre-de-congres.png",
+		"name": "Centre de Congrès"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			1192.11059570312,
+			4.85211038589478,
+			-3060.31103515625
+		],
+		"file": "14-conservatoire.png",
+		"name": "Conservatoire"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			1885.40283203125,
+			1.88621938228607,
+			-3471.84399414062
+		],
+		"file": "15-deux-croix.png",
+		"name": "Deux-Croix"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-502.428161621094,
+			-18.0832233428955,
+			-3360.76000976562
+		],
+		"file": "16-doutre-maine.png",
+		"name": "Doutre-Maine"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			2024.67797851562,
+			7.68141603469849,
+			-4752.8115234375
+		],
+		"file": "17-europe.png",
+		"name": "Europe"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-1756.43054199219,
+			-15.7315187454224,
+			-3273.47192382812
+		],
+		"file": "18-farcy.png",
+		"name": "Farcy"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			105.133148193359,
+			8.40715980529785,
+			-2542.25317382812
+		],
+		"file": "19-foch-haras.png",
+		"name": "Foch-Haras"
+	},
+	{
+		"camera_size": 220.0,
+		"center": [
+			324.047729492188,
+			8.26630687713623,
+			-2785.10327148438
+		],
+		"file": "20-foch-maison-bleue.png",
+		"name": "Foch-Maison Bleue"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-481.521850585938,
+			11.3598260879517,
+			-5370.16650390625
+		],
+		"file": "21-hauts-de-st-aubin.png",
+		"name": "Hauts de St-Aubin"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			548.376892089844,
+			2.5286169052124,
+			-3087.10913085938
+		],
+		"file": "22-hotel-de-ville.png",
+		"name": "Hôtel de Ville"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			141.756790161133,
+			4.75803089141846,
+			-5172.57275390625
+		],
+		"file": "23-jean-moulin.png",
+		"name": "Jean Moulin"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-623.203430175781,
+			-10.9591903686523,
+			-107.52564239502
+		],
+		"file": "24-jean-vilar.png",
+		"name": "Jean Vilar"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-667.422546386719,
+			-9.86136627197266,
+			-518.057861328125
+		],
+		"file": "25-jean-xxiii.png",
+		"name": "Jean XXIII"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-3370.80346679688,
+			13.0233507156372,
+			-3258.57177734375
+		],
+		"file": "26-la-barre.png",
+		"name": "La Barre"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-47.678409576416,
+			2.93791484832764,
+			-1880.08642578125
+		],
+		"file": "27-la-fayette.png",
+		"name": "La Fayette"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-941.986999511719,
+			-14.6079664230347,
+			-3151.60205078125
+		],
+		"file": "28-le-quai.png",
+		"name": "Le Quai"
+	},
+	{
+		"camera_size": 190.0,
+		"center": [
+			-103.40348815918,
+			7.47856712341309,
+			-2287.06030273438
+		],
+		"file": "29-les-gares.png",
+		"name": "Les Gares"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-117.315963745117,
+			-17.6207790374756,
+			-3354.421875
+		],
+		"file": "30-moliere.png",
+		"name": "Molière"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			2039.04162597656,
+			9.70696258544922,
+			-5005.7802734375
+		],
+		"file": "31-monplaisir.png",
+		"name": "Monplaisir"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			1592.11291503906,
+			5.65486621856689,
+			-2820.796875
+		],
+		"file": "32-montaigne.png",
+		"name": "Montaigne"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-2908.00708007812,
+			6.67440557479858,
+			-3280.2548828125
+		],
+		"file": "33-patton.png",
+		"name": "Patton"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-1951.88195800781,
+			17.4555034637451,
+			-5762.240234375
+		],
+		"file": "34-plateau-mayenne.png",
+		"name": "Plateau Mayenne"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			179.959671020508,
+			0.118097610771656,
+			-3033.40185546875
+		],
+		"file": "35-ralliement.png",
+		"name": "Ralliement"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			2.10567116737366,
+			-11.5495195388794,
+			2.11270642280579
+		],
+		"file": "36-roseraie.png",
+		"name": "Roseraie"
+	},
+	{
+		"camera_size": 175.0,
+		"center": [
+			-2631.5625,
+			10.8290615081787,
+			-6925.78564453125
+		],
+		"file": "37-st-gilles.png",
+		"name": "St-Gilles"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			250.499664306641,
+			-17.5824184417725,
+			-3591.60107421875
+		],
+		"file": "38-st-serge-universite.png",
+		"name": "St-Serge Université"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-6.76822853088379,
+			-0.424916237592697,
+			-1511.36352539062
+		],
+		"file": "39-strasbourg.png",
+		"name": "Strasbourg"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-1563.16003417969,
+			15.9774293899536,
+			-5591.22216796875
+		],
+		"file": "40-terra-botanica.png",
+		"name": "Terra Botanica"
+	},
+	{
+		"camera_size": 185.0,
+		"center": [
+			-997.636901855469,
+			8.92539405822754,
+			-5401.74560546875
+		],
+		"file": "41-verneau.png",
+		"name": "Verneau"
+	},
+	{
+		"camera_size": 145.0,
+		"center": [
+			-2367.2255859375,
+			-1.71628642082214,
+			-3304.60668945312
+		],
+		"file": "42-elysee.png",
+		"name": "Élysée"
+	},
+	{
+		"camera_size": 460.0,
+		"center": [
+			-1107.0341796875,
+			13.1203918457031,
+			-5687.16552734375
+		],
+		"file": "43-depot-raymond-perron.png",
+		"name": "Dépôt Raymond-Perron"
+	}
+]

@@ -19,6 +19,9 @@ func _run() -> void:
 	if not p.is_ready("Angers"): quit(1); return
 	var n: NetworkLoader = p.network("res://data/free/angers.json")
 	check(n != null and not n.graph.edges.is_empty(), "réseau complet préconstruit avant lancement")
+	var model_reads := CityDataStore.disk_reads
+	var station_models: Dictionary = CityDataStore.document("res://data/station_models/angers.json")
+	check(station_models.stations.size() == 42 and CityDataStore.disk_reads == model_reads, "modèles des stations préchargés dès le choix de la ville")
 	var reads := CityDataStore.disk_reads
 	var scene := p.take_scene(n.meta.origin)
 	check(scene != null and scene.terrain != null, "décor et métadonnées de terrain prêts avant départ")
