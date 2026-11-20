@@ -526,7 +526,10 @@ def build(city, workers=1):
     json.dump(tmeta, open(tmeta_path, "w"), ensure_ascii=False, indent=1)
     if getattr(dem, "coverage", None):
         tmeta["lidar_mnt_coverage"] = round(float(np.mean(dem.coverage)), 3)
-        json.dump(tmeta, open(tmeta_path, "w"), ensure_ascii=False, indent=1)
+    else:
+        tmeta.pop("lidar_mnt_coverage", None)
+        tmeta["mnt"] = "RGE ALTI (TERRAIN_LIDAR=0)"
+    json.dump(tmeta, open(tmeta_path, "w"), ensure_ascii=False, indent=1)
     print(f"{city}: {len(keys)} tuiles, {os.path.getsize(path) / 1e6:.2f} Mo, {dict(st)}, {time.time() - t0:.0f} s", flush=True)
 
 

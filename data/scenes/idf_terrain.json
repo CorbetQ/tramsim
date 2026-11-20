@@ -23,5 +23,5 @@
  "ground_file": "idf_ground.bin",
  "far_ring_m": 8000.0,
  "far_step_m": 100.0,
- "lidar_mnt_coverage": 0.924
+ "mnt": "RGE ALTI (TERRAIN_LIDAR=0)"
 }
