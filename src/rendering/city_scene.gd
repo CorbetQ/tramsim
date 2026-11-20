@@ -1166,17 +1166,17 @@ func _enforce_gauge() -> void:
 					t = clampf(t, 0.0, 1.0)
 					if (a + (b - a) * t).distance_to(c) > float(d[1]) * 0.5 + GAUGE_HW + 0.5: continue
 					var y := lerpf(pl[m].y, pl[m + 1].y, t)
-					if y <= q.y + 0.2 or y - 1.8 >= q.y + GAUGE_H: continue
+					if y <= q.y + 0.1 or y - 1.8 >= q.y + GAUGE_H: continue
 					# segment translé verticalement (pente conservée) : au droit de la voie, tablier au rail - 0,1 m ou
 					# au-dessus du gabarit
-					var shift: float = (q.y - 0.1 - y) if y - q.y < 2.5 else (q.y + GAUGE_H + 2.0 - y)
+					var shift: float = (q.y - 0.2 - y) if y - q.y < 2.5 else (q.y + GAUGE_H + 2.0 - y)
 					for e in ([only] if only >= 0 else [m, m + 1]):
 						pl[e].y = minf(pl[e].y, pl[e].y + shift) if shift < 0.0 else maxf(pl[e].y, pl[e].y + shift)
 					d[2] = pl
 
 ## Sommet j d'un tablier face aux voies : Vector2(altitude si la voie est portée (parallèle), altitude minimale
 ## si le tablier la franchit dans le gabarit) ; NAN sinon. `merge` : premier passage, la voie parallèle proche
-## (jusqu'à 15 m en dessous) est considérée comme portée par le tablier (fusion route + tram).
+## (jusqu'à 15 m en dessous : tablier BD TOPO mal calé) est considérée comme portée par le tablier.
 func _deck_conflict(rs: PackedVector3Array, j: int, hw: float, merge: bool) -> Vector2:
 	var a := rs[maxi(j - 1, 0)]; var b := rs[mini(j + 1, rs.size() - 1)]
 	var sd := Vector2(b.x - a.x, b.z - a.z).normalized()
@@ -2437,7 +2437,7 @@ class _Arrays:
 		# garde-fou : triangle de décor démesuré et très incliné (sommet aberrant des données : « nappe » tendue dans le
 		# ciel au-dessus des voies) ; le sol lointain (200 m) et l'eau (plane) n'atteignent pas ces seuils
 		var big := maxf(Vector2(a.x - b.x, a.z - b.z).length_squared(), maxf(Vector2(b.x - d.x, b.z - d.z).length_squared(), Vector2(d.x - a.x, d.z - a.z).length_squared()))
-		if big > 90000.0 and maxf(a.y, maxf(b.y, d.y)) - minf(a.y, minf(b.y, d.y)) > 15.0: return
+		if big > (14400.0 if col.a < 0.99 else 90000.0) and maxf(a.y, maxf(b.y, d.y)) - minf(a.y, minf(b.y, d.y)) > (10.0 if col.a < 0.99 else 15.0): return
 		if sub > 0.0:
 			var lab := Vector2(a.x - b.x, a.z - b.z).length_squared()
 			var lbd := Vector2(b.x - d.x, b.z - d.z).length_squared()

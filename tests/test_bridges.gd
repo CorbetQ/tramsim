@@ -1,6 +1,6 @@
 extends SceneTree
-## Ouvrages d'art cohérents (tablier unique par pont, tools/import/bridges.py), même état que le jeu
-## (CityScene.bind_network : tabliers calés sur les voies) :
+## Ouvrages d'art cohérents (tablier unique par pont, tools/import/bridges.py), même état que le jeu en mode libre
+## (réseau physique, tram-trains compris ; CityScene.bind_network : tabliers calés sur les voies) :
 ## 1. voies portées : sur les tronçons de pont des voies, un tablier présent sous la voie est à moins de
 ##    DECK_TOL m du profil (rail - 0,1 m) ;
 ## 2. rampes continues : pas de marche (dénivelé entre sommets > rampe de 10 % + STEP_MAX m),

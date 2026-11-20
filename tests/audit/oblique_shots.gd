@@ -39,6 +39,8 @@ func _run() -> void:
 		lv.build(net, str(net.meta.edges[0].id), null, cs)
 		lv.day_night.queue_free(); lv.cam.current = false
 		day.set_hour(13.5)   # paramètres globaux (soleil, eau) repris par le ciel de l'audit
+		for ch in lv.get_children():
+			if ch is CanvasLayer or ch is Light3D or ch is WorldEnvironment: ch.queue_free()   # 2e soleil et ciel de LineView, filtre de vitesse
 		cs.radius = 700.0
 	else:
 		gw.add_child(cs)

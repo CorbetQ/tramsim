@@ -9,6 +9,7 @@ extends SceneTree
 const STEP := 4.0
 const TOL_M := 0.35
 const TOL_SHARE := 0.002
+const FAR_EPS := 0.03       # interpolation des triangles de corridor aux raccords de cellules
 
 var fails := 0
 
@@ -53,7 +54,8 @@ func _check(net: NetworkLoader, src: String, path: String, stats: Array) -> void
 		var n := maxi(1, ceili(L / STEP))
 		for i in n + 1:
 			var s := L * i / n
-			if NetworkLoader.in_spans(info.get("tunnel", []), s) or NetworkLoader.in_spans(info.get("bridge", []), s): continue
+			var sp: Array = info.get("tunnel", []) + info.get("bridge", [])
+			if NetworkLoader.in_spans(sp, s) or NetworkLoader.in_spans(sp, s - 1.0) or NetworkLoader.in_spans(sp, s + 1.0): continue   # culées, portails
 			var q := net.point_on(id, s)
 			for o in offs:
 				var c := Vector2((q.p.x - q.dir.y * o - city.position.x) / city._x_scale, q.p.y + q.dir.x * o - city.position.z)
@@ -66,7 +68,7 @@ func _check(net: NetworkLoader, src: String, path: String, stats: Array) -> void
 					stats[1] += 1; stats[3] = maxf(stats[3], h - top)
 					if shown < 4: shown += 1; print("  sol %s %s @%.0f : +%.2f m" % [path.get_file(), id, s, h - top])
 				var f := tv.far_tri(c.x, c.y) if tv != null else city.height_city(c.x, c.y)
-				if f > top:
+				if f > top + FAR_EPS:
 					stats[2] += 1; stats[3] = maxf(stats[3], f - top)
 					if shown < 8: shown += 1; print("  lointain %s %s @%.0f : +%.2f m" % [path.get_file(), id, s, f - top])
 	city.free()
