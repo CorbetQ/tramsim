@@ -1,0 +1,16 @@
+{
+	"gdscript": [
+		93.658,
+		94.731,
+		94.777
+	],
+	"godot": "4.6.3-stable (official)",
+	"processor": "INTEL(R) XEON(R) PLATINUM 8573C",
+	"rust": [
+		74.969,
+		77.136,
+		74.525
+	],
+	"scope": "CPU physics microbenchmark only; not game FPS or Android",
+	"steps_per_run": 30000
+}

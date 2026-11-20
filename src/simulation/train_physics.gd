@@ -40,6 +40,12 @@ func resistance(v: float) -> float:
 ## notch : -1 (freinage max) .. +1 (traction max) ; grade : pente (+ = montée).
 func step(dt: float, notch: float, grade: float, emergency: bool = false) -> void:
 	if dt <= 0.0: return
+	var native := NativeSimulation.kernel()
+	if native != null:
+		var out: PackedFloat64Array = native.call("physics_step", PackedFloat64Array([velocity,position,slip_ratio,_slip_time,dt,notch,grade,1.0 if emergency else 0.0,1.0 if power_available else 0.0,mass(),profile.max_tractive_effort_n,profile.power_kw,profile.service_brake_ms2,profile.emergency_brake_ms2,profile.max_speed_ms,adhesion,driven_mass_fraction,1.0 if sanding else 0.0,1.0 if profile.guidance == "rubber_guided" else 0.0]))
+		if out.size() == 6:
+			velocity=out[0];position=out[1];slip_ratio=out[2];_slip_time=out[3];wheel_slip=out[4]>0;wheel_slide=out[5]>0
+			return
 	var m := mass()
 	var demand := 0.0
 	if notch > 0.0 and power_available and not emergency:

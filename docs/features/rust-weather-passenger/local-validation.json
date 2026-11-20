@@ -1,0 +1,85 @@
+{
+  "base": "dc56265433e0f21be66d7011ed9a22bd6332c2b6",
+  "godot": "4.6.3",
+  "rustc": "1.100.0",
+  "scope": "local Linux, headless and OpenGL llvmpipe; not Android physical",
+  "physical_android_tested": false,
+  "native_windows_tested_locally": false,
+  "tests": {
+    "native-weather": {
+      "passed": true,
+      "ok_lines": 15,
+      "log_sha256": "43fa69f90d9b4c087e1f3c905315656410b9ac2708b0a1e013f5540c76dd96c0"
+    },
+    "fallback": {
+      "passed": true,
+      "ok_lines": 13,
+      "log_sha256": "d0e8545d7afdd7a0b4f6b835d61830d38775d54224716be4dcf918781d6f6207"
+    },
+    "menu": {
+      "passed": true,
+      "ok_lines": 6,
+      "log_sha256": "0d1caa9084c225f8e02122b5b43674fe2014522e6a79efa154b68b5f9558cf32"
+    },
+    "families": {
+      "passed": true,
+      "ok_lines": 0,
+      "log_sha256": "6474479c0436406f09bf4e450bc094d6e7188ac866a2b9bb2bc6c0392401df66"
+    },
+    "passenger-render": {
+      "passed": true,
+      "ok_lines": 23,
+      "log_sha256": "887826814ab0c903dfcd404c1bf1b71177ace836b5a3c71be16cd9c69a06fa91"
+    },
+    "passenger-final-headless": {
+      "passed": true,
+      "ok_lines": 21,
+      "log_sha256": "627c691bb8b2823569d9416ce06713bdf7f02a5ecff6782181081356f06868a9"
+    },
+    "adhesion": {
+      "passed": true,
+      "ok_lines": 15,
+      "log_sha256": "79e0b7070daa9c3e089bf9e48d39fb14cc630a35ac2390f7bce59fc02e6246f4"
+    },
+    "power": {
+      "passed": true,
+      "ok_lines": 19,
+      "log_sha256": "26eaa74b4eea5a7b70b0a485c161873f227958acbe7d60912b6c47029021aec7"
+    },
+    "stock": {
+      "passed": true,
+      "ok_lines": 301,
+      "log_sha256": "9ff6dea24809a7b2ec2d88396cf2761408087ddbf8ac360d4c1c966184eb9f90"
+    },
+    "rust-tests": {
+      "passed": true,
+      "ok_lines": 0,
+      "log_sha256": "c361edc44cd8615905367c34a34b5ba5ff508e65ecea3e0a5d16f0b69f9bde30"
+    }
+  },
+  "source_sha256": {
+    "native/core/src/lib.rs": "90b114aea19c16770d865cbf47b43644009f61db62b51e1716467c106c496321",
+    "native/godot/src/lib.rs": "1e2754e7dc2f33055da425029643d94f45393a3fc7c6ca00232a3343ec6ef78d",
+    "src/simulation/train_physics.gd": "3ca140f102ab43a8727026f883704a7ba4af281a45994369e35e55e1a615b37e",
+    "src/simulation/weather_state.gd": "5176e44a1aa698fc398dda9b34a69c914ce8734ac3e34b3b5048119a1ccb9987",
+    "src/ui/passenger_mode.gd": "0a91182d9c52704c5e65b26de255d539be30b6b4b1113417312f860eed81f7fb",
+    "src/rendering/tram_interior.gd": "646bd01b0d8e6bbe3a079f35d1e32e6966fe24995a18fa24604a17f7ac4947d9",
+    "src/ui/main.gd": "171094a8ed9e94f255986ff02744ba83216dc3de239f9e030e91e5531f51e001",
+    "src/rendering/weather_view.gd": "40fd777c27e27184ec24ad27d5b9ef1d2e50f385ebd8d0168515dfe16a92255e"
+  },
+  "revision_note": "Receipts cover successive targeted revisions. Final passenger checks include door side, view-relative walking and midnight wrap; final rendered captures validate occupied/on-foot state. CI certifies the exact PR SHA.",
+  "ci_validated_revisions": {
+    "365b269": {
+      "url": "https://github.com/CorbetQ/tramsim/actions/runs/44728883516",
+      "linux": "passed: native, fallback, menu, families and rendered passenger",
+      "windows": "passed: compiled DLL loaded in Godot and parity checks",
+      "android": "passed: ARM64 cross-compilation and ELF header; no device test"
+    },
+    "3d45a94": {
+      "url": "https://github.com/CorbetQ/tramsim/actions/runs/44730068909",
+      "linux": "passed",
+      "windows": "passed: DLL loaded in Godot",
+      "android": "passed: cross-compiled ARM64, ELF checked; no device test"
+    }
+  }
+}

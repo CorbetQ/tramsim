@@ -1,0 +1,19 @@
+Initialize godot-rust (API v4.3.stable.official, runtime v4.6.3.stable.official, safeguards balanced)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ok: traction progressive adhérente ; pleine traction patine au démarrage
+ok: patinage mesuré sans immobilisation artificielle
+ok: rail humide : adhérence et accélération réduites
+ok: réduction de traction : fin du patinage
+ok: frein relâché en montée : recul réel sous la gravité
+ok: HUD et portes utilisent la norme de la vitesse
+ok: F3 arrête puis maintient une rame qui reculait
+ok: F3 retient dès le spawn sur pente -0.08
+ok: F3 retient dès le spawn sur pente 0.08
+ok: traction rattrape le recul puis repart vers l’avant sans changer de cabine
+ok: recul à travers un nœud : position et orientation de cabine correctes
+ok: recul avant le point de spawn : prédécesseur retrouvé dans le graphe
+ok: portes ouvertes : frein de maintien automatique en rampe
+ok: recul vers voie occupée : arrêt et occupation cohérents
+ok: changement de cabine : vitesse signée dans le nouveau repère
+TOTAL_ECHECS|0

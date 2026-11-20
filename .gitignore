@@ -3,6 +3,8 @@ build/
 *.keystore
 *.apk
 android/
+native/target/
+addons/tramsim_native/
 
 .cache/
 __pycache__/

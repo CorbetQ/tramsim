@@ -163,9 +163,11 @@ static func livery_for(meta: Dictionary, entry: Dictionary = {}) -> Dictionary:
 # ---------------------------------------------------------------- construction
 
 ## Construit une rame animable. `length_m` < 0 : longueur de la livrée (dims) ou du plan.
-static func build_rig(livery: Dictionary, length_m: float = -1.0) -> Rig:
+static func build_rig(livery: Dictionary, length_m: float = -1.0, passenger_shell: bool = false) -> Rig:
 	var fam := family_id(str(livery.get("family", "citadis_302")))
 	var p := StockGeometry.apply(plan(fam),livery.get("stock_entry",{}))
+	if passenger_shell:
+		p=p.duplicate(true);p["passenger_shell"]=true
 	var L := length_m if length_m > 0.0 else float(livery.get("length", p.get("length_m", 32.0)))
 	var bld := _Body.new(p, _variant(livery), L)
 	return bld.make_rig()
@@ -952,6 +954,8 @@ class _Body:
 		rig.panto_cfg = P.get("pantograph", {})
 		var pat: Dictionary = L.get("pattern", {})
 		var mat := Materials.tram(h, pat if Materials.PATTERN_IDS.has(str(pat.get("type", ""))) else {})
+		if bool(P.get("passenger_shell",false)):
+			mat=mat.duplicate();mat.set_shader_parameter("passenger_shell",true)
 		var plain := TramModel._material_plain(h)
 		var g0 := 0.0
 		var n := mods.size()
@@ -1066,14 +1070,20 @@ class _Body:
 		var dark := Color(0.13, 0.13, 0.14)
 		for e in [[zA, -1.0, front_cab], [zB, 1.0, rear_cab]]:
 			if bool(e[2]): continue
+			if bool(P.get("passenger_shell",false)):continue
 			var pts: Array = []
 			for p in full: pts.append(Vector3(p.x, p.y, float(e[0])))
 			m.poly(pts, dark, Vector3(0, 0, float(e[1])))
 		if i < n - 1:
 			var bl := Vector3(hw * 2.0 - 0.22, cant - yb + 0.05, GAP * 2.0 + 0.06)
-			m.box(Vector3(0, yb + 0.05 + bl.y * 0.5, Lm * 0.5), bl, Color(0.17, 0.17, 0.18))
-			for rz in [-0.06, 0.06]:
-				m.box(Vector3(0, yb + 0.05 + bl.y * 0.5, Lm * 0.5 + float(rz)), Vector3(bl.x + 0.06, bl.y + 0.04, 0.035), Color(0.1, 0.1, 0.11))
+			if bool(P.get("passenger_shell",false)):
+				for side in [-1,1]:m.box(Vector3(side*(hw-.30),(cant+floor_y)*.5,Lm*.5),Vector3(.38,cant-floor_y,bl.z),dark)
+				m.box(Vector3(0,cant,Lm*.5),Vector3(bl.x,.12,bl.z),dark)
+				m.box(Vector3(0,floor_y-.05,Lm*.5),Vector3(bl.x,.1,bl.z),dark)
+			else:
+				m.box(Vector3(0, yb + 0.05 + bl.y * 0.5, Lm * 0.5), bl, Color(0.17, 0.17, 0.18))
+				for rz in [-0.06, 0.06]:
+					m.box(Vector3(0, yb + 0.05 + bl.y * 0.5, Lm * 0.5 + float(rz)), Vector3(bl.x + 0.06, bl.y + 0.04, 0.035), Color(0.1, 0.1, 0.11))
 		# face avant
 		if front_cab: nose(m, zA, -1.0, true, gz);_cab_sign(mi,zA,-1.0)
 		if rear_cab: nose(m, zB, 1.0, false, gz);_cab_sign(mi,zB,1.0)

@@ -1,0 +1,10 @@
+Initialize godot-rust (API v4.3.stable.official, runtime v4.6.3.stable.official, safeguards balanced)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ok: actual home offers passenger mode
+ok: actual settings expose weather
+ok: weather selector stores selected preset
+ok: actual driving launch wires weather and visual view
+ok: actual free checkpoint stores versioned weather state
+ok: existing unknown save data preserved
+TOTAL_ECHECS|0

@@ -1,0 +1,304 @@
+Initialize godot-rust (API v4.3.stable.official, runtime v4.6.3.stable.official, safeguards balanced)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ok: 20 plans trouvés
+ok: avanto : livrée de la bonne famille
+ok: avanto : 5 modules (plan 5)
+ok: avanto : longueur 36.97 m (plan 36.97)
+ok: avanto : 4926 triangles (budget 12000)
+ok: avanto : 16 vantaux, pantographe
+ok: avanto : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: avanto : portes refermées
+ok: avanto : portes côté right seules ouvertes
+ok: avanto : portes côté left seules ouvertes
+ok: avanto : portes côté both seules ouvertes
+ok: avanto : portes refermées des deux côtés
+ok: avanto : pantographe abaissé (5.50 -> 3.77 m)
+ok: avanto : pantographe relevé
+ok: breda_vlc : livrée de la bonne famille
+ok: breda_vlc : 3 modules (plan 3)
+ok: breda_vlc : longueur 29.90 m (plan 29.90)
+ok: breda_vlc : 4746 triangles (budget 12000)
+ok: breda_vlc : 16 vantaux, pantographe
+ok: breda_vlc : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: breda_vlc : portes refermées
+ok: breda_vlc : portes côté right seules ouvertes
+ok: breda_vlc : portes côté left seules ouvertes
+ok: breda_vlc : portes côté both seules ouvertes
+ok: breda_vlc : portes refermées des deux côtés
+ok: breda_vlc : pantographe abaissé (5.90 -> 3.55 m)
+ok: breda_vlc : pantographe relevé
+ok: citadis_302 : livrée de la bonne famille
+ok: citadis_302 : 5 modules (plan 5)
+ok: citadis_302 : longueur 32.40 m (plan 32.40)
+ok: citadis_302 : 5694 triangles (budget 12000)
+ok: citadis_302 : 20 vantaux, pantographe
+ok: citadis_302 : portes ouvertes en 2.5 s (déplacement 0.80 m)
+ok: citadis_302 : portes refermées
+ok: citadis_302 : portes côté right seules ouvertes
+ok: citadis_302 : portes côté left seules ouvertes
+ok: citadis_302 : portes côté both seules ouvertes
+ok: citadis_302 : portes refermées des deux côtés
+ok: citadis_302 : pantographe abaissé (5.90 -> 3.55 m)
+ok: citadis_302 : pantographe relevé
+ok: citadis_402 : livrée de la bonne famille
+ok: citadis_402 : 7 modules (plan 7)
+ok: citadis_402 : longueur 43.70 m (plan 43.70)
+ok: citadis_402 : 7144 triangles (budget 12000)
+ok: citadis_402 : 24 vantaux, pantographe
+ok: citadis_402 : portes ouvertes en 2.5 s (déplacement 0.80 m)
+ok: citadis_402 : portes refermées
+ok: citadis_402 : portes côté right seules ouvertes
+ok: citadis_402 : portes côté left seules ouvertes
+ok: citadis_402 : portes côté both seules ouvertes
+ok: citadis_402 : portes refermées des deux côtés
+ok: citadis_402 : pantographe abaissé (5.90 -> 3.55 m)
+ok: citadis_402 : pantographe relevé
+ok: citadis_403_strasbourg : livrée de la bonne famille
+ok: citadis_403_strasbourg : 7 modules (plan 7)
+ok: citadis_403_strasbourg : longueur 45.00 m (plan 45.00)
+ok: citadis_403_strasbourg : 6502 triangles (budget 12000)
+ok: citadis_403_strasbourg : 24 vantaux, pantographe
+ok: citadis_403_strasbourg : portes ouvertes en 2.5 s (déplacement 0.80 m)
+ok: citadis_403_strasbourg : portes refermées
+ok: citadis_403_strasbourg : portes côté right seules ouvertes
+ok: citadis_403_strasbourg : portes côté left seules ouvertes
+ok: citadis_403_strasbourg : portes côté both seules ouvertes
+ok: citadis_403_strasbourg : portes refermées des deux côtés
+ok: citadis_403_strasbourg : pantographe abaissé (5.90 -> 3.55 m)
+ok: citadis_403_strasbourg : pantographe relevé
+ok: citadis_compact : livrée de la bonne famille
+ok: citadis_compact : 3 modules (plan 3)
+ok: citadis_compact : longueur 24.00 m (plan 24.00)
+ok: citadis_compact : 4846 triangles (budget 12000)
+ok: citadis_compact : 16 vantaux, pantographe
+ok: citadis_compact : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: citadis_compact : portes refermées
+ok: citadis_compact : portes côté right seules ouvertes
+ok: citadis_compact : portes côté left seules ouvertes
+ok: citadis_compact : portes côté both seules ouvertes
+ok: citadis_compact : portes refermées des deux côtés
+ok: citadis_compact : pantographe abaissé (5.90 -> 3.55 m)
+ok: citadis_compact : pantographe relevé
+ok: citadis_dualis : livrée de la bonne famille
+ok: citadis_dualis : 4 modules (plan 4)
+ok: citadis_dualis : longueur 42.00 m (plan 42.00)
+ok: citadis_dualis : 4802 triangles (budget 12000)
+ok: citadis_dualis : 16 vantaux, pantographe
+ok: citadis_dualis : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: citadis_dualis : portes refermées
+ok: citadis_dualis : portes côté right seules ouvertes
+ok: citadis_dualis : portes côté left seules ouvertes
+ok: citadis_dualis : portes côté both seules ouvertes
+ok: citadis_dualis : portes refermées des deux côtés
+ok: citadis_dualis : pantographe abaissé (5.50 -> 3.60 m)
+ok: citadis_dualis : pantographe relevé
+ok: citadis_reims : livrée de la bonne famille
+ok: citadis_reims : 5 modules (plan 5)
+ok: citadis_reims : longueur 32.40 m (plan 32.40)
+ok: citadis_reims : 5962 triangles (budget 12000)
+ok: citadis_reims : 20 vantaux, pantographe
+ok: citadis_reims : portes ouvertes en 2.5 s (déplacement 0.80 m)
+ok: citadis_reims : portes refermées
+ok: citadis_reims : portes côté right seules ouvertes
+ok: citadis_reims : portes côté left seules ouvertes
+ok: citadis_reims : portes côté both seules ouvertes
+ok: citadis_reims : portes refermées des deux côtés
+ok: citadis_reims : pantographe abaissé (5.90 -> 3.55 m)
+ok: citadis_reims : pantographe relevé
+ok: citadis_tours : livrée de la bonne famille
+ok: citadis_tours : 7 modules (plan 7)
+ok: citadis_tours : longueur 43.00 m (plan 43.00)
+ok: citadis_tours : 5504 triangles (budget 12000)
+ok: citadis_tours : 24 vantaux, pantographe
+ok: citadis_tours : portes ouvertes en 2.5 s (déplacement 0.80 m)
+ok: citadis_tours : portes refermées
+ok: citadis_tours : portes côté right seules ouvertes
+ok: citadis_tours : portes côté left seules ouvertes
+ok: citadis_tours : portes côté both seules ouvertes
+ok: citadis_tours : portes refermées des deux côtés
+ok: citadis_tours : pantographe abaissé (5.90 -> 3.55 m)
+ok: citadis_tours : pantographe relevé
+ok: citadis_x01 : livrée de la bonne famille
+ok: citadis_x01 : 3 modules (plan 3)
+ok: citadis_x01 : longueur 30.00 m (plan 30.00)
+ok: citadis_x01 : 4678 triangles (budget 12000)
+ok: citadis_x01 : 16 vantaux, pantographe
+ok: citadis_x01 : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: citadis_x01 : portes refermées
+ok: citadis_x01 : portes côté right seules ouvertes
+ok: citadis_x01 : portes côté left seules ouvertes
+ok: citadis_x01 : portes côté both seules ouvertes
+ok: citadis_x01 : portes refermées des deux côtés
+ok: citadis_x01 : pantographe abaissé (5.90 -> 3.55 m)
+ok: citadis_x01 : pantographe relevé
+ok: citadis_x05 : livrée de la bonne famille
+ok: citadis_x05 : 5 modules (plan 5)
+ok: citadis_x05 : longueur 32.50 m (plan 32.50)
+ok: citadis_x05 : 6118 triangles (budget 12000)
+ok: citadis_x05 : 24 vantaux, pantographe
+ok: citadis_x05 : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: citadis_x05 : portes refermées
+ok: citadis_x05 : portes côté right seules ouvertes
+ok: citadis_x05 : portes côté left seules ouvertes
+ok: citadis_x05 : portes côté both seules ouvertes
+ok: citadis_x05 : portes refermées des deux côtés
+ok: citadis_x05 : pantographe abaissé (5.90 -> 3.55 m)
+ok: citadis_x05 : pantographe relevé
+ok: citadis_x05_nantes : livrée de la bonne famille
+ok: citadis_x05_nantes : 7 modules (plan 7)
+ok: citadis_x05_nantes : longueur 45.60 m (plan 45.60)
+ok: citadis_x05_nantes : 7502 triangles (budget 12000)
+ok: citadis_x05_nantes : 32 vantaux, pantographe
+ok: citadis_x05_nantes : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: citadis_x05_nantes : portes refermées
+ok: citadis_x05_nantes : portes côté right seules ouvertes
+ok: citadis_x05_nantes : portes côté left seules ouvertes
+ok: citadis_x05_nantes : portes côté both seules ouvertes
+ok: citadis_x05_nantes : portes refermées des deux côtés
+ok: citadis_x05_nantes : pantographe abaissé (5.90 -> 3.55 m)
+ok: citadis_x05_nantes : pantographe relevé
+ok: eurotram : livrée de la bonne famille
+ok: eurotram : 7 modules (plan 7)
+ok: eurotram : longueur 33.00 m (plan 33.00)
+ok: eurotram : 7020 triangles (budget 12000)
+ok: eurotram : 24 vantaux, pantographe
+ok: eurotram : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: eurotram : portes refermées
+ok: eurotram : portes côté right seules ouvertes
+ok: eurotram : portes côté left seules ouvertes
+ok: eurotram : portes côté both seules ouvertes
+ok: eurotram : portes refermées des deux côtés
+ok: eurotram : pantographe abaissé (5.90 -> 3.55 m)
+ok: eurotram : pantographe relevé
+ok: flexity_marseille : livrée de la bonne famille
+ok: flexity_marseille : 5 modules (plan 5)
+ok: flexity_marseille : longueur 32.50 m (plan 32.50)
+ok: flexity_marseille : 5542 triangles (budget 12000)
+ok: flexity_marseille : 24 vantaux, pantographe
+ok: flexity_marseille : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: flexity_marseille : portes refermées
+ok: flexity_marseille : portes côté right seules ouvertes
+ok: flexity_marseille : portes côté left seules ouvertes
+ok: flexity_marseille : portes côté both seules ouvertes
+ok: flexity_marseille : portes refermées des deux côtés
+ok: flexity_marseille : pantographe abaissé (5.90 -> 3.65 m)
+ok: flexity_marseille : pantographe relevé
+ok: incentro : livrée de la bonne famille
+ok: incentro : 5 modules (plan 5)
+ok: incentro : longueur 36.40 m (plan 36.40)
+ok: incentro : 5222 triangles (budget 12000)
+ok: incentro : 20 vantaux, pantographe
+ok: incentro : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: incentro : portes refermées
+ok: incentro : portes côté right seules ouvertes
+ok: incentro : portes côté left seules ouvertes
+ok: incentro : portes côté both seules ouvertes
+ok: incentro : portes refermées des deux côtés
+ok: incentro : pantographe abaissé (5.90 -> 3.65 m)
+ok: incentro : pantographe relevé
+ok: tango_rhonexpress : livrée de la bonne famille
+ok: tango_rhonexpress : 3 modules (plan 3)
+ok: tango_rhonexpress : longueur 27.00 m (plan 27.00)
+ok: tango_rhonexpress : 4622 triangles (budget 12000)
+ok: tango_rhonexpress : 16 vantaux, pantographe
+ok: tango_rhonexpress : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: tango_rhonexpress : portes refermées
+ok: tango_rhonexpress : portes côté right seules ouvertes
+ok: tango_rhonexpress : portes côté left seules ouvertes
+ok: tango_rhonexpress : portes côté both seules ouvertes
+ok: tango_rhonexpress : portes refermées des deux côtés
+ok: tango_rhonexpress : pantographe abaissé (5.90 -> 3.75 m)
+ok: tango_rhonexpress : pantographe relevé
+ok: tfs : livrée de la bonne famille
+ok: tfs : 3 modules (plan 3)
+ok: tfs : longueur 29.40 m (plan 29.40)
+ok: tfs : 4890 triangles (budget 12000)
+ok: tfs : 28 vantaux, pantographe
+ok: tfs : portes ouvertes en 3.1 s (déplacement 0.80 m)
+ok: tfs : portes refermées
+ok: tfs : portes côté right seules ouvertes
+ok: tfs : portes côté left seules ouvertes
+ok: tfs : portes côté both seules ouvertes
+ok: tfs : portes refermées des deux côtés
+ok: tfs : pantographe abaissé (5.90 -> 3.61 m)
+ok: tfs : pantographe relevé
+ok: translohr : livrée de la bonne famille
+ok: translohr : 7 modules (plan 7)
+ok: translohr : longueur 32.00 m (plan 32.00)
+ok: translohr : 6026 triangles (budget 12000)
+ok: translohr : 16 vantaux, pantographe
+ok: translohr : portes ouvertes en 2.3 s (déplacement 0.65 m)
+ok: translohr : portes refermées
+ok: translohr : portes côté right seules ouvertes
+ok: translohr : portes côté left seules ouvertes
+ok: translohr : portes côté both seules ouvertes
+ok: translohr : portes refermées des deux côtés
+ok: translohr : pantographe abaissé (5.90 -> 3.14 m)
+ok: translohr : pantographe relevé
+ok: urbos : livrée de la bonne famille
+ok: urbos : 3 modules (plan 3)
+ok: urbos : longueur 23.02 m (plan 23.02)
+ok: urbos : 4654 triangles (budget 12000)
+ok: urbos : 16 vantaux, pantographe
+ok: urbos : portes ouvertes en 2.5 s (déplacement 0.65 m)
+ok: urbos : portes refermées
+ok: urbos : portes côté right seules ouvertes
+ok: urbos : portes côté left seules ouvertes
+ok: urbos : portes côté both seules ouvertes
+ok: urbos : portes refermées des deux côtés
+ok: urbos : pantographe abaissé (5.90 -> 3.55 m)
+ok: urbos : pantographe relevé
+ok: vevey_saint_etienne : livrée de la bonne famille
+ok: vevey_saint_etienne : 3 modules (plan 3)
+ok: vevey_saint_etienne : longueur 23.24 m (plan 23.24)
+ok: vevey_saint_etienne : 4766 triangles (budget 12000)
+ok: vevey_saint_etienne : 16 vantaux, pantographe
+ok: vevey_saint_etienne : portes ouvertes en 3.1 s (déplacement 0.65 m)
+ok: vevey_saint_etienne : portes refermées
+ok: vevey_saint_etienne : portes côté right seules ouvertes
+ok: vevey_saint_etienne : portes côté left seules ouvertes
+ok: vevey_saint_etienne : portes côté both seules ouvertes
+ok: vevey_saint_etienne : portes refermées des deux côtés
+ok: vevey_saint_etienne : pantographe abaissé (5.90 -> 3.55 m)
+ok: vevey_saint_etienne : pantographe relevé
+ok: Citadis X05 48 m : 9 modules
+ok: flotte d'Angers : ["citadis_302", "citadis_x05"]
+ok: T4 : Avanto
+ok: Montpellier L1 : Citadis 401 et livrée hirondelles
+ok: montpellier_1 : motif swallows
+ok: montpellier_2 : motif flowers
+ok: montpellier_3 : motif waves
+ok: montpellier_4 : motif gilding
+ok: tours_a : motif mirror_bands
+ok: Reims : couleur de face par rame
+ok: VehicleLibrary.for_fleet : longueur du plan (32.4 m)
+ok: Bordeaux : 44 m (dims de livrée)
+ok: flotte de Nantes : L1 ["incentro", "citadis_x05_nantes", "tfs", "urbos"], L2 ["incentro", "citadis_x05_nantes", "tfs"]
+ok: Citadis X05 Nantes : 45.6 m, 16 vantaux côté droit (8 portes doubles)
+ok: Urbos 3 nantais : 37.97 m
+ok: Citadis X05 Nantes : fiche sourcée
+ok: avanto : vignette 512×288
+ok: breda_vlc : vignette 512×288
+ok: citadis_302 : vignette 512×288
+ok: citadis_402 : vignette 512×288
+ok: citadis_403_strasbourg : vignette 512×288
+ok: citadis_compact : vignette 512×288
+ok: citadis_dualis : vignette 512×288
+ok: citadis_reims : vignette 512×288
+ok: citadis_tours : vignette 512×288
+ok: citadis_x01 : vignette 512×288
+ok: citadis_x05 : vignette 512×288
+ok: citadis_x05_nantes : vignette 512×288
+ok: eurotram : vignette 512×288
+ok: flexity_marseille : vignette 512×288
+ok: incentro : vignette 512×288
+ok: tango_rhonexpress : vignette 512×288
+ok: tfs : vignette 512×288
+ok: translohr : vignette 512×288
+ok: urbos : vignette 512×288
+ok: vevey_saint_etienne : vignette 512×288
+ok: catalogue : 20 familles
+ok: catalogue filtré Nantes : ["citadis_dualis", "citadis_x05", "citadis_x05_nantes", "incentro", "tfs", "urbos"]
+ok: catalogue : lignes du X05 nantais (9)
+ok: fiche : longueur, valeurs estimées, sources

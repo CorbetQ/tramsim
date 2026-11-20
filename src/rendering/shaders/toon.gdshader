@@ -7,6 +7,7 @@ render_mode cull_disabled;
 
 #include "res://src/rendering/shaders/cel.gdshaderinc"
 uniform float wind_strength = 0.0;
+uniform bool passenger_shell = false;
 
 uniform float bands : hint_range(2.0, 5.0) = 3.0;   // conservé (compatibilité) : paliers fixés par cel.gdshaderinc
 uniform float shade_floor : hint_range(0.0, 1.0) = 0.18;
@@ -168,6 +169,8 @@ void vertex() {
 }
 
 void fragment() {
+	// Boarded variant replaces opaque painted glass with transparent interior glazing.
+	if (passenger_shell && (!FRONT_FACING || (COLOR.a > 0.25 && COLOR.a < 0.75))) { discard; }
 	NORMAL = normalize(cross(dFdy(VERTEX), dFdx(VERTEX)));
 	vec3 base = to_linear(COLOR.rgb) * albedo_mul;
 	float pat_glass = 0.0;

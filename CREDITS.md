@@ -156,3 +156,13 @@ isolée ni une captation d'Angers. Candidat non activé dans les profils de jeu.
 Les démos reprennent aussi les sources du moteur actuel (notamment LG/Rotterdam,
 CC BY 4.0, Joseph Sardin/CC0 et les synthèses du projet), sans supprimer leurs droits.
 Aucun son IA ni poids de modèle ajouté.
+
+## Noyau Rust optionnel et intérieurs passager
+
+Le noyau numérique et l'aménagement procédural des intérieurs de cette tranche sont
+créés pour TramSim ; les aménagements sont estimés, sans asset Meshy téléchargé.
+Les plans, livrées et références antérieurs conservent leurs crédits ci-dessus.
+La liaison godot-rust 0.4.5 et les données d'API associées sont sous **MPL-2.0**.
+Notices, versions exactes, sources correspondantes et textes de licences :
+[native/THIRD_PARTY.md](native/THIRD_PARTY.md) et [native/licenses/](native/licenses/).
+Ces notices doivent accompagner toute distribution du module natif.

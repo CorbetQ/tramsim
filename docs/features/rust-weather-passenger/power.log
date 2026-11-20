@@ -1,0 +1,23 @@
+Initialize godot-rust (API v4.3.stable.official, runtime v4.6.3.stable.official, safeguards balanced)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ok: refus en marche sans mutation du collecteur ni du mode
+ok: sélection APS à l’arrêt et collecteur abaissé automatiquement
+ok: commutation mesurée par la simulation
+ok: traction interdite pendant commutation
+ok: mode APS ne fournit pas de courant sur une section LAC
+ok: traction rétablie uniquement avec infrastructure compatible
+ok: pantographe abaissé seul n’active jamais l’APS
+ok: mode non supporté refusé
+ok: matériel LAC seul : APS refusé
+ok: Angers osm:11891531598 : branche normale au lieu de la première branche
+ok: Angers osm:2533777516 : branche normale au lieu de la première branche
+ok: Angers osm:6504650326 : branche normale au lieu de la première branche
+ok: Angers osm:11891531646 : branche normale au lieu de la première branche
+ok: Angers osm:9665082013 : branche normale au lieu de la première branche
+ok: Angers osm:8181190525 : branche normale au lieu de la première branche
+ok: les six croisements signalés sont couverts
+ok: un choix manuel n’est pas réécrit par la politique de défaut
+ok: contact APS au-dessus du lit de voie, sous le rail de roulement
+ok: autonomie de Nice distincte de l’APS
+TOTAL_ECHECS|0
