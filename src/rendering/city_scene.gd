@@ -345,6 +345,18 @@ func _bridge_approach(x: float,z: float,id: int,ground: float) -> float:
 			return lerpf(tip.y,ground,smoothstep(0.0,reach,along))
 	return ground
 
+## Segment de voie ferrée BD TOPO (repère tuile) longé par une voie du réseau (à moins de 8 m, parallèle).
+func _rail_drawn(a: Vector2, b: Vector2) -> bool:
+	var d := (b - a).normalized()
+	for f in [0.25, 0.75]:
+		var dirs := []
+		var near := _tracks_near(a.lerp(b, f) + _tile_origin, 8.0, dirs)
+		var ok := false
+		for i in near.size():
+			if absf((dirs[i] as Vector2).dot(d)) > 0.9: ok = true; break
+		if not ok: return false
+	return true
+
 func _lift(S: _Arrays, i0: int, dy: float) -> void:
 	if dy == 0.0: return
 	for i in range(i0, S.v.size()):
@@ -852,6 +864,7 @@ func _road_ribbon(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, deck:
 		var d := b - a
 		if d.length() < 0.05: continue
 		d = d.normalized()
+		if cls == L_RAIL and _rail_drawn(a, b): continue   # voie du réseau rendue (tram-train) : pas de second ruban
 		var nrm := Vector2(-d.y, d.x) * half
 		a -= d * half * 0.7; b += d * half * 0.7          # recouvrement aux jonctions
 		S.quad(Vector3(a.x - nrm.x, 0.06, a.y - nrm.y), Vector3(b.x - nrm.x, 0.06, b.y - nrm.y),
@@ -863,7 +876,9 @@ func _road_ribbon(S: _Arrays, pts: PackedVector2Array, cls: int, w: float, deck:
 			var p := Vector2(S.v[i].x, S.v[i].z)
 			if not _in_water(p): continue
 			for wt in _water_tops:
-				if (wt[0] as Rect2).grow(1.0).has_point(p): S.v[i].y = maxf(S.v[i].y, wt[1] + 0.6)
+				# plan d'eau voisin seulement (un niveau d'eau plus haut d'un autre bassin, rectangle englobant large,
+				# soulevait des kilomètres de chaussée dans le ciel)
+				if (wt[0] as Rect2).grow(1.0).has_point(p) and wt[1] + 0.6 - S.v[i].y < 2.5: S.v[i].y = maxf(S.v[i].y, wt[1] + 0.6)
 
 ## Matériau du décor d'une tuile : masque de pelouse (orthophoto, 4 m) et occupation du sol réelle (TerrainView,
 ## cellules de 25 m) ; matériau partagé sans l'un ni l'autre.
@@ -1133,8 +1148,7 @@ func _fit_decks_to_tracks() -> void:
 ## Dernier contrôle, point de voie par point de voie (mêmes règles que tests/test_clearance.gd) : un segment de
 ## tablier encore dans le gabarit est abaissé au rail (moins de 2,5 m au-dessus) ou relevé au-dessus du gabarit.
 func _enforce_gauge() -> void:
-	var moved := {}   # tablier -> {sommet: true} déplacés
-	for it_ in 2:
+	for it_ in 3:
 		for ck in _track_pts:
 			for q in _track_pts[ck]:
 				var c := Vector2(q.x, q.z)
@@ -1144,36 +1158,20 @@ func _enforce_gauge() -> void:
 					var m: int = it[1]
 					var a := Vector2(pl[m].x, pl[m].z); var b := Vector2(pl[m + 1].x, pl[m + 1].z)
 					var t := (c - a).dot(b - a) / maxf((b - a).length_squared(), 1e-4)
-					if t < -0.02 or t > 1.02: continue   # au-delà de l'extrémité : segment voisin ou hors tablier
+					# projection hors du segment (extérieur d'un coude, extrémité) : segment translaté au droit du sommet
+					var only := -1
+					if t < 0.0: only = m
+					elif t > 1.0: only = m + 1
 					t = clampf(t, 0.0, 1.0)
 					if (a + (b - a) * t).distance_to(c) > float(d[1]) * 0.5 + GAUGE_HW + 0.5: continue
 					var y := lerpf(pl[m].y, pl[m + 1].y, t)
-					if y <= q.y + 0.2 or y - 1.1 >= q.y + GAUGE_H: continue
+					if y <= q.y + 0.2 or y - 1.8 >= q.y + GAUGE_H: continue
 					# segment translé verticalement (pente conservée) : au droit de la voie, tablier au rail - 0,1 m ou
 					# au-dessus du gabarit
-					var shift: float = (q.y - 0.1 - y) if y - q.y < 2.5 else (q.y + GAUGE_H + 1.5 - y)
-					for e in [m, m + 1]:
+					var shift: float = (q.y - 0.1 - y) if y - q.y < 2.5 else (q.y + GAUGE_H + 2.0 - y)
+					for e in ([only] if only >= 0 else [m, m + 1]):
 						pl[e].y = minf(pl[e].y, pl[e].y + shift) if shift < 0.0 else maxf(pl[e].y, pl[e].y + shift)
-						if not moved.has(it[0]): moved[it[0]] = {}
-						moved[it[0]][e] = true
 					d[2] = pl
-	# raccord des sommets voisins aux sommets déplacés : pente <= 8 % (pas de marche ni de bosse isolée)
-	for di in moved:
-		var pl: PackedVector3Array = _decks[di][2]
-		var fixed: Dictionary = moved[di]
-		for pass_ in 2:
-			var order := range(1, pl.size()) if pass_ == 0 else range(pl.size() - 2, -1, -1)
-			for k in order:
-				if fixed.has(k): continue
-				var j: int = k - 1 if pass_ == 0 else k + 1
-				var lim := Vector2(pl[k].x - pl[j].x, pl[k].z - pl[j].z).length() * 0.08
-				pl[k].y = clampf(pl[k].y, pl[j].y - lim, pl[j].y + lim) if fixed.has(j) or absf(pl[k].y - pl[j].y) > lim and _moved_near(fixed, k) else pl[k].y
-		_decks[di][2] = pl
-
-func _moved_near(fixed: Dictionary, k: int) -> bool:
-	for j in fixed:
-		if absi(int(j) - k) <= 12: return true
-	return false
 
 ## Sommet j d'un tablier face aux voies : Vector2(altitude si la voie est portée (parallèle), altitude minimale
 ## si le tablier la franchit dans le gabarit) ; NAN sinon. `merge` : premier passage, la voie parallèle proche
@@ -1403,7 +1401,8 @@ func _deck(S: _Arrays, d: Array) -> void:
 		if len < 0.05: continue
 		dir /= len
 		var n := Vector3(-dir.z, 0, dir.x) * hw
-		var dn := Vector3(0, -1.1, 0)
+		# épaisseur : dalle routière 1,2 m, tablier ferroviaire ou mixte 1,8 m (poutres), lisible de loin
+		var dn := Vector3(0, -1.2 if int(d[0]) == 0 else -1.8, 0)
 		# dalle : rives et sous-face
 		S.quad(a + n, b + n, b + n + dn, a + n + dn, concrete, -1.0)
 		S.quad(b - n, a - n, a - n + dn, b - n + dn, concrete, -1.0)
@@ -1428,9 +1427,10 @@ func _deck(S: _Arrays, d: Array) -> void:
 	# piles (hors gabarit des voies)
 	for pile in deck_piles(d):
 		var c: Vector3 = pile[0] - o; var gh: float = pile[1]
-		var hgt: float = c.y - 1.1 - gh + 1.5
+		var th := 1.2 if int(d[0]) == 0 else 1.8
+		var hgt: float = c.y - th - gh + 1.5
 		S.box(Vector3(c.x, gh - 1.5 + hgt * 0.5, c.z), Vector3(1.5, hgt - 0.6, 1.5), concrete.darkened(0.08))
-		S.box(Vector3(c.x, c.y - 1.1 - 0.3, c.z), Vector3(2.4, 0.6, 2.0), concrete.darkened(0.03))   # chevêtre
+		S.box(Vector3(c.x, c.y - th - 0.3, c.z), Vector3(2.4, 0.6, 2.0), concrete.darkened(0.03))   # chevêtre
 
 # ----------------------------------------------------------------------------------------------- bâtiments
 
@@ -2433,6 +2433,10 @@ class _Arrays:
 		return 8.0
 
 	func tri(a: Vector3, b: Vector3, d: Vector3, col: Color, _u: float = -1.0) -> void:
+		# garde-fou : triangle de décor démesuré et très incliné (sommet aberrant des données : « nappe » tendue dans le
+		# ciel au-dessus des voies) ; le sol lointain (200 m) et l'eau (plane) n'atteignent pas ces seuils
+		var big := maxf(Vector2(a.x - b.x, a.z - b.z).length_squared(), maxf(Vector2(b.x - d.x, b.z - d.z).length_squared(), Vector2(d.x - a.x, d.z - a.z).length_squared()))
+		if big > 90000.0 and maxf(a.y, maxf(b.y, d.y)) - minf(a.y, minf(b.y, d.y)) > 15.0: return
 		if sub > 0.0:
 			var lab := Vector2(a.x - b.x, a.z - b.z).length_squared()
 			var lbd := Vector2(b.x - d.x, b.z - d.z).length_squared()

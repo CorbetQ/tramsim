@@ -11,11 +11,13 @@ extends SceneTree
 ## Chaque critère est compté ; la ville échoue si une part dépasse MAX_SHARE (tolérance pour les défauts des données
 ## sources, voir la sortie détaillée ; état avant tools/import/bridges.py à Nantes : 133 segments non fusionnés,
 ## 107 marches pour 80 tabliers).
+## 4. aucun tablier à plus de HIGH_MAX m au-dessus du sol affiché (altitude aberrante).
 ## Args optionnels : -- <villes séparées par des virgules>
 const DECK_TOL := 0.3
 const STEP_MAX := 0.2
 const ANGLE_MAX := 5.0
-const MAX_SHARE := {"porte": 0.12, "marche": 0.02, "axe": 0.05, "extremite": 0.45, "fusion": 0.10}
+const MAX_SHARE := {"porte": 0.12, "marche": 0.02, "axe": 0.05, "extremite": 0.45, "fusion": 0.10, "haut": 0.0}
+const HIGH_MAX := 30.0
 
 var fails := 0
 
@@ -45,7 +47,7 @@ func _city(c: String, src: String, net: NetworkLoader) -> void:
 	var city := CityScene.new()
 	if not city.open(src, net.meta.origin): city.free(); return
 	city.bind_network(net)
-	var bad := {"porte": 0, "marche": 0, "axe": 0, "extremite": 0, "fusion": 0}
+	var bad := {"porte": 0, "marche": 0, "axe": 0, "extremite": 0, "fusion": 0, "haut": 0}
 	var shown := 0
 	var carried := 0
 	# 1. voies portées
@@ -81,6 +83,11 @@ func _city(c: String, src: String, net: NetworkLoader) -> void:
 				if turn > ANGLE_MAX * maxf(1.0, (u.length() + v.length()) * 0.5 / 5.0):
 					bad.axe += 1
 					if shown < 12: shown += 1; print("  %s tablier %d sommet %d : cassure d'axe %.1f°" % [c, di, i, turn])
+		for p in pl:   # aucun tablier à plus de HIGH_MAX m au-dessus du sol (altitude aberrante)
+			if p.y - city.height_city(p.x, p.z) > HIGH_MAX:
+				bad.haut += 1
+				if shown < 20: shown += 1; print("  %s tablier %d : %.0f m au-dessus du sol en (%.0f, %.0f)" % [c, di, p.y - city.height_city(p.x, p.z), p.x, p.z])
+				break
 		for e in [0, pl.size() - 1]:
 			var p := pl[e]
 			var g := city.height_city(p.x, p.z)
@@ -95,7 +102,7 @@ func _city(c: String, src: String, net: NetworkLoader) -> void:
 	# une régression de l'import ou du calage les dépasse
 	var share := {"porte": float(bad.porte) / maxf(carried, 1.0), "marche": float(bad.marche) / maxf(segs, 1.0),
 		"axe": float(bad.axe) / maxf(segs, 1.0), "extremite": float(bad.extremite) / maxf(city._decks.size() * 2.0, 1.0),
-		"fusion": float(bad.fusion) / maxf(segs, 1.0)}
+		"fusion": float(bad.fusion) / maxf(segs, 1.0), "haut": float(bad.haut)}
 	var ok := true
 	for k in share:
 		if share[k] > float(MAX_SHARE[k]): ok = false

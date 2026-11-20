@@ -137,6 +137,15 @@ def deck_of(S, idx, dem):
     axis = max(parts, key=lambda g: g.length)
     if axis.length < 10:
         return None
+    # boucle (deux chaussées d'un même pont fusionnées par leurs bretelles) : une seule chaussée sert d'axe, l'autre
+    # est reprise dans l'enveloppe latérale ; idem pour un axe qui revient sur lui-même
+    from shapely.ops import substring
+    for _ in range(3):
+        c0, c1 = axis.coords[0], axis.coords[-1]
+        if math.hypot(c0[0] - c1[0], c0[1] - c1[1]) < 0.35 * axis.length and axis.length > 40:
+            axis = substring(axis, 0, axis.length * 0.5)
+        else:
+            break
     A = np.array(T.densify(list(axis.simplify(0.5).coords), BIN))
     if len(A) >= 5:                     # axe lissé (± 10 m, extrémités fixes) : pas de cassure aux raccords
         As = np.stack([smooth(A[:, 0], 2), smooth(A[:, 1], 2)], 1)

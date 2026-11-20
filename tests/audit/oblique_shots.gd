@@ -38,6 +38,7 @@ func _run() -> void:
 		gw.add_child(lv)
 		lv.build(net, str(net.meta.edges[0].id), null, cs)
 		lv.day_night.queue_free(); lv.cam.current = false
+		day.set_hour(13.5)   # paramètres globaux (soleil, eau) repris par le ciel de l'audit
 		cs.radius = 700.0
 	else:
 		gw.add_child(cs)
