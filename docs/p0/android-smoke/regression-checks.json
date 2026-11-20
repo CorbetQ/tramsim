@@ -1,0 +1,30 @@
+{
+  "import": {
+    "ok": true,
+    "returncode": 0
+  },
+  "test_save": {
+    "ok": true,
+    "returncode": 0
+  },
+  "test_adhesion": {
+    "ok": true,
+    "returncode": 0
+  },
+  "test_power_routing": {
+    "ok": true,
+    "returncode": 0
+  },
+  "test_autopilot": {
+    "ok": true,
+    "returncode": 0
+  },
+  "test_lod_shutdown": {
+    "ok": true,
+    "returncode": 0
+  },
+  "test_app_close": {
+    "ok": true,
+    "returncode": 0
+  }
+}

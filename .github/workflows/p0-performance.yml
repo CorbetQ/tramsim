@@ -1,0 +1,43 @@
+name: P0 Performance instrumentation
+on:
+  pull_request:
+    paths:
+      - 'src/diagnostics/**'
+      - 'tools/perf/**'
+      - 'tests/test_*performance*'
+      - 'tests/test_android_benchmark.py'
+      - 'src/ui/main.gd'
+      - 'project.godot'
+      - '.github/workflows/p0-performance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  instrumentation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Godot 4.6.3
+        run: |
+          curl --fail -L -o /tmp/godot.zip https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          sudo install /tmp/godot/Godot_v4.6.3-stable_linux.x86_64 /usr/local/bin/godot
+      - name: Import, opt-in guard and real JSON/CSV tests
+        run: |
+          godot --headless --path . --import
+          godot --headless --path . -s tests/test_performance_disabled.gd
+          godot --headless --path . -s tests/test_performance_telemetry.gd
+          python -m unittest discover -s tests -p test_android_benchmark.py
+      - name: Actual game smoke in isolated user profile (NOT phone performance)
+        run: |
+          python tools/perf/run_headless_smoke.py --output .cache/p0/ci-smoke
+          python - <<'PY'
+          import json,os
+          p=json.load(open('.cache/p0/ci-smoke/progress-check.json'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as summary:
+              summary.write('Actual headless smoke, no mobile FPS claim:\n\n```json\n'+json.dumps(p,indent=2)+'\n```\n')
+          PY

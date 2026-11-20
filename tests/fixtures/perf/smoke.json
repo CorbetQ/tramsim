@@ -1,0 +1,1 @@
+{"schema_version":1,"run_id":"p0_smoke","request_id":"p0_smoke_request_01","network":"res://data/free/angers.json","phase_seconds":0.25,"warmup_frames":0,"phases":["dense_driving","free_camera","night","rain","terminus"],"seed":7,"gpu_timing":false,"view_distance":400}

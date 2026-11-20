@@ -26,6 +26,7 @@ var free: FreeSession
 var view: LineView
 var net: NetworkLoader
 var net_path := ""
+var benchmark_simulation := false # Opt-in diagnostics owns stepping only while profiling.
 var vehicle: VehicleProfile
 var notch := 0.0
 var emergency := false
@@ -98,7 +99,10 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	theme = UiTheme.build()
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR   # icônes SVG nettes à toutes les échelles
-	save = SaveGame.load_data()
+	save = SaveGame.default_data() if Engine.has_meta("tramsim_benchmark") else SaveGame.load_data()
+	if Engine.has_meta("tramsim_benchmark"):
+		menu_city = str(Engine.get_meta("tramsim_benchmark_city",""))
+		save.settings.home_bg = false;save.settings.intro = false
 	ui_audio = UiAudio.new(); ui_audio.enabled = bool(save.settings.get("ui_sounds", true)); add_child(ui_audio)
 	bell = AudioStreamPlayer.new(); bell.stream = _bell_sound(); add_child(bell)
 	_build_menu()
@@ -157,10 +161,15 @@ func _quit_safely() -> void:
 	await CityScene.drain_background_jobs(get_tree())
 	get_tree().quit()
 
+func _save_profile() -> bool:
+	if Engine.has_meta("tramsim_benchmark"): return false
+	return SaveGame.save_data(save)
+
 func _persist() -> void:
+	if Engine.has_meta("tramsim_benchmark"): return # Never modify player progression while profiling.
 	if free != null and vehicle != null:
 		SaveGame.store_free(save, free, net_path, vehicle.id)
-	SaveGame.save_data(save)
+	_save_profile()
 
 func _clear() -> void:
 	camera_gestures.reset()
@@ -760,7 +769,7 @@ func _remember_run(city: String) -> void:
 	save.settings.last_run = {"label": label, "city": city, "free": free_mode, "net_path": net_path, "network_id": CityDataStore.document(net_path).get("id", ""), "vehicle": vehicle.id,
 		"mission_key": "%s|%s" % [mission.get("start_time", ""), mission.get("headsign", "")] if not mission.is_empty() else "",
 		"scenario": str(scenario.get("id", "")), "station": start_station.duplicate() if free_mode else {}}
-	SaveGame.save_data(save)
+	_save_profile()
 
 func _vehicle_by_id(id: String, meta: Dictionary) -> VehicleProfile:
 	for f in TramModel.fleet_for(meta):
@@ -830,7 +839,7 @@ func _open_settings() -> void:
 func _close_settings() -> void:
 	if settings_layer == null: return
 	settings_layer.queue_free(); settings_layer = null
-	SaveGame.save_data(save)
+	_save_profile()
 	_show_bg(menu_city)
 
 ## Raccourcis des menus (accueil, configuration). Renvoie vrai si la touche est consommée.
@@ -1448,7 +1457,7 @@ func _tuto_input(ev: InputEvent) -> void:
 		tuto_step += 1
 		if tuto_step >= TUTO.size():
 			tuto.queue_free(); tuto = null
-			save.settings.tutorial_done = true; SaveGame.save_data(save)
+			save.settings.tutorial_done = true; _save_profile()
 		else:
 			_tuto_text()
 
@@ -1493,6 +1502,8 @@ func _unhandled_input(ev: InputEvent) -> void:
 		_zoom(ev.factor)
 
 func _input(ev: InputEvent) -> void:
+	if Engine.has_meta("tramsim_benchmark"):
+		get_viewport().set_input_as_handled();return
 	if intro != null:   # intro de lancement : touche, clic ou toucher pour passer
 		if (ev is InputEventKey and ev.pressed and not ev.echo) or (ev is InputEventMouseButton and ev.pressed) or (ev is InputEventScreenTouch and ev.pressed):
 			intro.skip(); get_viewport().set_input_as_handled()
@@ -1547,7 +1558,7 @@ func _process(dt: float) -> void:
 	if session == null: return
 	if intro != null:   # Camera owns the frozen world; no duplicate detailed tile builds.
 		return
-	if not paused and not session.finished:
+	if not paused and not session.finished and not benchmark_simulation:
 		if autopilot.enabled:
 			if free == null or free.incident != "": _set_autopilot(false, "Pilote automatique coupé : incident")
 			else: notch = autopilot.control(session, minf(dt, 0.1))
@@ -1629,7 +1640,7 @@ func _process(dt: float) -> void:
 		_result_saved = true
 		var d := session.debrief()
 		SaveGame.add_result(save, net_path, vehicle.id, d)
-		SaveGame.save_data(save)
+		_save_profile()
 		_show_debrief(d)
 
 func _show_debrief(d: Dictionary) -> void:
