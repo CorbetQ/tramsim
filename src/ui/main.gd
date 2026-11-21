@@ -87,6 +87,7 @@ var ui_audio: UiAudio
 var tram_audio: TramAudio
 var bell: AudioStreamPlayer
 var _alert_box: PanelContainer
+var _hud_fit_args: Array = []
 var _hud_t := 0.0
 var _compact := false
 var _resize_pending := false
@@ -1222,6 +1223,7 @@ func _build_hud() -> void:
 		if spec[1] == "power": power_button = b
 		if spec[1] == "autopilot": autopilot_button = b; b.name = "tool_autopilot"
 	hud_alert.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; hud_alert.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_hud_fit_args = [trip, mid, lp, rp, dock, safe]
 	_fit_hud.call_deferred(trip, mid, lp, rp, dock, safe)
 	for c in [trip, tr, lp, rp, dock, signal_panel]: UiTheme.fade_in(c, 0.35)
 	for c in get_children():
@@ -1230,20 +1232,20 @@ func _build_hud() -> void:
 
 ## Ajuste après la mise en page : le bandeau d'alertes reste entre le panneau « prochain arrêt » et le
 ## répétiteur de signalisation, la barre d'outils entre le manipulateur et la colonne tachymètre/urgence.
-func _fit_hud(trip: Control, mid: Control, lp: Control, rp: Control, dock: Control, safe: Vector4) -> void:
+func _fit_hud(trip: Control, mid: Control, lp: Control, rp: Control, dock: Control, safe: Vector4, immediate := false) -> void:
 	if not is_instance_valid(mid): return
-	await get_tree().process_frame
-	if not is_instance_valid(mid): return
+	if not immediate: await get_tree().process_frame
+	if not (is_instance_valid(mid) and is_instance_valid(trip) and is_instance_valid(lp) and is_instance_valid(rp)): return
 	var vw := get_viewport_rect().size.x
 	var left := trip.get_global_rect().end.x + 12.0
 	var right := vw - 14.0 - safe.z
 	if is_instance_valid(signal_panel) and signal_panel.is_inside_tree() and signal_panel.get_parent() == self:
 		right = minf(right, signal_panel.get_global_rect().position.x - 12.0)
 	var top := 92.0
-	if right - left < 300.0:   # écran étroit : bandeau sous les panneaux du haut, sur toute la largeur utile
-		top = trip.get_global_rect().end.y + 8.0
-		if is_instance_valid(signal_panel) and signal_panel.get_parent() == self: top = maxf(top, signal_panel.get_global_rect().end.y + 8.0)
-		left = 14.0 + safe.x; right = vw - 14.0 - safe.z
+	if right - left < 300.0:   # écran étroit : bandeau en bas, au-dessus de la barre d'outils, entre manipulateur et tachymètre
+		left = lp.get_global_rect().end.x + 10.0; right = rp.get_global_rect().position.x - 10.0
+		var box_h := maxf(_alert_box.get_combined_minimum_size().y, 48.0)
+		top = (dock.get_global_rect().position.y if is_instance_valid(dock) else get_viewport_rect().size.y - 100.0) - box_h - 8.0
 	var width := maxf(right - left, 220.0)
 	mid.set_anchors_preset(Control.PRESET_TOP_LEFT); mid.position = Vector2(left, top); mid.size.x = width
 	mid.custom_minimum_size.x = width
@@ -1655,6 +1657,8 @@ func _process(dt: float) -> void:
 	_hud_t -= dt
 	if _hud_t > 0.0 and not session.finished: return
 	_hud_t = 0.2
+	# Réajuste la mise en page (Android : la taille/échelle de la fenêtre peut changer après la construction du HUD).
+	if _hud_fit_args.size() == 6: _fit_hud(_hud_fit_args[0], _hud_fit_args[1], _hud_fit_args[2], _hud_fit_args[3], _hud_fit_args[4], _hud_fit_args[5], true)
 	_speed_advice = session.next_restriction()
 	if is_instance_valid(signal_panel): signal_panel.refresh()
 	hud_clock.text = view.day_night.clock_text()
