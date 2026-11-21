@@ -171,7 +171,7 @@ def process(path):
             seg = relax(sl, seg) if cnt >= 3 else seg
             if not fwd:
                 seg = seg[::-1]
-            old = np.array(e["y"], dtype=np.float64)
+            old = np.array(e["y"], dtype=np.float64); old0 = old
             seg[0], seg[-1] = (old[0], old[-1]) if (len(ch) == 1) else (seg[0], seg[-1])
             dmax = max(dmax, float(np.abs(seg - old).max()))
             # pente bornée dans l'ordre des points de l'arête (après retournement), extrémités fixes

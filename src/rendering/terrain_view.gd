@@ -206,7 +206,7 @@ func _clamp_tracks(t: Tile, k: Vector2i) -> void:
 					if absf(q.x - x) > COR_CLAMP_R or absf(q.z - z) > COR_CLAMP_R: continue
 					var dq := Vector2(q.x - x, q.z - z).length()
 					if dq <= COR_CLAMP_R: lim = minf(lim, q.y - COR_CLAMP + maxf(0.0, dq - 2.6) * 0.12)
-		if v.y > lim and v.y - lim < 0.6: t.pos[i].y = lim
+		if v.y > lim and v.y - lim < 1.5: t.pos[i].y = lim
 	_split_tracks(t, k)
 
 ## Triangles étirés de l'import traversés par une voie (sommets loin de l'axe) : points de l'axe (et à ± 1,75 m,
@@ -238,7 +238,7 @@ func _split_tracks(t: Tile, k: Vector2i) -> void:
 						if absf(den) < 1e-9: break
 						var u := ((px - a.x) * v1z - v1x * (pz - a.z)) / den; var w := (v0x * (pz - a.z) - (px - a.x) * v0z) / den
 						var h := a.y + (b.y - a.y) * u + (d.y - a.y) * w
-						if h > lim + 0.005 and h - lim < 1.0:
+						if h > lim + 0.005 and h - lim < 1.5:
 							if not cand.has(i): cand[i] = []
 							cand[i].append(Vector3(px, lim, pz))
 						break

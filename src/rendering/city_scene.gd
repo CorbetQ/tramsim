@@ -1160,7 +1160,7 @@ func _cut_conflicts() -> void:
 			var m: int = it[1]
 			var a := Vector2(pl[m].x, pl[m].z); var b := Vector2(pl[m + 1].x, pl[m + 1].z)
 			var t := clampf((c - a).dot(b - a) / maxf((b - a).length_squared(), 1e-4), 0.0, 1.0)
-			if (a + (b - a) * t).distance_to(c) > float(d[1]) * 0.5 + 3.4: continue   # voie à ± 1,75 m de l'axe + demi-caisse
+			if (a + (b - a) * t).distance_to(c) > float(d[1]) * 0.5 + 1.6: continue   # demi-caisse (tests/test_clearance.gd)
 			var y := lerpf(pl[m].y, pl[m + 1].y, t)
 			if y > q.y + 0.22 and y - 1.1 < q.y + GAUGE_H + 0.05:
 				if not bad.has(it[0]): bad[it[0]] = {}
@@ -2344,8 +2344,9 @@ func bind_network(net: NetworkLoader) -> void:
 		var n2 := maxi(1, ceili(L / 2.0))
 		for i in n2 + 1:
 			var q3 := net.point_on(id, L * i / n2)
-			var cc := Vector2((q3.p.x - position.x) / _x_scale, q3.p.y - position.z)
-			if _deck_cells.has(Vector2i(floori(cc.x / 32.0), floori(cc.y / 32.0))): _gauge_pts.append(Vector3(cc.x, q3.y, cc.y))
+			for lo in ([0.0] if info.raw or info.get("physical", false) else [-1.75, 1.75]):   # axe de chaque sens
+				var cc := Vector2((q3.p.x - q3.dir.y * lo - position.x) / _x_scale, q3.p.y + q3.dir.x * lo - position.z)
+				if _deck_cells.has(Vector2i(floori(cc.x / 32.0), floori(cc.y / 32.0))): _gauge_pts.append(Vector3(cc.x, q3.y, cc.y))
 		for i in buried.size():
 			if buried[i]: add_portal_cut(axis[maxi(i - 1, 0)], axis[mini(i + 1, axis.size() - 1)], 3.6)
 		# axe au sol (hors ponts et tunnels) : corridors du relief lointain
