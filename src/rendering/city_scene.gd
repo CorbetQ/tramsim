@@ -1464,6 +1464,15 @@ func _deck(S: _Arrays, d: Array) -> void:
 			for k in posts:
 				var m := a.lerp(b, (k + 0.5) / posts) + e * 0.98
 				S.box(m + Vector3(0, 0.7, 0), Vector3(0.05, 0.8, 0.05), iron)
+	# about de tablier : face fermée aux extrémités (pas de vide entre la dalle et la culée)
+	for end in [0, pl.size() - 1]:
+		if pl.size() < 2: break
+		var e0 := pl[end] - o; var e1 := pl[1 if end == 0 else end - 1] - o
+		var dir2 := Vector3(e0.x - e1.x, 0, e0.z - e1.z).normalized()
+		var n2 := Vector3(-dir2.z, 0, dir2.x) * hw
+		var th2 := 1.2 if int(d[0]) == 0 else 1.8
+		S.quad(e0 - n2, e0 + n2, e0 + n2 + Vector3(0, -th2, 0), e0 - n2 + Vector3(0, -th2, 0), Color("#b9b3a7"), -1.0)
+		S.quad(e0 + n2, e0 - n2, e0 - n2 + Vector3(0, -th2, 0), e0 + n2 + Vector3(0, -th2, 0), Color("#b9b3a7"), -1.0)
 	# piles (hors gabarit des voies)
 	for pile in deck_piles(d):
 		var c: Vector3 = pile[0] - o; var gh: float = pile[1]

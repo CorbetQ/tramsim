@@ -141,7 +141,7 @@ static func smooth_kinds(kinds: Array, lens: Array) -> Array:
 ## Plateforme d'une voie (axe `pts`, décalage `o` vers la droite) : lit texturé par tronçon (nature lissée), bordures
 ## de plateforme côté extérieur (gazon) ou caniveau (enrobé, pavés, béton), rails à gorge, contre-rails en courbe
 ## serrée, appareils de voie aux extrémités partagées avec une autre voie.
-static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color, gauge_m: float = 1.435) -> void:
+static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color, gauge_m: float = 1.435, no_skirt: Callable = Callable(), ground: Callable = Callable()) -> void:
 	var pts := densify(axis)
 	if pts.size() < 2: return
 	var nrm := miter_normals(pts)
@@ -170,12 +170,40 @@ static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color
 	for side in [-1.0, 1.0]:
 		if o != 0.0 and signf(o) != side: continue
 		ribbon(g, pts, nrm, 0.22, BED_TOP_M + 0.035, edge_cols, o + side * 1.64)
+		_skirt(g, pts, nrm, o + side * 1.75, side, kinds, grassy, no_skirt, ground)
 	_slab_joints(g, pts, nrm, o, kinds, grassy, setts)
 	var curv := curvature(pts)
 	var hw := gauge_m * 0.5
 	for side in [-1.0, 1.0]:
 		_rail(g, pts, nrm, o + side * hw, side, grassy, curv, bed)
 	_switch_ends(g, pts, nrm, o, gauge_m, grassy)
+
+## Talus de plateforme (« jupe ») : ferme la fente entre le bord de la plateforme et le terrain. `ground` (Vector3 ->
+## altitude du sol, LineView.ground_at) : talus de terre/ballast de pente 2/3 jusqu'au sol quand la plateforme est à moins
+## de SKIRT_DEPTH m au-dessus, mur de soutènement vertical (béton) jusqu'au sol au-delà (remblai d'approche de pont,
+## relief plus bas) ; sans `ground` : talus fixe de SKIRT_DEPTH m. Enterré sans effet quand le sol est au niveau.
+const SKIRT_DEPTH := 2.2
+const SKIRT := Color("#8f8372")
+const WALL := Color("#a8a397")
+static func skirt_drop(bed_top: float, ground_h: float) -> float:
+	return clampf(bed_top - ground_h + 0.4, 0.45, 30.0)   # pied enterré de 0,4 m (sol irrégulier)
+
+static func _skirt(g, pts: Array[Vector3], nrm: PackedVector3Array, off: float, side: float, kinds: Array, grassy: Array, no_skirt: Callable, ground: Callable = Callable()) -> void:
+	var top := Vector3(0, BED_TOP_M - 0.005, 0)
+	for i in range(pts.size() - 1):
+		if no_skirt.is_valid() and no_skirt.call((pts[i] + pts[i + 1]) * 0.5): continue   # pont, tunnel
+		var a := pts[i] + nrm[i] * off + top; var b := pts[i + 1] + nrm[i + 1] * off + top
+		var da := SKIRT_DEPTH; var db := SKIRT_DEPTH
+		if ground.is_valid():
+			da = skirt_drop(a.y, ground.call(a + nrm[i] * side * 0.6))
+			db = skirt_drop(b.y, ground.call(b + nrm[i + 1] * side * 0.6))
+		var col: Color = SKIRT if grassy[i] else GUTTER.darkened(0.1)
+		if maxf(da, db) > SKIRT_DEPTH:   # mur de soutènement vertical
+			var a2 := a + Vector3(0, -da, 0); var b2 := b + Vector3(0, -db, 0)
+			g.quad(a, b, b2, a2, WALL); g.quad(b, a, a2, b2, WALL)
+		else:
+			var a2 := a + nrm[i] * side * da * 1.5 + Vector3(0, -da, 0); var b2 := b + nrm[i + 1] * side * db * 1.5 + Vector3(0, -db, 0)
+			g.quad(a, b, b2, a2, col); g.quad(b, a, a2, b2, col)   # deux faces (vue de dessus et de sous un pont)
 
 ## Courbure signée par sommet (1/m, > 0 : virage vers la droite de la voie), lissée sur ± 4 m.
 static func curvature(pts: Array[Vector3]) -> PackedFloat32Array:

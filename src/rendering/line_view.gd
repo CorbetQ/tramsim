@@ -220,7 +220,19 @@ func _track(parent: Node3D, id: String) -> void:
 			if float(span_[0]) < 0.5 and float(span_[1]) > net.graph.edges[id].length - 0.5:
 				nature = func(_p): return TrackView.BED_PAVED
 				fallback = Color("#686c73"); paved = fallback; break
-	TrackView.build(g, pts, o, nature, fallback, paved, float(info.get("gauge_mm", 1435)) / 1000.0)
+	# pas de talus de plateforme sur les ponts et en tunnel : points de ces ouvrages tous les 2 m
+	var works := PackedVector3Array()
+	if geometric:
+		var Lw: float = net.graph.edges[id].length
+		for sp in info.get("bridge", []) + info.get("tunnel", []):
+			var s0 := maxf(0.0, float(sp[0])); var s1 := minf(Lw, float(sp[1]))
+			var nn := maxi(1, ceili((s1 - s0) / 2.0))
+			for k in nn + 1: works.append(pos3(id, s0 + (s1 - s0) * k / nn))
+	var no_skirt := func(p: Vector3) -> bool:
+		for w in works:
+			if absf(w.x - p.x) < 1.5 and absf(w.z - p.z) < 1.5 and absf(w.y - p.y) < 3.0: return true
+		return false
+	TrackView.build(g, pts, o, nature, fallback, paved, float(info.get("gauge_mm", 1435)) / 1000.0, no_skirt if not works.is_empty() else Callable(), ground_at if city != null and city.has_terrain else Callable())
 	if geometric: _structures(g, id)
 	_add_geo(parent, g, Materials.building())
 
