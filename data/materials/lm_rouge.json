@@ -1,0 +1,16 @@
+{
+ "id": "lm_rouge",
+ "label": "Portes de niche de secours (rouge)",
+ "albedo_color": "#a3231d",
+ "roughness": 0.45,
+ "metallic": 0.2,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

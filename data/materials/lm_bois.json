@@ -1,0 +1,16 @@
+{
+ "id": "lm_bois",
+ "label": "Bois des bancs",
+ "albedo_color": "#8b6a47",
+ "roughness": 0.7,
+ "metallic": 0.0,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

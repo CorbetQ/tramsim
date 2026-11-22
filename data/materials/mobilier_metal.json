@@ -6,11 +6,21 @@
  "metallic": 0.6,
  "specular": 0.5,
  "textures": {
-  "albedo": "",
-  "normal": "",
-  "orm": ""
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
  },
- "uv_scale_m": 1.0,
+ "uv_scale_m": 1.5,
  "normal_scale": 1.0,
- "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+ "source": "Poly Haven « Green Metal Rust » (green_metal_rust), Rob Tuytel, CC0 — https://polyhaven.com/a/green_metal_rust",
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 14,
+ "albedo_mean": "#3f4d34",
+ "roughness_mean": 0.5036,
+ "ao_mean": 0.8755,
+ "world_id": 15
 }

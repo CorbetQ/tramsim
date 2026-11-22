@@ -59,14 +59,43 @@ func _init() -> void:
 		var m := PbrMaterials.standard(id)
 		if not is_equal_approx(m.roughness, float(lib[id].roughness)) or not is_equal_approx(m.metallic, float(lib[id].metallic)): errs.append("%s : scalaires PBR non appliqués" % id)
 		if c.fallback and m.albedo_texture == null and m.albedo_color != PbrMaterials.color(id): errs.append("%s : couleur de repli absente" % id)
-		if c.albedo and c.normal and c.orm and not (m is ORMMaterial3D and m.normal_enabled): errs.append("%s : textures non branchées" % id)
+		if not c.fallback:
+			var sm := PbrMaterials.surface(id)
+			if int(sm.get_shader_parameter("layer")) != int(lib[id].layer) or sm.get_shader_parameter("pbr_albedo_tex") == null or int(sm.get_shader_parameter("pbr_tex_quality")) <= 0: errs.append("%s : textures non branchées" % id)
+			if not c.mobile: errs.append("%s : jeu mobile 1024² absent" % id)
+			if str(lib[id].get("source", "")).find("CC0") < 0: errs.append("%s : licence non tracée" % id)
 	check(errs.is_empty(), "fiches valides, complètes ou en repli documenté : %s" % [errs])
 	print("PBR|textures complètes=%d|repli couleur unie=%d (%s)" % [lib.size() - fallback.size(), fallback.size(), ",".join(fallback)])
 	var wa := PbrMaterials.world_arrays()
 	var covered := {}
 	for e in lib.values():
 		if e.has("world_id"): covered[int(e.world_id)] = true
-	check(covered.size() >= 9, "identifiants de matériau du décor 1 à 9 couverts : %s" % [covered.keys()])
+	check(covered.size() >= 15, "identifiants de matériau du décor 1 à 15 couverts : %s" % [covered.keys()])
+	# P1 : textures réelles (tableaux 16 couches, 2048² PC / 1024² Mobile), licences tracées
+	var textured := lib.size() - fallback.size()
+	check(textured >= 14, "bibliothèque P1 : %d matériaux texturés (béton, dalle, enrobé, pavés, gazon, ballast, rail, façades, granit…)" % textured)
+	var a2: TextureLayered = load("res://assets/textures/pbr/albedo_2k.jpg")
+	var a1: TextureLayered = load("res://assets/textures/pbr/albedo_1k.jpg")
+	check(a2 != null and a2.get_layers() == 16 and a2.get_width() == 2048, "tableau PC : 16 couches 2048²")
+	check(a1 != null and a1.get_layers() == 16 and a1.get_width() == 1024, "tableau Mobile : 16 couches 1024²")
+	check(a2 != null and a2.has_mipmaps(), "mipmaps des tableaux")
+	var credits := FileAccess.get_file_as_string("res://CREDITS.md") + FileAccess.get_file_as_string("res://docs/refonte-visuelle/sources.json")
+	var miss: Array = []
+	for e in lib.values():
+		var src := str(e.get("source", ""))
+		var k := src.find("(") + 1
+		if src.find("Poly Haven") >= 0 and k > 0:
+			var asset := src.substr(k, src.find(")", k) - k)
+			if credits.count(asset) < 2: miss.append(asset)
+	check(miss.is_empty(), "textures créditées dans CREDITS.md et sources.json : %s" % [miss])
+	var wl = Materials.building().get_shader_parameter("mat_layer")
+	check(wl is PackedInt32Array and wl.size() == 16 and wl[2] == int(PbrMaterials.entry("enrobe").layer), "décor : couche de texture par identifiant de matériau")
+	PbrMaterials.set_profile("mobile")
+	var ql := int(Materials.building().get_shader_parameter("pbr_tex_quality"))
+	var tl: TextureLayered = Materials.building().get_shader_parameter("pbr_albedo_tex")
+	check(ql == 1 and tl != null and tl.get_width() == 1024, "profil Mobile : 1024², un échantillon")
+	PbrMaterials.set_profile("ultra")
+	check(int(Materials.building().get_shader_parameter("pbr_tex_quality")) == 2 and (Materials.building().get_shader_parameter("pbr_albedo_tex") as TextureLayered).get_width() == 2048, "profil Ultra : 2048², anti-répétition")
 	check(is_equal_approx(wa.mat_metallic[9], float(PbrMaterials.entry("acier_rail").metallic)) and wa.mat_metallic[9] > 0.5, "rails métalliques (M_METAL = 9)")
 	check(CityScene._Arrays.mat_id(TrackView.A_METAL) == 9.0 and is_equal_approx(TrackView.RAIL_TOP.a, TrackView.A_METAL) and CityScene._Arrays.mat_id(TrackView.RAIL_TOP.a) == 9.0, "acier des rails encodé M_METAL")
 
@@ -74,7 +103,7 @@ func _init() -> void:
 	var b := Materials.building()
 	check(b.shader.resource_path.ends_with("pbr_world.gdshader"), "décor : pbr_world.gdshader")
 	var rough = b.get_shader_parameter("mat_roughness")
-	check(rough is PackedFloat32Array and rough.size() == 10 and rough[2] > 0.5, "décor : rugosités par matériau posées")
+	check(rough is PackedFloat32Array and rough.size() == 16 and rough[2] > 0.5, "décor : rugosités par matériau posées")
 	var o := Materials.object()
 	check(o.shader.resource_path.ends_with("pbr_object.gdshader"), "objets : pbr_object.gdshader")
 	var f := Materials.foliage()

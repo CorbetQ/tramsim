@@ -3,7 +3,8 @@ extends RefCounted
 ## Voirie et sol d'une tuile : maillage unique (TerrainView.Tile, tools/import/terrain_mesh.py + road_mesh.py).
 ##
 ## ENCODAGE DES SOMMETS (pour pbr_world.gdshader) :
-## - UV2.x : identifiant de matériau du shader (partie entière : 2 enrobé, 3 dallage, 4 sol végétal, 8 uni, voir
+## - UV2.x : identifiant de matériau du shader (partie entière : 2 enrobé, 3 dallage, 4 sol végétal, 8 uni, 11 ballast,
+##   13 granit, voir
 ##   pbr_world.gdshader) + identifiant de surface de voirie / 1024 (partie fractionnaire, MAT ci-dessous :
 ##   matériau précis, par ex. chaussée, trottoir, plateforme gazon, marquage) ;
 ## - UV2.y : hauteur au-dessus du terrain (m) : 0 pour le sol et la chaussée (drapés exactement), BORDURE pour le
@@ -43,6 +44,9 @@ const M_ASPHALT := 2.0
 const M_PAVING := 3.0
 const M_VEG := 4.0
 const M_PLAIN := 8.0
+const M_BALLAST := 11.0   # P1 : textures de la bibliothèque (ballast, pavés granit, bordures granit)
+const M_SETTS := 12.0
+const M_GRANITE := 13.0
 
 ## Teintes (apparentes) et matériau du shader par surface.
 static func palette(style: Dictionary) -> Array:
@@ -67,15 +71,18 @@ static func palette(style: Dictionary) -> Array:
 	p[ISLAND] = [paving.darkened(0.04), M_PAVING]
 	p[ISLAND_GRASS] = [Color("#6f8249"), M_VEG]
 	p[PATH] = [Color("#b8a988"), M_PLAIN]
-	p[BALLAST] = [Color("#7f776c"), M_PLAIN]
+	p[BALLAST] = [Color("#7f776c"), M_BALLAST]
 	p[RAIL] = [Color("#9a9ea3"), M_PLAIN]
-	p[CURB] = [paving.darkened(0.18), M_PAVING]
+	p[CURB] = [paving.darkened(0.18), M_GRANITE]   # bordures granit (faces verticales des trottoirs)
 	return p
 
 static func _legacy_a(m: float) -> float:
 	if m == M_ASPHALT: return 0.28
 	if m == M_PAVING: return 0.29
 	if m == M_VEG: return 0.30
+	if m == M_BALLAST: return 0.32
+	if m == M_SETTS: return 0.33
+	if m == M_GRANITE: return 0.39
 	return 1.0
 
 class _Out:

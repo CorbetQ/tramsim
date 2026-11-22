@@ -123,6 +123,8 @@ func setup(line: LineView, name_: String) -> void:
 	var params: Dictionary = PROFILES[profile]
 	var dn: DayNight = view.day_night
 	applied = apply_profile(profile, dn.env, dn.sun, get_viewport())
+	PbrMaterials.set_profile(profile)   # textures 2048² + anti-répétition (PC) ou 1024² (Mobile, Repli)
+	applied.textures = PbrMaterials.TEX_PROFILES[profile]
 	set_process(bool(params.reflection) or float(params.blur) > 0)
 	view.speed_material.set_shader_parameter("bloom_amount", params.glow if renderer() == "gl_compatibility" else 0.0)
 	view.speed_material.set_shader_parameter("motion_amount", params.blur)

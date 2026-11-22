@@ -12,6 +12,11 @@ extends RefCounted
 ## - contre-rail sur le rail intérieur des courbes de rayon < GUARD_R_M ;
 ## - appareils de voie (détectés aux extrémités d'arêtes confondues) : aiguilles polies effilées, coupons de
 ##   joints au talon et au cœur, cœur de croisement, moteur d'aiguillage.
+## P1 (refonte visuelle) : matériaux texturés de la bibliothèque (dalle béton M_CONCRETE, pavés granit M_SETTS,
+## gazon, enrobé, bordures granit, soutènements en béton banché) ; profil de rail à gorge Ri60 modélisé (chanfreins
+## du champignon, flancs et fond de gorge, lèvre du contre-rail de gorge) en LOD proche (`near` : cellules de
+## DETAIL_CELL m, visibles jusqu'à detail_range()), le LOD de base (champignon + fond de gorge) restant à toute
+## distance : surfaces communes confondues (même teinte), donc sans scintillement à la transition.
 
 const BED_TOP_M := 0.09
 const RAIL_TOP_M := BED_TOP_M + 0.03     # champignon au-dessus du gazon
@@ -39,6 +44,14 @@ const A_ASPHALT := 0.28
 const A_PAVING := 0.29
 const A_VEG := 0.30
 const A_METAL := 0.37
+const A_CONCRETE := 0.31   # dalle béton de plateforme (beton_dalle)
+const A_SETTS := 0.33      # pavés granit (paves_granit)
+const A_GRANITE := 0.39    # bordures granit (bordure_granit)
+const A_FORMED := 0.40     # béton banché (beton_banche)
+const DETAIL_CELL := 64.0
+## Portée du LOD proche du rail (m) : Mobile plus courte.
+static func detail_range() -> float:
+	return 45.0 if DayNight.low_quality else 90.0
 
 static func _mat(c: Color, a: float) -> Color:
 	return Color(c.r, c.g, c.b, a)
@@ -142,7 +155,7 @@ static func smooth_kinds(kinds: Array, lens: Array) -> Array:
 ## Plateforme d'une voie (axe `pts`, décalage `o` vers la droite) : lit texturé par tronçon (nature lissée), bordures
 ## de plateforme côté extérieur (gazon) ou caniveau (enrobé, pavés, béton), rails à gorge, contre-rails en courbe
 ## serrée, appareils de voie aux extrémités partagées avec une autre voie.
-static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color, gauge_m: float = 1.435, no_skirt: Callable = Callable(), ground: Callable = Callable()) -> void:
+static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color, gauge_m: float = 1.435, no_skirt: Callable = Callable(), ground: Callable = Callable(), near = null) -> void:
 	var pts := densify(axis)
 	if pts.size() < 2: return
 	var nrm := miter_normals(pts)
@@ -163,11 +176,11 @@ static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color
 			BED_ROAD: bed.append(_mat(ASPHALT, A_ASPHALT))
 			_:
 				var base := paved if int(k) != BED_UNKNOWN else fallback
-				bed.append(_mat(base, A_PAVING) if setts and int(k) != BED_UNKNOWN else _mat(base.lerp(CONCRETE, 0.55), A_ASPHALT))
+				bed.append(_mat(base, A_SETTS) if setts and int(k) != BED_UNKNOWN else _mat(base.lerp(CONCRETE, 0.55), A_CONCRETE))
 	ribbon(g, pts, nrm, 3.5, BED_TOP_M, bed, o)
 	# bordures (gazon : bordure béton surélevée) ou caniveau (chaussée) sur le(s) côté(s) extérieur(s)
 	var edge_cols: Array = []
-	for i in kinds.size(): edge_cols.append(CURB if grassy[i] else GUTTER)
+	for i in kinds.size(): edge_cols.append(_mat(CURB, A_GRANITE) if grassy[i] else GUTTER)
 	for side in [-1.0, 1.0]:
 		if o != 0.0 and signf(o) != side: continue
 		ribbon(g, pts, nrm, 0.22, BED_TOP_M + 0.035, edge_cols, o + side * 1.64)
@@ -176,7 +189,7 @@ static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color
 	var curv := curvature(pts)
 	var hw := gauge_m * 0.5
 	for side in [-1.0, 1.0]:
-		_rail(g, pts, nrm, o + side * hw, side, grassy, curv, bed)
+		_rail(g, pts, nrm, o + side * hw, side, grassy, curv, bed, near)
 	_switch_ends(g, pts, nrm, o, gauge_m, grassy)
 
 ## Talus de plateforme (« jupe ») : ferme la fente entre le bord de la plateforme et le terrain. `ground` (Vector3 ->
@@ -201,7 +214,8 @@ static func _skirt(g, pts: Array[Vector3], nrm: PackedVector3Array, off: float, 
 		var col: Color = SKIRT if grassy[i] else GUTTER.darkened(0.1)
 		if maxf(da, db) > SKIRT_DEPTH:   # mur de soutènement vertical
 			var a2 := a + Vector3(0, -da, 0); var b2 := b + Vector3(0, -db, 0)
-			g.quad(a, b, b2, a2, WALL); g.quad(b, a, a2, b2, WALL)
+			var wc := _mat(WALL, A_FORMED)
+			g.quad(a, b, b2, a2, wc); g.quad(b, a, a2, b2, wc)
 		else:
 			var a2 := a + nrm[i] * side * da * 1.5 + Vector3(0, -da, 0); var b2 := b + nrm[i + 1] * side * db * 1.5 + Vector3(0, -db, 0)
 			g.quad(a, b, b2, a2, col); g.quad(b, a, a2, b2, col)   # deux faces (vue de dessus et de sous un pont)
@@ -228,17 +242,19 @@ static func curvature(pts: Array[Vector3]) -> PackedFloat32Array:
 	return out
 
 ## Rail à gorge à l'abscisse latérale `off` (côté `side` : -1 gauche, +1 droite ; la gorge est côté intérieur).
-static func _rail(g, pts: Array[Vector3], nrm: PackedVector3Array, off: float, side: float, grassy: Array, curv: PackedFloat32Array, bed: Array) -> void:
+static func _rail(g, pts: Array[Vector3], nrm: PackedVector3Array, off: float, side: float, grassy: Array, curv: PackedFloat32Array, bed: Array, near = null) -> void:
 	var n := pts.size() - 1
 	var top: Array = []; var groove: Array = []; var filler: Array = []; var guard: Array = []
 	for i in n:
 		top.append(RAIL_TOP); groove.append(GROOVE)
 		var bc: Color = bed[i]
-		filler.append(SLEEPER if grassy[i] else Color(bc.r, bc.g, bc.b).darkened(0.38))
+		filler.append(_mat(SLEEPER, A_CONCRETE) if grassy[i] else Color(bc.r, bc.g, bc.b).darkened(0.38))
 	# longrine béton (gazon) ou joint bitumineux (chaussée) sous/autour du rail
-	_ribbon_w(g, pts, nrm, func(i): return 0.30 if grassy[i] else 0.18, func(i): return BED_TOP_M + (0.012 if grassy[i] else 0.006), filler, off)
-	_ribbon_y(g, pts, nrm, 0.072, func(i): return RAIL_TOP_M if grassy[i] else EMBED_TOP_M, top, off + side * 0.012)
-	_ribbon_y(g, pts, nrm, 0.036, func(i): return (RAIL_TOP_M if grassy[i] else EMBED_TOP_M) - 0.001, groove, off - side * 0.042)
+	_ribbon_w(g, pts, nrm, func(i): return 0.30 if grassy[i] else 0.18, func(i): return _filler_y(grassy[i]), filler, off)
+	# LOD de base : champignon (64 mm) et fond de gorge (32 mm), confondus avec les faces du profil Ri60 du LOD proche
+	_ribbon_y(g, pts, nrm, 0.064, func(i): return RAIL_TOP_M if grassy[i] else EMBED_TOP_M, top, off + side * 0.012)
+	_ribbon_y(g, pts, nrm, 0.032, func(i): return _filler_y(grassy[i]) + 0.002, groove, off - side * 0.042)
+	if near != null: _ri60(near, pts, nrm, off, side, grassy)
 	# flancs du champignon au-dessus du gazon (silhouette nette)
 	for i in n:
 		if not grassy[i]: continue
@@ -256,6 +272,37 @@ static func _rail(g, pts: Array[Vector3], nrm: PackedVector3Array, off: float, s
 		var w := nrm[i] * 0.025; var w2 := nrm[i + 1] * 0.025
 		g.quad(a - w + Vector3(0, y, 0), a + w + Vector3(0, y, 0), b + w2 + Vector3(0, y, 0), b - w2 + Vector3(0, y, 0), BLADE.darkened(0.12))
 		g.quad(a - w * side + Vector3(0, y, 0), b - w2 * side + Vector3(0, y, 0), b - w2 * side + Vector3(0, y - 0.03, 0), a - w * side + Vector3(0, y - 0.03, 0), RAIL_SIDE)
+
+static func _filler_y(grassy: bool) -> float:
+	return BED_TOP_M + (0.012 if grassy else 0.006)
+
+## Profil Ri60 (rail à gorge) en LOD proche, abscisse s côté extérieur positif (repère du rail : `off`, `side`) :
+## chanfrein du champignon côté champ, arrondi du congé de roulement, flanc de gorge, fond (confondu avec le LOD de
+## base), flanc et dessus de la lèvre, retombée de la lèvre ; âme côté champ sur longrine (gazon).
+## Couples (s, dy) depuis le dessus du champignon (yt) ; dy = -INF : fond de gorge (yb).
+const RI60 := [[0.048, -0.008], [0.044, 0.0], [-0.020, 0.0], [-0.024, -0.005], [-0.026, -INF], [-0.058, -INF], [-0.060, -0.003], [-0.074, -0.003], [-0.078, -INF]]
+const RI60_COL := [0, -1, 0, 1, 2, 1, 3, 1]   # 0 acier poli, 1 flanc sombre, 2 fond de gorge, 3 lèvre ; -1 : face du LOD de base
+const RAIL_LIP := Color(0.70, 0.71, 0.72, A_METAL)
+
+static func _ri60(near, pts: Array[Vector3], nrm: PackedVector3Array, off: float, side: float, grassy: Array) -> void:
+	var cols := [RAIL_TOP, RAIL_SIDE.darkened(0.2), GROOVE, RAIL_LIP]
+	for i in range(pts.size() - 1):
+		var g = near.at((pts[i] + pts[i + 1]) * 0.5)
+		var yt := RAIL_TOP_M if grassy[i] else EMBED_TOP_M
+		var yb := _filler_y(grassy[i]) + 0.002
+		for k in range(RI60.size() - 1):
+			if RI60_COL[k] < 0: continue
+			var p0: Array = RI60[k]; var p1: Array = RI60[k + 1]
+			var y0 := yb if is_inf(float(p0[1])) else yt + float(p0[1])
+			var y1 := yb if is_inf(float(p1[1])) else yt + float(p1[1])
+			var s0 := off + side * float(p0[0]); var s1 := off + side * float(p1[0])
+			var a0 := pts[i] + nrm[i] * s0 + Vector3(0, y0, 0); var a1 := pts[i] + nrm[i] * s1 + Vector3(0, y1, 0)
+			var b0 := pts[i + 1] + nrm[i + 1] * s0 + Vector3(0, y0, 0); var b1 := pts[i + 1] + nrm[i + 1] * s1 + Vector3(0, y1, 0)
+			g.quad(a0, b0, b1, a1, cols[RI60_COL[k]])
+		if grassy[i]:   # âme côté champ jusqu'à la longrine
+			var s := off + side * 0.048; var yf := _filler_y(true)
+			g.quad(pts[i] + nrm[i] * s + Vector3(0, yt - 0.008, 0), pts[i + 1] + nrm[i + 1] * s + Vector3(0, yt - 0.008, 0),
+				pts[i + 1] + nrm[i + 1] * s + Vector3(0, yf, 0), pts[i] + nrm[i] * s + Vector3(0, yf, 0), RAIL_SIDE)
 
 ## Ruban à hauteur variable par segment (y_fn : index de segment -> hauteur).
 static func _ribbon_y(g, pts: Array[Vector3], nrm: PackedVector3Array, w: float, y_fn: Callable, cols: Array, offset: float) -> void:
@@ -285,7 +332,7 @@ static func _slab_joints(g, pts: Array[Vector3], nrm: PackedVector3Array, o: flo
 				var p := pts[i].lerp(pts[i + 1], t); var nn := nrm[i].lerp(nrm[i + 1], t)
 				var d := (pts[i + 1] - pts[i]).normalized() * 0.018
 				var c := p + nn * o + Vector3(0, BED_TOP_M + 0.004, 0)
-				g.quad(c - nn * 1.6 - d, c + nn * 1.6 - d, c + nn * 1.6 + d, c - nn * 1.6 + d, Color("#7d786f"))
+				g.quad(c - nn * 1.6 - d, c + nn * 1.6 - d, c + nn * 1.6 + d, c - nn * 1.6 + d, _mat(Color("#7d786f"), A_CONCRETE))
 			next += SLAB_M
 		acc += L
 
@@ -390,6 +437,18 @@ static func _closest(line: Array[Vector3], p: Vector3) -> Vector3:
 		var d := q.distance_squared_to(p)
 		if d < bd: bd = d; best = q
 	return best
+
+## Puits de géométrie du LOD proche : un accumulateur par cellule de DETAIL_CELL m (la portée de visibilité se mesure
+## au centre de la boîte englobante de chaque maillage). `make` : Callable -> accumulateur (quad()).
+class NearSink:
+	var cells := {}
+	var make: Callable
+	func _init(make_: Callable) -> void:
+		make = make_
+	func at(p: Vector3):
+		var k := Vector2i(floori(p.x / DETAIL_CELL), floori(p.z / DETAIL_CELL))
+		if not cells.has(k): cells[k] = make.call()
+		return cells[k]
 
 ## Zones interdites au décor : segments (repère libre) avec distance minimale, index spatial à cellules de 16 m.
 class KeepOut:

@@ -108,6 +108,13 @@ func build_platform(pf: Dictionary) -> bool:
 	if not by_way.has(int(pf.osm_way)): return false
 	var profile: Dictionary = by_way[int(pf.osm_way)]
 	var owner := _owner(profile)
+	if LandmarkModels.replaces_platform(view, int(pf.osm_way)):   # quai modélisé (assets/models) : keepout et voyageurs seuls
+		for i in pf.pts.size():
+			var j: int = (i + 1) % pf.pts.size()
+			if view.city: view.city.add_keepout(Vector2(pf.pts[i][0], pf.pts[i][1]), Vector2(pf.pts[j][0], pf.pts[j][1]), .6)
+		view._platform_people(pf, owner, false)
+		stats.platforms += 1
+		return true
 	var poly := PackedVector2Array(); var top := PackedVector3Array()
 	var h := float(pf.get("height_m", .3))
 	for i in pf.pts.size():
@@ -146,6 +153,7 @@ func build_platform(pf: Dictionary) -> bool:
 
 func build_sites() -> void:
 	for profile in _profiles:
+		if LandmarkModels.replaces_station(view, str(profile.name)): stats.stations += 1; continue   # modèle dédié
 		var owner := _owner(profile)
 		for canopy in profile.canopies: _canopy(owner, profile, canopy)
 		for surface in profile.get("surfaces", []): _surface(owner, surface)

@@ -1,0 +1,16 @@
+{
+ "id": "lm_devanture_b",
+ "label": "Devanture peinte (bordeaux)",
+ "albedo_color": "#5a2229",
+ "roughness": 0.45,
+ "metallic": 0.1,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

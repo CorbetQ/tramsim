@@ -6,12 +6,21 @@
  "metallic": 0.0,
  "specular": 0.45,
  "textures": {
-  "albedo": "",
-  "normal": "",
-  "orm": ""
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
  },
- "uv_scale_m": 1.2,
+ "uv_scale_m": 2.0,
  "normal_scale": 1.0,
  "world_id": 3,
- "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+ "source": "Poly Haven « Concrete Pavers 02 » (concrete_pavers_02), Amal Kumar, CC0 — https://polyhaven.com/a/concrete_pavers_02",
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 1,
+ "albedo_mean": "#726050",
+ "roughness_mean": 0.8741,
+ "ao_mean": 0.9511
 }

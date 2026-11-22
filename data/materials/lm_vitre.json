@@ -1,0 +1,17 @@
+{
+ "id": "lm_vitre",
+ "label": "Vitrages de façade (fenêtres, vitrines)",
+ "albedo_color": "#2b3238",
+ "roughness": 0.06,
+ "metallic": 0.0,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce.",
+ "glass": 0.82
+}

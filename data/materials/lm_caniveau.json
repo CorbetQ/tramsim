@@ -1,0 +1,16 @@
+{
+ "id": "lm_caniveau",
+ "label": "Grilles de caniveau (fonte)",
+ "albedo_color": "#2a2c2e",
+ "roughness": 0.6,
+ "metallic": 0.5,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

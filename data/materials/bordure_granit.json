@@ -1,0 +1,26 @@
+{
+ "id": "bordure_granit",
+ "textures": {
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
+ },
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 12,
+ "uv_scale_m": 2.3,
+ "albedo_mean": "#4e4e4f",
+ "roughness_mean": 0.5435,
+ "ao_mean": 0.9584,
+ "source": "Poly Haven « Granite Tile » (granite_tile), Charlotte Baglioni, CC0 — https://polyhaven.com/a/granite_tile",
+ "world_id": 13,
+ "label": "Granit (bordures, trottoirs)",
+ "albedo_color": "#9c9a96",
+ "roughness": 0.7,
+ "metallic": 0.0,
+ "specular": 0.45,
+ "normal_scale": 0.8
+}

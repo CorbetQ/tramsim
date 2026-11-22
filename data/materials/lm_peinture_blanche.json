@@ -1,0 +1,16 @@
+{
+ "id": "lm_peinture_blanche",
+ "label": "Ossature acier laquée blanche (auvents)",
+ "albedo_color": "#eceeed",
+ "roughness": 0.38,
+ "metallic": 0.15,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

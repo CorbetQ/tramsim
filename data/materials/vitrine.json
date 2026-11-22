@@ -13,5 +13,5 @@
  "uv_scale_m": 3.0,
  "normal_scale": 1.0,
  "world_id": 6,
- "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+ "source": "P1 : repli couleur unie par conception (shader dédié : verre, eau, émissif, feuillage en cartes ou livrée ; pas de couche dans les tableaux de textures)"
 }

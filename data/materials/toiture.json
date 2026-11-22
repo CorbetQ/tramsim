@@ -6,12 +6,21 @@
  "metallic": 0.0,
  "specular": 0.5,
  "textures": {
-  "albedo": "",
-  "normal": "",
-  "orm": ""
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
  },
  "uv_scale_m": 3.0,
  "normal_scale": 1.0,
  "world_id": 5,
- "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+ "source": "Poly Haven « Roof Slates 02 » (roof_slates_02), Rob Tuytel, CC0 — https://polyhaven.com/a/roof_slates_02",
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 3,
+ "albedo_mean": "#908675",
+ "roughness_mean": 0.8447,
+ "ao_mean": 0.6908
 }

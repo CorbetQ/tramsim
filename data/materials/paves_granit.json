@@ -1,0 +1,26 @@
+{
+ "id": "paves_granit",
+ "textures": {
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
+ },
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 9,
+ "uv_scale_m": 1.0,
+ "albedo_mean": "#827967",
+ "roughness_mean": 0.8278,
+ "ao_mean": 0.9279,
+ "source": "Poly Haven « Cobblestone Square » (cobblestone_square), Rob Tuytel, CC0 — https://polyhaven.com/a/cobblestone_square",
+ "world_id": 12,
+ "label": "Pavés granit (plateforme, places)",
+ "albedo_color": "#8d8a85",
+ "roughness": 0.82,
+ "metallic": 0.0,
+ "specular": 0.4,
+ "normal_scale": 1.0
+}

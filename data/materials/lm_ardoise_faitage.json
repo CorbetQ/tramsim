@@ -1,0 +1,16 @@
+{
+ "id": "lm_ardoise_faitage",
+ "label": "Faîtages et noues (plomb)",
+ "albedo_color": "#5b6066",
+ "roughness": 0.45,
+ "metallic": 0.6,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

@@ -1,0 +1,25 @@
+{
+ "id": "facade_tuffeau",
+ "textures": {
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
+ },
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 10,
+ "uv_scale_m": 2.0,
+ "albedo_mean": "#b3a490",
+ "roughness_mean": 0.5286,
+ "ao_mean": 0.975,
+ "source": "Poly Haven « White Sandstone Blocks 02 » (white_sandstone_blocks_02), Rob Tuytel, CC0 — https://polyhaven.com/a/white_sandstone_blocks_02",
+ "label": "Tuffeau (façades angevines et tourangelles)",
+ "albedo_color": "#ddd3bd",
+ "roughness": 0.85,
+ "metallic": 0.0,
+ "specular": 0.4,
+ "normal_scale": 1.0
+}

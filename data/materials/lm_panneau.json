@@ -1,0 +1,16 @@
+{
+ "id": "lm_panneau",
+ "label": "Panneaux d'information (fond clair)",
+ "albedo_color": "#eef0ee",
+ "roughness": 0.5,
+ "metallic": 0.0,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

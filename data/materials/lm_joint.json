@@ -1,0 +1,16 @@
+{
+ "id": "lm_joint",
+ "label": "Joints de reprise de bétonnage",
+ "albedo_color": "#6a6863",
+ "roughness": 0.9,
+ "metallic": 0.0,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

@@ -1,0 +1,16 @@
+{
+ "id": "lm_marquage",
+ "label": "Marquage au sol (peinture blanche)",
+ "albedo_color": "#e9e9e4",
+ "roughness": 0.7,
+ "metallic": 0.0,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

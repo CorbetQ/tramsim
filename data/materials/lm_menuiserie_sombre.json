@@ -1,0 +1,16 @@
+{
+ "id": "lm_menuiserie_sombre",
+ "label": "Menuiseries et devantures sombres",
+ "albedo_color": "#2d3134",
+ "roughness": 0.4,
+ "metallic": 0.3,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

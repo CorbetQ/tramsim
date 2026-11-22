@@ -1,0 +1,25 @@
+{
+ "id": "pierre_taille",
+ "textures": {
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
+ },
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 15,
+ "uv_scale_m": 3.0,
+ "albedo_mean": "#56534b",
+ "roughness_mean": 0.822,
+ "ao_mean": 0.9303,
+ "source": "Poly Haven « Large Sandstone Blocks » (large_sandstone_blocks), Rob Tuytel, CC0 — https://polyhaven.com/a/large_sandstone_blocks",
+ "label": "Pierre de taille (monuments, haussmannien)",
+ "albedo_color": "#c9bfab",
+ "roughness": 0.84,
+ "metallic": 0.0,
+ "specular": 0.4,
+ "normal_scale": 1.0
+}

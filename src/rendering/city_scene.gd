@@ -797,15 +797,19 @@ func _build_tile(k: Vector2i) -> Node3D:
 	for kind in StreetProps.KINDS:
 		if lite or _props[kind][0].is_empty(): continue
 		stats["props_%d" % kind] = int(stats.get("props_%d" % kind, 0)) + _props[kind][0].size()
-		node.add_child(StreetProps.instances(kind, _props[kind][0], _props[kind][1]))
+		# cellules de TREE_CELL m : portée de visibilité mesurée au centre de chaque cellule (LOD réel par distance)
+		var pc := {}
+		for i in _props[kind][0].size():
+			var o3: Vector3 = (_props[kind][0][i] as Transform3D).origin
+			var ck := Vector2i(floori(o3.x / TREE_CELL), floori(o3.z / TREE_CELL))
+			if not pc.has(ck): pc[ck] = [[], []]
+			pc[ck][0].append(_props[kind][0][i])
+			if i < _props[kind][1].size(): pc[ck][1].append(_props[kind][1][i])
+		for ck in pc: node.add_child(StreetProps.instances(kind, pc[ck][0], pc[ck][1]))
 	_D = null
 	for v in TREE_KINDS:
 		if _trees_cur[v].is_empty(): continue
-		var mm := MultiMesh.new(); mm.transform_format = MultiMesh.TRANSFORM_3D
-		mm.mesh = _tree_mesh(v); mm.instance_count = _trees_cur[v].size()
-		for i in _trees_cur[v].size(): mm.set_instance_transform(i, _trees_cur[v][i])
-		var mmi := MultiMeshInstance3D.new(); mmi.multimesh = mm; mmi.material_override = Materials.foliage()
-		node.add_child(mmi)
+		_add_trees(node, v, _trees_cur[v])
 	# noms des monuments
 	for lb in labels:
 		if lite or not show_labels: break
@@ -2406,6 +2410,70 @@ func _add_tree(kind: int, pos: Vector3, rng: RandomNumberGenerator, scale: float
 	if kind < 7: _camera_boxes.append([1, crown_pos, radius + 0.5, 2.4 * sc + 0.5])
 	if debug_props: placed_trees.append(w)
 
+## Végétation en LOD/HLOD (refonte P1, budget Mobile) : par tuile et par essence,
+## - arbres (essences 0 à 6) : LOD lointain = houppier simplifié (≈ 12 triangles, sans ombre portée) pour toute la
+##   tuile, toujours affiché (HLOD : une instance par tuile) ; LOD proche = arbre complet par cellule de TREE_CELL m,
+##   visible jusqu'à TREE_NEAR m (le houppier simplifié, légèrement plus petit, reste caché dedans) ;
+## - arbustes, graminées, vivaces (7 à 9) : une seule instance, visible jusqu'à SMALL_RANGE m.
+const TREE_CELL := 100.0
+static func tree_ranges() -> Dictionary:
+	return {"near": 110.0 if DayNight.low_quality else 230.0, "small": 60.0 if DayNight.low_quality else 120.0}
+
+static func _mm(mesh: Mesh, xfs: Array) -> MultiMeshInstance3D:
+	var mm := MultiMesh.new(); mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.mesh = mesh; mm.instance_count = xfs.size()
+	for i in xfs.size(): mm.set_instance_transform(i, xfs[i])
+	var mmi := MultiMeshInstance3D.new(); mmi.multimesh = mm; mmi.material_override = Materials.foliage()
+	return mmi
+
+func _add_trees(node: Node3D, v: int, xfs: Array) -> void:
+	var r := tree_ranges()
+	if v < 7:
+		var far := _mm(_tree_lod_mesh(v), xfs)
+		far.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		far.name = "veg_far_%d" % v
+		node.add_child(far)
+	# cellules : la portée de visibilité se mesure au centre de la boîte englobante (pas à celui de la tuile)
+	var cells := {}
+	for x in xfs:
+		var c := Vector2i(floori((x as Transform3D).origin.x / TREE_CELL), floori((x as Transform3D).origin.z / TREE_CELL))
+		if not cells.has(c): cells[c] = []
+		cells[c].append(x)
+	for c in cells:
+		var near := _mm(_tree_mesh(v), cells[c])
+		near.visibility_range_end = r.near if v < 7 else r.small
+		near.visibility_range_end_margin = 15.0
+		if v >= 7: near.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		near.name = ("veg_near_%d" if v < 7 else "veg_small_%d") % v
+		node.add_child(near)
+
+static var _trees_lod: Array[Mesh] = []
+## Houppier simplifié (LOD lointain) : bipyramide hexagonale (ou cône) à 92 % du houppier principal.
+static func _tree_lod_mesh(v: int) -> Mesh:
+	if _trees_lod.size() == TREE_KINDS: return _trees_lod[v]
+	_trees_lod.clear()
+	for k in TREE_KINDS:
+		var A := _Arrays.new()
+		var spec: Array = [[Vector3(0, 4.0, 0), Vector3(2.9, 2.2, 2.9), "#6aa84a", "#3f7a37"], [], [Vector3(0, 5.0, 0), Vector3(1.8, 2.7, 1.8), "#7cb24c", "#4d8a3a"],
+			[Vector3(0, 5.8, 0), Vector3(3.2, 0.95, 3.2), "#4f8a42", "#2f5f30"], [], [Vector3(0, 5.6, 0), Vector3(1.0, 4.4, 1.0), "#79aa45", "#4e8236"],
+			[Vector3(0, 5.5, 0), Vector3(3.6, 2.2, 3.6), "#8cbc58", "#58893d"], [], [], []][k]
+		if k == 1:
+			A.cone(Vector3(0, 1.4, 0), 2.1, 5.4, 5, Color("#367a4c", 0.9))
+		elif k == 4:
+			A.cone(Vector3(0, 0, 0), 0.3, 7.3, 3, Color("#8b7355", 0.9))
+			for i in 3:
+				var d := Vector3(cos(TAU * i / 3.0), 0, sin(TAU * i / 3.0))
+				A.tri(Vector3(0, 7.3, 0), Vector3(0, 6.2, 0) + d * 2.6 + d.cross(Vector3.UP) * 0.9, Vector3(0, 6.2, 0) + d * 2.6 - d.cross(Vector3.UP) * 0.9, Color("#4f8f3c", 0.9))
+		elif not spec.is_empty():
+			var ctr: Vector3 = spec[0]; var rad: Vector3 = spec[1] * 0.92
+			var top := ctr + Vector3(0, rad.y, 0); var bot := ctr - Vector3(0, rad.y * 0.8, 0)
+			for i in 6:
+				var a0 := TAU * i / 6.0; var a1 := TAU * (i + 1) / 6.0
+				var p0 := ctr + Vector3(cos(a0) * rad.x, 0, sin(a0) * rad.z); var p1 := ctr + Vector3(cos(a1) * rad.x, 0, sin(a1) * rad.z)
+				A.tri(p0, p1, top, Color(spec[2], 0.9)); A.tri(p1, p0, bot, Color(spec[3], 0.9))
+		_trees_lod.append(A.mesh())
+	return _trees_lod[v]
+
 static func _tree_mesh(v: int) -> Mesh:
 	if _trees.size() == TREE_KINDS:
 		return _trees[v]
@@ -2484,6 +2552,12 @@ class _Arrays:
 		if a > 0.275 and a < 0.285: return 2.0
 		if a > 0.285 and a < 0.295: return 3.0
 		if a > 0.295 and a < 0.305: return 4.0
+		if a > 0.305 and a < 0.315: return 10.0  # dalle béton de plateforme (P1)
+		if a > 0.315 and a < 0.325: return 11.0  # ballast
+		if a > 0.325 and a < 0.335: return 12.0  # pavés granit
+		if a > 0.385 and a < 0.395: return 13.0  # granit (bordures, trottoirs)
+		if a > 0.395 and a < 0.405: return 14.0  # béton banché (trémies, soutènements)
+		if a > 0.405 and a < 0.415: return 15.0  # métal peint
 		if a > 0.34 and a < 0.36: return 5.0
 		if a > 0.365 and a < 0.375: return 9.0   # métal (rails, aiguilles)
 		if a > 0.42 and a < 0.48: return 6.0

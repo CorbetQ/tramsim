@@ -1,0 +1,18 @@
+{
+ "id": "lm_feuillage",
+ "label": "Feuillage en cartes (alpha)",
+ "albedo_color": "#5d7f3e",
+ "roughness": 0.75,
+ "metallic": 0.0,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce.",
+ "translucency": 0.5,
+ "card_texture": "res://assets/models/angers/textures/lm_feuillage_cartes.png"
+}

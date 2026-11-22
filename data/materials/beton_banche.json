@@ -1,0 +1,26 @@
+{
+ "id": "beton_banche",
+ "textures": {
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
+ },
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 13,
+ "uv_scale_m": 2.3,
+ "albedo_mean": "#aaa39b",
+ "roughness_mean": 0.8661,
+ "ao_mean": 0.9489,
+ "source": "Poly Haven « Concrete Slab Wall » (concrete_slab_wall), Dimitrios Savva, CC0 — https://polyhaven.com/a/concrete_slab_wall",
+ "world_id": 14,
+ "label": "Béton banché (trémies, soutènements)",
+ "albedo_color": "#a8a49b",
+ "roughness": 0.88,
+ "metallic": 0.0,
+ "specular": 0.4,
+ "normal_scale": 1.0
+}

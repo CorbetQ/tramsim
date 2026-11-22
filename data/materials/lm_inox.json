@@ -1,0 +1,16 @@
+{
+ "id": "lm_inox",
+ "label": "Inox brossé",
+ "albedo_color": "#a9adb0",
+ "roughness": 0.32,
+ "metallic": 1.0,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}

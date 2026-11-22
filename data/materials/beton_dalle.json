@@ -6,11 +6,21 @@
  "metallic": 0.0,
  "specular": 0.45,
  "textures": {
-  "albedo": "",
-  "normal": "",
-  "orm": ""
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
  },
- "uv_scale_m": 2.0,
+ "uv_scale_m": 1.8,
  "normal_scale": 1.0,
- "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+ "source": "Poly Haven « Concrete Pavement » (concrete_pavement), Charlotte Baglioni, CC0 — https://polyhaven.com/a/concrete_pavement",
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 7,
+ "albedo_mean": "#7f7466",
+ "roughness_mean": 0.8623,
+ "ao_mean": 0.8166,
+ "world_id": 10
 }

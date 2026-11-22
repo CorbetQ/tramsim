@@ -93,6 +93,7 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 	_depot_buildings()
 	_real_platforms()
 	if station_identity: station_identity.build_sites()
+	if geometric: LandmarkModels.attach(self)   # modèles dédiés (P1) : Ralliement, cathédrale, trémie
 	_crossovers()
 	for s in net.signals:
 		var t2 := _frame(s.edge, float(s.offset))
@@ -232,9 +233,14 @@ func _track(parent: Node3D, id: String) -> void:
 		for w in works:
 			if absf(w.x - p.x) < 1.5 and absf(w.z - p.z) < 1.5 and absf(w.y - p.y) < 3.0: return true
 		return false
-	TrackView.build(g, pts, o, nature, fallback, paved, float(info.get("gauge_mm", 1435)) / 1000.0, no_skirt if not works.is_empty() else Callable(), ground_at if city != null and city.has_terrain else Callable())
+	var near := TrackView.NearSink.new(func(): var ng := _Geo.new(); ng.all_faces = true; return ng)
+	TrackView.build(g, pts, o, nature, fallback, paved, float(info.get("gauge_mm", 1435)) / 1000.0, no_skirt if not works.is_empty() else Callable(), ground_at if city != null and city.has_terrain else Callable(), near)
 	if geometric: _structures(g, id)
 	_add_geo(parent, g, Materials.building())
+	for ng in near.cells.values():   # profil Ri60 (LOD proche, refonte P1)
+		var mn := _add_geo(parent, ng, Materials.building())
+		mn.name = "rail_ri60"; mn.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mn.visibility_range_end = TrackView.detail_range(); mn.visibility_range_end_margin = 10.0
 
 ## Ouvrages d'une voie (intervalles calculés par tools/import/terrain.py) : pont (dalle, garde-corps, piles),
 ## tunnel (tube, portails), trémie (murs de soutènement).
@@ -285,6 +291,7 @@ func _structures(g: _Geo, id: String) -> void:
 				g.box_basis(Vector3(c3.x, top.y - 1.1 - 0.35, c3.z), Vector3(span_x - 0.2, 0.7, 1.5), f.basis, concrete.darkened(0.04))
 			s += 30.0
 	for sp in info.get("tunnel", []):
+		if LandmarkModels.covers_tunnel(self, id, sp): continue   # trémie modélisée (assets/models)
 		var a := clampf(float(sp[0]), 0.0, L); var b := clampf(float(sp[1]), 0.0, L)
 		var n := maxi(1, ceili((b - a) / 6.0))
 		var wall := Color("#5d5a55")
@@ -763,6 +770,7 @@ func _update_cars(s: MissionSession) -> void:
 
 ## Petit accumulateur géométrique (couleurs de sommets ; alpha < 0.75 = vitrage, < 0.25 = lumineux).
 class _Geo:
+	var all_faces := false   # décalage de couche aussi sur les faces verticales (profil de rail : flancs de gorge)
 	var v := PackedVector3Array()
 	var c := PackedColorArray()
 	var uv := PackedVector2Array()
@@ -805,7 +813,7 @@ class _Geo:
 			var id := CityScene._Arrays.mat_id(c[i].a)
 			var h := 0.0
 			var fn := (v[i + 2] - v[i]).cross(v[i + 1] - v[i])
-			if absf(fn.y) > 0.9 * fn.length():
+			if all_faces or absf(fn.y) > 0.9 * fn.length():
 				var ctr := xf * ((v[i] + v[i + 1] + v[i + 2]) / 3.0)
 				h = ctr.y - (float(ground.call(ctr)) if ground.is_valid() else 0.0)
 				if h < 0.0 or h > 2.5: h = 0.0

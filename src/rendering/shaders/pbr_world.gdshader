@@ -14,12 +14,17 @@ shader_type spatial;
 render_mode cull_disabled;
 
 #include "res://src/rendering/shaders/pbr_common.gdshaderinc"
+#include "res://src/rendering/shaders/pbr_textures.gdshaderinc"
 
 // PBR par identifiant de matériau (index = M_*), posés par PbrMaterials.apply_world depuis data/materials/*.json
 // (champ world_id) ; Godot n'accepte pas de valeur par défaut sur un tableau d'uniformes.
-uniform float mat_roughness[10];
-uniform float mat_metallic[10];
-uniform float mat_specular[10];
+uniform float mat_roughness[16];
+uniform float mat_metallic[16];
+uniform float mat_specular[16];
+// Textures réelles (P1, pbr_textures.gdshaderinc) : couche de la bibliothèque par identifiant de matériau (-1 = repli
+// procédural) et, pour les façades, par type d'appareil (CityScene._wall_code : 0 enduit … 9 mur-rideau).
+uniform int mat_layer[16];
+uniform int facade_layer[10];
 uniform vec3 window_day = vec3(0.24, 0.30, 0.36);      // teintes d'affichage (pas de source_color : conversion unique)
 uniform vec3 window_night = vec3(1.0, 0.78, 0.45);
 uniform float floor_h = 3.0;
@@ -58,6 +63,13 @@ const float M_SHOP = 6.0;
 const float M_FACADE = 7.0;
 const float M_PLAIN = 8.0;
 const float M_METAL = 9.0;
+// P1 : plateforme et voirie (alpha des couleurs de sommet, CityScene._Arrays.mat_id)
+const float M_CONCRETE = 10.0;   // dalle béton de plateforme (0.31)
+const float M_BALLAST = 11.0;    // ballast (0.32)
+const float M_SETTS = 12.0;      // pavés granit (0.33)
+const float M_GRANITE = 13.0;    // bordures, trottoirs granit (0.39)
+const float M_FORMED = 14.0;     // béton banché des trémies, soutènements (0.40)
+const float M_PAINT = 15.0;      // métal peint (mobilier, garde-corps) (0.41)
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 
@@ -77,6 +89,12 @@ float legacy_id(float a) {
 	if (a > 0.275 && a < 0.285) return M_ASPHALT;
 	if (a > 0.285 && a < 0.295) return M_PAVING;
 	if (a > 0.295 && a < 0.305) return M_VEG;
+	if (a > 0.305 && a < 0.315) return M_CONCRETE;
+	if (a > 0.315 && a < 0.325) return M_BALLAST;
+	if (a > 0.325 && a < 0.335) return M_SETTS;
+	if (a > 0.385 && a < 0.395) return M_GRANITE;
+	if (a > 0.395 && a < 0.405) return M_FORMED;
+	if (a > 0.405 && a < 0.415) return M_PAINT;
 	if (a > 0.34 && a < 0.36) return M_SOLID;
 	if (a > 0.365 && a < 0.375) return M_METAL;
 	if (a > 0.42 && a < 0.48) return M_SHOP;
@@ -127,10 +145,26 @@ void fragment() {
 	float vertical = 1.0 - abs(wn.y);
 	vec2 xz = v_world.xz;
 	float id = mat_id;
-	int mi = clamp(int(id), 0, 9);
+	int mi = clamp(int(id), 0, 15);
 	ROUGHNESS = mat_roughness[mi];
 	METALLIC = mat_metallic[mi];
 	SPECULAR = mat_specular[mi];
+	// Textures réelles (P1) : couche par matériau, repère de projection et gradients hors branches.
+	vec3 tT, tB;
+	vec2 tuv = pbr_planar(v_world, wn, tT, tB);
+	vec2 tgx = dFdx(tuv), tgy = dFdy(tuv);
+	int layer = mat_layer[mi];
+	if (id == M_FACADE) layer = vertical > 0.8 ? facade_layer[clamp(int(floor((facade_seed - 500.0) / 50.0)), 0, 9)] : mat_layer[5];
+	if ((id == M_SOLID && vertical >= 0.8) || (id == M_PLAIN && !(vertical < 0.5 && v_h < 0.6 && facade_seed < 0.5))) layer = -1;   // sol nu seulement (pas les marquages)
+	bool tex = pbr_tex_quality > 0 && layer >= 0;
+	vec3 t_ratio = vec3(1.0), t_nts = vec3(0.0, 0.0, 1.0), t_orm = vec3(1.0);
+	if (tex) {
+		pbr_tex_sample(layer, tuv, tgx, tgy, t_ratio, t_nts, t_orm);
+		vec4 li = pbr_layer_info[layer];
+		ROUGHNESS = clamp(ROUGHNESS + (t_orm.g - li.y), 0.04, 1.0);
+		AO = clamp(t_orm.r / max(li.z, 0.05), 0.0, 1.0);
+	}
+	float tk = tex ? 0.0 : 1.0;      // micro-détail procédural seulement en repli (la texture le remplace)
 	// Détail macro/méso/micro commun (aucun aplat de près ni de loin).
 	float d3 = tri3(v_world, wn, vec3(0.10, 0.06, 0.05) * detail, px);
 	vec3 land_rgb = vec3(-1.0);
@@ -150,7 +184,7 @@ void fragment() {
 		}
 	}
 	if (id == M_ASPHALT) {
-		float agg = oct3(xz, vec3(0.10, 0.07, 0.16) * detail, px);
+		float agg = oct3(xz, vec3(0.10, 0.07 * tk, 0.16 * tk) * detail, px);
 		float stain = smoothstep(0.66, 0.80, noise2(xz * 0.21 + 3.7)) * (1.0 - smoothstep(0.3, 0.75, px * 0.21));
 		float repair = smoothstep(0.70, 0.76, noise2(floor(xz * 0.25) * 0.37 + 11.0)) * smoothstep(0.62, 0.70, noise2(xz * 0.045));
 		ALBEDO = base * (1.0 + agg - stain * 0.14 - repair * 0.10);
@@ -160,10 +194,10 @@ void fragment() {
 		vec2 f = fract(tile), fw = max(px * vec2(1.6, 2.4), vec2(0.001));
 		float joint = 1.0 - band(f.x, 0.018, 0.982, fw.x) * band(f.y, 0.025, 0.975, fw.y);
 		float near_k = 1.0 - smoothstep(0.12, 0.45, max(fw.x, fw.y));   // fondu des carreaux vers leur teinte moyenne
-		float tiles = mix(0.0, (0.12 * hash(floor(tile)) - 0.06) - 0.25 * joint + 0.012, near_k);
+		float tiles = mix(0.0, (0.12 * hash(floor(tile)) - 0.06) - 0.25 * joint + 0.012, near_k) * tk;
 		ALBEDO = base * (0.99 + tiles + oct3(xz, vec3(0.09, 0.04, 0.0) * detail, px));
 	} else if (id == M_VEG) {
-		float n = oct3(xz, vec3(0.30, 0.16, 0.14) * detail, px);
+		float n = oct3(xz, vec3(0.30, 0.16 * tk, 0.14 * tk) * detail, px);
 		float dry = smoothstep(0.55, 0.8, noise2(xz * 0.07 + 5.0));
 		ALBEDO = mix(base, base * vec3(1.12, 1.06, 0.82), dry * 0.5) * (1.0 + n);
 	} else if (id == M_SOLID && vertical < 0.8) {
@@ -174,7 +208,7 @@ void fragment() {
 		float joints = 1.0 - band(f.x, 0.018, 0.982, fw.x) * band(f.y, 0.035, 0.965, fw.y);
 		float near_k = 1.0 - smoothstep(0.1, 0.45, max(fw.x, fw.y));
 		float grime = smoothstep(0.5, 0.85, noise2(xz * 0.16 + 9.0));
-		ALBEDO = base * (1.0 + d3 - (joints - 0.06) * near_k * 0.12 - grime * 0.08);
+		ALBEDO = base * (1.0 + d3 - (joints - 0.06) * near_k * 0.12 * tk - grime * 0.08);
 	} else if (id == M_FACADE && vertical > 0.8) {
 		// Appareil selon le type de façade (graine = 500 + type × 50 + variante, CityScene._wall_code) :
 		// 0 enduit, 1 brique, 2 pierre de taille, 3 andésite, 4 tuffeau, 5 enduit du Sud, 6 béton (Perret),
@@ -194,7 +228,7 @@ void fragment() {
 		vec2 f = fract(masonry), fw = max(fw_uv * ms, vec2(0.001));
 		float mortar = 1.0 - band(f.x, 0.02, 0.98, fw.x) * band(f.y, 0.04, 0.96, fw.y);
 		float near_k = 1.0 - smoothstep(0.12, 0.45, max(fw.x, fw.y));
-		if (typ == 0.0 || typ == 5.0) mortar = 0.08;    // enduits : pas de joints
+		if (typ == 0.0 || typ == 5.0 || tex) mortar = 0.08;    // enduits : pas de joints ; texture : joints réels
 		float streak = smoothstep(0.55, 0.9, noise2(vec2(UV.x * 1.3, UV.y * 0.09 + facade_seed))) * (1.0 - smoothstep(0.3, 0.8, px * 1.3));
 		float socle = 1.0 - smoothstep(0.55, 0.8, UV.y);
 		if (UV.y < 0.0) { mortar = 0.08; streak = 0.0; socle = 0.0; }   // murs sans UV (aveugles)
@@ -219,6 +253,9 @@ void fragment() {
 	} else {
 		ALBEDO = base * (1.0 + d3 * 0.6);
 	}
+	ALBEDO *= t_ratio;
+	vec3 flat_n = NORMAL;
+	if (tex) NORMAL = pbr_tex_normal(t_nts, tT, tB, wn, VIEW_MATRIX);
 	// Sol végétal lissé : masque de tuile filtré + contour irrégulier (bruit métrique), sur le sol nu seulement.
 	if (veg_inv_size > 0.0 && vertical < 0.5 && v_h < 0.6 && (id == M_PLAIN || id == M_VEG)) {
 		float m = texture(veg_mask, v_local * veg_inv_size).r;
@@ -307,6 +344,8 @@ void fragment() {
 		near_col = mix(near_col, glass * (0.75 + 0.25 * smoothstep(0.2, 0.8, f.y)) + curtain * 0.05, win);
 		near_col = mix(near_col, base * 0.65, mullion);
 		ROUGHNESS = mix(ROUGHNESS, 0.08, win * detail_k);
+		NORMAL = normalize(mix(NORMAL, flat_n, clamp(win * detail_k, 0.0, 1.0)));
+		AO = mix(AO, 1.0, win * detail_k);
 		SPECULAR = mix(SPECULAR, typ == 9.0 ? 0.8 : 0.6, win * detail_k);
 		float glass_part = clamp(width_ * 2.0 * (wy1 - wy0), 0.05, 0.9);
 		vec3 far_col = mix(ALBEDO, glass, glass_part * 0.6);

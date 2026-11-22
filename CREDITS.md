@@ -190,3 +190,26 @@ Les sièges proviennent de rendus de travail originaux et de générations Meshy
 matériaux, adaptation métrique, découpe, assemblage et rig par TramSim/Codex.
 Les photos institutionnelles à droits réservés n’ont été ni redistribuées ni
 envoyées à Meshy. Dossier complet : `data/rolling_stock/meshy_sources/CREDITS.md`.
+
+## Textures PBR (refonte visuelle P1)
+
+Bibliothèque `data/materials` : tableaux de textures `assets/textures/pbr/{albedo,normal,orm}_{2k,1k}.jpg` (une couche par matériau), construits par `tools/materials/build_texture_arrays.py` depuis les textures **Poly Haven** (https://polyhaven.com), domaine public **CC0 1.0** (https://polyhaven.com/license). Aucune attribution n'est exigée ; elle est donnée par courtoisie. Téléchargement : `tools/materials/fetch_polyhaven.sh` (API api.polyhaven.com, fichiers dl.polyhaven.org, 2K JPG ; recompression JPEG et réduction 1K).
+
+| Couche | Matériau | Texture Poly Haven | Auteurs | Licence |
+|---|---|---|---|---|
+| 0 | `enrobe` | [Asphalt 02](https://polyhaven.com/a/asphalt_02) (`asphalt_02`) | Rob Tuytel | CC0 1.0 |
+| 1 | `dallage` | [Concrete Pavers 02](https://polyhaven.com/a/concrete_pavers_02) (`concrete_pavers_02`) | Amal Kumar | CC0 1.0 |
+| 2 | `gazon` | [Grass Ground](https://polyhaven.com/a/grass_ground) (`grass_ground`) | Charlotte Baglioni | CC0 1.0 |
+| 3 | `toiture` | [Roof Slates 02](https://polyhaven.com/a/roof_slates_02) (`roof_slates_02`) | Rob Tuytel | CC0 1.0 |
+| 4 | `facade_enduit` | [Beige Wall 001](https://polyhaven.com/a/beige_wall_001) (`beige_wall_001`) | Dimitrios Savva, Rico Cilliers | CC0 1.0 |
+| 5 | `sol_nu` | [Dirt](https://polyhaven.com/a/dirt) (`dirt`) | Charlotte Baglioni | CC0 1.0 |
+| 6 | `acier_rail` | [Rusty Metal 02](https://polyhaven.com/a/rusty_metal_02) (`rusty_metal_02`) | Rob Tuytel | CC0 1.0 |
+| 7 | `beton_dalle` | [Concrete Pavement](https://polyhaven.com/a/concrete_pavement) (`concrete_pavement`) | Charlotte Baglioni | CC0 1.0 |
+| 8 | `ballast` | [Gravel Stones](https://polyhaven.com/a/gravel_stones) (`gravel_stones`) | Amal Kumar | CC0 1.0 |
+| 9 | `paves_granit` | [Cobblestone Square](https://polyhaven.com/a/cobblestone_square) (`cobblestone_square`) | Rob Tuytel | CC0 1.0 |
+| 10 | `facade_tuffeau` | [White Sandstone Blocks 02](https://polyhaven.com/a/white_sandstone_blocks_02) (`white_sandstone_blocks_02`) | Rob Tuytel | CC0 1.0 |
+| 11 | `facade_brique` | [Brick Wall 001](https://polyhaven.com/a/brick_wall_001) (`brick_wall_001`) | Rob Tuytel, Dimitrios Savva | CC0 1.0 |
+| 12 | `bordure_granit` | [Granite Tile](https://polyhaven.com/a/granite_tile) (`granite_tile`) | Charlotte Baglioni | CC0 1.0 |
+| 13 | `beton_banche` | [Concrete Slab Wall](https://polyhaven.com/a/concrete_slab_wall) (`concrete_slab_wall`) | Dimitrios Savva | CC0 1.0 |
+| 14 | `mobilier_metal` | [Green Metal Rust](https://polyhaven.com/a/green_metal_rust) (`green_metal_rust`) | Rob Tuytel | CC0 1.0 |
+| 15 | `pierre_taille` | [Large Sandstone Blocks](https://polyhaven.com/a/large_sandstone_blocks) (`large_sandstone_blocks`) | Rob Tuytel | CC0 1.0 |

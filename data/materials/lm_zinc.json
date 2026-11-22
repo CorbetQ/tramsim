@@ -1,0 +1,16 @@
+{
+ "id": "lm_zinc",
+ "label": "Zinc (terrassons, gouttières, glissières)",
+ "albedo_color": "#8a9196",
+ "roughness": 0.42,
+ "metallic": 0.75,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+}
