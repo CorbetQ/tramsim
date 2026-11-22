@@ -160,6 +160,8 @@ void fragment() {
 	vec3 t_ratio = vec3(1.0), t_nts = vec3(0.0, 0.0, 1.0), t_orm = vec3(1.0);
 	if (tex) {
 		pbr_tex_sample(layer, tuv, tgx, tgy, t_ratio, t_nts, t_orm);
+		// acier des rails : rouille et usure en luminance atténuée (la teinte reste celle de la palette)
+		if (id == M_METAL) t_ratio = mix(vec3(1.0), vec3(dot(t_ratio, vec3(0.2126, 0.7152, 0.0722))), 0.45);
 		vec4 li = pbr_layer_info[layer];
 		ROUGHNESS = clamp(ROUGHNESS + (t_orm.g - li.y), 0.04, 1.0);
 		AO = clamp(t_orm.r / max(li.z, 0.05), 0.0, 1.0);

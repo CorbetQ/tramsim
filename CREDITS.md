@@ -193,7 +193,7 @@ envoyées à Meshy. Dossier complet : `data/rolling_stock/meshy_sources/CREDITS.
 
 ## Textures PBR (refonte visuelle P1)
 
-Bibliothèque `data/materials` : tableaux de textures `assets/textures/pbr/{albedo,normal,orm}_{2k,1k}.jpg` (une couche par matériau), construits par `tools/materials/build_texture_arrays.py` depuis les textures **Poly Haven** (https://polyhaven.com), domaine public **CC0 1.0** (https://polyhaven.com/license). Aucune attribution n'est exigée ; elle est donnée par courtoisie. Téléchargement : `tools/materials/fetch_polyhaven.sh` (API api.polyhaven.com, fichiers dl.polyhaven.org, 2K JPG ; recompression JPEG et réduction 1K).
+Bibliothèque `data/materials` : tableaux de textures `assets/textures/pbr/{albedo,normal,orm}_{2k,1k}.jpg` (une couche par matériau), construits par `tools/materials/build_texture_arrays.py` depuis les textures **Poly Haven** (https://polyhaven.com), domaine public **CC0 1.0** (https://polyhaven.com/license). Aucune attribution n'est exigée ; elle est donnée par courtoisie. Téléchargement : `tools/materials/fetch_polyhaven.sh` (API api.polyhaven.com, fichiers dl.polyhaven.org, 2K JPG ; recompression JPEG et réduction 1K). Les fiches `lm_*` des modèles dédiés empruntent ces couches (`texture_from`) ou ont la leur (écorce, bois).
 
 | Couche | Matériau | Texture Poly Haven | Auteurs | Licence |
 |---|---|---|---|---|
@@ -213,3 +213,5 @@ Bibliothèque `data/materials` : tableaux de textures `assets/textures/pbr/{albe
 | 13 | `beton_banche` | [Concrete Slab Wall](https://polyhaven.com/a/concrete_slab_wall) (`concrete_slab_wall`) | Dimitrios Savva | CC0 1.0 |
 | 14 | `mobilier_metal` | [Green Metal Rust](https://polyhaven.com/a/green_metal_rust) (`green_metal_rust`) | Rob Tuytel | CC0 1.0 |
 | 15 | `pierre_taille` | [Large Sandstone Blocks](https://polyhaven.com/a/large_sandstone_blocks) (`large_sandstone_blocks`) | Rob Tuytel | CC0 1.0 |
+| 16 | `lm_ecorce` | [Bark Platanus](https://polyhaven.com/a/bark_platanus) (`bark_platanus`) | Dimitrios Savva | CC0 1.0 |
+| 17 | `lm_bois` | [Weathered Brown Planks](https://polyhaven.com/a/weathered_brown_planks) (`weathered_brown_planks`) | Dimitrios Savva, Rico Cilliers | CC0 1.0 |

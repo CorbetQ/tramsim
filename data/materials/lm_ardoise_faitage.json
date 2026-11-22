@@ -12,5 +12,8 @@
  },
  "uv_scale_m": 1.0,
  "normal_scale": 1.0,
- "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) ; texture : couche « mobilier_metal » de la bibliothèque (Poly Haven, CC0), teinte de la fiche",
+ "texture_from": "mobilier_metal",
+ "texture_contrast": 0.6,
+ "texture_saturation": 0.25
 }

@@ -22,5 +22,6 @@
  "albedo_mean": "#3f4d34",
  "roughness_mean": 0.5036,
  "ao_mean": 0.8755,
- "world_id": 15
+ "world_id": 15,
+ "texture_saturation": 0.4
 }

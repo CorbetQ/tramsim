@@ -12,10 +12,11 @@ uniform sampler2DArray pbr_normal_tex : filter_linear_mipmap_anisotropic, repeat
 uniform sampler2DArray pbr_orm_tex : filter_linear_mipmap_anisotropic, repeat_enable, hint_default_white;
 uniform int pbr_tex_quality = 0;
 uniform float pbr_tex_contrast = 1.0;      // amplitude du détail d'albédo (1 = texture telle quelle)
+uniform float pbr_tex_saturation = 1.0;    // 0 : détail d'albédo en luminance seule (métaux, peintures teintées)
 uniform float pbr_normal_strength = 1.0;
-// Par couche (index = PbrMaterials layer) : moyenne d'albédo (sRGB), rugosité et AO moyens, taille du motif (m).
-uniform vec3 pbr_layer_mean[16];
-uniform vec4 pbr_layer_info[16];           // x = taille du motif (m), y = rugosité moyenne, z = AO moyen, w = force normale
+// Par couche (index = PbrMaterials layer, au plus PbrMaterials.N_LAYERS) : moyenne d'albédo (sRGB), rugosité et AO moyens, taille du motif (m).
+uniform vec3 pbr_layer_mean[24];
+uniform vec4 pbr_layer_info[24];           // x = taille du motif (m), y = rugosité moyenne, z = AO moyen, w = force normale
 
 float pbr_thash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float pbr_tnoise(vec2 p) {
@@ -60,6 +61,7 @@ void pbr_tex_sample(int layer, vec2 uvm, vec2 gx, vec2 gy, out vec3 ratio, out v
 		o = mix(o, textureGrad(pbr_orm_tex, uv2, dx2, dy2).rgb, w);
 	}
 	ratio = clamp(a / max(pbr_layer_mean[layer], vec3(0.02)), vec3(0.25), vec3(2.2));
+	ratio = mix(vec3(dot(ratio, vec3(0.2126, 0.7152, 0.0722))), ratio, pbr_tex_saturation);
 	ratio = mix(vec3(1.0), ratio, pbr_tex_contrast);
 	vec2 nxy = (n.xy * 2.0 - 1.0) * info.w * pbr_normal_strength;
 	nts = vec3(nxy, sqrt(max(1.0 - dot(nxy, nxy), 0.05)));

@@ -61,9 +61,10 @@ func _init() -> void:
 		if c.fallback and m.albedo_texture == null and m.albedo_color != PbrMaterials.color(id): errs.append("%s : couleur de repli absente" % id)
 		if not c.fallback:
 			var sm := PbrMaterials.surface(id)
-			if int(sm.get_shader_parameter("layer")) != int(lib[id].layer) or sm.get_shader_parameter("pbr_albedo_tex") == null or int(sm.get_shader_parameter("pbr_tex_quality")) <= 0: errs.append("%s : textures non branchées" % id)
+			if int(sm.get_shader_parameter("layer")) != PbrMaterials.layer_of(id) or sm.get_shader_parameter("pbr_albedo_tex") == null or int(sm.get_shader_parameter("pbr_tex_quality")) <= 0: errs.append("%s : textures non branchées" % id)
 			if not c.mobile: errs.append("%s : jeu mobile 1024² absent" % id)
 			if str(lib[id].get("source", "")).find("CC0") < 0: errs.append("%s : licence non tracée" % id)
+			if lib[id].has("texture_from") and lib[id].has("layer"): errs.append("%s : couche propre et empruntée" % id)
 	check(errs.is_empty(), "fiches valides, complètes ou en repli documenté : %s" % [errs])
 	print("PBR|textures complètes=%d|repli couleur unie=%d (%s)" % [lib.size() - fallback.size(), fallback.size(), ",".join(fallback)])
 	var wa := PbrMaterials.world_arrays()
@@ -76,16 +77,16 @@ func _init() -> void:
 	check(textured >= 14, "bibliothèque P1 : %d matériaux texturés (béton, dalle, enrobé, pavés, gazon, ballast, rail, façades, granit…)" % textured)
 	var a2: TextureLayered = load("res://assets/textures/pbr/albedo_2k.jpg")
 	var a1: TextureLayered = load("res://assets/textures/pbr/albedo_1k.jpg")
-	check(a2 != null and a2.get_layers() == 16 and a2.get_width() == 2048, "tableau PC : 16 couches 2048²")
-	check(a1 != null and a1.get_layers() == 16 and a1.get_width() == 1024, "tableau Mobile : 16 couches 1024²")
+	check(a2 != null and a2.get_layers() >= 18 and a2.get_width() == 2048, "tableau PC : %d couches 2048²" % a2.get_layers())
+	check(a1 != null and a1.get_layers() == a2.get_layers() and a1.get_width() == 1024, "tableau Mobile : mêmes couches en 1024²")
 	check(a2 != null and a2.has_mipmaps(), "mipmaps des tableaux")
 	var credits := FileAccess.get_file_as_string("res://CREDITS.md") + FileAccess.get_file_as_string("res://docs/refonte-visuelle/sources.json")
 	var miss: Array = []
 	for e in lib.values():
 		var src := str(e.get("source", ""))
-		var k := src.find("(") + 1
-		if src.find("Poly Haven") >= 0 and k > 0:
-			var asset := src.substr(k, src.find(")", k) - k)
+		var k := src.find("polyhaven.com/a/")
+		if k >= 0:
+			var asset := src.substr(k + 16).split(" ")[0]
 			if credits.count(asset) < 2: miss.append(asset)
 	check(miss.is_empty(), "textures créditées dans CREDITS.md et sources.json : %s" % [miss])
 	var wl = Materials.building().get_shader_parameter("mat_layer")

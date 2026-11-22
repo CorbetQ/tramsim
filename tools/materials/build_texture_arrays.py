@@ -30,6 +30,8 @@ LAYERS = [
     ("beton_banche", "concrete_slab_wall", 2.3),
     ("mobilier_metal", "green_metal_rust", 1.5),
     ("pierre_taille", "large_sandstone_blocks", 3.0),
+    ("lm_ecorce", "bark_platanus", 2.0),
+    ("lm_bois", "weathered_brown_planks", 2.0),
 ]
 MAPS = {"albedo": ("Diffuse", 86), "normal": ("nor_gl", 88), "orm": ("arm", 84)}
 SIZES = {"2k": 2048, "1k": 1024}
@@ -65,7 +67,9 @@ def main(dl, repo):
         e["roughness_mean"] = m["orm"][1]
         e["ao_mean"] = m["orm"][0]
         authors = ", ".join(info.get("authors", {}).keys())
-        e["source"] = f"Poly Haven « {info.get('name', asset)} » ({asset}), {authors}, CC0 — https://polyhaven.com/a/{asset}"
+        prev = str(e.get("source", ""))
+        keep = "Modèles dédiés P1 (tools/models, agent modélisateur) ; texture : " if prev.startswith("Modèles dédiés") else ""
+        e["source"] = keep + f"Poly Haven « {info.get('name', asset)} » ({asset}), {authors}, CC0 — https://polyhaven.com/a/{asset}"
         json.dump(e, open(path, "w"), ensure_ascii=False, indent=1)
         open(path, "a").write("\n")
         credits.append({"layer": i, "material": mid, "asset": asset, "name": info.get("name"), "authors": list(info.get("authors", {}).keys()),

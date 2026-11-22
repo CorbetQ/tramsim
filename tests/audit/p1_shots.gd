@@ -111,7 +111,7 @@ func _run() -> void:
 		await _place(main, best, best_s, 11.0)
 		main.external_cam = false
 		await _shot("C1")
-		await _place(main, best, best_s - 40.0, 11.0)
+		await _place(main, best, best_s - 14.0, 11.0)
 		await _shot("C3")
 	else:
 		printerr("ECHEC: aucune trémie sur nantes_3")

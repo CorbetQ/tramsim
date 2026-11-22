@@ -6,11 +6,20 @@
  "metallic": 0.0,
  "specular": 0.5,
  "textures": {
-  "albedo": "",
-  "normal": "",
-  "orm": ""
+  "albedo": "res://assets/textures/pbr/albedo_2k.jpg",
+  "normal": "res://assets/textures/pbr/normal_2k.jpg",
+  "orm": "res://assets/textures/pbr/orm_2k.jpg"
  },
- "uv_scale_m": 1.0,
+ "uv_scale_m": 2.0,
  "normal_scale": 1.0,
- "source": "Modèles dédiés P1 (tools/models, agent modélisateur) : repli documenté, couleur unie et scalaires PBR ; pas de texture tierce."
+ "source": "Modèles dédiés P1 (tools/models, agent modélisateur) ; texture : Poly Haven « Weathered Brown Planks » (weathered_brown_planks), Dimitrios Savva, Rico Cilliers, CC0 — https://polyhaven.com/a/weathered_brown_planks",
+ "textures_mobile": {
+  "albedo": "res://assets/textures/pbr/albedo_1k.jpg",
+  "normal": "res://assets/textures/pbr/normal_1k.jpg",
+  "orm": "res://assets/textures/pbr/orm_1k.jpg"
+ },
+ "layer": 17,
+ "albedo_mean": "#604b39",
+ "roughness_mean": 0.6541,
+ "ao_mean": 0.9487
 }

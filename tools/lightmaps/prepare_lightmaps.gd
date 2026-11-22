@@ -42,7 +42,9 @@ static func prepare(m: Dictionary) -> bool:
 		ResourceSaver.save(am, path, ResourceSaver.FLAG_COMPRESS)
 		mi.mesh = load(path)
 		mi.gi_mode = GeometryInstance3D.GI_MODE_STATIC
-		for s in am.get_surface_count(): tris += am.surface_get_array_len(s) / 3
+		for s in am.get_surface_count():
+			var ni := am.surface_get_array_index_len(s)
+			tris += (ni if ni > 0 else am.surface_get_array_len(s)) / 3
 	var lm := LightmapGI.new(); lm.name = "LightmapGI"
 	lm.quality = LightmapGI.BAKE_QUALITY_MEDIUM
 	lm.bounces = 3
@@ -54,6 +56,11 @@ static func prepare(m: Dictionary) -> bool:
 	lm.environment_mode = LightmapGI.ENVIRONMENT_MODE_CUSTOM_COLOR
 	lm.environment_custom_color = Color(0.62, 0.72, 0.86); lm.environment_custom_energy = 0.8
 	root.add_child(lm)
+	# données de cuisson pré-attribuées (fichier .lmbake) : l'éditeur cuit sans boîte de dialogue d'enregistrement
+	var data := LightmapGIData.new()
+	var data_path := "%s/%s.lmbake" % [dir, m.id]
+	ResourceSaver.save(data, data_path)
+	lm.light_data = load(data_path)
 	var sun := DirectionalLight3D.new(); sun.name = "sun_bake"
 	sun.light_bake_mode = Light3D.BAKE_DYNAMIC   # indirect seul ; direct temps réel (DayNight)
 	sun.rotation_degrees = Vector3(-55, 30, 0)

@@ -192,5 +192,30 @@
   "license": "CC0 1.0",
   "url": "https://polyhaven.com/a/large_sandstone_blocks",
   "real_size_m": 3.0
+ },
+ {
+  "layer": 16,
+  "material": "lm_ecorce",
+  "asset": "bark_platanus",
+  "name": "Bark Platanus",
+  "authors": [
+   "Dimitrios Savva"
+  ],
+  "license": "CC0 1.0",
+  "url": "https://polyhaven.com/a/bark_platanus",
+  "real_size_m": 2.0
+ },
+ {
+  "layer": 17,
+  "material": "lm_bois",
+  "asset": "weathered_brown_planks",
+  "name": "Weathered Brown Planks",
+  "authors": [
+   "Dimitrios Savva",
+   "Rico Cilliers"
+  ],
+  "license": "CC0 1.0",
+  "url": "https://polyhaven.com/a/weathered_brown_planks",
+  "real_size_m": 2.0
  }
 ]

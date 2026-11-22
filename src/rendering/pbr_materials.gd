@@ -7,6 +7,8 @@ extends RefCounted
 ## `textures_mobile` (1024²) désignent les TABLEAUX de textures partagés (assets/textures/pbr/*.jpg importés en
 ## TextureLayered VRAM compressée) et `layer` la couche du matériau ; `albedo_mean`, `roughness_mean`, `ao_mean`
 ## (moyennes de la couche, tools/materials/build_texture_arrays.py) servent à moduler la teinte calibrée sans la décaler.
+## `texture_from` : emprunt de la couche d'une autre fiche (teinte propre), `texture_contrast` / `texture_saturation`
+## (0..1) : amplitude et saturation du détail d'albédo emprunté.
 ## REPLI DOCUMENTÉ : sans tableau de textures ou sans couche, couleur unie `albedo_color` + normale plate + scalaires.
 ## `completeness()` dit, par matériau, ce qui est texturé et ce qui est en repli.
 ##
@@ -24,7 +26,8 @@ const TEX_PROFILES := {"ultra": {"res": "textures", "quality": 2}, "high": {"res
 const FACADE_IDS := ["facade_enduit", "facade_brique", "pierre_taille", "pierre_taille", "facade_tuffeau", "facade_enduit",
 	"beton_banche", "beton_banche", "facade_brique", ""]
 const SURFACE_SHADER := "res://src/rendering/shaders/pbr_surface.gdshader"
-const N_IDS := 16
+const N_IDS := 16      # identifiants de matériau du décor (pbr_world)
+const N_LAYERS := 24   # couches de texture possibles (pbr_textures.gdshaderinc)
 
 static var _lib: Dictionary = {}
 static var _std: Dictionary = {}
@@ -60,13 +63,17 @@ static func _tex(e: Dictionary, slot: String, res := "textures") -> TextureLayer
 	return t
 
 ## Couche de texture du matériau (-1 : repli).
+## `texture_from` : la fiche emprunte la couche d'une autre fiche (même famille, teinte propre) ; `texture_contrast`
+## (0..1) atténue le détail d'albédo emprunté (inox, zinc, peintures claires).
 static func layer_of(id: String) -> int:
 	var e := entry(id)
+	if e.has("texture_from"): return layer_of(str(e.texture_from))
 	return int(e.layer) if completeness(id).fallback == false else -1
 
 ## Textures présentes / en repli : {albedo, normal, orm, mobile: bool, fallback: bool (au moins une en repli)}.
 static func completeness(id: String) -> Dictionary:
 	var e := entry(id)
+	if e.has("texture_from") and entry(str(e.texture_from)).has("layer"): return completeness(str(e.texture_from))
 	var r := {"albedo": _tex(e, "albedo") != null, "normal": _tex(e, "normal") != null, "orm": _tex(e, "orm") != null,
 		"mobile": _tex(e, "albedo", "textures_mobile") != null and _tex(e, "normal", "textures_mobile") != null and _tex(e, "orm", "textures_mobile") != null}
 	r.fallback = not (r.albedo and r.normal and r.orm)
@@ -117,6 +124,8 @@ static func surface(id: String, opts: Dictionary = {}) -> ShaderMaterial:
 	m.set_shader_parameter("uv_scale_mul", float(opts.get("scale", 1.0)))
 	m.set_shader_parameter("local_space", bool(opts.get("local", false)))
 	m.set_shader_parameter("layer", layer_of(id))
+	m.set_shader_parameter("pbr_tex_contrast", float(e.get("texture_contrast", 1.0)))
+	m.set_shader_parameter("pbr_tex_saturation", float(e.get("texture_saturation", 1.0)))
 	_apply_textures(m)
 	_surf[key] = m
 	return m
@@ -132,14 +141,14 @@ static func set_profile(p: String) -> void:
 ## Tableaux et paramètres de texture du profil courant (communs à pbr_world et pbr_surface).
 static func _apply_textures(mat: ShaderMaterial) -> void:
 	var tp: Dictionary = TEX_PROFILES[profile]
-	var mean := PackedVector3Array(); mean.resize(N_IDS)
-	var info := PackedVector4Array(); info.resize(N_IDS)
+	var mean := PackedVector3Array(); mean.resize(N_LAYERS)
+	var info := PackedVector4Array(); info.resize(N_LAYERS)
 	var any := ""
 	var sets := {}
 	for e in library().values():
 		if not e.has("layer"): continue
 		var i := int(e.layer)
-		if i < 0 or i >= N_IDS: continue
+		if i < 0 or i >= N_LAYERS: continue
 		var c := Color.from_string(str(e.get("albedo_mean", e.albedo_color)), Color(0.5, 0.5, 0.5))
 		mean[i] = Vector3(c.r, c.g, c.b)
 		info[i] = Vector4(float(e.uv_scale_m), float(e.get("roughness_mean", e.roughness)), float(e.get("ao_mean", 1.0)), float(e.get("normal_scale", 1.0)))
