@@ -45,6 +45,9 @@ func _run() -> void:
 	var seconds := (Time.get_ticks_usec() - start) / 1000000.0
 	frames.sort(); aerial_frames.sort()
 	check(not is_instance_valid(main.intro), "natural cinematic completes within 60 s")
+	# qualité restituée = celle du profil de qualité appliqué au lancement (VisualEffects), pas celle du menu
+	for fx in main.view.get_children():
+		if fx is VisualEffects: render_scale0 = float(fx.applied.get("scale", render_scale0)); msaa0 = int(fx.applied.get("msaa", msaa0))
 	check(is_equal_approx(root.scaling_3d_scale, render_scale0) and root.msaa_3d == msaa0, "render quality restored after cinematic")
 	check(main.view.city.async_lod, "detailed street tiles stream off the main thread")
 	check(not frames.is_empty() and not aerial_frames.is_empty(), "natural playback frames recorded")
