@@ -13,7 +13,10 @@ func _run() -> void:
 	var identity := view.station_identity
 	check(identity != null, "modèles documentés intégrés à LineView")
 	check(identity.stats.stations == 42 and identity.stats.platforms == 79, "42 arrêts et 79 emprises réelles")
-	check(identity.stats.canopies == 78 and identity.stats.landmarks == 44, "abris et voisinages individuels construits")
+	# Ralliement (2 auvents, Grand Théâtre) : modèle dédié assets/models (LandmarkModels), plus construit ici
+	var dedicated := LandmarkModels.replaces_station(view, "Ralliement")
+	check(identity.stats.canopies == (76 if dedicated else 78) and identity.stats.landmarks == (43 if dedicated else 44), "abris et voisinages individuels construits (%d, %d)" % [identity.stats.canopies, identity.stats.landmarks])
+	check(not dedicated or view.get_node_or_null("landmark_models/angers_ralliement") != null, "Ralliement : modèle dédié instancié")
 	var finite := true; var culled := true; var vertices := 0; var ground_faces_up := true
 	for node in identity.find_children("*", "MeshInstance3D", true, false):
 		culled = culled and node.visibility_range_end > 0
