@@ -1,0 +1,17 @@
+{
+ "id": "gazon",
+ "label": "Gazon, sol végétal, voie engazonnée",
+ "albedo_color": "#6c7c4a",
+ "roughness": 0.95,
+ "metallic": 0.0,
+ "specular": 0.3,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.5,
+ "normal_scale": 1.0,
+ "world_id": 4,
+ "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+}

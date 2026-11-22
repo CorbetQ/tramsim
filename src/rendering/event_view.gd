@@ -91,7 +91,7 @@ func _leaves(view: LineView, segments: Array) -> void:
 			mm.set_instance_color(i * 3 + k, palette[rng.randi() % palette.size()])
 	var mmi := MultiMeshInstance3D.new()
 	mmi.multimesh = mm
-	var m := _mat(Color.WHITE); m.vertex_color_use_as_albedo = true; m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	var m := _mat(Color.WHITE); m.vertex_color_use_as_albedo = true; m.vertex_color_is_srgb = true; m.cull_mode = BaseMaterial3D.CULL_DISABLED
 	mmi.material_override = m
 	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(mmi)
@@ -113,7 +113,7 @@ func _works(view: LineView, segments: Array) -> void:
 			mm.set_instance_color(i * 2 + k, Color(0.85, 0.08, 0.06) if i % 2 == 0 else Color(0.95, 0.95, 0.92))
 	var mmi := MultiMeshInstance3D.new()
 	mmi.multimesh = mm
-	var m := _mat(Color.WHITE); m.vertex_color_use_as_albedo = true
+	var m := _mat(Color.WHITE); m.vertex_color_use_as_albedo = true; m.vertex_color_is_srgb = true
 	mmi.material_override = m
 	add_child(mmi)
 	for t in [fr[0], fr[-1]]:

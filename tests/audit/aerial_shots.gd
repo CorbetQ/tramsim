@@ -25,7 +25,6 @@ func _run() -> void:
 	root.add_child(vp)
 	var world := Node3D.new(); vp.add_child(world)
 	var day := DayNight.new(); world.add_child(day); day.setup(world); day.set_hour(13.0)
-	if day.edges: day.edges.visible = false
 	day.sun.shadow_enabled = false
 	day.env.fog_enabled = false
 	day.env.fog_height_density = 0.0

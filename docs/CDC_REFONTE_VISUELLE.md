@@ -283,3 +283,29 @@ Mobile : 3 rames maximum en LOD0 simultanées.
 | Temps de modélisation (rames et cabines) | Élevée | Moyen | Génération procédurale depuis les plans, priorités X05/302, pupitres modulaires partagés entre Citadis |
 | Environnement (disque 3,9 Go libre, pas de GPU, Poly Haven/ambientCG bloqués) | Certaine | Moyen | Bakes et téléchargements en CI, ou autorisation des hôtes ; captures llvmpipe en Compatibility/Forward+ logiciel (lent) |
 | Bakes LightmapGI longs sans GPU | Moyenne | Moyen | Bake par station en CI, ou bake d'AO dans Blender Cycles CPU |
+
+---
+
+## 9. État P0 (22/11/2026)
+
+**Livré** (lot P0 « Fondations rendu ») :
+
+| Point | Réalisation |
+|---|---|
+| Renderers | `project.godot` : Forward+ (PC), Mobile (Android), Vulkan imposé sous Windows (`driver.windows`) avec repli D3D12 puis **repli automatique Compatibility** (`fallback_to_opengl3`, ANGLE). Compression VRAM ETC2/ASTC + S3TC/BPTC. Presets d'export (Android, Windows, Windows ARM64) : **shader baker activé** ; `release.yml` réessaie l'export sans baker (avertissement) si le baker échoue en headless. |
+| Fin du cel shading | `toon`, `toon_building`, `cel.gdshaderinc`, `outline`, `edges` supprimés. Shaders PBR : `pbr_object` (rames, végétation, objets), `pbr_world` (décor, rugosité/métal/spéculaire par identifiant de matériau, nouvel id 9 = acier des rails), `water`, `station_paving`, `meshy_citadis` ; **aucun `light()` personnalisé** (BRDF du moteur). Rames : peinture vernie (clearcoat), vitrages rugosité 0,08 ; feuillage translucide (BACKLIGHT). |
+| Bibliothèque PBR | `src/rendering/pbr_materials.gd` + `data/materials/*.json` (16 fiches : enrobé, dallage, gazon, façade, rail, béton, ballast, peinture, vitrage, feuillage…) : albédo/normal/ORM/échelle métrique ; **repli documenté** : couleur unie + scalaires tant que P1 n'a pas livré les textures (toutes les fiches sont en repli à ce stade). |
+| Profils de qualité | `visual_effects.gd` : Ultra (SDFGI, SSAO+SSIL, SSR, brouillard volumétrique, ombres 4096 + PCSS, TAA), Haut (SSAO ½, FSR2 0,77, ombres 2048), Mobile (MSAA 2x + FSR1 0,75), Repli (FXAA). Choix auto par renderer et type de GPU, plafonné par le renderer actif ; Réglages « Qualité graphique » (Automatique par défaut, anciens choix 0.13 convertis), sauvegardé dans `settings.visual_profile`. |
+| Chaîne de couleur | Conversion sRGB → linéaire **unique** en fin de fragment (`pbr_albedo`, identité en Compatibility où `OUTPUT_IS_SRGB`, mesuré 0,5 → 0,502 ; Forward+/Mobile linéaires, 0,5 → 0,737 sans conversion). Tonemapper **AgX**, exposition jour/nuit, ambiance issue du ciel, ciel physique simplifié (masse d'air, Mie Henyey-Greenstein, disque HDR, nuages fBm lissés) toujours piloté par DayNight/WeatherView, brouillard de hauteur relatif au sol, glow léger (seuil HDR 1,1). |
+| Outils CI | `.github/workflows/asset-tools.yml` (séparé, n'allonge pas `release.yml`) : gltfpack 1.3.0 (npm), toktx (dernière release KTX-Software), Blender 4.5 LTS (tarball) ; cache `actions/cache`, contrôle des versions. |
+| Tests §7.2 | `test_pbr_materials` (aucun vestige toon/cel/outline, aucun `light()`, fiches complètes ou repli documenté), `test_quality_profiles` (réglages par profil, plafonnement, AgX, brouillard, renderers, baker), `test_render_budgets` (Angers, station dense : draw calls/triangles via `Performance.get_monitor` contre `budgets.json`, histogramme : noir pur ≤ 2 %, saturation ≤ 3 %, luminance de jour). Ajoutés à `tests/run_all.sh` ; les tests à affichage forcent `--rendering-method gl_compatibility`. |
+
+**Correctifs annexes** : matériaux non éclairés à couleurs de sommet (`AerialCityLOD` de l'accueil, lignes, caténaire, événements, pluie) passés en `vertex_color_is_srgb` : le fond d'accueil n'est plus délavé en Forward+ (luminance 0,74 → 0,48, identique à Compatibility). `test_arrival_transition` compare la qualité restituée à celle du profil appliqué.
+
+**Tests** : `test_pbr_materials`, `test_quality_profiles`, `test_render_budgets` et les tests rendu/UI (scene, scene_data, world_geometry, map_surfaces, home, input, mobile, explore, arrival_transition, cinematic_lod, rails_visible, rolling_stock, stock_ui, citadis_meshy, passenger_mode) verts en Compatibility. Captures avant/après et planche hors dépôt (scratchpad `p0/`).
+
+**Mesures** (Angers, St-Serge Université, 1280×720) : 3e personne 383 draws / 1,08 M triangles (Compatibility), 406 / 1,20 M (Forward+, lavapipe) ; cabine 286 / 1,07 M ; verticale 131 / 0,33 M ; nuit 408 / 1,32 M. Dans le budget Haut (2 000 / 3 M) ; **au-delà du budget Mobile en triangles (800 k)** : LOD/HLOD à traiter en P1 (signalé en INFO par le test). Histogramme : 0 % de noir pur de jour, 0,17 % de nuit (Compatibility).
+
+**Limites** : pas de GPU ici, Forward+ et Mobile validés en rendu logiciel (lavapipe) uniquement ; perf réelle et shader baker à mesurer sur appareils et en CI ; SDFGI/volumétrique non mesurés en perf ; lightmaps (LightmapGI) prévues par profil mais aucune n'est cuite (P1) ; géométrie encore low poly à normales de facette.
+
+**Reste pour P1** : textures PBR réelles dans les fiches `data/materials`, decals, LightmapGI des stations/trémies, LOD/HLOD pour tenir le budget Mobile, voie à gorge et voirie en polygones, captures C1–C3 et notation à l'aveugle.

@@ -1,0 +1,17 @@
+{
+ "id": "peinture_rame",
+ "label": "Peinture de caisse des rames (vernis)",
+ "albedo_color": "#f2f2ef",
+ "roughness": 0.32,
+ "metallic": 0.0,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "clearcoat": 0.5,
+ "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+}

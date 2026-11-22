@@ -1855,7 +1855,7 @@ func _facade_color(ftype: int, seed_: int) -> Color:
 	if arr.is_empty(): return _pal("walls", seed_)
 	return Color.from_string(str(arr[absi(seed_ / 3) % arr.size()]), Color.GRAY)
 
-## Code de façade porté par l'alpha : graine 500 + type × 50 + variante (toon_building.gdshader).
+## Code de façade porté par l'alpha : graine 500 + type × 50 + variante (pbr_world.gdshader).
 func _wall_code(ftype: int, seed_: int) -> float:
 	return float(500 + ftype * 50 + absi(seed_) % 50) / 1000.0
 
@@ -2478,13 +2478,14 @@ class _Arrays:
 		if rel.size() <= i: rel.resize(v.size())
 		rel[i] = h
 
-	## Identifiant de matériau (UV2.x, voir toon_building.gdshader) déduit de l'alpha de la couleur de sommet.
+	## Identifiant de matériau (UV2.x, voir pbr_world.gdshader) déduit de l'alpha de la couleur de sommet.
 	static func mat_id(a: float) -> float:
 		if a < 0.25: return 1.0
 		if a > 0.275 and a < 0.285: return 2.0
 		if a > 0.285 and a < 0.295: return 3.0
 		if a > 0.295 and a < 0.305: return 4.0
 		if a > 0.34 and a < 0.36: return 5.0
+		if a > 0.365 and a < 0.375: return 9.0   # métal (rails, aiguilles)
 		if a > 0.42 and a < 0.48: return 6.0
 		if a > 0.5 and a < 0.999: return 7.0 + float(roundi(a * 1000.0)) / 1024.0
 		return 8.0

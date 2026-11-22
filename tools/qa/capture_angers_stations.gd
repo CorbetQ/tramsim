@@ -14,7 +14,6 @@ func _run() -> void:
 	view.set_hour(13.5); view.day_night.sun.shadow_enabled = true
 	view.day_night.env.fog_enabled = false
 	view.day_night.sun.directional_shadow_max_distance = 650.0
-	if view.day_night.edges: view.day_night.edges.visible = false
 	var cam := view.cam; cam.current = true; cam.projection = Camera3D.PROJECTION_ORTHOGONAL
 	cam.near = 0.5; cam.far = 1800.0
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/stations/angers.json"))

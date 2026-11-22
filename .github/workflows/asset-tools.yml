@@ -1,0 +1,78 @@
+name: asset-tools
+# Outils du pipeline d'assets de la refonte visuelle (docs/CDC_REFONTE_VISUELLE.md §4.3, lot P0) :
+#   gltfpack (meshoptimizer, npm WASM)  : LOD, quantification, compression meshopt des glTF ;
+#   toktx (KTX-Software, release GitHub) : textures KTX2 / Basis Universal des packs de ville ;
+#   Blender headless (LTS 4.5)           : génération procédurale des rames et bakes AO/lightmaps (lot P2).
+# Workflow séparé de release.yml : n'allonge pas le build. Les trois outils sont mis en cache (actions/cache) ; une
+# exécution à chaud coûte ~30 s. Appelable par les workflows d'assets (workflow_call) qui en ont besoin.
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    paths:
+      - '.github/workflows/asset-tools.yml'
+      - 'tools/assets/**'
+permissions:
+  contents: read
+env:
+  GLTFPACK_VERSION: "1.3.0"
+  BLENDER_SERIES: "4.5"
+  TOOLS: ${{ github.workspace }}/.asset-tools
+jobs:
+  tools:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: {sparse-checkout: .github}
+      - uses: actions/setup-node@v4
+        with: {node-version: "22"}
+      - name: Versions à installer
+        id: ver
+        env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          KTX_TAG=$(gh release view -R KhronosGroup/KTX-Software --json tagName -q .tagName)
+          BLENDER_TAR=$(curl -fsSL "https://download.blender.org/release/Blender${BLENDER_SERIES}/" \
+            | grep -o "blender-${BLENDER_SERIES}\.[0-9]*-linux-x64\.tar\.xz" | sort -uV | tail -1)
+          echo "ktx=$KTX_TAG" >> "$GITHUB_OUTPUT"; echo "blender=$BLENDER_TAR" >> "$GITHUB_OUTPUT"
+          echo "KTX-Software $KTX_TAG, $BLENDER_TAR, gltfpack $GLTFPACK_VERSION"
+      - name: Cache des outils
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: .asset-tools
+          key: asset-tools-${{ runner.os }}-gltfpack${{ env.GLTFPACK_VERSION }}-${{ steps.ver.outputs.ktx }}-${{ steps.ver.outputs.blender }}
+      - name: Installation (cache froid)
+        if: steps.cache.outputs.cache-hit != 'true'
+        env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          mkdir -p "$TOOLS/bin" "$TOOLS/npm" "$TOOLS/dl"
+          npm install --prefix "$TOOLS/npm" "gltfpack@${GLTFPACK_VERSION}"
+          gh release download "${{ steps.ver.outputs.ktx }}" -R KhronosGroup/KTX-Software -p '*Linux-x86_64.tar.bz2' -D "$TOOLS/dl" \
+            || gh release download "${{ steps.ver.outputs.ktx }}" -R KhronosGroup/KTX-Software -p '*Linux-x86_64.deb' -D "$TOOLS/dl"
+          if ls "$TOOLS"/dl/*.tar.bz2 >/dev/null 2>&1; then
+            mkdir -p "$TOOLS/ktx" && tar -xjf "$TOOLS"/dl/*.tar.bz2 -C "$TOOLS/ktx" --strip-components=1
+          else
+            dpkg-deb -x "$TOOLS"/dl/*.deb "$TOOLS/ktx-deb" && mkdir -p "$TOOLS/ktx" && cp -a "$TOOLS"/ktx-deb/usr/local/. "$TOOLS/ktx/"
+          fi
+          curl -fsSL -o "$TOOLS/dl/blender.tar.xz" "https://download.blender.org/release/Blender${BLENDER_SERIES}/${{ steps.ver.outputs.blender }}"
+          mkdir -p "$TOOLS/blender" && tar -xJf "$TOOLS/dl/blender.tar.xz" -C "$TOOLS/blender" --strip-components=1
+          rm -rf "$TOOLS/dl" "$TOOLS/ktx-deb"
+      - name: Mise à disposition (PATH) et contrôle
+        run: |
+          echo "$TOOLS/npm/node_modules/.bin" >> "$GITHUB_PATH"
+          echo "$TOOLS/ktx/bin" >> "$GITHUB_PATH"
+          echo "$TOOLS/blender" >> "$GITHUB_PATH"
+          echo "LD_LIBRARY_PATH=$TOOLS/ktx/lib:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
+          sudo apt-get install -y -qq libxi6 libxxf86vm1 libxfixes3 libxrender1 libgl1 libegl1 libxkbcommon0 libsm6 > /dev/null
+      - name: Essai des outils
+        run: |
+          gltfpack -v 2>&1 | head -1 || gltfpack 2>&1 | head -1
+          toktx --version
+          blender --background --factory-startup --python-expr "import bpy, sys; print('bpy', bpy.app.version_string); sys.exit(0)" | grep '^bpy'
+          {
+            echo "### Outils d'assets"
+            echo "- gltfpack ${GLTFPACK_VERSION}"
+            echo "- toktx $(toktx --version 2>&1 | head -1)"
+            echo "- Blender ${{ steps.ver.outputs.blender }}"
+          } >> "$GITHUB_STEP_SUMMARY"

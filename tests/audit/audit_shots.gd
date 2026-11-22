@@ -121,6 +121,7 @@ func _run() -> void:
 	await process_frame
 	main.save.settings.tutorial_done = true
 	main.save.settings.traffic = true
+	if OS.get_environment("AUDIT_PROFILE") != "": main.save.settings.visual_profile = OS.get_environment("AUDIT_PROFILE")  # profil de qualité forcé
 	main.net_path = str(line.path); main.free_mode = false
 	var net := NetworkLoader.new(); net.load_file(main.net_path)
 	main.vehicle = VehicleLibrary.default_for(net.meta)

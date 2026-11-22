@@ -1,25 +1,30 @@
-// Décor low poly (bâtiments, sol, voies, routes) : cel shading en paliers (cel.gdshaderinc), facettes plates.
+// Décor (bâtiments, sol, voies, routes) en PBR : éclairage du moteur (pbr_common.gdshaderinc), facettes plates,
+// rugosité / métal / spéculaire par identifiant de matériau (tableaux `mat_*`, alimentés par PbrMaterials depuis
+// data/materials/world.json).
 // Identifiant de matériau : UV2.x (partie entière ; partie fractionnaire × 1024 = graine de façade), hauteur
 // au-dessus du terrain : UV2.y (CityScene._Arrays.mesh, LineView._add_geo). Sans UV2 (maillages hérités), repli
 // sur COLOR.a : < 0.25 lumineux, 0.28 enrobé, 0.29 dallage, 0.30 sol végétal, 0.35 uni/toit, 0.42-0.48 vitrines,
-// 0.5-0.9 façade (graine), sinon uni.
+// 0.5-0.9 façade (graine), 0.365-0.375 métal (rails, aiguilles), sinon uni.
 // Détail procédural stable : bruit métrique triplanaire à 3 octaves (≈ 8 m, 1 m, 10 cm), chaque octave fondue vers
 // sa moyenne selon l'empreinte du pixel (dérivées calculées une seule fois : ni aplat de près, ni moiré au loin),
 // masques d'usure (taches, reprises d'enrobé, coulures et soubassements, mousse des toits), sol végétal lissé
-// (masque par tuile filtré bilinéairement). Couleurs : restituées telles quelles en Compatibility (pas de gamma).
+// (masque par tuile filtré bilinéairement). Couleurs : calculs en teintes d'affichage, conversion unique en fin de
+// fragment() (pbr_albedo : identité en Compatibility, sRGB → linéaire en Forward+/Mobile).
 shader_type spatial;
 render_mode cull_disabled;
 
-#include "res://src/rendering/shaders/cel.gdshaderinc"
+#include "res://src/rendering/shaders/pbr_common.gdshaderinc"
 
-uniform float bands = 3.0;            // conservé (compatibilité)
-uniform float shade_floor = 0.18;
-uniform float rim_strength = 0.08;
-uniform vec3 window_day : source_color = vec3(0.24, 0.30, 0.36);
-uniform vec3 window_night : source_color = vec3(1.0, 0.78, 0.45);
+// PBR par identifiant de matériau (index = M_*), posés par PbrMaterials.apply_world depuis data/materials/*.json
+// (champ world_id) ; Godot n'accepte pas de valeur par défaut sur un tableau d'uniformes.
+uniform float mat_roughness[10];
+uniform float mat_metallic[10];
+uniform float mat_specular[10];
+uniform vec3 window_day = vec3(0.24, 0.30, 0.36);      // teintes d'affichage (pas de source_color : conversion unique)
+uniform vec3 window_night = vec3(1.0, 0.78, 0.45);
 uniform float floor_h = 3.0;
 uniform float bay_w = 3.2;
-uniform float color_gamma = 1.0;      // 1.0 : une seule chaîne de couleur (mesuré en Compatibility)
+uniform float color_gamma = 1.0;      // 1.0 : une seule chaîne de couleur (pbr_common)
 uniform float saturation = 1.0;
 uniform float detail = 1.0;           // amplitude globale du détail procédural
 // Mobilier en instances (StreetProps) : les sommets de couleur sentinelle magenta prennent INSTANCE_CUSTOM.rgb.
@@ -30,7 +35,7 @@ uniform float albedo_scale = 0.79;
 // Masque de végétation au sol (tuile de décor) : R = part végétale, filtré bilinéairement.
 uniform sampler2D veg_mask : filter_linear, repeat_disable, hint_default_black;
 uniform float veg_inv_size = 0.0;     // 1 / taille de tuile (m) ; 0 = pas de masque
-uniform vec3 veg_color : source_color = vec3(0.34, 0.39, 0.23);   // albédo (teinte apparente ≈ #6c7c4a)
+uniform vec3 veg_color = vec3(0.34, 0.39, 0.23);   // albédo (teinte apparente ≈ #6c7c4a)
 // Occupation du sol réelle (TerrainView.land_image, tools/import/landcover.py) : RGB = teinte apparente de la classe
 // (cellules de 25 m, une cellule de bord), A = culture à sillons. Sol nu seulement (matériau GROUND).
 uniform sampler2D land_tint : filter_linear, repeat_disable, hint_default_white;
@@ -52,6 +57,7 @@ const float M_SOLID = 5.0;
 const float M_SHOP = 6.0;
 const float M_FACADE = 7.0;
 const float M_PLAIN = 8.0;
+const float M_METAL = 9.0;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 
@@ -72,6 +78,7 @@ float legacy_id(float a) {
 	if (a > 0.285 && a < 0.295) return M_PAVING;
 	if (a > 0.295 && a < 0.305) return M_VEG;
 	if (a > 0.34 && a < 0.36) return M_SOLID;
+	if (a > 0.365 && a < 0.375) return M_METAL;
 	if (a > 0.42 && a < 0.48) return M_SHOP;
 	if (a > 0.5 && a < 0.999) return M_FACADE;
 	return M_PLAIN;
@@ -89,7 +96,7 @@ void vertex() {
 	v_h = UV2.y;
 	v_local = VERTEX.xz;
 	v_world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	POSITION = cel_layer_clip(VERTEX, UV2.y, MODELVIEW_MATRIX, PROJECTION_MATRIX);
+	POSITION = pbr_layer_clip(VERTEX, UV2.y, MODELVIEW_MATRIX, PROJECTION_MATRIX);
 }
 
 float noise2(vec2 p) {
@@ -120,8 +127,10 @@ void fragment() {
 	float vertical = 1.0 - abs(wn.y);
 	vec2 xz = v_world.xz;
 	float id = mat_id;
-	ROUGHNESS = 0.88;
-	SPECULAR = 0.0;
+	int mi = clamp(int(id), 0, 9);
+	ROUGHNESS = mat_roughness[mi];
+	METALLIC = mat_metallic[mi];
+	SPECULAR = mat_specular[mi];
 	// Détail macro/méso/micro commun (aucun aplat de près ni de loin).
 	float d3 = tri3(v_world, wn, vec3(0.10, 0.06, 0.05) * detail, px);
 	vec3 land_rgb = vec3(-1.0);
@@ -145,7 +154,6 @@ void fragment() {
 		float stain = smoothstep(0.66, 0.80, noise2(xz * 0.21 + 3.7)) * (1.0 - smoothstep(0.3, 0.75, px * 0.21));
 		float repair = smoothstep(0.70, 0.76, noise2(floor(xz * 0.25) * 0.37 + 11.0)) * smoothstep(0.62, 0.70, noise2(xz * 0.045));
 		ALBEDO = base * (1.0 + agg - stain * 0.14 - repair * 0.10);
-		ROUGHNESS = 0.83;
 	} else if (id == M_PAVING) {
 		vec2 tile = xz * vec2(1.6, 2.4);
 		tile.x += step(0.5, fract(floor(tile.y) * 0.5)) * 0.5;
@@ -298,8 +306,8 @@ void fragment() {
 		float curtain = step(0.5, hash(floor(cell) + 7.7)) * smoothstep(0.62, 0.66, f.y);
 		near_col = mix(near_col, glass * (0.75 + 0.25 * smoothstep(0.2, 0.8, f.y)) + curtain * 0.05, win);
 		near_col = mix(near_col, base * 0.65, mullion);
-		ROUGHNESS = mix(0.9, 0.18, win * detail_k);
-		SPECULAR = win * detail_k * (typ == 9.0 ? 0.8 : 0.5);
+		ROUGHNESS = mix(ROUGHNESS, 0.08, win * detail_k);
+		SPECULAR = mix(SPECULAR, typ == 9.0 ? 0.8 : 0.6, win * detail_k);
 		float glass_part = clamp(width_ * 2.0 * (wy1 - wy0), 0.05, 0.9);
 		vec3 far_col = mix(ALBEDO, glass, glass_part * 0.6);
 		ALBEDO = mix(far_col, near_col, detail_k);
@@ -307,10 +315,7 @@ void fragment() {
 		vec3 em_far = window_night * glass_part * (1.0 - lit_thr) * 0.55 * night * 1.5;
 		EMISSION = mix(em_far, em_near, detail_k);
 	}
-}
-
-void light() {
-	vec3 styled = cel_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, LIGHT_IS_DIRECTIONAL, shade_floor, 1.0, rim_strength);
-	vec3 soft = LIGHT_COLOR * max(dot(NORMAL, LIGHT), 0.0) * ATTENUATION / PI;
-	DIFFUSE_LIGHT += mix(styled, soft, LIGHT_IS_DIRECTIONAL ? 0.55 : 0.25);
+	// chaîne de couleur unique (pbr_common)
+	ALBEDO = pbr_albedo(ALBEDO, OUTPUT_IS_SRGB);
+	EMISSION = pbr_emission(EMISSION, OUTPUT_IS_SRGB);
 }

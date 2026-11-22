@@ -76,6 +76,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y xvfb mesa-utils ffmpeg
+          # outils d'assets (gltfpack, toktx, Blender) : workflow séparé asset-tools.yml (n'allonge pas ce build)
           GODOT=$PWD/godot tests/run_all.sh
       - name: Stamp benchmark build identity
         run: python tools/perf/write_build_info.py
@@ -83,10 +84,23 @@ jobs:
         run: |
           mkdir -p build
           ./godot --headless --path . --import >/dev/null 2>&1 || true
-          ./godot --headless --path . --export-debug Android build/TramSimFrance.apk
           mkdir -p build/win-x64 build/win-arm64
-          ./godot --headless --path . --export-release Windows build/win-x64/TramSimFrance.exe
-          ./godot --headless --path . --export-release "Windows ARM64" build/win-arm64/TramSimFrance.exe
+          # Shader baker (Godot 4.5+, export_presets.cfg : shader_baker/enabled) : pipelines Vulkan précompilés,
+          # pas de saccade de compilation au premier affichage. Repli sans baker si l'export échoue (signalé).
+          export_all() {
+            ./godot --headless --path . --export-debug Android build/TramSimFrance.apk 2>&1 | tee -a build/export.log &&
+            ./godot --headless --path . --export-release Windows build/win-x64/TramSimFrance.exe 2>&1 | tee -a build/export.log &&
+            ./godot --headless --path . --export-release "Windows ARM64" build/win-arm64/TramSimFrance.exe 2>&1 | tee -a build/export.log &&
+            test -s build/TramSimFrance.apk && test -s build/win-x64/TramSimFrance.exe && test -s build/win-arm64/TramSimFrance.exe
+          }
+          set -o pipefail
+          if ! export_all; then
+            echo "::warning::export avec shader baker en échec : nouvel essai sans baker (saccades possibles au premier rendu)"
+            sed -i 's#^shader_baker/enabled=true#shader_baker/enabled=false#' export_presets.cfg
+            export_all
+          fi
+          grep -i "shader.bak" build/export.log | tail -5 || true
+          rm -f build/export.log
           for a in x64 arm64; do cp CREDITS.md README.md build/win-$a/ ; (cd build/win-$a && zip -9 -r ../TramSimFrance-windows-$a.zip .); done
           for i in 1 2 3; do sudo apt-get update > /dev/null 2>&1; sudo apt-get install -y wixl > /dev/null 2>&1 && break; sleep 20; done
           if command -v wixl > /dev/null; then

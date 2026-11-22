@@ -161,7 +161,6 @@ func _install(job: Dictionary) -> void:
 	add_child(vp)
 	var world := Node3D.new(); vp.add_child(world)
 	var day := DayNight.new(); world.add_child(day); day.setup(world); day.set_hour(HOUR)
-	if day.edges: day.edges.visible = false             # contours encrés : prévus pour la vue rapprochée
 	day.sun.shadow_enabled = false                         # vue lointaine : ombres inutiles
 	# Vue cartographique orthographique : la distance verticale ne doit pas décolorer toute la ville.
 	day.env.fog_enabled = false
@@ -271,7 +270,7 @@ static func _line_mesh(lines: Array, dist: float) -> Node3D:
 					for v in [a - n, a + n, b + n, a - n, b + n, b - n]: st.add_vertex(v)
 		var mi := MeshInstance3D.new(); mi.mesh = st.commit()
 		var m := StandardMaterial3D.new(); m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		m.vertex_color_use_as_albedo = true; m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		m.vertex_color_use_as_albedo = true; m.vertex_color_is_srgb = true; m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		m.no_depth_test = true; m.cull_mode = BaseMaterial3D.CULL_DISABLED; m.render_priority = pass_
 		mi.material_override = m; mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		root.add_child(mi)

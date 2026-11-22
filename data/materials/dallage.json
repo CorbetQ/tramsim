@@ -1,0 +1,17 @@
+{
+ "id": "dallage",
+ "label": "Dallage / pavés de trottoir et de quai",
+ "albedo_color": "#b9b3a8",
+ "roughness": 0.82,
+ "metallic": 0.0,
+ "specular": 0.45,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.2,
+ "normal_scale": 1.0,
+ "world_id": 3,
+ "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+}

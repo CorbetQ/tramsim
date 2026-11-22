@@ -748,7 +748,7 @@ func _update_cars(s: MissionSession) -> void:
 		var body := Color.from_hsv(randf(), 0.55, 0.75)
 		g.box(Vector3(0, 0.55, 0), Vector3(1.8, 0.7, 4.3), body)
 		g.box(Vector3(0, 1.15, 0.2), Vector3(1.6, 0.55, 2.3), Color(0.25, 0.32, 0.38, 0.5))
-		var mi := _add_geo(self, g, Materials.toon())
+		var mi := _add_geo(self, g, Materials.object())
 		car_nodes.append(mi)
 	for i in car_nodes.size():
 		var node := car_nodes[i]

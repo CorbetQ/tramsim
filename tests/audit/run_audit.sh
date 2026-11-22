@@ -6,7 +6,7 @@ cd "$(dirname "$0")/../.."
 CITIES="${*:-$(ls data/free/*.json | xargs -n1 basename | sed 's/\.json$//')}"
 mkdir -p "$OUT"
 for c in $CITIES; do
-  timeout 900 xvfb-run -a -s "-screen 0 1280x720x24" "$GODOT" --path . --rendering-driver opengl3 --resolution 1280x720 \
+  timeout 900 xvfb-run -a -s "-screen 0 1280x720x24" "$GODOT" --path . --rendering-driver opengl3 --rendering-method gl_compatibility --resolution 1280x720 \
     -s tests/audit/audit_shots.gd -- "$OUT" "$c" > "$OUT/$c.log" 2>&1
   rc=$?; echo "$c : $(grep -c "AUDIT|shot" "$OUT/$c.log") vues, code $rc"
 done

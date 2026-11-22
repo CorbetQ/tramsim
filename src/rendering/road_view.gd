@@ -2,12 +2,12 @@ class_name RoadView
 extends RefCounted
 ## Voirie et sol d'une tuile : maillage unique (TerrainView.Tile, tools/import/terrain_mesh.py + road_mesh.py).
 ##
-## ENCODAGE DES SOMMETS (pour toon_building.gdshader) :
+## ENCODAGE DES SOMMETS (pour pbr_world.gdshader) :
 ## - UV2.x : identifiant de matériau du shader (partie entière : 2 enrobé, 3 dallage, 4 sol végétal, 8 uni, voir
-##   toon_building.gdshader) + identifiant de surface de voirie / 1024 (partie fractionnaire, MAT ci-dessous :
+##   pbr_world.gdshader) + identifiant de surface de voirie / 1024 (partie fractionnaire, MAT ci-dessous :
 ##   matériau précis, par ex. chaussée, trottoir, plateforme gazon, marquage) ;
 ## - UV2.y : hauteur au-dessus du terrain (m) : 0 pour le sol et la chaussée (drapés exactement), BORDURE pour le
-##   dessus des trottoirs et îlots surélevés, DECAL pour les marquages (décalage de profondeur de cel_layer_clip) ;
+##   dessus des trottoirs et îlots surélevés, DECAL pour les marquages (décalage de profondeur de pbr_layer_clip) ;
 ## - UV : coordonnées métriques (repère de la ville, m) ; COLOR.rgb : teinte apparente ; COLOR.a : ancien code de
 ##   matériau (0,28 enrobé, 0,29 dallage, 0,30 végétal, 1 uni), conservé pour les shaders sans UV2.
 ## Les faces verticales des bordures (BORDURE = 15 cm) sont générées le long des arêtes marquées par l'import entre une
@@ -38,7 +38,7 @@ const LAWN := 17
 const ASPHALT_MAJOR := 18
 const CURB := 19
 const RAISED := [SIDEWALK, ISLAND, ISLAND_GRASS]
-# identifiants de matériau du shader (toon_building.gdshader)
+# identifiants de matériau du shader (pbr_world.gdshader)
 const M_ASPHALT := 2.0
 const M_PAVING := 3.0
 const M_VEG := 4.0

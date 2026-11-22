@@ -1,0 +1,17 @@
+{
+ "id": "sol_nu",
+ "label": "Sol non classé (terre, gravier)",
+ "albedo_color": "#8b8986",
+ "roughness": 0.9,
+ "metallic": 0.0,
+ "specular": 0.4,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 2.0,
+ "normal_scale": 1.0,
+ "world_id": 8,
+ "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+}

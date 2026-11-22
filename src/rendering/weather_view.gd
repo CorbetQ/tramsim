@@ -10,7 +10,7 @@ func _ready() -> void:
 	drops.gravity=Vector3(0,-3,0);drops.local_coords=false
 	var mesh := QuadMesh.new();mesh.size=Vector2(0.018,0.45)
 	var mat := StandardMaterial3D.new();mat.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA;mat.vertex_color_use_as_albedo=true;mat.albedo_color=Color.WHITE
+	mat.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA;mat.vertex_color_use_as_albedo=true;mat.vertex_color_is_srgb=true;mat.albedo_color=Color.WHITE
 	mat.billboard_mode=BaseMaterial3D.BILLBOARD_ENABLED;mesh.material=mat;drops.mesh=mesh
 	drops.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;drops.emitting=false;add_child(drops)
 

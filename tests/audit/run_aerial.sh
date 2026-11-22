@@ -7,7 +7,7 @@ GODOT="$1"; OUT="$2"; shift 2
 cd "$(dirname "$0")/../.."
 CITIES="${*:-$(ls data/free/*.json | xargs -n1 basename | sed 's/\.json$//')}"
 render() {  # $1 = views.json, puis fichiers
-  timeout 5400 xvfb-run -a -s "-screen 0 1600x900x24" "$GODOT" --path . --rendering-driver opengl3 \
+  timeout 5400 xvfb-run -a -s "-screen 0 1600x900x24" "$GODOT" --path . --rendering-driver opengl3 --rendering-method gl_compatibility \
     -s tests/audit/aerial_shots.gd -- "$@" 2>&1 | grep -E '^AERIAL|SCRIPT ERROR' | head -50
 }
 for c in $CITIES; do

@@ -1,21 +1,24 @@
-// Low poly + cel shading : facettes plates (normales recalculées), éclairage en paliers, liseré de lumière.
+// Objets (rames, végétation, mobilier) en PBR : facettes plates (normales recalculées), éclairage PBR du moteur
+// (aucun palier, aucun contour), rugosité/métal/vernis par usage (Materials, data/materials/*.json).
 // Couleur = couleur de sommet. COLOR.a < 0.75 : vitrage (éclairé de l'intérieur la nuit).
 // Paramètres `tram_*` : réservés aux rames (Materials.tram) ; valeurs par défaut neutres pour les autres objets.
 // Rames : UV = (abscisse de caisse le long de la rame, hauteur) en m ; UV2.x = 1 sur la peinture (motifs de livrée).
 shader_type spatial;
 render_mode cull_disabled;
 
-#include "res://src/rendering/shaders/cel.gdshaderinc"
+#include "res://src/rendering/shaders/pbr_common.gdshaderinc"
 uniform float wind_strength = 0.0;
 uniform bool passenger_shell = false;
 
-uniform float bands : hint_range(2.0, 5.0) = 3.0;   // conservé (compatibilité) : paliers fixés par cel.gdshaderinc
-uniform float shade_floor : hint_range(0.0, 1.0) = 0.18;
-uniform float rim_strength : hint_range(0.0, 1.0) = 0.3;
+// PBR : rugosité, métal, part spéculaire (F0 diélectrique) et vernis (peinture des rames).
+uniform float surface_roughness : hint_range(0.0, 1.0) = 0.78;
+uniform float surface_metallic : hint_range(0.0, 1.0) = 0.0;
+uniform float surface_specular : hint_range(0.0, 1.0) = 0.5;
+uniform float surface_clearcoat : hint_range(0.0, 1.0) = 0.0;
+uniform float translucency : hint_range(0.0, 1.0) = 0.0;   // végétation : lumière transmise (BACKLIGHT)
 uniform vec3 glass_glow = vec3(1.0, 0.86, 0.6);
 uniform float glow_strength = 0.55;
-// Rendu Compatibility : couleurs de sommet et ALBEDO sont restitués tels quels (mesuré : ALBEDO 0,5 non éclairé
-// → pixel 0,5). Aucune reconversion sRGB→linéaire : 1.0 partout (une seule chaîne de couleur, décor et rames).
+// Chaîne de couleur : pbr_albedo (pbr_common) ; `color_gamma` n'est plus qu'un assombrissement de palette (végétation).
 uniform float color_gamma = 1.0;
 uniform float saturation = 1.0;          // rames : 1,12 (Materials.TRAM_TONE)
 uniform vec3 albedo_mul = vec3(1.0);     // végétation : teinte de houppier calée sur l'orthophoto (Materials.foliage)
@@ -23,23 +26,21 @@ uniform vec3 albedo_mul = vec3(1.0);     // végétation : teinte de houppier ca
 // --- rames : exposition (couleurs mesurées sur photos = teinte éclairée, pas albédo pur)
 uniform float tram_albedo_day = 1.0;     // facteur d'albédo de jour (soleil + ambiance ≈ 1 sur la face éclairée)
 uniform float tram_albedo_night = 1.0;   // facteur d'albédo de nuit
-uniform float tram_sun = 1.0;            // part du soleil (paliers)
 // --- rames : motif procédural de livrée (0 = aucun)
 // 1 hirondelles, 2 fleurs, 3 vagues marines, 4 dorures, 5 bandes miroir, 6 feuilles
 uniform int tram_pattern = 0;
-uniform vec4 tram_pat_c0 : source_color = vec4(1.0);
-uniform vec4 tram_pat_c1 : source_color = vec4(1.0);
-uniform vec4 tram_pat_c2 : source_color = vec4(1.0);
-uniform vec4 tram_pat_c3 : source_color = vec4(1.0);
+uniform vec4 tram_pat_c0 = vec4(1.0);   // teinte d'affichage (convertie en fin de fragment)
+uniform vec4 tram_pat_c1 = vec4(1.0);   // teinte d'affichage (convertie en fin de fragment)
+uniform vec4 tram_pat_c2 = vec4(1.0);   // teinte d'affichage (convertie en fin de fragment)
+uniform vec4 tram_pat_c3 = vec4(1.0);   // teinte d'affichage (convertie en fin de fragment)
 uniform vec4 tram_pat_box = vec4(0.45, 3.0, 1.0, 0.6);   // y0, y1, échelle (m), densité 0..1
 uniform float tram_pat_seed = 0.0;
 uniform float tram_pat_glass = 0.0;      // opacité du motif sur les baies latérales (vitrophanie)
 
 varying float v_paint;
 varying float v_glass;
-
 vec3 to_linear(vec3 c) {
-	vec3 linear = pow(c, vec3(color_gamma));
+	vec3 linear = pow(max(c, vec3(0.0)), vec3(color_gamma));
 	float grey = dot(linear, vec3(0.2126, 0.7152, 0.0722));
 	return max(mix(vec3(grey), linear, saturation), vec3(0.0));
 }
@@ -165,7 +166,7 @@ void vertex() {
 	}
 	v_paint = UV2.x;
 	v_glass = COLOR.a;
-	POSITION = cel_layer_clip(VERTEX, 9.0, MODELVIEW_MATRIX, PROJECTION_MATRIX);  // objets en volume : pas de décalage
+	POSITION = pbr_layer_clip(VERTEX, 9.0, MODELVIEW_MATRIX, PROJECTION_MATRIX);  // objets en volume : pas de décalage
 }
 
 void fragment() {
@@ -181,8 +182,11 @@ void fragment() {
 		if (pat_glass > 0.0) base = mix(base, to_linear(m.rgb) * 0.85, pat_glass);
 	}
 	ALBEDO = base * mix(tram_albedo_day, tram_albedo_night, night);
-	ROUGHNESS = 1.0;
-	SPECULAR = 0.0;
+	ROUGHNESS = surface_roughness;
+	METALLIC = surface_metallic;
+	SPECULAR = surface_specular;
+	CLEARCOAT = surface_clearcoat * step(0.75, v_paint) * step(0.9, COLOR.a);
+	CLEARCOAT_ROUGHNESS = 0.25;
 	if (COLOR.a < 0.75) {
 		ALBEDO = mix(base, base * 0.5, night) * mix(1.0, tram_albedo_day, pat_glass);
 		// Reflet stylisé du ciel : dépend du regard, suit les normales des vitres.
@@ -191,20 +195,16 @@ void fragment() {
 		vec3 sky_reflection = mix(vec3(0.13, 0.22, 0.30), vec3(0.58, 0.76, 0.86), smoothstep(-0.15, 0.65, reflected.y));
 		float cloud_band = smoothstep(0.88, 0.96, sin(reflected.x * 10.0 + reflected.y * 17.0));
 		sky_reflection += vec3(0.10) * cloud_band;
-		ALBEDO = mix(ALBEDO, sky_reflection * mix(1.0, 0.12, night), 0.25 + fresnel * 0.45);
-		ROUGHNESS = 0.2; SPECULAR = 0.65;
+		// reflet d'appoint (le moteur ajoute le reflet PBR du ciel et des sondes)
+		ALBEDO = mix(ALBEDO, sky_reflection * mix(1.0, 0.12, night), 0.12 + fresnel * 0.3);
+		ROUGHNESS = 0.08; METALLIC = 0.0; SPECULAR = 0.5; CLEARCOAT = 0.0;
 		EMISSION = glass_glow * glow_strength * night;
 	}
 	if (COLOR.a < 0.25) {  // feux / girouettes : toujours lumineux, plus forts la nuit
 		EMISSION = base * (0.6 + 2.0 * night);
 	}
-}
-
-void light() {
-	if (v_glass > 0.25 && v_glass < 0.75) {
-		vec3 halfway = normalize(LIGHT + VIEW);
-		SPECULAR_LIGHT += LIGHT_COLOR * ATTENUATION * pow(max(dot(NORMAL, halfway), 0.0), 64.0) * 0.6;
-	}
-	DIFFUSE_LIGHT += cel_light(NORMAL, LIGHT, VIEW, LIGHT_COLOR, ATTENUATION, LIGHT_IS_DIRECTIONAL,
-		shade_floor, tram_sun, rim_strength);
+	// chaîne de couleur unique (pbr_common)
+	ALBEDO = pbr_albedo(ALBEDO, OUTPUT_IS_SRGB);
+	EMISSION = pbr_emission(EMISSION, OUTPUT_IS_SRGB);
+	if (translucency > 0.0) BACKLIGHT = ALBEDO * translucency;
 }

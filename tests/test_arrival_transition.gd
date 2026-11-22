@@ -59,6 +59,9 @@ func _run() -> void:
 	var skip_deadline := Time.get_ticks_msec() + 60000   # le passage attend la fin des tuiles LOD en cours
 	while main.intro != null and Time.get_ticks_msec() < skip_deadline: await process_frame
 	check(main.intro == null and main.view.cam.current and main.view.city.visible, "passage et restitution de la caméra/HUD")
+	# qualité restituée = celle du profil de qualité appliqué au lancement (VisualEffects), pas celle du menu
+	for fx in main.view.get_children():
+		if fx is VisualEffects: render_scale0 = float(fx.applied.get("scale", render_scale0)); msaa0 = int(fx.applied.get("msaa", msaa0))
 	check(is_equal_approx(root.scaling_3d_scale, render_scale0) and root.msaa_3d == msaa0, "qualité de rendu restaurée après passage")
 	await shot("07_driving")
 	main.queue_free(); await CityScene.drain_background_jobs(self)

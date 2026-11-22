@@ -3,7 +3,7 @@ extends RefCounted
 ## Plateforme de tram : rubans à jonctions en onglet (sommets partagés), nature réelle de la plateforme
 ## (gazon / enrobé / pavés ou béton désactivé, analysée sur les orthophotos IGN, voir tools/import/ign_scene.py)
 ## et zones interdites au décor (KeepOut : voies, quais).
-## Rendu (matériau toon_building, identifiant de matériau dans l'alpha des couleurs : textures procédurales
+## Rendu (matériau pbr_world, identifiant de matériau dans l'alpha des couleurs : textures procédurales
 ## métriques nettes, cohérentes avec la chaussée de la ville) :
 ## - lit : gazon (M_VEG), enrobé (M_ASPHALT), pavés (M_PAVING) ou béton désactivé (granulats apparents, joints de
 ##   dalle tous les SLAB_M) ; bordures béton (gazon) ou caniveau (chaussée) ;
@@ -27,17 +27,18 @@ const ASPHALT := Color("#5f6268")
 const CONCRETE := Color("#b4ada1")     # béton désactivé (granulats apparents)
 const SLEEPER := Color("#b3b1aa")
 const RAIL := Color("#8f959c")
-const RAIL_TOP := Color("#cfd3d7")
+const RAIL_TOP := Color(0.812, 0.827, 0.843, A_METAL)   # #cfd3d7, acier (M_METAL)
 const RAIL_SIDE := Color("#4a4440")    # âme du rail (rouille sombre)
 const GROOVE := Color("#26282b")
-const BLADE := Color("#e4e8ea")
+const BLADE := Color(0.894, 0.910, 0.918, A_METAL)      # #e4e8ea
 const JOINT := Color("#1d1e20")
 const GUARD_R_M := 50.0       # contre-rail en deçà de ce rayon
 const SLAB_M := 6.0           # pas des joints de dalle béton
-## Identifiants de matériau du shader toon_building (CityScene._Arrays.mat_id : alpha des couleurs de sommets).
+## Identifiants de matériau du shader pbr_world (CityScene._Arrays.mat_id : alpha des couleurs de sommets).
 const A_ASPHALT := 0.28
 const A_PAVING := 0.29
 const A_VEG := 0.30
+const A_METAL := 0.37
 
 static func _mat(c: Color, a: float) -> Color:
 	return Color(c.r, c.g, c.b, a)

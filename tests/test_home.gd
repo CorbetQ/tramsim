@@ -1,6 +1,6 @@
 extends SceneTree
 ## Accueil : ville en fond (chargement, changement avec fondu), parcours, lancement avec intro (fin et passage).
-## xvfb-run -a -s "-screen 0 1600x900x24" godot --path . --rendering-driver opengl3 --resolution 1600x900 -s tests/test_home.gd
+## xvfb-run -a -s "-screen 0 1600x900x24" godot --path . --rendering-driver opengl3 --rendering-method gl_compatibility --resolution 1600x900 -s tests/test_home.gd
 ## HOME_SHOTS=<dossier> : captures de l'accueil (2 villes) et de 3 instants du zoom.
 var fails := 0
 var shots := OS.get_environment("HOME_SHOTS")

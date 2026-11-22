@@ -430,7 +430,7 @@ func _start_explore(passenger: bool = false) -> void:
 		var time_mode := int(save.settings.get("time_mode",0))
 		(explore as PassengerMode).time_rate_hours_per_second=1.0/60.0 if time_mode==4 else (1.0/3600.0 if time_mode==0 else 0.0)
 	var effects := VisualEffects.new()
-	if is_instance_valid(explore):explore.view.add_child(effects);effects.setup(explore.view,str(save.settings.get("visual_profile","economy" if OS.has_feature("mobile") else "balanced")))
+	if is_instance_valid(explore):explore.view.add_child(effects);effects.setup(explore.view,str(save.settings.get("visual_profile","auto")))
 	else:effects.free()
 
 func _open_setup(free_: bool) -> void:
@@ -834,10 +834,11 @@ func _open_settings() -> void:
 	for label in ["Temps sec","Pluie","Brouillard","Forte pluie","Dynamique (simulée)"]:weather_choice.add_item(label)
 	weather_choice.select(maxi(0,weather_ids.find(str(save.settings.get("weather","clear")))))
 	weather_choice.item_selected.connect(func(i):save.settings.weather=weather_ids[i])
-	var effects_choice := _opt(v,"Effets")
-	var effect_ids := ["economy","balanced","cinematic"]
-	for label in ["Économie","Équilibré","Cinématique · flou caméra"]:effects_choice.add_item(label)
-	effects_choice.select(maxi(0,effect_ids.find(str(save.settings.get("visual_profile","economy" if OS.has_feature("mobile") else "balanced")))))
+	var effects_choice := _opt(v,"Qualité graphique")
+	var effect_ids := ["auto","ultra","high","mobile","fallback"]
+	for id in effect_ids:effects_choice.add_item(VisualEffects.LABELS[id] + (" · %s" % VisualEffects.LABELS[VisualEffects.auto_profile()].split(" (")[0] if id == "auto" else ""))
+	effects_choice.select(maxi(0,effect_ids.find(VisualEffects.normalize_id(str(save.settings.get("visual_profile","auto"))))))
+	effects_choice.tooltip_text="Profil plafonné par le moteur de rendu actif (%s)" % VisualEffects.renderer()
 	effects_choice.item_selected.connect(func(i):save.settings.visual_profile=effect_ids[i])
 	var dists := [300.0, 400.0, 600.0, 900.0]
 	var dist := _opt(v, "Vue"); for d in dists: dist.add_item("Distance de vue : %d m" % int(d))
@@ -1035,7 +1036,7 @@ func _start_prepared(with_intro: bool = false) -> void:
 	if has_meta("resume_weather"):
 		weather.restore(get_meta("resume_weather"));remove_meta("resume_weather")
 	weather_view=WeatherView.new();view.add_child(weather_view)
-	var effects := VisualEffects.new();view.add_child(effects);effects.setup(view,str(save.settings.get("visual_profile","economy" if OS.has_feature("mobile") else "balanced")))
+	var effects := VisualEffects.new();view.add_child(effects);effects.setup(view,str(save.settings.get("visual_profile","auto")))
 	hour0 = _start_hour()
 	view.set_hour(hour0)
 	# Rames en circulation (missions sur réseau complet, poste d'aiguillage) : fréquences approchées.

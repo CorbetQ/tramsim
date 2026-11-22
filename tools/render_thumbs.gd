@@ -1,6 +1,6 @@
 extends SceneTree
 ## Vignettes du catalogue : une PNG 512×288 par plan (vue 3/4 avant, fond neutre), livrée du premier réseau de la flotte.
-## xvfb-run -a -s "-screen 0 1600x900x24" <godot> --path . --rendering-driver opengl3 --resolution 1600x900 -s tools/render_thumbs.gd
+## xvfb-run -a -s "-screen 0 1600x900x24" <godot> --path . --rendering-driver opengl3 --rendering-method gl_compatibility --resolution 1600x900 -s tools/render_thumbs.gd
 ## Option : -- <famille> … pour ne rendre que certaines familles.
 
 const OUT := "res://data/rolling_stock/thumbs/"

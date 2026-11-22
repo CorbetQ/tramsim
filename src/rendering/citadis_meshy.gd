@@ -118,10 +118,4 @@ static func replace_mesh(rig, node: MeshInstance3D, mesh: Mesh) -> void:
 	node.mesh=styled_mesh(mesh)
 	rig.triangles+=node.mesh.get_faces().size()/3
 	node.material_override=null
-	if str(node.name).begins_with("Module"):
-		if not _materials.has("body_outline"):
-			var outline := ShaderMaterial.new();outline.shader=load("res://src/rendering/shaders/outline.gdshader")
-			outline.set_shader_parameter("width",.018);outline.set_shader_parameter("axis_center",Vector3(0,1.55,0))
-			_materials["body_outline"]=outline
-		node.material_overlay=_materials["body_outline"]
 	node.set_meta("citadis_asset_revision",2)

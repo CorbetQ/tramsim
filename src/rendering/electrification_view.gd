@@ -125,7 +125,7 @@ static func junctions(view) -> void:
 ## contours. Sinon un fil de moins d'un pixel devient une ligne de points noirs.
 static func wire_material() -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
-	material.vertex_color_use_as_albedo = true
+	material.vertex_color_use_as_albedo = true; material.vertex_color_is_srgb = true
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.albedo_color = Color(1.0, 1.0, 1.0, 0.96)
 	material.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED

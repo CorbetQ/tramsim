@@ -1,6 +1,6 @@
 shader_type spatial;
 render_mode cull_disabled;
-#include "res://src/rendering/shaders/cel.gdshaderinc"
+#include "res://src/rendering/shaders/pbr_common.gdshaderinc"
 uniform sampler2D base_texture : source_color, hint_default_white, filter_linear_mipmap_anisotropic;
 uniform bool use_texture = false;
 uniform bool vertex_palette = false;
@@ -37,11 +37,4 @@ void fragment() {
 		METALLIC = (tag > 0.4 && tag < 0.6) ? 0.35 : ((tag > 0.8 && tag < 0.9) ? 0.7 : 0.0);
 		if (tag < 0.2) { EMISSION = color * (0.25+night*0.9); }
 	}
-}
-void light() {
-	DIFFUSE_LIGHT += cel_light(NORMAL,LIGHT,VIEW,LIGHT_COLOR,ATTENUATION,
-		LIGHT_IS_DIRECTIONAL,0.18,0.88,0.08);
-	float gloss = vertex_palette ? ((material_tag>0.4 && material_tag<0.6) ? 0.24 : 0.025) : (1.0-surface_roughness)*0.12;
-	vec3 half_vector = normalize(LIGHT+VIEW);
-	SPECULAR_LIGHT += LIGHT_COLOR * ATTENUATION * pow(max(dot(NORMAL,half_vector),0.0),48.0) * gloss;
 }

@@ -1,0 +1,17 @@
+{
+ "id": "feuillage",
+ "label": "Feuillage (houppiers)",
+ "albedo_color": "#4f5e3e",
+ "roughness": 0.85,
+ "metallic": 0.0,
+ "specular": 0.3,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "translucency": 0.25,
+ "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+}

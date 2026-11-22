@@ -1,0 +1,17 @@
+{
+ "id": "acier_rail",
+ "label": "Acier des rails et aiguilles",
+ "albedo_color": "#cfd3d7",
+ "roughness": 0.38,
+ "metallic": 0.9,
+ "specular": 0.5,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "world_id": 9,
+ "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+}

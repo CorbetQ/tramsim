@@ -1,0 +1,17 @@
+{
+ "id": "facade_enduit",
+ "label": "Façades (enduit, tuffeau, brique selon style de ville)",
+ "albedo_color": "#d8cfbf",
+ "roughness": 0.88,
+ "metallic": 0.0,
+ "specular": 0.45,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 3.0,
+ "normal_scale": 1.0,
+ "world_id": 7,
+ "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+}

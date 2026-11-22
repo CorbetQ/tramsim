@@ -1,0 +1,16 @@
+{
+ "id": "ballast",
+ "label": "Ballast granit",
+ "albedo_color": "#7d7a75",
+ "roughness": 0.97,
+ "metallic": 0.0,
+ "specular": 0.3,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 0.6,
+ "normal_scale": 1.0,
+ "source": "P0 : couleur unie de repli (textures PBR prévues au lot P1, licences dans docs/refonte-visuelle/sources.json)"
+}

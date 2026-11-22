@@ -12,6 +12,7 @@ func warm(_center: Vector3, cancellation = null) -> bool:
 	_material = StandardMaterial3D.new()
 	_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	_material.vertex_color_use_as_albedo = true
+	_material.vertex_color_is_srgb = true   # palettes sRGB : conversion en Forward+/Mobile, identité en Compatibility
 	_material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	var keys := table.duplicate()
 	for k in _ter_table: keys[k] = true

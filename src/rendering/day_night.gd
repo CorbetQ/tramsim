@@ -1,15 +1,20 @@
 class_name DayNight
 extends Node
-## Cycle jour/nuit : soleil (course est -> ouest), lune bleutée la nuit, ciel procédural, brouillard,
-## lumière ambiante, et paramètre global `night` (fenêtres, phares, lampadaires).
+## Cycle jour/nuit : soleil (course est -> ouest), lune bleutée la nuit, ciel physique simplifié (sky.gdshader),
+## brouillard exponentiel + brouillard de hauteur relatif au sol, lumière ambiante issue du ciel, tonemapper AgX et
+## exposition, et paramètre global `night` (fenêtres, phares, lampadaires). Les effets dépendant du renderer et du
+## profil de qualité (GI, SSAO, SSR, brouillard volumétrique, AA, ombres) sont appliqués par VisualEffects.
 
 var hour := 12.0
 var sun: DirectionalLight3D
 var env: Environment
 var sky_mat: ShaderMaterial
 var night := 0.0
-var edges: MeshInstance3D       # contours encrés (post-traitement plein écran), absent sur mobile
-## Qualité : mobile = ombres allégées, glow léger, pas de contours en post-traitement.
+## Exposition de base (AgX) : multipliée par le profil de qualité ; la nuit est légèrement remontée (adaptation).
+const EXPOSURE_DAY := 1.0
+const EXPOSURE_NIGHT := 1.35
+var exposure_scale := 1.0
+## Qualité : mobile = ombres allégées, glow léger.
 static var low_quality := OS.has_feature("mobile")
 
 func setup(parent: Node3D) -> void:
@@ -19,6 +24,8 @@ func setup(parent: Node3D) -> void:
 	sun.shadow_bias = 0.12
 	sun.shadow_normal_bias = 1.6
 	sun.shadow_blur = 0.25
+	# diamètre apparent du soleil (0,53°) : pénombre physique (PCSS) en Forward+ si le profil l'active
+	sun.light_angular_distance = 0.0
 	sun.shadow_opacity = 0.9
 	sun.directional_shadow_max_distance = 110.0 if low_quality else 170.0
 	# P5 : deux cascades seulement (2 passes d'ombre au lieu de 4) : la première, nette, couvre les 60 premiers mètres
@@ -36,7 +43,9 @@ func setup(parent: Node3D) -> void:
 	env = Environment.new()
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	# ambiance PBR : radiance du ciel (teinte cohérente avec l'heure et la météo) + appoint de couleur
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
+	env.ambient_light_sky_contribution = 0.65
 	env.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	env.fog_enabled = true
 	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
@@ -45,10 +54,11 @@ func setup(parent: Node3D) -> void:
 	# brouillard de hauteur relatif au sol (set_ground) : seulement les fonds de vallée, jamais un voile uniforme
 	env.fog_height = -10.0
 	env.fog_height_density = 0.003
-	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	env.tonemap_exposure = 1.0
-	env.tonemap_white = 2.2
-	# bloom : seules les sources émissives (fenêtres, lampadaires, phares, soleil) débordent
+	# chaîne de couleur : AgX (filmique, sans dérive de teinte des hautes lumières), exposition par heure et profil
+	env.tonemap_mode = Environment.TONE_MAPPER_AGX
+	env.tonemap_exposure = EXPOSURE_DAY
+	env.tonemap_white = 16.0
+	# bloom léger : seules les sources émissives (fenêtres, lampadaires, phares, soleil) débordent
 	env.glow_enabled = true
 	env.glow_normalized = false
 	env.glow_intensity = 0.55 if low_quality else 0.8
@@ -67,18 +77,6 @@ func setup(parent: Node3D) -> void:
 	env.adjustment_saturation = 1.0
 	var we := WorldEnvironment.new(); we.environment = env
 	parent.add_child(we)
-	if not low_quality:
-		edges = MeshInstance3D.new()
-		var q := QuadMesh.new(); q.size = Vector2(1, 1)
-		edges.mesh = q
-		var em := ShaderMaterial.new(); em.shader = load("res://src/rendering/shaders/edges.gdshader")
-		em.set_shader_parameter("strength",0.18)
-		em.render_priority = 100
-		edges.material_override = em
-		edges.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		edges.custom_aabb = AABB(Vector3(-1e5, -1e5, -1e5), Vector3(2e5, 2e5, 2e5))
-		edges.extra_cull_margin = 16384.0
-		parent.add_child(edges)
 	set_hour(hour)
 
 static func _k(keys: Array, h: float) -> Color:
@@ -107,7 +105,7 @@ func set_hour(h: float) -> void:
 	else:  # clair de lune
 		sun.rotation_degrees = Vector3(-35.0, 140.0, 0)
 		sun.light_color = Color("#a9bcff")
-		sun.light_energy = 0.16
+		sun.light_energy = 0.28   # lune (PBR : plus de plancher de paliers, la face à l'ombre ne reçoit que l'ambiance)
 	var top := _k([[0.0, Color("#070b1e")], [5.5, Color("#101736")], [7.0, Color("#4f78c4")], [9.0, Color("#3f7fd6")], [12.0, Color("#3a7ad4")],
 		[18.5, Color("#4a80cf")], [20.3, Color("#33407e")], [21.8, Color("#0a1028")], [24.0, Color("#070b1e")]], hour)
 	var horizon := _k([[0.0, Color("#18203f")], [5.5, Color("#2c2f58")], [6.9, Color("#ffa77a")], [8.5, Color("#cde0f2")],
@@ -123,7 +121,10 @@ func set_hour(h: float) -> void:
 	# ambiance : bleutée (ombres froides) le jour, violacée au crépuscule, bleu nuit
 	env.ambient_light_color = _k([[0.0, Color("#2a3466")], [6.0, Color("#3e4478")], [8.0, Color("#b3bccb")], [17.0, Color("#bcc4d0")],
 		[20.3, Color("#8a8ab0")], [22.0, Color("#2a3466")], [24.0, Color("#2a3466")]], hour)
-	env.ambient_light_energy = lerpf(0.30, 0.42, night)
+	# nuit : le ciel noir n'éclaire plus ; ambiance urbaine (lune + halo de la ville) en couleur, sans noir bouché
+	env.ambient_light_sky_contribution = lerpf(0.65, 0.25, night)
+	env.ambient_light_energy = lerpf(0.55, 1.3, night)
+	env.tonemap_exposure = lerpf(EXPOSURE_DAY, EXPOSURE_NIGHT, night) * exposure_scale
 	env.fog_light_color = horizon.lerp(top, 0.15)
 	env.fog_light_energy = lerpf(0.9, 0.5, night)
 	env.fog_density = lerpf(0.00065, 0.0017, night)
