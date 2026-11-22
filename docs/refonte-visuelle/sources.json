@@ -1,0 +1,32 @@
+{
+  "version": "2026-11-22",
+  "asset_sources": [
+    {"name": "Poly Haven", "url": "https://polyhaven.com", "license": "CC0", "use": "textures PBR, HDRI, modeles", "reachable_from_container": false},
+    {"name": "ambientCG", "url": "https://ambientcg.com", "license": "CC0", "use": "materiaux PBR", "reachable_from_container": false},
+    {"name": "Kenney", "url": "https://kenney.nl", "license": "CC0", "use": "props generiques / LOD"},
+    {"name": "Quaternius", "url": "https://quaternius.com", "license": "CC0", "use": "props, vegetation stylisee (LOD lointains uniquement)"},
+    {"name": "Sketchfab", "url": "https://sketchfab.com", "license": "par modele (CC0/CC-BY seulement)", "use": "monuments, a verifier un par un"},
+    {"name": "IGN BD TOPO / LiDAR HD / BD ORTHO", "url": "https://geoservices.ign.fr", "license": "Licence Ouverte 2.0", "use": "emprises, hauteurs, toits, ortho (deja utilise)"},
+    {"name": "Panoramax", "url": "https://panoramax.fr", "license": "majoritairement CC-BY-SA 4.0 (selon instance/auteur)", "use": "references visuelles de facades et stations, pas de textures derivees"},
+    {"name": "Wikimedia Commons", "url": "https://commons.wikimedia.org", "license": "par fichier", "use": "references rames et pupitres (tests/audit/refs_commons.py)"}
+  ],
+  "forbidden": ["assets, logos, livrees ou designs de City Transport Simulator", "logos deposes d'exploitants sans accord", "assets extraits de jeux"],
+  "engine_refs": [
+    {"topic": "Godot 4.6 release", "url": "https://godotengine.org/releases/4.6/"},
+    {"topic": "Godot 4.6 dev3 (SSAO GLES3, glow mobile)", "url": "https://godotengine.org/article/dev-snapshot-godot-4-6-dev-3/"},
+    {"topic": "Godot 4.6 dev5 (D3D12 par defaut)", "url": "https://digitalproduction.com/2025/12/04/godot-4-6-dev5-lands-d3d12-default-delta-patching-android-gradle-2d-boosts"},
+    {"topic": "Lumen sur mobile (experimental)", "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine/using-lumen-global-illumination-on-mobile-in-unreal-engine"},
+    {"topic": "Taille binaire Android UE", "url": "https://dev.epicgames.com/documentation/unreal-engine/reducing-android-binary-size-in-unreal-engine-projects"},
+    {"topic": "APK UE 5.6 (mesure communautaire)", "url": "https://forums.unrealengine.com/t/topic/2656255"},
+    {"topic": "Tarifs Unity 2026 / fin du runtime fee", "url": "https://unity.com/products/pricing-updates"}
+  ],
+  "tools_check_2026-11-22": {
+    "imagemagick": "installe 6.9.12",
+    "gltfpack": "npm i gltfpack -> 1.3 OK (teste dans scratchpad)",
+    "blender_apt": "candidat 4.0.2, non installe",
+    "bpy_pip": "bpy 5.3.0 cp313 telechargeable (427 Mo), non installe faute de disque (3,9 Go libres)",
+    "toktx": "releases GitHub KhronosGroup/KTX-Software accessibles, non installe",
+    "basisu_pip": "inexistant",
+    "godot": "absent du conteneur (present en CI)"
+  }
+}

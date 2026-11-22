@@ -1,0 +1,20 @@
+{
+  "version": "2026-11-22",
+  "profiles": {
+    "ultra_pc": {"renderer": "forward_plus", "ref_hw": "RTX 3060 / RX 6600, 1440p", "fps_target": 60, "fps_min": 45, "draw_calls_max": 3000, "visible_tris_max": 8000000, "vram_mb_max": 4096, "ram_mb_max": 6144, "gi": ["SDFGI", "LightmapGI"], "ssao": true, "ssil": true, "volumetric_fog": true, "aa": "TAA|FSR2_quality", "shadow_atlas": 4096},
+    "high": {"renderer": "forward_plus", "ref_hw": "iGPU x64, Snapdragon X (Windows ARM64), 1080p", "fps_target": 45, "fps_min": 30, "draw_calls_max": 2000, "visible_tris_max": 3000000, "vram_mb_max": 2048, "ram_mb_max": 4096, "gi": ["LightmapGI"], "ssao": "half", "ssil": false, "volumetric_fog": false, "aa": "FSR2_balanced|SMAA"},
+    "mobile": {"renderer": "mobile", "ref_hw": "Adreno 650 / Mali-G78, 1080p x0.75", "fps_target": 30, "fps_min": 25, "thermal_test_min": 20, "draw_calls_max": 600, "visible_tris_max": 800000, "vram_mb_max": 1024, "ram_mb_max": 2048, "gi": ["LightmapGI baked", "AO baked"], "aa": "MSAA2x+FSR1_0.75", "texture_compression": "ASTC|ETC2"},
+    "fallback": {"renderer": "gl_compatibility", "notes": "meme contenu, pas de decals, FXAA"}
+  },
+  "rolling_stock_lod": {
+    "LOD0": {"dist_m": [0, 25], "pc_tris": 250000, "pc_cab_tris": 80000, "mobile_tris": 80000, "mobile_cab_tris": 40000, "pc_textures": "3x4096 + 2048 cab", "mobile_textures": "2048 + 1024 cab"},
+    "LOD1": {"dist_m": [25, 80], "pc_tris": 60000, "mobile_tris": 25000},
+    "LOD2": {"dist_m": [80, 250], "pc_tris": 12000, "mobile_tris": 6000, "texture": 512},
+    "LOD3_impostor": {"dist_m": [250, null], "pc_tris": 1500, "mobile_tris": 1000, "texture": 256},
+    "mobile_max_lod0_simultaneous": 3,
+    "scale_tolerance_m": 0.02
+  },
+  "materials": {"pc_texture_px": 2048, "mobile_texture_px": 1024, "packing": "albedo sRGB + normal + ORM", "texel_density_px_per_m_near": 512},
+  "package": {"pc_installer_gb_max": 6, "apk_base_mb_max": 150, "city_pack_mb_max": 400, "frame_spike_ms_max": 50},
+  "acceptance": {"blind_score_mean_min": 3.0, "blind_score_axis_min": 2, "axes": ["eclairage", "materiaux", "detail", "vegetation", "cabine"], "framings": ["C1 cabine station couverte", "C2 rame exterieur + monument", "C3 cabine tremie"], "pure_black_pct_max": 2}
+}
