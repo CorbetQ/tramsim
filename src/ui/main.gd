@@ -164,6 +164,7 @@ func _quit_safely() -> void:
 	if is_instance_valid(home_bg): home_bg.queue_free(); home_bg = null
 	if is_instance_valid(city_preload): city_preload.queue_free(); city_preload = null
 	await CityScene.drain_background_jobs(get_tree())
+	StockHD.reset_cache()
 	get_tree().quit()
 
 func _save_profile() -> bool:
@@ -1030,6 +1031,9 @@ func _start_prepared(with_intro: bool = false) -> void:
 		session.traffic.set_enabled(save.settings.traffic)
 	session.event.connect(func(_k, text): _log(text))
 	# 3D directement dans la fenêtre principale : pleine résolution sur grand écran
+	# StockHD chooses its mesh/texture files while building the rig, before the
+	# VisualEffects node exists. Apply the selected content profile first.
+	PbrMaterials.set_profile(VisualEffects.effective_profile(str(save.settings.get("visual_profile", "auto"))))
 	view = LineView.new(); view.view_distance = float(save.settings.view_distance)
 	add_child(view)
 	var prepared_scene: CityScene = city_preload.take_scene(net.meta.get("origin", [])) if is_instance_valid(city_preload) else null

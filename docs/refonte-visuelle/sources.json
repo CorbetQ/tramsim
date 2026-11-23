@@ -383,7 +383,8 @@
   },
   "textures": {
    "livery_{4k,2k,512,256}.png, floor_*.png, fabric_*.png, cab_desk.png, cab_grain*.png": "générées par tools/models/stock/textures.py et cab.py (CC0, projet)",
-   "metal_{albedo,normal,orm}.png": "dérivées de la couche acier_rail = Poly Haven rusty_metal_02 (CC0) de assets/textures/pbr (P1), désaturée"
+   "metal_{albedo,normal,orm}.png": "dérivées de la couche acier_rail = Poly Haven rusty_metal_02 (CC0) de assets/textures/pbr (P1), désaturée",
+   "cab_desk_mobile.png": "Dérivé 1024×512 du pupitre généré cab_desk.png (CC0, projet), tools/models/stock/cab.py ; aucune nouvelle photographie incorporée."
   },
   "fonts": "DejaVu Sans (licence libre Bitstream Vera/DejaVu) pour les légendes du pupitre et numéros de parc, rastérisées dans les textures",
   "no_brand_logos": "aucun logo de marque (Alstom, Irigo, Naolib) reproduit ; numéros de parc génériques"

@@ -13,10 +13,13 @@ func _init()->void:
   maximum=maxi(maximum,rig.triangles)
   var valid:=rig.modules.size()==int(entry.module_count) and absf(rig.length-float(entry.length))<.01 and not rig.panto.is_empty()
   for module in rig.modules:
-   var box:=module.mesh.get_aabb()
+   # HD rigs intentionally clear the procedural mesh; inspect their child
+   # geometry instead of dereferencing a null legacy mesh.
+   var box:=CabView._local_aabb(module) if rig.hd!=null else module.mesh.get_aabb()
    valid=valid and box.size.is_finite() and box.size.x>1 and box.size.y>2 and box.size.z>1
   check(valid,"géométrie et articulations : "+str(entry.id))
-  check(rig.triangles<16000,"budget mobile : %s (%d)"%[entry.id,rig.triangles])
+  var cap:=int(StockHD._budgets().LOD0.mobile_tris if StockHD.mobile() else StockHD._budgets().LOD0.pc_tris) if rig.hd!=null else 15999
+  check(rig.triangles<=cap,"budget du modèle sélectionné : %s (%d ≤ %d)"%[entry.id,rig.triangles,cap])
   if str(entry.network)=="saintetienne":check(rig.leaves.all(func(leaf):return float(leaf.side)>0),"portes uniquement à droite : "+str(entry.id))
   for module in rig.modules:module.free()
  check(concepts==3,"trois concepts clairement identifiés")
@@ -41,4 +44,5 @@ func _init()->void:
  var lemans:=TramAudio.profile_for("citadis_302","lemans__citadis_402")
  check(str(lemans.bank_data.source.page).contains("458858"),"captation du Mans effectivement sélectionnée")
  check(TramAudio.profile_for("avanto","sarreguemines__flexity_link").quality=="synthetic","pas de fausse captation Avanto pour le Saarbahn")
+ StockHD.reset_cache()
  print("MAX_TRIANGLES|",maximum);print("TOTAL_ECHECS|",failures);quit(1 if failures else 0)

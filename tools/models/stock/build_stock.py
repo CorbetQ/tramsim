@@ -3,6 +3,8 @@
 Sorties : assets/models/rolling_stock/<dir>/{lod0,lod1,lod1_m,lod2,lod3,cab,cab_m}.glb, textures/,
 assets/models/rolling_stock/manifest.json (schéma docs/refonte-visuelle/stock_manifest.md)."""
 import json, os, sys, time
+import re
+from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import specs, layout, textures as TX
 from citadis import Citadis
@@ -11,6 +13,25 @@ import cab as CAB
 OUT = os.path.join(specs.ROOT, "assets/models/rolling_stock")
 # fichier -> (q, taille de livrée) ; LOD0 mobile = lod1.glb
 LODS = [("lod0", 0, "4k"), ("lod1", 1, "2k"), ("lod1_m", 2, "2k"), ("lod2", 3, "512"), ("lod3", 4, "256")]
+
+
+def configure_texture_imports(directory):
+    """Reproducible Godot GPU imports, including on a clean generation checkout."""
+    for image in sorted(Path(directory).glob('*.png')):
+        settings = Path(str(image) + '.import')
+        if settings.exists():
+            text = settings.read_text()
+        else:
+            source = 'res://' + image.relative_to(specs.ROOT).as_posix()
+            text = '[remap]\nimporter="texture"\ntype="CompressedTexture2D"\n\n[deps]\nsource_file="' + source + '"\n\n[params]\n'
+        for key, value in {'compress/mode': '2', 'mipmaps/generate': 'true',
+                           'compress/normal_map': '1' if 'normal' in image.stem else '0'}.items():
+            pattern = r'^' + re.escape(key) + r'=.*$'
+            if re.search(pattern, text, re.MULTILINE):
+                text = re.sub(pattern, key + '=' + value, text, flags=re.MULTILINE)
+            else:
+                text += key + '=' + value + '\n'
+        settings.write_text(text)
 
 
 def build_variant(vid, only=None):
@@ -37,6 +58,7 @@ def build_variant(vid, only=None):
         n = B.export(os.path.join(d, fname + ".glb"))
         info["tris"][fname] = n; info["nodes"][fname] = list(B.order); info["cab"] = cb.meta
         print("  %-8s %7d tris" % (fname, n))
+    configure_texture_imports(td)
     return sp, t, info
 
 
@@ -57,10 +79,10 @@ def manifest_entry(sp, t, info):
         },
         "mobile_tris": {"LOD0": tri.get("lod1"), "LOD1": tri.get("lod1_m"), "LOD2": tri.get("lod2"), "LOD3": tri.get("lod3")},
         "cab": {"file": "cab.glb", "tris": tri.get("cab"), "mobile_file": "cab_m.glb", "mobile_tris": tri.get("cab_m")},
-        "textures": {"pc_px": 4096, "mobile_px": 2048, "cab_px": 2048,
+        "textures": {"pc_px": 4096, "mobile_px": 2048, "cab_px": 2048, "mobile_cab_px": 1024,
                      "files": {"livery": ["textures/livery_4k.png (LOD0)", "textures/livery_2k.png (LOD0 mobile, LOD1)",
                                           "textures/livery_512.png (LOD2)", "textures/livery_256.png (LOD3)"],
-                               "cab": "textures/cab_desk.png", "interior": ["textures/floor_albedo.png", "textures/floor_normal.png",
+                               "cab": "textures/cab_desk.png", "cab_mobile": "textures/cab_desk_mobile.png", "interior": ["textures/floor_albedo.png", "textures/floor_normal.png",
                                                                             "textures/fabric_%s.png" % sp["seat"]["fabric"]],
                                "metal": ["textures/metal_albedo.png", "textures/metal_normal.png", "textures/metal_orm.png"]}},
         "panto": {"module": next(m["i"] for m in t.mods if any(r["type"] == "pantograph" for r in m["roof"])),

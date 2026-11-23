@@ -42,6 +42,21 @@ func run() -> void:
 		check(err.is_empty(), "modèle réel %s conforme %s" % [vid, ", ".join(err)])
 		for m in ref.modules: m.free()
 		if err.is_empty(): await _real_dynamic(vid)
+	# Profile selection must precede build_rig, including a GLES fallback on a
+	# low-quality/mobile device. Triangle counts prove which file was instanced.
+	var previous_low := DayNight.low_quality
+	DayNight.low_quality = true
+	StockHD.reset_cache()
+	for vid in real:
+		var mobile_rig := TramModel.build_rig(_livery(vid))
+		check(mobile_rig.hd != null, vid + " : modèle mobile disponible")
+		if mobile_rig.hd != null:
+			check(mobile_rig.triangles == int(real[vid].lods.LOD0.mobile_tris), vid + " : LOD0 mobile réellement chargé")
+			var mobile_cab: CabView = mobile_rig.hd.ensure_cab(mobile_rig)
+			check(mobile_cab != null and StockHD.triangles(mobile_cab.model) == int(real[vid].cab.mobile_tris), vid + " : cabine mobile réellement chargée")
+			check(not StockHD._scenes.has(StockHD.file_for(real[vid], "LOD0", false)) and not StockHD._scenes.has(StockHD.file_for(real[vid], "cab", false)), vid + " : gabarits PC inutilisés absents du cache mobile")
+		for m in mobile_rig.modules: m.free()
+	DayNight.low_quality = previous_low
 	# --- modèle de test minimal conforme au schéma
 	var fx = load("res://tests/fixtures/stock_hd_fixture.gd").new()
 	var entries := {}
@@ -59,6 +74,7 @@ func run() -> void:
 		var err := StockHD.check(vid, refs[vid])
 		check(err.is_empty(), "modèle de test %s conforme %s" % [vid, ", ".join(err)])
 		for m in (refs[vid] as TramModel.Rig).modules: m.free()
+	_validation_regressions(fx, entries)
 	# validation : un nœud requis manquant → variante refusée
 	var broken: Dictionary = (entries[VARIANTS[0]] as Dictionary).duplicate(true)
 	broken.modules = [1.0, 2.0]
@@ -116,6 +132,9 @@ func run() -> void:
 	check(hd.energy("interior") > 0.0, "plafonniers allumés (nuit/tunnel)")
 	check(not hd.signs.is_empty() and (hd.signs[0] as Label3D).text == "ANGERS ROSERAIE", "girouette = destination de la mission")
 	check(not hd.wipers.is_empty() and _moved((hd.wipers[0].node as Node3D).transform, hd.wipers[0].rest), "essuie-glace en marche (pluie)")
+	hd.wiper_phase = 0.5
+	hd.update({"wiper": false}, 0.3)
+	check(hd.wiper_angle() > 0.1, "essuie-glace coupé à mi-course : poursuit son cycle sans saut en butée")
 	for i in 30: hd.update({"wiper": false}, 0.1)
 	check(not _moved((hd.wipers[0].node as Node3D).transform, hd.wipers[0].rest), "essuie-glace revenu en butée")
 	hd.update({"mirrors_folded": true}, 1.0)
@@ -158,7 +177,15 @@ func run() -> void:
 	cab.update({"speed_kmh": 42.4, "limit_kmh": 50, "notch": 0.5, "next_stop": "Ralliement", "distance_m": 230.0, "signal": "Voie libre"}, 0.0)
 	check(str(cab.screens.last.get("speed", "")).begins_with("42 km/h"), "écran vitesse (SubViewport) : " + str(cab.screens.last.get("speed", "")))
 	check(str(cab.screens.last.get("info", "")).contains("Ralliement") and str(cab.screens.last.get("info", "")).contains("T2"), "écran info : cran et prochain arrêt")
+	cab.screens.refresh({"next_stop": "Foch-Maison Bleue", "distance_m": 230.0, "speed_kmh": 42.4, "notch": 0.5}, 0.21)
+	var info_line := cab.screens.labels.info[1] as Label
+	var line_width := info_line.get_theme_font("font").get_string_size(info_line.text, HORIZONTAL_ALIGNMENT_LEFT, -1, info_line.get_theme_font_size("font_size")).x
+	check(line_width <= float((cab.screens.viewports.info as SubViewport).size.x), "pupitre : nom d'arrêt et distance tiennent dans l'écran")
 	check(cab.screens.viewports.size() == 3, "3 écrans screen_* en SubViewport")
+	var signal_view := cab.screens.viewports.signal as SubViewport
+	signal_view.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	cab.screens.refresh({"signal_color": Color.RED}, 0.21)
+	check(signal_view.render_target_update_mode == SubViewport.UPDATE_ONCE, "signal : changement de couleur seul déclenche le rendu")
 	cab.update({"lamps": {"doors": true}}, 0.0)
 	check((cab.lamps.doors[0] as StandardMaterial3D).emission_energy_multiplier > 1.0 and (cab.lamps.emergency[0] as StandardMaterial3D).emission_energy_multiplier < 0.1, "voyants pilotés par l'état")
 	# matériaux : clearcoat sur la peinture, verre réfléchissant
@@ -171,6 +198,28 @@ func run() -> void:
 	holder.queue_free(); cam.queue_free()
 	await _main_integration()
 	_end()
+
+func _validation_regressions(fx, entries: Dictionary) -> void:
+	var vid: String = VARIANTS[0]
+	var e: Dictionary = entries[vid].duplicate(true)
+	e.cab.mobile_file = "absent_mobile.glb"
+	StockHD.manifest_path = fx.write_manifest(OUT + "_mobile_missing", {vid: e}); StockHD.reset_cache()
+	check(not StockHD.check(vid).is_empty(), "cabine mobile absente : variante refusée avant habillage")
+	StockHD.manifest_path = OUT.path_join("manifest.json"); StockHD.reset_cache()
+	e = StockHD.entry(vid)
+	var model := StockHD.scene(StockHD.file_for(e, "LOD0", false))
+	var door := StockHD.find(model, "door_0_L_a")
+	var old_name: String = door.name
+	door.name = "door_99_L_a"
+	check(not StockHD.check(vid).is_empty(), "numérotation des portes incohérente malgré un compte identique : refusée")
+	door.name = old_name
+	var head := StockHD.find(model, "panto_head")
+	head.name = "missing_head"
+	check(not StockHD.check(vid).is_empty(), "pantographe incomplet : variante refusée avant animation")
+	head.name = "panto_head"
+	check(StockHD.check(vid).is_empty(), "modèle rétabli : validation sans erreur")
+	StockHD.reset_cache()
+	check(not is_instance_valid(model), "purge du cache : les scènes gabarits hors arbre sont libérées")
 
 ## Jeu complet (Angers A, rame HD de test) : vue cabine HD, touches et clic sur le pupitre.
 func _main_integration() -> void:
@@ -195,7 +244,7 @@ func _main_integration() -> void:
 	var cab: CabView = main.view.rig.hd.cab
 	check(main.view.cam.global_transform.origin.distance_to(cab.camera_transform().origin) < 0.01, "caméra au point conducteur")
 	main.weather.set_preset("rain"); main.weather.rain = 0.8; for i in 3: await process_frame
-	check(main.view.rig.hd.wiper_amp > 0.0, "pluie : essuie-glace automatique")
+	check(bool(main.view.rig.hd.state.get("wiper", false)) and main.view.rig.hd.wiper_angle() > 0.0, "pluie : essuie-glace automatique en mouvement")
 	var ev := InputEventKey.new(); ev.keycode = KEY_H; ev.physical_keycode = KEY_H; ev.pressed = true
 	main._input(ev)
 	check(main.view.headlights_full, "touche H : pleins phares")
@@ -231,6 +280,18 @@ func _real_dynamic(vid: String) -> void:
 	rig.layout_straight()
 	var hd = rig.hd
 	check(rig.triangles <= 250000, "%s : LOD0 %d triangles ≤ 250 k" % [vid, rig.triangles])
+	var textures_ok := true; var texture_count := 0
+	for mi in hd.lods[0][0].find_children("*", "MeshInstance3D", true, false):
+		for s in (mi as MeshInstance3D).mesh.get_surface_count():
+			var mat := (mi as MeshInstance3D).get_surface_override_material(s) as BaseMaterial3D
+			if mat == null: continue
+			for slot in [BaseMaterial3D.TEXTURE_ALBEDO, BaseMaterial3D.TEXTURE_NORMAL, BaseMaterial3D.TEXTURE_ORM]:
+				var texture := mat.get_texture(slot)
+				if texture == null: continue
+				texture_count += 1
+				var image := texture.get_image()
+				textures_ok = textures_ok and image != null and image.has_mipmaps() and image.is_compressed()
+	check(texture_count > 0 and textures_ok, "%s : textures importées compressées et mipmaps réellement présentes" % vid)
 	rig.set_doors(true, "left"); for i in 40: rig.update(0.1)
 	var r := 0; var l := 0
 	for d in hd.doors:
@@ -277,5 +338,6 @@ func _real_dynamic(vid: String) -> void:
 	holder.queue_free()
 
 func _end() -> void:
+	StockHD.reset_cache()
 	print("TOTAL_ECHECS|", fails)
 	quit(1 if fails > 0 else 0)

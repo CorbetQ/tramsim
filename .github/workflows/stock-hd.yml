@@ -1,0 +1,54 @@
+name: stock-hd-pbr
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'assets/models/rolling_stock/**'
+      - 'tools/models/stock/**'
+      - 'src/rendering/stock_hd.gd'
+      - 'src/rendering/cab_*.gd'
+      - 'src/ui/main.gd'
+      - 'tests/test_stock_hd*'
+      - 'tests/test_stock_catalog.gd'
+      - 'docs/refonte-visuelle/budgets.json'
+      - 'tests/audit/stock_hd_shots.gd'
+      - '.github/workflows/stock-hd.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Offline asset inventory and corruption checks
+        run: |
+          python tools/models/stock/audit_stock.py --report build/stock-hd/audit.json
+          python -m unittest discover -s tests -p test_stock_hd_assets.py
+          python -m compileall -q tools/models/stock
+      - name: Install renderer and Godot
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y xvfb
+          curl --fail -sSL -o godot.zip https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          unzip -q godot.zip
+          chmod +x Godot_v4.6.3-stable_linux.x86_64
+      - name: Import and test the actual animated stock
+        run: |
+          ./Godot_v4.6.3-stable_linux.x86_64 --headless --editor --path . --import > build/stock-hd/import.log 2>&1
+          ! grep -Eq 'SCRIPT ERROR|Parse Error' build/stock-hd/import.log
+          xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy --resolution 1280x720 -s tests/test_stock_hd.gd > build/stock-hd/rig.log 2>&1
+          ! grep -Eq '^ECHEC|SCRIPT ERROR|TOTAL_ECHECS\|[1-9]' build/stock-hd/rig.log
+          ./Godot_v4.6.3-stable_linux.x86_64 --headless --path . -s tests/test_stock_catalog.gd > build/stock-hd/catalog.log 2>&1
+          ! grep -Eq '^ECHEC|SCRIPT ERROR|TOTAL_ECHECS\|[1-9]' build/stock-hd/catalog.log
+      - name: Render cabins and door states
+        run: |
+          xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/stock_hd_shots.gd -- build/stock-hd/pc > build/stock-hd/captures-pc.log 2>&1
+          xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/stock_hd_shots.gd -- build/stock-hd/mobile mobile > build/stock-hd/captures-mobile.log 2>&1
+          ! grep -Eq 'SCRIPT ERROR|^ERROR:' build/stock-hd/captures-*.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stock-hd-pbr-validation
+          path: build/stock-hd/

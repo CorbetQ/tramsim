@@ -34,6 +34,8 @@ func setup(model: Node, specs: Dictionary) -> void:
 		for i in lines:
 			var l := Label.new(); l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			l.add_theme_font_size_override("font_size", int(px[1] * (0.36 if i == 0 and not key in ["info", "signal", "next_stop"] else 0.17)))
+			l.set_meta("nominal_font_size", l.get_theme_font_size("font_size"))
+			l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 			l.add_theme_color_override("font_color", Color(0.55, 0.95, 1.0) if i == 0 else Color(0.85, 0.9, 0.9))
 			l.clip_text = true; box.add_child(l); ls.append(l)
 		if key == "signal":
@@ -77,8 +79,18 @@ func refresh(d: Dictionary, dt: float) -> void:
 		var changed := false
 		for i in ls.size():
 			var t := str(texts[i]) if i < texts.size() else ""
-			if (ls[i] as Label).text != t: (ls[i] as Label).text = t; changed = true
-		if lamp.has(key): (lamp[key] as ColorRect).color = d.get("signal_color", Color(0.1, 0.9, 0.3))
+			var label := ls[i] as Label
+			if label.text != t:
+				label.text = t; changed = true
+				var nominal := int(label.get_meta("nominal_font_size"))
+				var text_width := label.get_theme_font("font").get_string_size(t, HORIZONTAL_ALIGNMENT_LEFT, -1, nominal).x
+				var width := float((viewports[key] as SubViewport).size.x - 12)
+				label.add_theme_font_size_override("font_size", maxi(10, floori(nominal * minf(1.0, width / maxf(text_width, 1.0)))))
+		if lamp.has(key):
+			var color: Color = d.get("signal_color", Color(0.1, 0.9, 0.3))
+			if (lamp[key] as ColorRect).color != color:
+				(lamp[key] as ColorRect).color = color
+				changed = true
 		last[key] = " / ".join(texts)
 		if changed: (viewports[key] as SubViewport).render_target_update_mode = SubViewport.UPDATE_ONCE
 

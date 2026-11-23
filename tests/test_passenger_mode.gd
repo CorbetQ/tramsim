@@ -91,4 +91,5 @@ func run() -> void:
 		root.get_texture().get_image().save_png("res://.cache/next/passenger-rain.png")
 	for train in mode.ai.trams.duplicate():train.remove()
 	mode.queue_free();await process_frame;await CityScene.drain_background_jobs(self)
+	StockHD.reset_cache()
 	print("TOTAL_ECHECS|",fails);quit(1 if fails else 0)

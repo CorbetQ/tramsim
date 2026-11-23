@@ -71,8 +71,10 @@
       "textures/metal_albedo.png",
       "textures/metal_normal.png",
       "textures/metal_orm.png"
-     ]
-    }
+     ],
+     "cab_mobile": "textures/cab_desk_mobile.png"
+    },
+    "mobile_cab_px": 1024
    },
    "panto": {
     "module": 2,
@@ -604,8 +606,10 @@
       "textures/metal_albedo.png",
       "textures/metal_normal.png",
       "textures/metal_orm.png"
-     ]
-    }
+     ],
+     "cab_mobile": "textures/cab_desk_mobile.png"
+    },
+    "mobile_cab_px": 1024
    },
    "panto": {
     "module": 3,
@@ -1158,8 +1162,10 @@
       "textures/metal_albedo.png",
       "textures/metal_normal.png",
       "textures/metal_orm.png"
-     ]
-    }
+     ],
+     "cab_mobile": "textures/cab_desk_mobile.png"
+    },
+    "mobile_cab_px": 1024
    },
    "panto": {
     "module": 2,

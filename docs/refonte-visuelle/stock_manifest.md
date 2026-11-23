@@ -119,6 +119,20 @@ Les commandes d'interface (caméra C, plan M/A, remise sur voie R, trafic T, aid
   local, `toggle` 30° X). `axis` ∈ `x, y, z` (local).
 - Champs inconnus ignorés ; `version` incrémentée en cas de rupture.
 
+### Contrôles de production (reprise P2)
+
+`python tools/models/stock/audit_stock.py --report build/stock-hd/audit.json` mesure les GLB,
+vérifie leurs textures externes et leurs empreintes, compare les comptes déclarés aux triangles réels
+et applique les budgets PC/Mobile. La cabine Mobile possède son pupitre `cab_desk_mobile.png`
+(1024×512, dérivé généré du 2048×1024) ; `textures.mobile_cab_px = 1024` et
+`textures.files.cab_mobile` décrivent ce fichier. Les originaux PC sont conservés.
+
+La validation Godot contrôle les deux cabines, la chaîne `panto_base/lower/upper/head`, les indices
+de portes continus et les longueurs déclarées avant mutation du rig. Le profil de contenu doit être
+déterminé **avant** `TramModel.build_rig`, y compris sur Android avec renderer de repli.
+En production, `check(..., active_profile_only=true)` valide uniquement les fichiers utilisés ; la
+validation complète des deux profils est exécutée par défaut dans les tests et par l'audit CI.
+
 ## Comportement du code (pour information)
 
 - Chargement paresseux par variante (`StockHD.load_variant`), cache partagé entre rames ; repli sur le modèle

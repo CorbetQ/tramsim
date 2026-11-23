@@ -33,7 +33,7 @@ class Cab:
         B.material("cab_plastic", color=lin("#3a3e42"), rough=0.55)
         B.material("cab_plastic_light", color=lin("#b4b9bd"), rough=0.55, tex="textures/cab_grain.png")
         B.material("cab_panel", color=lin("#2b2e31"), rough=0.6)
-        B.material("cab_desk", color=(1, 1, 1, 1), tex="textures/cab_desk.png", rough=0.6)
+        B.material("cab_desk", color=(1, 1, 1, 1), tex="textures/cab_desk_mobile.png" if self.q else "textures/cab_desk.png", rough=0.6)
         B.material("cab_floor", color=lin("#3b3f42"), tex="textures/floor_albedo.png", normal="textures/floor_normal.png", rough=0.8)
         B.material("cab_seat", color=(0.55, 0.55, 0.55, 1), tex="textures/fabric_%s.png" % self.t.spec["seat"]["fabric"], rough=0.95)
         B.material("cab_metal", color=lin("#9ea3a8"), rough=0.3, metal=1.0)
@@ -520,6 +520,7 @@ class Cab:
             c = px(-0.70 + 0.075 * 0.0, 0.93 + k * 0.026)
             d.line([(c[0] + 45, c[1]), (c[0] + 70 if k % 2 == 0 else c[0] + 60, c[1])], fill=(230, 230, 230), width=3)
         im.save(os.path.join(texdir, "cab_desk.png"), optimize=True)
+        im.resize((1024, 512), Image.Resampling.LANCZOS).save(os.path.join(texdir, "cab_desk_mobile.png"), optimize=True)
         # grain de plastique (habillage, pupitre clair) : albédo neutre + normale
         n = 512
         g = TX._noise(n, 2, 5) * 0.6 + TX._noise(n, 16, 6) * 0.4

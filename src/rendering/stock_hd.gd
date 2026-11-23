@@ -27,6 +27,10 @@ static func path() -> String:
 	return env if env != "" else MANIFEST
 
 static func reset_cache() -> void:
+	# Templates are Nodes outside the tree: clearing a Dictionary does not free them.
+	# Instantiated trains keep their own references to shared meshes/materials.
+	for template in _scenes.values():
+		if is_instance_valid(template): template.free()
 	_manifest = {}; _loaded_path = "-"; _scenes.clear(); _mats.clear(); _tris.clear()
 
 static func manifest() -> Dictionary:
@@ -46,7 +50,9 @@ static func entry(variant_id: String) -> Dictionary:
 	return manifest().get("variants", {}).get(variant_id, {})
 
 static func mobile() -> bool:
-	return PbrMaterials.profile == "mobile"
+	# A GLES fallback on Android still needs the mobile geometry budget. low_quality
+	# also drives the existing desktop mobile-content audit.
+	return OS.has_feature("mobile") or DayNight.low_quality or PbrMaterials.profile == "mobile"
 
 ## Fichier d'un LOD ("LOD0".."LOD3" ou "cab") pour le profil courant (`mobile_file` si fourni).
 static func file_for(e: Dictionary, lod: String, for_mobile: bool = mobile()) -> String:
@@ -109,27 +115,37 @@ static func doors_of(root: Node) -> Dictionary:
 	return r
 
 ## Vérifie une variante (fichiers, nœuds requis, budgets) ; [] si valide. `rig` optionnel : longueurs.
-static func check(variant_id: String, rig = null) -> PackedStringArray:
+static func check(variant_id: String, rig = null, active_profile_only := false) -> PackedStringArray:
 	var err := PackedStringArray()
 	var e := entry(variant_id)
 	if e.is_empty(): err.append("variante absente du manifeste"); return err
 	var mods: Array = e.get("modules", [])
 	if mods.is_empty(): err.append("modules absents")
+	var total := 0.0
+	for length in mods:
+		if not is_finite(float(length)) or float(length) <= 0.0: err.append("longueur de caisse invalide")
+		total += float(length)
+	if not is_finite(total) or absf(total - float(e.get("length_m", total))) > 0.02: err.append("somme des caisses différente de length_m")
 	if rig != null:
 		if rig.modules.size() != mods.size(): err.append("nombre de caisses %d ≠ rig %d" % [mods.size(), rig.modules.size()])
 		else:
 			for i in mods.size():
 				if absf(float(mods[i]) - float(rig.module_lengths[i])) > 0.02: err.append("caisse %d : %.3f m ≠ rig %.3f m" % [i, float(mods[i]), rig.module_lengths[i]])
 	var budget := _budgets()
+	var profiles: Array = [mobile()] if active_profile_only else [false, true]
 	for lod_i in 4:
 		var ln: String = LOD_NAMES[lod_i]
-		for mob in [false, true]:
+		for mob in profiles:
 			var f := file_for(e, ln, mob)
-			if mob and f == file_for(e, ln, false): continue
+			var dedicated_mobile: bool = mob and f != file_for(e, ln, false)
+			if mob and not dedicated_mobile and not active_profile_only: continue
 			var root := scene(f)
 			if root == null: err.append("%s : fichier illisible %s" % [ln, f]); continue
 			if modules_of(root).size() != mods.size(): err.append("%s : %d module_XX ≠ %d" % [ln, modules_of(root).size(), mods.size()])
-			var cap := int(budget.get(ln, {}).get("mobile_tris" if mob else "pc_tris", 1 << 30))
+			# Shared over-budget LODs are skipped by HD.set_lod. LOD3 cannot fall
+			# back any further, so its mobile limit always applies.
+			var mobile_cap: bool = mob and (dedicated_mobile or lod_i == 3)
+			var cap := int(budget.get(ln, {}).get("mobile_tris" if mobile_cap else "pc_tris", 1 << 30))
 			var tris := triangles(root)
 			if tris > cap: err.append("%s%s : %d triangles > %d" % [ln, " mobile" if mob else "", tris, cap])
 			if lod_i == 0:
@@ -139,17 +155,30 @@ static func check(variant_id: String, rig = null) -> PackedStringArray:
 					var c := 0
 					for k in d: if str(k).ends_with("|" + s): c += 1
 					if per_side > 0 and c != per_side: err.append("%s : %d portes côté %s ≠ %d" % [ln, c, s, per_side])
-	var cab := scene(file_for(e, "cab", false))
-	if cab == null: err.append("cabine illisible")
-	else:
+				# Count alone accepts door_99 in place of a missing door_0.
+				for door_i in per_side:
+					for s in ["L", "R"]:
+						if not d.has("%d|%s" % [door_i, s]): err.append("%s : porte %d côté %s absente" % [ln, door_i, s])
+				var lower := find(root, "panto_lower")
+				var upper := find(root, "panto_upper")
+				var head := find(root, "panto_head")
+				if find(root, "panto_base") == null or lower == null or upper == null or head == null:
+					err.append("%s : pantographe incomplet" % ln)
+				elif not lower.is_ancestor_of(upper) or not upper.is_ancestor_of(head):
+					err.append("%s : hiérarchie du pantographe invalide" % ln)
+	for mob in profiles:
+		if mob and file_for(e, "cab", true) == file_for(e, "cab", false) and not mobile(): continue
+		var cab := scene(file_for(e, "cab", mob))
+		var label := "cabine mobile" if mob else "cabine"
+		if cab == null: err.append(label + " illisible"); continue
 		if find(cab, "cam_driver") == null: err.append("cabine : cam_driver absent")
 		var aliases: Dictionary = e.get("control_aliases", {})
 		var present := {}
 		for n in cab.find_children("ctl_*", "", true, false): present[CabActions.action_for_node(str(n.name), aliases)] = true
 		for a in CabActions.actions():
 			if not present.has(a): err.append("cabine : %s absent" % CabActions.node_for(a))
-		var cab_cap := int(budget.get("LOD0", {}).get("pc_cab_tris", 80000))
-		if triangles(cab) > cab_cap: err.append("cabine : %d triangles > %d" % [triangles(cab), cab_cap])
+		var cab_cap := int(budget.get("LOD0", {}).get("mobile_cab_tris" if mob else "pc_cab_tris", 40000 if mob else 80000))
+		if triangles(cab) > cab_cap: err.append("%s : %d triangles > %d" % [label, triangles(cab), cab_cap])
 	return err
 
 static var _budget_cache: Dictionary = {}
@@ -176,7 +205,9 @@ static func apply(rig, livery: Dictionary) -> HD:
 	var vid := str(livery.get("variant_id", ""))
 	var e := entry(vid)
 	if e.is_empty(): return null
-	if not check(vid, rig).is_empty(): return null
+	# Production validates/loads only the active platform; full multi-profile
+	# validation belongs to check() in tests/CI, avoiding hidden PC textures on Android.
+	if not check(vid, rig, true).is_empty(): return null
 	var hd := HD.new()
 	hd.build(rig, e, livery)
 	rig.hd = hd
@@ -188,6 +219,7 @@ static func material_for(src: Material, livery: Dictionary, glass_alpha := -1.0)
 	var key := "%d|%s|%s" % [src.get_instance_id(), str(livery.get("variant_id", "")) + str(livery.get("base", "")), glass_alpha]
 	if _mats.has(key): return _mats[key]
 	var m := (src as BaseMaterial3D).duplicate() as BaseMaterial3D
+	m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	if n.begins_with("paint_") or n.begins_with("livery"):
 		var zone := n.trim_prefix("paint_")
 		if n.begins_with("paint_") and zone in PAINT_ZONES and livery.has(zone):
@@ -236,7 +268,6 @@ class HD:
 	var cab: CabView = null
 	var cab_end := "A"
 	var wiper_phase := 0.0
-	var wiper_amp := 0.0
 	var mirror_t := 0.0
 	var state: Dictionary = {}
 	var _rig_ref: WeakRef
@@ -370,9 +401,12 @@ class HD:
 		# essuie-glace : balayage sinusoïdal, retour en butée à l'arrêt
 		var on := bool(st.get("wiper", false))
 		var period := float(entry.get("wiper", {}).get("period_s", 1.6))
-		wiper_amp = move_toward(wiper_amp, 1.0 if on else 0.0, dt * 4.0)
-		if on or fposmod(wiper_phase, 1.0) > 0.02: wiper_phase += dt / period
-		if not on and wiper_amp <= 0.0: wiper_phase = 0.0
+		# Finish the current sweep when switched off; do not teleport from mid-glass
+		# to the park stop after a fixed fade duration.
+		if on: wiper_phase = fposmod(wiper_phase + dt / period, 1.0)
+		elif wiper_phase > 0.0:
+			wiper_phase += dt / period
+			if wiper_phase >= 1.0: wiper_phase = 0.0
 		var sweep := deg_to_rad(float(entry.get("wiper", {}).get("sweep_deg", 90.0)))
 		var axis := _axis(str(entry.get("wiper", {}).get("axis", "z")))
 		var a := sweep * (0.5 - 0.5 * cos(TAU * wiper_phase))
