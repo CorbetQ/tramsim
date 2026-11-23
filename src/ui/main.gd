@@ -669,7 +669,8 @@ func _build_setup() -> void:
 			if cur_meta.get("kind") == "tram-train": fleet.sort_custom(func(a, b): return a.family == "citadis_dualis" and b.family != "citadis_dualis")
 			for entry in fleet:
 				vehicles.append(_selected_paint(VehicleLibrary.for_fleet(entry,cur_meta)))
-				veh_opt.add_item(str(entry.name)+" · "+str(entry.city)+(" · FICTIF" if entry.fictional else ""))
+				var paint:Dictionary=(vehicles[-1] as VehicleProfile).custom_livery
+				veh_opt.add_item(str(entry.name)+" · "+str(entry.city)+(" · FICTIF" if entry.fictional else "")+(" · "+str(paint.name) if not paint.is_empty() else ""))
 		else:
 			for f in TramModel.fleet_for(n.meta):
 				vehicles.append(VehicleLibrary.for_fleet(f,n.meta));veh_opt.add_item(f.name)

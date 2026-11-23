@@ -51,8 +51,8 @@ func _ready() -> void:
  for mode in [["threequarter","Vue 3/4"],["front","Face avant"],["side","Profil"]]:
   var button:=Button.new();button.text=mode[1];button.custom_minimum_size=Vector2(0,48);button.size_flags_horizontal=Control.SIZE_EXPAND_FILL;views.add_child(button)
   button.pressed.connect(func():preview.set_view(mode[0]))
- type_opt=_choice(column,"Type de rame")
- livery_opt=_choice(column,"Livrée et face avant d’origine")
+ type_opt=_choice(column,"Type et composition · nombre de caisses")
+ livery_opt=_choice(column,"Livrée et design des extrémités")
  paint_opt=_choice(column,"Peinture")
  var tools:=HFlowContainer.new();column.add_child(tools)
  edit_button=Button.new();edit_button.text="Créer une livrée";edit_button.custom_minimum_size.y=52;tools.add_child(edit_button);edit_button.pressed.connect(open_editor)
@@ -75,7 +75,11 @@ func _ready() -> void:
   for entry in all_variants:
    if str(entry.id)==variant_id:desired=entry
  types.sort_custom(func(a,b):return str(a).naturalnocasecmp_to(str(b))<0)
- for type_ in types:type_opt.add_item(str(type_))
+ for type_ in types:
+  var counts:Array=[]
+  for entry in all_variants:
+   if StockCatalog.type_name(entry)==str(type_) and not str(entry.module_count) in counts:counts.append(str(entry.module_count))
+  type_opt.add_item(str(type_)+" · "+" / ".join(PackedStringArray(counts))+" caisses")
  type_opt.item_selected.connect(_type_selected);livery_opt.item_selected.connect(_select);target_opt.item_selected.connect(_target_changed)
  paint_opt.item_selected.connect(func(_i):_refresh_preview();_paint_buttons())
  drive_btn.pressed.connect(func():

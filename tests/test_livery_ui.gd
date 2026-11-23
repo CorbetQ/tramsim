@@ -20,7 +20,7 @@ func run() -> void:
 	await shot("catalogue-families")
 	catalogue.free();await process_frame
 	var sheet := TramSheet.new("citadis_x05","Nantes","nantes__citadis_x05_nantes");sheet.theme=UiTheme.build();root.add_child(sheet);await settle()
-	check(sheet.type_opt.get_item_text(sheet.type_opt.selected)=="405","type 405 Naolib initialisé")
+	check(sheet.type_opt.get_item_text(sheet.type_opt.selected).begins_with("405 · 7"),"type 405 Naolib et composition de 7 caisses initialisés")
 	check(sheet.family=="citadis_x05_nantes","géométrie physique Naolib conservée")
 	check(sheet.types.has("205") and sheet.types.has("305"),"types 205 et 305 disponibles dans X05")
 	await shot("catalogue-x05")

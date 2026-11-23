@@ -13,7 +13,7 @@ static func layouts() -> Dictionary:
 	return _layouts
 
 static func texture(source: Texture2D, design: Dictionary, entry: Dictionary, part_index: int = -1) -> Texture2D:
-	if source == null or not layouts().has(str(entry.id)): return source
+	if source == null: return source
 	var key := str(source.get_instance_id()) + JSON.stringify(design).sha256_text()
 	if _textures.has(key): return _textures[key]
 	var image := source.get_image().duplicate() as Image
@@ -61,7 +61,7 @@ static func texture(source: Texture2D, design: Dictionary, entry: Dictionary, pa
 			for band in design.bands:
 				if band.enabled and physical_y >= float(band.y) and physical_y <= float(band.y)+float(band.width): color = Color(band.color)
 			image.set_pixel(x,y,color)
-	var layout: Dictionary = layouts()[str(entry.id)]
+	var layout: Dictionary = layouts().get(str(entry.id),{"swatches":{}})
 	for zone in layout.swatches:
 		if not colors.has(zone): continue
 		var point: Array = layout.swatches[zone]

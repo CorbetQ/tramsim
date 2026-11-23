@@ -84,6 +84,7 @@ def main():
     mp=ROOT/'data/rolling_stock/parts_manifest.json'
     old=json.loads(mp.read_text()) if mp.exists() else {}
     manifest={'schema':1,'variants':{},'native':old.get('native',{})}
+    generated=set()
     for vid in specs.VARIANTS:
         spec=specs.load(vid);train=Train(spec)
         original=ROOT/'assets/models/rolling_stock'/spec['dir']
@@ -96,7 +97,9 @@ def main():
                 role='end_a' if i==0 else ('end_b' if i==len(train.mods)-1 else ('powered' if category=='motrices' else 'suspended'))
                 target=ROOT/'tram_parts'/category/spec['dir']/('caisse_%02d_%s.glb'%(i,filename))
                 atlas=ROOT/'tram_livery/livery'/spec['network']/spec['dir']/('caisse_%02d_%s.png'%(i,tag))
-                if not atlas.exists():part_texture(original/('textures/livery_%s.png'%tag),atlas,module['z0f'],module['Lm'],train.L)
+                if atlas not in generated:
+                    part_texture(original/('textures/livery_%s.png'%tag),atlas,module['z0f'],module['Lm'],train.L)
+                    generated.add(atlas)
                 tris=export_part(builder,module,train,target,atlas,original,i)
                 rows.append({'file':'res://'+target.relative_to(ROOT).as_posix(),'index':i,'role':role,'length_m':module['Lm'],'center_z':module['zc'],'texture':'res://'+atlas.relative_to(ROOT).as_posix(),'triangles':tris})
             recipe=recipe_dir/(filename+'.json');recipe.write_text(json.dumps({'schema':1,'variant':vid,'parts':rows},indent=2)+'\n')

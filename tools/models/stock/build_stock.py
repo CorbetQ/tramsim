@@ -24,7 +24,8 @@ def configure_texture_imports(directory):
         else:
             source = 'res://' + image.relative_to(specs.ROOT).as_posix()
             text = '[remap]\nimporter="texture"\ntype="CompressedTexture2D"\n\n[deps]\nsource_file="' + source + '"\n\n[params]\n'
-        for key, value in {'compress/mode': '2', 'mipmaps/generate': 'true',
+        palette = image.stem.endswith('_palette')
+        for key, value in {'compress/mode': '0' if palette else '2', 'mipmaps/generate': 'false' if palette else 'true',
                            'compress/normal_map': '1' if 'normal' in image.stem else '0'}.items():
             pattern = r'^' + re.escape(key) + r'=.*$'
             if re.search(pattern, text, re.MULTILINE):

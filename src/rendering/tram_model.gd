@@ -173,6 +173,7 @@ static func build_rig(livery: Dictionary, length_m: float = -1.0, passenger_shel
 	var rig := bld.make_rig()
 	if not livery.has("custom_livery"): CitadisMeshy.apply_exterior(rig,livery)
 	if not passenger_shell: StockHD.apply(rig, livery)   # rames HD (P2) : remplace l'habillage si la variante est complète
+	if not passenger_shell and rig.hd==null:TramParts.apply_native(rig,livery)
 	LiveryPainter.add_labels(rig, livery)
 	return rig
 

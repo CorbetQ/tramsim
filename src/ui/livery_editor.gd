@@ -12,6 +12,9 @@ var hex_input: LineEdit
 var status: Label
 var timer: Timer
 var duplicate_button: Button
+var part_choice: TouchChoice
+var part_keys: Array = ["","end_a","powered","suspended","end_b"]
+var band_widgets: Array = []
 const ZONE_LABELS := ["Caisse", "Face avant", "Portes", "Toiture", "Jupe", "Bandeau des vitrages"]
 
 func _init(base: Dictionary = {}, current: Dictionary = {}) -> void:
@@ -39,10 +42,18 @@ func _ready() -> void:
 	name_input = _line(col,"Nom de la livrée",48,str(design.name))
 	label_input = _line(col,"Inscription sur les flancs",24,str(design.label))
 	label_input.text_changed.connect(func(value):design.label=value;_schedule())
+	col.add_child(UiTheme.label_("Caisses à peindre",17,UiTheme.TEXT,true))
+	part_choice=TouchChoice.new();part_choice.choice_title="Caisse ou groupe de caisses";part_choice.custom_minimum_size.y=52;col.add_child(part_choice)
+	for text_ in ["Toute la composition","Extrémité A","Caisses motrices","Caisses suspendues","Extrémité B"]:part_choice.add_item(text_)
+	for i in int(entry.module_count):
+		part_keys.append("caisse_%d"%i);part_choice.add_item("Caisse %d uniquement"%(i+1))
+	part_choice.item_selected.connect(func(_i):_sync_part();_schedule())
+	_button(col,"Réinitialiser cette caisse",func():
+		if part_choice.selected>0:design.parts.erase(part_keys[part_choice.selected]);_sync_part();_schedule())
 	col.add_child(UiTheme.label_("Zone à peindre",17,UiTheme.TEXT,true))
 	zone_choice = TouchChoice.new(); zone_choice.choice_title = "Zone de couleur"; zone_choice.custom_minimum_size.y = 52; col.add_child(zone_choice)
 	for label in ZONE_LABELS: zone_choice.add_item(label)
-	zone_choice.item_selected.connect(func(_index):hex_input.text=design.colors[LiveryLibrary.ZONES[zone_choice.selected]])
+	zone_choice.item_selected.connect(func(_index):hex_input.text=_active(false).colors[LiveryLibrary.ZONES[zone_choice.selected]])
 	var palette := HFlowContainer.new(); palette.add_theme_constant_override("h_separation",8); palette.add_theme_constant_override("v_separation",8); col.add_child(palette)
 	for color in ["#ffffff","#181d24","#c83232","#f19832","#ebd12f","#63b23e","#13ae91","#0089ce","#283a9e","#813da5","#de64a9","#bfc5cc"]:
 		var swatch := _button(palette,"",func():set_color(LiveryLibrary.ZONES[zone_choice.selected],color))
@@ -70,24 +81,45 @@ func _line(parent: Node, title: String, length: int, value: String) -> LineEdit:
 func _band_controls(parent: Node, index: int) -> void:
 	# Older schemes may have no stripes; editor always exposes two optional bands.
 	while design.bands.size() < 2: design.bands.append({"enabled":false,"y":0.65,"width":0.18,"color":"#18baa6"})
+	var widgets:Dictionary={}
 	var enabled := CheckButton.new(); enabled.text = "Bande %d" % (index+1); enabled.custom_minimum_size.y = 48; enabled.button_pressed = design.bands[index].enabled; parent.add_child(enabled)
-	enabled.toggled.connect(func(on):design.bands[index].enabled=on;_schedule())
+	widgets.enabled=enabled
+	enabled.toggled.connect(func(on):_active().bands[index].enabled=on;_schedule())
 	for property in [["y","Hauteur",0.15,3.0],["width","Épaisseur",0.03,0.6]]:
 		var row := HBoxContainer.new(); parent.add_child(row)
 		row.add_child(UiTheme.label_(property[1]+" (m)",15,UiTheme.MUTED))
 		var number := SpinBox.new(); number.min_value=property[2];number.max_value=property[3];number.step=0.01;number.value=design.bands[index][property[0]];number.size_flags_horizontal=Control.SIZE_EXPAND_FILL;number.custom_minimum_size.y=48;row.add_child(number)
-		number.value_changed.connect(func(value):design.bands[index][property[0]]=value;_schedule())
+		widgets[property[0]]=number
+		number.value_changed.connect(func(value):_active().bands[index][property[0]]=value;_schedule())
 	var color := _line(parent,"Couleur de la bande %d" % (index+1),7,design.bands[index].color)
+	widgets.color=color;band_widgets.append(widgets)
 	_button(parent,"Appliquer la bande %d" % (index+1),func():
-		if color.text.length()==7 and Color.html_is_valid(color.text):design.bands[index].color=color.text;_schedule()
+		if color.text.length()==7 and Color.html_is_valid(color.text):_active().bands[index].color=color.text;_schedule()
 		else:status.text="Utiliser une couleur #RRGGBB.")
 
 func set_color(zone: String, value: String) -> void:
 	if not zone in LiveryLibrary.ZONES or value.length()!=7 or not value.begins_with("#") or not Color.html_is_valid(value):
 		status.text = "Utiliser une couleur #RRGGBB."; return
-	design.colors[zone] = value
+	_active().colors[zone] = value
 	if zone == LiveryLibrary.ZONES[zone_choice.selected]: hex_input.text = value
 	status.text = ""; _schedule()
+
+func _active(create := true) -> Dictionary:
+	if part_choice==null or part_choice.selected<=0:return design
+	var key:String=part_keys[part_choice.selected]
+	if not design.has("parts"):design.parts={}
+	if not design.parts.has(key):
+		if not create:return design
+		design.parts[key]={"colors":design.colors.duplicate(true),"bands":design.bands.duplicate(true)}
+	while design.parts[key].bands.size()<2:design.parts[key].bands.append(design.bands[design.parts[key].bands.size()].duplicate(true))
+	return design.parts[key]
+
+func _sync_part() -> void:
+	var active:=_active(false)
+	hex_input.text=active.colors[LiveryLibrary.ZONES[zone_choice.selected]]
+	for i in band_widgets.size():
+		var widgets:Dictionary=band_widgets[i];var band:Dictionary=active.bands[i]
+		widgets.enabled.set_pressed_no_signal(bool(band.enabled));widgets.y.set_value_no_signal(float(band.y));widgets.width.set_value_no_signal(float(band.width));widgets.color.text=band.color
 
 func _schedule() -> void:
 	if timer: timer.start()

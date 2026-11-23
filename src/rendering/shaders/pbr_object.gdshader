@@ -9,6 +9,15 @@ render_mode cull_disabled;
 #include "res://src/rendering/shaders/pbr_common.gdshaderinc"
 uniform float wind_strength = 0.0;
 uniform bool passenger_shell = false;
+// Body palette in unused UV2.y; motif UVs and vertex light flags stay intact.
+uniform bool part_livery_enabled = false;
+uniform sampler2D part_livery : filter_nearest, repeat_disable;
+uniform bool part_custom_enabled = false;
+uniform sampler2D part_custom : filter_linear_mipmap, repeat_disable;
+uniform vec3 part_size = vec3(2.4, 3.4, 6.0);
+uniform int part_end = 0;
+varying vec3 part_local;
+varying vec3 part_surface;
 
 // PBR : rugosité, métal, part spéculaire (F0 diélectrique) et vernis (peinture des rames).
 uniform float surface_roughness : hint_range(0.0, 1.0) = 0.78;
@@ -158,6 +167,8 @@ vec4 tram_motif(vec2 uv) {
 }
 
 void vertex() {
+	part_local = VERTEX;
+	part_surface = NORMAL;
 	if (wind_strength > 0.0) {
 		vec3 world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 		float weight = smoothstep(2.0, 6.0, VERTEX.y);
@@ -173,7 +184,15 @@ void fragment() {
 	// Boarded variant replaces opaque painted glass with transparent interior glazing.
 	if (passenger_shell && (!FRONT_FACING || (COLOR.a > 0.25 && COLOR.a < 0.75))) { discard; }
 	NORMAL = normalize(cross(dFdy(VERTEX), dFdx(VERTEX)));
-	vec3 base = to_linear(COLOR.rgb) * albedo_mul;
+	vec3 paint_color = part_livery_enabled ? texture(part_livery,vec2(UV2.y,0.5)).rgb : COLOR.rgb;
+	if (part_custom_enabled && v_paint > 0.25 && COLOR.a > 0.9) {
+		vec2 pt = vec2(part_local.z / max(part_size.z,0.1) + 0.5,(3.4-part_local.y)/3.4*0.625);
+		if (part_end != 0 && abs(part_surface.z)>0.5 && float(part_end)*part_surface.z>0.0) {
+			pt=vec2((part_local.x/2.6+0.5)*0.1875,0.625+(3.4-part_local.y)/3.4*0.375);
+		}
+		paint_color=texture(part_custom,pt).rgb;
+	}
+	vec3 base = to_linear(paint_color) * albedo_mul;
 	float pat_glass = 0.0;
 	if (tram_pattern > 0 && v_paint > 0.25) {
 		vec4 m = tram_motif(UV);
