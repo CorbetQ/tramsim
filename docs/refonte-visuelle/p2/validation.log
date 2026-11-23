@@ -1,0 +1,79 @@
+PASS test_pbr_materials (33)
+PASS test_quality_profiles (42)
+PASS test_render_budgets (48)
+PASS test_station_identities (17)
+PASS test_city_preload (9)
+PASS test_arrival_transition (15)
+PASS test_cinematic_lod (7)
+PASS test_lod_shutdown (4)
+PASS test_app_close (1)
+PASS test_free_sfx (11)
+PASS run_tests (17)
+PASS test_map_surfaces (11)
+PASS test_free_starts (14)
+PASS test_adhesion (15)
+PASS test_world_geometry (30)
+PASS test_rolling_stock (301)
+PASS test_stock_ui (8)
+PASS test_angers (20)
+PASS test_angers_real (11)
+PASS test_traffic_free (25)
+PASS test_track_smoothness (11)
+PASS test_rails_visible (28)
+PASS test_track_hd (13)
+PASS test_turnback (12)
+PASS test_bidir (26)
+PASS test_audio (83)
+PASS test_audio_families (143)
+PASS test_save (4)
+PASS test_save_migrations (27)
+PASS test_scene (0)
+PASS test_scene_data (28)
+PASS test_geo (64)
+PASS test_input (43)
+PASS test_home (35)
+PASS test_mobile (87)
+PASS test_choice (22)
+PASS test_network_ui (9)
+PASS test_explore (36)
+PASS test_physical_networks (30)
+PASS test_operations (11)
+PASS test_power_routing (19)
+PASS test_platform_stops (35)
+PASS test_missions (216)
+PASS test_autopilot (24)
+PASS test_ai_trams (28)
+PASS test_all_networks (0)
+PASS test_stock_hd (167)
+PASS test_stock_catalog (251)
+PASS clearance angers: 61740 contrôles, 0 échecs
+PASS clearance aubagne: 6734 contrôles, 0 échecs
+PASS clearance avignon: 10134 contrôles, 0 échecs
+PASS clearance besancon: 46588 contrôles, 0 échecs
+PASS clearance bordeaux: 313824 contrôles, 0 échecs
+PASS clearance brest: 59734 contrôles, 0 échecs
+PASS clearance caen: 46862 contrôles, 0 échecs
+PASS clearance clermont: 28518 contrôles, 0 échecs
+PASS clearance dijon: 40440 contrôles, 0 échecs
+PASS clearance grenoble: 189910 contrôles, 0 échecs
+PASS clearance idf: 392522 contrôles, 0 échecs
+PASS clearance lehavre: 30566 contrôles, 0 échecs
+PASS clearance lemans: 37972 contrôles, 0 échecs
+PASS clearance lille: 43338 contrôles, 0 échecs
+PASS clearance lyon: 196450 contrôles, 0 échecs
+PASS clearance marseille: 40734 contrôles, 0 échecs
+PASS clearance montpellier: 242072 contrôles, 0 échecs
+PASS clearance mulhouse: 83572 contrôles, 0 échecs
+PASS clearance nantes: 191606 contrôles, 0 échecs
+PASS clearance nice: 76954 contrôles, 0 échecs
+PASS clearance orleans: 53138 contrôles, 0 échecs
+PASS clearance reims: 37020 contrôles, 0 échecs
+PASS clearance rouen: 28354 contrôles, 0 échecs
+PASS clearance saintetienne: 60426 contrôles, 0 échecs
+PASS clearance strasbourg: 139864 contrôles, 0 échecs
+PASS clearance toulouse: 28766 contrôles, 0 échecs
+PASS clearance tours: 29812 contrôles, 0 échecs
+PASS clearance valenciennes: 117320 contrôles, 0 échecs
+PASS Python: 84 tests
+PASS ground: {'cities': 28, 'tiles': 5879, 'errors': 0}
+PASS schema: 149 réseaux

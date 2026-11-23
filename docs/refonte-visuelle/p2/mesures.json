@@ -1,0 +1,243 @@
+{
+  "base_sha": "caf73cb952189a54994dc68b7fb1a170425297b1",
+  "engine": "Godot 4.6.3",
+  "renderer": "gl_compatibility",
+  "device": "Mesa llvmpipe LLVM 19.1.7",
+  "viewport": [
+    1280,
+    720
+  ],
+  "mobile_content_simulated": true,
+  "android_device_tested": false,
+  "fps_measured": false,
+  "before": {
+    "dense_ext": {
+      "draws": "1127",
+      "tris": "663669",
+      "noir": "0.00%",
+      "sature": "0.01%",
+      "luma": "0.51",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "dense_ia": {
+      "draws": "1381",
+      "tris": "727549",
+      "noir": "0.00%",
+      "sature": "0.01%",
+      "luma": "0.51",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "dense_cab": {
+      "draws": "490",
+      "tris": "559205",
+      "noir": "0.00%",
+      "sature": "0.01%",
+      "luma": "0.51",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "-1"
+    },
+    "dense_aer": {
+      "draws": "384",
+      "tris": "191580",
+      "noir": "0.00%",
+      "sature": "0.00%",
+      "luma": "0.74",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "dense_nuit": {
+      "draws": "1149",
+      "tris": "723650",
+      "noir": "0.99%",
+      "sature": "0.06%",
+      "luma": "0.14",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "mobile_dense_ext": {
+      "draws": "816",
+      "tris": "565917",
+      "noir": "0.00%",
+      "sature": "0.00%",
+      "luma": "0.52",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "mobile_dense_ia": {
+      "draws": "873",
+      "tris": "574833",
+      "noir": "0.00%",
+      "sature": "0.00%",
+      "luma": "0.51",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "mobile_dense_cab": {
+      "draws": "369",
+      "tris": "492903",
+      "noir": "0.00%",
+      "sature": "0.01%",
+      "luma": "0.51",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "-1"
+    },
+    "mobile_dense_aer": {
+      "draws": "384",
+      "tris": "191580",
+      "noir": "0.00%",
+      "sature": "0.00%",
+      "luma": "0.74",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "mobile_dense_nuit": {
+      "draws": "1069",
+      "tris": "658845",
+      "noir": "0.60%",
+      "sature": "0.00%",
+      "luma": "0.14",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    }
+  },
+  "after": {
+    "dense_ext": {
+      "draws": "1127",
+      "tris": "663669",
+      "noir": "0.00%",
+      "sature": "0.01%",
+      "luma": "0.51",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "dense_ia": {
+      "draws": "1381",
+      "tris": "727549",
+      "noir": "0.00%",
+      "sature": "0.01%",
+      "luma": "0.51",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "dense_cab": {
+      "draws": "490",
+      "tris": "559205",
+      "noir": "0.54%",
+      "sature": "0.01%",
+      "luma": "0.51",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "-1"
+    },
+    "dense_aer": {
+      "draws": "384",
+      "tris": "191580",
+      "noir": "0.00%",
+      "sature": "0.00%",
+      "luma": "0.74",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "dense_nuit": {
+      "draws": "1149",
+      "tris": "723650",
+      "noir": "1.32%",
+      "sature": "0.06%",
+      "luma": "0.14",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "mobile_dense_ext": {
+      "draws": "383",
+      "tris": "517655",
+      "noir": "0.00%",
+      "sature": "0.00%",
+      "luma": "0.52",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "mobile_dense_ia": {
+      "draws": "440",
+      "tris": "526571",
+      "noir": "0.00%",
+      "sature": "0.00%",
+      "luma": "0.52",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "mobile_dense_cab": {
+      "draws": "369",
+      "tris": "492903",
+      "noir": "0.39%",
+      "sature": "0.01%",
+      "luma": "0.51",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "-1"
+    },
+    "mobile_dense_aer": {
+      "draws": "174",
+      "tris": "182060",
+      "noir": "0.00%",
+      "sature": "0.00%",
+      "luma": "0.74",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    },
+    "mobile_dense_nuit": {
+      "draws": "447",
+      "tris": "587337",
+      "noir": "0.30%",
+      "sature": "0.00%",
+      "luma": "0.14",
+      "ia_visibles": "0",
+      "ia_hd": "0",
+      "hd_lod": "0"
+    }
+  },
+  "textures_verified_in_godot": {
+    "gpu_compressed": true,
+    "mipmaps": true,
+    "all_three_variants": true
+  },
+  "active_profile_only_cached_verified": true,
+  "mobile_cabin_preservation": {
+    "nantes_x05": {
+      "geometry_binary_unchanged": true,
+      "binary_sha256": "82a8a07002cb5b9039ec0ce493f9d46ac45657fcdbc5ed64a5077d7c9cceaaef"
+    },
+    "angers_x05": {
+      "geometry_binary_unchanged": true,
+      "binary_sha256": "c9f772438e040f3f932d24627746dd268dc9d1eafe482f140874d9383752d9c1"
+    },
+    "angers_302": {
+      "geometry_binary_unchanged": true,
+      "binary_sha256": "716c82e5cd472126220eb65ebd83fc3fd40763642a28e78f1ec552b2cd6a61c0"
+    }
+  },
+  "zero_uv_stipple_regression": {
+    "before_dark_outlier_share": 0.04083333333333333,
+    "after_dark_outlier_share": 0.0,
+    "max_share": 0.02,
+    "method": "uniform windshield partition patch x715..774, y320..359; luma < median - 0.06"
+  }
+}

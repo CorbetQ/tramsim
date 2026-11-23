@@ -345,3 +345,12 @@ Mobile : 3 rames maximum en LOD0 simultanées.
 | Animations | Portes (côté quai réel, louvoiement puis coulissement du plan), pantographe (montée/baisse selon `pantograph_up` : LAC/APS), **essuie-glace** (pluie de `WeatherState` > 0,15 ou touche E, retour en butée), rétroviseurs (N), manipulateur au **cran réel**. |
 | Cabine | `src/rendering/cab_view.gd` : caméra au point `cam_driver` du modèle (pare-brise et pupitre visibles), chaque `ctl_*` lié à `src/input/cab_actions.gd` (11 actions : manipulateur, urgence, portes, gong, pantographe/alimentation, inverseur, sablage, phares, essuie-glace, rétroviseurs, pilote auto ; alias et nœuds supplémentaires du modélisateur) ; mouvement visuel quand l'action vient du clavier, du HUD ou d'un **clic/toucher** (lancer de rayon sur l'AABB de chaque commande ; manipulateur : moitié haute = traction, basse = freinage) ; voyants `em_lamp_*` ; écrans `screen_*` en **SubViewport** (`cab_screens.gd` : vitesse/limite, cran, prochain arrêt + distance, signal, info), rendus à la demande (5 Hz). **HUD minimal** en cabine (touche I, réglage `cab_hud_min`). Nouvelles touches : B sablage, H phares, E essuie-glace, N rétroviseurs, I HUD. |
 | Tests | `tests/test_stock_hd.gd` (dans `run_all.sh`) : manifeste réel validé variante par variante, plus un **modèle de test minimal** conforme (`tests/fixtures/stock_hd_fixture.gd`, écrit en `user://`) : nœuds `ctl_*` pour chaque action, budgets, repli, bascule LOD, portes côté quai, pantographe, essuie-glace, rétroviseurs, émissifs, girouette, cabine (11/11 commandes visibles et cliquables), écrans, voyants, clearcoat/verre, puis jeu complet (vue cabine HD, touche H, clic sur `ctl_doors` → portes, HUD minimal). `test_render_budgets` : nouveau cadrage `dense_ia` (4 rames IA HD visibles devant la rame du joueur) dans les deux passes. `tests/audit/p1_shots.gd` : option `x05` (C1/C3 en cabine X05 Nantes, C2 X05 Angers). |
+
+### Reprise de l'intégration P2 (Codex, 23/11/2026)
+
+Suite au point de sauvegarde `caf73cb`, corrections et mesures reproductibles dans
+[le rapport P2](refonte-visuelle/p2/README.md) : choix des vrais modèles mobiles dès la construction,
+validation des deux profils hors jeu, purge des gabarits, import GPU/mipmaps, pupitres mobiles 1024 px,
+stationnement de l'essuie-glace, écrans et signature lumineuse Naolib. Captures produites par le runtime
+et contrôles de rendu automatisés ; les critères de validation humaine et sur appareils réels du §7
+restent requis. Les lots P3/P4 et les autres matériels du §5.3 ne sont pas déclarés terminés.

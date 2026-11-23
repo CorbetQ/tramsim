@@ -1,0 +1,860 @@
+{
+  "schema": 1,
+  "manifest": "assets/models/rolling_stock/manifest.json",
+  "variants": {
+    "angers__citadis_x05": {
+      "LOD0_pc": {
+        "file": "lod0.glb",
+        "bytes": 2909280,
+        "sha256": "d1314cf37a8fa61adfecfad5a2f8c63bceec5e3bc5534b6fd8d465234618093f",
+        "triangles": 86742,
+        "surfaces": 314,
+        "textures": {
+          "textures/floor_albedo.png": {
+            "bytes": 381864,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "edebd0f2e74a0798884f6726d55b31c34c5b69a101bcec098c64fae884dcdbd6",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/floor_normal.png": {
+            "bytes": 944848,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "d2e5ea0947aa65c56dcf38a264d13ac01a90f818e3af857bdc17f8bdf37d26d8",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/fabric_irigo.png": {
+            "bytes": 223375,
+            "width": 512,
+            "height": 512,
+            "sha256": "7a266e7695cd3277e11412f844964681e2891ca9b02f10e8cb8dd4773a76d31d",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/livery_4k.png": {
+            "bytes": 135251,
+            "width": 4096,
+            "height": 2048,
+            "sha256": "550c2a7b3e635dbcd3bc02224202970f886940a80aab51142fe121236b76fa22",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/metal_albedo.png": {
+            "bytes": 272408,
+            "width": 512,
+            "height": 512,
+            "sha256": "eca7b1bd11f0fb83f980cc0e05bbb5c40986736289bc5ff95237b81443c021d6",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/metal_orm.png": {
+            "bytes": 371276,
+            "width": 512,
+            "height": 512,
+            "sha256": "3a1180358a8dcd96f7e705875214f2b180520896ff0f263e1b06e522be1d9810",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/metal_normal.png": {
+            "bytes": 360780,
+            "width": 512,
+            "height": 512,
+            "sha256": "b97fa95971e60f4bcca5a06cb3e81fde024d545e871a3d740b2b396276d971b5",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD0_mobile": {
+        "file": "lod1.glb",
+        "bytes": 1111368,
+        "sha256": "0c6eb8d247c1de429b6f12dabb5f7997bf8d74585e9b8053bf023c3ca1613eb3",
+        "triangles": 30694,
+        "surfaces": 90,
+        "textures": {
+          "textures/livery_2k.png": {
+            "bytes": 122630,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "5a9a8c47622a9a879030014424ef223886f1823ac41ae32559c2fae7cb8a99ed",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD1_pc": {
+        "file": "lod1.glb",
+        "bytes": 1111368,
+        "sha256": "0c6eb8d247c1de429b6f12dabb5f7997bf8d74585e9b8053bf023c3ca1613eb3",
+        "triangles": 30694,
+        "surfaces": 90,
+        "textures": {
+          "textures/livery_2k.png": {
+            "bytes": 122630,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "5a9a8c47622a9a879030014424ef223886f1823ac41ae32559c2fae7cb8a99ed",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD1_mobile": {
+        "file": "lod1_m.glb",
+        "bytes": 341500,
+        "sha256": "ffb68ce97c1577e7b22ebbb1c6c80a089df08de79b88cd8581fc60aa5b2e1ead",
+        "triangles": 10114,
+        "surfaces": 41,
+        "textures": {
+          "textures/livery_2k.png": {
+            "bytes": 122630,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "5a9a8c47622a9a879030014424ef223886f1823ac41ae32559c2fae7cb8a99ed",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD2_pc": {
+        "file": "lod2.glb",
+        "bytes": 117520,
+        "sha256": "d1601576c1ca96abe907c84e961ce77da417040c152bec319026f5ada7ca6897",
+        "triangles": 3018,
+        "surfaces": 13,
+        "textures": {
+          "textures/livery_512.png": {
+            "bytes": 32408,
+            "width": 512,
+            "height": 256,
+            "sha256": "b4443b54903e64c4185296bd3cd582e374eac0bfd919bd446a851ed99ed0f2bc",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD2_mobile": {
+        "file": "lod2.glb",
+        "bytes": 117520,
+        "sha256": "d1601576c1ca96abe907c84e961ce77da417040c152bec319026f5ada7ca6897",
+        "triangles": 3018,
+        "surfaces": 13,
+        "textures": {
+          "textures/livery_512.png": {
+            "bytes": 32408,
+            "width": 512,
+            "height": 256,
+            "sha256": "b4443b54903e64c4185296bd3cd582e374eac0bfd919bd446a851ed99ed0f2bc",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD3_pc": {
+        "file": "lod3.glb",
+        "bytes": 39552,
+        "sha256": "f41a9e3b837f4440ba063c63e5061b725e0f7fb841982df1a333027a2a83f4ed",
+        "triangles": 778,
+        "surfaces": 9,
+        "textures": {
+          "textures/livery_256.png": {
+            "bytes": 16122,
+            "width": 256,
+            "height": 128,
+            "sha256": "e45ad12a2fe85677a890a76e11d44d9dcfeedb705484d149a772c7e1ad9c379e",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD3_mobile": {
+        "file": "lod3.glb",
+        "bytes": 39552,
+        "sha256": "f41a9e3b837f4440ba063c63e5061b725e0f7fb841982df1a333027a2a83f4ed",
+        "triangles": 778,
+        "surfaces": 9,
+        "textures": {
+          "textures/livery_256.png": {
+            "bytes": 16122,
+            "width": 256,
+            "height": 128,
+            "sha256": "e45ad12a2fe85677a890a76e11d44d9dcfeedb705484d149a772c7e1ad9c379e",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "cab_pc": {
+        "file": "cab.glb",
+        "bytes": 533336,
+        "sha256": "d99c2c83dfe5f8cf79827637d535c59fd249889520960fae345c4f463d281799",
+        "triangles": 14440,
+        "surfaces": 72,
+        "textures": {
+          "textures/floor_albedo.png": {
+            "bytes": 381864,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "edebd0f2e74a0798884f6726d55b31c34c5b69a101bcec098c64fae884dcdbd6",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/floor_normal.png": {
+            "bytes": 944848,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "d2e5ea0947aa65c56dcf38a264d13ac01a90f818e3af857bdc17f8bdf37d26d8",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_grain.png": {
+            "bytes": 112930,
+            "width": 512,
+            "height": 512,
+            "sha256": "e08ed42591aba9ea7c3472cba26d5d1a4d246b8efc9596906a35ed3476375972",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_desk.png": {
+            "bytes": 2249848,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "c5870abe3f9a7bce6212accf946b86d2b6530840f724ff834631bc6cae151f03",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/fabric_irigo.png": {
+            "bytes": 223375,
+            "width": 512,
+            "height": 512,
+            "sha256": "7a266e7695cd3277e11412f844964681e2891ca9b02f10e8cb8dd4773a76d31d",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "cab_mobile": {
+        "file": "cab_m.glb",
+        "bytes": 369468,
+        "sha256": "2bacfadbfe07fc422e8c54e3e0d642f8b1964d8048ee26add658b41733cfea65",
+        "triangles": 8274,
+        "surfaces": 72,
+        "textures": {
+          "textures/floor_albedo.png": {
+            "bytes": 381864,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "edebd0f2e74a0798884f6726d55b31c34c5b69a101bcec098c64fae884dcdbd6",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/floor_normal.png": {
+            "bytes": 944848,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "d2e5ea0947aa65c56dcf38a264d13ac01a90f818e3af857bdc17f8bdf37d26d8",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_grain.png": {
+            "bytes": 112930,
+            "width": 512,
+            "height": 512,
+            "sha256": "e08ed42591aba9ea7c3472cba26d5d1a4d246b8efc9596906a35ed3476375972",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_desk_mobile.png": {
+            "bytes": 463372,
+            "width": 1024,
+            "height": 512,
+            "sha256": "87058472dbe95c8c50fbf4af6455da07c966cf5a2785ed4789413e5019de5324",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/fabric_irigo.png": {
+            "bytes": 223375,
+            "width": 512,
+            "height": 512,
+            "sha256": "7a266e7695cd3277e11412f844964681e2891ca9b02f10e8cb8dd4773a76d31d",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      }
+    },
+    "nantes__citadis_x05_nantes": {
+      "LOD0_pc": {
+        "file": "lod0.glb",
+        "bytes": 3915408,
+        "sha256": "8bdac8689a2276a0a09161067ecf12effe087d5c6c87f69aa068be11b37ec993",
+        "triangles": 113982,
+        "surfaces": 417,
+        "textures": {
+          "textures/floor_albedo.png": {
+            "bytes": 346957,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "b892d74569008f823ce1b3b2b8a7fb71dbdce98368a0eabae60c8abcd082e82b",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/floor_normal.png": {
+            "bytes": 944848,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "d2e5ea0947aa65c56dcf38a264d13ac01a90f818e3af857bdc17f8bdf37d26d8",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/fabric_naolib.png": {
+            "bytes": 226532,
+            "width": 512,
+            "height": 512,
+            "sha256": "18cc73e51d847eddbe3a249cb1b5959ba6957c31f3c7dc9e3c2d4678df207a7c",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/livery_4k.png": {
+            "bytes": 43827,
+            "width": 4096,
+            "height": 2048,
+            "sha256": "a5772ee3e1a838b730b3dcd78b333650bf91ac402e1e56d562a69f0357ee8c80",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/metal_albedo.png": {
+            "bytes": 272408,
+            "width": 512,
+            "height": 512,
+            "sha256": "eca7b1bd11f0fb83f980cc0e05bbb5c40986736289bc5ff95237b81443c021d6",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/metal_orm.png": {
+            "bytes": 371276,
+            "width": 512,
+            "height": 512,
+            "sha256": "3a1180358a8dcd96f7e705875214f2b180520896ff0f263e1b06e522be1d9810",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/metal_normal.png": {
+            "bytes": 360780,
+            "width": 512,
+            "height": 512,
+            "sha256": "b97fa95971e60f4bcca5a06cb3e81fde024d545e871a3d740b2b396276d971b5",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD0_mobile": {
+        "file": "lod1.glb",
+        "bytes": 1452244,
+        "sha256": "14d97b10fc34f1e06122adf3cacb9efcf071b6e8e5dcfa8578c5c5dd060613f4",
+        "triangles": 38926,
+        "surfaces": 117,
+        "textures": {
+          "textures/livery_2k.png": {
+            "bytes": 25841,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "51381e0e7c304a76cef6dc6f16a8ac6f9be117923393fa25ae3cc75fba570e19",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD1_pc": {
+        "file": "lod1.glb",
+        "bytes": 1452244,
+        "sha256": "14d97b10fc34f1e06122adf3cacb9efcf071b6e8e5dcfa8578c5c5dd060613f4",
+        "triangles": 38926,
+        "surfaces": 117,
+        "textures": {
+          "textures/livery_2k.png": {
+            "bytes": 25841,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "51381e0e7c304a76cef6dc6f16a8ac6f9be117923393fa25ae3cc75fba570e19",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD1_mobile": {
+        "file": "lod1_m.glb",
+        "bytes": 439964,
+        "sha256": "e277ea9e24c23a854ee54a830c389a5cb0a8e5f96dd73162607be4b2ac59ab4b",
+        "triangles": 12694,
+        "surfaces": 53,
+        "textures": {
+          "textures/livery_2k.png": {
+            "bytes": 25841,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "51381e0e7c304a76cef6dc6f16a8ac6f9be117923393fa25ae3cc75fba570e19",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD2_pc": {
+        "file": "lod2.glb",
+        "bytes": 151996,
+        "sha256": "e8fbca649bc3f80498a9fe095344e1fe38005f438a6d4944d004b01a91a6dc85",
+        "triangles": 3902,
+        "surfaces": 15,
+        "textures": {
+          "textures/livery_512.png": {
+            "bytes": 9273,
+            "width": 512,
+            "height": 256,
+            "sha256": "00602d5a7b29c1b58d18b621a590f340d44fe21a3b6f4578c3750a9ad7da76a7",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD2_mobile": {
+        "file": "lod2.glb",
+        "bytes": 151996,
+        "sha256": "e8fbca649bc3f80498a9fe095344e1fe38005f438a6d4944d004b01a91a6dc85",
+        "triangles": 3902,
+        "surfaces": 15,
+        "textures": {
+          "textures/livery_512.png": {
+            "bytes": 9273,
+            "width": 512,
+            "height": 256,
+            "sha256": "00602d5a7b29c1b58d18b621a590f340d44fe21a3b6f4578c3750a9ad7da76a7",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD3_pc": {
+        "file": "lod3.glb",
+        "bytes": 48284,
+        "sha256": "e3d5940902274e0e4d53aaf9f43023ac0878d6e7a4a889897647edcc2bbf70f8",
+        "triangles": 938,
+        "surfaces": 11,
+        "textures": {
+          "textures/livery_256.png": {
+            "bytes": 6238,
+            "width": 256,
+            "height": 128,
+            "sha256": "36122444769d40c60b3c5e5b7ee80d3d360f9d33d7f408c88db3321d886084f1",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD3_mobile": {
+        "file": "lod3.glb",
+        "bytes": 48284,
+        "sha256": "e3d5940902274e0e4d53aaf9f43023ac0878d6e7a4a889897647edcc2bbf70f8",
+        "triangles": 938,
+        "surfaces": 11,
+        "textures": {
+          "textures/livery_256.png": {
+            "bytes": 6238,
+            "width": 256,
+            "height": 128,
+            "sha256": "36122444769d40c60b3c5e5b7ee80d3d360f9d33d7f408c88db3321d886084f1",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "cab_pc": {
+        "file": "cab.glb",
+        "bytes": 526500,
+        "sha256": "a60bacb0a0c1b69e83b516f273ebf5d4e276cac9b8393db51c06167ec8a11823",
+        "triangles": 14128,
+        "surfaces": 72,
+        "textures": {
+          "textures/floor_albedo.png": {
+            "bytes": 346957,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "b892d74569008f823ce1b3b2b8a7fb71dbdce98368a0eabae60c8abcd082e82b",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/floor_normal.png": {
+            "bytes": 944848,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "d2e5ea0947aa65c56dcf38a264d13ac01a90f818e3af857bdc17f8bdf37d26d8",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_grain.png": {
+            "bytes": 112930,
+            "width": 512,
+            "height": 512,
+            "sha256": "e08ed42591aba9ea7c3472cba26d5d1a4d246b8efc9596906a35ed3476375972",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_desk.png": {
+            "bytes": 2249937,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "f201c612492bf059c7c67ec879e49133bd636e49b8d04597fef3142fa5ea0142",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/fabric_naolib.png": {
+            "bytes": 226532,
+            "width": 512,
+            "height": 512,
+            "sha256": "18cc73e51d847eddbe3a249cb1b5959ba6957c31f3c7dc9e3c2d4678df207a7c",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "cab_mobile": {
+        "file": "cab_m.glb",
+        "bytes": 366916,
+        "sha256": "05150a47e940aa4d05b15353e7f88e95b3053a0a432fe8246a3bbfe65e4555e2",
+        "triangles": 8158,
+        "surfaces": 72,
+        "textures": {
+          "textures/floor_albedo.png": {
+            "bytes": 346957,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "b892d74569008f823ce1b3b2b8a7fb71dbdce98368a0eabae60c8abcd082e82b",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/floor_normal.png": {
+            "bytes": 944848,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "d2e5ea0947aa65c56dcf38a264d13ac01a90f818e3af857bdc17f8bdf37d26d8",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_grain.png": {
+            "bytes": 112930,
+            "width": 512,
+            "height": 512,
+            "sha256": "e08ed42591aba9ea7c3472cba26d5d1a4d246b8efc9596906a35ed3476375972",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_desk_mobile.png": {
+            "bytes": 463095,
+            "width": 1024,
+            "height": 512,
+            "sha256": "4ba2573427a15ba17298e4ecf32fb9d6793b6c42e7eb1410e01fdb58bc91e40d",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/fabric_naolib.png": {
+            "bytes": 226532,
+            "width": 512,
+            "height": 512,
+            "sha256": "18cc73e51d847eddbe3a249cb1b5959ba6957c31f3c7dc9e3c2d4678df207a7c",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      }
+    },
+    "angers__citadis_302": {
+      "LOD0_pc": {
+        "file": "lod0.glb",
+        "bytes": 2833708,
+        "sha256": "957cca6fb551b11a991c194754f7ef73cf6f4e1d4aee0db2b13eff6bb493fb4f",
+        "triangles": 84266,
+        "surfaces": 292,
+        "textures": {
+          "textures/floor_albedo.png": {
+            "bytes": 381864,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "edebd0f2e74a0798884f6726d55b31c34c5b69a101bcec098c64fae884dcdbd6",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/floor_normal.png": {
+            "bytes": 944848,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "d2e5ea0947aa65c56dcf38a264d13ac01a90f818e3af857bdc17f8bdf37d26d8",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/fabric_irigo.png": {
+            "bytes": 223375,
+            "width": 512,
+            "height": 512,
+            "sha256": "7a266e7695cd3277e11412f844964681e2891ca9b02f10e8cb8dd4773a76d31d",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/livery_4k.png": {
+            "bytes": 96842,
+            "width": 4096,
+            "height": 2048,
+            "sha256": "a590921c3b4ca5330db700cc8ce509a6f087e3a2c21ee11ad1022323a68b36ad",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/metal_albedo.png": {
+            "bytes": 272408,
+            "width": 512,
+            "height": 512,
+            "sha256": "eca7b1bd11f0fb83f980cc0e05bbb5c40986736289bc5ff95237b81443c021d6",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/metal_orm.png": {
+            "bytes": 371276,
+            "width": 512,
+            "height": 512,
+            "sha256": "3a1180358a8dcd96f7e705875214f2b180520896ff0f263e1b06e522be1d9810",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/metal_normal.png": {
+            "bytes": 360780,
+            "width": 512,
+            "height": 512,
+            "sha256": "b97fa95971e60f4bcca5a06cb3e81fde024d545e871a3d740b2b396276d971b5",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD0_mobile": {
+        "file": "lod1.glb",
+        "bytes": 1096408,
+        "sha256": "50f28be284bba70c11c1effa8337941f9b467934c35df797187084bbd1b152f3",
+        "triangles": 30498,
+        "surfaces": 82,
+        "textures": {
+          "textures/livery_2k.png": {
+            "bytes": 59617,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "5e78052a9c82c4c5de318d722d57d44e748c5217be7bcdfc4ed31d29142ea5ee",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD1_pc": {
+        "file": "lod1.glb",
+        "bytes": 1096408,
+        "sha256": "50f28be284bba70c11c1effa8337941f9b467934c35df797187084bbd1b152f3",
+        "triangles": 30498,
+        "surfaces": 82,
+        "textures": {
+          "textures/livery_2k.png": {
+            "bytes": 59617,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "5e78052a9c82c4c5de318d722d57d44e748c5217be7bcdfc4ed31d29142ea5ee",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD1_mobile": {
+        "file": "lod1_m.glb",
+        "bytes": 340432,
+        "sha256": "9e61f6691ba66d3b9cc98862237943097dbfc2a404a32e813dc00d118ea3a63b",
+        "triangles": 10110,
+        "surfaces": 37,
+        "textures": {
+          "textures/livery_2k.png": {
+            "bytes": 59617,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "5e78052a9c82c4c5de318d722d57d44e748c5217be7bcdfc4ed31d29142ea5ee",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD2_pc": {
+        "file": "lod2.glb",
+        "bytes": 114276,
+        "sha256": "98eff9125a930eeb0d2cfc69fab9b9042f4f33a929be0a2e02bfe5cfbe48ac02",
+        "triangles": 2794,
+        "surfaces": 13,
+        "textures": {
+          "textures/livery_512.png": {
+            "bytes": 19897,
+            "width": 512,
+            "height": 256,
+            "sha256": "c8a7ccebe4c988a63fbba7841cd011389949e5a064a25ad8a239fccf92b2838e",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD2_mobile": {
+        "file": "lod2.glb",
+        "bytes": 114276,
+        "sha256": "98eff9125a930eeb0d2cfc69fab9b9042f4f33a929be0a2e02bfe5cfbe48ac02",
+        "triangles": 2794,
+        "surfaces": 13,
+        "textures": {
+          "textures/livery_512.png": {
+            "bytes": 19897,
+            "width": 512,
+            "height": 256,
+            "sha256": "c8a7ccebe4c988a63fbba7841cd011389949e5a064a25ad8a239fccf92b2838e",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD3_pc": {
+        "file": "lod3.glb",
+        "bytes": 43464,
+        "sha256": "88e516fe0c1555d1aa074bbd07e6e83a244c03fa0d3a1c0af4c34bc25bea6783",
+        "triangles": 838,
+        "surfaces": 9,
+        "textures": {
+          "textures/livery_256.png": {
+            "bytes": 11275,
+            "width": 256,
+            "height": 128,
+            "sha256": "aa406f0ce60358808d6e8c0777c65401a15434d51c14fac1dbe8f39410a4ea4a",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "LOD3_mobile": {
+        "file": "lod3.glb",
+        "bytes": 43464,
+        "sha256": "88e516fe0c1555d1aa074bbd07e6e83a244c03fa0d3a1c0af4c34bc25bea6783",
+        "triangles": 838,
+        "surfaces": 9,
+        "textures": {
+          "textures/livery_256.png": {
+            "bytes": 11275,
+            "width": 256,
+            "height": 128,
+            "sha256": "aa406f0ce60358808d6e8c0777c65401a15434d51c14fac1dbe8f39410a4ea4a",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "cab_pc": {
+        "file": "cab.glb",
+        "bytes": 535236,
+        "sha256": "d62103590e56a9ea20b06ec3202588b06ec637f9b5fa77b4e992307801ef6c83",
+        "triangles": 14528,
+        "surfaces": 72,
+        "textures": {
+          "textures/floor_albedo.png": {
+            "bytes": 381864,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "edebd0f2e74a0798884f6726d55b31c34c5b69a101bcec098c64fae884dcdbd6",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/floor_normal.png": {
+            "bytes": 944848,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "d2e5ea0947aa65c56dcf38a264d13ac01a90f818e3af857bdc17f8bdf37d26d8",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_grain.png": {
+            "bytes": 112930,
+            "width": 512,
+            "height": 512,
+            "sha256": "e08ed42591aba9ea7c3472cba26d5d1a4d246b8efc9596906a35ed3476375972",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_desk.png": {
+            "bytes": 2240023,
+            "width": 2048,
+            "height": 1024,
+            "sha256": "510d28aeddd95270da4289c851f5501ae05e5a0c3d6e996561b568a2691b5d33",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/fabric_irigo.png": {
+            "bytes": 223375,
+            "width": 512,
+            "height": 512,
+            "sha256": "7a266e7695cd3277e11412f844964681e2891ca9b02f10e8cb8dd4773a76d31d",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      },
+      "cab_mobile": {
+        "file": "cab_m.glb",
+        "bytes": 369464,
+        "sha256": "f4b17a48d0017aefca28cf4536621625d2d9b3801f5c8bb61f13f05f614f99a8",
+        "triangles": 8274,
+        "surfaces": 72,
+        "textures": {
+          "textures/floor_albedo.png": {
+            "bytes": 381864,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "edebd0f2e74a0798884f6726d55b31c34c5b69a101bcec098c64fae884dcdbd6",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/floor_normal.png": {
+            "bytes": 944848,
+            "width": 1024,
+            "height": 1024,
+            "sha256": "d2e5ea0947aa65c56dcf38a264d13ac01a90f818e3af857bdc17f8bdf37d26d8",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_grain.png": {
+            "bytes": 112930,
+            "width": 512,
+            "height": 512,
+            "sha256": "e08ed42591aba9ea7c3472cba26d5d1a4d246b8efc9596906a35ed3476375972",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/cab_desk_mobile.png": {
+            "bytes": 463086,
+            "width": 1024,
+            "height": 512,
+            "sha256": "3174b4f751ffbaadc375c7ec384efd4ffa498b84ccf2d5ed22ba44c6bd4b56ac",
+            "gpu_import": true,
+            "mipmaps": true
+          },
+          "textures/fabric_irigo.png": {
+            "bytes": 223375,
+            "width": 512,
+            "height": 512,
+            "sha256": "7a266e7695cd3277e11412f844964681e2891ca9b02f10e8cb8dd4773a76d31d",
+            "gpu_import": true,
+            "mipmaps": true
+          }
+        }
+      }
+    }
+  },
+  "errors": [],
+  "perceptual_validation": "human_review_required"
+}
