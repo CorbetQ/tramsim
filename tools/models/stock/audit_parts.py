@@ -30,6 +30,9 @@ def audit(root=ROOT):
             if path.suffix=='.glb':
                 info=glb_info(path,root/'tram_livery')
                 if triangles is not None and info['triangles']!=triangles:raise ValueError('Wrong measured triangle count')
+                for uri in info['textures']:
+                    image=(path.parent/uri).resolve()
+                    texture('res://'+image.relative_to(root.resolve()).as_posix())
             elif path.suffix!='.scn' or data[:4] not in (b'RSCC',b'RSRC'):raise ValueError('Invalid model resource')
             measured[path]={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
     def texture(value):

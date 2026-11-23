@@ -15,6 +15,12 @@ finally:sys.path.pop(0)
 
 
 class IndependentBodyAssets(unittest.TestCase):
+    def test_inventory_includes_bound_hardware_and_interior_textures(self):
+        report=parts.audit()
+        paths=report['texture_files']
+        self.assertTrue(any(name.endswith('/metal_normal.png') for name in paths))
+        self.assertTrue(any('/interior/' in name for name in paths))
+
     def test_entire_catalogue_has_measured_independent_models(self):
         report=parts.audit()
         entries=json.loads((ROOT/'data/rolling_stock/variants/index.json').read_text())['entries']

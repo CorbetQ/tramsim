@@ -73,11 +73,11 @@
         "lod3": "res://tram_parts/extremites/angers_x02/end_a_lod3.glb"
       },
       "triangles": {
-        "lod0": 29571,
-        "lod1": 9859,
-        "lod1_m": 3484,
-        "lod2": 878,
-        "lod3": 271
+        "lod0": 30401,
+        "lod1": 10093,
+        "lod1_m": 3588,
+        "lod2": 926,
+        "lod3": 265
       },
       "bindings": {}
     },
@@ -242,11 +242,11 @@
         "lod3": "res://tram_parts/extremites/angers_x02/end_b_lod3.glb"
       },
       "triangles": {
-        "lod0": 26883,
-        "lod1": 9015,
-        "lod1_m": 3208,
-        "lod2": 810,
-        "lod3": 259
+        "lod0": 27713,
+        "lod1": 9249,
+        "lod1_m": 3312,
+        "lod2": 858,
+        "lod3": 253
       },
       "bindings": {}
     }
@@ -279,7 +279,7 @@
       "roof_shoulder_m": 0.25,
       "tumblehome_m": 0.0
     },
-    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)",
+    "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
       "length_m": 1.5,
       "plan": [
@@ -412,11 +412,57 @@
         "montpellier": 2.65
       }
     },
-    "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur"
+    "variants_note": "variantes : r\u00e9\u00e9chelonner les modules suspendus/interm\u00e9diaires (ou ajouter des paires suspendu+interm\u00e9diaire) pour atteindre length_m ; width_m remplace la largeur"
   },
   "cab": {
     "cab": "res://tram_parts/extremites/angers_x02/cab.glb",
     "cab_m": "res://tram_parts/extremites/angers_x02/cab_m.glb"
+  },
+  "nose_profile": {
+    "p": 2.15,
+    "theta_w": 0.42,
+    "D": [
+      [
+        0.25,
+        0.8
+      ],
+      [
+        0.4,
+        0.95
+      ],
+      [
+        0.7,
+        1.0
+      ],
+      [
+        1.15,
+        0.95
+      ],
+      [
+        1.6,
+        0.8
+      ],
+      [
+        2.1,
+        0.6
+      ],
+      [
+        2.6,
+        0.4
+      ],
+      [
+        2.95,
+        0.22
+      ],
+      [
+        3.15,
+        0.1
+      ],
+      [
+        3.3,
+        0.0
+      ]
+    ]
   },
   "master_lengths": [
     9.0,

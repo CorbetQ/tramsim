@@ -168,3 +168,11 @@ Voir [VALIDATION.md](VALIDATION.md) pour les mesures et limites du lot et [asset
 - [TFS : profils](captures/tfs-types.png)
 - [Éditeur de livrée](captures/editor-custom.png)
 - [Peinture chargée en conduite sur la fixture de test](captures/driving-custom-fixture.png)
+
+## Contrôle de jonction du toit
+
+Après un changement de nez ou de toiture, exécuter `godot --headless --path . -s tests/test_roof_junction.gd`.
+Les carénages hauts doivent reposer sur le pavillon et les plans de cabine doivent être découpés selon
+le contour du nez. Captures rapprochées reproductibles :
+`godot --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/roof_junction_shots.gd -- build/roof-review`.
+Voir la comparaison [avant](captures/roof-before-pc-front.png) / [après](captures/roof-after-pc-front.png).

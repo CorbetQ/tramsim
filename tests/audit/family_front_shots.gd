@@ -35,6 +35,14 @@ func capture(ids: Array, columns: int, view: String, filename: String) -> void:
 			preview.cam.look_at(Vector3(0,1.70,-float(entry.length)*.5+.2))
 		preview.set_process(false);preview.rig.set_doors(false);preview.rig.update(0)
 	for i in 8:await process_frame
+	# Container resizes refit preview cameras. Apply inspection poses afterwards.
+	if view.begins_with("roof_"):
+		for box in grid.get_children():
+			var preview:=box.get_child(box.get_child_count()-1) as TramPreview
+			var direction:=-1.0 if view=="roof_front" else 1.0
+			preview.cam.position=Vector3(4.5,4.9,direction*(preview.rig.length*.5+6.0));preview.cam.fov=32
+			preview.cam.look_at(Vector3(0,2.85,direction*(preview.rig.length*.5-.8)))
+		await process_frame
 	await RenderingServer.frame_post_draw
 	var path:=out+"/"+filename+".png"
 	var error:=root.get_texture().get_image().save_png(path)

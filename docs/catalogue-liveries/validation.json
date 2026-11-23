@@ -6,8 +6,8 @@
   "variants": 80,
   "assembled_bodies": 418.0,
   "unique_model_files": 290,
-  "model_bytes": 20674984,
-  "texture_bytes": 1999054,
+  "model_bytes": 20763076,
+  "texture_bytes": 20163068,
   "tests": {
     "parts": {
       "log": "factory-final-test_tram_parts.log",
@@ -53,6 +53,11 @@
       "log": "canonical-test_render_budgets.log",
       "assertions": 48,
       "result": "TOTAL_ECHECS|0"
+    },
+    "roof_junction": {
+      "log": "roof-after-tests.log",
+      "assertions": 210,
+      "result": "TOTAL_ECHECS|0"
     }
   },
   "limitations": [
@@ -62,11 +67,23 @@
     "No new Meshy generation or paid credits."
   ],
   "captures": {
-    "citadis-x05-faces.png": "b88ebe4e714fb9b790956cec49d99145b138bf8289d4906482d28b8348acd0da",
-    "citadis-x05-review.png": "ab2eb663fdafd8cc12de5ddd3d9a1f97a2ae5a5a7d673348b85c2e84060f0768",
+    "citadis-x05-faces.png": "ff1904d074bc35a601a9e772b9afd25be367dee52ae50622b641556f791e9a52",
+    "citadis-x05-review.png": "5cc031ba7e365f8c7ab0c0cee545bc4a93bfded4fab0e4a8d8a39756ba13c452",
     "driving-custom-fixture.png": "02f5b8e7bd937e93f1112f5c23988880b1c809c13dbb91d6eebee374a1f0051b",
     "editor-custom.png": "275178764f98fade978b3083613ba87823a9b287b6c31f24ddfd661fe02326d2",
+    "roof-after-mobile-front.png": "feeead876e5c8b9462f6ad21668b5403afef610ae7dcf54e65464553f98fb66e",
+    "roof-after-mobile-rear.png": "d067354c673cb15aa7e23613c101d380bcffe43744cbb84cbe67c7b858a7732a",
+    "roof-after-pc-front.png": "28a8e6ad322a9d67b2b7dd7ad1bbcab2df0d99ea395b3454f2c8565f17bac7b2",
+    "roof-after-pc-rear.png": "6aba230188a83e229c053987bd059760ea8b138b9d39f47deeac15e6944d22d2",
+    "roof-before-pc-front.png": "829e0070067335921c28316ee33e15f7bdf32681cc5f66ca2a2509b3321791d2",
+    "roof-before-pc-rear.png": "0a1f7fa087a2eaafa16d4c27bb1e1203603763a006827d8817a5a8da0bc189f7",
     "tfs-faces.png": "3cb22f361d1502c1d2c3e13a12098cb315a4ddde04a3210fc27d16870518fb0a",
     "tfs-types.png": "33a72e4b501f1d7dbccfee6d3732363e15f00126894d499227e34e2840d90386"
+  },
+  "texture_files": 533,
+  "previous_ci": {
+    "commit": "bd2e936",
+    "result": "success",
+    "url": "https://github.com/CorbetQ/tramsim/actions/runs/45260865954"
   }
 }

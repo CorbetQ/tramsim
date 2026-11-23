@@ -28,3 +28,7 @@ des paramètres d’assemblage. Ne pas copier les modèles lors d’un changemen
 Audit : `python tools/models/stock/audit_parts.py` ; test : `tests/test_tram_parts.gd`.
 Irigo : portes par face 1–2–0–2–1 (302 : simples aux extrémités, 305 : doubles).
 Ne pas appliquer cette règle à Nantes : le 405 a 2–0–2–0–2–0–2 portes par face.
+Jonction toit/face : `tests/test_roof_junction.gd` inspecte les sommets des GLB livrés
+et les dépassements de cabine dans les deux sens, tous les LOD PC/Mobile.
+Génération HD seule : `python tools/models/stock/build_kits.py --hd-only` préserve les kits natifs.
+Les carénages hauts reposent sur le pavillon de caisse, jamais en avant de sa jonction avec le nez.

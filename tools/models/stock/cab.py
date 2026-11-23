@@ -107,10 +107,9 @@ class Cab:
         zb = self.tip + t.cab_len() - 0.03
         xw = t.hw - WALL - 0.003
         fl = self.fl
-        B.quad((-xw, fl + 0.005, self.zd(0.45)), (-xw, fl + 0.005, zb), (xw, fl + 0.005, zb), (xw, fl + 0.005, self.zd(0.45)), "cab_floor",
-               uv=[(0, 0), (0, 1.2), (1.6, 1.2), (1.6, 0)])
+        B.fan(t.cab_horizontal_ring(fl+.005,self.zj,-1,zb),"cab_floor",normal=(0,1,0))
         yc = 2.42
-        B.quad((-xw, yc, self.zd(0.85)), (xw, yc, self.zd(0.85)), (xw, yc, zb), (-xw, yc, zb), "cab_lining")
+        B.fan(t.cab_horizontal_ring(yc,self.zj,-1,zb),"cab_lining",normal=(0,-1,0))
         B.node("em_interior_cab", "cab_shell", (0, yc - 0.01, self.zd(1.6)))
         B.box((0, yc - 0.012, self.zd(1.6)), (0.7, 0.012, 0.22), "em_interior")
         B.use("cab_shell")

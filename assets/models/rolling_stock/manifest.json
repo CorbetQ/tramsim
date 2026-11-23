@@ -19,14 +19,14 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 87810,
+     "tris": 87918,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 30402,
-     "note": "LOD0 mobile = lod1.glb (m\u00eame contenu, \u2264 80 k)"
+     "mobile_tris": 30510,
+     "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 30402,
+     "tris": 30510,
      "mobile_file": "lod1_m.glb",
      "mobile_tris": 10102
     },
@@ -40,16 +40,16 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 30402,
+    "LOD0": 30510,
     "LOD1": 10102,
     "LOD2": 2994,
     "LOD3": 730
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14264,
+    "tris": 14318,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 8230
+    "mobile_tris": 8284
    },
    "textures": {
     "pc_px": 4096,
@@ -85,7 +85,7 @@
     "arm_upper_m": 1.6,
     "head_down_y": 3.72,
     "head_up_y": 5.9,
-    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baiss\u00e9"
+    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baissé"
    },
    "wiper": {
     "axis": "z",
@@ -110,7 +110,7 @@
    "cab_proxy": {
     "A": "cab_proxy_A",
     "B": "cab_proxy_B",
-    "note": "am\u00e9nagement simplifi\u00e9 des loges dans lod0/lod1 : \u00e0 masquer \u00e0 l'extr\u00e9mit\u00e9 o\u00f9 cab.glb est instanci\u00e9"
+    "note": "aménagement simplifié des loges dans lod0/lod1 : à masquer à l'extrémité où cab.glb est instancié"
    },
    "bogies": [
     "bogie_0",
@@ -137,9 +137,9 @@
       -1.0,
       1.0
      ],
-     "note": "cran -1 (freinage max, tir\u00e9 vers le conducteur) -> +24\u00b0 ; +1 (traction max, pouss\u00e9) -> -24\u00b0",
+     "note": "cran -1 (freinage max, tiré vers le conducteur) -> +24° ; +1 (traction max, poussé) -> -24°",
      "action": "notch",
-     "key": "W/Z/\u2191, S/\u2193, X"
+     "key": "W/Z/↑, S/↓, X"
     },
     "ctl_horn": {
      "kind": "button",
@@ -231,7 +231,7 @@
       40
      ],
      "action": "power_mode",
-     "key": "P (s\u00e9lecteur APS/LAC)"
+     "key": "P (sélecteur APS/LAC)"
     },
     "ctl_headlights": {
      "kind": "rotary",
@@ -367,7 +367,7 @@
     "pitch_deg": -11.0,
     "fov_deg": 62.0,
     "near_m": 0.05,
-    "note": "cabine B : m\u00eame cab.glb sous le dernier module, rotation 180\u00b0 Y"
+    "note": "cabine B : même cab.glb sous le dernier module, rotation 180° Y"
    },
    "nodes": {
     "lod0": {
@@ -510,13 +510,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 87810,
-    "lod1": 30402,
+    "lod0": 87918,
+    "lod1": 30510,
     "lod1_m": 10102,
     "lod2": 2994,
     "lod3": 730,
-    "cab": 14264,
-    "cab_m": 8230
+    "cab": 14318,
+    "cab_m": 8284
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -529,11 +529,11 @@
     "cab_mobile<=40000": true
    },
    "sources": [
-    "plan data/rolling_stock/plans/citadis_x05.json (modules mis \u00e0 l'\u00e9chelle de 33.00 m)",
-    "livr\u00e9e data/rolling_stock/liveries.json#angers + photos docs/rolling-stock-meshy (Commons CC BY-SA, r\u00e9f\u00e9rences)",
-    "textures : g\u00e9n\u00e9r\u00e9es (CC0, projet) ; m\u00e9tal Poly Haven rusty_metal_02 (CC0)"
+    "plan data/rolling_stock/plans/citadis_x05.json (modules mis à l'échelle de 33.00 m)",
+    "livrée data/rolling_stock/liveries.json#angers + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
+    "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, g\u00e9om\u00e9trie proc\u00e9durale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
   },
   "nantes__citadis_x05_nantes": {
    "dir": "nantes_x05",
@@ -555,14 +555,14 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 120854,
+     "tris": 120962,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 41622,
-     "note": "LOD0 mobile = lod1.glb (m\u00eame contenu, \u2264 80 k)"
+     "mobile_tris": 41730,
+     "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 41622,
+     "tris": 41730,
      "mobile_file": "lod1_m.glb",
      "mobile_tris": 13750
     },
@@ -576,16 +576,16 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 41622,
+    "LOD0": 41730,
     "LOD1": 13750,
     "LOD2": 4438,
     "LOD3": 986
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14704,
+    "tris": 14758,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 8318
+    "mobile_tris": 8372
    },
    "textures": {
     "pc_px": 4096,
@@ -621,7 +621,7 @@
     "arm_upper_m": 1.6,
     "head_down_y": 3.72,
     "head_up_y": 5.9,
-    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baiss\u00e9"
+    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baissé"
    },
    "wiper": {
     "axis": "z",
@@ -646,7 +646,7 @@
    "cab_proxy": {
     "A": "cab_proxy_A",
     "B": "cab_proxy_B",
-    "note": "am\u00e9nagement simplifi\u00e9 des loges dans lod0/lod1 : \u00e0 masquer \u00e0 l'extr\u00e9mit\u00e9 o\u00f9 cab.glb est instanci\u00e9"
+    "note": "aménagement simplifié des loges dans lod0/lod1 : à masquer à l'extrémité où cab.glb est instancié"
    },
    "bogies": [
     "bogie_0",
@@ -675,9 +675,9 @@
       -1.0,
       1.0
      ],
-     "note": "cran -1 (freinage max, tir\u00e9 vers le conducteur) -> +24\u00b0 ; +1 (traction max, pouss\u00e9) -> -24\u00b0",
+     "note": "cran -1 (freinage max, tiré vers le conducteur) -> +24° ; +1 (traction max, poussé) -> -24°",
      "action": "notch",
-     "key": "W/Z/\u2191, S/\u2193, X"
+     "key": "W/Z/↑, S/↓, X"
     },
     "ctl_horn": {
      "kind": "button",
@@ -769,7 +769,7 @@
       40
      ],
      "action": "power_mode",
-     "key": "P (s\u00e9lecteur APS/LAC)"
+     "key": "P (sélecteur APS/LAC)"
     },
     "ctl_headlights": {
      "kind": "rotary",
@@ -905,7 +905,7 @@
     "pitch_deg": -11.0,
     "fov_deg": 62.0,
     "near_m": 0.05,
-    "note": "cabine B : m\u00eame cab.glb sous le dernier module, rotation 180\u00b0 Y"
+    "note": "cabine B : même cab.glb sous le dernier module, rotation 180° Y"
    },
    "nodes": {
     "lod0": {
@@ -1070,13 +1070,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 120854,
-    "lod1": 41622,
+    "lod0": 120962,
+    "lod1": 41730,
     "lod1_m": 13750,
     "lod2": 4438,
     "lod3": 986,
-    "cab": 14704,
-    "cab_m": 8318
+    "cab": 14758,
+    "cab_m": 8372
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -1089,11 +1089,11 @@
     "cab_mobile<=40000": true
    },
    "sources": [
-    "plan data/rolling_stock/plans/citadis_x05_nantes.json (modules mis \u00e0 l'\u00e9chelle de 45.60 m)",
-    "livr\u00e9e data/rolling_stock/liveries.json#nantes + photos docs/rolling-stock-meshy (Commons CC BY-SA, r\u00e9f\u00e9rences)",
-    "textures : g\u00e9n\u00e9r\u00e9es (CC0, projet) ; m\u00e9tal Poly Haven rusty_metal_02 (CC0)"
+    "plan data/rolling_stock/plans/citadis_x05_nantes.json (modules mis à l'échelle de 45.60 m)",
+    "livrée data/rolling_stock/liveries.json#nantes + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
+    "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, g\u00e9om\u00e9trie proc\u00e9durale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
   },
   "angers__citadis_302": {
    "dir": "angers_302",
@@ -1113,37 +1113,37 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 86906,
+     "tris": 88566,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 30274,
-     "note": "LOD0 mobile = lod1.glb (m\u00eame contenu, \u2264 80 k)"
+     "mobile_tris": 30742,
+     "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 30274,
+     "tris": 30742,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 10110
+     "mobile_tris": 10318
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 2794
+     "tris": 2890
     },
     "LOD3": {
      "file": "lod3.glb",
-     "tris": 838
+     "tris": 826
     }
    },
    "mobile_tris": {
-    "LOD0": 30274,
-    "LOD1": 10110,
-    "LOD2": 2794,
-    "LOD3": 838
+    "LOD0": 30742,
+    "LOD1": 10318,
+    "LOD2": 2890,
+    "LOD3": 826
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14528,
+    "tris": 14582,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 8274
+    "mobile_tris": 8328
    },
    "textures": {
     "pc_px": 4096,
@@ -1179,7 +1179,7 @@
     "arm_upper_m": 1.6,
     "head_down_y": 3.72,
     "head_up_y": 5.9,
-    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baiss\u00e9"
+    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baissé"
    },
    "wiper": {
     "axis": "z",
@@ -1204,7 +1204,7 @@
    "cab_proxy": {
     "A": "cab_proxy_A",
     "B": "cab_proxy_B",
-    "note": "am\u00e9nagement simplifi\u00e9 des loges dans lod0/lod1 : \u00e0 masquer \u00e0 l'extr\u00e9mit\u00e9 o\u00f9 cab.glb est instanci\u00e9"
+    "note": "aménagement simplifié des loges dans lod0/lod1 : à masquer à l'extrémité où cab.glb est instancié"
    },
    "bogies": [
     "bogie_0",
@@ -1231,9 +1231,9 @@
       -1.0,
       1.0
      ],
-     "note": "cran -1 (freinage max, tir\u00e9 vers le conducteur) -> +24\u00b0 ; +1 (traction max, pouss\u00e9) -> -24\u00b0",
+     "note": "cran -1 (freinage max, tiré vers le conducteur) -> +24° ; +1 (traction max, poussé) -> -24°",
      "action": "notch",
-     "key": "W/Z/\u2191, S/\u2193, X"
+     "key": "W/Z/↑, S/↓, X"
     },
     "ctl_horn": {
      "kind": "button",
@@ -1325,7 +1325,7 @@
       40
      ],
      "action": "power_mode",
-     "key": "P (s\u00e9lecteur APS/LAC)"
+     "key": "P (sélecteur APS/LAC)"
     },
     "ctl_headlights": {
      "kind": "rotary",
@@ -1461,7 +1461,7 @@
     "pitch_deg": -11.0,
     "fov_deg": 62.0,
     "near_m": 0.05,
-    "note": "cabine B : m\u00eame cab.glb sous le dernier module, rotation 180\u00b0 Y"
+    "note": "cabine B : même cab.glb sous le dernier module, rotation 180° Y"
    },
    "nodes": {
     "lod0": {
@@ -1600,13 +1600,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 86906,
-    "lod1": 30274,
-    "lod1_m": 10110,
-    "lod2": 2794,
-    "lod3": 838,
-    "cab": 14528,
-    "cab_m": 8274
+    "lod0": 88566,
+    "lod1": 30742,
+    "lod1_m": 10318,
+    "lod2": 2890,
+    "lod3": 826,
+    "cab": 14582,
+    "cab_m": 8328
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -1619,11 +1619,11 @@
     "cab_mobile<=40000": true
    },
    "sources": [
-    "plan data/rolling_stock/plans/citadis_302.json (modules mis \u00e0 l'\u00e9chelle de 32.40 m)",
-    "livr\u00e9e data/rolling_stock/liveries.json#angers + photos docs/rolling-stock-meshy (Commons CC BY-SA, r\u00e9f\u00e9rences)",
-    "textures : g\u00e9n\u00e9r\u00e9es (CC0, projet) ; m\u00e9tal Poly Haven rusty_metal_02 (CC0)"
+    "plan data/rolling_stock/plans/citadis_302.json (modules mis à l'échelle de 32.40 m)",
+    "livrée data/rolling_stock/liveries.json#angers + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
+    "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, g\u00e9om\u00e9trie proc\u00e9durale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
   }
  },
  "generator": "tools/models/stock/build_stock.py",

@@ -66,28 +66,28 @@
       "kit": "angers_x02",
       "parts": {
         "end_a": {
-          "256": "res://tram_livery/livery/angers_x02/end_a_256.png",
-          "2k": "res://tram_livery/livery/angers_x02/end_a_2k.png",
           "4k": "res://tram_livery/livery/angers_x02/end_a_4k.png",
-          "512": "res://tram_livery/livery/angers_x02/end_a_512.png"
-        },
-        "end_b": {
-          "256": "res://tram_livery/livery/angers_x02/end_b_256.png",
-          "2k": "res://tram_livery/livery/angers_x02/end_b_2k.png",
-          "4k": "res://tram_livery/livery/angers_x02/end_b_4k.png",
-          "512": "res://tram_livery/livery/angers_x02/end_b_512.png"
-        },
-        "powered": {
-          "256": "res://tram_livery/livery/angers_x02/powered_256.png",
-          "2k": "res://tram_livery/livery/angers_x02/powered_2k.png",
-          "4k": "res://tram_livery/livery/angers_x02/powered_4k.png",
-          "512": "res://tram_livery/livery/angers_x02/powered_512.png"
+          "2k": "res://tram_livery/livery/angers_x02/end_a_2k.png",
+          "512": "res://tram_livery/livery/angers_x02/end_a_512.png",
+          "256": "res://tram_livery/livery/angers_x02/end_a_256.png"
         },
         "suspended": {
-          "256": "res://tram_livery/livery/angers_x02/suspended_256.png",
-          "2k": "res://tram_livery/livery/angers_x02/suspended_2k.png",
           "4k": "res://tram_livery/livery/angers_x02/suspended_4k.png",
-          "512": "res://tram_livery/livery/angers_x02/suspended_512.png"
+          "2k": "res://tram_livery/livery/angers_x02/suspended_2k.png",
+          "512": "res://tram_livery/livery/angers_x02/suspended_512.png",
+          "256": "res://tram_livery/livery/angers_x02/suspended_256.png"
+        },
+        "powered": {
+          "4k": "res://tram_livery/livery/angers_x02/powered_4k.png",
+          "2k": "res://tram_livery/livery/angers_x02/powered_2k.png",
+          "512": "res://tram_livery/livery/angers_x02/powered_512.png",
+          "256": "res://tram_livery/livery/angers_x02/powered_256.png"
+        },
+        "end_b": {
+          "4k": "res://tram_livery/livery/angers_x02/end_b_4k.png",
+          "2k": "res://tram_livery/livery/angers_x02/end_b_2k.png",
+          "512": "res://tram_livery/livery/angers_x02/end_b_512.png",
+          "256": "res://tram_livery/livery/angers_x02/end_b_256.png"
         }
       }
     },
@@ -95,28 +95,28 @@
       "kit": "angers_x05",
       "parts": {
         "end_a": {
-          "256": "res://tram_livery/livery/angers_x05/end_a_256.png",
-          "2k": "res://tram_livery/livery/angers_x05/end_a_2k.png",
           "4k": "res://tram_livery/livery/angers_x05/end_a_4k.png",
-          "512": "res://tram_livery/livery/angers_x05/end_a_512.png"
-        },
-        "end_b": {
-          "256": "res://tram_livery/livery/angers_x05/end_b_256.png",
-          "2k": "res://tram_livery/livery/angers_x05/end_b_2k.png",
-          "4k": "res://tram_livery/livery/angers_x05/end_b_4k.png",
-          "512": "res://tram_livery/livery/angers_x05/end_b_512.png"
-        },
-        "powered": {
-          "256": "res://tram_livery/livery/angers_x05/powered_256.png",
-          "2k": "res://tram_livery/livery/angers_x05/powered_2k.png",
-          "4k": "res://tram_livery/livery/angers_x05/powered_4k.png",
-          "512": "res://tram_livery/livery/angers_x05/powered_512.png"
+          "2k": "res://tram_livery/livery/angers_x05/end_a_2k.png",
+          "512": "res://tram_livery/livery/angers_x05/end_a_512.png",
+          "256": "res://tram_livery/livery/angers_x05/end_a_256.png"
         },
         "suspended": {
-          "256": "res://tram_livery/livery/angers_x05/suspended_256.png",
-          "2k": "res://tram_livery/livery/angers_x05/suspended_2k.png",
           "4k": "res://tram_livery/livery/angers_x05/suspended_4k.png",
-          "512": "res://tram_livery/livery/angers_x05/suspended_512.png"
+          "2k": "res://tram_livery/livery/angers_x05/suspended_2k.png",
+          "512": "res://tram_livery/livery/angers_x05/suspended_512.png",
+          "256": "res://tram_livery/livery/angers_x05/suspended_256.png"
+        },
+        "powered": {
+          "4k": "res://tram_livery/livery/angers_x05/powered_4k.png",
+          "2k": "res://tram_livery/livery/angers_x05/powered_2k.png",
+          "512": "res://tram_livery/livery/angers_x05/powered_512.png",
+          "256": "res://tram_livery/livery/angers_x05/powered_256.png"
+        },
+        "end_b": {
+          "4k": "res://tram_livery/livery/angers_x05/end_b_4k.png",
+          "2k": "res://tram_livery/livery/angers_x05/end_b_2k.png",
+          "512": "res://tram_livery/livery/angers_x05/end_b_512.png",
+          "256": "res://tram_livery/livery/angers_x05/end_b_256.png"
         }
       }
     },
@@ -636,28 +636,28 @@
       "kit": "nantes_x05",
       "parts": {
         "end_a": {
-          "256": "res://tram_livery/livery/nantes_x05/end_a_256.png",
-          "2k": "res://tram_livery/livery/nantes_x05/end_a_2k.png",
           "4k": "res://tram_livery/livery/nantes_x05/end_a_4k.png",
-          "512": "res://tram_livery/livery/nantes_x05/end_a_512.png"
-        },
-        "end_b": {
-          "256": "res://tram_livery/livery/nantes_x05/end_b_256.png",
-          "2k": "res://tram_livery/livery/nantes_x05/end_b_2k.png",
-          "4k": "res://tram_livery/livery/nantes_x05/end_b_4k.png",
-          "512": "res://tram_livery/livery/nantes_x05/end_b_512.png"
+          "2k": "res://tram_livery/livery/nantes_x05/end_a_2k.png",
+          "512": "res://tram_livery/livery/nantes_x05/end_a_512.png",
+          "256": "res://tram_livery/livery/nantes_x05/end_a_256.png"
         },
         "powered": {
-          "256": "res://tram_livery/livery/nantes_x05/powered_256.png",
-          "2k": "res://tram_livery/livery/nantes_x05/powered_2k.png",
           "4k": "res://tram_livery/livery/nantes_x05/powered_4k.png",
-          "512": "res://tram_livery/livery/nantes_x05/powered_512.png"
+          "2k": "res://tram_livery/livery/nantes_x05/powered_2k.png",
+          "512": "res://tram_livery/livery/nantes_x05/powered_512.png",
+          "256": "res://tram_livery/livery/nantes_x05/powered_256.png"
         },
         "suspended": {
-          "256": "res://tram_livery/livery/nantes_x05/suspended_256.png",
-          "2k": "res://tram_livery/livery/nantes_x05/suspended_2k.png",
           "4k": "res://tram_livery/livery/nantes_x05/suspended_4k.png",
-          "512": "res://tram_livery/livery/nantes_x05/suspended_512.png"
+          "2k": "res://tram_livery/livery/nantes_x05/suspended_2k.png",
+          "512": "res://tram_livery/livery/nantes_x05/suspended_512.png",
+          "256": "res://tram_livery/livery/nantes_x05/suspended_256.png"
+        },
+        "end_b": {
+          "4k": "res://tram_livery/livery/nantes_x05/end_b_4k.png",
+          "2k": "res://tram_livery/livery/nantes_x05/end_b_2k.png",
+          "512": "res://tram_livery/livery/nantes_x05/end_b_512.png",
+          "256": "res://tram_livery/livery/nantes_x05/end_b_256.png"
         }
       }
     },
@@ -1212,32 +1212,32 @@
   "schema": 2.0,
   "variants": {
     "angers__citadis_302": {
-      "count": 5.0,
       "kit": "angers_x02",
+      "type": "302",
+      "count": 5,
       "length_m": 32.4,
-      "livery": "angers_x02",
-      "type": "302"
+      "livery": "angers_x02"
     },
     "angers__citadis_x05": {
-      "count": 5.0,
       "kit": "angers_x05",
+      "type": "305",
+      "count": 5,
       "length_m": 33.0,
-      "livery": "angers_x05",
-      "type": "305"
+      "livery": "angers_x05"
     },
     "angers__concept_citadis_205": {
-      "count": 3.0,
       "kit": "angers_x05",
+      "type": "205",
+      "count": 3,
       "length_m": 24.0,
-      "livery": "angers_x05",
-      "type": "205"
+      "livery": "angers_x05"
     },
     "angers__concept_citadis_405": {
-      "count": 7.0,
       "kit": "angers_x05",
+      "type": "405",
+      "count": 7,
       "length_m": 44.5,
-      "livery": "angers_x05",
-      "type": "405"
+      "livery": "angers_x05"
     },
     "annemasse__cityrunner_tpg": {
       "count": 7.0,
@@ -1583,25 +1583,25 @@
       "type": "4-caisses"
     },
     "nantes__citadis_x05_nantes": {
-      "count": 7.0,
       "kit": "nantes_x05",
+      "type": "405",
+      "count": 7,
       "length_m": 45.6,
-      "livery": "nantes_x05",
-      "type": "405"
+      "livery": "nantes_x05"
     },
     "nantes__concept_citadis_205": {
-      "count": 3.0,
       "kit": "nantes_x05",
+      "type": "205",
+      "count": 3,
       "length_m": 24.0,
-      "livery": "nantes_x05",
-      "type": "205"
+      "livery": "nantes_x05"
     },
     "nantes__concept_citadis_305": {
-      "count": 5.0,
       "kit": "nantes_x05",
-      "length_m": 33.0,
-      "livery": "nantes_x05",
-      "type": "305"
+      "type": "305",
+      "count": 5,
+      "length_m": 33,
+      "livery": "nantes_x05"
     },
     "nantes__concept_tfs_2": {
       "count": 3.0,

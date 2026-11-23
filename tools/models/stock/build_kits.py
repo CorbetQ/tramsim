@@ -4,6 +4,7 @@ import copy
 import json
 from pathlib import Path
 import re
+import sys
 import specs
 from layout import Train
 from citadis import Citadis
@@ -50,7 +51,8 @@ def export_equipment(builder,destination,original):
     result.nodes={n:copy.deepcopy(builder.nodes[n]) for n in builder.order if n in names}
     result.order=[n for n in builder.order if n in names]
     result.nodes['panto_base']['parent']=None;result.base=builder.nodes['panto_base']['pos'].copy()
-    result.geo={(n,m):v for (n,m),v in builder.geo.items() if n in names};result.mats=copy.deepcopy(builder.mats)
+    result.geo={(n,m):v for (n,m),v in builder.geo.items() if n in names}
+    used={m for n,m in result.geo};result.mats={m:copy.deepcopy(builder.mats[m]) for m in used}
     for material in result.mats.values():
         for slot in ('tex','normal','orm','emissive_tex'):
             if material.get(slot):
@@ -66,9 +68,12 @@ def main():
     entries=json.loads((ROOT/'data/rolling_stock/variants/index.json').read_text())['entries']
     groups={}
     for e in entries:groups.setdefault(kit_id(e),[]).append(e)
-    result={'schema':2,'kits':{},'variants':{},'liveries':{}}
+    only_hd='--hd-only' in sys.argv
+    result=json.loads(INDEX.read_text()) if only_hd else {'schema':2,'kits':{},'variants':{},'liveries':{}}
+    if result.get('schema')!=2:raise ValueError('Canonical schema 2 required for --hd-only')
     hd_master={'angers_x05':'angers__citadis_x05','angers_x02':'angers__citadis_302','nantes_x05':'nantes__citadis_x05_nantes'}
     for kid,rows in groups.items():
+        if only_hd and kid not in hd_master:continue
         real=[e for e in rows if not e.get('fictional')]
         master=next((e for e in rows if e['id']==hd_master.get(kid)),max(real or rows,key=lambda e:e['module_count']))
         kit={'schema':2,'id':kid,'renderer':'hd' if kid in hd_master else 'native','master':master['id'],
@@ -84,6 +89,7 @@ def main():
         result['kits'][kid]='res://'+path.relative_to(ROOT).as_posix()
         if kit['renderer']=='hd':
             sp=specs.load(master['id']);train=Train(sp);original=ROOT/'assets/models/rolling_stock'/sp['dir']
+            kit['nose_profile']=copy.deepcopy(train.nose_style())
             plans=[physical_module(m,float(t['Lm'])) for m,t in zip(sp['plan_data']['modules'],train.mods)]
             keys,prototypes=part_keys(plans);kit['layout']=keys
             kit['master_lengths']=[m['Lm'] for m in train.mods]
@@ -128,7 +134,8 @@ def main():
     INDEX.write_text(json.dumps(result,indent=2)+'\n')
     for directory in (ROOT/'tram_livery').rglob('*'):
         if directory.is_dir():configure_texture_imports(directory)
-    print(len(groups),'canonical design kits; native geometry/textures: tools/models/export_native_parts.gd')
+    if only_hd:print('3 HD design kits rebuilt; native kits and livery banks preserved')
+    else:print(len(groups),'canonical design kits; native geometry/textures: tools/models/export_native_parts.gd')
 
 
 if __name__=='__main__':main()

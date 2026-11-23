@@ -199,3 +199,17 @@ class Train:
 
     def cab_len(self):
         return self.Lf + 1.05       # loge de conduite : nez + 1,05 m (cloison)
+
+    def cab_horizontal_ring(self, y, zj, direction, rear, inset=WALL):
+        """Floor/ceiling clipped to the rounded nose; rectangular front corners
+        otherwise poke through the windshield after a profile change.
+        """
+        th = self.nose_thetas(2)
+        angles = np.concatenate([th, (math.pi-th[::-1])[1:]])
+        points = []
+        for angle in angles:
+            x, dz = self.nose_xz(min(angle, math.pi-angle), y, inset)
+            points.append([x if angle<=math.pi/2 else -x, y, zj+direction*dz])
+        width = float(self.prof_x(y))-inset
+        points.extend([[-width,y,rear],[width,y,rear]])
+        return np.array(points)

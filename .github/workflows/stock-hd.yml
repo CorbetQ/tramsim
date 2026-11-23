@@ -17,6 +17,8 @@ on:
       - 'src/rendering/shaders/pbr_object.gdshader'
       - 'data/rolling_stock/parts_manifest.json'
       - 'tests/test_tram_parts*'
+      - 'tests/test_roof_junction.gd'
+      - 'tests/audit/roof_junction_shots.gd'
       - 'src/rendering/stock_hd.gd'
       - 'src/rendering/livery_painter.gd'
       - 'src/rendering/tram_model.gd'
@@ -71,6 +73,8 @@ jobs:
           ! grep -Eq '^ECHEC|SCRIPT ERROR|TOTAL_ECHECS\|[1-9]' build/stock-hd/rig.log
           ./Godot_v4.6.3-stable_linux.x86_64 --headless --path . -s tests/test_stock_catalog.gd > build/stock-hd/catalog.log 2>&1
           ! grep -Eq '^ECHEC|SCRIPT ERROR|TOTAL_ECHECS\|[1-9]' build/stock-hd/catalog.log
+          ./Godot_v4.6.3-stable_linux.x86_64 --headless --path . -s tests/test_roof_junction.gd > build/stock-hd/roof-junction.log 2>&1
+          ! grep -Eq '^ECHEC|SCRIPT ERROR|TOTAL_ECHECS\|[1-9]' build/stock-hd/roof-junction.log
       - name: Family catalogue and saved paint schemes
         run: |
           mkdir -p .cache/livery
@@ -86,6 +90,8 @@ jobs:
           xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/stock_hd_shots.gd -- build/stock-hd/pc > build/stock-hd/captures-pc.log 2>&1
           xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/stock_hd_shots.gd -- build/stock-hd/mobile mobile > build/stock-hd/captures-mobile.log 2>&1
           ! grep -Eq 'SCRIPT ERROR|^ERROR:' build/stock-hd/captures-*.log
+          xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/roof_junction_shots.gd -- build/stock-hd/roof > build/stock-hd/roof-captures.log 2>&1
+          ! grep -Eq 'SCRIPT ERROR|^ERROR:' build/stock-hd/roof-captures.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:

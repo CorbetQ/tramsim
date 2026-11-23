@@ -529,11 +529,9 @@ class Citadis:
         B.box((0, 0.75, tip - dirz * 1.7), (0.5, 0.12, 0.5), "int_dark")
         B.box((0, 1.15, tip - dirz * 1.98), (0.5, 0.7, 0.1), "int_dark")
         B.box((0, (t.floor + 2.45) / 2, zb + dirz * 0.025), (2 * (t.hw - WALL), 2.45 - t.floor, 0.05), "int_wall")
-        x = t.hw - WALL
-        B.quad((-x, t.floor, tip - dirz * 0.6), (x, t.floor, tip - dirz * 0.6), (x, t.floor, zb), (-x, t.floor, zb), "int_dark")
+        B.fan(t.cab_horizontal_ring(t.floor,zj,dirz,zb), "int_dark", normal=(0,1,0))
         ycl = 2.45
-        B.quad((-x, ycl, zb), (x, ycl, zb), (x, ycl, tip - dirz * 0.5), (-x, ycl, tip - dirz * 0.5), "int_ceiling") if dirz < 0 else \
-            B.quad((x, ycl, zb), (-x, ycl, zb), (-x, ycl, tip - dirz * 0.5), (x, ycl, tip - dirz * 0.5), "int_ceiling")
+        B.fan(t.cab_horizontal_ring(ycl,zj,dirz,zb), "int_ceiling", normal=(0,-1,0))
         B.use(mod)
 
     # ================================================================== portes
@@ -629,8 +627,11 @@ class Citadis:
                         B.fan(ring, "paint_base", normal=np.array([0, 0, dd], float))
         covered = t.spec["front_style"] in ("x05", "x05_nantes") and not has_panto
         if covered:
-            z0 = (m["zs"] + t.Lf * 0.45) if m["front_cab"] else m["zA"] + 0.30
-            z1 = (m["ze"] - t.Lf * 0.45) if m["rear_cab"] else m["zB"] - 0.30
+            # The nose retreats to zA/zB at roof height. Starting a raised cover
+            # at 0.45*Lf left it floating over the windshield with visible sky
+            # underneath. Land its tapered rim on the actual body roof instead.
+            z0 = m["zA"] if m["front_cab"] else m["zA"] + 0.30
+            z1 = m["zB"] if m["rear_cab"] else m["zB"] - 0.30
             self.roof_cover(z0, z1, 1.80, 0.30, m["front_cab"], m["rear_cab"])
         for r in m["roof"]:
             w, hh, l = r["size"]; zc = r["zg"]; typ = r["type"]
@@ -690,6 +691,14 @@ class Citadis:
     def fairing(self, m, zc, w, hh, l):
         """Carénage de bout de toit (cabine) : coque arrondie qui prolonge la face."""
         t, B, q = self.t, self.B, self.q
+        if m["front_cab"] or m["rear_cab"]:
+            # Same support rule for the 302's separate nose fairing. The old
+            # rising profile ended in an open arch in front of the body roof.
+            width = min(w, 2 * float(t.prof_x(t.h)) - 0.04)
+            length = min(l, m["zB"] - m["zA"] - 0.04)
+            start = m["zA"] if m["front_cab"] else m["zB"] - length
+            self.roof_cover(start, start + length, width, hh, m["front_cab"], m["rear_cab"])
+            return
         h = t.h
         front = zc < 0
         d = -1 if front else 1

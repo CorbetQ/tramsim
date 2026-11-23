@@ -82,8 +82,8 @@
         "lod3": "res://tram_parts/extremites/nantes_x05/end_a_lod3.glb"
       },
       "triangles": {
-        "lod0": 27105,
-        "lod1": 9925,
+        "lod0": 27159,
+        "lod1": 9979,
         "lod1_m": 3558,
         "lod2": 1174,
         "lod3": 269
@@ -268,8 +268,8 @@
         "lod3": "res://tram_parts/extremites/nantes_x05/end_b_lod3.glb"
       },
       "triangles": {
-        "lod0": 24417,
-        "lod1": 9081,
+        "lod0": 24471,
+        "lod1": 9135,
         "lod1_m": 3282,
         "lod2": 1106,
         "lod3": 257
@@ -315,7 +315,7 @@
       "roof_shoulder_m": 0.25,
       "tumblehome_m": 0.0
     },
-    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)",
+    "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
       "length_m": 1.4,
       "plan": [
@@ -421,11 +421,76 @@
       "research:power_kw",
       "research:modules"
     ],
-    "notes": "Version nantaise (RCP Design Global) : 45,6 m, bogies d'extrémité sous la loge de conduite (comme les Citadis 403 de Strasbourg), 8 portes doubles par côté (16 au total), accessibles PMR."
+    "notes": "Version nantaise (RCP Design Global) : 45,6 m, bogies d'extr\u00e9mit\u00e9 sous la loge de conduite (comme les Citadis 403 de Strasbourg), 8 portes doubles par c\u00f4t\u00e9 (16 au total), accessibles PMR."
   },
   "cab": {
     "cab": "res://tram_parts/extremites/nantes_x05/cab.glb",
     "cab_m": "res://tram_parts/extremites/nantes_x05/cab_m.glb"
+  },
+  "nose_profile": {
+    "style": "x05_nantes",
+    "p": 4.4,
+    "theta_w": 0.64,
+    "D": [
+      [
+        0.25,
+        0.85
+      ],
+      [
+        0.4,
+        0.97
+      ],
+      [
+        0.8,
+        1.0
+      ],
+      [
+        1.2,
+        0.99
+      ],
+      [
+        1.9,
+        0.93
+      ],
+      [
+        2.4,
+        0.87
+      ],
+      [
+        2.85,
+        0.82
+      ],
+      [
+        3.06,
+        0.75
+      ],
+      [
+        3.22,
+        0.47
+      ],
+      [
+        3.3,
+        0.0
+      ]
+    ],
+    "windshield": {
+      "bottom_m": 1.25,
+      "top_m": 3.0,
+      "lower_curve_m": 0.025,
+      "upper_curve_m": 0.16
+    },
+    "recognition": [
+      "grand rectangle vitr\u00e9 arrondi",
+      "joues blanches",
+      "panneau noir alv\u00e9ol\u00e9 large",
+      "tablier vert",
+      "couronne verte incurv\u00e9e",
+      "essuie-glace \u00e0 droite vu de face"
+    ],
+    "references": [
+      "docs/rolling-stock-meshy/reference-nantes405-face.jpg",
+      "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_X05_-_405.jpg"
+    ]
   },
   "master_lengths": [
     9.600000000000001,

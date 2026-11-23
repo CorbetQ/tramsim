@@ -8,9 +8,9 @@ Les six configurations X05 en trois quarts ont été présentées avant le commi
 
 - 80 variantes du catalogue, représentant 418 emplacements de caisse.
 - 60 kits de design, dont trois HD et 57 issus des modèles natifs existants.
-- 290 fichiers de modèles partagés, cabines et équipements compris : 20 674 984 octets.
-- 503 textures référencées : 1 999 054 octets, hors sources HD complètes conservées.
-- Audits binaires et chemins : zéro erreur ; 10 tests Python d’assets réussis.
+- 290 fichiers de modèles partagés, cabines et équipements compris : 20 763 076 octets.
+- 533 textures référencées : 20 163 068 octets, hors sources HD complètes conservées.
+- Audits binaires et chemins : zéro erreur ; 11 tests Python d’assets réussis.
 
 Les dimensions 205/305/405 sont des paramètres. Pour chaque réseau, le test compare le chemin réel
 du modèle d’extrémité : c’est le même fichier dans les trois configurations. Les fichiers géométriques
@@ -79,3 +79,27 @@ Le workflow `stock-hd-pbr` exécute les audits Python, l’import Godot, les tes
 caisses, éditeur, passager et les captures PC/Mobile. Les générations Blender ne sont pas exécutées
 à chaque commit. L’override d’import PC est limité au poste de validation ; les paramètres Android
 de `project.godot` sont conservés. Livraison par commit sur la branche, sans nouvelle pull request.
+
+## Correctif complémentaire : jonction toit / face avant
+
+La capture signalée montrait un carénage démarrant avant le pavillon porteur : le nez
+se retirait en arrière à cette hauteur, laissant une coque supérieure suspendue et un jour visible.
+Le 302 avait aussi un carénage séparé ouvert vers l’avant. Les deux types de carénage
+reposent désormais sur le pavillon, avec une extrémité effilée qui rejoint la carrosserie.
+Les plafonds/planchers de cabine sont découpés suivant le contour du nez, ce qui empêche
+leurs coins rectangulaires de sortir du pare-brise. Aucun cache noir n’a été ajouté sur le défaut.
+
+`test_roof_junction.gd` inspecte les sommets des modèles effectivement importés : deux
+extrémités, quatre LOD, PC/Mobile, six X05 et 302 Irigo. Il vérifie aussi que les volumes de
+cabine restent dans leur coque arrondie : **210 assertions, zéro échec**. Avant correction,
+le contrôle du toit détectait 40 cas défaillants. Les tests HD, faces et caisses ont été rejoués
+avec succès après génération. Les kits natifs sont préservés par `build_kits.py --hd-only`.
+
+L’inventaire compte maintenant également les textures techniques et intérieures liées dans
+les GLB, précédemment absentes du total affiché : le total de 20,16 Mo concerne les fichiers
+référencés de tous les profils, pas la mémoire GPU chargée simultanément.
+
+Captures avec caméra identique : [avant](captures/roof-before-pc-front.png),
+[après PC](captures/roof-after-pc-front.png), [arrière PC](captures/roof-after-pc-rear.png),
+[après Mobile](captures/roof-after-mobile-front.png). Les anciennes vues restent archivées
+explicitement comme « avant » ; la planche des six configurations X05 est actualisée.
