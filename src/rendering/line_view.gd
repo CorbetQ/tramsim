@@ -39,6 +39,13 @@ const TOP_MAX := 900.0
 var _top_fwd := Vector3.ZERO
 var _tram_len := 0.0
 var _rig_fresh := false
+# --- rames HD / cabine (P2) : état piloté par main.gd
+var cab_data: Dictionary = {}       # écrans et voyants de la cabine (vitesse, cran, prochain arrêt, signal…)
+var rain := 0.0                     # pluie (WeatherState) : essuie-glace automatique
+var wiper_forced := false
+var headlights_full := false
+var mirrors_folded := false
+var hd_lod := -1                    # LOD HD de la rame du joueur (-1 : vue cabine / pas de HD)
 
 func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile = null, prepared_city: CityScene = null) -> void:
 	net = network
@@ -699,11 +706,12 @@ func update_from(s: MissionSession, external: bool) -> void:
 		if underground:
 			var offset_ := clampf(s.offset + float(s.direction) * (i - 1) * 18.0, 0.0, net.graph.edges[s.edge_id].length)
 			tunnel_lights[i].position = pos3(s.edge_id, offset_) + Vector3(0, 4.3, 0)
-	headlight.visible = underground or day_night.night > 0.35
+	headlight.visible = underground or day_night.night > 0.35 or headlights_full
 	if underground:
 		day_night.env.ambient_light_energy = 0.32
 		day_night.env.fog_density = 0.003
-	tram.visible = external
+	var hd_cab := _update_hd(s, external, underground)
+	tram.visible = external or hd_cab
 	if has_meta("intro_camera"): pass   # IntroCamera active : la caméra de jeu reste sur sa pose d'arrivée
 	elif external and top_view:   # vue du dessus : cap lissé, nez de la rame vers le haut de l'écran
 		var dtt := get_process_delta_time()
@@ -724,6 +732,8 @@ func update_from(s: MissionSession, external: bool) -> void:
 		elif city: cam.position = city.avoid_camera(target, cam.position)
 		if not underground: cam.position = _clear_of_tram(cam.position)
 		cam.look_at(target)
+	elif hd_cab:  # cabine HD : point d'attache conducteur du modèle (pare-brise et pupitre visibles)
+		cam.global_transform = rig.hd.cab.camera_transform()
 	else:  # vue cabine : cap lissé (filtre exponentiel ~0,1 s), recalé sur un saut de cap > 60°
 		var dtc := get_process_delta_time()
 		if _cab_fwd == Vector3.ZERO or _cab_fwd.dot(fwd) < 0.5 or dtc <= 0.0: _cab_fwd = fwd.normalized()
@@ -738,6 +748,43 @@ func update_from(s: MissionSession, external: bool) -> void:
 	if s.ai != null: ai_view.sync(self, s.ai, front.origin, get_process_delta_time())
 	for i in signal_nodes.size():
 		_set_lamp(signal_nodes[i], Color(0.1, 0.9, 0.3) if s.signal_state[i] == "clear" else Color(0.95, 0.1, 0.1))
+
+## Rame HD du joueur : LOD (distance caméra, LOD0 en vue cabine), cabine, émissifs, essuie-glace, girouette.
+## Retourne vrai quand la cabine HD fournit la vue conducteur.
+func _update_hd(s: MissionSession, external: bool, underground: bool) -> bool:
+	if rig == null or rig.hd == null: hd_lod = -1; return false
+	var hd = rig.hd
+	var cab_on := not external and hd.ensure_cab(rig) != null
+	var dt := get_process_delta_time()
+	if cab_on: hd_lod = -1
+	else:
+		var centre: Vector3 = modules[modules.size() / 2].global_position if not modules.is_empty() else Vector3.ZERO
+		hd_lod = StockHD.lod_for(cam.global_position.distance_to(centre), hd_lod)
+	hd.set_lod(hd_lod)
+	hd.set_cab_visible(cab_on)
+	var night: float = day_night.night
+	var dest := str(livery.get("destination", ""))
+	if not s.stops.is_empty(): dest = str(s.stops[s.stops.size() - 1].get("name", dest))
+	hd.update({"headlights": 1.0 if (headlights_full or underground or night > 0.35) else 0.45, "interior": underground or night > 0.3,
+		"wiper": wiper_forced or rain > 0.15, "mirrors_folded": mirrors_folded, "destination": dest}, dt)
+	if hd.cab != null and cab_on:
+		var d := cab_data.duplicate()
+		d["toggles"] = {"pantograph": s.pantograph_up, "headlights": headlights_full, "wiper": wiper_forced or rain > 0.15,
+			"mirrors": mirrors_folded, "reverser": s.direction < 0}
+		hd.cab.update(d, dt)
+	return cab_on
+
+## Commande de cabine HD sous un point d'écran ({} : aucune).
+func cab_pick(screen_pos: Vector2) -> Dictionary:
+	if rig == null or rig.hd == null or rig.hd.cab == null: return {}
+	return rig.hd.cab.pick(cam, screen_pos)
+
+## Retour visuel d'une action sur la commande correspondante de la cabine HD.
+func cab_pulse(action: String) -> void:
+	if rig != null and rig.hd != null and rig.hd.cab != null: rig.hd.cab.pulse(action)
+
+func has_hd_cab() -> bool:
+	return rig != null and rig.hd != null and rig.hd.cab != null and rig.hd.cab.visible
 
 ## La caméra extérieure ne pénètre jamais la rame (caisses = boîtes orientées, marge 0,8 m) : elle passe au-dessus.
 func _clear_of_tram(p: Vector3) -> Vector3:

@@ -10,6 +10,8 @@ const KEYS := [
 	["P", "Alimentation LAC / APS (à l’arrêt)"], ["C", "Caméra cabine / extérieure"], ["M", "Plan du réseau"],
 	["A", "Plan du réseau"], ["Tab", "Aiguillage suivant (panneau ouvert)"], ["1 – 3", "Choisir la branche"],
 	["V", "Changer de sens (mode libre)"], ["L", "Pilote automatique (mode libre)"], ["R", "Remise sur voie (mode libre)"], ["T", "Trafic automobile (mode libre)"],
+	["B", "Sablage"], ["H", "Phares (pleins feux / auto)"], ["E", "Essuie-glace (marche / auto pluie)"], ["N", "Rétroviseurs"],
+	["I", "HUD minimal en cabine"], ["Clic / toucher", "Commandes du pupitre (cabine HD)"],
 	["Échap", "Pause / fermer"], ["F1", "Cette aide"], ["F11", "Plein écran"], ["Molette / pincer", "Zoom caméra"],
 	["Glisser", "Tourner autour de la rame"]]
 const KEYS_HELP := "F1 : aide clavier · Z/S traction-freinage · Espace urgence · O portes · A aiguillages · Échap pause"
@@ -1162,7 +1164,7 @@ func _build_hud() -> void:
 		signal_panel.offset_top = 14 + safe.y + (64 if compact else 74)
 		add_child(signal_panel)
 	# --- alertes (bandeau central) et notifications
-	var mid := VBoxContainer.new(); mid.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP); mid.offset_top = 92
+	var mid := VBoxContainer.new(); mid.name = "alerts"; mid.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP); mid.offset_top = 92
 	mid.grow_horizontal = Control.GROW_DIRECTION_BOTH; mid.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	mid.add_theme_constant_override("separation", 8); add_child(mid)
 	_alert_box = PanelContainer.new(); _alert_box.add_theme_stylebox_override("panel", UiTheme.box(Color(UiTheme.DANGER, 0.9), 22, 18))
@@ -1278,8 +1280,9 @@ func _build_cam_hud(safe: Vector4) -> void:
 ## Interface masquée en conduite automatique (PC et mobile).
 func _apply_auto_ui() -> void:
 	var auto := autopilot.enabled
+	var minimal := not external_cam and bool(save.settings.get("cab_hud_min", false))
 	for c in get_children():
-		if c.is_in_group("driving_hud"): (c as CanvasItem).visible = not auto
+		if c.is_in_group("driving_hud"): (c as CanvasItem).visible = not auto and (not minimal or c.name == "alerts")
 	if not is_instance_valid(cam_hud): return
 	var top: bool = view != null and view.top_view and external_cam
 	for n in ["quit_auto", "auto_camera"]: (cam_hud.get_node(n) as Control).visible = auto
@@ -1327,7 +1330,7 @@ func _manual() -> void:
 	if autopilot.enabled: _set_autopilot(false, "Conduite manuelle : pilote automatique coupé")
 
 func _toggle_autopilot() -> void:
-	_set_autopilot(not autopilot.enabled)
+	view.cab_pulse("autopilot"); _set_autopilot(not autopilot.enabled)
 
 func _set_autopilot(on: bool, why: String = "") -> void:
 	if on and (free == null or free.incident != ""):
@@ -1342,6 +1345,7 @@ func _set_autopilot(on: bool, why: String = "") -> void:
 		autopilot_button.add_theme_stylebox_override("normal", UiTheme.box(Color(UiTheme.ACCENT_DARK, 0.92) if on else Color(UiTheme.SURFACE, 0.82), 14, 8, UiTheme.ACCENT if on else UiTheme.BORDER, 2 if on else 1))
 
 func _doors() -> void:
+	view.cab_pulse("doors")
 	if autopilot.enabled and autopilot.state != "dwell": _manual()
 	var was := session.doors_open
 	session.set_doors(not session.doors_open)
@@ -1349,7 +1353,40 @@ func _doors() -> void:
 		_log("Ouverture refusée : rame en mouvement", "warn")
 
 func _horn() -> void:
-	bell.play(); _log("Ding ding !", "info", "bell")
+	view.cab_pulse("horn"); bell.play(); _log("Ding ding !", "info", "bell")
+
+## Commande de conduite (CabActions) depuis le clavier, le HUD ou un clic/toucher sur un ctl_* de la cabine HD.
+## `dir` : sens du manipulateur (+1 traction, -1 freinage) pour un clic sur `ctl_notch`.
+func cab_action(action: String, dir: int = 1) -> void:
+	if session == null: return
+	match action:
+		"notch": _manual(); _set_notch(notch + 0.25 * dir)
+		"emergency": _manual(); _emergency()
+		"doors": _doors()
+		"horn": _horn()
+		"pantograph": _power_picker()
+		"reverser": _reverse()
+		"autopilot": _toggle_autopilot()
+		"sand":
+			view.cab_pulse("sand")
+			var on := not session.phys.sanding
+			if session.set_sanding(on): _log("Sablage " + ("actif" if on else "coupé"), "info", "sand")
+			else: _log("Réserve de sable épuisée", "warn", "sand")
+		"headlights":
+			view.headlights_full = not view.headlights_full; view.cab_pulse("headlights")
+			_log("Phares : " + ("pleins feux" if view.headlights_full else "automatiques"), "info", "headlights")
+		"wiper":
+			view.wiper_forced = not view.wiper_forced; view.cab_pulse("wiper")
+			_log("Essuie-glace : " + ("marche" if view.wiper_forced else "automatique (pluie)"), "info", "wiper")
+		"mirrors":
+			view.mirrors_folded = not view.mirrors_folded; view.cab_pulse("mirrors")
+			_log("Rétroviseurs " + ("rabattus" if view.mirrors_folded else "déployés"), "info", "mirrors")
+
+## HUD minimal en vue cabine (touche I) : seuls les alertes et notifications restent affichées.
+func _toggle_cab_hud() -> void:
+	save.settings["cab_hud_min"] = not bool(save.settings.get("cab_hud_min", false))
+	_apply_auto_ui()
+	_log("HUD " + ("minimal en cabine" if save.settings.cab_hud_min else "complet"), "info", "camera")
 
 ## Cycle caméra : extérieure -> cabine -> vue du dessus -> extérieure.
 func _camera() -> void:
@@ -1360,6 +1397,7 @@ func _camera() -> void:
 	_log("Caméra " + ("cabine" if not external_cam else ("vue du dessus (molette / pincer / ± pour zoomer)" if view.top_view else "extérieure")), "info", "camera")
 
 func _power_picker() -> void:
+	view.cab_pulse("pantograph")
 	if session.phys.speed >= 0.1:
 		_log("Arrêtez la rame avant de changer d’alimentation", "warn"); return
 	var choice := TouchChoice.new(); choice.choice_title = "Alimentation"
@@ -1374,9 +1412,10 @@ func _power_picker() -> void:
 	if is_instance_valid(choice.popup): choice.popup.tree_exited.connect(func(): choice.queue_free())
 
 func _emergency() -> void:
-	emergency = true; _set_notch(-1.0); _log("Freinage d'urgence", "danger", "emergency")
+	view.cab_pulse("emergency"); emergency = true; _set_notch(-1.0); _log("Freinage d'urgence", "danger", "emergency")
 
 func _reverse() -> void:  # changement de cabine : même voie, sens de marche inversé
+	view.cab_pulse("reverser")
 	if free:
 		var err := free.reverse()
 		_log(err if err != "" else ("Changement de cabine : " + ("cabine avant" if free.direction > 0 else "cabine arrière")), "warn" if err != "" else "info", "reverse")
@@ -1545,6 +1584,11 @@ func _unhandled_input(ev: InputEvent) -> void:
 	if intro != null: return
 	if view == null or paused or plan_panel != null or help_layer != null: return
 	if (ev is InputEventMouseButton or ev is InputEventMouseMotion) and ev.device == -1: return
+	if not external_cam and ((ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT) or (ev is InputEventScreenTouch and ev.pressed)):
+		var hit := view.cab_pick(ev.position)
+		if not hit.is_empty():
+			cab_action(str(hit.action), 1 if bool(hit.get("up", true)) else -1)
+			get_viewport().set_input_as_handled(); return
 	if ev is InputEventScreenTouch or ev is InputEventScreenDrag:
 		var action := camera_gestures.feed(ev)
 		if action.has("zoom"): _zoom(float(action.zoom))
@@ -1600,6 +1644,11 @@ func _input(ev: InputEvent) -> void:
 		KEY_T: _traffic()
 		KEY_W, KEY_Z, KEY_UP: _manual(); _set_notch(notch + 0.25)
 		KEY_S, KEY_DOWN: _manual(); _set_notch(notch - 0.25)
+		KEY_B: cab_action("sand")
+		KEY_H: cab_action("headlights")
+		KEY_E: cab_action("wiper")
+		KEY_N: cab_action("mirrors")
+		KEY_I: _toggle_cab_hud()
 		_: return
 	get_viewport().set_input_as_handled()
 
@@ -1624,6 +1673,8 @@ func _process(dt: float) -> void:
 		session.tick(minf(dt, 0.1), notch, emergency)
 		if emergency and session.phys.speed < 0.05: emergency = false
 	view.set_hour(current_hour())
+	if not external_cam: _feed_cab()
+	view.rain = weather.rain
 	view.update_from(session, external_cam)
 	if is_instance_valid(weather_view):weather_view.apply(weather,view,NetworkLoader.in_spans(net.edge_info[session.edge_id].tunnel,session.offset))
 	if is_instance_valid(tram_audio): tram_audio.update(session, notch, emergency, external_cam, paused, dt)
@@ -1704,6 +1755,26 @@ func _process(dt: float) -> void:
 		SaveGame.add_result(save, net_path, vehicle.id, d)
 		_save_profile()
 		_show_debrief(d)
+
+## Écrans et voyants de la cabine HD (vitesse, cran, prochain arrêt, signal).
+func _cab_dist(st: Dictionary) -> float:
+	var d := session.station_distance(st) if not st.is_empty() else -1.0
+	return d if is_finite(d) and d < 2999.0 else -1.0
+
+var _cab_signal: Array = ["—", Color(0.1, 0.9, 0.3)]
+func _feed_cab() -> void:
+	var st := _next_stop()
+	if Engine.get_process_frames() % 10 == 0:
+		var sg: Dictionary = SignalPanel.compute(session, 1200.0).get("signal", {})
+		if sg.is_empty(): _cab_signal = ["Voie libre", Color(0.1, 0.9, 0.3)]
+		else:
+			var stop := str(sg.aspect) == "stop"
+			_cab_signal = ["%s · %s" % ["ARRÊT" if stop else "Voie libre", SignalPanel.fmt_m(float(sg.distance))], Color(0.95, 0.1, 0.1) if stop else Color(0.1, 0.9, 0.3)]
+	view.cab_data = {"notch": notch, "speed_kmh": session.phys.speed * 3.6, "limit_kmh": session.speed_limit() * 3.6,
+		"next_stop": str(st.get("name", "—")), "distance_m": _cab_dist(st),
+		"signal": _cab_signal[0], "signal_color": _cab_signal[1],
+		"lamps": {"doors": session.doors_open, "panto": session.pantograph_up, "power": session.power_ok, "emergency": emergency,
+			"sand": session.phys.sanding, "headlights": view.headlights_full}}
 
 func _show_debrief(d: Dictionary) -> void:
 	var names := ["à l'heure", "départ anticipé", "retard > 60 s", "arrêt oublié"]

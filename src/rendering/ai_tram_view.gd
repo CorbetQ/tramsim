@@ -42,8 +42,24 @@ func _livery(view: LineView, line: String) -> Dictionary:
 	_liveries[line] = liv
 	return liv
 
+## LOD HD des rames IA : un cran plus bas en Mobile, et au plus StockHD.MOBILE_MAX_LOD0 rames en LOD0
+## (rame du joueur comprise). Retourne le LOD retenu.
+var hd_lods: Dictionary = {}
+func _hd_lod(view: LineView, id: String, rig: TramModel.Rig, lod0_used: Array, dt: float) -> int:
+	if rig.hd == null: return -1
+	var centre: Vector3 = rig.modules[rig.modules.size() / 2].global_position
+	var l := StockHD.lod_for(view.cam.global_position.distance_to(centre), int(hd_lods.get(id, -1)), true)
+	if l == 0 and StockHD.mobile() and lod0_used[0] >= StockHD.MOBILE_MAX_LOD0: l = 1
+	if l == 0: lod0_used[0] += 1
+	hd_lods[id] = l
+	rig.hd.set_lod(l)
+	rig.hd.update({"headlights": 1.0 if view.day_night.night > 0.35 else 0.45, "interior": view.day_night.night > 0.3,
+		"wiper": view.rain > 0.15, "destination": str(rig.hd.livery.get("destination", ""))}, 0.0 if l > 1 else dt)
+	return l
+
 func sync(view: LineView, ai: AiTrams, center: Vector3, dt: float) -> void:
 	var alive := {}
+	var lod0_used := [1 if view.hd_lod == 0 or (view.hd_lod == -1 and view.rig != null and view.rig.hd != null) else 0]
 	for t in ai.trams:
 		alive[t.train_id] = true
 		var p := view.pos3(t.edge_id, t.offset)
@@ -86,6 +102,7 @@ func sync(view: LineView, ai: AiTrams, center: Vector3, dt: float) -> void:
 		if t.direction < 0 and side != "both": side = "left" if side == "right" else "right"
 		rig.set_doors(t.doors_open, side)
 		rig.update(dt)
+		_hd_lod(view, t.train_id, rig, lod0_used, dt)
 	for id in roots.keys():
 		if not alive.has(id):
 			(roots[id] as Node3D).queue_free(); roots.erase(id); rigs.erase(id)

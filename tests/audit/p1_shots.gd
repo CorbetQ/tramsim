@@ -10,6 +10,10 @@ extends SceneTree
 var out := "."
 var suffix := ""
 var mobile := false
+## Option « x05 » (P2) : rames Citadis X05 (Angers / Nantes) au lieu du matériel par défaut de la ligne,
+## pour les cadrages cabine HD (docs/refonte-visuelle/stock_manifest.md).
+var x05 := false
+const X05 := {"angers": "angers__citadis_x05", "nantes": "nantes__citadis_x05_nantes"}
 
 func _init() -> void:
 	_run.call_deferred()
@@ -21,6 +25,7 @@ func _start(net_id: String):
 	main.net_path = "res://data/networks/%s.json" % net_id; main.free_mode = false
 	var net := NetworkLoader.new(); net.load_file(main.net_path)
 	main.vehicle = VehicleLibrary.default_for(net.meta); main.mission = net.missions()[0]
+	if x05: main.vehicle = VehicleLibrary.for_fleet(StockCatalog.find(X05[net_id.get_slice("_", 0)]), net.meta)
 	main._start(); main.paused = true
 	for c in main.get_children():
 		if c is Control or c is CanvasLayer: c.visible = false
@@ -56,7 +61,8 @@ func _run() -> void:
 	var a := OS.get_cmdline_user_args()
 	if a.size() > 0: out = a[0]
 	if a.size() > 1: suffix = a[1]
-	mobile = a.size() > 2 and a[2] == "mobile"
+	mobile = "mobile" in a.slice(2)
+	x05 = "x05" in a.slice(2)
 	if mobile: DayNight.low_quality = true
 	DirAccess.make_dir_recursive_absolute(out)
 	root.size = Vector2i(1280, 720)

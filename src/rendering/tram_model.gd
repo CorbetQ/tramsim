@@ -172,6 +172,7 @@ static func build_rig(livery: Dictionary, length_m: float = -1.0, passenger_shel
 	var bld := _Body.new(p, _variant(livery), L)
 	var rig := bld.make_rig()
 	CitadisMeshy.apply_exterior(rig,livery)
+	if not passenger_shell: StockHD.apply(rig, livery)   # rames HD (P2) : remplace l'habillage si la variante est complète
 	return rig
 
 ## Compatibilité : modules seuls (sans animation).
@@ -275,6 +276,7 @@ class Rig:
 	var door_left := false
 	var panto_t := 1.0
 	var panto_transition_s := 0.0
+	var hd = null                   # StockHD.HD : habillage HD piloté par cet état (null : modèle actuel)
 
 	## Ouvre les portes du côté quai : "right", "left" ou "both" (droite/gauche dans le sens de marche,
 	## nez avant vers -z) ; seules ces portes s'ouvrent. `open` = false referme toutes les portes.
@@ -319,6 +321,7 @@ class Rig:
 			modules[i].position = Vector3(0, 0, -length * 0.5 + module_starts[i] + module_lengths[i] * 0.5)
 
 	func _apply() -> void:
+		if hd != null: hd.animate(self)
 		var typ := str(door_cfg.get("type", "plug"))
 		var out_m := float(door_cfg.get("out_m", 0.06))
 		for lf in leaves:

@@ -51,7 +51,13 @@ func _shot(name: String, day: bool) -> void:
 	name = pass_name + name
 	if out != "": img.save_png("%s/%s.png" % [out, name])
 	var h := histogram(img)
-	print("BUDGET|%s|draws=%d|tris=%d|noir=%.2f%%|sature=%.2f%%|luma=%.2f" % [name, draws, tris, h.black * 100.0, h.saturated * 100.0, h.luma])
+	var ai_n := 0; var hd_n := 0
+	if main.view.ai_view != null:
+		for id in main.view.ai_view.roots:
+			if (main.view.ai_view.roots[id] as Node3D).visible: ai_n += 1
+		for id in main.view.ai_view.rigs:
+			if main.view.ai_view.rigs[id].hd != null: hd_n += 1
+	print("BUDGET|%s|draws=%d|tris=%d|noir=%.2f%%|sature=%.2f%%|luma=%.2f|ia_visibles=%d|ia_hd=%d|hd_lod=%d" % [name, draws, tris, h.black * 100.0, h.saturated * 100.0, h.luma, ai_n, hd_n, main.view.hd_lod])
 	check(draws > 0 and draws <= int(budget.draw_calls_max), "%s : %d draw calls ≤ %d" % [name, draws, int(budget.draw_calls_max)])
 	check(tris > 0 and tris <= int(budget.visible_tris_max), "%s : %d triangles ≤ %d" % [name, tris, int(budget.visible_tris_max)])
 	var mob: Dictionary = budgets.profiles.mobile
@@ -119,6 +125,27 @@ func _pass(mobile: bool) -> void:
 	await process_frame
 	if cs: cs.warm(main.view.cam.global_position)
 	await _shot("dense_ext", true)
+	# rames IA visibles (P2) : 4 rames garées devant la rame du joueur, LOD HD des rames IA (Mobile : un cran
+	# plus bas, au plus 3 rames en LOD0) ; même contenu, budget inchangé.
+	var extra: Array = []
+	var lod0 := [1 if main.view.hd_lod == 0 else 0]
+	for k in 4:
+		var rig := TramModel.build_rig(main.view.livery)
+		var holder := Node3D.new(); main.view.add_child(holder); extra.append(holder)
+		for m in rig.modules: holder.add_child(m)
+		rig.layout_straight()
+		var f0: Transform3D = main.view._frame(main.session.edge_id, main.session.offset)
+		var fwd := -f0.basis.z * float(main.session.direction)
+		var f := Transform3D(f0.basis, f0.origin + fwd * (22.0 + 40.0 * k) + f0.basis.x * (3.3 if k % 2 == 0 else -3.3))
+		holder.global_transform = f
+		if rig.hd != null:
+			var l := StockHD.lod_for(main.view.cam.global_position.distance_to(f.origin), -1, true)
+			if l == 0 and StockHD.mobile() and lod0[0] >= StockHD.MOBILE_MAX_LOD0: l = 1
+			if l == 0: lod0[0] += 1
+			rig.hd.set_lod(l); rig.hd.update({"headlights": 0.45}, 0.0)
+	await _shot("dense_ia", true)
+	print("BUDGET|dense_ia|lod0=%d" % lod0[0])
+	for h in extra: h.queue_free()
 	main.external_cam = false
 	await _shot("dense_cab", true)
 	main.external_cam = true
