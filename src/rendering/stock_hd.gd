@@ -219,7 +219,9 @@ static func material_for(src: Material, livery: Dictionary, glass_alpha := -1.0)
 	var key := "%d|%s|%s" % [src.get_instance_id(), str(livery.get("variant_id", "")) + str(livery.get("base", "")), glass_alpha]
 	if _mats.has(key): return _mats[key]
 	var m := (src as BaseMaterial3D).duplicate() as BaseMaterial3D
-	m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	# LOD atlases also contain constant-UV colour swatches. Anisotropic sampling
+	# of their zero derivatives produces black speckles on GLES/llvmpipe.
+	m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS if n.begins_with("livery") else BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	if n.begins_with("paint_") or n.begins_with("livery"):
 		var zone := n.trim_prefix("paint_")
 		if n.begins_with("paint_") and zone in PAINT_ZONES and livery.has(zone):
@@ -342,6 +344,10 @@ class HD:
 				if cat.begins_with("tail"): col = Color(1, 0.08, 0.05)
 				elif cat.begins_with("dest"): col = Color(0.08, 0.06, 0.04)
 				elif cat == "interior": col = Color(1, 0.95, 0.86)
+				elif cat.begins_with("drl"):
+					# Keep the modeller's signature colour (Naolib's green crown).
+					var source := (mi as MeshInstance3D).mesh.surface_get_material(0) as BaseMaterial3D
+					if source != null: col = source.emission
 				var m := StockHD.emissive(col)
 				(mi as MeshInstance3D).material_override = m
 				if not em.has(cat): em[cat] = []
@@ -388,6 +394,7 @@ class HD:
 		state = st
 		var head := float(st.get("headlights", 0.6))
 		_energy("head_A", 3.0 * head); _energy("head_B", 0.0)
+		_energy("drl_A", 2.0 * head); _energy("drl_B", 0.0)
 		_energy("tail_A", 0.0); _energy("tail_B", 2.0)
 		_energy("interior", 1.6 if bool(st.get("interior", false)) else 0.0)
 		_energy("dest_A", 1.0); _energy("dest_B", 1.0)

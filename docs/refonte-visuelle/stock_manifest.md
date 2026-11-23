@@ -36,6 +36,7 @@ assets/models/rolling_stock/
 | `mirror_<L\|R>` | 0–1 | rétroviseur/caméra extérieure, pivot = charnière, rotation Y de `mirror.fold_deg` quand rabattu. |
 | `em_head_<A\|B>` | 0–2 | phares (émissif blanc) — allumés à l'extrémité active. |
 | `em_tail_<A\|B>` | 0–2 | feux arrière (émissif rouge) — allumés à l'extrémité opposée. |
+| `em_drl_<A\|B>` | 0–1 | signature lumineuse de face (ex. couronne verte Naolib), couleur émissive du modèle conservée, allumée à l'extrémité active. À conserver comme nœud séparé lors de la fusion des LOD. |
 | `em_interior` (préfixe) | 0–1 | plafonniers (émissif), allumés la nuit / en tunnel. Plusieurs nœuds `em_interior*` admis. |
 | `em_dest_<A\|B>` | 0–2 | fond de girouette (émissif). |
 | `sign_dest_<A\|B>` | 0–2 | **ancre** (Node3D vide) de la girouette : centre du texte, -Z local = normale sortante, largeur utile `sign.width_m`. Le code y pose le texte de destination de la mission. |

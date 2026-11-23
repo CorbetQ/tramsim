@@ -154,7 +154,7 @@ class Citadis:
         if q >= 1: self.simplify()
         return B
 
-    KEEP = ("module_", "door_", "panto_", "em_head", "em_tail", "em_dest", "sign_dest", "wiper_", "mirror_", "cab_proxy", "em_interior")
+    KEEP = ("module_", "door_", "panto_", "em_head", "em_tail", "em_dest", "em_drl", "sign_dest", "wiper_", "mirror_", "cab_proxy", "em_interior")
 
     def simplify(self):
         """LOD fusionnés : matériaux unis -> pastilles de l'atlas de livrée ; sous-nœuds statiques -> caisse."""

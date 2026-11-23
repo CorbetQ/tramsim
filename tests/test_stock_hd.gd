@@ -55,6 +55,9 @@ func run() -> void:
 			var mobile_cab: CabView = mobile_rig.hd.ensure_cab(mobile_rig)
 			check(mobile_cab != null and StockHD.triangles(mobile_cab.model) == int(real[vid].cab.mobile_tris), vid + " : cabine mobile réellement chargée")
 			check(not StockHD._scenes.has(StockHD.file_for(real[vid], "LOD0", false)) and not StockHD._scenes.has(StockHD.file_for(real[vid], "cab", false)), vid + " : gabarits PC inutilisés absents du cache mobile")
+			if vid == "nantes__citadis_x05_nantes":
+				mobile_rig.hd.update({"headlights": 0.5}, 0.0)
+				check(mobile_rig.hd.energy("drl_A") > 0.0 and mobile_rig.hd.energy("drl_B") == 0.0, "Naolib Mobile : couronne conservée comme nœud pilotable dans les LOD")
 		for m in mobile_rig.modules: m.free()
 	DayNight.low_quality = previous_low
 	# --- modèle de test minimal conforme au schéma
@@ -304,6 +307,10 @@ func _real_dynamic(vid: String) -> void:
 		rig.set_pantograph(false); for i in 60: rig.update(0.1)
 		check(up - (hd.pantos[0].head as Node3D).global_position.y > 0.5, "%s : pantographe baissé (archet %.2f m levé)" % [vid, up])
 	hd.update({"wiper": true, "destination": "Essai"}, 0.3)
+	if vid == "nantes__citadis_x05_nantes":
+		check(hd.energy("drl_A") > 0.0 and hd.energy("drl_B") == 0.0, "Naolib : couronne lumineuse de l'extrémité active allumée")
+		var drl := hd.em.drl_A[0] as StandardMaterial3D
+		check(drl.emission.g > drl.emission.r and drl.emission.g > drl.emission.b, "Naolib : teinte verte du modèle conservée pour la couronne")
 	check(hd.wipers.is_empty() or _moved((hd.wipers[0].node as Node3D).transform, hd.wipers[0].rest), vid + " : essuie-glace")
 	CabScreens.live_mirrors = true
 	var cab: CabView = hd.ensure_cab(rig)
