@@ -1,6 +1,7 @@
 name: stock-hd-pbr
 on:
   workflow_dispatch:
+  workflow_call:
   pull_request:
     paths:
       - 'assets/models/rolling_stock/**'

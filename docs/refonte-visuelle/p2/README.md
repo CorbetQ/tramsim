@@ -84,6 +84,9 @@ dossier, GLB tronqués et budgets de triangles/textures dépassés.
 
 Le workflow `stock-hd-pbr` exécute l'audit, les tests de corruption, l'import, les animations et les
 captures PC/Mobile ; il joint les résultats en artefact et ne publie pas de release.
+Avant son enregistrement sur la branche par défaut, il peut être appelé depuis le workflow
+existant : `gh workflow run citadis-meshy.yml --ref <branche>`. Ce lancement manuel vérifie à la
+fois le repli historique et l'intégration HD, sans fusion ni publication.
 
 ## Captures
 
