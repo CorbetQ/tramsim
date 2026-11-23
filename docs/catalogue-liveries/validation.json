@@ -6,7 +6,7 @@
   "variants": 80,
   "assembled_bodies": 418.0,
   "unique_model_files": 290,
-  "model_bytes": 20763076,
+  "model_bytes": 20756280,
   "texture_bytes": 20163068,
   "tests": {
     "parts": {
@@ -55,8 +55,8 @@
       "result": "TOTAL_ECHECS|0"
     },
     "roof_junction": {
-      "log": "roof-after-tests.log",
-      "assertions": 210,
+      "log": "roof-paint-tests.log",
+      "assertions": 258,
       "result": "TOTAL_ECHECS|0"
     }
   },
@@ -67,14 +67,14 @@
     "No new Meshy generation or paid credits."
   ],
   "captures": {
-    "citadis-x05-faces.png": "ff1904d074bc35a601a9e772b9afd25be367dee52ae50622b641556f791e9a52",
-    "citadis-x05-review.png": "5cc031ba7e365f8c7ab0c0cee545bc4a93bfded4fab0e4a8d8a39756ba13c452",
+    "citadis-x05-faces.png": "d16192985fc8daea76b2ab946022cd3a6158d90c32ccfdb2decc332d859167bb",
+    "citadis-x05-review.png": "15816114d29b884352c3a6760f2e9cbef25e2b53fc224e2effb16625965ffb2c",
     "driving-custom-fixture.png": "02f5b8e7bd937e93f1112f5c23988880b1c809c13dbb91d6eebee374a1f0051b",
     "editor-custom.png": "275178764f98fade978b3083613ba87823a9b287b6c31f24ddfd661fe02326d2",
-    "roof-after-mobile-front.png": "feeead876e5c8b9462f6ad21668b5403afef610ae7dcf54e65464553f98fb66e",
-    "roof-after-mobile-rear.png": "d067354c673cb15aa7e23613c101d380bcffe43744cbb84cbe67c7b858a7732a",
-    "roof-after-pc-front.png": "28a8e6ad322a9d67b2b7dd7ad1bbcab2df0d99ea395b3454f2c8565f17bac7b2",
-    "roof-after-pc-rear.png": "6aba230188a83e229c053987bd059760ea8b138b9d39f47deeac15e6944d22d2",
+    "roof-after-mobile-front.png": "beb34f5ccea9cb6b739f6cec73b19c7f27f3eb1a1d69465d13fd1d3213b446b8",
+    "roof-after-mobile-rear.png": "f0c8a0f635ead05a0f42a392ca1630ee13a8c6043ec81e65772d8e1d2f39e735",
+    "roof-after-pc-front.png": "698551bb140f50da8628166615ad5b64a871056cb1702c12fc3fad8d62bff1ea",
+    "roof-after-pc-rear.png": "a96110deaae0a849b587cdc2efc23c4ea6d7efc1d0ba3893ecf3b9c4fdac3b0c",
     "roof-before-pc-front.png": "829e0070067335921c28316ee33e15f7bdf32681cc5f66ca2a2509b3321791d2",
     "roof-before-pc-rear.png": "0a1f7fa087a2eaafa16d4c27bb1e1203603763a006827d8817a5a8da0bc189f7",
     "tfs-faces.png": "3cb22f361d1502c1d2c3e13a12098cb315a4ddde04a3210fc27d16870518fb0a",

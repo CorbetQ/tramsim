@@ -8,7 +8,7 @@ Les six configurations X05 en trois quarts ont été présentées avant le commi
 
 - 80 variantes du catalogue, représentant 418 emplacements de caisse.
 - 60 kits de design, dont trois HD et 57 issus des modèles natifs existants.
-- 290 fichiers de modèles partagés, cabines et équipements compris : 20 763 076 octets.
+- 290 fichiers de modèles partagés, cabines et équipements compris : 20 756 280 octets.
 - 533 textures référencées : 20 163 068 octets, hors sources HD complètes conservées.
 - Audits binaires et chemins : zéro erreur ; 11 tests Python d’assets réussis.
 
@@ -91,7 +91,7 @@ leurs coins rectangulaires de sortir du pare-brise. Aucun cache noir n’a été
 
 `test_roof_junction.gd` inspecte les sommets des modèles effectivement importés : deux
 extrémités, quatre LOD, PC/Mobile, six X05 et 302 Irigo. Il vérifie aussi que les volumes de
-cabine restent dans leur coque arrondie : **210 assertions, zéro échec**. Avant correction,
+cabine restent dans leur coque arrondie : **258 assertions, zéro échec**. Avant correction,
 le contrôle du toit détectait 40 cas défaillants. Les tests HD, faces et caisses ont été rejoués
 avec succès après génération. Les kits natifs sont préservés par `build_kits.py --hd-only`.
 
@@ -103,3 +103,7 @@ Captures avec caméra identique : [avant](captures/roof-before-pc-front.png),
 [après PC](captures/roof-after-pc-front.png), [arrière PC](captures/roof-after-pc-rear.png),
 [après Mobile](captures/roof-after-mobile-front.png). Les anciennes vues restent archivées
 explicitement comme « avant » ; la planche des six configurations X05 est actualisée.
+
+Le carénage utilise aussi le matériau de toiture (`paint_roof`) dans les palettes des LOD :
+le 405 Naolib ne prend plus la couleur verte de caisse en Mobile. Le contrôle examine les
+matériaux et atlas effectivement liés aux sommets de toiture, en plus des positions.

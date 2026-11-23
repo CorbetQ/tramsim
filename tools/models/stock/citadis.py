@@ -680,7 +680,9 @@ class Citadis:
             G.append(row)
         G = np.array(G)
         N = grid_normals(G, away=(0.0, h - 1.5))
-        emit(B, G, N, np.stack([G[..., 0], G[..., 2]], -1), np.ones((nzz, nx), bool), "paint_base")
+        # A roof cover uses roof paint, also after low-LOD palette baking.
+        # paint_base made the Naolib mobile roof green while PC overrode it white.
+        emit(B, G, N, np.stack([G[..., 0], G[..., 2]], -1), np.ones((nzz, nx), bool), "paint_roof")
         if q <= 1:   # grilles d'aspiration latérales
             for s in (1, -1):
                 for zc in np.arange(z0 + lf + 0.4, z1 - lr - 0.4, 1.3):
