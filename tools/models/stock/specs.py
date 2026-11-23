@@ -1,7 +1,9 @@
 """Spécifications des rames HD : plan coté (data/rolling_stock/plans), longueur du rig (variants/index.json),
 livrée (data/rolling_stock/liveries.json, complétée par les photos de référence docs/rolling-stock-meshy) et
 particularités de face avant et de cabine. Coordonnées de livrée : zf = distance au nez A (m), y = hauteur (m)."""
-import json, os
+import json, os, copy
+from pathlib import Path
+from audit_stock import fitted_plan
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 IRIGO_RAINBOW = ["#6a2c91", "#0096d6", "#5cb531", "#ffd500", "#f18a00", "#e2231a"]  # avant -> arrière (photos)
@@ -54,6 +56,17 @@ VARIANTS = {
     },
 }
 
+# Length variants deliberately retain the network's own face, never the compact
+# donor's nose. These combinations are explicitly fictional in the catalogue.
+for _vid, _origin, _directory in [
+    ('angers__concept_citadis_205','angers__citadis_x05','angers_205_concept'),
+    ('angers__concept_citadis_405','angers__citadis_x05','angers_405_concept'),
+    ('nantes__concept_citadis_205','nantes__citadis_x05_nantes','nantes_205_concept'),
+    ('nantes__concept_citadis_305','nantes__citadis_x05_nantes','nantes_305_concept'),
+]:
+    VARIANTS[_vid] = copy.deepcopy(VARIANTS[_origin])
+    VARIANTS[_vid]['dir'] = _directory
+
 
 def variant_entry(vid):
     for e in _json("data/rolling_stock/variants/index.json")["entries"]:
@@ -63,9 +76,25 @@ def variant_entry(vid):
 
 
 def load(vid):
-    s = dict(VARIANTS[vid]); s["id"] = vid
+    s = copy.deepcopy(VARIANTS[vid]); s["id"] = vid
     s["plan_data"] = _json("data/rolling_stock/plans/%s.json" % s["plan"])
     e = variant_entry(vid)
+    s['family'] = e['family']; s['label'] = e['name']
+    s['plan'] = 'citadis_x05_nantes' if e.get('cab_profile')=='naolib' else e['family']
+    s['plan_data'] = fitted_plan(Path(ROOT), e)
+    seen_panto = False
+    for module in s['plan_data']['modules']:
+        for roof in module.get('roof', []):
+            if roof['type']=='pantograph':
+                if seen_panto: roof['type']='box'
+                seen_panto=True
+    if not seen_panto:
+        first=s['plan_data']['modules'][0]
+        first.setdefault('roof',[]).append({'type':'pantograph','z_m':first['length_m']*0.65,'size':[1.2,0.3,2.0]})
+    profile = _json('data/rolling_stock/front_profiles.json').get(e.get('cab_profile',''))
+    if profile:
+        s['nose_profile'] = profile
+        s['plan_data']['front']['windshield'].update(profile['windshield'])
     s["length"] = float(e["length"]); s["width"] = float(e.get("width", s["plan_data"]["width_m"]))
     liv = _json("data/rolling_stock/liveries.json").get(s["network"], {})
     s["livery_json"] = liv

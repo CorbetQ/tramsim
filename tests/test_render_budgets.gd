@@ -76,6 +76,7 @@ func _run() -> void:
 		print("SKIP test_render_budgets : affichage requis"); print("TOTAL_ECHECS|0"); quit(0); return
 	await _pass(false)
 	await _pass(true)
+	StockHD.reset_cache()
 	print("TOTAL_ECHECS|%d" % fails)
 	quit(1 if fails > 0 else 0)
 

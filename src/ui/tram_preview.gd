@@ -13,7 +13,7 @@ var _view:="threequarter"
 var auto_rotate:=false
 
 func _init() -> void:
-	custom_minimum_size = Vector2(520, 380)
+	custom_minimum_size = Vector2(0, 380)
 
 func _ready() -> void:
 	stretch = true
@@ -37,6 +37,7 @@ func show_tram(meta: Dictionary, vehicle: VehicleProfile) -> void:
 	rig = TramModel.build_rig(liv, L)
 	rig.layout_straight()
 	for m in rig.modules: holder.add_child(m)
+	if rig.hd != null: rig.hd.update({"headlights":1.0,"destination":str(meta.get("city","ESSAIS"))},0.0)
 	_cycle = 0.0;_length=L;set_view(_view)
 
 func set_view(mode:String)->void:

@@ -22,7 +22,7 @@ func _init()->void:
   check(rig.triangles<=cap,"budget du modèle sélectionné : %s (%d ≤ %d)"%[entry.id,rig.triangles,cap])
   if str(entry.network)=="saintetienne":check(rig.leaves.all(func(leaf):return float(leaf.side)>0),"portes uniquement à droite : "+str(entry.id))
   for module in rig.modules:module.free()
- check(concepts==3,"trois concepts clairement identifiés")
+ check(concepts==7,"sept concepts clairement identifiés, dont les quatre combinaisons de démonstration")
  var angers:Dictionary={"source_id":"angers","id":"angers_a","guidance":"steel"}
  var foreign:=StockCatalog.find("nantes__incentro")
  var profile:=VehicleLibrary.for_fleet(foreign,angers)

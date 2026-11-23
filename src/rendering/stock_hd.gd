@@ -19,6 +19,7 @@ static var _manifest: Dictionary = {}
 static var _loaded_path := "-"
 static var _scenes: Dictionary = {}
 static var _mats: Dictionary = {}
+static var _paint_mats: Dictionary = {}
 static var _tris: Dictionary = {}
 
 static func path() -> String:
@@ -27,11 +28,12 @@ static func path() -> String:
 	return env if env != "" else MANIFEST
 
 static func reset_cache() -> void:
+	LiveryPainter.reset_cache()
 	# Templates are Nodes outside the tree: clearing a Dictionary does not free them.
 	# Instantiated trains keep their own references to shared meshes/materials.
 	for template in _scenes.values():
 		if is_instance_valid(template): template.free()
-	_manifest = {}; _loaded_path = "-"; _scenes.clear(); _mats.clear(); _tris.clear()
+	_manifest = {}; _loaded_path = "-"; _scenes.clear(); _mats.clear(); _paint_mats.clear(); _tris.clear()
 
 static func manifest() -> Dictionary:
 	var p := path()
@@ -56,6 +58,11 @@ static func mobile() -> bool:
 
 ## Fichier d'un LOD ("LOD0".."LOD3" ou "cab") pour le profil courant (`mobile_file` si fourni).
 static func file_for(e: Dictionary, lod: String, for_mobile: bool = mobile()) -> String:
+	if path()==MANIFEST and lod!="cab":
+		for vid in manifest().get("variants",{}):
+			if manifest().variants[vid]==e:
+				var composition:=TramParts.lod_file(str(vid),lod,for_mobile)
+				if composition!="":return composition
 	var spec: Dictionary = e.get("cab", {}) if lod == "cab" else e.get("lods", {}).get(lod, {})
 	var f := str(spec.get("mobile_file", "")) if for_mobile else ""
 	if f == "": f = str(spec.get("file", ""))
@@ -66,7 +73,9 @@ static func scene(p: String) -> Node3D:
 	if p == "": return null
 	if _scenes.has(p): return _scenes[p]
 	var root: Node3D = null
-	if p.begins_with("res://") and ResourceLoader.exists(p):
+	if p.begins_with("res://tram_parts/") and p.ends_with(".json"):
+		root=TramParts.assemble(p)
+	elif p.begins_with("res://") and ResourceLoader.exists(p):
 		var ps := load(p) as PackedScene
 		if ps != null: root = ps.instantiate() as Node3D
 	elif FileAccess.file_exists(p):
@@ -205,6 +214,7 @@ static func apply(rig, livery: Dictionary) -> HD:
 	var vid := str(livery.get("variant_id", ""))
 	var e := entry(vid)
 	if e.is_empty(): return null
+	if livery.has("custom_livery") and not LiveryPainter.layouts().has(vid): return null
 	# Production validates/loads only the active platform; full multi-profile
 	# validation belongs to check() in tests/CI, avoiding hidden PC textures on Android.
 	if not check(vid, rig, true).is_empty(): return null
@@ -215,26 +225,45 @@ static func apply(rig, livery: Dictionary) -> HD:
 
 static func material_for(src: Material, livery: Dictionary, glass_alpha := -1.0) -> Material:
 	if not src is BaseMaterial3D: return src
-	var n := str(src.resource_name)
+	var full_name:=str(src.resource_name)
+	var n := full_name.split("__part_")[0]
+	var body_index := int(full_name.get_slice("__part_",1)) if "__part_" in full_name else -1
+	var custom: Dictionary = LiveryLibrary.for_part(livery.get("custom_livery", {}),livery.get("stock_entry",{}),body_index)
+	# Retain a small set of recently edited palettes through renderer cleanup.
+	# Releasing a replaced surface material in the same frame produces stale
+	# material RID warnings on GLES. Share per-scheme copies, never edit originals.
+	var painted: Dictionary = {}
+	if not custom.is_empty():
+		var scheme := str(custom.get("_scheme_key",JSON.stringify(custom).sha256_text()))
+		if not _paint_mats.has(scheme):
+			if _paint_mats.size() >= 8: _paint_mats.erase(_paint_mats.keys()[0])
+			_paint_mats[scheme] = {}
+		painted = _paint_mats[scheme]
 	var key := "%d|%s|%s" % [src.get_instance_id(), str(livery.get("variant_id", "")) + str(livery.get("base", "")), glass_alpha]
-	if _mats.has(key): return _mats[key]
+	if custom.is_empty() and _mats.has(key): return _mats[key]
+	if not custom.is_empty() and painted.has(key): return painted[key]
 	var m := (src as BaseMaterial3D).duplicate() as BaseMaterial3D
 	# LOD atlases also contain constant-UV colour swatches. Anisotropic sampling
 	# of their zero derivatives produces black speckles on GLES/llvmpipe.
 	m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS if n.begins_with("livery") else BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	if n.begins_with("paint_") or n.begins_with("livery"):
+		if n.begins_with("livery") and not custom.is_empty():
+			m.albedo_texture = LiveryPainter.texture(m.albedo_texture, custom, livery.stock_entry,body_index)
 		var zone := n.trim_prefix("paint_")
 		if n.begins_with("paint_") and zone in PAINT_ZONES and livery.has(zone):
-			m.albedo_color = Color(livery[zone]) if livery[zone] is String else livery[zone]
+			m.albedo_color = Color(custom.colors[zone]) if not custom.is_empty() else (Color(livery[zone]) if livery[zone] is String else livery[zone])
 		m.clearcoat_enabled = true; m.clearcoat = 0.7; m.clearcoat_roughness = 0.12
 		m.roughness = minf(m.roughness, 0.4)
 	elif n.begins_with("glass"):
 		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		var a := glass_alpha if glass_alpha >= 0.0 else (0.22 if n.contains("windshield") else 0.45)
+		# Exterior glass must read as a tinted windshield, not an open cut-out
+		# exposing the bright cab ceiling. CabView keeps its explicit clear override.
+		var a := glass_alpha if glass_alpha >= 0.0 else (0.76 if n.contains("windshield") else 0.45)
 		m.albedo_color = Color(0.10, 0.14, 0.17, a)
 		m.metallic = 0.85; m.roughness = 0.04; m.metallic_specular = 1.0
 		m.cull_mode = BaseMaterial3D.CULL_DISABLED
-	_mats[key] = m
+	if custom.is_empty(): _mats[key] = m
+	else: painted[key] = m
 	return m
 
 ## Applique les matériaux HD (livrée, clearcoat, vitrages) à toute une hiérarchie.

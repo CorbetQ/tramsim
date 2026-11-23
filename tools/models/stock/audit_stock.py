@@ -9,9 +9,39 @@ import hashlib
 import json
 import re
 import struct
+import copy
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
+
+
+def fitted_plan(root, variant):
+    """Count/length adaptation mirrors StockGeometry, not the raw donor plan.
+
+    Shared by offline authoring and the independent binary/budget audit; Godot
+    tests compare the result with the real runtime rig before accepting assets.
+    """
+    family = 'citadis_x05_nantes' if variant.get('cab_profile') == 'naolib' else variant['family']
+    plan = json.loads(local_file(root / 'data/rolling_stock/plans', family + '.json').read_text())
+    modules = plan['modules']; count = int(variant['module_count'])
+    if len(modules) != count:
+        inside = modules[1:-1]
+        modules = [copy.deepcopy(modules[0])] + [copy.deepcopy(inside[i % len(inside)]) for i in range(count-2)] + [copy.deepcopy(modules[-1])]
+        plan['modules'] = modules
+    sizes = variant.get('geometry', {}).get('module_lengths', [])
+    if len(sizes) == len(modules):
+        for module, size in zip(modules, sizes):
+            ratio = size/module['length_m']
+            for door in module.get('doors', []): door['z_m'] *= ratio
+            for window in module.get('windows', []):
+                window['z0_m'] *= ratio; window['z1_m'] *= ratio
+            for roof in module.get('roof', []): roof['z_m'] *= ratio
+            if 'bogie_z_m' in module: module['bogie_z_m'] *= ratio
+            module['length_m'] = size
+    if variant.get('cab_profile') == 'irigo305':
+        for module in modules:
+            for door in module.get('doors', []): door.update(width_m=1.3, leaves=2)
+    return plan
 
 
 def local_file(directory, relative):
@@ -74,6 +104,7 @@ def audit(root=ROOT):
     directory = root / 'assets/models/rolling_stock'
     manifest = json.loads((directory / 'manifest.json').read_text())
     budgets = json.loads((root / 'docs/refonte-visuelle/budgets.json').read_text())['rolling_stock_lod']
+    catalogue = {row['id']: row for row in json.loads((root / 'data/rolling_stock/variants/index.json').read_text())['entries']}
     if manifest.get('version') != 1 or not manifest.get('variants'):
         raise ValueError('Empty or unsupported stock manifest')
     result = {'schema': 1, 'manifest': 'assets/models/rolling_stock/manifest.json',
@@ -89,14 +120,17 @@ def audit(root=ROOT):
         if abs(sum(entry['modules']) - entry['length_m']) > .02:
             result['errors'].append(f'{vid}: length inconsistent with modules')
         try:
-            plan = json.loads(local_file(root / 'data/rolling_stock/plans', entry['family'] + '.json').read_text())
+            variant = catalogue[vid]
+            plan = fitted_plan(root, variant)
+            if entry['family'] != variant['family'] or abs(entry['length_m']-variant['length'])>.02:
+                result['errors'].append(f'{vid}: model disagrees with catalogue variant')
             scale = entry['length_m'] / sum(module['length_m'] for module in plan['modules'])
             expected = [module['length_m'] * scale for module in plan['modules']]
             if len(expected) != len(entry['modules']) or any(abs(a - b) > .02 for a, b in zip(expected, entry['modules'])):
                 result['errors'].append(f'{vid}: modules disagree with source plan')
             if sum(len(module.get('doors', [])) for module in plan['modules']) != entry['doors']:
                 result['errors'].append(f'{vid}: door count disagrees with source plan')
-            if abs(entry['width_m'] - plan['width_m']) > .02:
+            if abs(entry['width_m'] - variant.get('width', plan['width_m'])) > .02:
                 result['errors'].append(f'{vid}: width disagrees with source plan')
         except (OSError, ValueError, KeyError, ZeroDivisionError) as error:
             result['errors'].append(f'{vid}: invalid source plan: {error}')

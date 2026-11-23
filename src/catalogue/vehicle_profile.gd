@@ -10,6 +10,7 @@ extends Resource
 @export var gauge_mm := 1435
 @export var origin_city := ""
 var fleet: Dictionary = {}                # entrée de flotte (livrée) si matériel du réseau
+var custom_livery: Dictionary = {}         # appearance only; never changes the technical profile
 @export var length_m: float = 30.0
 @export var width_m: float = 2.4
 @export var empty_mass_kg: float = 40000.0

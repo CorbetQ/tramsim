@@ -158,7 +158,7 @@ static func livery_for(meta: Dictionary, entry: Dictionary = {}) -> Dictionary:
 		for col in pat.get("colors", []): pc.append(_color(col, route))
 		pat.colors = pc
 		res.pattern = pat
-	return res
+	return LiveryLibrary.apply(res, entry.get("custom_livery", {}))
 
 # ---------------------------------------------------------------- construction
 
@@ -171,8 +171,9 @@ static func build_rig(livery: Dictionary, length_m: float = -1.0, passenger_shel
 	var L := length_m if length_m > 0.0 else float(livery.get("length", p.get("length_m", 32.0)))
 	var bld := _Body.new(p, _variant(livery), L)
 	var rig := bld.make_rig()
-	CitadisMeshy.apply_exterior(rig,livery)
+	if not livery.has("custom_livery"): CitadisMeshy.apply_exterior(rig,livery)
 	if not passenger_shell: StockHD.apply(rig, livery)   # rames HD (P2) : remplace l'habillage si la variante est complète
+	LiveryPainter.add_labels(rig, livery)
 	return rig
 
 ## Compatibilité : modules seuls (sans animation).
@@ -821,14 +822,16 @@ class _Body:
 				if j == 0: bottom.append(P0)
 				for i in CAP_K:
 					var col: Color = frame
+					var cap_x:=absf((P0[i].x+P0[i+1].x+P1[i].x+P1[i+1].x)*.25)
+					var glass_width:=float((front.get("windshield",{}) as Dictionary).get("half_width_m",INF))
 					if y >= h - 0.02: col = L.roof
-					elif in_ws and i > 0:
+					elif in_ws and i > 0 and cap_x<glass_width:
 						var curve:=float((front.get("windshield",{}) as Dictionary).get("lower_curve_m",0))
 						var u:=cos(PI*.5*(i+.5)/CAP_K)
 						if y>ws_lo+curve*u*u:col=shield()
 					var out:=Vector3(sx*(.6-.15*i),0,dir)
 					var curve_m:=float((front.get("windshield",{}) as Dictionary).get("lower_curve_m",0))
-					if curve_m>0 and i>0 and r0.y>=ws_lo-.001 and r1.y<=ws_hi+.001 and y<ws_lo+curve_m+.04:
+					if curve_m>0 and i>0 and cap_x<glass_width and r0.y>=ws_lo-.001 and r1.y<=ws_hi+.001 and y<ws_lo+curve_m+.04:
 						var quad:Array=[P0[i],P0[i+1],P1[i+1],P1[i]]
 						m.poly(_clip_shield(quad,curve_m,true),shield(),out)
 						m.poly(_clip_shield(quad,curve_m,false),frame,out)
@@ -873,6 +876,11 @@ class _Body:
 		var shape := str(hl.get("shape", "rect"))
 		var white := Color(1.0, 0.97, 0.86, LAMP_A)
 		var red := Color(0.95, 0.12, 0.08, LAMP_A)
+		if front.has("lamp_housings"):
+			var housing:Dictionary=front.lamp_housings
+			for side in [-1.0,1.0]:
+				var hx:float=side*float(housing.x_m);var hy:float=housing.y_m
+				_lamp(m,"oval",Vector3(hx,hy,face_z(absf(hx),hy,zj,dir)),float(housing.w_m),float(housing.h_m),Color(.035,.045,.05),dir,zj)
 		for side in [-1.0, 1.0]:
 			var lx: float = side * x
 			var z := face_z(absf(lx), y, zj, dir)
@@ -885,8 +893,12 @@ class _Body:
 				var px:float=side*float(extra.x_m);var py:float=extra.y_m;var radius:float=extra.r_m
 				_lamp(m,"round",Vector3(px,py,face_z(absf(px),py,zj,dir)),radius*2,radius*2,Color.from_string(str(extra.color),Color.GRAY),dir,zj)
 		if is_front:
-			_face_line(m,Vector2(.10,ws_lo+.07),Vector2(-.27,ws_lo+.62),zj,dir,.018)
-			_face_line(m,Vector2(-.27,ws_lo+.50),Vector2(-.43,minf(ws_hi-.12,ws_lo+1.31)),zj,dir,.025)
+			if front.has("wiper_lines"):
+				for wiper in front.wiper_lines:
+					_face_line(m,Vector2(wiper[0][0],wiper[0][1]),Vector2(wiper[1][0],wiper[1][1]),zj,dir,.018)
+			else:
+				_face_line(m,Vector2(.10,ws_lo+.07),Vector2(-.27,ws_lo+.62),zj,dir,.018)
+				_face_line(m,Vector2(-.27,ws_lo+.50),Vector2(-.43,minf(ws_hi-.12,ws_lo+1.31)),zj,dir,.025)
 
 		var ul: Dictionary = front.get("upper_light", {})
 		if not ul.is_empty():
@@ -938,12 +950,14 @@ class _Body:
 			var on := func(dx: float, dy: float) -> Vector3:
 				var px := c.x + dx; var py := c.y + dy
 				return Vector3(px, py, face_z(absf(px), py, zj, dir) + dir * off)
-			if shape == "round":
+			if shape in ["round","oval"]:
 				var r := maxf(w, hh) * 0.5 + k
+				var rx:=w*.5+k if shape=="oval" else r
+				var ry:=hh*.5+k if shape=="oval" else r
 				var ctr: Vector3 = on.call(0.0, 0.0)
 				for i in 8:
 					var a0 := TAU * i / 8.0; var a1 := TAU * (i + 1) / 8.0
-					m.tri(ctr, on.call(cos(a0) * r, sin(a0) * r), on.call(cos(a1) * r, sin(a1) * r), layer[0], nrm)
+					m.tri(ctr, on.call(cos(a0) * rx, sin(a0) * ry), on.call(cos(a1) * rx, sin(a1) * ry), layer[0], nrm)
 			else:
 				var hx := w * 0.5 + k; var hy := hh * 0.5 + k
 				for i in 4:

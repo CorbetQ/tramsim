@@ -4,7 +4,8 @@
   "angers__citadis_x05": {
    "dir": "angers_x05",
    "family": "citadis_x05",
-   "name": "Citadis X05 (305) Irigo",
+   "name": "Alstom Citadis 305 Irigo",
+   "front_profile": "x05",
    "length_m": 33.0,
    "width_m": 2.4,
    "modules": [
@@ -18,42 +19,43 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 86742,
+     "tris": 86710,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 30694,
+     "mobile_tris": 30678,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 30694,
+     "tris": 30678,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 10114
+     "mobile_tris": 10102
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 3018
+     "tris": 2994
     },
     "LOD3": {
      "file": "lod3.glb",
-     "tris": 778
+     "tris": 730
     }
    },
    "mobile_tris": {
-    "LOD0": 30694,
-    "LOD1": 10114,
-    "LOD2": 3018,
-    "LOD3": 778
+    "LOD0": 30678,
+    "LOD1": 10102,
+    "LOD2": 2994,
+    "LOD3": 730
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14440,
+    "tris": 14264,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 8274
+    "mobile_tris": 8230
    },
    "textures": {
     "pc_px": 4096,
     "mobile_px": 2048,
     "cab_px": 2048,
+    "mobile_cab_px": 1024,
     "files": {
      "livery": [
       "textures/livery_4k.png (LOD0)",
@@ -62,6 +64,7 @@
       "textures/livery_256.png (LOD3)"
      ],
      "cab": "textures/cab_desk.png",
+     "cab_mobile": "textures/cab_desk_mobile.png",
      "interior": [
       "textures/floor_albedo.png",
       "textures/floor_normal.png",
@@ -71,10 +74,8 @@
       "textures/metal_albedo.png",
       "textures/metal_normal.png",
       "textures/metal_orm.png"
-     ],
-     "cab_mobile": "textures/cab_desk_mobile.png"
-    },
-    "mobile_cab_px": 1024
+     ]
+    }
    },
    "panto": {
     "module": 2,
@@ -509,13 +510,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 86742,
-    "lod1": 30694,
-    "lod1_m": 10114,
-    "lod2": 3018,
-    "lod3": 778,
-    "cab": 14440,
-    "cab_m": 8274
+    "lod0": 86710,
+    "lod1": 30678,
+    "lod1_m": 10102,
+    "lod2": 2994,
+    "lod3": 730,
+    "cab": 14264,
+    "cab_m": 8230
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -537,7 +538,8 @@
   "nantes__citadis_x05_nantes": {
    "dir": "nantes_x05",
    "family": "citadis_x05_nantes",
-   "name": "Citadis X05 (405) Naolib",
+   "name": "Alstom Citadis 405 Naolib",
+   "front_profile": "x05_nantes",
    "length_m": 45.6,
    "width_m": 2.4,
    "modules": [
@@ -553,42 +555,43 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 113982,
+     "tris": 114318,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 38926,
+     "mobile_tris": 39134,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 38926,
+     "tris": 39134,
      "mobile_file": "lod1_m.glb",
      "mobile_tris": 12694
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 3902
+     "tris": 4262
     },
     "LOD3": {
      "file": "lod3.glb",
-     "tris": 938
+     "tris": 986
     }
    },
    "mobile_tris": {
-    "LOD0": 38926,
+    "LOD0": 39134,
     "LOD1": 12694,
-    "LOD2": 3902,
-    "LOD3": 938
+    "LOD2": 4262,
+    "LOD3": 986
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14128,
+    "tris": 14704,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 8158
+    "mobile_tris": 8318
    },
    "textures": {
     "pc_px": 4096,
     "mobile_px": 2048,
     "cab_px": 2048,
+    "mobile_cab_px": 1024,
     "files": {
      "livery": [
       "textures/livery_4k.png (LOD0)",
@@ -597,6 +600,7 @@
       "textures/livery_256.png (LOD3)"
      ],
      "cab": "textures/cab_desk.png",
+     "cab_mobile": "textures/cab_desk_mobile.png",
      "interior": [
       "textures/floor_albedo.png",
       "textures/floor_normal.png",
@@ -606,10 +610,8 @@
       "textures/metal_albedo.png",
       "textures/metal_normal.png",
       "textures/metal_orm.png"
-     ],
-     "cab_mobile": "textures/cab_desk_mobile.png"
-    },
-    "mobile_cab_px": 1024
+     ]
+    }
    },
    "panto": {
     "module": 3,
@@ -1067,13 +1069,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 113982,
-    "lod1": 38926,
+    "lod0": 114318,
+    "lod1": 39134,
     "lod1_m": 12694,
-    "lod2": 3902,
-    "lod3": 938,
-    "cab": 14128,
-    "cab_m": 8158
+    "lod2": 4262,
+    "lod3": 986,
+    "cab": 14704,
+    "cab_m": 8318
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -1617,6 +1619,2129 @@
    "sources": [
     "plan data/rolling_stock/plans/citadis_302.json (modules mis à l'échelle de 32.40 m)",
     "livrée data/rolling_stock/liveries.json#angers + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
+    "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
+   ],
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+  },
+  "angers__concept_citadis_205": {
+   "dir": "angers_205_concept",
+   "family": "citadis_compact",
+   "name": "Citadis 205 Irigo — concept",
+   "front_profile": "x05",
+   "length_m": 24.0,
+   "width_m": 2.4,
+   "modules": [
+    9.0,
+    6.0,
+    9.0
+   ],
+   "doors": 4,
+   "lods": {
+    "LOD0": {
+     "file": "lod0.glb",
+     "tris": 65138,
+     "mobile_file": "lod1.glb",
+     "mobile_tris": 22978,
+     "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
+    },
+    "LOD1": {
+     "file": "lod1.glb",
+     "tris": 22978,
+     "mobile_file": "lod1_m.glb",
+     "mobile_tris": 7626
+    },
+    "LOD2": {
+     "file": "lod2.glb",
+     "tris": 2246
+    },
+    "LOD3": {
+     "file": "lod3.glb",
+     "tris": 562
+    }
+   },
+   "mobile_tris": {
+    "LOD0": 22978,
+    "LOD1": 7626,
+    "LOD2": 2246,
+    "LOD3": 562
+   },
+   "cab": {
+    "file": "cab.glb",
+    "tris": 14264,
+    "mobile_file": "cab_m.glb",
+    "mobile_tris": 8230
+   },
+   "textures": {
+    "pc_px": 4096,
+    "mobile_px": 2048,
+    "cab_px": 2048,
+    "mobile_cab_px": 1024,
+    "files": {
+     "livery": [
+      "textures/livery_4k.png (LOD0)",
+      "textures/livery_2k.png (LOD0 mobile, LOD1)",
+      "textures/livery_512.png (LOD2)",
+      "textures/livery_256.png (LOD3)"
+     ],
+     "cab": "textures/cab_desk.png",
+     "cab_mobile": "textures/cab_desk_mobile.png",
+     "interior": [
+      "textures/floor_albedo.png",
+      "textures/floor_normal.png",
+      "textures/fabric_irigo.png"
+     ],
+     "metal": [
+      "textures/metal_albedo.png",
+      "textures/metal_normal.png",
+      "textures/metal_orm.png"
+     ]
+    }
+   },
+   "panto": {
+    "module": 1,
+    "lower_deg": 35.02,
+    "upper_deg": -90.13,
+    "arm_lower_m": 1.5,
+    "arm_upper_m": 1.6,
+    "head_down_y": 3.72,
+    "head_up_y": 5.9,
+    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baissé"
+   },
+   "wiper": {
+    "axis": "z",
+    "sweep_deg": 95.0,
+    "period_s": 1.6,
+    "direction": 1,
+    "note": "Z local = normale du pare-brise au pivot ; angle positif = balayage vers le haut"
+   },
+   "mirror": {
+    "fold_deg": 80.0,
+    "nodes": [
+     "mirror_L",
+     "mirror_R",
+     "mirror_B_L",
+     "mirror_B_R"
+    ]
+   },
+   "sign": {
+    "width_m": 1.2,
+    "height_m": 0.2
+   },
+   "cab_proxy": {
+    "A": "cab_proxy_A",
+    "B": "cab_proxy_B",
+    "note": "aménagement simplifié des loges dans lod0/lod1 : à masquer à l'extrémité où cab.glb est instancié"
+   },
+   "bogies": [
+    "bogie_0",
+    "bogie_1"
+   ],
+   "door_anim": {
+    "type": "plug",
+    "open_s": 2.5,
+    "travel_m": 0.65,
+    "out_m": 0.06,
+    "leaf_split": "center",
+    "single_leaf_travel_m": 0.8
+   },
+   "controls": {
+    "ctl_notch": {
+     "kind": "lever",
+     "axis": "x",
+     "range_deg": [
+      24.0,
+      -24.0
+     ],
+     "game_range": [
+      -1.0,
+      1.0
+     ],
+     "note": "cran -1 (freinage max, tiré vers le conducteur) -> +24° ; +1 (traction max, poussé) -> -24°",
+     "action": "notch",
+     "key": "W/Z/↑, S/↓, X"
+    },
+    "ctl_horn": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "horn",
+     "key": "K"
+    },
+    "ctl_sand": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "sand",
+     "key": "B"
+    },
+    "ctl_doors_left": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_left"
+    },
+    "ctl_reverser": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -45,
+      0,
+      45
+     ],
+     "action": "reverser",
+     "key": "V"
+    },
+    "ctl_key": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      0,
+      90
+     ],
+     "action": "cab_key"
+    },
+    "ctl_emergency": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.012,
+     "latching": true,
+     "action": "emergency",
+     "key": "Espace"
+    },
+    "ctl_doors": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors",
+     "key": "O"
+    },
+    "ctl_doors_right": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_right"
+    },
+    "ctl_doors_close": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_close"
+    },
+    "ctl_autopilot": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "autopilot",
+     "key": "L"
+    },
+    "ctl_pantograph": {
+     "kind": "toggle",
+     "axis": "x",
+     "on_deg": 30.0,
+     "off_deg": -30.0,
+     "action": "pantograph",
+     "key": "P"
+    },
+    "ctl_power_mode": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -40,
+      40
+     ],
+     "action": "power_mode",
+     "key": "P (sélecteur APS/LAC)"
+    },
+    "ctl_headlights": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -30,
+      0,
+      30
+     ],
+     "action": "headlights",
+     "key": "H"
+    },
+    "ctl_wiper": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -30,
+      0,
+      30
+     ],
+     "action": "wiper",
+     "key": "E"
+    },
+    "ctl_mirrors": {
+     "kind": "toggle",
+     "axis": "x",
+     "on_deg": 30.0,
+     "off_deg": -30.0,
+     "action": "mirrors",
+     "key": "N"
+    },
+    "ctl_bell": {
+     "kind": "pedal",
+     "axis": "x",
+     "on_deg": -8.0,
+     "note": "gong au pied",
+     "action": "bell"
+    }
+   },
+   "control_aliases": {
+    "ctl_traction_lever": "ctl_notch",
+    "ctl_reverse": "ctl_reverser"
+   },
+   "screens": {
+    "screen_speed": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.25,
+      0.17
+     ]
+    },
+    "screen_info": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.27,
+      0.18
+     ]
+    },
+    "screen_next_stop": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.25,
+      0.17
+     ]
+    },
+    "screen_signal": {
+     "px": [
+      160,
+      96
+     ],
+     "size_m": [
+      0.12,
+      0.07
+     ]
+    },
+    "screen_mirror_L": {
+     "px": [
+      256,
+      180
+     ],
+     "size_m": [
+      0.125,
+      0.085
+     ]
+    },
+    "screen_mirror_R": {
+     "px": [
+      256,
+      180
+     ],
+     "size_m": [
+      0.125,
+      0.085
+     ]
+    },
+    "screen_notch": {
+     "px": [
+      160,
+      96
+     ],
+     "size_m": [
+      0.12,
+      0.07
+     ]
+    }
+   },
+   "lamps": [
+    "em_lamp_doors",
+    "em_lamp_panto",
+    "em_lamp_power",
+    "em_lamp_emergency",
+    "em_lamp_sand",
+    "em_lamp_headlights",
+    "em_lamp_autopilot"
+   ],
+   "camera": {
+    "node": "cam_driver",
+    "frame": "module_00",
+    "position": [
+     0.0,
+     1.69,
+     -2.64
+    ],
+    "pitch_deg": -11.0,
+    "fov_deg": 62.0,
+    "near_m": 0.05,
+    "note": "cabine B : même cab.glb sous le dernier module, rotation 180° Y"
+   },
+   "nodes": {
+    "lod0": {
+     "modules": [
+      "module_00",
+      "module_01",
+      "module_02"
+     ],
+     "doors": [
+      "door_0_L_a",
+      "door_0_L_b",
+      "door_0_R_a",
+      "door_0_R_b",
+      "door_1_L_a",
+      "door_1_L_b",
+      "door_1_R_a",
+      "door_1_R_b",
+      "door_2_L_a",
+      "door_2_L_b",
+      "door_2_R_a",
+      "door_2_R_b",
+      "door_3_L_a",
+      "door_3_L_b",
+      "door_3_R_a",
+      "door_3_R_b"
+     ],
+     "panto": [
+      "panto_base",
+      "panto_lower",
+      "panto_upper",
+      "panto_head"
+     ],
+     "emissive": [
+      "em_head_A",
+      "em_tail_A",
+      "em_dest_A",
+      "em_door_0_L",
+      "em_door_0_R",
+      "em_interior_00",
+      "em_door_1_L",
+      "em_door_1_R",
+      "em_door_2_L",
+      "em_door_2_R",
+      "em_interior_01",
+      "em_head_B",
+      "em_tail_B",
+      "em_dest_B",
+      "em_door_3_L",
+      "em_door_3_R",
+      "em_interior_02"
+     ],
+     "signs": [
+      "sign_dest_A",
+      "sign_dest_B"
+     ],
+     "screens": [
+      "screen_pis_00_f",
+      "screen_pis_00_b",
+      "screen_pis_01_f",
+      "screen_pis_01_b",
+      "screen_pis_02_f",
+      "screen_pis_02_b"
+     ],
+     "wipers": [
+      "wiper_A_0",
+      "wiper_B_0"
+     ],
+     "mirrors": [
+      "mirror_L",
+      "mirror_R",
+      "mirror_B_L",
+      "mirror_B_R"
+     ],
+     "cab_proxy": [
+      "cab_proxy_A",
+      "cab_proxy_B"
+     ]
+    },
+    "cab": {
+     "controls": [
+      "ctl_notch",
+      "ctl_horn",
+      "ctl_sand",
+      "ctl_doors_left",
+      "ctl_reverser",
+      "ctl_key",
+      "ctl_emergency",
+      "ctl_doors",
+      "ctl_doors_right",
+      "ctl_doors_close",
+      "ctl_autopilot",
+      "ctl_pantograph",
+      "ctl_power_mode",
+      "ctl_headlights",
+      "ctl_wiper",
+      "ctl_mirrors",
+      "ctl_bell"
+     ],
+     "screens": [
+      "screen_speed",
+      "screen_info",
+      "screen_next_stop",
+      "screen_signal",
+      "screen_mirror_L",
+      "screen_mirror_R",
+      "screen_notch"
+     ],
+     "lamps": [
+      "em_lamp_doors",
+      "em_lamp_panto",
+      "em_lamp_power",
+      "em_lamp_emergency",
+      "em_lamp_sand",
+      "em_lamp_headlights",
+      "em_lamp_autopilot"
+     ],
+     "camera": [
+      "cam_driver"
+     ]
+    }
+   },
+   "tris_by_file": {
+    "lod0": 65138,
+    "lod1": 22978,
+    "lod1_m": 7626,
+    "lod2": 2246,
+    "lod3": 562,
+    "cab": 14264,
+    "cab_m": 8230
+   },
+   "budget_check": {
+    "LOD0_pc<=250000": true,
+    "LOD0_mobile<=80000": true,
+    "LOD1_pc<=60000": true,
+    "LOD1_mobile<=25000": true,
+    "LOD2<=6000": true,
+    "LOD3<=1000": true,
+    "cab_pc<=80000": true,
+    "cab_mobile<=40000": true
+   },
+   "sources": [
+    "plan data/rolling_stock/plans/citadis_compact.json (modules mis à l'échelle de 24.00 m)",
+    "livrée data/rolling_stock/liveries.json#angers + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
+    "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
+   ],
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+  },
+  "angers__concept_citadis_405": {
+   "dir": "angers_405_concept",
+   "family": "citadis_x05",
+   "name": "Citadis 405 Irigo — concept",
+   "front_profile": "x05",
+   "length_m": 44.5,
+   "width_m": 2.4,
+   "modules": [
+    9.6417,
+    5.0857,
+    4.9798,
+    5.0857,
+    5.0857,
+    4.9798,
+    9.6417
+   ],
+   "doors": 7,
+   "lods": {
+    "LOD0": {
+     "file": "lod0.glb",
+     "tris": 117902,
+     "mobile_file": "lod1.glb",
+     "mobile_tris": 39230,
+     "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
+    },
+    "LOD1": {
+     "file": "lod1.glb",
+     "tris": 39230,
+     "mobile_file": "lod1_m.glb",
+     "mobile_tris": 12478
+    },
+    "LOD2": {
+     "file": "lod2.glb",
+     "tris": 3758
+    },
+    "LOD3": {
+     "file": "lod3.glb",
+     "tris": 914
+    }
+   },
+   "mobile_tris": {
+    "LOD0": 39230,
+    "LOD1": 12478,
+    "LOD2": 3758,
+    "LOD3": 914
+   },
+   "cab": {
+    "file": "cab.glb",
+    "tris": 14264,
+    "mobile_file": "cab_m.glb",
+    "mobile_tris": 8230
+   },
+   "textures": {
+    "pc_px": 4096,
+    "mobile_px": 2048,
+    "cab_px": 2048,
+    "mobile_cab_px": 1024,
+    "files": {
+     "livery": [
+      "textures/livery_4k.png (LOD0)",
+      "textures/livery_2k.png (LOD0 mobile, LOD1)",
+      "textures/livery_512.png (LOD2)",
+      "textures/livery_256.png (LOD3)"
+     ],
+     "cab": "textures/cab_desk.png",
+     "cab_mobile": "textures/cab_desk_mobile.png",
+     "interior": [
+      "textures/floor_albedo.png",
+      "textures/floor_normal.png",
+      "textures/fabric_irigo.png"
+     ],
+     "metal": [
+      "textures/metal_albedo.png",
+      "textures/metal_normal.png",
+      "textures/metal_orm.png"
+     ]
+    }
+   },
+   "panto": {
+    "module": 2,
+    "lower_deg": 35.02,
+    "upper_deg": -90.13,
+    "arm_lower_m": 1.5,
+    "arm_upper_m": 1.6,
+    "head_down_y": 3.72,
+    "head_up_y": 5.9,
+    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baissé"
+   },
+   "wiper": {
+    "axis": "z",
+    "sweep_deg": 95.0,
+    "period_s": 1.6,
+    "direction": 1,
+    "note": "Z local = normale du pare-brise au pivot ; angle positif = balayage vers le haut"
+   },
+   "mirror": {
+    "fold_deg": 80.0,
+    "nodes": [
+     "mirror_L",
+     "mirror_R",
+     "mirror_B_L",
+     "mirror_B_R"
+    ]
+   },
+   "sign": {
+    "width_m": 1.2,
+    "height_m": 0.2
+   },
+   "cab_proxy": {
+    "A": "cab_proxy_A",
+    "B": "cab_proxy_B",
+    "note": "aménagement simplifié des loges dans lod0/lod1 : à masquer à l'extrémité où cab.glb est instancié"
+   },
+   "bogies": [
+    "bogie_0",
+    "bogie_1",
+    "bogie_2",
+    "bogie_3"
+   ],
+   "door_anim": {
+    "type": "plug",
+    "open_s": 2.5,
+    "travel_m": 0.65,
+    "out_m": 0.06,
+    "leaf_split": "center",
+    "single_leaf_travel_m": 0.8
+   },
+   "controls": {
+    "ctl_notch": {
+     "kind": "lever",
+     "axis": "x",
+     "range_deg": [
+      24.0,
+      -24.0
+     ],
+     "game_range": [
+      -1.0,
+      1.0
+     ],
+     "note": "cran -1 (freinage max, tiré vers le conducteur) -> +24° ; +1 (traction max, poussé) -> -24°",
+     "action": "notch",
+     "key": "W/Z/↑, S/↓, X"
+    },
+    "ctl_horn": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "horn",
+     "key": "K"
+    },
+    "ctl_sand": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "sand",
+     "key": "B"
+    },
+    "ctl_doors_left": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_left"
+    },
+    "ctl_reverser": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -45,
+      0,
+      45
+     ],
+     "action": "reverser",
+     "key": "V"
+    },
+    "ctl_key": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      0,
+      90
+     ],
+     "action": "cab_key"
+    },
+    "ctl_emergency": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.012,
+     "latching": true,
+     "action": "emergency",
+     "key": "Espace"
+    },
+    "ctl_doors": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors",
+     "key": "O"
+    },
+    "ctl_doors_right": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_right"
+    },
+    "ctl_doors_close": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_close"
+    },
+    "ctl_autopilot": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "autopilot",
+     "key": "L"
+    },
+    "ctl_pantograph": {
+     "kind": "toggle",
+     "axis": "x",
+     "on_deg": 30.0,
+     "off_deg": -30.0,
+     "action": "pantograph",
+     "key": "P"
+    },
+    "ctl_power_mode": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -40,
+      40
+     ],
+     "action": "power_mode",
+     "key": "P (sélecteur APS/LAC)"
+    },
+    "ctl_headlights": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -30,
+      0,
+      30
+     ],
+     "action": "headlights",
+     "key": "H"
+    },
+    "ctl_wiper": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -30,
+      0,
+      30
+     ],
+     "action": "wiper",
+     "key": "E"
+    },
+    "ctl_mirrors": {
+     "kind": "toggle",
+     "axis": "x",
+     "on_deg": 30.0,
+     "off_deg": -30.0,
+     "action": "mirrors",
+     "key": "N"
+    },
+    "ctl_bell": {
+     "kind": "pedal",
+     "axis": "x",
+     "on_deg": -8.0,
+     "note": "gong au pied",
+     "action": "bell"
+    }
+   },
+   "control_aliases": {
+    "ctl_traction_lever": "ctl_notch",
+    "ctl_reverse": "ctl_reverser"
+   },
+   "screens": {
+    "screen_speed": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.25,
+      0.17
+     ]
+    },
+    "screen_info": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.27,
+      0.18
+     ]
+    },
+    "screen_next_stop": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.25,
+      0.17
+     ]
+    },
+    "screen_signal": {
+     "px": [
+      160,
+      96
+     ],
+     "size_m": [
+      0.12,
+      0.07
+     ]
+    },
+    "screen_mirror_L": {
+     "px": [
+      256,
+      180
+     ],
+     "size_m": [
+      0.125,
+      0.085
+     ]
+    },
+    "screen_mirror_R": {
+     "px": [
+      256,
+      180
+     ],
+     "size_m": [
+      0.125,
+      0.085
+     ]
+    },
+    "screen_notch": {
+     "px": [
+      160,
+      96
+     ],
+     "size_m": [
+      0.12,
+      0.07
+     ]
+    }
+   },
+   "lamps": [
+    "em_lamp_doors",
+    "em_lamp_panto",
+    "em_lamp_power",
+    "em_lamp_emergency",
+    "em_lamp_sand",
+    "em_lamp_headlights",
+    "em_lamp_autopilot"
+   ],
+   "camera": {
+    "node": "cam_driver",
+    "frame": "module_00",
+    "position": [
+     0.0,
+     1.69,
+     -2.961
+    ],
+    "pitch_deg": -11.0,
+    "fov_deg": 62.0,
+    "near_m": 0.05,
+    "note": "cabine B : même cab.glb sous le dernier module, rotation 180° Y"
+   },
+   "nodes": {
+    "lod0": {
+     "modules": [
+      "module_00",
+      "module_01",
+      "module_02",
+      "module_03",
+      "module_04",
+      "module_05",
+      "module_06"
+     ],
+     "doors": [
+      "door_0_L_a",
+      "door_0_L_b",
+      "door_0_R_a",
+      "door_0_R_b",
+      "door_1_L_a",
+      "door_1_L_b",
+      "door_1_R_a",
+      "door_1_R_b",
+      "door_2_L_a",
+      "door_2_L_b",
+      "door_2_R_a",
+      "door_2_R_b",
+      "door_3_L_a",
+      "door_3_L_b",
+      "door_3_R_a",
+      "door_3_R_b",
+      "door_4_L_a",
+      "door_4_L_b",
+      "door_4_R_a",
+      "door_4_R_b",
+      "door_5_L_a",
+      "door_5_L_b",
+      "door_5_R_a",
+      "door_5_R_b",
+      "door_6_L_a",
+      "door_6_L_b",
+      "door_6_R_a",
+      "door_6_R_b"
+     ],
+     "panto": [
+      "panto_base",
+      "panto_lower",
+      "panto_upper",
+      "panto_head"
+     ],
+     "emissive": [
+      "em_head_A",
+      "em_tail_A",
+      "em_dest_A",
+      "em_door_0_L",
+      "em_door_0_R",
+      "em_door_1_L",
+      "em_door_1_R",
+      "em_interior_00",
+      "em_door_2_L",
+      "em_door_2_R",
+      "em_interior_01",
+      "em_interior_02",
+      "em_door_3_L",
+      "em_door_3_R",
+      "em_interior_03",
+      "em_door_4_L",
+      "em_door_4_R",
+      "em_interior_04",
+      "em_interior_05",
+      "em_head_B",
+      "em_tail_B",
+      "em_dest_B",
+      "em_door_5_L",
+      "em_door_5_R",
+      "em_door_6_L",
+      "em_door_6_R",
+      "em_interior_06"
+     ],
+     "signs": [
+      "sign_dest_A",
+      "sign_dest_B"
+     ],
+     "screens": [
+      "screen_pis_00_f",
+      "screen_pis_00_b",
+      "screen_pis_01_f",
+      "screen_pis_01_b",
+      "screen_pis_02_f",
+      "screen_pis_02_b",
+      "screen_pis_03_f",
+      "screen_pis_03_b",
+      "screen_pis_04_f",
+      "screen_pis_04_b",
+      "screen_pis_05_f",
+      "screen_pis_05_b",
+      "screen_pis_06_f",
+      "screen_pis_06_b"
+     ],
+     "wipers": [
+      "wiper_A_0",
+      "wiper_B_0"
+     ],
+     "mirrors": [
+      "mirror_L",
+      "mirror_R",
+      "mirror_B_L",
+      "mirror_B_R"
+     ],
+     "cab_proxy": [
+      "cab_proxy_A",
+      "cab_proxy_B"
+     ]
+    },
+    "cab": {
+     "controls": [
+      "ctl_notch",
+      "ctl_horn",
+      "ctl_sand",
+      "ctl_doors_left",
+      "ctl_reverser",
+      "ctl_key",
+      "ctl_emergency",
+      "ctl_doors",
+      "ctl_doors_right",
+      "ctl_doors_close",
+      "ctl_autopilot",
+      "ctl_pantograph",
+      "ctl_power_mode",
+      "ctl_headlights",
+      "ctl_wiper",
+      "ctl_mirrors",
+      "ctl_bell"
+     ],
+     "screens": [
+      "screen_speed",
+      "screen_info",
+      "screen_next_stop",
+      "screen_signal",
+      "screen_mirror_L",
+      "screen_mirror_R",
+      "screen_notch"
+     ],
+     "lamps": [
+      "em_lamp_doors",
+      "em_lamp_panto",
+      "em_lamp_power",
+      "em_lamp_emergency",
+      "em_lamp_sand",
+      "em_lamp_headlights",
+      "em_lamp_autopilot"
+     ],
+     "camera": [
+      "cam_driver"
+     ]
+    }
+   },
+   "tris_by_file": {
+    "lod0": 117902,
+    "lod1": 39230,
+    "lod1_m": 12478,
+    "lod2": 3758,
+    "lod3": 914,
+    "cab": 14264,
+    "cab_m": 8230
+   },
+   "budget_check": {
+    "LOD0_pc<=250000": true,
+    "LOD0_mobile<=80000": true,
+    "LOD1_pc<=60000": true,
+    "LOD1_mobile<=25000": true,
+    "LOD2<=6000": true,
+    "LOD3<=1000": true,
+    "cab_pc<=80000": true,
+    "cab_mobile<=40000": true
+   },
+   "sources": [
+    "plan data/rolling_stock/plans/citadis_x05.json (modules mis à l'échelle de 44.50 m)",
+    "livrée data/rolling_stock/liveries.json#angers + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
+    "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
+   ],
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+  },
+  "nantes__concept_citadis_205": {
+   "dir": "nantes_205_concept",
+   "family": "citadis_x05_nantes",
+   "name": "Citadis 205 Naolib — concept",
+   "front_profile": "x05_nantes",
+   "length_m": 24.0,
+   "width_m": 2.4,
+   "modules": [
+    9.2903,
+    5.4194,
+    9.2903
+   ],
+   "doors": 5,
+   "lods": {
+    "LOD0": {
+     "file": "lod0.glb",
+     "tris": 62738,
+     "mobile_file": "lod1.glb",
+     "mobile_tris": 23102,
+     "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
+    },
+    "LOD1": {
+     "file": "lod1.glb",
+     "tris": 23102,
+     "mobile_file": "lod1_m.glb",
+     "mobile_tris": 7898
+    },
+    "LOD2": {
+     "file": "lod2.glb",
+     "tris": 2790
+    },
+    "LOD3": {
+     "file": "lod3.glb",
+     "tris": 656
+    }
+   },
+   "mobile_tris": {
+    "LOD0": 23102,
+    "LOD1": 7898,
+    "LOD2": 2790,
+    "LOD3": 656
+   },
+   "cab": {
+    "file": "cab.glb",
+    "tris": 14704,
+    "mobile_file": "cab_m.glb",
+    "mobile_tris": 8318
+   },
+   "textures": {
+    "pc_px": 4096,
+    "mobile_px": 2048,
+    "cab_px": 2048,
+    "mobile_cab_px": 1024,
+    "files": {
+     "livery": [
+      "textures/livery_4k.png (LOD0)",
+      "textures/livery_2k.png (LOD0 mobile, LOD1)",
+      "textures/livery_512.png (LOD2)",
+      "textures/livery_256.png (LOD3)"
+     ],
+     "cab": "textures/cab_desk.png",
+     "cab_mobile": "textures/cab_desk_mobile.png",
+     "interior": [
+      "textures/floor_albedo.png",
+      "textures/floor_normal.png",
+      "textures/fabric_naolib.png"
+     ],
+     "metal": [
+      "textures/metal_albedo.png",
+      "textures/metal_normal.png",
+      "textures/metal_orm.png"
+     ]
+    }
+   },
+   "panto": {
+    "module": 0,
+    "lower_deg": 35.02,
+    "upper_deg": -90.13,
+    "arm_lower_m": 1.5,
+    "arm_upper_m": 1.6,
+    "head_down_y": 3.72,
+    "head_up_y": 5.9,
+    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baissé"
+   },
+   "wiper": {
+    "axis": "z",
+    "sweep_deg": 95.0,
+    "period_s": 1.6,
+    "direction": 1,
+    "note": "Z local = normale du pare-brise au pivot ; angle positif = balayage vers le haut"
+   },
+   "mirror": {
+    "fold_deg": 80.0,
+    "nodes": [
+     "mirror_L",
+     "mirror_R",
+     "mirror_B_L",
+     "mirror_B_R"
+    ]
+   },
+   "sign": {
+    "width_m": 1.2,
+    "height_m": 0.2
+   },
+   "cab_proxy": {
+    "A": "cab_proxy_A",
+    "B": "cab_proxy_B",
+    "note": "aménagement simplifié des loges dans lod0/lod1 : à masquer à l'extrémité où cab.glb est instancié"
+   },
+   "bogies": [
+    "bogie_0",
+    "bogie_1"
+   ],
+   "door_anim": {
+    "type": "plug",
+    "open_s": 2.5,
+    "travel_m": 0.65,
+    "out_m": 0.06,
+    "leaf_split": "center",
+    "single_leaf_travel_m": 0.8
+   },
+   "controls": {
+    "ctl_notch": {
+     "kind": "lever",
+     "axis": "x",
+     "range_deg": [
+      24.0,
+      -24.0
+     ],
+     "game_range": [
+      -1.0,
+      1.0
+     ],
+     "note": "cran -1 (freinage max, tiré vers le conducteur) -> +24° ; +1 (traction max, poussé) -> -24°",
+     "action": "notch",
+     "key": "W/Z/↑, S/↓, X"
+    },
+    "ctl_horn": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "horn",
+     "key": "K"
+    },
+    "ctl_sand": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "sand",
+     "key": "B"
+    },
+    "ctl_doors_left": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_left"
+    },
+    "ctl_reverser": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -45,
+      0,
+      45
+     ],
+     "action": "reverser",
+     "key": "V"
+    },
+    "ctl_key": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      0,
+      90
+     ],
+     "action": "cab_key"
+    },
+    "ctl_emergency": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.012,
+     "latching": true,
+     "action": "emergency",
+     "key": "Espace"
+    },
+    "ctl_doors": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors",
+     "key": "O"
+    },
+    "ctl_doors_right": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_right"
+    },
+    "ctl_doors_close": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_close"
+    },
+    "ctl_autopilot": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "autopilot",
+     "key": "L"
+    },
+    "ctl_pantograph": {
+     "kind": "toggle",
+     "axis": "x",
+     "on_deg": 30.0,
+     "off_deg": -30.0,
+     "action": "pantograph",
+     "key": "P"
+    },
+    "ctl_power_mode": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -40,
+      40
+     ],
+     "action": "power_mode",
+     "key": "P (sélecteur APS/LAC)"
+    },
+    "ctl_headlights": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -30,
+      0,
+      30
+     ],
+     "action": "headlights",
+     "key": "H"
+    },
+    "ctl_wiper": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -30,
+      0,
+      30
+     ],
+     "action": "wiper",
+     "key": "E"
+    },
+    "ctl_mirrors": {
+     "kind": "toggle",
+     "axis": "x",
+     "on_deg": 30.0,
+     "off_deg": -30.0,
+     "action": "mirrors",
+     "key": "N"
+    },
+    "ctl_bell": {
+     "kind": "pedal",
+     "axis": "x",
+     "on_deg": -8.0,
+     "note": "gong au pied",
+     "action": "bell"
+    }
+   },
+   "control_aliases": {
+    "ctl_traction_lever": "ctl_notch",
+    "ctl_reverse": "ctl_reverser"
+   },
+   "screens": {
+    "screen_speed": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.25,
+      0.17
+     ]
+    },
+    "screen_info": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.27,
+      0.18
+     ]
+    },
+    "screen_next_stop": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.25,
+      0.17
+     ]
+    },
+    "screen_signal": {
+     "px": [
+      160,
+      96
+     ],
+     "size_m": [
+      0.12,
+      0.07
+     ]
+    },
+    "screen_mirror_L": {
+     "px": [
+      256,
+      180
+     ],
+     "size_m": [
+      0.125,
+      0.085
+     ]
+    },
+    "screen_mirror_R": {
+     "px": [
+      256,
+      180
+     ],
+     "size_m": [
+      0.125,
+      0.085
+     ]
+    },
+    "screen_notch": {
+     "px": [
+      160,
+      96
+     ],
+     "size_m": [
+      0.12,
+      0.07
+     ]
+    }
+   },
+   "lamps": [
+    "em_lamp_doors",
+    "em_lamp_panto",
+    "em_lamp_power",
+    "em_lamp_emergency",
+    "em_lamp_sand",
+    "em_lamp_headlights",
+    "em_lamp_autopilot"
+   ],
+   "camera": {
+    "node": "cam_driver",
+    "frame": "module_00",
+    "position": [
+     0.0,
+     1.69,
+     -2.785
+    ],
+    "pitch_deg": -11.0,
+    "fov_deg": 62.0,
+    "near_m": 0.05,
+    "note": "cabine B : même cab.glb sous le dernier module, rotation 180° Y"
+   },
+   "nodes": {
+    "lod0": {
+     "modules": [
+      "module_00",
+      "module_01",
+      "module_02"
+     ],
+     "doors": [
+      "door_0_L_a",
+      "door_0_L_b",
+      "door_0_R_a",
+      "door_0_R_b",
+      "door_1_L_a",
+      "door_1_L_b",
+      "door_1_R_a",
+      "door_1_R_b",
+      "door_2_L_a",
+      "door_2_L_b",
+      "door_2_R_a",
+      "door_2_R_b",
+      "door_3_L_a",
+      "door_3_L_b",
+      "door_3_R_a",
+      "door_3_R_b",
+      "door_4_L_a",
+      "door_4_L_b",
+      "door_4_R_a",
+      "door_4_R_b"
+     ],
+     "panto": [
+      "panto_base",
+      "panto_lower",
+      "panto_upper",
+      "panto_head"
+     ],
+     "emissive": [
+      "em_head_A",
+      "em_tail_A",
+      "em_drl_A",
+      "em_dest_A",
+      "em_door_0_L",
+      "em_door_0_R",
+      "em_door_1_L",
+      "em_door_1_R",
+      "em_interior_00",
+      "em_door_2_L",
+      "em_door_2_R",
+      "em_interior_01",
+      "em_head_B",
+      "em_tail_B",
+      "em_drl_B",
+      "em_dest_B",
+      "em_door_3_L",
+      "em_door_3_R",
+      "em_door_4_L",
+      "em_door_4_R",
+      "em_interior_02"
+     ],
+     "signs": [
+      "sign_dest_A",
+      "sign_dest_B"
+     ],
+     "screens": [
+      "screen_pis_00_f",
+      "screen_pis_00_b",
+      "screen_pis_01_f",
+      "screen_pis_01_b",
+      "screen_pis_02_f",
+      "screen_pis_02_b"
+     ],
+     "wipers": [
+      "wiper_A_0",
+      "wiper_B_0"
+     ],
+     "mirrors": [
+      "mirror_L",
+      "mirror_R",
+      "mirror_B_L",
+      "mirror_B_R"
+     ],
+     "cab_proxy": [
+      "cab_proxy_A",
+      "cab_proxy_B"
+     ]
+    },
+    "cab": {
+     "controls": [
+      "ctl_notch",
+      "ctl_horn",
+      "ctl_sand",
+      "ctl_doors_left",
+      "ctl_reverser",
+      "ctl_key",
+      "ctl_emergency",
+      "ctl_doors",
+      "ctl_doors_right",
+      "ctl_doors_close",
+      "ctl_autopilot",
+      "ctl_pantograph",
+      "ctl_power_mode",
+      "ctl_headlights",
+      "ctl_wiper",
+      "ctl_mirrors",
+      "ctl_bell"
+     ],
+     "screens": [
+      "screen_speed",
+      "screen_info",
+      "screen_next_stop",
+      "screen_signal",
+      "screen_mirror_L",
+      "screen_mirror_R",
+      "screen_notch"
+     ],
+     "lamps": [
+      "em_lamp_doors",
+      "em_lamp_panto",
+      "em_lamp_power",
+      "em_lamp_emergency",
+      "em_lamp_sand",
+      "em_lamp_headlights",
+      "em_lamp_autopilot"
+     ],
+     "camera": [
+      "cam_driver"
+     ]
+    }
+   },
+   "tris_by_file": {
+    "lod0": 62738,
+    "lod1": 23102,
+    "lod1_m": 7898,
+    "lod2": 2790,
+    "lod3": 656,
+    "cab": 14704,
+    "cab_m": 8318
+   },
+   "budget_check": {
+    "LOD0_pc<=250000": true,
+    "LOD0_mobile<=80000": true,
+    "LOD1_pc<=60000": true,
+    "LOD1_mobile<=25000": true,
+    "LOD2<=6000": true,
+    "LOD3<=1000": true,
+    "cab_pc<=80000": true,
+    "cab_mobile<=40000": true
+   },
+   "sources": [
+    "plan data/rolling_stock/plans/citadis_x05_nantes.json (modules mis à l'échelle de 24.00 m)",
+    "livrée data/rolling_stock/liveries.json#nantes + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
+    "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
+   ],
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+  },
+  "nantes__concept_citadis_305": {
+   "dir": "nantes_305_concept",
+   "family": "citadis_x05",
+   "name": "Citadis 305 Naolib — concept",
+   "front_profile": "x05_nantes",
+   "length_m": 33.0,
+   "width_m": 2.4,
+   "modules": [
+    8.8245,
+    5.1476,
+    3.7688,
+    6.4345,
+    8.8245
+   ],
+   "doors": 7,
+   "lods": {
+    "LOD0": {
+     "file": "lod0.glb",
+     "tris": 85270,
+     "mobile_file": "lod1.glb",
+     "mobile_tris": 30918,
+     "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
+    },
+    "LOD1": {
+     "file": "lod1.glb",
+     "tris": 30918,
+     "mobile_file": "lod1_m.glb",
+     "mobile_tris": 10318
+    },
+    "LOD2": {
+     "file": "lod2.glb",
+     "tris": 3498
+    },
+    "LOD3": {
+     "file": "lod3.glb",
+     "tris": 802
+    }
+   },
+   "mobile_tris": {
+    "LOD0": 30918,
+    "LOD1": 10318,
+    "LOD2": 3498,
+    "LOD3": 802
+   },
+   "cab": {
+    "file": "cab.glb",
+    "tris": 14704,
+    "mobile_file": "cab_m.glb",
+    "mobile_tris": 8318
+   },
+   "textures": {
+    "pc_px": 4096,
+    "mobile_px": 2048,
+    "cab_px": 2048,
+    "mobile_cab_px": 1024,
+    "files": {
+     "livery": [
+      "textures/livery_4k.png (LOD0)",
+      "textures/livery_2k.png (LOD0 mobile, LOD1)",
+      "textures/livery_512.png (LOD2)",
+      "textures/livery_256.png (LOD3)"
+     ],
+     "cab": "textures/cab_desk.png",
+     "cab_mobile": "textures/cab_desk_mobile.png",
+     "interior": [
+      "textures/floor_albedo.png",
+      "textures/floor_normal.png",
+      "textures/fabric_naolib.png"
+     ],
+     "metal": [
+      "textures/metal_albedo.png",
+      "textures/metal_normal.png",
+      "textures/metal_orm.png"
+     ]
+    }
+   },
+   "panto": {
+    "module": 3,
+    "lower_deg": 35.02,
+    "upper_deg": -90.13,
+    "arm_lower_m": 1.5,
+    "arm_upper_m": 1.6,
+    "head_down_y": 3.72,
+    "head_up_y": 5.9,
+    "note": "rotations autour de +X local (positif = vers le haut pour un bras pointant vers -Z) ; pose du glb = baissé"
+   },
+   "wiper": {
+    "axis": "z",
+    "sweep_deg": 95.0,
+    "period_s": 1.6,
+    "direction": 1,
+    "note": "Z local = normale du pare-brise au pivot ; angle positif = balayage vers le haut"
+   },
+   "mirror": {
+    "fold_deg": 80.0,
+    "nodes": [
+     "mirror_L",
+     "mirror_R",
+     "mirror_B_L",
+     "mirror_B_R"
+    ]
+   },
+   "sign": {
+    "width_m": 1.2,
+    "height_m": 0.2
+   },
+   "cab_proxy": {
+    "A": "cab_proxy_A",
+    "B": "cab_proxy_B",
+    "note": "aménagement simplifié des loges dans lod0/lod1 : à masquer à l'extrémité où cab.glb est instancié"
+   },
+   "bogies": [
+    "bogie_0",
+    "bogie_1",
+    "bogie_2"
+   ],
+   "door_anim": {
+    "type": "plug",
+    "open_s": 2.5,
+    "travel_m": 0.65,
+    "out_m": 0.06,
+    "leaf_split": "center",
+    "single_leaf_travel_m": 0.8
+   },
+   "controls": {
+    "ctl_notch": {
+     "kind": "lever",
+     "axis": "x",
+     "range_deg": [
+      24.0,
+      -24.0
+     ],
+     "game_range": [
+      -1.0,
+      1.0
+     ],
+     "note": "cran -1 (freinage max, tiré vers le conducteur) -> +24° ; +1 (traction max, poussé) -> -24°",
+     "action": "notch",
+     "key": "W/Z/↑, S/↓, X"
+    },
+    "ctl_horn": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "horn",
+     "key": "K"
+    },
+    "ctl_sand": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "sand",
+     "key": "B"
+    },
+    "ctl_doors_left": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_left"
+    },
+    "ctl_reverser": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -45,
+      0,
+      45
+     ],
+     "action": "reverser",
+     "key": "V"
+    },
+    "ctl_key": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      0,
+      90
+     ],
+     "action": "cab_key"
+    },
+    "ctl_emergency": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.012,
+     "latching": true,
+     "action": "emergency",
+     "key": "Espace"
+    },
+    "ctl_doors": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors",
+     "key": "O"
+    },
+    "ctl_doors_right": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_right"
+    },
+    "ctl_doors_close": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "doors_close"
+    },
+    "ctl_autopilot": {
+     "kind": "button",
+     "axis": "z",
+     "travel_m": -0.006,
+     "action": "autopilot",
+     "key": "L"
+    },
+    "ctl_pantograph": {
+     "kind": "toggle",
+     "axis": "x",
+     "on_deg": 30.0,
+     "off_deg": -30.0,
+     "action": "pantograph",
+     "key": "P"
+    },
+    "ctl_power_mode": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -40,
+      40
+     ],
+     "action": "power_mode",
+     "key": "P (sélecteur APS/LAC)"
+    },
+    "ctl_headlights": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -30,
+      0,
+      30
+     ],
+     "action": "headlights",
+     "key": "H"
+    },
+    "ctl_wiper": {
+     "kind": "rotary",
+     "axis": "z",
+     "positions_deg": [
+      -30,
+      0,
+      30
+     ],
+     "action": "wiper",
+     "key": "E"
+    },
+    "ctl_mirrors": {
+     "kind": "toggle",
+     "axis": "x",
+     "on_deg": 30.0,
+     "off_deg": -30.0,
+     "action": "mirrors",
+     "key": "N"
+    },
+    "ctl_bell": {
+     "kind": "pedal",
+     "axis": "x",
+     "on_deg": -8.0,
+     "note": "gong au pied",
+     "action": "bell"
+    }
+   },
+   "control_aliases": {
+    "ctl_traction_lever": "ctl_notch",
+    "ctl_reverse": "ctl_reverser"
+   },
+   "screens": {
+    "screen_speed": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.25,
+      0.17
+     ]
+    },
+    "screen_info": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.27,
+      0.18
+     ]
+    },
+    "screen_next_stop": {
+     "px": [
+      320,
+      200
+     ],
+     "size_m": [
+      0.25,
+      0.17
+     ]
+    },
+    "screen_signal": {
+     "px": [
+      160,
+      96
+     ],
+     "size_m": [
+      0.12,
+      0.07
+     ]
+    },
+    "screen_mirror_L": {
+     "px": [
+      256,
+      180
+     ],
+     "size_m": [
+      0.125,
+      0.085
+     ]
+    },
+    "screen_mirror_R": {
+     "px": [
+      256,
+      180
+     ],
+     "size_m": [
+      0.125,
+      0.085
+     ]
+    },
+    "screen_notch": {
+     "px": [
+      160,
+      96
+     ],
+     "size_m": [
+      0.12,
+      0.07
+     ]
+    }
+   },
+   "lamps": [
+    "em_lamp_doors",
+    "em_lamp_panto",
+    "em_lamp_power",
+    "em_lamp_emergency",
+    "em_lamp_sand",
+    "em_lamp_headlights",
+    "em_lamp_autopilot"
+   ],
+   "camera": {
+    "node": "cam_driver",
+    "frame": "module_00",
+    "position": [
+     0.0,
+     1.69,
+     -2.552
+    ],
+    "pitch_deg": -11.0,
+    "fov_deg": 62.0,
+    "near_m": 0.05,
+    "note": "cabine B : même cab.glb sous le dernier module, rotation 180° Y"
+   },
+   "nodes": {
+    "lod0": {
+     "modules": [
+      "module_00",
+      "module_01",
+      "module_02",
+      "module_03",
+      "module_04"
+     ],
+     "doors": [
+      "door_0_L_a",
+      "door_0_L_b",
+      "door_0_R_a",
+      "door_0_R_b",
+      "door_1_L_a",
+      "door_1_L_b",
+      "door_1_R_a",
+      "door_1_R_b",
+      "door_2_L_a",
+      "door_2_L_b",
+      "door_2_R_a",
+      "door_2_R_b",
+      "door_3_L_a",
+      "door_3_L_b",
+      "door_3_R_a",
+      "door_3_R_b",
+      "door_4_L_a",
+      "door_4_L_b",
+      "door_4_R_a",
+      "door_4_R_b",
+      "door_5_L_a",
+      "door_5_L_b",
+      "door_5_R_a",
+      "door_5_R_b",
+      "door_6_L_a",
+      "door_6_L_b",
+      "door_6_R_a",
+      "door_6_R_b"
+     ],
+     "panto": [
+      "panto_base",
+      "panto_lower",
+      "panto_upper",
+      "panto_head"
+     ],
+     "emissive": [
+      "em_head_A",
+      "em_tail_A",
+      "em_drl_A",
+      "em_dest_A",
+      "em_door_0_L",
+      "em_door_0_R",
+      "em_door_1_L",
+      "em_door_1_R",
+      "em_interior_00",
+      "em_door_2_L",
+      "em_door_2_R",
+      "em_interior_01",
+      "em_interior_02",
+      "em_door_3_L",
+      "em_door_3_R",
+      "em_door_4_L",
+      "em_door_4_R",
+      "em_interior_03",
+      "em_head_B",
+      "em_tail_B",
+      "em_drl_B",
+      "em_dest_B",
+      "em_door_5_L",
+      "em_door_5_R",
+      "em_door_6_L",
+      "em_door_6_R",
+      "em_interior_04"
+     ],
+     "signs": [
+      "sign_dest_A",
+      "sign_dest_B"
+     ],
+     "screens": [
+      "screen_pis_00_f",
+      "screen_pis_00_b",
+      "screen_pis_01_f",
+      "screen_pis_01_b",
+      "screen_pis_02_f",
+      "screen_pis_02_b",
+      "screen_pis_03_f",
+      "screen_pis_03_b",
+      "screen_pis_04_f",
+      "screen_pis_04_b"
+     ],
+     "wipers": [
+      "wiper_A_0",
+      "wiper_B_0"
+     ],
+     "mirrors": [
+      "mirror_L",
+      "mirror_R",
+      "mirror_B_L",
+      "mirror_B_R"
+     ],
+     "cab_proxy": [
+      "cab_proxy_A",
+      "cab_proxy_B"
+     ]
+    },
+    "cab": {
+     "controls": [
+      "ctl_notch",
+      "ctl_horn",
+      "ctl_sand",
+      "ctl_doors_left",
+      "ctl_reverser",
+      "ctl_key",
+      "ctl_emergency",
+      "ctl_doors",
+      "ctl_doors_right",
+      "ctl_doors_close",
+      "ctl_autopilot",
+      "ctl_pantograph",
+      "ctl_power_mode",
+      "ctl_headlights",
+      "ctl_wiper",
+      "ctl_mirrors",
+      "ctl_bell"
+     ],
+     "screens": [
+      "screen_speed",
+      "screen_info",
+      "screen_next_stop",
+      "screen_signal",
+      "screen_mirror_L",
+      "screen_mirror_R",
+      "screen_notch"
+     ],
+     "lamps": [
+      "em_lamp_doors",
+      "em_lamp_panto",
+      "em_lamp_power",
+      "em_lamp_emergency",
+      "em_lamp_sand",
+      "em_lamp_headlights",
+      "em_lamp_autopilot"
+     ],
+     "camera": [
+      "cam_driver"
+     ]
+    }
+   },
+   "tris_by_file": {
+    "lod0": 85270,
+    "lod1": 30918,
+    "lod1_m": 10318,
+    "lod2": 3498,
+    "lod3": 802,
+    "cab": 14704,
+    "cab_m": 8318
+   },
+   "budget_check": {
+    "LOD0_pc<=250000": true,
+    "LOD0_mobile<=80000": true,
+    "LOD1_pc<=60000": true,
+    "LOD1_mobile<=25000": true,
+    "LOD2<=6000": true,
+    "LOD3<=1000": true,
+    "cab_pc<=80000": true,
+    "cab_mobile<=40000": true
+   },
+   "sources": [
+    "plan data/rolling_stock/plans/citadis_x05_nantes.json (modules mis à l'échelle de 33.00 m)",
+    "livrée data/rolling_stock/liveries.json#nantes + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
    "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"

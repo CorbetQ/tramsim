@@ -175,6 +175,7 @@ func _persist() -> void:
 	if Engine.has_meta("tramsim_benchmark"): return # Never modify player progression while profiling.
 	if free != null and vehicle != null:
 		SaveGame.store_free(save, free, net_path, vehicle.id)
+		save.free["custom_livery"] = vehicle.custom_livery.duplicate(true)
 		save.free["weather"]=weather.snapshot()
 	_save_profile()
 
@@ -667,7 +668,7 @@ func _build_setup() -> void:
 			var fleet := StockCatalog.for_network(cur_meta, n.supplies)
 			if cur_meta.get("kind") == "tram-train": fleet.sort_custom(func(a, b): return a.family == "citadis_dualis" and b.family != "citadis_dualis")
 			for entry in fleet:
-				vehicles.append(VehicleLibrary.for_fleet(entry,cur_meta))
+				vehicles.append(_selected_paint(VehicleLibrary.for_fleet(entry,cur_meta)))
 				veh_opt.add_item(str(entry.name)+" · "+str(entry.city)+(" · FICTIF" if entry.fictional else ""))
 		else:
 			for f in TramModel.fleet_for(n.meta):
@@ -784,15 +785,23 @@ func _remember_run(city: String) -> void:
 	save.settings.last_run = {"label": label, "city": city, "free": free_mode, "net_path": net_path, "network_id": CityDataStore.document(net_path).get("id", ""), "vehicle": vehicle.id,
 		"mission_key": "%s|%s" % [mission.get("start_time", ""), mission.get("headsign", "")] if not mission.is_empty() else "",
 		"scenario": str(scenario.get("id", "")), "station": start_station.duplicate() if free_mode else {}}
+	save.settings.last_run["custom_livery"] = vehicle.custom_livery.duplicate(true)
 	_save_profile()
 
 func _vehicle_by_id(id: String, meta: Dictionary) -> VehicleProfile:
+	var exact := StockCatalog.find(id)
+	if not exact.is_empty(): return VehicleLibrary.for_fleet(exact,meta)
 	for f in TramModel.fleet_for(meta):
 		var v := VehicleLibrary.for_fleet(f, meta)
 		if v.id == id: return v
 	for v in VehicleLibrary.all():
 		if v.id == id: return v
 	return VehicleLibrary.default_for(meta)
+
+func _selected_paint(profile: VehicleProfile) -> VehicleProfile:
+	var design := LiveryLibrary.clean(get_meta("selected_livery", {}))
+	if not design.is_empty() and LiveryLibrary.compatible(design,profile.variant_id): profile.custom_livery = design
+	return profile
 
 func _resume() -> void:
 	var r := _resume_info()
@@ -808,6 +817,8 @@ func _resume() -> void:
 	if n == null: return
 	net_path = str(r.net_path); free_mode = bool(r.free); mission = {}; scenario = {}; start_station = {}
 	vehicle = _vehicle_by_id(str(r.vehicle), n.meta)
+	var design := LiveryLibrary.clean(save.get("free",{}).get("custom_livery",r.get("custom_livery",{})) if free_mode else r.get("custom_livery",{}))
+	if not design.is_empty() and LiveryLibrary.compatible(design,vehicle.variant_id): vehicle.custom_livery=design
 	menu_city = str(r.get("city", menu_city))
 	if free_mode:
 		var f: Dictionary = save.get("free", {})
@@ -936,6 +947,7 @@ func _open_catalogue(city: String) -> Catalogue:
 		for c in hidden:
 			if is_instance_valid(c): c.visible = true)
 	cat.drive.connect(func(p: Dictionary):
+		set_meta("selected_livery",LiveryLibrary.clean(p.get("custom_livery",{})))
 		p.start = true; set_meta("catalogue_pick", p); _build_menu())
 	return cat
 

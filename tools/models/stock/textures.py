@@ -172,11 +172,12 @@ class Painter:
         def fn(X, Y):
             out = [(c["front"], np.ones_like(X, bool)), (c["skirt"], Y < 0.31)]
             if st == "x05":
-                out.append((c["mask"], (Y > t.ws_lo - 0.12)))
+                out.append((c["mask"], (Y > t.ws_lo - 0.05) & (Y < 3.17) & (np.abs(X)<1.055)))
                 out.append(("#2a2e31", (Y > 0.31) & (Y < 0.40)))
             elif st == "x05_nantes":
-                out.append((c["mask"], (Y > t.ws_lo - 0.10)))
-                out.append((c["apron"], (Y < 0.80) & (Y > 0.31)))
+                out.append((c["apron"], (Y < 0.64) & (Y > 0.31) & (np.abs(X)<1.06)))
+                out.append((c["mask"], (Y>0.64) & (Y<1.20) & (np.abs(X)<1.035)))
+                out.append((c["mask"], (Y>1.25) & (Y<3.18) & (np.abs(X)<1.035)))
             else:
                 out.append((c["mask"], (Y > t.ws_lo - 0.08) & (Y < t.ws_hi + 0.25)))
                 out.append((c["roof"], Y > t.ws_hi + 0.25))

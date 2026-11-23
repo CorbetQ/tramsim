@@ -14,3 +14,10 @@ et `tests/test_render_budgets.gd` dans Godot 4.6.3 avec affichage OpenGL.
 Conserver le profil Mobile dès la construction, le repli complet et les animations.
 Les atlas de livrée contiennent des UV constants : conserver leur filtrage trilinéaire pour éviter
 les pointillés en GLES ; contrôler les captures PC et Mobile avant livraison.
+
+Catalogue et peinture : lire `docs/catalogue-liveries/README.md`. Tests Godot :
+`tests/test_livery_catalogue.gd`, `tests/test_livery_ui.gd`, `tests/test_family_fronts.gd`.
+Faces HD : `data/rolling_stock/front_profiles.json` et `tools/models/stock/specs.py`.
+Ne pas remplacer une face spécifique par le plan donneur d'un type court/long.
+Conserver les concepts signalés comme fictifs, la compatibilité d'alimentation et les originaux.
+Après génération HD, lancer `python tools/models/stock/export_livery_layouts.py`.

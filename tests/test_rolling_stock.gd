@@ -116,4 +116,5 @@ func _init() -> void:
 	check(not lx.is_empty() and lx[0].city == "Nantes", "catalogue : lignes du X05 nantais (%d)" % lx.size())
 	var txt := TramSheet.sheet_text("citadis_x05_nantes", VehicleLibrary.for_fleet(lx[0].entry, lx[0].meta), lx[0].meta)
 	check(txt.contains("45.60 m") and txt.contains("estimé") and txt.contains("metropole.nantes.fr"), "fiche : longueur, valeurs estimées, sources")
+	StockHD.reset_cache()
 	quit(1 if fails > 0 else 0)

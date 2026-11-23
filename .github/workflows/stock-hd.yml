@@ -7,6 +7,19 @@ on:
       - 'assets/models/rolling_stock/**'
       - 'tools/models/stock/**'
       - 'src/rendering/stock_hd.gd'
+      - 'src/rendering/livery_painter.gd'
+      - 'src/rendering/tram_model.gd'
+      - 'src/catalogue/**'
+      - 'src/ui/catalogue.gd'
+      - 'src/ui/tram_sheet.gd'
+      - 'src/ui/livery_editor.gd'
+      - 'src/ui/tram_preview.gd'
+      - 'data/rolling_stock/livery_layouts.json'
+      - 'tests/test_livery_*.gd'
+      - 'tests/test_family_fronts.gd'
+      - 'tests/audit/family_front_shots.gd'
+      - 'data/rolling_stock/front_profiles.json'
+      - 'data/rolling_stock/variants/**'
       - 'src/rendering/cab_*.gd'
       - 'src/ui/main.gd'
       - 'tests/test_stock_hd*'
@@ -43,6 +56,16 @@ jobs:
           ! grep -Eq '^ECHEC|SCRIPT ERROR|TOTAL_ECHECS\|[1-9]' build/stock-hd/rig.log
           ./Godot_v4.6.3-stable_linux.x86_64 --headless --path . -s tests/test_stock_catalog.gd > build/stock-hd/catalog.log 2>&1
           ! grep -Eq '^ECHEC|SCRIPT ERROR|TOTAL_ECHECS\|[1-9]' build/stock-hd/catalog.log
+      - name: Family catalogue and saved paint schemes
+        run: |
+          mkdir -p .cache/livery
+          for test in test_livery_catalogue test_family_fronts test_livery_ui test_stock_ui; do
+            timeout 180 xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy --resolution 1280x720 -s tests/$test.gd > build/stock-hd/$test.log 2>&1
+            ! grep -Eq '^ECHEC|SCRIPT ERROR|^ERROR:|TOTAL_ECHECS\|[1-9]' build/stock-hd/$test.log
+          done
+          cp .cache/livery/*.png build/stock-hd/
+          xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/family_front_shots.gd -- build/stock-hd/family-fronts > build/stock-hd/family-fronts.log 2>&1
+          ! grep -Eq 'SCRIPT ERROR|^ERROR:' build/stock-hd/family-fronts.log
       - name: Render cabins and door states
         run: |
           xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/stock_hd_shots.gd -- build/stock-hd/pc > build/stock-hd/captures-pc.log 2>&1

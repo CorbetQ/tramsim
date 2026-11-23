@@ -392,24 +392,24 @@ class Citadis:
         hl = t.fr.get("headlights", {})
         y0 = float(hl.get("y_m", 0.9))
         if st == "x05":
-            # optiques en amande : boîtier noir brillant effilé, deux feux ronds + feu rouge à l'extrémité
+            # Irigo: three separate round optics in a white bumper, no generic
+            # black almond shared with other Citadis networks.
             for sx in (1, -1):
-                B.use(mod)
-                self.almond(sx * 0.60, 0.80, 0.42, 0.13, sx * 7.0, zj, dirz, "trim_black", 0.003, seg=max(12, int(28 * SEG[q])))
-                for k, xx in enumerate((0.50, 0.625)):
-                    B.use(mod); self.disc_on_face(sx * xx, 0.80 + 0.008 * k, zj, dirz, 0.047, "trim_chrome", depth=0.004, seg=seg, dome=0)
-                    B.use(hn); self.disc_on_face(sx * xx, 0.80 + 0.008 * k, zj, dirz, 0.038, "em_head", depth=0.006, seg=seg, dome=0.01)
-                B.use(tn); self.disc_on_face(sx * 0.735, 0.815, zj, dirz, 0.026, "em_tail", depth=0.006, seg=seg, dome=0.006)
+                for k, xx in enumerate((0.66, 0.82, 0.96)):
+                    yy=0.79+k*0.035; radius=(0.060,0.053,0.040)[k]
+                    B.use(mod); self.disc_on_face(sx*xx,yy,zj,dirz,radius+0.012,"trim_chrome",depth=0.004,seg=seg,dome=0)
+                    B.use(hn if k<2 else tn); self.disc_on_face(sx*xx,yy,zj,dirz,radius,"em_head" if k<2 else "em_tail",depth=0.008,seg=seg,dome=0.008)
         elif st == "x05_nantes":
             # panneau alvéolé : 68 hexagones (4 rangées × 17)
             B.use(mod)
-            rows, cols = 4, 17; rr = 0.031 if q <= 2 else 0.05
-            xs0 = np.linspace(-0.66, 0.66, cols)
+            rows, cols = 5, 14
             for i in range(rows):
-                y = 0.52 + i * 0.07
-                for j, x in enumerate(xs0 + (0.0 if i % 2 == 0 else 0.0)):
-                    xx = x + (0.0195 if i % 2 else -0.0195)
-                    lit = abs(xx) > 0.28 and i in (1, 2)
+                y = 0.695 + i * 0.109
+                for j in range(cols):
+                    xx = (j-6.5)*0.14+(i%2)*0.07
+                    rr = 0.026+0.039*min(1,max(0,(abs(xx)-0.18)/0.55))
+                    if abs(xx)+rr>1.005: continue
+                    lit = abs(xx)>0.25
                     if q >= 3 and not lit: continue
                     if q >= 4 and j not in (3, 13): continue
                     B.use(hn if lit else mod)
@@ -421,8 +421,8 @@ class Citadis:
             if q <= 2:
                 B.node("em_drl_" + end, mod, (0, t.ws_hi, zj + dirz * t.Lf))
                 xsr = np.linspace(-0.98, 0.98, int(40 * SEG[q]) + 4)
-                xr = float(t.nose_xz(t.nose_style()["theta_w"], t.ws_hi + 0.05)[0])
-                pts = [self.surf(x * xr, t.ws_hi + 0.05, zj, dirz) for x in xsr]
+                xr = 1.015
+                pts = [self.surf(x*xr,t.ws_hi+0.055-0.16*abs(x)**6,zj,dirz) for x in xsr]
                 P = np.array([p + n * 0.004 for p, n in pts]); Nn = np.array([n for p, n in pts])
                 G = np.array([P - np.array([0, 0.018, 0]), P + np.array([0, 0.018, 0])])
                 NN = np.array([Nn, Nn])
@@ -473,7 +473,7 @@ class Citadis:
         t, B = self.t, self.B
         mod = "module_%02d" % m["i"]
         st = t.spec["front_style"]
-        px = 0.12 * (-dirz) if st != "c302" else 0.0
+        px = 0.42*dirz if st=="x05_nantes" else (0.74*dirz if st=="x05" else 0.0)
         py = t.ws_lo + 0.06
         p, n = self.surf(px, py, zj, dirz)
         p = p + n * 0.02
@@ -481,7 +481,7 @@ class Citadis:
         name = "wiper_%s_0" % end
         B.node(name, mod, p, rot=F)
         # bras au repos : couché vers la gauche du conducteur (-X local), légèrement relevé
-        ang = math.radians(168)
+        ang = math.radians(66 if st=="x05_nantes" else 145)
         d = math.cos(ang) * F[:, 0] + math.sin(ang) * F[:, 1]
         L1 = 0.95 if st != "c302" else 0.85
         seg = 6 if self.q == 0 else 4

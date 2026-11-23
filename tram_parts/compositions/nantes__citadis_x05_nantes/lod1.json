@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "variant": "nantes__citadis_x05_nantes",
+  "parts": [
+    {
+      "file": "res://tram_parts/extremites/nantes_x05/caisse_00_lod1.glb",
+      "index": 0,
+      "role": "end_a",
+      "length_m": 9.600000000000001,
+      "center_z": -18.0,
+      "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_00_2k.png",
+      "triangles": 9925
+    },
+    {
+      "file": "res://tram_parts/suspendues/nantes_x05/caisse_01_lod1.glb",
+      "index": 1,
+      "role": "suspended",
+      "length_m": 5.6000000000000005,
+      "center_z": -10.399999999999999,
+      "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_01_2k.png",
+      "triangles": 2972
+    },
+    {
+      "file": "res://tram_parts/motrices/nantes_x05/caisse_02_lod1.glb",
+      "index": 2,
+      "role": "powered",
+      "length_m": 4.1000000000000005,
+      "center_z": -5.549999999999997,
+      "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_02_2k.png",
+      "triangles": 4884
+    },
+    {
+      "file": "res://tram_parts/suspendues/nantes_x05/caisse_03_lod1.glb",
+      "index": 3,
+      "role": "suspended",
+      "length_m": 7.000000000000002,
+      "center_z": 4.440892098500626e-15,
+      "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_03_2k.png",
+      "triangles": 4416
+    },
+    {
+      "file": "res://tram_parts/motrices/nantes_x05/caisse_04_lod1.glb",
+      "index": 4,
+      "role": "powered",
+      "length_m": 4.1000000000000005,
+      "center_z": 5.550000000000004,
+      "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_04_2k.png",
+      "triangles": 4884
+    },
+    {
+      "file": "res://tram_parts/suspendues/nantes_x05/caisse_05_lod1.glb",
+      "index": 5,
+      "role": "suspended",
+      "length_m": 5.6000000000000005,
+      "center_z": 10.400000000000006,
+      "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_05_2k.png",
+      "triangles": 2972
+    },
+    {
+      "file": "res://tram_parts/extremites/nantes_x05/caisse_06_lod1.glb",
+      "index": 6,
+      "role": "end_b",
+      "length_m": 9.600000000000001,
+      "center_z": 18.000000000000007,
+      "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_06_2k.png",
+      "triangles": 9081
+    }
+  ]
+}

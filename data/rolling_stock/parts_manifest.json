@@ -1,0 +1,412 @@
+{
+  "schema": 1,
+  "variants": {
+    "angers__citadis_x05": {
+      "lods": {
+        "lod0": "res://tram_parts/compositions/angers__citadis_x05/lod0.json",
+        "lod1": "res://tram_parts/compositions/angers__citadis_x05/lod1.json",
+        "lod1_m": "res://tram_parts/compositions/angers__citadis_x05/lod1_m.json",
+        "lod2": "res://tram_parts/compositions/angers__citadis_x05/lod2.json",
+        "lod3": "res://tram_parts/compositions/angers__citadis_x05/lod3.json"
+      },
+      "modules": [
+        {
+          "file": "res://tram_parts/extremites/angers_x05/caisse_00_lod0.glb",
+          "index": 0,
+          "role": "end_a",
+          "length_m": 9.239999999999998,
+          "center_z": -11.88,
+          "texture": "res://tram_livery/livery/angers/angers_x05/caisse_00_4k.png",
+          "triangles": 28515
+        },
+        {
+          "file": "res://tram_parts/suspendues/angers_x05/caisse_01_lod0.glb",
+          "index": 1,
+          "role": "suspended",
+          "length_m": 4.873846153846153,
+          "center_z": -4.8230769230769255,
+          "texture": "res://tram_livery/livery/angers/angers_x05/caisse_01_4k.png",
+          "triangles": 8104
+        },
+        {
+          "file": "res://tram_parts/motrices/angers_x05/caisse_02_lod0.glb",
+          "index": 2,
+          "role": "powered",
+          "length_m": 4.772307692307693,
+          "center_z": -3.1086244689504383e-15,
+          "texture": "res://tram_livery/livery/angers/angers_x05/caisse_02_4k.png",
+          "triangles": 16396
+        },
+        {
+          "file": "res://tram_parts/suspendues/angers_x05/caisse_03_lod0.glb",
+          "index": 3,
+          "role": "suspended",
+          "length_m": 4.873846153846153,
+          "center_z": 4.823076923076918,
+          "texture": "res://tram_livery/livery/angers/angers_x05/caisse_03_4k.png",
+          "triangles": 8104
+        },
+        {
+          "file": "res://tram_parts/extremites/angers_x05/caisse_04_lod0.glb",
+          "index": 4,
+          "role": "end_b",
+          "length_m": 9.239999999999998,
+          "center_z": 11.879999999999994,
+          "texture": "res://tram_livery/livery/angers/angers_x05/caisse_04_4k.png",
+          "triangles": 25591
+        }
+      ],
+      "livery": "angers",
+      "front_style": "x05"
+    },
+    "nantes__citadis_x05_nantes": {
+      "lods": {
+        "lod0": "res://tram_parts/compositions/nantes__citadis_x05_nantes/lod0.json",
+        "lod1": "res://tram_parts/compositions/nantes__citadis_x05_nantes/lod1.json",
+        "lod1_m": "res://tram_parts/compositions/nantes__citadis_x05_nantes/lod1_m.json",
+        "lod2": "res://tram_parts/compositions/nantes__citadis_x05_nantes/lod2.json",
+        "lod3": "res://tram_parts/compositions/nantes__citadis_x05_nantes/lod3.json"
+      },
+      "modules": [
+        {
+          "file": "res://tram_parts/extremites/nantes_x05/caisse_00_lod0.glb",
+          "index": 0,
+          "role": "end_a",
+          "length_m": 9.600000000000001,
+          "center_z": -18.0,
+          "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_00_4k.png",
+          "triangles": 27105
+        },
+        {
+          "file": "res://tram_parts/suspendues/nantes_x05/caisse_01_lod0.glb",
+          "index": 1,
+          "role": "suspended",
+          "length_m": 5.6000000000000005,
+          "center_z": -10.399999999999999,
+          "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_01_4k.png",
+          "triangles": 9984
+        },
+        {
+          "file": "res://tram_parts/motrices/nantes_x05/caisse_02_lod0.glb",
+          "index": 2,
+          "role": "powered",
+          "length_m": 4.1000000000000005,
+          "center_z": -5.549999999999997,
+          "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_02_4k.png",
+          "triangles": 15448
+        },
+        {
+          "file": "res://tram_parts/suspendues/nantes_x05/caisse_03_lod0.glb",
+          "index": 3,
+          "role": "suspended",
+          "length_m": 7.000000000000002,
+          "center_z": 4.440892098500626e-15,
+          "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_03_4k.png",
+          "triangles": 11932
+        },
+        {
+          "file": "res://tram_parts/motrices/nantes_x05/caisse_04_lod0.glb",
+          "index": 4,
+          "role": "powered",
+          "length_m": 4.1000000000000005,
+          "center_z": 5.550000000000004,
+          "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_04_4k.png",
+          "triangles": 15448
+        },
+        {
+          "file": "res://tram_parts/suspendues/nantes_x05/caisse_05_lod0.glb",
+          "index": 5,
+          "role": "suspended",
+          "length_m": 5.6000000000000005,
+          "center_z": 10.400000000000006,
+          "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_05_4k.png",
+          "triangles": 9984
+        },
+        {
+          "file": "res://tram_parts/extremites/nantes_x05/caisse_06_lod0.glb",
+          "index": 6,
+          "role": "end_b",
+          "length_m": 9.600000000000001,
+          "center_z": 18.000000000000007,
+          "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_06_4k.png",
+          "triangles": 24417
+        }
+      ],
+      "livery": "nantes",
+      "front_style": "x05_nantes"
+    },
+    "angers__citadis_302": {
+      "lods": {
+        "lod0": "res://tram_parts/compositions/angers__citadis_302/lod0.json",
+        "lod1": "res://tram_parts/compositions/angers__citadis_302/lod1.json",
+        "lod1_m": "res://tram_parts/compositions/angers__citadis_302/lod1_m.json",
+        "lod2": "res://tram_parts/compositions/angers__citadis_302/lod2.json",
+        "lod3": "res://tram_parts/compositions/angers__citadis_302/lod3.json"
+      },
+      "modules": [
+        {
+          "file": "res://tram_parts/extremites/angers_302/caisse_00_lod0.glb",
+          "index": 0,
+          "role": "end_a",
+          "length_m": 9.0,
+          "center_z": -11.7,
+          "texture": "res://tram_livery/livery/angers/angers_302/caisse_00_4k.png",
+          "triangles": 27955
+        },
+        {
+          "file": "res://tram_parts/suspendues/angers_302/caisse_01_lod0.glb",
+          "index": 1,
+          "role": "suspended",
+          "length_m": 4.8,
+          "center_z": -4.799999999999999,
+          "texture": "res://tram_livery/livery/angers/angers_302/caisse_01_4k.png",
+          "triangles": 7324
+        },
+        {
+          "file": "res://tram_parts/motrices/angers_302/caisse_02_lod0.glb",
+          "index": 2,
+          "role": "powered",
+          "length_m": 4.8,
+          "center_z": 1.3322676295501878e-15,
+          "texture": "res://tram_livery/livery/angers/angers_302/caisse_02_4k.png",
+          "triangles": 16396
+        },
+        {
+          "file": "res://tram_parts/suspendues/angers_302/caisse_03_lod0.glb",
+          "index": 3,
+          "role": "suspended",
+          "length_m": 4.8,
+          "center_z": 4.8000000000000025,
+          "texture": "res://tram_livery/livery/angers/angers_302/caisse_03_4k.png",
+          "triangles": 7324
+        },
+        {
+          "file": "res://tram_parts/extremites/angers_302/caisse_04_lod0.glb",
+          "index": 4,
+          "role": "end_b",
+          "length_m": 9.0,
+          "center_z": 11.700000000000003,
+          "texture": "res://tram_livery/livery/angers/angers_302/caisse_04_4k.png",
+          "triangles": 25267
+        }
+      ],
+      "livery": "angers",
+      "front_style": "c302"
+    },
+    "angers__concept_citadis_205": {
+      "lods": {
+        "lod0": "res://tram_parts/compositions/angers__concept_citadis_205/lod0.json",
+        "lod1": "res://tram_parts/compositions/angers__concept_citadis_205/lod1.json",
+        "lod1_m": "res://tram_parts/compositions/angers__concept_citadis_205/lod1_m.json",
+        "lod2": "res://tram_parts/compositions/angers__concept_citadis_205/lod2.json",
+        "lod3": "res://tram_parts/compositions/angers__concept_citadis_205/lod3.json"
+      },
+      "modules": [
+        {
+          "file": "res://tram_parts/extremites/angers_205_concept/caisse_00_lod0.glb",
+          "index": 0,
+          "role": "end_a",
+          "length_m": 9.0,
+          "center_z": -7.5,
+          "texture": "res://tram_livery/livery/angers/angers_205_concept/caisse_00_4k.png",
+          "triangles": 29267
+        },
+        {
+          "file": "res://tram_parts/suspendues/angers_205_concept/caisse_01_lod0.glb",
+          "index": 1,
+          "role": "suspended",
+          "length_m": 6.0,
+          "center_z": 0.0,
+          "texture": "res://tram_livery/livery/angers/angers_205_concept/caisse_01_4k.png",
+          "triangles": 9292
+        },
+        {
+          "file": "res://tram_parts/extremites/angers_205_concept/caisse_02_lod0.glb",
+          "index": 2,
+          "role": "end_b",
+          "length_m": 9.0,
+          "center_z": 7.5,
+          "texture": "res://tram_livery/livery/angers/angers_205_concept/caisse_02_4k.png",
+          "triangles": 26579
+        }
+      ],
+      "livery": "angers",
+      "front_style": "x05"
+    },
+    "angers__concept_citadis_405": {
+      "lods": {
+        "lod0": "res://tram_parts/compositions/angers__concept_citadis_405/lod0.json",
+        "lod1": "res://tram_parts/compositions/angers__concept_citadis_405/lod1.json",
+        "lod1_m": "res://tram_parts/compositions/angers__concept_citadis_405/lod1_m.json",
+        "lod2": "res://tram_parts/compositions/angers__concept_citadis_405/lod2.json",
+        "lod3": "res://tram_parts/compositions/angers__concept_citadis_405/lod3.json"
+      },
+      "modules": [
+        {
+          "file": "res://tram_parts/extremites/angers_405_concept/caisse_00_lod0.glb",
+          "index": 0,
+          "role": "end_a",
+          "length_m": 9.641666666666666,
+          "center_z": -17.429166666666667,
+          "texture": "res://tram_livery/livery/angers/angers_405_concept/caisse_00_4k.png",
+          "triangles": 28539
+        },
+        {
+          "file": "res://tram_parts/suspendues/angers_405_concept/caisse_01_lod0.glb",
+          "index": 1,
+          "role": "suspended",
+          "length_m": 5.085714285714285,
+          "center_z": -10.065476190476192,
+          "texture": "res://tram_livery/livery/angers/angers_405_concept/caisse_01_4k.png",
+          "triangles": 9984
+        },
+        {
+          "file": "res://tram_parts/motrices/angers_405_concept/caisse_02_lod0.glb",
+          "index": 2,
+          "role": "powered",
+          "length_m": 4.979761904761905,
+          "center_z": -5.032738095238097,
+          "texture": "res://tram_livery/livery/angers/angers_405_concept/caisse_02_4k.png",
+          "triangles": 17348
+        },
+        {
+          "file": "res://tram_parts/suspendues/angers_405_concept/caisse_03_lod0.glb",
+          "index": 3,
+          "role": "suspended",
+          "length_m": 5.085714285714285,
+          "center_z": -1.7763568394002505e-15,
+          "texture": "res://tram_livery/livery/angers/angers_405_concept/caisse_03_4k.png",
+          "triangles": 9984
+        },
+        {
+          "file": "res://tram_parts/suspendues/angers_405_concept/caisse_04_lod0.glb",
+          "index": 4,
+          "role": "suspended",
+          "length_m": 5.085714285714285,
+          "center_z": 5.085714285714284,
+          "texture": "res://tram_livery/livery/angers/angers_405_concept/caisse_04_4k.png",
+          "triangles": 9984
+        },
+        {
+          "file": "res://tram_parts/motrices/angers_405_concept/caisse_05_lod0.glb",
+          "index": 5,
+          "role": "powered",
+          "length_m": 4.979761904761905,
+          "center_z": 10.118452380952379,
+          "texture": "res://tram_livery/livery/angers/angers_405_concept/caisse_05_4k.png",
+          "triangles": 16448
+        },
+        {
+          "file": "res://tram_parts/extremites/angers_405_concept/caisse_06_lod0.glb",
+          "index": 6,
+          "role": "end_b",
+          "length_m": 9.641666666666666,
+          "center_z": 17.429166666666667,
+          "texture": "res://tram_livery/livery/angers/angers_405_concept/caisse_06_4k.png",
+          "triangles": 25615
+        }
+      ],
+      "livery": "angers",
+      "front_style": "x05"
+    },
+    "nantes__concept_citadis_205": {
+      "lods": {
+        "lod0": "res://tram_parts/compositions/nantes__concept_citadis_205/lod0.json",
+        "lod1": "res://tram_parts/compositions/nantes__concept_citadis_205/lod1.json",
+        "lod1_m": "res://tram_parts/compositions/nantes__concept_citadis_205/lod1_m.json",
+        "lod2": "res://tram_parts/compositions/nantes__concept_citadis_205/lod2.json",
+        "lod3": "res://tram_parts/compositions/nantes__concept_citadis_205/lod3.json"
+      },
+      "modules": [
+        {
+          "file": "res://tram_parts/extremites/nantes_205_concept/caisse_00_lod0.glb",
+          "index": 0,
+          "role": "end_a",
+          "length_m": 9.290322580645162,
+          "center_z": -7.354838709677419,
+          "texture": "res://tram_livery/livery/nantes/nantes_205_concept/caisse_00_4k.png",
+          "triangles": 28361
+        },
+        {
+          "file": "res://tram_parts/suspendues/nantes_205_concept/caisse_01_lod0.glb",
+          "index": 1,
+          "role": "suspended",
+          "length_m": 5.419354838709678,
+          "center_z": 8.881784197001252e-16,
+          "texture": "res://tram_livery/livery/nantes/nantes_205_concept/caisse_01_4k.png",
+          "triangles": 9984
+        },
+        {
+          "file": "res://tram_parts/extremites/nantes_205_concept/caisse_02_lod0.glb",
+          "index": 2,
+          "role": "end_b",
+          "length_m": 9.290322580645162,
+          "center_z": 7.354838709677421,
+          "texture": "res://tram_livery/livery/nantes/nantes_205_concept/caisse_02_4k.png",
+          "triangles": 24393
+        }
+      ],
+      "livery": "nantes",
+      "front_style": "x05_nantes"
+    },
+    "nantes__concept_citadis_305": {
+      "lods": {
+        "lod0": "res://tram_parts/compositions/nantes__concept_citadis_305/lod0.json",
+        "lod1": "res://tram_parts/compositions/nantes__concept_citadis_305/lod1.json",
+        "lod1_m": "res://tram_parts/compositions/nantes__concept_citadis_305/lod1_m.json",
+        "lod2": "res://tram_parts/compositions/nantes__concept_citadis_305/lod2.json",
+        "lod3": "res://tram_parts/compositions/nantes__concept_citadis_305/lod3.json"
+      },
+      "modules": [
+        {
+          "file": "res://tram_parts/extremites/nantes_305_concept/caisse_00_lod0.glb",
+          "index": 0,
+          "role": "end_a",
+          "length_m": 8.824512534818941,
+          "center_z": -12.087743732590528,
+          "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_00_4k.png",
+          "triangles": 26193
+        },
+        {
+          "file": "res://tram_parts/suspendues/nantes_305_concept/caisse_01_lod0.glb",
+          "index": 1,
+          "role": "suspended",
+          "length_m": 5.147632311977715,
+          "center_z": -5.1016713091922,
+          "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_01_4k.png",
+          "triangles": 9984
+        },
+        {
+          "file": "res://tram_parts/motrices/nantes_305_concept/caisse_02_lod0.glb",
+          "index": 2,
+          "role": "powered",
+          "length_m": 3.7688022284122558,
+          "center_z": -0.6434540389972161,
+          "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_02_4k.png",
+          "triangles": 14584
+        },
+        {
+          "file": "res://tram_parts/suspendues/nantes_305_concept/caisse_03_lod0.glb",
+          "index": 3,
+          "role": "suspended",
+          "length_m": 6.4345403899721445,
+          "center_z": 4.458217270194984,
+          "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_03_4k.png",
+          "triangles": 11004
+        },
+        {
+          "file": "res://tram_parts/extremites/nantes_305_concept/caisse_04_lod0.glb",
+          "index": 4,
+          "role": "end_b",
+          "length_m": 8.824512534818941,
+          "center_z": 12.087743732590528,
+          "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_04_4k.png",
+          "triangles": 23505
+        }
+      ],
+      "livery": "nantes",
+      "front_style": "x05_nantes"
+    }
+  },
+  "native": {}
+}

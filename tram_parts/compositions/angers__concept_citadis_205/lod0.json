@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "variant": "angers__concept_citadis_205",
+  "parts": [
+    {
+      "file": "res://tram_parts/extremites/angers_205_concept/caisse_00_lod0.glb",
+      "index": 0,
+      "role": "end_a",
+      "length_m": 9.0,
+      "center_z": -7.5,
+      "texture": "res://tram_livery/livery/angers/angers_205_concept/caisse_00_4k.png",
+      "triangles": 29267
+    },
+    {
+      "file": "res://tram_parts/suspendues/angers_205_concept/caisse_01_lod0.glb",
+      "index": 1,
+      "role": "suspended",
+      "length_m": 6.0,
+      "center_z": 0.0,
+      "texture": "res://tram_livery/livery/angers/angers_205_concept/caisse_01_4k.png",
+      "triangles": 9292
+    },
+    {
+      "file": "res://tram_parts/extremites/angers_205_concept/caisse_02_lod0.glb",
+      "index": 2,
+      "role": "end_b",
+      "length_m": 9.0,
+      "center_z": 7.5,
+      "texture": "res://tram_livery/livery/angers/angers_205_concept/caisse_02_4k.png",
+      "triangles": 26579
+    }
+  ]
+}

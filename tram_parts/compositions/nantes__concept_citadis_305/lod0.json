@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "variant": "nantes__concept_citadis_305",
+  "parts": [
+    {
+      "file": "res://tram_parts/extremites/nantes_305_concept/caisse_00_lod0.glb",
+      "index": 0,
+      "role": "end_a",
+      "length_m": 8.824512534818941,
+      "center_z": -12.087743732590528,
+      "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_00_4k.png",
+      "triangles": 26193
+    },
+    {
+      "file": "res://tram_parts/suspendues/nantes_305_concept/caisse_01_lod0.glb",
+      "index": 1,
+      "role": "suspended",
+      "length_m": 5.147632311977715,
+      "center_z": -5.1016713091922,
+      "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_01_4k.png",
+      "triangles": 9984
+    },
+    {
+      "file": "res://tram_parts/motrices/nantes_305_concept/caisse_02_lod0.glb",
+      "index": 2,
+      "role": "powered",
+      "length_m": 3.7688022284122558,
+      "center_z": -0.6434540389972161,
+      "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_02_4k.png",
+      "triangles": 14584
+    },
+    {
+      "file": "res://tram_parts/suspendues/nantes_305_concept/caisse_03_lod0.glb",
+      "index": 3,
+      "role": "suspended",
+      "length_m": 6.4345403899721445,
+      "center_z": 4.458217270194984,
+      "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_03_4k.png",
+      "triangles": 11004
+    },
+    {
+      "file": "res://tram_parts/extremites/nantes_305_concept/caisse_04_lod0.glb",
+      "index": 4,
+      "role": "end_b",
+      "length_m": 8.824512534818941,
+      "center_z": 12.087743732590528,
+      "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_04_4k.png",
+      "triangles": 23505
+    }
+  ]
+}

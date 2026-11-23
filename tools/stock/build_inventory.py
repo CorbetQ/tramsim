@@ -30,6 +30,8 @@ def build():
   e=copy.deepcopy(next(x for x in entries if x['id']==origin));e.update(id=src+'__concept_citadis_'+kind,family='citadis_x05',name='Citadis '+kind+' '+{'angers':'Irigo','dijon':'Divia','nantes':'Naolib'}[src]+' — concept',fictional=True,inspired_by=origin,length=length,module_count=7 if kind=='405' else 5,lines=[],line='',fiction_note='Création fictive du simulateur ; aucune commande réelle.',estimated=['mass_t','power_kw','capacity','max_speed_kmh','geometry','length_m','width_m'],electric_modes=['overhead','aps']);e['geometry']['modules']=e['module_count'];e['technical'].update(mass_t=round(length*1.25,1),power_kw=840 if kind=='405' else 640,capacity=300 if kind=='405' else 217)
   for ref in e['references']:ref['role']='Inspiration ; cette rame fictive n’existe pas.'
   entries.append(e)
+ from concept_variants import add_examples
+ add_examples(entries)
  # Déduplique les affectations de lignes qui partagent une même rame et une même livrée.
  merges={'idf__citadis_302__t7':['idf__citadis_302__t8'],'idf__citadis_x05__t9':['idf__citadis_x05__t10'],'idf__citadis_dualis__t11':['idf__citadis_dualis__t4','idf__citadis_dualis__t12','idf__citadis_dualis__t13']}
  for main,duplicates in merges.items():

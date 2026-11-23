@@ -25,7 +25,9 @@ func run()->void:
  sheet.free();await process_frame
  var catalogue:=Catalogue.new("Nantes");catalogue.theme=UiTheme.build();root.add_child(catalogue)
  for i in 5:await process_frame
- check(catalogue.grid.get_child_count()==6,"six variantes et concept Naolib à Nantes, sans doublons de lignes")
+ check(catalogue.grid.get_child_count()==StockCatalog.grouped("Nantes").size(),"une carte par famille à Nantes")
+ check(catalogue.grid.find_child("card_citadis_x05",false,false)!=null,"305 et 405 regroupés dans la carte Citadis X05")
  check(catalogue.grid.columns==1,"catalogue sur une colonne à 640 × 360 px")
  catalogue.free();await process_frame
+ StockHD.reset_cache()
  print("TOTAL_ECHECS|",failures);quit(1 if failures else 0)

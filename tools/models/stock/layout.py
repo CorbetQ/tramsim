@@ -118,7 +118,7 @@ class Train:
     }
 
     def nose_style(self):
-        return self.NOSE_STYLE.get(self.spec.get("front_style", "x05"), self.NOSE_STYLE["x05"])
+        return self.spec.get('nose_profile') or self.NOSE_STYLE[self.spec['front_style']]
 
     def nose_D(self, y):
         st = self.nose_style()
@@ -145,9 +145,24 @@ class Train:
         ths = np.concatenate([th, (math.pi - th[::-1])[1:]])
         rows = []
         for y in ys:
-            x, dz = self.nose_xz(np.minimum(ths, math.pi - ths), y, inset)
+            # Curve both glass boundaries in the actual mesh, without floating
+            # overlay masks or clipping the underlying body to a generic rectangle.
+            angle = np.minimum(ths, math.pi - ths)
+            u = np.clip((angle - tw) / max(math.pi/2-tw, 0.01), 0, 1)
+            edge = (1-u)**6
+            ws = self.fr.get('windshield', {})
+            dl = float(ws.get('lower_curve_m', 0)) * edge
+            dh = -float(ws.get('upper_curve_m', 0)) * edge
+            if y < self.ws_lo: delta = dl * max(0,(y-self.yb)/(self.ws_lo-self.yb))
+            elif y > self.ws_hi: delta = dh * max(0,(self.h-y)/(self.h-self.ws_hi))
+            else: delta = dl + (dh-dl)*(y-self.ws_lo)/(self.ws_hi-self.ws_lo)
+            yy = y + delta
+            # Vector-valued y on a column is evaluated separately; only tens of
+            # columns per row, offline authoring, no simulation-time cost.
+            points = [self.nose_xz(a, float(hh), inset) for a,hh in zip(angle,yy)]
+            x = np.array([p[0] for p in points]); dz = np.array([p[1] for p in points])
             x = np.where(ths <= math.pi / 2, x, -x)
-            rows.append(np.stack([x, np.full_like(x, y), zj + dirz * dz], 1))
+            rows.append(np.stack([x, yy, zj + dirz * dz], 1))
         G = np.array(rows)
         part = (np.minimum(ths, math.pi - ths) >= tw - 1e-9).astype(int)
         S = np.tile(ths, (len(ys), 1))

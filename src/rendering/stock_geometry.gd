@@ -11,7 +11,28 @@ static func apply(base:Dictionary,entry:Dictionary)->Dictionary:
  var cab:=str(entry.get("cab_profile",""));var src:=str(entry.get("network",""))
  var front:Dictionary=p.front
  # Les familles dédiées (Tours, Reims, Eurotram, Flexity…) conservent leurs profils d'origine.
- if cab in ["irigo302","irigo305"]:
+ if cab=="tfs_nantes":
+  front.length_m=.65;front.bulge=.055
+  front.plan=[[0,1],[.65,1],[.9,.98],[1,.91]]
+  front.section=[[.25,.94],[.65,1],[2.8,1],[3.10,.97],[3.36,.90]]
+  front.side=[[.25,.16],[.65,0],[1.2,.02],[2.7,.16],[3.08,.22],[3.36,1]]
+  front.windshield={"bottom_m":1.30,"top_m":3.04,"wrap":.02,"lower_curve_m":.14,"half_width_m":.89}
+  front.headlights={"shape":"round","x_m":.72,"y_m":1.12,"w_m":.16,"h_m":.16}
+  front.extra_lights=[{"x_m":.72,"y_m":.91,"r_m":.04,"color":"#e66c43"},{"x_m":.58,"y_m":.91,"r_m":.035,"color":"#942e2e"}]
+  front.destination={"y_m":2.87,"w_m":1.55,"h_m":.20}
+  front.wiper_lines=[[[.68,1.32],[-.12,2.27]]]
+ elif cab in ["tfs_paris","tfs_grenoble"]:
+  front.length_m=.54;front.bulge=.095
+  front.plan=[[0,1],[.65,.995],[.9,.97],[1,.89]]
+  front.section=[[.25,.90],[.70,.97],[1.3,1],[2.8,.98],[3.15,.93],[3.36,.83]]
+  front.side=[[.25,.23],[.65,0],[1.1,0],[2.7,.08],[3.10,.13],[3.36,1]]
+  front.windshield={"bottom_m":1.15,"top_m":3.10,"wrap":.03,"lower_curve_m":.04,"half_width_m":.94}
+  front.headlights={"shape":"round","x_m":.83,"y_m":.75,"w_m":.13,"h_m":.13}
+  front.lamp_housings={"x_m":.76,"y_m":.75,"w_m":.30,"h_m":.18}
+  front.upper_light={"y_m":3.23}
+  front.destination={"y_m":2.92,"w_m":1.55,"h_m":.20}
+  front.wiper_lines=[[[.68,1.17],[.10,2.08]],[[-.68,1.17],[-.10,2.08]]]
+ elif cab in ["irigo302","irigo305"]:
   front.plan=[[0,1],[.35,.99],[.7,.94],[1,.76]]
   front.section=[[.25,.92],[.6,1],[1.2,1],[2.4,.99],[2.9,.90],[3.3,.66]]
   front.windshield={"bottom_m":1.03,"top_m":2.9,"wrap":.36,"lower_curve_m":.28}
@@ -83,6 +104,10 @@ static func apply(base:Dictionary,entry:Dictionary)->Dictionary:
     if pantograph_seen:roof.type="box"
     pantograph_seen=true
  # Normalise les positions des portes selon la longueur locale conservée du plan de base.
+ if not pantograph_seen:
+  var first_module:Dictionary=p.modules[0]
+  if not first_module.has("roof"):first_module.roof=[]
+  first_module.roof.append({"type":"pantograph","z_m":float(first_module.length_m)*.65,"size":[1.2,.3,2.0]})
  if cab=="lille305":
   (p.modules[0] as Dictionary).doors=(p.modules[0].doors as Array).slice(-1)
   (p.modules[-1] as Dictionary).doors=(p.modules[-1].doors as Array).slice(0,1)

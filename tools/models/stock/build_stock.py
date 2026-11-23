@@ -68,6 +68,7 @@ def manifest_entry(sp, t, info):
     tri = info["tris"]
     e = {
         "dir": sp["dir"], "family": sp["family"], "name": sp["label"],
+        "front_profile": sp.get('nose_profile', {}).get('style', sp['front_style']),
         "length_m": round(t.L, 3), "width_m": round(2 * t.hw, 3),
         "modules": [round(m["Lm"], 4) for m in t.mods],
         "doors": t.n_doors,

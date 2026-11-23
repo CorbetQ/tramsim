@@ -81,23 +81,35 @@
     }
   },
   "idf__tfs__t1": {
-    "base": "#c9ced0",
-    "front": "#c9ced0",
-    "door": "#398e80",
+    "base": "#e4e8e5",
+    "front": "#e4e8e5",
+    "door": "#3d9d8f",
     "skirt": "#4b5660",
     "elements": [
       {
         "type": "band",
         "colors": [
-          "#398e80"
+          "#3d9d8f"
         ],
         "y": [
-          0.5,
-          0.9
+          1.05,
+          2.85
+        ],
+        "zone": "sides"
+      },
+      {
+        "type": "band",
+        "colors": [
+          "#3d9d8f"
+        ],
+        "y": [
+          1.03,
+          1.18
         ],
         "zone": "sides+front"
       }
-    ]
+    ],
+    "roof": "#e4e8e5"
   },
   "annemasse__tango_tpg": {
     "base": "#e9ecea",
@@ -571,6 +583,79 @@
         "y": [
           0.45,
           0.56
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "idf__concept_tfs_1": {
+    "base": "#e4e8e5",
+    "front": "#e4e8e5",
+    "door": "#3d9d8f",
+    "skirt": "#4b5660",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#3d9d8f"
+        ],
+        "y": [
+          1.05,
+          2.85
+        ],
+        "zone": "sides"
+      },
+      {
+        "type": "band",
+        "colors": [
+          "#3d9d8f"
+        ],
+        "y": [
+          1.03,
+          1.18
+        ],
+        "zone": "sides+front"
+      }
+    ],
+    "roof": "#e4e8e5"
+  },
+  "nantes__tfs": {
+    "base": "#e4e7e1",
+    "front": "#e4e7e1",
+    "door": "#e4e7e1",
+    "roof": "#e4e7e1",
+    "window": "#1a2830",
+    "skirt": "#454f54",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#008a5e"
+        ],
+        "y": [
+          1.14,
+          1.35
+        ],
+        "zone": "sides+front"
+      }
+    ]
+  },
+  "nantes__concept_tfs_2": {
+    "base": "#e4e7e1",
+    "front": "#e4e7e1",
+    "door": "#e4e7e1",
+    "roof": "#e4e7e1",
+    "window": "#1a2830",
+    "skirt": "#454f54",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#008a5e"
+        ],
+        "y": [
+          1.14,
+          1.35
         ],
         "zone": "sides+front"
       }

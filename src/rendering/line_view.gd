@@ -655,7 +655,10 @@ func _add_geo(parent: Node3D, g: _Geo, mat: Material, xf: Transform3D = Transfor
 ## Entrée de flotte d'un matériel : la sienne, sinon sa famille 3D (livrée du réseau appliquée).
 static func tram_entry(vehicle: VehicleProfile) -> Dictionary:
 	if vehicle == null: return {}
-	if not vehicle.fleet.is_empty(): return vehicle.fleet
+	if not vehicle.fleet.is_empty():
+		var entry := vehicle.fleet.duplicate(true)
+		if not vehicle.custom_livery.is_empty(): entry.custom_livery = vehicle.custom_livery.duplicate(true)
+		return entry
 	return {"family": vehicle.model_family if vehicle.model_family != "" else vehicle.id}
 
 func _ensure_modules(length_m: float) -> void:

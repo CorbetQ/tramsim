@@ -123,7 +123,7 @@
         }
       ],
       "search_query": "\"Citadis 302 Irigo\" \"Angers\"",
-      "model_origin": "Rame stylis\u00e9e reconstruite localement depuis les r\u00e9f\u00e9rences : fa\u00e7ade cintr\u00e9e, groupes de trois feux inclin\u00e9s, embl\u00e8me Alstom et essuie-glace diagonal. Caisses, portes et pantographe forment un ensemble coh\u00e9rent, anim\u00e9 par le rig historique. Si\u00e8ges Meshy, am\u00e9nagement estim\u00e9.",
+      "model_origin": "Rame stylisée reconstruite localement depuis les références : façade cintrée, groupes de trois feux inclinés, emblème Alstom et essuie-glace diagonal. Caisses, portes et pantographe forment un ensemble cohérent, animé par le rig historique. Sièges Meshy, aménagement estimé.",
       "status": "current_or_historical"
     },
     {
@@ -243,7 +243,7 @@
         }
       ],
       "search_query": "\"Citadis 305 Irigo\" \"Angers\"",
-      "model_origin": "Citadis 305 Irigo stylis\u00e9 : masque vitr\u00e9 arqu\u00e9, nez et groupes de feux propres au profil angevin, embl\u00e8me et essuie-glace diagonal. Maillages remplac\u00e9s ensemble, animations historiques conserv\u00e9es. Si\u00e8ges Meshy, am\u00e9nagement estim\u00e9.",
+      "model_origin": "Citadis 305 Irigo stylisé : masque vitré arqué, nez et groupes de feux propres au profil angevin, emblème et essuie-glace diagonal. Maillages remplacés ensemble, animations historiques conservées. Sièges Meshy, aménagement estimé.",
       "status": "current_or_historical"
     },
     {
@@ -416,7 +416,7 @@
         }
       ],
       "search_query": "\"Citadis 405 Naolib\" \"Nantes\"",
-      "model_origin": "Fa\u00e7ade Naolib d\u00e9di\u00e9e depuis les photographies : 68 motifs hexagonaux par extr\u00e9mit\u00e9, couronne lumineuse continue, grand vitrage rectangulaire, joues blanches et tablier vert. Reconstruction locale sans gabarit de face angevin. Animations historiques conserv\u00e9es ; si\u00e8ges Meshy, am\u00e9nagement estim\u00e9.",
+      "model_origin": "Façade Naolib dédiée depuis les photographies : 68 motifs hexagonaux par extrémité, couronne lumineuse continue, grand vitrage rectangulaire, joues blanches et tablier vert. Reconstruction locale sans gabarit de face angevin. Animations historiques conservées ; sièges Meshy, aménagement estimé.",
       "status": "current_or_historical"
     },
     {
@@ -5534,6 +5534,378 @@
       "status": "current_or_historical",
       "inspired_by": "nantes__citadis_x05_nantes",
       "fiction_note": "Création fictive du simulateur ; aucune commande réelle."
+    },
+    {
+      "id": "angers__concept_citadis_205",
+      "network": "angers",
+      "city": "Angers",
+      "family": "citadis_compact",
+      "name": "Citadis 205 Irigo — concept",
+      "length": 24.0,
+      "width": 2.4,
+      "line": "",
+      "lines": [],
+      "electric_modes": [
+        "overhead",
+        "aps"
+      ],
+      "guidance": "steel",
+      "gauge_mm": 1435,
+      "fictional": true,
+      "cab_profile": "irigo305",
+      "module_count": 3,
+      "technical": {
+        "mass_t": 30.0,
+        "power_kw": 600,
+        "capacity": 154,
+        "max_speed_kmh": 70,
+        "doors_per_side": 6
+      },
+      "estimated": [
+        "mass_t",
+        "power_kw",
+        "capacity",
+        "geometry",
+        "length_m",
+        "width_m"
+      ],
+      "geometry": {
+        "modules": 3,
+        "cab_profile": "irigo305",
+        "unidirectional": false,
+        "height": 3.35,
+        "floor": 0.35,
+        "double_cab_doors": true
+      },
+      "sources": [
+        "https://www.alstom.com/fr/press-releases-news/2023/7/les-nouveaux-tramways-alstom-entrent-en-service-commercial-sur-les-lignes-b-c-du-reseau-dangers-loire-metropole"
+      ],
+      "references": [
+        {
+          "title": "File:Angers tram 2026 04.jpg",
+          "url": "https://commons.wikimedia.org/wiki/File:Angers_tram_2026_04.jpg",
+          "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Angers_tram_2026_04.jpg/960px-Angers_tram_2026_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "author": "Smiley.toerist",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "date": "2026-09-21 12:04:50",
+          "description": "Tram in Angers",
+          "original_pixels": [
+            3648,
+            5472
+          ],
+          "local_image": "references/angers__citadis_x05-review-3.jpg",
+          "review_status": "subject_reviewed",
+          "sha256": "7c4d901a2ed7c3ec89c920def89c65815111ebb1164d39684a7012c023b040af",
+          "role": "Référence de forme du matériel source, pas de cette combinaison fictive."
+        },
+        {
+          "title": "File:2005lignefochmb.png",
+          "url": "https://commons.wikimedia.org/wiki/File:2005lignefochmb.png",
+          "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/2005lignefochmb.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+          "author": "TCPDLL",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "date": "2023-06-21",
+          "description": "Rame 2005, sur la ligne C en sortant de la station Foch Maison Bleu. Lors d'essais le 21 juin 2023.",
+          "original_pixels": [
+            867,
+            451
+          ],
+          "local_image": "references/angers__citadis_x05-review-1.jpg",
+          "review_status": "subject_reviewed",
+          "sha256": "2f82c7ccfa6096fd4f36c3f043edcfd537cdd9c881dcd58dce6ff88ae91cd981",
+          "role": "Référence de forme du matériel source, pas de cette combinaison fictive."
+        },
+        {
+          "title": "File:Angers - 15 boulevard du Maréchal-Foch 02.jpg",
+          "url": "https://commons.wikimedia.org/wiki/File:Angers_-_15_boulevard_du_Mar%C3%A9chal-Foch_02.jpg",
+          "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Angers_-_15_boulevard_du_Mar%C3%A9chal-Foch_02.jpg/960px-Angers_-_15_boulevard_du_Mar%C3%A9chal-Foch_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "author": "Fab5669",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "date": "2024-07-10 13:07:25",
+          "description": "Tramway in front of 15 Marechal Foch boulevard, in Angers (Maine-et-Loire, France)",
+          "original_pixels": [
+            5472,
+            3648
+          ],
+          "local_image": "references/angers__citadis_x05-review-2.jpg",
+          "review_status": "subject_reviewed",
+          "sha256": "0e695f8b9b4149cc0464bc0722a5f7e8652a6e2f8309c050241526718d225003",
+          "role": "Référence de forme du matériel source, pas de cette combinaison fictive."
+        },
+        {
+          "title": "File:Angers tram 2026 05.jpg",
+          "url": "https://commons.wikimedia.org/wiki/File:Angers_tram_2026_05.jpg",
+          "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Angers_tram_2026_05.jpg/960px-Angers_tram_2026_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "author": "Smiley.toerist",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "date": "2026-09-21 12:23:06",
+          "description": "Tram in Angers",
+          "original_pixels": [
+            5472,
+            3648
+          ],
+          "local_image": "references/angers__citadis_x05-review-4.jpg",
+          "review_status": "subject_reviewed",
+          "sha256": "caa463b1a09589cfaa16af04eca69cc85fd11e16bfd9186ee4ef9ce5049e7229",
+          "role": "Référence de forme du matériel source, pas de cette combinaison fictive."
+        }
+      ],
+      "search_query": "\"Citadis 305 Irigo\" \"Angers\"",
+      "model_origin": "Citadis 305 Irigo stylisé : masque vitré arqué, nez et groupes de feux propres au profil angevin, emblème et essuie-glace diagonal. Maillages remplacés ensemble, animations historiques conservées. Sièges Meshy, aménagement estimé.",
+      "status": "fictional",
+      "inspired_by": "angers__citadis_x05",
+      "fiction_note": "Combinaison fictive demandée pour le catalogue ; aucune rame réelle de ce réseau."
+    },
+    {
+      "id": "nantes__concept_citadis_205",
+      "network": "nantes",
+      "city": "Nantes",
+      "family": "citadis_x05_nantes",
+      "name": "Citadis 205 Naolib — concept",
+      "length": 24.0,
+      "width": 2.4,
+      "line": "",
+      "lines": [],
+      "electric_modes": [
+        "overhead"
+      ],
+      "guidance": "steel",
+      "gauge_mm": 1435,
+      "fictional": true,
+      "cab_profile": "naolib",
+      "module_count": 3,
+      "technical": {
+        "mass_t": 30.0,
+        "power_kw": 840,
+        "capacity": 154,
+        "max_speed_kmh": 70
+      },
+      "estimated": [
+        "mass_t",
+        "power_kw",
+        "capacity",
+        "geometry",
+        "length_m",
+        "width_m"
+      ],
+      "geometry": {
+        "modules": 3,
+        "cab_profile": "naolib",
+        "unidirectional": false,
+        "height": 3.35,
+        "floor": 0.35,
+        "double_cab_doors": true,
+        "cab_bogie": true
+      },
+      "sources": [
+        "https://metropole.nantes.fr/actualites/embarquez-pour-l-inauguration-du-nouveau-tramway"
+      ],
+      "references": [
+        {
+          "title": "File:Alstom Citadis X05 - 405.jpg",
+          "url": "https://commons.wikimedia.org/wiki/File:Alstom_Citadis_X05_-_405.jpg",
+          "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Alstom_Citadis_X05_-_405.jpg/960px-Alstom_Citadis_X05_-_405.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "author": "JFGChenel",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "date": "2024-08-06 12:10:36",
+          "description": "Tramways multi-articulés Alstom Citadis X05 - 405",
+          "original_pixels": [
+            2322,
+            2491
+          ],
+          "source_index": 1,
+          "local_image": "references/nantes__citadis_x05_nantes-1.jpg",
+          "review_status": "subject_reviewed",
+          "sha256": "c7f0f337589f7b2675d840373ba2ad27fd6fb01eaccbbc4b7084360903b5e001",
+          "role": "Référence de forme du matériel source, pas de cette combinaison fictive."
+        },
+        {
+          "title": "File:Nantes - Bouffay 20250726-02.jpg",
+          "url": "https://commons.wikimedia.org/wiki/File:Nantes_-_Bouffay_20250726-02.jpg",
+          "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Nantes_-_Bouffay_20250726-02.jpg/960px-Nantes_-_Bouffay_20250726-02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "author": "Pymouss",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "date": "2025-07-26 11:34:46",
+          "description": "Rame Alstom Citadis X05 du tramway de Nantes à la station Bouffay.",
+          "original_pixels": [
+            1778,
+            1334
+          ],
+          "source_index": 2,
+          "local_image": "references/nantes__citadis_x05_nantes-2.jpg",
+          "review_status": "subject_reviewed",
+          "sha256": "1ac9f4ae886ce83e5bf795b4f707e468c81769dfe45f3ea178a1bdebec7875ed",
+          "role": "Référence de forme du matériel source, pas de cette combinaison fictive."
+        }
+      ],
+      "search_query": "\"Citadis 405 Naolib\" \"Nantes\"",
+      "model_origin": "Façade Naolib dédiée depuis les photographies : 68 motifs hexagonaux par extrémité, couronne lumineuse continue, grand vitrage rectangulaire, joues blanches et tablier vert. Reconstruction locale sans gabarit de face angevin. Animations historiques conservées ; sièges Meshy, aménagement estimé.",
+      "status": "fictional",
+      "inspired_by": "nantes__citadis_x05_nantes",
+      "fiction_note": "Combinaison fictive demandée pour le catalogue ; aucune rame réelle de ce réseau."
+    },
+    {
+      "id": "nantes__concept_tfs_2",
+      "network": "nantes",
+      "city": "Nantes",
+      "family": "tfs",
+      "name": "Alsthom TFS 2 TAN — concept",
+      "length": 29.4,
+      "width": 2.3,
+      "line": "",
+      "lines": [],
+      "electric_modes": [
+        "overhead"
+      ],
+      "guidance": "steel",
+      "gauge_mm": 1435,
+      "fictional": true,
+      "cab_profile": "tfs_paris",
+      "module_count": 3,
+      "technical": {
+        "mass_t": 36.8,
+        "power_kw": 520,
+        "capacity": 188,
+        "max_speed_kmh": 70
+      },
+      "estimated": [
+        "mass_t",
+        "power_kw",
+        "capacity",
+        "geometry",
+        "length_m",
+        "width_m"
+      ],
+      "geometry": {
+        "modules": 3,
+        "cab_profile": "tfs_paris",
+        "unidirectional": false,
+        "height": 3.25,
+        "floor": 0.65
+      },
+      "sources": [
+        "https://fr.wikipedia.org/wiki/Tramway_fran%C3%A7ais_standard"
+      ],
+      "references": [
+        {
+          "title": "File:J28 375 Pont de Bondy, M1 101.jpg",
+          "url": "https://commons.wikimedia.org/wiki/File:J28_375_Pont_de_Bondy,_M1_101.jpg",
+          "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/J28_375_Pont_de_Bondy%2C_M1_101.jpg/960px-J28_375_Pont_de_Bondy%2C_M1_101.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "author": "Falk2",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "date": "2017-02-25 13:16",
+          "description": "Der Zug der Linie T1 verlässt die Brücke über den Canal de l’Ourcq in Richtung Asnières-Gennevilliers Les Courtilles, die Brückenrampe liegt südlich der Richtungsfahrbahnen der Avenue Paul Vaillant-Couturier.\nDer Triebwagen 101 ist der erste aus der Lieferung 1992, diese wurden mit Gleichstrommotoren ausgerüstet.",
+          "original_pixels": [
+            5604,
+            3736
+          ],
+          "source_index": 1,
+          "local_image": "references/idf__tfs__t1-1.jpg",
+          "review_status": "subject_reviewed",
+          "sha256": "2d3afed9115ab6223ca441caa61c08a417f0c7566277eb76dba1a8146fc31ebc",
+          "role": "Référence de forme du matériel source, pas de cette combinaison fictive."
+        }
+      ],
+      "search_query": "\"TFS\" \"T1\"",
+      "model_origin": "Plan historique du jeu conservé, avec adaptations de caisses, cabine et livrée depuis les références.",
+      "status": "fictional",
+      "inspired_by": "idf__tfs__t1",
+      "fiction_note": "Combinaison fictive demandée pour le catalogue ; aucune rame réelle de ce réseau."
+    },
+    {
+      "id": "idf__concept_tfs_1",
+      "network": "idf",
+      "city": "Île-de-France",
+      "family": "tfs",
+      "name": "Alsthom TFS 1 RATP — concept",
+      "length": 36.5,
+      "width": 2.3,
+      "line": "",
+      "lines": [],
+      "electric_modes": [
+        "overhead"
+      ],
+      "guidance": "steel",
+      "gauge_mm": 1435,
+      "fictional": true,
+      "cab_profile": "tfs_nantes",
+      "module_count": 3,
+      "technical": {
+        "mass_t": 45.6,
+        "power_kw": 640,
+        "capacity": 234,
+        "max_speed_kmh": 70
+      },
+      "estimated": [
+        "mass_t",
+        "power_kw",
+        "capacity",
+        "geometry",
+        "length_m",
+        "width_m"
+      ],
+      "geometry": {
+        "modules": 3,
+        "cab_profile": "tfs_nantes",
+        "unidirectional": false,
+        "height": 3.25,
+        "floor": 0.65
+      },
+      "sources": [
+        "https://fr.wikipedia.org/wiki/Tramway_fran%C3%A7ais_standard"
+      ],
+      "references": [
+        {
+          "title": "File:TAN - TFS Nantes n°336.jpg",
+          "url": "https://commons.wikimedia.org/wiki/File:TAN_-_TFS_Nantes_n%C2%B0336.jpg",
+          "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/TAN_-_TFS_Nantes_n%C2%B0336.jpg/960px-TAN_-_TFS_Nantes_n%C2%B0336.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "author": "Kevin.B",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "date": "2023-04-11 15:53:40",
+          "description": "Tramway TFS du réseau de Nantes",
+          "original_pixels": [
+            4000,
+            3000
+          ],
+          "source_index": 1,
+          "local_image": "references/nantes__tfs-1.jpg",
+          "review_status": "subject_reviewed",
+          "sha256": "459956403f816c4e914ee0e274e4a5579cd47d288f7bb59d941e677383e74420",
+          "role": "Référence de forme du matériel source, pas de cette combinaison fictive."
+        },
+        {
+          "title": "File:TAN - TFS Nantes n°342.jpg",
+          "url": "https://commons.wikimedia.org/wiki/File:TAN_-_TFS_Nantes_n%C2%B0342.jpg",
+          "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/TAN_-_TFS_Nantes_n%C2%B0342.jpg/960px-TAN_-_TFS_Nantes_n%C2%B0342.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "author": "Kevin.B",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "date": "2023-04-11 15:54:54",
+          "description": "Tramway TFS du réseau de Nantes",
+          "original_pixels": [
+            4000,
+            3000
+          ],
+          "source_index": 2,
+          "local_image": "references/nantes__tfs-2.jpg",
+          "review_status": "subject_reviewed",
+          "sha256": "b65c5633ec29a3ee319b862c3f2c02148b391f1bb463f26645f69abaff057007",
+          "role": "Référence de forme du matériel source, pas de cette combinaison fictive."
+        }
+      ],
+      "search_query": "\"TFS Nantes\" \"Nantes\"",
+      "model_origin": "Plan historique du jeu conservé, avec adaptations de caisses, cabine et livrée depuis les références.",
+      "status": "fictional",
+      "inspired_by": "nantes__tfs",
+      "fiction_note": "Combinaison fictive demandée pour le catalogue ; aucune rame réelle de ce réseau."
     }
   ]
 }

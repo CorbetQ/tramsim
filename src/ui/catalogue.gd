@@ -97,7 +97,7 @@ func _ready() -> void:
 	var top := HFlowContainer.new(); top.add_theme_constant_override("separation", 16); col.add_child(top)
 	var back := Button.new(); back.text = "← Menu"; back.custom_minimum_size = Vector2(140, 52); top.add_child(back)
 	back.pressed.connect(func(): closed.emit(); queue_free())
-	var title := Label.new(); title.text = "Catalogue des rames"; title.add_theme_font_size_override("font_size", 34)
+	var title := Label.new(); title.text = "Familles de tramways"; title.add_theme_font_size_override("font_size", 34)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; title.visible = not UiLayout.compact(self); top.add_child(title)
 	var fl := Label.new(); fl.text = "Livrée d’origine"; top.add_child(fl)
 	filter = TouchChoice.new(); filter.choice_title = "Ville"; filter.custom_minimum_size = Vector2(220 if UiLayout.compact(self) else 300, 52); top.add_child(filter)
@@ -129,25 +129,8 @@ func selected_city() -> String:
 func _fill() -> void:
 	for c in grid.get_children(): c.queue_free()
 	var cf := selected_city()
-	for entry in StockCatalog.entries():
-		if cf!="" and str(entry.city)!=cf:continue
-		grid.add_child(_variant_card(entry))
-
-func _variant_card(entry:Dictionary)->Control:
-	var card:=Button.new();card.name="variant_"+str(entry.id);card.custom_minimum_size=Vector2(344,310)
-	card.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	var col:=VBoxContainer.new();col.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT,Control.PRESET_MODE_MINSIZE,10);col.mouse_filter=Control.MOUSE_FILTER_IGNORE;card.add_child(col)
-	var image:=TextureRect.new();image.mouse_filter=Control.MOUSE_FILTER_IGNORE;image.custom_minimum_size=Vector2(0,184)
-	var path:=THUMBS+"variants/"+str(entry.id)+".png"
-	image.texture=load(path) if ResourceLoader.exists(path) else thumb(str(entry.family))
-	image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;col.add_child(image)
-	var title:=UiTheme.label_(str(entry.name),18,UiTheme.TEXT,true);title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;title.mouse_filter=Control.MOUSE_FILTER_IGNORE;col.add_child(title)
-	var caption:=str(entry.city)+" · %.1f m"%float(entry.length)
-	if entry.fictional:caption+=" · CONCEPT FICTIF"
-	else:caption+=" · "+" + ".join(PackedStringArray(entry.electric_modes)).replace("overhead","LAC").replace("aps","APS").replace("battery","autonomie")
-	var info:=UiTheme.label_(caption,14,UiTheme.MUTED);info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;info.mouse_filter=Control.MOUSE_FILTER_IGNORE;col.add_child(info)
-	card.pressed.connect(func():open_sheet(str(entry.family),str(entry.city),str(entry.id)))
-	return card
+	for group in StockCatalog.grouped(cf):
+		grid.add_child(_card(group,cf))
 
 func card_count() -> int:
 	var n := 0
@@ -156,21 +139,21 @@ func card_count() -> int:
 	return n
 
 func _card(f: Dictionary, cf: String) -> Control:
-	var b := Button.new(); b.custom_minimum_size = Vector2(344, 300); b.name = "card_" + str(f.id)
+	var b := Button.new(); b.custom_minimum_size = Vector2(minf(344,maxf(240,size.x-64)),300); b.name = "card_" + str(f.id)
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.tooltip_text = str(f.name)
 	var v := VBoxContainer.new(); v.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 8)
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE; b.add_child(v)
-	var tr := TextureRect.new(); tr.texture = thumb(str(f.id)); tr.custom_minimum_size = Vector2(328, 184)
+	var tr := TextureRect.new(); tr.texture = thumb(str(f.get("preview_family", f.id))); tr.custom_minimum_size = Vector2(0, 184)
 	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE; tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	tr.mouse_filter = Control.MOUSE_FILTER_IGNORE; v.add_child(tr)
 	var nl := Label.new(); nl.text = str(f.name); nl.add_theme_font_size_override("font_size", 18)
-	nl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; nl.custom_minimum_size = Vector2(328, 0); nl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	nl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; nl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(nl)
 	var cl := Label.new(); cl.add_theme_font_size_override("font_size", 14); cl.modulate = Color(1, 1, 1, 0.72)
-	cl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; cl.custom_minimum_size = Vector2(328, 0); cl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; cl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	cl.max_lines_visible = 2; cl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	cl.text = ", ".join(f.cities) if not (f.cities as PackedStringArray).is_empty() else "Hors flotte (matériel « Autre »)"
+	cl.text = "Types " + " · ".join(PackedStringArray(f.types)) + "\n%d livrées / faces · " % (f.variants as Array).size() + ", ".join(PackedStringArray(f.cities))
 	v.add_child(cl)
 	b.pressed.connect(func(): open_sheet(str(f.id), cf))
 	return b
