@@ -151,7 +151,7 @@ class Citadis:
             if m["bogie_z"] is not None and q <= 3: self.bogie(m)
             if m["i"] < len(t.mods) - 1: self.bellows(m)
             if q <= 1: self.interior(m)
-        if q >= 1: self.simplify()
+        if q >= 1 and not t.spec.get('preserve_nodes',False): self.simplify()
         return B
 
     KEEP = ("module_", "door_", "panto_", "em_head", "em_tail", "em_dest", "em_drl", "sign_dest", "wiper_", "mirror_", "cab_proxy", "em_interior")
@@ -636,7 +636,7 @@ class Citadis:
             w, hh, l = r["size"]; zc = r["zg"]; typ = r["type"]
             if covered and typ != "pantograph": continue
             if typ == "pantograph":
-                if q <= 3: self.pantograph(m, zc)
+                if q <= 3 and not t.spec.get('suppress_panto_geometry',False): self.pantograph(m, zc)
                 continue
             if typ == "fairing":
                 self.fairing(m, zc, w, hh, l)

@@ -9,6 +9,9 @@ static func apply(base:Dictionary,entry:Dictionary)->Dictionary:
  p.id=entry.get("family",base.id)
  if entry.is_empty():return p
  var cab:=str(entry.get("cab_profile",""));var src:=str(entry.get("network",""))
+ if cab=="naolib":
+  var source_modules:Array=p.modules.duplicate(true);p.modules=[]
+  for source_index in [0,2,3,2,3,2,6]:p.modules.append(source_modules[source_index].duplicate(true))
  var front:Dictionary=p.front
  # Les familles dédiées (Tours, Reims, Eurotram, Flexity…) conservent leurs profils d'origine.
  if cab=="tfs_nantes":
@@ -111,8 +114,20 @@ static func apply(base:Dictionary,entry:Dictionary)->Dictionary:
  if cab=="lille305":
   (p.modules[0] as Dictionary).doors=(p.modules[0].doors as Array).slice(-1)
   (p.modules[-1] as Dictionary).doors=(p.modules[-1].doors as Array).slice(0,1)
- if cab=="irigo305":
-  for module in p.modules:
-   for door in module.get("doors",[]):door.width_m=1.30;door.leaves=2
+ if cab in ["irigo302","irigo305"]:
+  var first_ratio:=float(p.modules[0].doors[0].z_m)/float(p.modules[0].length_m)
+  for i in p.modules.size():
+   var module:Dictionary=p.modules[i];var length:=float(module.length_m)
+   if i==0 or i==p.modules.size()-1:
+    var center:=length*first_ratio if i==0 else length*(1-first_ratio)
+    var door_width:=.8 if cab=="irigo302" else 1.3
+    module.doors=[{"z_m":center,"width_m":door_width,"leaves":1 if cab=="irigo302" else 2}]
+    module.windows=[]
+    for bounds in [[.18,center-door_width*.5-.12],[center+door_width*.5+.12,length-.18]]:
+     if bounds[1]-bounds[0]>.15:module.windows.append({"z0_m":bounds[0],"z1_m":bounds[1]})
+   elif module.get("bogie",false):module.doors=[]
+   else:
+    module.doors=[{"z_m":length*.25,"width_m":1.3,"leaves":2},{"z_m":length*.75,"width_m":1.3,"leaves":2}]
+    module.windows=[{"z0_m":length*.25+.73,"z1_m":length*.75-.73}]
  if src=="saintetienne":p.unidirectional=true
- return p
+ return TramParts.configure_plan(p,entry)

@@ -23,6 +23,17 @@ def fitted_plan(root, variant):
     """
     family = 'citadis_x05_nantes' if variant.get('cab_profile') == 'naolib' else variant['family']
     plan = json.loads(local_file(root / 'data/rolling_stock/plans', family + '.json').read_text())
+    if variant.get('cab_profile')=='naolib':
+        original=plan['modules']
+        plan['modules']=[copy.deepcopy(original[i]) for i in [0,2,3,2,3,2,6]]
+        sizes=[9.6,4.1,7.05,4.1,7.05,4.1,9.6]
+        for module,size in zip(plan['modules'],sizes):
+            ratio=size/module['length_m']
+            for door in module.get('doors',[]):door['z_m']*=ratio
+            for window in module.get('windows',[]):window['z0_m']*=ratio;window['z1_m']*=ratio
+            for roof in module.get('roof',[]):roof['z_m']*=ratio
+            if 'bogie_z_m' in module:module['bogie_z_m']*=ratio
+            module['length_m']=size
     modules = plan['modules']; count = int(variant['module_count'])
     if len(modules) != count:
         inside = modules[1:-1]
@@ -38,9 +49,21 @@ def fitted_plan(root, variant):
             for roof in module.get('roof', []): roof['z_m'] *= ratio
             if 'bogie_z_m' in module: module['bogie_z_m'] *= ratio
             module['length_m'] = size
-    if variant.get('cab_profile') == 'irigo305':
-        for module in modules:
-            for door in module.get('doors', []): door.update(width_m=1.3, leaves=2)
+    if variant.get('cab_profile') in ('irigo302','irigo305'):
+        for i,module in enumerate(modules):
+            length=module['length_m']
+            if i in (0,len(modules)-1):
+                first=modules[0]['doors'][0]
+                z=float(first['z_m'])/modules[0]['length_m']*length
+                if i: z=length-z
+                module['doors']=[{'z_m':z,'width_m':0.8 if variant['cab_profile']=='irigo302' else 1.3,'leaves':1 if variant['cab_profile']=='irigo302' else 2}]
+                bounds=[(.18,z-module['doors'][0]['width_m']/2-.12),(z+module['doors'][0]['width_m']/2+.12,length-.18)]
+                module['windows']=[{'z0_m':a,'z1_m':b} for a,b in bounds if b-a>.15]
+            elif module.get('bogie'):
+                module['doors']=[]
+            else:
+                module['doors']=[{'z_m':length*.25,'width_m':1.3,'leaves':2},{'z_m':length*.75,'width_m':1.3,'leaves':2}]
+                module['windows']=[{'z0_m':length*.25+.73,'z1_m':length*.75-.73}]
     return plan
 
 

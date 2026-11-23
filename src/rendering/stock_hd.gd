@@ -49,6 +49,9 @@ static func base_dir(entry: Dictionary) -> String:
 
 static func entry(variant_id: String) -> Dictionary:
 	if not enabled or OS.get_environment("TRAMSIM_STOCK_HD") == "0": return {}
+	if path()==MANIFEST:
+		var composed:=TramParts.hd_entry(variant_id)
+		if not composed.is_empty():return composed
 	return manifest().get("variants", {}).get(variant_id, {})
 
 static func mobile() -> bool:
@@ -58,6 +61,7 @@ static func mobile() -> bool:
 
 ## Fichier d'un LOD ("LOD0".."LOD3" ou "cab") pour le profil courant (`mobile_file` si fourni).
 static func file_for(e: Dictionary, lod: String, for_mobile: bool = mobile()) -> String:
+	if e.has("_variant"):return TramParts.lod_file(str(e._variant),lod,for_mobile)
 	if path()==MANIFEST:
 		for vid in manifest().get("variants",{}):
 			if manifest().variants[vid]==e:
@@ -73,7 +77,7 @@ static func scene(p: String) -> Node3D:
 	if p == "": return null
 	if _scenes.has(p): return _scenes[p]
 	var root: Node3D = null
-	if p.begins_with("res://tram_parts/") and p.ends_with(".json"):
+	if p.begins_with("res://tram_parts/") and (p.ends_with(".json") or ".json::" in p):
 		root=TramParts.assemble(p)
 	elif p.begins_with("res://") and ResourceLoader.exists(p):
 		var ps := load(p) as PackedScene
@@ -214,7 +218,7 @@ static func apply(rig, livery: Dictionary) -> HD:
 	var vid := str(livery.get("variant_id", ""))
 	var e := entry(vid)
 	if e.is_empty(): return null
-	if livery.has("custom_livery") and not LiveryPainter.layouts().has(vid): return null
+	if livery.has("custom_livery") and not LiveryPainter.layouts().has(vid) and not e.has("_kit"): return null
 	# Production validates/loads only the active platform; full multi-profile
 	# validation belongs to check() in tests/CI, avoiding hidden PC textures on Android.
 	if not check(vid, rig, true).is_empty(): return null
@@ -227,7 +231,7 @@ static func material_for(src: Material, livery: Dictionary, glass_alpha := -1.0)
 	if not src is BaseMaterial3D: return src
 	var full_name:=str(src.resource_name)
 	var n := full_name.split("__part_")[0]
-	var body_index := int(full_name.get_slice("__part_",1)) if "__part_" in full_name else -1
+	var body_index := int(livery.get("_part_index",int(full_name.get_slice("__part_",1)) if "__part_" in full_name else -1))
 	var custom: Dictionary = LiveryLibrary.for_part(livery.get("custom_livery", {}),livery.get("stock_entry",{}),body_index)
 	# Retain a small set of recently edited palettes through renderer cleanup.
 	# Releasing a replaced surface material in the same frame produces stale
@@ -239,7 +243,7 @@ static func material_for(src: Material, livery: Dictionary, glass_alpha := -1.0)
 			if _paint_mats.size() >= 3: _paint_mats.erase(_paint_mats.keys()[0])
 			_paint_mats[scheme] = {}
 		painted = _paint_mats[scheme]
-	var key := "%d|%s|%s" % [src.get_instance_id(), str(livery.get("variant_id", "")) + str(livery.get("base", "")), glass_alpha]
+	var key := "%d|%s|%s|%d" % [src.get_instance_id(), str(livery.get("variant_id", "")) + str(livery.get("base", "")), glass_alpha,body_index if not custom.is_empty() else -1]
 	if custom.is_empty() and _mats.has(key): return _mats[key]
 	if not custom.is_empty() and painted.has(key): return painted[key]
 	var m := (src as BaseMaterial3D).duplicate() as BaseMaterial3D
@@ -273,7 +277,13 @@ static func dress(root: Node, livery: Dictionary, glass_alpha := -1.0) -> void:
 		if g.mesh == null: continue
 		for s in g.mesh.get_surface_count():
 			var src := g.mesh.surface_get_material(s)
-			var m := material_for(src, livery, glass_alpha)
+			var scoped:=livery
+			var parent:Node=g
+			while parent!=null:
+				if parent.has_meta("tram_part_index"):
+					scoped=livery.duplicate();scoped["_part_index"]=int(parent.get_meta("tram_part_index"));break
+				parent=parent.get_parent()
+			var m := material_for(src, scoped, glass_alpha)
 			if m != src: g.set_surface_override_material(s, m)
 
 static func emissive(color: Color) -> StandardMaterial3D:
@@ -324,7 +334,7 @@ class HD:
 				var holder := Node3D.new(); holder.name = "HD_LOD%d" % li
 				for o in [r] + r.find_children("*", "", true, false): o.owner = null
 				r.get_parent().remove_child(r)
-				r.transform = Transform3D.IDENTITY
+				r.position = r.get_meta("tram_part_local_offset",Vector3.ZERO)
 				holder.add_child(r)
 				rig.modules[i].add_child(holder)
 				per.append(holder)

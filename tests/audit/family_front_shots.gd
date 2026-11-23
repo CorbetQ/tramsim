@@ -8,6 +8,12 @@ func run() -> void:
 	var args:=OS.get_cmdline_user_args()
 	if args.size()>0:out=args[0]
 	DirAccess.make_dir_recursive_absolute(out)
+	if args.size()>1 and args[1]=="review":
+		root.size=Vector2i(1920,1200);root.content_scale_size=root.size
+		await capture([CITADIS[0],CITADIS[3],CITADIS[1],CITADIS[4],CITADIS[2],CITADIS[5]],2,"threequarter","citadis-x05-review")
+		root.size=Vector2i(1440,1000);root.content_scale_size=root.size
+		await capture(CITADIS,3,"front","citadis-x05-faces")
+		StockHD.reset_cache();quit();return
 	root.size=Vector2i(1440,1000);root.content_scale_size=Vector2i(1440,1000)
 	await capture(CITADIS,3,"front","citadis-x05-faces")
 	await capture(CITADIS,3,"threequarter","citadis-x05-types")

@@ -43,6 +43,7 @@ static func texture(source: Texture2D, design: Dictionary, entry: Dictionary, pa
 		plan=plan.duplicate(true);plan.modules=[selected];total=float(selected.length_m)
 	var offset := 0.0
 	for module in plan.modules:
+		if design.get("_paint_only",false):continue
 		for window in module.get("windows", []):
 			_side_rect(image, width, side_h, (offset+float(window.z0_m))/total, (offset+float(window.z1_m))/total, 1.05, 2.45, Color(colors.window))
 		for door in module.get("doors", []):
@@ -61,7 +62,8 @@ static func texture(source: Texture2D, design: Dictionary, entry: Dictionary, pa
 			for band in design.bands:
 				if band.enabled and physical_y >= float(band.y) and physical_y <= float(band.y)+float(band.width): color = Color(band.color)
 			image.set_pixel(x,y,color)
-	var layout: Dictionary = layouts().get(str(entry.id),{"swatches":{}})
+	var cfg:=TramParts.configuration(entry)
+	var layout: Dictionary = layouts().get(str(entry.id),layouts().get(str(cfg.get("definition",{}).get("master","")),{"swatches":{}}))
 	for zone in layout.swatches:
 		if not colors.has(zone): continue
 		var point: Array = layout.swatches[zone]

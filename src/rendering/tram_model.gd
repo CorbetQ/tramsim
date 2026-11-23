@@ -279,6 +279,7 @@ class Rig:
 	var panto_t := 1.0
 	var panto_transition_s := 0.0
 	var hd = null                   # StockHD.HD : habillage HD piloté par cet état (null : modèle actuel)
+	var parts_view = null           # Shared native body prototypes, following the existing rig.
 
 	## Ouvre les portes du côté quai : "right", "left" ou "both" (droite/gauche dans le sens de marche,
 	## nez avant vers -z) ; seules ces portes s'ouvrent. `open` = false referme toutes les portes.
@@ -342,7 +343,9 @@ class Rig:
 			else:
 				u1 = 0.0
 			n.position = Vector3(float(lf.side) * out_m * u1, 0.0, float(lf.dir) * float(lf.travel) * u2)
-		if panto.is_empty(): return
+		if panto.is_empty():
+			if parts_view!=null:parts_view.sync()
+			return
 		var hinge: Vector2 = panto.hinge   # (y, z)
 		var head := Vector2(float(panto.roof) + pantograph_height(), float(panto.head_z))
 		var l1: float = panto.l1; var l2: float = panto.l2
@@ -359,6 +362,7 @@ class Rig:
 		(panto.lower as Node3D).transform = _beam(hinge, knee)
 		(panto.upper as Node3D).transform = _beam(knee, head)
 		(panto.head as Node3D).position = Vector3(0, head.x, head.y)
+		if parts_view!=null:parts_view.sync()
 
 	static func _beam(a: Vector2, b: Vector2) -> Transform3D:
 		var v := Vector3(0, b.x - a.x, b.y - a.y)

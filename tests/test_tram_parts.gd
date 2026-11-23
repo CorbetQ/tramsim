@@ -5,13 +5,35 @@ func check(ok:bool,message:String)->void:
 	else:print("ok: ",message)
 func _initialize()->void:run.call_deferred()
 func run()->void:
-	var index:=TramParts.manifest();var total:=0
+	var total:=0
 	for entry in StockCatalog.entries():
-		var rows:Array=index.variants.get(entry.id,{}).get("modules",index.native.get(entry.id,[]))
-		check(rows.size()==int(entry.module_count),str(entry.id)+" : chaque caisse dispose d'un modèle et d'une texture")
-		for row in rows:
-			check(TramParts.allowed(str(row.file)) and FileAccess.file_exists(str(row.file)) and str(row.texture).begins_with("res://tram_livery/") and FileAccess.file_exists(str(row.texture)),str(entry.id)+" : caisse %d indépendante"%int(row.index))
+		var cfg:=TramParts.configuration(entry)
+		check(not cfg.is_empty() and cfg.rows.size()==int(entry.module_count),str(entry.id)+" : composition par paramètres du kit")
+		if cfg.is_empty():continue
+		for row in cfg.rows:
+			var part:Dictionary=cfg.definition.parts[row.part]
+			var models:Dictionary=part.models
+			check(models.values().all(func(file):return TramParts.allowed(file) and FileAccess.file_exists(file)),str(entry.id)+" : prototype de caisse partagé")
 			total+=1
+	for network in ["angers","nantes"]:
+		var ids:Array=["angers__concept_citadis_205","angers__citadis_x05","angers__concept_citadis_405"] if network=="angers" else ["nantes__concept_citadis_205","nantes__concept_citadis_305","nantes__citadis_x05_nantes"]
+		var files:Array=[]
+		for id in ids:
+			var cfg:=TramParts.configuration(StockCatalog.find(id))
+			files.append(cfg.definition.parts.end_a.models.lod0)
+			check(cfg.rows.size()==int(StockCatalog.find(id).module_count),id+" : nombre de caisses paramétré")
+		check(files[0]==files[1] and files[1]==files[2],network+" : même ressource d'extrémité pour 205, 305 et 405")
+	for id in ["angers__citadis_x05","angers__citadis_302","nantes__citadis_x05_nantes"]:
+		var entry:=StockCatalog.find(id);var cfg:=TramParts.configuration(entry)
+		var counts:Array=[]
+		for row in cfg.rows:
+			var part:Dictionary=cfg.definition.parts[row.part];counts.append(int(part.door_count))
+			if str(entry.network)=="angers":
+				check(int(part.door_count)==(1 if row.role.begins_with("end_") else (0 if row.role=="powered" else 2)),id+" : portes selon le rôle de caisse")
+				if row.role.begins_with("end_"):
+					var door:Dictionary=part.plan.doors[0]
+					check(float(door.z_m)<float(part.length_m)*.5 if row.role=="end_a" else float(door.z_m)>float(part.length_m)*.5,id+" : porte d'extrémité vers la cabine")
+		check(counts==([2,0,2,0,2,0,2] if entry.network=="nantes" else [1,2,0,2,1]),id+" : distribution complète des portes")
 	check(not TramParts.allowed("res://tram_parts/../../secret"),"chemin sortant des pièces rejeté")
 	# Test real resource use, not just filenames, including independent native bodies.
 	for id in ["nantes__tfs","idf__tfs__t1","nantes__incentro","clermont__translohr","angers__citadis_x05","nantes__citadis_x05_nantes"]:
@@ -22,12 +44,13 @@ func run()->void:
 				var module:Node3D=holder.get_child(0);used=used and module.has_meta("tram_part_file")
 		else:
 			for module in rig.modules:
-				used=used and module.has_meta("tram_part_file") and module.material_override is ShaderMaterial and bool(module.material_override.get_shader_parameter("part_livery_enabled"))
+				used=used and module.has_meta("tram_part_file") and module.mesh==null and rig.parts_view!=null
 		check(used,id+" : ressources indépendantes effectivement utilisées par le rendu")
-		var closed:Transform3D=rig.leaves[0].node.transform
+		var animated:Node3D=rig.parts_view.bindings[0].visual if rig.parts_view!=null else rig.leaves[0].node
+		var closed:Transform3D=animated.transform
 		rig.set_doors(true,"both");rig.set_pantograph(false)
 		for step in 90:rig.update(.05)
-		check(not closed.is_equal_approx(rig.leaves[0].node.transform) and rig.panto_t<.01,id+" : liaisons des animations conservées")
+		check(not closed.is_equal_approx(animated.transform) and rig.panto_t<.01,id+" : liaisons des animations conservées")
 		for module in rig.modules:module.free()
 	var source:=StockCatalog.find("angers__citadis_x05")
 	var design:=LiveryLibrary.create(source);design.colors.base="#b52a80"

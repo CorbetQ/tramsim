@@ -56,17 +56,6 @@ VARIANTS = {
     },
 }
 
-# Length variants deliberately retain the network's own face, never the compact
-# donor's nose. These combinations are explicitly fictional in the catalogue.
-for _vid, _origin, _directory in [
-    ('angers__concept_citadis_205','angers__citadis_x05','angers_205_concept'),
-    ('angers__concept_citadis_405','angers__citadis_x05','angers_405_concept'),
-    ('nantes__concept_citadis_205','nantes__citadis_x05_nantes','nantes_205_concept'),
-    ('nantes__concept_citadis_305','nantes__citadis_x05_nantes','nantes_305_concept'),
-]:
-    VARIANTS[_vid] = copy.deepcopy(VARIANTS[_origin])
-    VARIANTS[_vid]['dir'] = _directory
-
 
 def variant_entry(vid):
     for e in _json("data/rolling_stock/variants/index.json")["entries"]:

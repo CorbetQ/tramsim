@@ -29,6 +29,7 @@ func _ready() -> void:
 	holder = Node3D.new(); world.add_child(holder)
 	cam = Camera3D.new(); cam.fov = 40.0; world.add_child(cam)
 	cam.position = Vector3(30, 11, -38); cam.look_at(Vector3(0, 1.2, 0))
+	resized.connect(func():if rig and _view!="front":set_view(_view))
 
 func show_tram(meta: Dictionary, vehicle: VehicleProfile) -> void:
 	for c in holder.get_children(): c.queue_free()
@@ -49,6 +50,9 @@ func set_view(mode:String)->void:
 		target.z=-_length*.5+.7;cam.position=Vector3(0,1.9,-_length*.5-7.5);cam.fov=32.0
 	elif mode=="side":cam.position=Vector3(_length*1.32,3.8,0);cam.fov=34.0
 	else:cam.position=Vector3(_length*.75+3,_length*.20+3,-_length*.72-3);cam.fov=34.0
+	if mode!="front":
+		var aspect:=maxf(size.x/maxf(size.y,1.0),.4)
+		cam.position=target+(cam.position-target)*maxf(1.0,1.6/aspect)
 	cam.look_at(target)
 
 func _process(dt: float) -> void:

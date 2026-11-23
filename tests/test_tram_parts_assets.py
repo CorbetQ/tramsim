@@ -21,7 +21,7 @@ class IndependentBodyAssets(unittest.TestCase):
         self.assertEqual(report['errors'],[])
         self.assertEqual(set(report['variants']),{e['id'] for e in entries})
         self.assertEqual(report['bodies'],sum(e['module_count'] for e in entries))
-        self.assertGreater(len(report['model_files']),report['bodies'])  # real LOD files
+        self.assertLess(len(report['model_files']),report['bodies'])  # prototypes are actually shared
         self.assertTrue(all(len(v['sha256'])==64 for v in report['model_files'].values()))
 
     def test_paths_cannot_escape_their_asset_category(self):
@@ -32,19 +32,21 @@ class IndependentBodyAssets(unittest.TestCase):
         original=Path.read_text
         def swapped(path,*args,**kwargs):
             text=original(path,*args,**kwargs)
-            if path.parent.parent.name=='compositions' and path.suffix=='.json':
-                data=json.loads(text);data['parts'][0]['index']=9
+            if path.parent.name=='compositions' and path.suffix=='.json':
+                data=json.loads(text);data['layout'][0]=data['layout'][-1]
                 return json.dumps(data)
             return text
         with patch.object(Path,'read_text',swapped):report=parts.audit()
-        self.assertTrue(any('body index' in error for error in report['errors']),report['errors'])
+        self.assertTrue(any('body order' in error for error in report['errors']),report['errors'])
 
     def test_missing_native_model_is_not_hidden_by_the_legacy_fallback(self):
         original=Path.read_text
         def missing(path,*args,**kwargs):
             text=original(path,*args,**kwargs)
-            if path.name=='parts_manifest.json':
-                data=json.loads(text);next(iter(data['native'].values()))[0]['file']='res://tram_parts/absent.scn'
+            if path.parent.name=='compositions' and path.suffix=='.json':
+                data=json.loads(text)
+                if data['renderer']!='native':return text
+                next(iter(data['parts'].values()))['models']['native']='res://tram_parts/absent.scn'
                 return json.dumps(data)
             return text
         with patch.object(Path,'read_text',missing):report=parts.audit()

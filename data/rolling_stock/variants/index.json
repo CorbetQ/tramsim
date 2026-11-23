@@ -372,10 +372,22 @@
         "height": 3.35,
         "floor": 0.35,
         "double_cab_doors": true,
-        "cab_bogie": true
+        "cab_bogie": true,
+        "module_lengths": [
+          9.6,
+          4.1,
+          7.05,
+          4.1,
+          7.05,
+          4.1,
+          9.6
+        ],
+        "layout_note": "Cabines porteuses à deux portes, trois nacelles motorisées sans porte, deux caisses suspendues à deux portes. Longueurs intermédiaires estimées ; longueur totale 45,6 m conservée."
       },
       "sources": [
-        "https://metropole.nantes.fr/actualites/embarquez-pour-l-inauguration-du-nouveau-tramway"
+        "https://metropole.nantes.fr/actualites/embarquez-pour-l-inauguration-du-nouveau-tramway",
+        "https://tramwaydemontpellier.net/2024/07/11/11-juillet-2024-nantes-le-point-sur-la-mise-en-service-commercial-des-nouvelles-rames-citadis-x05-alstom/",
+        "https://www.strmtg.developpement-durable.gouv.fr/IMG/pdf/ra_strmtg_2024_fr_bat2.pdf"
       ],
       "references": [
         {

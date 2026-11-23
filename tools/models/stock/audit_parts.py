@@ -21,51 +21,58 @@ def resource(root, value, folder):
 def audit(root=ROOT):
     manifest=json.loads((root/'data/rolling_stock/parts_manifest.json').read_text())
     catalogue={e['id']:e for e in json.loads((root/'data/rolling_stock/variants/index.json').read_text())['entries']}
-    report={'schema':1,'variants':{},'errors':[],'bodies':0,'model_bytes':0,'texture_bytes':0}
-    measured={};textures={}
-    if set(manifest['variants']) & set(manifest['native']):report['errors'].append('Variant duplicated between pipelines')
+    report={'schema':2,'variants':{},'errors':[],'bodies':0,'model_bytes':0,'texture_bytes':0}
+    measured={};textures={};kits={}
+    def model(value,triangles=None):
+        path=resource(root,value,'tram_parts')
+        if path not in measured:
+            data=path.read_bytes()
+            if path.suffix=='.glb':
+                info=glb_info(path,root/'tram_livery')
+                if triangles is not None and info['triangles']!=triangles:raise ValueError('Wrong measured triangle count')
+            elif path.suffix!='.scn' or data[:4] not in (b'RSCC',b'RSRC'):raise ValueError('Invalid model resource')
+            measured[path]={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
+    def texture(value):
+        path=resource(root,value,'tram_livery')
+        if path not in textures:
+            raw=path.read_bytes()
+            if raw[:8]!=b'\x89PNG\r\n\x1a\n':raise ValueError('Invalid PNG')
+            w,h=struct.unpack_from('>II',raw,16)
+            if not (0<w<=4096 and 0<h<=2048):raise ValueError('Invalid texture dimensions')
+            textures[path]={'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'width':w,'height':h}
+    if manifest.get('schema')!=2:report['errors'].append('Canonical kit schema required')
+    for kid,value in manifest.get('kits',{}).items():
+        try:
+            kit=json.loads(resource(root,value,'tram_parts').read_text());kits[kid]=kit
+            if kit['id']!=kid or kit['schema']!=2:raise ValueError('Wrong kit identity')
+            layout=kit['layout'];parts=kit['parts']
+            if len(layout)!=kit['master_count'] or parts[layout[0]]['role']!='end_a' or parts[layout[-1]]['role']!='end_b':raise ValueError('Wrong body order/count')
+            if abs(sum(kit['master_lengths'])-kit['master_length'])>.02:raise ValueError('Wrong master length')
+            for key,part in parts.items():
+                if part['length_m']<=0 or not math.isfinite(part['length_m']):raise ValueError('Invalid body dimension')
+                if part['door_count']!=len(part['plan'].get('doors',[])):raise ValueError('Door count differs from body plan')
+                category='extremites' if part['role'].startswith('end_') else ('motrices' if part['role']=='powered' else 'suspendues')
+                for lod,value in part['models'].items():
+                    path=resource(root,value,'tram_parts')
+                    if path.parent.name!=kid or path.parent.parent.name!=category:raise ValueError('Model must belong to canonical design/role, not a type')
+                    model(value,part.get('triangles',{}).get(lod))
+                if part.get('palette'):texture(part['palette'])
+            for value in kit.get('cab',{}).values():model(value)
+            for gear in kit.get('equipment',{}).values():
+                for lod,value in gear.get('models',{}).items():model(value,gear.get('triangles',{}).get(lod))
+        except (OSError,ValueError,KeyError,TypeError,IndexError) as error:report['errors'].append(kid+': '+str(error))
     for vid,entry in catalogue.items():
         try:
-            hd=manifest['variants'].get(vid)
-            bodies=hd['modules'] if hd else manifest['native'][vid]
-            if len(bodies)!=entry['module_count']:raise ValueError('Wrong body count')
-            if abs(sum(row['length_m'] for row in bodies)-entry['length'])>.02:raise ValueError('Wrong assembled length')
-            report['bodies']+=len(bodies)
-            recipes=[json.loads(resource(root,p,'tram_parts').read_text()) for p in hd['lods'].values()] if hd else [{'parts':bodies}]
-            if hd:
-                for cab in hd.get('cab',{}).values():
-                    path=resource(root,cab,'tram_parts');info=glb_info(path,root/'tram_livery')
-                    measured[path]={'sha256':info['sha256'],'bytes':info['bytes']}
-            for recipe in recipes:
-                rows=recipe['parts']
-                if len(rows)!=len(bodies):raise ValueError('LOD body count changed')
-                for i,row in enumerate(rows):
-                    if row['index']!=i or not math.isfinite(row['length_m']) or row['length_m']<=0:raise ValueError('Invalid body index/dimension')
-                    role=row['role']
-                    if (i==0 and role!='end_a') or (i==len(rows)-1 and role!='end_b'):raise ValueError('End design order changed')
-                    model=resource(root,row['file'],'tram_parts');texture=resource(root,row['texture'],'tram_livery')
-                    category='extremites' if role.startswith('end_') else ('motrices' if role=='powered' else 'suspendues')
-                    if model.relative_to(root/'tram_parts').parts[0]!=category:raise ValueError('Incorrect body category')
-                    data=model.read_bytes()
-                    if model not in measured:
-                        if model.suffix=='.glb':
-                            info=glb_info(model,root/'tram_livery')
-                            if info['triangles']!=row['triangles']:raise ValueError('Wrong measured triangle count')
-                            image_paths={(model.parent/uri).resolve() for uri in info['textures']}
-                            if texture not in image_paths:raise ValueError('Body paint atlas not bound to the GLB')
-                            json_length=struct.unpack_from('<I',data,12)[0]
-                            doc=json.loads(data[20:20+json_length])
-                            if 'module_%02d'%i not in {node.get('name') for node in doc['nodes']}:raise ValueError('Wrong body root/index')
-                        elif data[:4] not in (b'RSCC',b'RSRC'):raise ValueError('Invalid Godot body resource')
-                        measured[model]={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
-                    if texture not in textures:
-                        raw=texture.read_bytes()
-                        if raw[:8]!=b'\x89PNG\r\n\x1a\n':raise ValueError('Invalid PNG')
-                        width,height=struct.unpack_from('>II',raw,16)
-                        if width>4096 or height>2048 or width<1 or height<1:raise ValueError('Invalid body texture dimensions')
-                        textures[texture]={'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'width':width,'height':height}
-            report['variants'][vid]={'bodies':len(bodies),'pipeline':'gltf' if hd else 'godot','front_design':entry['cab_profile']}
+            ref=manifest['variants'][vid];kit=kits[ref['kit']]
+            if ref['count']!=entry['module_count'] or abs(ref['length_m']-entry['length'])>.02:raise ValueError('Wrong variant assembly parameters')
+            style=manifest['liveries'][ref['livery']]
+            if style['kit']!=kit['id']:raise ValueError('Incompatible paint kit')
+            for key in kit['parts']:
+                for value in style['parts'][key].values():texture(value)
+            report['bodies']+=ref['count']
+            report['variants'][vid]={'bodies':ref['count'],'pipeline':kit['renderer'],'kit':kit['id'],'livery':ref['livery']}
         except (OSError,ValueError,KeyError,TypeError) as error:report['errors'].append(vid+': '+str(error))
+    report['kits']=len(kits)
     report['model_bytes']=sum(v['bytes'] for v in measured.values());report['texture_bytes']=sum(v['bytes'] for v in textures.values())
     report['model_files']={str(k.relative_to(root)):v for k,v in measured.items()}
     report['texture_files']={str(k.relative_to(root)):v for k,v in textures.items()}

@@ -97,40 +97,8 @@ def export_part(builder, module, train, destination, atlas, original_dir, index)
 
 
 def main():
-    mp=ROOT/'data/rolling_stock/parts_manifest.json'
-    old=json.loads(mp.read_text()) if mp.exists() else {}
-    manifest={'schema':1,'variants':{},'native':old.get('native',{})}
-    generated=set()
-    for vid in specs.VARIANTS:
-        spec=specs.load(vid);train=Train(spec)
-        original=ROOT/'assets/models/rolling_stock'/spec['dir']
-        recipe_dir=ROOT/'tram_parts/compositions'/vid;recipe_dir.mkdir(parents=True,exist_ok=True)
-        entry={'lods':{},'modules':[],'livery':spec['network'],'front_style':spec['front_style']}
-        entry['cab']={}
-        for cab in ('cab','cab_m'):
-            target=ROOT/'tram_parts/extremites'/spec['dir']/(cab+'.glb')
-            relocate_cab(original/(cab+'.glb'),target,spec['network'],spec['dir'])
-            entry['cab'][cab]='res://'+target.relative_to(ROOT).as_posix()
-        for filename,q,tag in LODS:
-            builder=Citadis(train,q,tag).build();rows=[]
-            for i,module in enumerate(train.mods):
-                category='extremites' if i in (0,len(train.mods)-1) else ('motrices' if module['bogie_z'] is not None else 'suspendues')
-                role='end_a' if i==0 else ('end_b' if i==len(train.mods)-1 else ('powered' if category=='motrices' else 'suspended'))
-                target=ROOT/'tram_parts'/category/spec['dir']/('caisse_%02d_%s.glb'%(i,filename))
-                atlas=ROOT/'tram_livery/livery'/spec['network']/spec['dir']/('caisse_%02d_%s.png'%(i,tag))
-                if atlas not in generated:
-                    part_texture(original/('textures/livery_%s.png'%tag),atlas,module['z0f'],module['Lm'],train.L)
-                    generated.add(atlas)
-                tris=export_part(builder,module,train,target,atlas,original,i)
-                rows.append({'file':'res://'+target.relative_to(ROOT).as_posix(),'index':i,'role':role,'length_m':module['Lm'],'center_z':module['zc'],'texture':'res://'+atlas.relative_to(ROOT).as_posix(),'triangles':tris})
-            recipe=recipe_dir/(filename+'.json');recipe.write_text(json.dumps({'schema':1,'variant':vid,'parts':rows},indent=2)+'\n')
-            entry['lods'][filename]='res://'+recipe.relative_to(ROOT).as_posix()
-            if q==0:entry['modules']=rows
-        manifest['variants'][vid]=entry
-        print(vid,len(train.mods),'independent bodies',flush=True)
-    for directory in (ROOT/'tram_livery').rglob('*'):
-        if directory.is_dir():configure_texture_imports(directory)
-    (ROOT/'data/rolling_stock/parts_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+    from build_kits import main as build
+    build()
 
 
-if __name__=='__main__':main()
+if __name__ == '__main__':main()

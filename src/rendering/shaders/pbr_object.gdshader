@@ -12,6 +12,8 @@ uniform bool passenger_shell = false;
 // Body palette in unused UV2.y; motif UVs and vertex light flags stay intact.
 uniform bool part_livery_enabled = false;
 uniform sampler2D part_livery : filter_nearest, repeat_disable;
+uniform bool part_factory_enabled = false;
+uniform sampler2D part_factory : filter_linear_mipmap, repeat_disable;
 uniform bool part_custom_enabled = false;
 uniform sampler2D part_custom : filter_linear_mipmap, repeat_disable;
 uniform vec3 part_size = vec3(2.4, 3.4, 6.0);
@@ -185,12 +187,12 @@ void fragment() {
 	if (passenger_shell && (!FRONT_FACING || (COLOR.a > 0.25 && COLOR.a < 0.75))) { discard; }
 	NORMAL = normalize(cross(dFdy(VERTEX), dFdx(VERTEX)));
 	vec3 paint_color = part_livery_enabled ? texture(part_livery,vec2(UV2.y,0.5)).rgb : COLOR.rgb;
-	if (part_custom_enabled && v_paint > 0.25 && COLOR.a > 0.9) {
+	if ((part_custom_enabled || part_factory_enabled) && v_paint > 0.25 && COLOR.a > 0.9) {
 		vec2 pt = vec2(part_local.z / max(part_size.z,0.1) + 0.5,(3.4-part_local.y)/3.4*0.625);
 		if (part_end != 0 && abs(part_surface.z)>0.5 && float(part_end)*part_surface.z>0.0) {
 			pt=vec2((part_local.x/2.6+0.5)*0.1875,0.625+(3.4-part_local.y)/3.4*0.375);
 		}
-		paint_color=texture(part_custom,pt).rgb;
+		paint_color=part_custom_enabled ? texture(part_custom,pt).rgb : texture(part_factory,pt).rgb;
 	}
 	vec3 base = to_linear(paint_color) * albedo_mul;
 	float pat_glass = 0.0;
