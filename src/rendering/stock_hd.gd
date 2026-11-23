@@ -260,6 +260,7 @@ class HD:
 			for i in roots.size():
 				var r: Node3D = roots[i]
 				var holder := Node3D.new(); holder.name = "HD_LOD%d" % li
+				for o in [r] + r.find_children("*", "", true, false): o.owner = null
 				r.get_parent().remove_child(r)
 				r.transform = Transform3D.IDENTITY
 				holder.add_child(r)

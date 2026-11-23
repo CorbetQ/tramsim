@@ -41,6 +41,7 @@ func run() -> void:
 		var err := StockHD.check(vid, ref)
 		check(err.is_empty(), "modèle réel %s conforme %s" % [vid, ", ".join(err)])
 		for m in ref.modules: m.free()
+		if err.is_empty(): await _real_dynamic(vid)
 	# --- modèle de test minimal conforme au schéma
 	var fx = load("res://tests/fixtures/stock_hd_fixture.gd").new()
 	var entries := {}
@@ -219,6 +220,61 @@ func _main_integration() -> void:
 	main._toggle_cab_hud()
 	main.queue_free()
 	await process_frame
+
+## Modèle réel : portes côté quai, pantographe, essuie-glace, cabine (commandes visibles et cliquables).
+func _real_dynamic(vid: String) -> void:
+	var rig := TramModel.build_rig(_livery(vid))
+	check(rig.hd != null, vid + " : habillage HD appliqué")
+	if rig.hd == null: return
+	var holder := Node3D.new(); root.add_child(holder)
+	for m in rig.modules: holder.add_child(m)
+	rig.layout_straight()
+	var hd = rig.hd
+	check(rig.triangles <= 250000, "%s : LOD0 %d triangles ≤ 250 k" % [vid, rig.triangles])
+	rig.set_doors(true, "left"); for i in 40: rig.update(0.1)
+	var r := 0; var l := 0
+	for d in hd.doors:
+		if _moved((d.node as Node3D).transform, d.rest):
+			if float(d.side) > 0: r += 1
+			else: l += 1
+	check(l > 0 and r == 0, "%s : portes côté quai gauche seulement (%d/%d)" % [vid, l, r])
+	if not hd.pantos.is_empty():
+		var up: float = (hd.pantos[0].head as Node3D).global_position.y
+		rig.set_pantograph(false); for i in 60: rig.update(0.1)
+		check(up - (hd.pantos[0].head as Node3D).global_position.y > 0.5, "%s : pantographe baissé (archet %.2f m levé)" % [vid, up])
+	hd.update({"wiper": true, "destination": "Essai"}, 0.3)
+	check(hd.wipers.is_empty() or _moved((hd.wipers[0].node as Node3D).transform, hd.wipers[0].rest), vid + " : essuie-glace")
+	CabScreens.live_mirrors = true
+	var cab: CabView = hd.ensure_cab(rig)
+	CabScreens.live_mirrors = false
+	check(cab != null and cab.camera_node != null, vid + " : cabine et cam_driver")
+	if cab != null:
+		hd.set_cab_visible(true); hd.set_lod(-1)
+		var cam := Camera3D.new(); cam.fov = 62.0; root.add_child(cam); cam.current = true
+		cam.global_transform = cab.camera_transform()
+		await process_frame
+		var vp := root.get_visible_rect().size
+		var seen := {}; var picked := {}
+		for c in cab.controls:
+			var p: Vector3 = (c.node as Node3D).global_transform * (c.aabb as AABB).get_center()
+			if cam.is_position_behind(p): continue
+			var sp := cam.unproject_position(p)
+			if sp.x < 0 or sp.y < 0 or sp.x > vp.x or sp.y > vp.y: continue
+			seen[c.action] = true
+			if str(cab.pick(cam, sp).get("action", "")) == c.action: picked[c.action] = true
+		check(seen.size() == CabActions.actions().size(), "%s : commandes visibles depuis cam_driver %d/%d %s" % [vid, seen.size(), CabActions.actions().size(), str(seen.keys())])
+		check(picked.size() == seen.size(), "%s : commandes cliquables %d/%d" % [vid, picked.size(), seen.size()])
+		var nc := cab.control("notch")
+		cab.update({"notch": 1.0}, 0.0); var t1: Transform3D = (nc.node as Node3D).transform
+		cab.update({"notch": -1.0}, 0.0)
+		check(_moved(t1, (nc.node as Node3D).transform), vid + " : manipulateur suit le cran")
+		check(cab.screens.viewports.size() > 0, "%s : %d écrans en SubViewport" % [vid, cab.screens.viewports.size()])
+		cab.update({}, 0.0)
+		for k in cab.screens.cameras:
+			var cm := cab.screens.cameras[k] as Camera3D
+			check((-cm.global_basis.z).dot(Vector3.BACK) > 0.8, "%s : caméra de rétrovision %s tournée vers l'arrière" % [vid, k])
+		cam.queue_free()
+	holder.queue_free()
 
 func _end() -> void:
 	print("TOTAL_ECHECS|", fails)

@@ -22,8 +22,9 @@ VARIANTS = {
         # blocs arc-en-ciel (photos 2015/171177511 : blocs obliques sous les baies, derrière chaque porte, et
         # bandeau oblique au-dessus de la première porte de chaque loge) ; miroir pour l'extrémité B.
         "livery_rule": "irigo_x05",
-        "seat": {"fabric": "irigo", "shell": "#d9dcdf", "pole": "#b9c0c6", "pole_accent": "#5cb531"},
+        "seat": {"fabric": "irigo", "shell": "#4b5056", "pole": "#f2c200", "pole_accent": "#5cb531"},
         "fleet_number": "2015",
+        "cab": {"desk": (168, 172, 176)},
         "interior": {"wall": "#eceeef", "ceiling": "#f2f3f3", "floor": "#6b7074"},
     },
     "nantes__citadis_x05_nantes": {
@@ -34,8 +35,9 @@ VARIANTS = {
         "colors": {"base": "#2b4842", "window": "#111416", "door": "#2b4842", "front": "#eef0ee", "roof": "#e6e9e7",
                    "skirt": "#1d2b28", "mask": "#121517", "accent": "#00a77e", "apron": "#2a4a43"},
         "livery_rule": "naolib",
-        "seat": {"fabric": "naolib", "shell": "#cfd5d3", "pole": "#c3c9c8", "pole_accent": "#00a77e"},
+        "seat": {"fabric": "naolib", "shell": "#3d4744", "pole": "#00a77e", "pole_accent": "#00a77e"},
         "fleet_number": "417",
+        "cab": {"desk": (176, 182, 180)},
         "interior": {"wall": "#eef0ef", "ceiling": "#f3f4f3", "floor": "#5f6563"},
     },
     "angers__citadis_302": {
@@ -45,8 +47,9 @@ VARIANTS = {
                    "skirt": "#444b4f", "mask": "#1a1d1c", "accent": "#1a1d1c"},
         "rainbow": IRIGO_RAINBOW,
         "livery_rule": "liveries_json",     # éléments de data/rolling_stock/liveries.json (angers)
-        "seat": {"fabric": "irigo", "shell": "#d6d9dc", "pole": "#b9c0c6", "pole_accent": "#f18a00"},
+        "seat": {"fabric": "irigo", "shell": "#4b5056", "pole": "#f2c200", "pole_accent": "#f18a00"},
         "fleet_number": "1011",
+        "cab": {"desk": (86, 92, 102)},      # pupitre 302 : gris-bleu sombre (génération 2000)
         "interior": {"wall": "#e9ebec", "ceiling": "#f0f1f1", "floor": "#6b7074"},
     },
 }

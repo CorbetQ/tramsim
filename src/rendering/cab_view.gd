@@ -36,6 +36,8 @@ func setup(m: Node3D, e: Dictionary, livery: Dictionary) -> void:
 		if not lamps.has(k): lamps[k] = []
 		lamps[k].append(mat)
 	screens = CabScreens.new(); screens.name = "Screens"; add_child(screens)
+	var mods: Array = e.get("modules", [])
+	if not mods.is_empty(): screens.front_z = -float(mods[0]) * 0.5
 	screens.setup(model, e.get("screens", {}))
 
 ## AABB (repère du nœud) des maillages de la commande, élargie à 3 cm minimum pour le toucher.
@@ -118,8 +120,10 @@ func pick(cam: Camera3D, screen_pos: Vector2) -> Dictionary:
 		var lo := inv * o; var ld := inv.basis * d
 		var hit: Variant = (c.aabb as AABB).intersects_ray(lo, ld)
 		if hit == null: continue
-		var gd := (n.global_transform * (hit as Vector3)).distance_to(o)
-		if gd < best_d and gd < 3.0:
+		if (n.global_transform * (hit as Vector3)).distance_to(o) > 3.0: continue
+		# commandes voisines dont les zones se chevauchent : la plus proche du point visé à l'écran
+		var gd := cam.unproject_position(n.global_transform * (c.aabb as AABB).get_center()).distance_to(screen_pos)
+		if gd < best_d:
 			best_d = gd
 			# manipulateur : moitié haute de l'écran = traction, basse = freinage
 			best = {"action": c.action, "node": n, "hit": hit, "up": screen_pos.y < cam.unproject_position(n.global_position).y}

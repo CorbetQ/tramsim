@@ -58,10 +58,15 @@ func _init() -> void:
 				m0.add_child(cabn)
 				var px := train.find_child("cab_proxy_A", true, false)
 				if px: px.visible = false
+			if cabn.get_node_or_null("cab_light") == null:
+				var ol := OmniLight3D.new(); ol.name = "cab_light"; ol.light_energy = 0.6; ol.omni_range = 3.0
+				ol.position = Vector3(0, 2.2, -2.0); cabn.add_child(ol)
+				var cl := cabn.find_child("em_interior_cab", true, false) as Node3D
+				if cl: ol.global_position = cl.global_position + Vector3(0, -0.2, 0)
 			var cd := cabn.find_child("cam_driver", true, false) as Node3D
 			cam.global_transform = cd.global_transform; cam.fov = 62
 			if v == "cabdesk":
-				cam.global_position += Vector3(0, -0.05, 0.25); cam.rotate_object_local(Vector3.RIGHT, deg_to_rad(-22)); cam.fov = 70
+				cam.rotate_object_local(Vector3.RIGHT, deg_to_rad(-24)); cam.fov = 60
 		else:
 			cam.fov = 50
 			if cabn and cabn.get_parent(): cabn.get_parent().remove_child(cabn)
@@ -104,6 +109,16 @@ func _fix(n: Node) -> void:
 			var m := mi.mesh.surface_get_material(i) as StandardMaterial3D
 			if m == null: continue
 			var nm := m.resource_name
+			for slot in [BaseMaterial3D.TEXTURE_ALBEDO, BaseMaterial3D.TEXTURE_NORMAL, BaseMaterial3D.TEXTURE_ORM, BaseMaterial3D.TEXTURE_EMISSION]:
+				var tx := m.get_texture(slot)
+				if tx and not tx.has_meta("mip"):
+					var im := tx.get_image()
+					if im and not im.has_mipmaps():
+						if im.is_compressed(): im.decompress()
+						im.generate_mipmaps()
+						var it := ImageTexture.create_from_image(im); it.set_meta("mip", true)
+						m.set_texture(slot, it)
+			m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 			if nm.begins_with("livery") or nm.begins_with("paint_"):
 				m.clearcoat_enabled = true; m.clearcoat = 1.0; m.clearcoat_roughness = 0.08
 			if nm.begins_with("glass"):

@@ -129,8 +129,11 @@ func _pass(mobile: bool) -> void:
 	# plus bas, au plus 3 rames en LOD0) ; même contenu, budget inchangé.
 	var extra: Array = []
 	var lod0 := [1 if main.view.hd_lod == 0 else 0]
+	var ia_liv: Dictionary = main.view.livery
+	if not StockHD.entry("angers__citadis_x05").is_empty():   # rames HD livrées : rames IA en X05 HD
+		ia_liv = TramModel.livery_for(main.net.meta, StockCatalog.find("angers__citadis_x05"))
 	for k in 4:
-		var rig := TramModel.build_rig(main.view.livery)
+		var rig := TramModel.build_rig(ia_liv)
 		var holder := Node3D.new(); main.view.add_child(holder); extra.append(holder)
 		for m in rig.modules: holder.add_child(m)
 		rig.layout_straight()

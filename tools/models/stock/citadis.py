@@ -9,6 +9,8 @@ from specs import hex2rgb, srgb2lin
 import textures as TX
 
 SEG = {0: 1.0, 1: 0.6, 2: 0.45, 3: 0.3, 4: 0.2}
+BEV = 0.07        # longueur du congé d'extrémité de caisse
+BEV_IN = 0.04     # rentrée du congé
 
 
 def lin(h, a=1.0):
@@ -54,7 +56,7 @@ def materials(B, t, q, tex_tag):
         B.material("paint_" + z, color=lin(cc), rough=0.35 if z != "skirt" else 0.6, clearcoat=0.8 if z not in ("skirt", "window") else 0.0)
     B.material("glass_side", color=(0.04, 0.05, 0.055, 0.5), rough=0.04, alpha="BLEND", double=True, metal=0.0)
     B.material("glass_door", color=(0.05, 0.06, 0.065, 0.42), rough=0.04, alpha="BLEND", double=True)
-    B.material("glass_windshield", color=(0.04, 0.05, 0.055, 0.5), rough=0.03, alpha="BLEND", double=True)
+    B.material("glass_windshield", color=(0.04, 0.05, 0.055, 0.28), rough=0.03, alpha="BLEND", double=True)
     B.material("trim_black", color=lin("#151718"), rough=0.75)
     B.material("trim_rubber", color=lin("#202224"), rough=0.9)
     B.material("trim_alu", color=lin("#a9adb0"), rough=0.35, metal=1.0)
@@ -84,6 +86,7 @@ def materials(B, t, q, tex_tag):
         B.material("int_seat_shell", color=lin(st["shell"]), rough=0.4)
         B.material("int_pole", color=lin(st["pole"]), rough=0.25, metal=1.0)
         B.material("int_accent", color=lin(st["pole_accent"]), rough=0.4)
+        B.material("int_rail", color=lin("#c4c9cd"), rough=0.22, metal=1.0)
         B.material("int_dark", color=lin("#2a2d30"), rough=0.6)
         B.material("em_interior", color=lin("#f6f7f2"), emissive=(1.0, 0.98, 0.92), emissive_strength=1.5)
         B.material("screen_pis", color=lin("#0a0c0e"), emissive=(0.0, 0.0, 0.0), rough=0.15)
@@ -184,7 +187,7 @@ class Citadis:
         nrow = {0: 14, 1: 7, 2: 5, 3: 3, 4: 2}[q]
         ys = set(np.round(np.linspace(y_lo, t.cant, nrow), 4)) | {t.wb, t.wt, t.door_top, t.cant, y_lo}
         ys = np.array(sorted(ys))
-        zs = {zA, zB}
+        zs = {zA, zB} | set(self.bev_breaks(m))
         for a, b in openings_w + openings_d: zs |= {a, b}
         zs = np.array(sorted(z for z in zs if zA - 1e-6 <= z <= zB + 1e-6))
         Zc = (zs[:-1] + zs[1:]) / 2; Yc = (ys[:-1] + ys[1:]) / 2
@@ -195,9 +198,8 @@ class Citadis:
         Zg, Yg = np.meshgrid(zs, ys)
         for s in (1, -1):
             X = s * t.prof_x(Yg)
-            G = np.stack([X, Yg, Zg], -1)
-            sl = t.prof_slope(Yg)
-            N = nz(np.stack([s * np.ones_like(Yg), -sl, np.zeros_like(Yg)], -1))
+            G = self.bev(np.stack([X, Yg, Zg], -1), m)
+            N = grid_normals(G, away=(0.0, 1.6))
             if s < 0: G2, N2, H = G[:, ::-1], N[:, ::-1], hole[:, ::-1]
             else: G2, N2, H = G, N, hole
             UV = TX.side_uv(t.zf(G2[..., 2]), G2[..., 1], t.L)
@@ -237,11 +239,12 @@ class Citadis:
         for s in (1, -1):
             for a, b, mat in segs:
                 if b - a < 1e-4: continue
-                Zg, Yg = np.meshgrid([b, a] if s > 0 else [a, b], yt)
-                G = np.stack([s * t.prof_x(Yg), Yg, Zg], -1)
+                zl = sorted({a, b} | {z for z in self.bev_breaks(m) if a < z < b})
+                Zg, Yg = np.meshgrid(zl, yt)
+                G = self.bev(np.stack([s * t.prof_x(Yg), Yg, Zg], -1), m)
                 N = grid_normals(G, away=(0.0, 1.6))
                 UV = TX.side_uv(t.zf(Zg), Yg, t.L) if mat == self.livmat else np.stack([Zg, Yg * 4], -1)
-                emit(B, G, N, UV, np.ones((nt, 1), bool), mat)
+                emit(B, G, N, UV, np.ones((nt, len(zl) - 1), bool), mat)
         # dessous
         x0 = t.hw - TUCK
         B.quad((-x0, t.yb, zA), (x0, t.yb, zA), (x0, t.yb, zB), (-x0, t.yb, zB), "trim_black")
@@ -249,17 +252,21 @@ class Citadis:
         nr = {0: 10, 1: 6, 2: 4, 3: 3, 4: 2}[q]
         a = np.linspace(0, math.pi / 2, nr + 1)
         ysh = t.cant + (t.h - t.cant) * np.sin(a)
+        zl = sorted({zA, zB} | set(self.bev_breaks(m)))
         for s in (1, -1):
             xs = s * t.prof_x(ysh)
-            G = np.array([[[x, y, z] for x, y in zip(xs, ysh)] for z in ((zA, zB) if s > 0 else (zB, zA))])
+            G = self.bev(np.array([[[x, y, z] for x, y in zip(xs, ysh)] for z in zl]), m)
             N = grid_normals(G, away=(0.0, 1.6))
-            emit(B, G, N, TX.side_uv(t.zf(G[..., 2]), G[..., 1], t.L), np.ones((1, nr), bool), self.livmat)
+            emit(B, G, N, TX.side_uv(t.zf(G[..., 2]), G[..., 1], t.L), np.ones((len(zl) - 1, nr), bool), self.livmat)
         xr = float(t.prof_x(t.h))
-        B.quad((xr, t.h, zA), (-xr, t.h, zA), (-xr, t.h, zB), (xr, t.h, zB), "paint_roof")
+        G = self.bev(np.array([[[xr, t.h, z], [-xr, t.h, z]] for z in zl]), m)
+        N = grid_normals(G, away=(0.0, 1.6))
+        emit(B, G, N, np.stack([G[..., 0], G[..., 2]], -1), np.ones((len(zl) - 1, 1), bool), "paint_roof")
         # collerettes d'extrémité (côté soufflet)
         for zz, d, isnose in ((zA, -1, m["front_cab"]), (zB, 1, m["rear_cab"])):
-            if isnose: continue
+            if isnose or q >= 4: continue
             sec_o = t.section({0: 16, 1: 10}.get(q, 6), {0: 6, 1: 4}.get(q, 3))
+            dv = sec_o - np.array([0, 1.6]); sec_o = sec_o - dv / np.linalg.norm(dv, axis=1, keepdims=True) * BEV_IN
             if q <= 1:
                 sec_i = np.stack([sec_o[:, 0] * (1 - WALL / t.hw), t.floor + (sec_o[:, 1] - t.yb) * ((2.45 - t.floor) / (t.h - t.yb))], 1)
                 ring_o = np.column_stack([sec_o, np.full(len(sec_o), zz)]); ring_i = np.column_stack([sec_i, np.full(len(sec_i), zz)])
@@ -270,6 +277,28 @@ class Citadis:
             else:
                 ring = np.column_stack([sec_o, np.full(len(sec_o), zz)])
                 B.fan(ring, "trim_grey", normal=np.array([0, 0, d], float))
+
+    def bev_breaks(self, m):
+        out = []
+        if not m["front_cab"]: out.append(m["zA"] + BEV)
+        if not m["rear_cab"]: out.append(m["zB"] - BEV)
+        if self.q <= 1:
+            if not m["front_cab"]: out.append(m["zA"] + BEV * 0.35)
+            if not m["rear_cab"]: out.append(m["zB"] - BEV * 0.35)
+        return out
+
+    def bev(self, G, m):
+        """Congé d'extrémité de caisse (côté soufflet) : rentrée radiale en quart de cercle sur BEV mètres."""
+        if self.q >= 4: return G
+        G = G.copy(); z = G[..., 2]
+        t_ = np.zeros(z.shape)
+        if not m["front_cab"]: t_ = np.maximum(t_, 1 - (z - m["zA"]) / BEV)
+        if not m["rear_cab"]: t_ = np.maximum(t_, 1 - (m["zB"] - z) / BEV)
+        t_ = np.clip(t_, 0, 1)
+        ins = BEV_IN * (1 - np.sqrt(1 - t_ ** 2))
+        d = G[..., :2] - np.array([0, 1.6]); d = d / np.maximum(np.linalg.norm(d, axis=-1, keepdims=True), 1e-9)
+        G[..., :2] -= d * ins[..., None]
+        return G
 
     def quadv(self, p0, p1, z0, z1, mat, flip):
         """Quad vertical entre (x, y) p0 et p1, de z0 à z1."""
@@ -311,8 +340,6 @@ class Citadis:
         qfront = np.tile(pc[:-1] & pc[1:], (R - 1, 1))
         rowin = ((ys[:-1] >= t.ws_lo - 1e-6) & (ys[1:] <= t.ws_hi + 1e-6))[:, None]
         glass = qfront & rowin & (q <= 2)
-        if t.spec["front_style"] == "c302":
-            glass &= np.tile((S[:-1, :-1] > 0.02), 1)
         flip = dirz > 0
         def em(mask, UV, mat):
             if flip:
@@ -365,13 +392,14 @@ class Citadis:
         hl = t.fr.get("headlights", {})
         y0 = float(hl.get("y_m", 0.9))
         if st == "x05":
-            heads = [(sx * xx, y0) for sx in (1, -1) for xx in (0.50, 0.665)]
-            tails = [(sx * 0.775, y0 - 0.02) for sx in (1, -1)]
-            for x, y in heads:
-                B.use(mod); self.disc_on_face(x, y, zj, dirz, 0.07, "trim_black", depth=0.002, seg=seg, bezel="trim_chrome", dome=0)
-                B.use(hn); self.disc_on_face(x, y, zj, dirz, 0.055, "em_head", depth=0.004, seg=seg)
-            for x, y in tails:
-                B.use(tn); self.disc_on_face(x, y, zj, dirz, 0.035, "em_tail", depth=0.003, seg=seg, bezel="trim_black" if q <= 1 else None)
+            # optiques en amande : boîtier noir brillant effilé, deux feux ronds + feu rouge à l'extrémité
+            for sx in (1, -1):
+                B.use(mod)
+                self.almond(sx * 0.60, 0.80, 0.42, 0.13, sx * 7.0, zj, dirz, "trim_black", 0.003, seg=max(12, int(28 * SEG[q])))
+                for k, xx in enumerate((0.50, 0.625)):
+                    B.use(mod); self.disc_on_face(sx * xx, 0.80 + 0.008 * k, zj, dirz, 0.047, "trim_chrome", depth=0.004, seg=seg, dome=0)
+                    B.use(hn); self.disc_on_face(sx * xx, 0.80 + 0.008 * k, zj, dirz, 0.038, "em_head", depth=0.006, seg=seg, dome=0.01)
+                B.use(tn); self.disc_on_face(sx * 0.735, 0.815, zj, dirz, 0.026, "em_tail", depth=0.006, seg=seg, dome=0.006)
         elif st == "x05_nantes":
             # panneau alvéolé : 68 hexagones (4 rangées × 17)
             B.use(mod)
@@ -380,9 +408,11 @@ class Citadis:
             for i in range(rows):
                 y = 0.52 + i * 0.07
                 for j, x in enumerate(xs0 + (0.0 if i % 2 == 0 else 0.0)):
-                    if q >= 3 and (i % 2 or j % 2): continue
                     xx = x + (0.0195 if i % 2 else -0.0195)
-                    B.use(hn if (abs(xx) > 0.28 and i in (1, 2)) else mod)
+                    lit = abs(xx) > 0.28 and i in (1, 2)
+                    if q >= 3 and not lit: continue
+                    if q >= 4 and j not in (3, 13): continue
+                    B.use(hn if lit else mod)
                     self.disc_on_face(xx, y, zj, dirz, rr, "em_head" if B.cur == hn else "lamp_lens_off", depth=0.003, seg=6, dome=0)
             for sx in (1, -1):
                 B.use(tn); self.disc_on_face(sx * 0.76, 0.64, zj, dirz, 0.03, "em_tail", depth=0.003, seg=6, dome=0)
@@ -391,7 +421,8 @@ class Citadis:
             if q <= 2:
                 B.node("em_drl_" + end, mod, (0, t.ws_hi, zj + dirz * t.Lf))
                 xsr = np.linspace(-0.98, 0.98, int(40 * SEG[q]) + 4)
-                pts = [self.surf(x * float(t.prof_x(t.ws_hi + 0.05)) * float(t.plan_w(t.smax(t.ws_hi + 0.05))), t.ws_hi + 0.05, zj, dirz) for x in xsr]
+                xr = float(t.nose_xz(t.nose_style()["theta_w"], t.ws_hi + 0.05)[0])
+                pts = [self.surf(x * xr, t.ws_hi + 0.05, zj, dirz) for x in xsr]
                 P = np.array([p + n * 0.004 for p, n in pts]); Nn = np.array([n for p, n in pts])
                 G = np.array([P - np.array([0, 0.018, 0]), P + np.array([0, 0.018, 0])])
                 NN = np.array([Nn, Nn])
@@ -405,6 +436,18 @@ class Citadis:
                     if k == 2: B.use(tn); self.disc_on_face(x, y, zj, dirz, 0.036, "em_tail", depth=0.004, seg=seg)
                     else: B.use(hn); self.disc_on_face(x, y, zj, dirz, 0.04, "em_head", depth=0.004, seg=seg)
         B.use(mod)
+
+    def almond(self, xc, yc, w, h, rot_deg, zj, dirz, mat, depth, seg=24):
+        """Boîtier en amande projeté sur la face (contour lenticulaire incliné)."""
+        a = math.radians(rot_deg)
+        pts = []
+        for u in np.linspace(0, 2 * math.pi, seg, endpoint=False):
+            x = w / 2 * math.cos(u); y = h / 2 * math.sin(u) * (1 - 0.35 * math.cos(u) ** 2)
+            xr = x * math.cos(a) - y * math.sin(a); yr = x * math.sin(a) + y * math.cos(a)
+            p, n = self.surf(xc + xr, yc + yr, zj, dirz)
+            pts.append(p + n * depth)
+        c, nc = self.surf(xc, yc, zj, dirz)
+        self.B.fan(np.array(pts), mat, normal=nc)
 
     def destination(self, m, zj, dirz, end):
         t, B = self.t, self.B
@@ -525,8 +568,8 @@ class Citadis:
         th = 0.035
         fw = 0.065; gy0 = 0.62 if t.spec["front_style"] != "x05_nantes" else 0.55; gy1 = y1 - 0.11
         if q >= 2:
-            pts = [(xo(y0), y0), (xo(y1), y1)]
-            self.quadv(pts[0], pts[1], z0, z1, "paint_door", s < 0)
+            ym = (y0 + y1) / 2
+            B.box((xo(ym) - s * 0.015, ym, (z0 + z1) / 2), (0.03, y1 - y0, z1 - z0), "paint_door")
             return
         # cadre extérieur (4 bandes) et vitrage
         zs = [z0, z0 + fw, z1 - fw, z1]; ys = [y0, gy0, gy1, y1]
@@ -563,10 +606,15 @@ class Citadis:
         mod = "module_%02d" % m["i"]; B.use(mod)
         h = t.h
         has_panto = any(r["type"] == "pantograph" for r in m["roof"])
-        # carénages latéraux de toiture (X05) : panneaux bas le long des épaulements
-        if t.spec["front_style"] in ("x05", "x05_nantes") and q <= 3:
+        # carénages latéraux de toiture (X05, caisse à pantographe) : panneaux bas le long des épaulements
+        if has_panto and q <= 2:   # coffres bas et goulottes de câbles autour du pantographe
+            for zc_, ln in ((m["zA"] + 0.55, 0.6), (m["zB"] - 0.55, 0.6)):
+                B.rbox((0, h + 0.09, zc_), (1.3, 0.18, ln), 0.04, "roof_equipment", seg=2 if q == 0 else 1)
+            for s in (1, -1):
+                B.box((s * 0.25, h + 0.03, (m["zA"] + m["zB"]) / 2), (0.08, 0.06, m["zB"] - m["zA"] - 0.6), "roof_grille")
+        if False:
             za, zb = m["zA"] + (0.45 if not m["front_cab"] else 0.1), m["zB"] - (0.45 if not m["rear_cab"] else 0.1)
-            if not has_panto:
+            if True:
                 for s in (1, -1):
                     prof = np.array([(0.80, h - 0.01), (0.83, h + 0.24), (0.88, h + 0.28), (0.99, h + 0.26), (1.05, h + 0.12), (1.06, h - 0.02)])
                     if s < 0: prof = prof[::-1] * np.array([-1, 1])
@@ -579,8 +627,14 @@ class Citadis:
                     for zz_, dd in ((za, -1), (zb, 1)):
                         ring = np.array([(x, y, zz_) for x, y in pr])
                         B.fan(ring, "paint_base", normal=np.array([0, 0, dd], float))
+        covered = t.spec["front_style"] in ("x05", "x05_nantes") and not has_panto
+        if covered:
+            z0 = (m["zs"] + t.Lf * 0.45) if m["front_cab"] else m["zA"] + 0.30
+            z1 = (m["ze"] - t.Lf * 0.45) if m["rear_cab"] else m["zB"] - 0.30
+            self.roof_cover(z0, z1, 1.80, 0.30, m["front_cab"], m["rear_cab"])
         for r in m["roof"]:
             w, hh, l = r["size"]; zc = r["zg"]; typ = r["type"]
+            if covered and typ != "pantograph": continue
             if typ == "pantograph":
                 if q <= 3: self.pantograph(m, zc)
                 continue
@@ -598,6 +652,40 @@ class Citadis:
                 for k in (-1, 1):
                     c = np.array([0, h + hh + 0.002, zc + k * l * 0.22])
                     B.lathe(c, (0, 1, 0), [(0.28, 0), (0.27, 0.01), (0.001, 0.012)], "roof_grille", seg=16 if q == 0 else 10)
+
+    def roof_cover(self, z0, z1, w, hh, long_front, long_rear):
+        """Carénage de toiture continu (couvre climatisation et coffres) : section en superellipse, extrémités
+        arrondies ; long biseau côté cabine. Prises d'air sombres sur les flancs."""
+        t, B, q = self.t, self.B, self.q
+        h = t.h
+        if q >= 4 and not (long_front or long_rear): return
+        nx = {0: 18, 1: 10, 2: 8, 3: 6, 4: 3}[q]; nzz = {0: 26, 1: 12, 2: 8, 3: 6, 4: 3}[q]
+        L = z1 - z0
+        lf = 1.1 if long_front else 0.35; lr = 1.1 if long_rear else 0.35
+        u = np.linspace(0, 1, nzz + 1)
+        zz = z0 + u * L
+        def prof_h(z):
+            a = np.clip((z - z0) / lf, 0, 1); b = np.clip((z1 - z) / lr, 0, 1)
+            return np.minimum(np.sin(a * math.pi / 2) ** (0.8 if long_front else 0.5), np.sin(b * math.pi / 2) ** (0.8 if long_rear else 0.5))
+        ang = np.linspace(-1, 1, nx + 1)
+        G = []
+        for z in zz:
+            f = float(prof_h(z))
+            row = []
+            for a_ in ang:
+                x = w / 2 * np.sign(a_) * abs(a_) ** 0.8
+                e = max(1 - abs(a_) ** 3.0, 0) ** 0.33
+                row.append([x * (0.82 + 0.18 * f), h - 0.01 + hh * f * e, z])
+            G.append(row)
+        G = np.array(G)
+        N = grid_normals(G, away=(0.0, h - 1.5))
+        emit(B, G, N, np.stack([G[..., 0], G[..., 2]], -1), np.ones((nzz, nx), bool), "paint_base")
+        if q <= 1:   # grilles d'aspiration latérales
+            for s in (1, -1):
+                for zc in np.arange(z0 + lf + 0.4, z1 - lr - 0.4, 1.3):
+                    x = s * (w / 2 * 0.93); y = h + hh * 0.45
+                    p0 = np.array([x, y, zc])
+                    B.box(p0, (0.012, hh * 0.38, 0.7), "roof_grille")
 
     def fairing(self, m, zc, w, hh, l):
         """Carénage de bout de toit (cabine) : coque arrondie qui prolonge la face."""
@@ -855,10 +943,10 @@ class Citadis:
                 B.cyl((0, 1.05, d["zc"]), (0, 1.15, d["zc"]), 0.022, "int_accent", seg=segp)     # demande d'arrêt
         for s in (1, -1):
             x = s * 0.42
-            B.cyl((x, 2.0, z0 + 0.1), (x, 2.0, z1 - 0.1), 0.016, "int_pole", seg=segp, caps=True)
+            B.cyl((x, 2.0, z0 + 0.1), (x, 2.0, z1 - 0.1), 0.016, "int_rail", seg=segp, caps=True)
             if q == 0:
                 for zz in np.arange(z0 + 0.6, z1 - 0.3, 1.2):
-                    B.cyl((x, 2.0, zz), (x, 2.4, zz), 0.012, "int_pole", seg=6, caps=False)
+                    B.cyl((x, 2.0, zz), (x, 2.4, zz), 0.012, "int_rail", seg=6, caps=False)
         # écran d'information voyageurs (double face)
         zc = (z0 + z1) / 2
         k = m["i"]

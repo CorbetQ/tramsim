@@ -95,60 +95,85 @@ class Train:
     def nose_rows(self, q):
         """Hauteurs des lignes de la grille du nez (bords du pare-brise exacts)."""
         n = {0: 64, 1: 30, 2: 18, 3: 10, 4: 6}[q]
+        if q >= 4:
+            return np.array(sorted({self.yb, self.skirt, self.ws_lo, self.ws_hi, self.cant + 0.3, self.h}))
         ys = set(np.round(np.linspace(self.yb, self.h, n), 4))
         ys |= {self.ws_lo, self.ws_hi, self.skirt, self.cant, self.h - 0.02, self.yb + 0.02}
         if q <= 1:
             ys |= {self.ws_lo - 0.06, self.ws_hi + 0.06, 0.6, 0.75, 0.9, 1.0}
         return np.array(sorted(ys))
 
+    # Nez modélisé par courbes : en plan, superellipse |x/xw|^p + |dz/D|^p = 1 (angles très arrondis, tangente au
+    # flanc) ; en élévation, avancée D(y) interpolée (menton bombé, pare-brise incliné, raccord au pavillon).
+    NOSE_STYLE = {
+        "x05": {"p": 2.5, "theta_w": 0.40,
+                "D": [(0.25, 0.80), (0.33, 0.91), (0.5, 0.985), (0.78, 1.0), (1.02, 0.955), (1.4, 0.83), (1.9, 0.64),
+                      (2.4, 0.45), (2.8, 0.29), (3.05, 0.15), (3.22, 0.05), (3.3, 0.0)]},
+        "x05_nantes": {"p": 2.7, "theta_w": 0.36,
+                       "D": [(0.25, 0.82), (0.33, 0.92), (0.5, 0.99), (0.8, 1.0), (1.0, 0.96), (1.4, 0.85), (1.9, 0.67),
+                             (2.4, 0.48), (2.85, 0.30), (3.08, 0.15), (3.24, 0.05), (3.3, 0.0)]},
+        "c302": {"p": 2.15, "theta_w": 0.42,
+                 "D": [(0.25, 0.80), (0.4, 0.95), (0.7, 1.0), (1.15, 0.95), (1.6, 0.80), (2.1, 0.60), (2.6, 0.40),
+                       (2.95, 0.22), (3.15, 0.10), (3.3, 0.0)]},
+    }
+
+    def nose_style(self):
+        return self.NOSE_STYLE.get(self.spec.get("front_style", "x05"), self.NOSE_STYLE["x05"])
+
+    def nose_D(self, y):
+        st = self.nose_style()
+        return self.Lf * np.clip(smooth_interp(st["D"], y), 0.0, 1.0)
+
+    def nose_thetas(self, q):
+        st = self.nose_style(); tw = st["theta_w"]
+        n1 = {0: 12, 1: 7, 2: 5, 3: 3, 4: 2}[q]; n2 = {0: 22, 1: 11, 2: 8, 3: 4, 4: 3}[q]
+        a = tw * np.sin(np.linspace(0, 1, n1 + 1) * math.pi / 2)              # resserré près du flanc
+        b = np.linspace(tw, math.pi / 2, n2 + 1)[1:]
+        return np.concatenate([a, b])
+
+    def nose_xz(self, th, y, inset=0.0):
+        p = self.nose_style()["p"]
+        xw = float(self.prof_x(y)) - inset; D = max(float(self.nose_D(y)) - inset, 0.0)
+        c = np.clip(np.cos(th), 0, 1); s_ = np.clip(np.sin(th), 0, 1)
+        return xw * c ** (2 / p), D * s_ ** (2 / p)
+
     def nose_grid(self, zj, dirz, q, inset=0.0):
-        """Grille (R, C, 3) de la face : pour chaque y, flanc droit (s de 0 à smax), front (arc), flanc gauche.
-        dirz = -1 pour l'extrémité A (vers -Z), +1 pour B. Renvoie G, S (paramètre s par point), part (0 flanc, 1 face),
-        et l'indice des colonnes."""
+        """Grille (R, C, 3) : flanc droit (θ = 0) -> pointe (θ = π/2) -> flanc gauche. Renvoie G, Θ, part
+        (1 = zone pare-brise possible, θ >= theta_w), ys."""
         ys = self.nose_rows(q)
-        n1 = {0: 10, 1: 6, 2: 4, 3: 3, 4: 2}[q]; n2 = {0: 10, 1: 6, 2: 4, 3: 2, 4: 1}[q]; n3 = {0: 28, 1: 14, 2: 10, 3: 6, 4: 4}[q]
-        rows = []; S = []; part = []
+        th = self.nose_thetas(q); tw = self.nose_style()["theta_w"]
+        ths = np.concatenate([th, (math.pi - th[::-1])[1:]])
+        rows = []
         for y in ys:
-            sm = float(self.smax(y)); xw = float(self.prof_x(y)) - inset
-            sw = max(sm - self.wrap, 0.0)
-            s_a = np.linspace(0, sw, n1 + 1)
-            s_b = np.linspace(sw, sm, n2 + 1)[1:]
-            s_side = np.concatenate([s_a, s_b])
-            xs = xw * self.plan_w(s_side)
-            zs = zj + dirz * (s_side * self.Lfz + self.bump(y, s_side))
-            xt = xs[-1]; zt = zs[-1]
-            bul = self.bulge_r * min(1.0, sm / 0.3) * xt
-            u = np.linspace(1, -1, n3 + 1)[1:-1]
-            # arc frontal : demi-ellipse aplatie, tangente au flanc
-            xf = xt * u; zf = zt + dirz * bul * np.sqrt(np.clip(1 - u * u, 0, 1))
-            row_x = np.concatenate([xs, xf, -xs[::-1]]); row_z = np.concatenate([zs, zf, zs[::-1]])
-            rows.append(np.stack([row_x, np.full_like(row_x, y), row_z], 1))
-            ss = np.concatenate([s_side, np.full(len(xf), sm), s_side[::-1]])
-            S.append(ss)
-        G = np.array(rows); S = np.array(S)
-        C = G.shape[1]; nside = n1 + n2 + 1
-        part = np.zeros(C, int); part[n1:C - n1] = 1   # 1 : zone pare-brise possible (wrap + front)
+            x, dz = self.nose_xz(np.minimum(ths, math.pi - ths), y, inset)
+            x = np.where(ths <= math.pi / 2, x, -x)
+            rows.append(np.stack([x, np.full_like(x, y), zj + dirz * dz], 1))
+        G = np.array(rows)
+        part = (np.minimum(ths, math.pi - ths) >= tw - 1e-9).astype(int)
+        S = np.tile(ths, (len(ys), 1))
         if dirz > 0:
             G = G[:, ::-1]; S = S[:, ::-1]; part = part[::-1]
         return G, S, part, ys
 
+    def half_width_at(self, back, y, inset=0.0):
+        """Demi-largeur intérieure du nez à `back` m en arrière de la pointe, hauteur y."""
+        p = self.nose_style()["p"]; D = float(self.nose_D(y)); xw = float(self.prof_x(y)) - inset
+        dz = self.Lf - back
+        if dz <= 0: return xw
+        if dz >= D: return 0.0
+        sn = (dz / D) ** (p / 2); th = math.asin(min(sn, 1.0))
+        return xw * math.cos(th) ** (2 / p)
+
     def face_point(self, x, y, zj, dirz):
-        """Point de la surface avant en (x, y) (|x| <= demi-largeur frontale) et normale approchée."""
+        """Point de la surface avant en (x, y) et normale sortante."""
+        p = self.nose_style()["p"]
         def zat(xx, yy):
-            sm = float(self.smax(yy)); xw = float(self.prof_x(yy)); xt = xw * float(self.plan_w(sm))
-            if abs(xx) >= xt:   # sur le flanc : recherche de s
-                lo, hi = 0.0, sm
-                for _ in range(30):
-                    mid = (lo + hi) / 2
-                    if xw * float(self.plan_w(mid)) > abs(xx): lo = mid
-                    else: hi = mid
-                s = lo
-                return zj + dirz * (s * self.Lfz + float(self.bump(yy, s)))
-            u = xx / xt; bul = self.bulge_r * min(1.0, sm / 0.3) * xt
-            return zj + dirz * (sm * self.Lfz + float(self.bump(yy, sm)) + bul * math.sqrt(max(0.0, 1 - u * u)))
-        z = zat(x, y); e = 0.01
+            xw = float(self.prof_x(yy)); D = float(self.nose_D(yy))
+            c = min(abs(xx) / xw, 1.0) ** (p / 2)
+            th = math.acos(c)
+            return zj + dirz * D * math.sin(th) ** (2 / p)
+        z = zat(x, y); e = 0.004
         dzx = (zat(x + e, y) - zat(x - e, y)) / (2 * e); dzy = (zat(x, y + e) - zat(x, y - e)) / (2 * e)
-        # surface z = f(x, y) ; normale ∝ (-fx, -fy, 1) orientée selon dirz
         n = np.array([-dzx, -dzy, 1.0]); n = n / np.linalg.norm(n)
         if n[2] * dirz < 0: n = -n
         return np.array([x, y, z]), n

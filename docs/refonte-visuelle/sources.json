@@ -360,5 +360,32 @@
     "note": "Aucune trémie dans les données d'Angers : trémie la plus proche (Nantes, ligne 3)."
    }
   ]
+ },
+ "models_p2_rolling_stock": {
+  "generator": "tools/models/stock/build_stock.py (procédural numpy, sans Blender ni asset tiers) ; captures tools/models/stock/preview.gd, planche tools/models/stock/planche.py",
+  "license": "CC-BY-SA 4.0 (production du projet)",
+  "variants": {
+   "angers__citadis_x05": {
+    "files": "assets/models/rolling_stock/angers_x05/*.glb",
+    "geometry": "plan data/rolling_stock/plans/citadis_x05.json mis à l'échelle de 33,0 m (variants/index.json)",
+    "references_visuelles": "docs/rolling-stock-meshy/reference-angers305.jpg, angers_305-references.jpg (photos Wikimedia Commons CC BY-SA 4.0 / CC0, auteurs listés sur la planche : TCPDLL, Fab5669, Smiley.toerist, Blauer Pfeil, Florent Pecassou, Antimuonium) — références uniquement, rien de projeté"
+   },
+   "nantes__citadis_x05_nantes": {
+    "files": "assets/models/rolling_stock/nantes_x05/*.glb",
+    "geometry": "plan citadis_x05_nantes.json (45,6 m)",
+    "references_visuelles": "docs/rolling-stock-meshy/reference-nantes405.jpg, reference-nantes405-face.jpg, nantes_405-references.jpg (Commons, références uniquement) ; couleurs de livrée Naolib estimées sur photo (vert sapin, joues blanches)"
+   },
+   "angers__citadis_302": {
+    "files": "assets/models/rolling_stock/angers_302/*.glb",
+    "geometry": "plan citadis_302.json (32,4 m)",
+    "references_visuelles": "docs/rolling-stock-meshy/reference-angers302.jpg (Commons, références uniquement) ; livrée data/rolling_stock/liveries.json#angers"
+   }
+  },
+  "textures": {
+   "livery_{4k,2k,512,256}.png, floor_*.png, fabric_*.png, cab_desk.png, cab_grain*.png": "générées par tools/models/stock/textures.py et cab.py (CC0, projet)",
+   "metal_{albedo,normal,orm}.png": "dérivées de la couche acier_rail = Poly Haven rusty_metal_02 (CC0) de assets/textures/pbr (P1), désaturée"
+  },
+  "fonts": "DejaVu Sans (licence libre Bitstream Vera/DejaVu) pour les légendes du pupitre et numéros de parc, rastérisées dans les textures",
+  "no_brand_logos": "aucun logo de marque (Alstom, Irigo, Naolib) reproduit ; numéros de parc génériques"
  }
 }

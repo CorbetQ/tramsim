@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Construit les rames HD : python3 tools/models/stock/build_stock.py [variant_id ...] [--no-pack]
-Sorties : assets/models/rolling_stock/<dir>/{lod0,lod0_m,lod1,lod1_m,lod2,lod3,cab,cab_m}.glb, textures/,
+Sorties : assets/models/rolling_stock/<dir>/{lod0,lod1,lod1_m,lod2,lod3,cab,cab_m}.glb, textures/,
 assets/models/rolling_stock/manifest.json (schéma docs/refonte-visuelle/stock_manifest.md)."""
 import json, os, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -9,8 +9,8 @@ from citadis import Citadis
 import cab as CAB
 
 OUT = os.path.join(specs.ROOT, "assets/models/rolling_stock")
-# fichier -> (q, taille de livrée)
-LODS = [("lod0", 0, "4k"), ("lod0_m", 1, "2k"), ("lod1", 1, "2k"), ("lod1_m", 2, "2k"), ("lod2", 3, "512"), ("lod3", 4, "256")]
+# fichier -> (q, taille de livrée) ; LOD0 mobile = lod1.glb
+LODS = [("lod0", 0, "4k"), ("lod1", 1, "2k"), ("lod1_m", 2, "2k"), ("lod2", 3, "512"), ("lod3", 4, "256")]
 
 
 def build_variant(vid, only=None):
@@ -50,12 +50,12 @@ def manifest_entry(sp, t, info):
         "modules": [round(m["Lm"], 4) for m in t.mods],
         "doors": t.n_doors,
         "lods": {
-            "LOD0": {"file": "lod0.glb", "tris": tri.get("lod0"), "mobile_file": "lod0_m.glb", "mobile_tris": tri.get("lod0_m")},
+            "LOD0": {"file": "lod0.glb", "tris": tri.get("lod0"), "mobile_file": "lod1.glb", "mobile_tris": tri.get("lod1"), "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"},
             "LOD1": {"file": "lod1.glb", "tris": tri.get("lod1"), "mobile_file": "lod1_m.glb", "mobile_tris": tri.get("lod1_m")},
             "LOD2": {"file": "lod2.glb", "tris": tri.get("lod2")},
             "LOD3": {"file": "lod3.glb", "tris": tri.get("lod3")},
         },
-        "mobile_tris": {"LOD0": tri.get("lod0_m"), "LOD1": tri.get("lod1_m"), "LOD2": tri.get("lod2"), "LOD3": tri.get("lod3")},
+        "mobile_tris": {"LOD0": tri.get("lod1"), "LOD1": tri.get("lod1_m"), "LOD2": tri.get("lod2"), "LOD3": tri.get("lod3")},
         "cab": {"file": "cab.glb", "tris": tri.get("cab"), "mobile_file": "cab_m.glb", "mobile_tris": tri.get("cab_m")},
         "textures": {"pc_px": 4096, "mobile_px": 2048, "cab_px": 2048,
                      "files": {"livery": ["textures/livery_4k.png (LOD0)", "textures/livery_2k.png (LOD0 mobile, LOD1)",
@@ -77,6 +77,18 @@ def manifest_entry(sp, t, info):
         "door_anim": t.door_anim,
     }
     e.update(info.get("cab", {}))
+    def pick(lst, *pre): return [n for n in lst if n.startswith(pre)]
+    n0 = info["nodes"].get("lod0", []); nc = info["nodes"].get("cab", [])
+    e["nodes"] = {"lod0": {"modules": pick(n0, "module_"), "doors": pick(n0, "door_"), "panto": pick(n0, "panto_"),
+                           "emissive": pick(n0, "em_"), "signs": pick(n0, "sign_"), "screens": pick(n0, "screen_"),
+                           "wipers": pick(n0, "wiper_"), "mirrors": pick(n0, "mirror_"), "cab_proxy": pick(n0, "cab_proxy")},
+                  "cab": {"controls": pick(nc, "ctl_"), "screens": pick(nc, "screen_"), "lamps": pick(nc, "em_lamp_"),
+                          "camera": pick(nc, "cam_")}}
+    e["tris_by_file"] = info["tris"]
+    e["budget_check"] = {"LOD0_pc<=250000": tri.get("lod0", 0) <= 250000, "LOD0_mobile<=80000": tri.get("lod1", 0) <= 80000,
+                         "LOD1_pc<=60000": tri.get("lod1", 0) <= 60000, "LOD1_mobile<=25000": tri.get("lod1_m", 0) <= 25000,
+                         "LOD2<=6000": tri.get("lod2", 0) <= 6000, "LOD3<=1000": tri.get("lod3", 0) <= 1000,
+                         "cab_pc<=80000": tri.get("cab", 0) <= 80000, "cab_mobile<=40000": tri.get("cab_m", 0) <= 40000}
     e["sources"] = ["plan data/rolling_stock/plans/%s.json (modules mis à l'échelle de %.2f m)" % (sp["plan"], t.L),
                     "livrée data/rolling_stock/liveries.json#%s + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)" % sp["network"],
                     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"]

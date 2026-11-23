@@ -109,8 +109,25 @@ class Painter:
                     a = z0 + (z1 - z0) * k / d["leaves"]; b = z0 + (z1 - z0) * (k + 1) / d["leaves"]
                     self.rect(a + 0.07, b - 0.07, 0.62, t.door_top - 0.12, win, r=0.05)
         self._front()
+        self._seams()
         self._marks()
         return self
+
+    def _seams(self):
+        """Joints de caisse fins (portes, extrémités, jupe) et ombre de bas de caisse."""
+        t = self.t
+        Zg, Yg = np.meshgrid(self.Z, self.Y)
+        img = self.img[:SIDE_H]
+        line = np.zeros_like(Zg, bool)
+        for m in t.mods:
+            for d in m["doors"]:
+                for z in (t.zf(d["z0"]) - 0.025, t.zf(d["z1"]) + 0.025):
+                    line |= (np.abs(Zg - z) < 0.006) & (Yg > 0.3) & (Yg < t.door_top + 0.03)
+                line |= (np.abs(Yg - (t.door_top + 0.03)) < 0.005) & (Zg > t.zf(d["z0"]) - 0.025) & (Zg < t.zf(d["z1"]) + 0.025)
+        line |= (np.abs(Yg - (t.skirt + 0.0)) < 0.005) & (Yg > 0)
+        img[line] *= 0.72
+        ao = 0.72 + 0.28 * np.clip((Yg - 0.25) / 0.35, 0, 1) ** 0.7
+        img *= ao[..., None]
 
     def _irigo_x05(self):
         t = self.t; L = t.L; rb = t.spec["rainbow"]
