@@ -58,7 +58,7 @@ static func mobile() -> bool:
 
 ## Fichier d'un LOD ("LOD0".."LOD3" ou "cab") pour le profil courant (`mobile_file` si fourni).
 static func file_for(e: Dictionary, lod: String, for_mobile: bool = mobile()) -> String:
-	if path()==MANIFEST and lod!="cab":
+	if path()==MANIFEST:
 		for vid in manifest().get("variants",{}):
 			if manifest().variants[vid]==e:
 				var composition:=TramParts.lod_file(str(vid),lod,for_mobile)
@@ -234,9 +234,9 @@ static func material_for(src: Material, livery: Dictionary, glass_alpha := -1.0)
 	# material RID warnings on GLES. Share per-scheme copies, never edit originals.
 	var painted: Dictionary = {}
 	if not custom.is_empty():
-		var scheme := str(custom.get("_scheme_key",JSON.stringify(custom).sha256_text()))
+		var scheme := str(custom.get("_scheme_key",JSON.stringify(custom).sha256_text()))+"|"+str(livery.get("variant_id",""))
 		if not _paint_mats.has(scheme):
-			if _paint_mats.size() >= 8: _paint_mats.erase(_paint_mats.keys()[0])
+			if _paint_mats.size() >= 3: _paint_mats.erase(_paint_mats.keys()[0])
 			_paint_mats[scheme] = {}
 		painted = _paint_mats[scheme]
 	var key := "%d|%s|%s" % [src.get_instance_id(), str(livery.get("variant_id", "")) + str(livery.get("base", "")), glass_alpha]

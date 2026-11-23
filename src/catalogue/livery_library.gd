@@ -24,7 +24,8 @@ static func _load() -> void:
 
 static func clean(raw: Variant) -> Dictionary:
 	if not raw is Dictionary or raw.is_empty(): return {}
-	if not raw.get("version",1) in [1,2]:return {}
+	var version:Variant=raw.get("version",1)
+	if not SaveGame._number(version) or float(version)!=floorf(float(version)) or not int(version) in [1,2]:return {}
 	var base := str(raw.get("base_variant", ""))
 	if StockCatalog.find(base).is_empty(): return {}
 	var colors: Variant = raw.get("colors", {})

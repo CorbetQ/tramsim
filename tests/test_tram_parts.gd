@@ -38,6 +38,18 @@ func run()->void:
 		liv=LiveryLibrary.apply(liv,design)
 		scope_ok=scope_ok and liv.has("custom_livery") and liv.variant_id==id
 		ends_ok=ends_ok and LiveryLibrary.for_part(design,entry,0).colors.front=="#0089ce" and LiveryLibrary.for_part(design,entry,int(entry.module_count)-1).colors.front!= "#0089ce"
+		var rig:=TramModel.build_rig(liv);var actual:Dictionary={}
+		if rig.hd!=null:
+			for end in [0,rig.modules.size()-1]:
+				for node in rig.hd.lods[0][end].find_children("*","MeshInstance3D",true,false):
+					for s in node.mesh.get_surface_count():
+						var material:=node.get_surface_override_material(s) as BaseMaterial3D
+						if material!=null and material.resource_name.begins_with("livery"):
+							var image:=material.albedo_texture.get_image()
+							actual[end]=image.get_pixel(roundi(image.get_width()*.1725),roundi(image.get_height()*(.625+.375*(3.4-.45)/3.4)))
+		print("PAINT_PIXELS|",id,"|",actual)
+		check(actual.has(0) and actual.has(rig.modules.size()-1) and absf(actual[0].r-actual[rig.modules.size()-1].r)>.1,id+" : deux atlas d'extrémité réellement différents")
+		for module in rig.modules:module.free()
 	check(scope_ok,"même livrée appliquée à plusieurs tailles sans remplacer leur design d'extrémité")
 	check(ends_ok,"réglage d'extrémité A conservé en 3, 5 et 7 caisses ; B indépendant")
 	check(not LiveryLibrary.compatible(design,"nantes__tfs"),"pas de transfert implicite entre architectures différentes")

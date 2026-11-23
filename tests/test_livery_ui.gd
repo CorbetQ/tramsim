@@ -37,10 +37,15 @@ func run() -> void:
 	sheet.editor.set_color("base","#0089ce");sheet.editor.set_color("front","#ffffff")
 	sheet.editor.design.bands[0].color="#ebd12f";sheet.editor.design.bands[0].width=0.24
 	sheet.editor.design.label="OCÉANE";sheet.editor.refresh_preview();await settle()
+	# Paint only A; settings are reusable roles, not train-length UV offsets.
+	sheet.editor.part_choice.select(1);sheet.editor.part_choice.item_selected.emit(1)
+	sheet.editor.set_color("front","#de64a9");sheet.editor.refresh_preview();await settle()
+	check(sheet.editor.design.parts.end_a.colors.front=="#de64a9" and sheet.editor.design.colors.front=="#ffffff","peinture d'une extrémité indépendante du reste de la composition")
 	await shot("editor-custom")
 	check(sheet.editor.preview.rig.hd!=null,"aperçu de peinture sur le vrai modèle HD")
 	sheet.editor.save_current();await settle()
 	check(sheet.editor==null and sheet.current_design().name=="Océane","enregistrement sélectionne la livrée créée")
+	check(sheet.current_design().parts.end_a.colors.front=="#de64a9","réglage de caisse conservé après enregistrement")
 	var saved_id:String=sheet.current_design().id
 	var picks:Array=[];sheet.drive.connect(func(pick):picks.append(pick));sheet.drive_btn.pressed.emit()
 	check(picks.size()==1 and picks[0].custom_livery.id==saved_id and picks[0].variant_id=="angers__citadis_x05","conduite reçoit la bonne face et une copie de la peinture")

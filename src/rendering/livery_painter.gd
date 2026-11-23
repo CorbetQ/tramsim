@@ -14,7 +14,7 @@ static func layouts() -> Dictionary:
 
 static func texture(source: Texture2D, design: Dictionary, entry: Dictionary, part_index: int = -1) -> Texture2D:
 	if source == null: return source
-	var key := str(source.get_instance_id()) + JSON.stringify(design).sha256_text()
+	var key := "%s|%d|%d|%s" % [str(entry.id),part_index,source.get_instance_id(),JSON.stringify(design).sha256_text()]
 	if _textures.has(key): return _textures[key]
 	var image := source.get_image().duplicate() as Image
 	if image.is_compressed(): image.decompress()

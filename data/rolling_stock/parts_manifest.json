@@ -3243,7 +3243,7 @@
           "triangles": 7324.0
         },
         {
-          "center_z": 0.00000000000000133226762955019,
+          "center_z": 1.33226762955019e-15,
           "file": "res://tram_parts/motrices/angers_302/caisse_02_lod0.glb",
           "index": 2.0,
           "length_m": 4.8,
@@ -3269,7 +3269,11 @@
           "texture": "res://tram_livery/livery/angers/angers_302/caisse_04_4k.png",
           "triangles": 25267.0
         }
-      ]
+      ],
+      "cab": {
+        "cab": "res://tram_parts/extremites/angers_302/cab.glb",
+        "cab_m": "res://tram_parts/extremites/angers_302/cab_m.glb"
+      }
     },
     "angers__citadis_x05": {
       "front_style": "x05",
@@ -3301,7 +3305,7 @@
           "triangles": 8104.0
         },
         {
-          "center_z": -0.00000000000000310862446895044,
+          "center_z": -3.10862446895044e-15,
           "file": "res://tram_parts/motrices/angers_x05/caisse_02_lod0.glb",
           "index": 2.0,
           "length_m": 4.77230769230769,
@@ -3327,7 +3331,11 @@
           "texture": "res://tram_livery/livery/angers/angers_x05/caisse_04_4k.png",
           "triangles": 25591.0
         }
-      ]
+      ],
+      "cab": {
+        "cab": "res://tram_parts/extremites/angers_x05/cab.glb",
+        "cab_m": "res://tram_parts/extremites/angers_x05/cab_m.glb"
+      }
     },
     "angers__concept_citadis_205": {
       "front_style": "x05",
@@ -3367,7 +3375,11 @@
           "texture": "res://tram_livery/livery/angers/angers_205_concept/caisse_02_4k.png",
           "triangles": 26579.0
         }
-      ]
+      ],
+      "cab": {
+        "cab": "res://tram_parts/extremites/angers_205_concept/cab.glb",
+        "cab_m": "res://tram_parts/extremites/angers_205_concept/cab_m.glb"
+      }
     },
     "angers__concept_citadis_405": {
       "front_style": "x05",
@@ -3408,7 +3420,7 @@
           "triangles": 17348.0
         },
         {
-          "center_z": -0.00000000000000177635683940025,
+          "center_z": -1.77635683940025e-15,
           "file": "res://tram_parts/suspendues/angers_405_concept/caisse_03_lod0.glb",
           "index": 3.0,
           "length_m": 5.08571428571429,
@@ -3443,7 +3455,11 @@
           "texture": "res://tram_livery/livery/angers/angers_405_concept/caisse_06_4k.png",
           "triangles": 25615.0
         }
-      ]
+      ],
+      "cab": {
+        "cab": "res://tram_parts/extremites/angers_405_concept/cab.glb",
+        "cab_m": "res://tram_parts/extremites/angers_405_concept/cab_m.glb"
+      }
     },
     "nantes__citadis_x05_nantes": {
       "front_style": "x05_nantes",
@@ -3484,7 +3500,7 @@
           "triangles": 15448.0
         },
         {
-          "center_z": 0.00000000000000444089209850063,
+          "center_z": 4.44089209850063e-15,
           "file": "res://tram_parts/suspendues/nantes_x05/caisse_03_lod0.glb",
           "index": 3.0,
           "length_m": 7.0,
@@ -3519,7 +3535,11 @@
           "texture": "res://tram_livery/livery/nantes/nantes_x05/caisse_06_4k.png",
           "triangles": 24417.0
         }
-      ]
+      ],
+      "cab": {
+        "cab": "res://tram_parts/extremites/nantes_x05/cab.glb",
+        "cab_m": "res://tram_parts/extremites/nantes_x05/cab_m.glb"
+      }
     },
     "nantes__concept_citadis_205": {
       "front_style": "x05_nantes",
@@ -3542,7 +3562,7 @@
           "triangles": 28361.0
         },
         {
-          "center_z": 0.000000000000000888178419700125,
+          "center_z": 8.88178419700125e-16,
           "file": "res://tram_parts/suspendues/nantes_205_concept/caisse_01_lod0.glb",
           "index": 1.0,
           "length_m": 5.41935483870968,
@@ -3559,7 +3579,11 @@
           "texture": "res://tram_livery/livery/nantes/nantes_205_concept/caisse_02_4k.png",
           "triangles": 24393.0
         }
-      ]
+      ],
+      "cab": {
+        "cab": "res://tram_parts/extremites/nantes_205_concept/cab.glb",
+        "cab_m": "res://tram_parts/extremites/nantes_205_concept/cab_m.glb"
+      }
     },
     "nantes__concept_citadis_305": {
       "front_style": "x05_nantes",
@@ -3617,7 +3641,11 @@
           "texture": "res://tram_livery/livery/nantes/nantes_305_concept/caisse_04_4k.png",
           "triangles": 23505.0
         }
-      ]
+      ],
+      "cab": {
+        "cab": "res://tram_parts/extremites/nantes_305_concept/cab.glb",
+        "cab_m": "res://tram_parts/extremites/nantes_305_concept/cab_m.glb"
+      }
     }
   }
 }

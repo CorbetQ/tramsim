@@ -51,7 +51,7 @@ def local_file(directory, relative):
     return path
 
 
-def glb_info(path):
+def glb_info(path, texture_root=None):
     data = path.read_bytes()
     if len(data) < 20:
         raise ValueError(f"Truncated GLB: {path.name}")
@@ -85,7 +85,12 @@ def glb_info(path):
     for image in doc.get('images', []):
         uri = image.get('uri')
         if uri:
-            source = local_file(path.parent, uri)
+            if texture_root is None:
+                source = local_file(path.parent, uri)
+            else:
+                source = (path.parent/uri).resolve()
+                if not source.is_relative_to(texture_root.resolve()) or not source.is_file():
+                    raise ValueError(f'Unsafe or missing shared texture: {uri}')
             raw = source.read_bytes()
             # Stock textures are PNG; read IHDR without requiring Pillow in CI.
             if raw[:8] != b'\x89PNG\r\n\x1a\n' or len(raw) < 24:

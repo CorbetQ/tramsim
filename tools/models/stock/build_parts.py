@@ -7,6 +7,7 @@ The full-bank assets remain a fallback during migration.
 import copy
 import json
 import os
+import struct
 from pathlib import Path
 import numpy as np
 from PIL import Image
@@ -17,6 +18,21 @@ from geom import Builder
 from build_stock import LODS, configure_texture_imports
 
 ROOT = Path(specs.ROOT)
+
+
+def relocate_cab(source, destination, network, design):
+    raw=source.read_bytes();size,kind=struct.unpack_from('<II',raw,12)
+    doc=json.loads(raw[20:20+size]);binary=raw[20+size:]
+    for image in doc.get('images',[]):
+        original=(source.parent/image['uri']).resolve()
+        category='interior' if 'metal' not in original.name else 'materials'
+        target=ROOT/'tram_livery'/category/network/design/original.name
+        target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(original.read_bytes())
+        image['uri']=os.path.relpath(target,destination.parent).replace(os.sep,'/')
+    encoded=json.dumps(doc,separators=(',',':'),ensure_ascii=False).encode()
+    encoded+=b' '*((-len(encoded))%4)
+    destination.parent.mkdir(parents=True,exist_ok=True)
+    destination.write_bytes(struct.pack('<4sII',b'glTF',2,20+len(encoded)+len(binary))+struct.pack('<II',len(encoded),kind)+encoded+binary)
 
 
 def descendants(builder, root):
@@ -90,6 +106,11 @@ def main():
         original=ROOT/'assets/models/rolling_stock'/spec['dir']
         recipe_dir=ROOT/'tram_parts/compositions'/vid;recipe_dir.mkdir(parents=True,exist_ok=True)
         entry={'lods':{},'modules':[],'livery':spec['network'],'front_style':spec['front_style']}
+        entry['cab']={}
+        for cab in ('cab','cab_m'):
+            target=ROOT/'tram_parts/extremites'/spec['dir']/(cab+'.glb')
+            relocate_cab(original/(cab+'.glb'),target,spec['network'],spec['dir'])
+            entry['cab'][cab]='res://'+target.relative_to(ROOT).as_posix()
         for filename,q,tag in LODS:
             builder=Citadis(train,q,tag).build();rows=[]
             for i,module in enumerate(train.mods):

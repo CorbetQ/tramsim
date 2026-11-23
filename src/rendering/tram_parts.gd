@@ -13,6 +13,7 @@ static func manifest() -> Dictionary:
 static func lod_file(variant: String, lod: String, mobile: bool) -> String:
 	if not enabled:return ""
 	var entry:Dictionary=manifest().get("variants",{}).get(variant,{})
+	if lod=="cab":return str(entry.get("cab",{}).get("cab_m" if mobile else "cab",""))
 	var key:String={"LOD0":"lod1" if mobile else "lod0","LOD1":"lod1_m" if mobile else "lod1","LOD2":"lod2","LOD3":"lod3"}.get(lod,"")
 	return str(entry.get("lods",{}).get(key,""))
 static func allowed(path: String) -> bool:

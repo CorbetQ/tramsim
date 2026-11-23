@@ -18,6 +18,8 @@ func _init()->void:
    var box:=CabView._local_aabb(module) if rig.hd!=null else module.mesh.get_aabb()
    valid=valid and box.size.is_finite() and box.size.x>1 and box.size.y>2 and box.size.z>1
   check(valid,"géométrie et articulations : "+str(entry.id))
+  if TramParts.manifest().get("native",{}).has(str(entry.id)):
+   check(rig.modules.all(func(module):return module.has_meta("tram_part_file")),"caisses chargées depuis tram_parts : "+str(entry.id))
   var cap:=int(StockHD._budgets().LOD0.mobile_tris if StockHD.mobile() else StockHD._budgets().LOD0.pc_tris) if rig.hd!=null else 15999
   check(rig.triangles<=cap,"budget du modèle sélectionné : %s (%d ≤ %d)"%[entry.id,rig.triangles,cap])
   if str(entry.network)=="saintetienne":check(rig.leaves.all(func(leaf):return float(leaf.side)>0),"portes uniquement à droite : "+str(entry.id))
