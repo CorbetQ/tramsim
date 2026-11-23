@@ -215,3 +215,12 @@ Bibliothèque `data/materials` : tableaux de textures `assets/textures/pbr/{albe
 | 15 | `pierre_taille` | [Large Sandstone Blocks](https://polyhaven.com/a/large_sandstone_blocks) (`large_sandstone_blocks`) | Rob Tuytel | CC0 1.0 |
 | 16 | `lm_ecorce` | [Bark Platanus](https://polyhaven.com/a/bark_platanus) (`bark_platanus`) | Dimitrios Savva | CC0 1.0 |
 | 17 | `lm_bois` | [Weathered Brown Planks](https://polyhaven.com/a/weathered_brown_planks) (`weathered_brown_planks`) | Dimitrios Savva, Rico Cilliers | CC0 1.0 |
+
+### Catalogue, kits de caisses et correction des portes
+
+Les nouveaux atlas et kits sont dérivés des modèles procéduraux du projet ; aucune nouvelle génération
+Meshy ni photographie plaquée. Références photographiques déjà créditées dans
+`docs/rolling-stock-rebuild/PHOTO-CREDITS.md` et `docs/rolling-stock-meshy/README.md`.
+Registre ciblé : `docs/catalogue-liveries/assets.csv` ; captures réelles Godot et limitations :
+`docs/catalogue-liveries/VALIDATION.md`. Les articles techniques sont consultés comme références,
+sans copie de leurs photographies dans les textures distribuées.

@@ -21,3 +21,10 @@ Faces HD : `data/rolling_stock/front_profiles.json` et `tools/models/stock/specs
 Ne pas remplacer une face spécifique par le plan donneur d'un type court/long.
 Conserver les concepts signalés comme fictifs, la compatibilité d'alimentation et les originaux.
 Après génération HD, lancer `python tools/models/stock/export_livery_layouts.py`.
+Pièces : `python tools/models/stock/build_kits.py`, puis Godot `tools/models/export_native_parts.gd`,
+puis `python tools/models/stock/bake_native_liveries.py`. Attendre chaque génération avant l’import.
+Un kit par design (angers_x05, angers_x02, nantes_x05), jamais par longueur ; 205/305/405 sont
+des paramètres d’assemblage. Ne pas copier les modèles lors d’un changement de type ou de peinture.
+Audit : `python tools/models/stock/audit_parts.py` ; test : `tests/test_tram_parts.gd`.
+Irigo : portes par face 1–2–0–2–1 (302 : simples aux extrémités, 305 : doubles).
+Ne pas appliquer cette règle à Nantes : le 405 a 2–0–2–0–2–0–2 portes par face.

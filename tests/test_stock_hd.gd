@@ -51,7 +51,7 @@ func run() -> void:
 		var mobile_rig := TramModel.build_rig(_livery(vid))
 		check(mobile_rig.hd != null, vid + " : modèle mobile disponible")
 		if mobile_rig.hd != null:
-			check(mobile_rig.triangles == int(real[vid].lods.LOD0.mobile_tris), vid + " : LOD0 mobile réellement chargé")
+			check(mobile_rig.triangles == int(StockHD.entry(vid).lods.LOD0.mobile_tris), vid + " : LOD0 mobile réellement chargé")
 			var mobile_cab: CabView = mobile_rig.hd.ensure_cab(mobile_rig)
 			check(mobile_cab != null and StockHD.triangles(mobile_cab.model) == int(real[vid].cab.mobile_tris), vid + " : cabine mobile réellement chargée")
 			check(not StockHD._scenes.has(StockHD.file_for(real[vid], "LOD0", false)) and not StockHD._scenes.has(StockHD.file_for(real[vid], "cab", false)), vid + " : gabarits PC inutilisés absents du cache mobile")

@@ -43,6 +43,7 @@ jobs:
           set -euo pipefail
           G="$RUNNER_TEMP/godot/Godot_v4.6.3-stable_linux.x86_64"
           mkdir -p reports
+          python tools/models/stock/prepare_pc_imports.py
           "$G" --headless --editor --path . --import > reports/import.log 2>&1
           ! grep -Eq 'SCRIPT ERROR|Parse Error' reports/import.log
           for test in test_citadis_meshy test_rolling_stock test_passenger_families; do

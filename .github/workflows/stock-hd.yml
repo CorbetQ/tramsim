@@ -6,6 +6,17 @@ on:
     paths:
       - 'assets/models/rolling_stock/**'
       - 'tools/models/stock/**'
+      - 'tools/models/export_native_parts.gd'
+      - 'tram_parts/**'
+      - 'tram_livery/**'
+      - 'src/rendering/tram_parts.gd'
+      - 'src/rendering/stock_geometry.gd'
+      - 'src/rendering/citadis_meshy.gd'
+      - 'tools/rolling_stock/retopologize_citadis.py'
+      - 'data/rolling_stock/meshy_citadis/**'
+      - 'src/rendering/shaders/pbr_object.gdshader'
+      - 'data/rolling_stock/parts_manifest.json'
+      - 'tests/test_tram_parts*'
       - 'src/rendering/stock_hd.gd'
       - 'src/rendering/livery_painter.gd'
       - 'src/rendering/tram_model.gd'
@@ -32,6 +43,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -40,7 +52,9 @@ jobs:
       - name: Offline asset inventory and corruption checks
         run: |
           python tools/models/stock/audit_stock.py --report build/stock-hd/audit.json
+          python tools/models/stock/audit_parts.py --report build/stock-hd/parts-audit.json
           python -m unittest discover -s tests -p test_stock_hd_assets.py
+          python -m unittest discover -s tests -p test_tram_parts_assets.py
           python -m compileall -q tools/models/stock
       - name: Install renderer and Godot
         run: |
@@ -50,6 +64,7 @@ jobs:
           chmod +x Godot_v4.6.3-stable_linux.x86_64
       - name: Import and test the actual animated stock
         run: |
+          python tools/models/stock/prepare_pc_imports.py
           ./Godot_v4.6.3-stable_linux.x86_64 --headless --editor --path . --import > build/stock-hd/import.log 2>&1
           ! grep -Eq 'SCRIPT ERROR|Parse Error' build/stock-hd/import.log
           xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy --resolution 1280x720 -s tests/test_stock_hd.gd > build/stock-hd/rig.log 2>&1
@@ -59,9 +74,9 @@ jobs:
       - name: Family catalogue and saved paint schemes
         run: |
           mkdir -p .cache/livery
-          for test in test_livery_catalogue test_family_fronts test_livery_ui test_stock_ui; do
+          for test in test_tram_parts test_livery_catalogue test_family_fronts test_livery_ui test_stock_ui test_citadis_meshy test_passenger_families; do
             timeout 180 xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy --resolution 1280x720 -s tests/$test.gd > build/stock-hd/$test.log 2>&1
-            ! grep -Eq '^ECHEC|SCRIPT ERROR|^ERROR:|TOTAL_ECHECS\|[1-9]' build/stock-hd/$test.log
+            ! grep -Eq '^ECHEC|^FAIL:|SCRIPT ERROR|^ERROR:|TOTAL_ECHECS\|[1-9]|TOTAL_FAILURES\|[1-9]' build/stock-hd/$test.log
           done
           cp .cache/livery/*.png build/stock-hd/
           xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/family_front_shots.gd -- build/stock-hd/family-fronts > build/stock-hd/family-fronts.log 2>&1

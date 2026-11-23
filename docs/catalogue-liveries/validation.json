@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-23",
+  "engine": "Godot 4.6.3",
+  "renderer": "gl_compatibility / llvmpipe",
+  "kits": 60,
+  "variants": 80,
+  "assembled_bodies": 418.0,
+  "unique_model_files": 290,
+  "model_bytes": 20674984,
+  "texture_bytes": 1999054,
+  "tests": {
+    "parts": {
+      "log": "factory-final-test_tram_parts.log",
+      "assertions": 546,
+      "result": "TOTAL_ECHECS|0"
+    },
+    "catalogue80": {
+      "log": "final-test_stock_catalog.log",
+      "assertions": 410,
+      "result": "TOTAL_ECHECS|0"
+    },
+    "livrees": {
+      "log": "final-test_livery_catalogue.log",
+      "assertions": 59,
+      "result": "TOTAL_ECHECS|0"
+    },
+    "interface": {
+      "log": "final-test_livery_ui.log",
+      "assertions": 23,
+      "result": "TOTAL_ECHECS|0"
+    },
+    "faces": {
+      "log": "final-test_family_fronts.log",
+      "assertions": 76,
+      "result": "TOTAL_ECHECS|0"
+    },
+    "hd": {
+      "log": "final-test_stock_hd.log",
+      "assertions": 167,
+      "result": "TOTAL_ECHECS|0"
+    },
+    "passenger_shells": {
+      "log": "passenger-final-test_citadis_meshy.log",
+      "assertions": 667,
+      "result": "TOTAL_FAILURES|0"
+    },
+    "passenger_families": {
+      "log": "passenger-final-test_passenger_families.log",
+      "assertions": 0,
+      "result": "TOTAL_ECHECS|0"
+    },
+    "render_budgets": {
+      "log": "canonical-test_render_budgets.log",
+      "assertions": 48,
+      "result": "TOTAL_ECHECS|0"
+    }
+  },
+  "limitations": [
+    "No physical Android device, APK/EXE export or phone FPS measurement in this lot.",
+    "No exhaustive reference validation of the 80 variants.",
+    "Body dimensions/front profiles are visual estimates; fictitious variants are labelled.",
+    "No new Meshy generation or paid credits."
+  ],
+  "captures": {
+    "citadis-x05-faces.png": "b88ebe4e714fb9b790956cec49d99145b138bf8289d4906482d28b8348acd0da",
+    "citadis-x05-review.png": "ab2eb663fdafd8cc12de5ddd3d9a1f97a2ae5a5a7d673348b85c2e84060f0768",
+    "driving-custom-fixture.png": "02f5b8e7bd937e93f1112f5c23988880b1c809c13dbb91d6eebee374a1f0051b",
+    "editor-custom.png": "275178764f98fade978b3083613ba87823a9b287b6c31f24ddfd661fe02326d2",
+    "tfs-faces.png": "3cb22f361d1502c1d2c3e13a12098cb315a4ddde04a3210fc27d16870518fb0a",
+    "tfs-types.png": "33a72e4b501f1d7dbccfee6d3732363e15f00126894d499227e34e2840d90386"
+  }
+}

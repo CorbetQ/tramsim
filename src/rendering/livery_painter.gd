@@ -43,14 +43,14 @@ static func texture(source: Texture2D, design: Dictionary, entry: Dictionary, pa
 		plan=plan.duplicate(true);plan.modules=[selected];total=float(selected.length_m)
 	var offset := 0.0
 	for module in plan.modules:
-		if design.get("_paint_only",false):continue
 		for window in module.get("windows", []):
+			if design.get("_paint_only",false):continue
 			_side_rect(image, width, side_h, (offset+float(window.z0_m))/total, (offset+float(window.z1_m))/total, 1.05, 2.45, Color(colors.window))
 		for door in module.get("doors", []):
 			var center := (offset+float(door.z_m))/total
 			var half := float(door.width_m)/physical_total*0.5
 			_side_rect(image,width,side_h,center-half,center+half,0.36,2.4,Color(colors.door))
-			_side_rect(image,width,side_h,center-half+0.003,center+half-0.003,0.65,2.28,Color(colors.window))
+			if not design.get("_paint_only",false):_side_rect(image,width,side_h,center-half+0.003,center+half-0.003,0.65,2.28,Color(colors.window))
 		offset += float(module.length_m)
 	# The front is a distinct atlas region. Preserve dark mask/optical details.
 	var front := Rect2i(0,roundi(height*0.625),roundi(width*0.1875),roundi(height*0.375))

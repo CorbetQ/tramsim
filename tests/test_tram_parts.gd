@@ -76,4 +76,22 @@ func run()->void:
 	check(scope_ok,"même livrée appliquée à plusieurs tailles sans remplacer leur design d'extrémité")
 	check(ends_ok,"réglage d'extrémité A conservé en 3, 5 et 7 caisses ; B indépendant")
 	check(not LiveryLibrary.compatible(design,"nantes__tfs"),"pas de transfert implicite entre architectures différentes")
+	var tfs:=StockCatalog.find("nantes__tfs");var native_design:=LiveryLibrary.create(tfs)
+	var tfs_cfg:=TramParts.configuration(tfs)
+	var factory_path:String=TramParts.manifest().liveries[tfs_cfg.livery].parts.end_a.native
+	var factory:=Image.load_from_file(factory_path);var green:=0
+	for y in range(roundi(factory.get_height()*.625),factory.get_height()):
+		var color:=factory.get_pixel(roundi(factory.get_width()*.09375),y)
+		if color.g>color.r+.15 and color.g>color.b+.08:green+=1
+	check(green>=5,"bande verte TAN présente dans la face de l'atlas, avec les normales Godot")
+	native_design.colors.window="#154694";native_design.colors.door="#f18023"
+	var native_liv:=LiveryLibrary.apply(TramModel.livery_for(StockCatalog.origin_meta(tfs),tfs),native_design)
+	var native_rig:=TramModel.build_rig(native_liv)
+	check(native_rig.parts_view!=null,"peinture native conserve les prototypes partagés")
+	if native_rig.parts_view!=null:
+		var material:ShaderMaterial=native_rig.parts_view.bindings[0].visual.material_override
+		check(material.get_shader_parameter("part_custom_enabled")==true,"atlas personnalisé natif effectivement relié")
+		var window:Vector3=material.get_shader_parameter("part_window_color")
+		check(window.distance_to(Vector3(21.0/255,70.0/255,148.0/255))<.01,"couleur des vitrages natifs indépendante de la palette d'origine")
+	for module in native_rig.modules:module.free()
 	StockHD.reset_cache();print("BODY_COUNT|",total);print("TOTAL_ECHECS|",failures);quit(1 if failures else 0)

@@ -1,1 +1,1775 @@
-{"kits":{"angers_x02":"res://tram_parts/compositions/angers_x02.json","angers_x05":"res://tram_parts/compositions/angers_x05.json","aubagne":"res://tram_parts/compositions/aubagne.json","avanto":"res://tram_parts/compositions/avanto.json","avanto_paris":"res://tram_parts/compositions/avanto_paris.json","avignon":"res://tram_parts/compositions/avignon.json","bordeaux":"res://tram_parts/compositions/bordeaux.json","breda":"res://tram_parts/compositions/breda.json","brest":"res://tram_parts/compositions/brest.json","caen":"res://tram_parts/compositions/caen.json","cts3":"res://tram_parts/compositions/cts3.json","cts403":"res://tram_parts/compositions/cts403.json","cts403ng":"res://tram_parts/compositions/cts403ng.json","dijon":"res://tram_parts/compositions/dijon.json","dualis":"res://tram_parts/compositions/dualis.json","eurotram":"res://tram_parts/compositions/eurotram.json","flexity_basel":"res://tram_parts/compositions/flexity_basel.json","ginko305":"res://tram_parts/compositions/ginko305.json","grenoble":"res://tram_parts/compositions/grenoble.json","idfm305":"res://tram_parts/compositions/idfm305.json","idfm405":"res://tram_parts/compositions/idfm405.json","incentro":"res://tram_parts/compositions/incentro.json","lehavre":"res://tram_parts/compositions/lehavre.json","lemans":"res://tram_parts/compositions/lemans.json","lille305":"res://tram_parts/compositions/lille305.json","lyon2020":"res://tram_parts/compositions/lyon2020.json","lyon_egg":"res://tram_parts/compositions/lyon_egg.json","marseille":"res://tram_parts/compositions/marseille.json","marseille_caf":"res://tram_parts/compositions/marseille_caf.json","mulhouse":"res://tram_parts/compositions/mulhouse.json","nantes_x05":"res://tram_parts/compositions/nantes_x05.json","nice302":"res://tram_parts/compositions/nice302.json","nice405":"res://tram_parts/compositions/nice405.json","orleans301":"res://tram_parts/compositions/orleans301.json","orleans302":"res://tram_parts/compositions/orleans302.json","paris_t2":"res://tram_parts/compositions/paris_t2.json","paris_t3":"res://tram_parts/compositions/paris_t3.json","paris_t7":"res://tram_parts/compositions/paris_t7.json","reims":"res://tram_parts/compositions/reims.json","rouen":"res://tram_parts/compositions/rouen.json","saarbahn":"res://tram_parts/compositions/saarbahn.json","tam302":"res://tram_parts/compositions/tam302.json","tam401":"res://tram_parts/compositions/tam401.json","tango":"res://tram_parts/compositions/tango.json","tango_blt":"res://tram_parts/compositions/tango_blt.json","tango_tpg":"res://tram_parts/compositions/tango_tpg.json","tfs1":"res://tram_parts/compositions/tfs1.json","tfs2":"res://tram_parts/compositions/tfs2.json","toulouse":"res://tram_parts/compositions/toulouse.json","tours":"res://tram_parts/compositions/tours.json","tpg_cityrunner":"res://tram_parts/compositions/tpg_cityrunner.json","translohr":"res://tram_parts/compositions/translohr.json","translohr_paris":"res://tram_parts/compositions/translohr_paris.json","urbos_ginko":"res://tram_parts/compositions/urbos_ginko.json","urbos_nantes":"res://tram_parts/compositions/urbos_nantes.json","urbos_stas":"res://tram_parts/compositions/urbos_stas.json","urbos_tam":"res://tram_parts/compositions/urbos_tam.json","valenciennes":"res://tram_parts/compositions/valenciennes.json","vevey1":"res://tram_parts/compositions/vevey1.json","vevey2":"res://tram_parts/compositions/vevey2.json"},"liveries":{"angers_x02":{"kit":"angers_x02","parts":{"end_a":{"256":"res://tram_livery/livery/angers_x02/end_a_256.png","2k":"res://tram_livery/livery/angers_x02/end_a_2k.png","4k":"res://tram_livery/livery/angers_x02/end_a_4k.png","512":"res://tram_livery/livery/angers_x02/end_a_512.png"},"end_b":{"256":"res://tram_livery/livery/angers_x02/end_b_256.png","2k":"res://tram_livery/livery/angers_x02/end_b_2k.png","4k":"res://tram_livery/livery/angers_x02/end_b_4k.png","512":"res://tram_livery/livery/angers_x02/end_b_512.png"},"powered":{"256":"res://tram_livery/livery/angers_x02/powered_256.png","2k":"res://tram_livery/livery/angers_x02/powered_2k.png","4k":"res://tram_livery/livery/angers_x02/powered_4k.png","512":"res://tram_livery/livery/angers_x02/powered_512.png"},"suspended":{"256":"res://tram_livery/livery/angers_x02/suspended_256.png","2k":"res://tram_livery/livery/angers_x02/suspended_2k.png","4k":"res://tram_livery/livery/angers_x02/suspended_4k.png","512":"res://tram_livery/livery/angers_x02/suspended_512.png"}}},"angers_x05":{"kit":"angers_x05","parts":{"end_a":{"256":"res://tram_livery/livery/angers_x05/end_a_256.png","2k":"res://tram_livery/livery/angers_x05/end_a_2k.png","4k":"res://tram_livery/livery/angers_x05/end_a_4k.png","512":"res://tram_livery/livery/angers_x05/end_a_512.png"},"end_b":{"256":"res://tram_livery/livery/angers_x05/end_b_256.png","2k":"res://tram_livery/livery/angers_x05/end_b_2k.png","4k":"res://tram_livery/livery/angers_x05/end_b_4k.png","512":"res://tram_livery/livery/angers_x05/end_b_512.png"},"powered":{"256":"res://tram_livery/livery/angers_x05/powered_256.png","2k":"res://tram_livery/livery/angers_x05/powered_2k.png","4k":"res://tram_livery/livery/angers_x05/powered_4k.png","512":"res://tram_livery/livery/angers_x05/powered_512.png"},"suspended":{"256":"res://tram_livery/livery/angers_x05/suspended_256.png","2k":"res://tram_livery/livery/angers_x05/suspended_2k.png","4k":"res://tram_livery/livery/angers_x05/suspended_4k.png","512":"res://tram_livery/livery/angers_x05/suspended_512.png"}}},"aubagne_aubagne_1dc6edb6a823":{"kit":"aubagne","parts":{"end_a":{"native":"res://tram_livery/livery/aubagne_aubagne_1dc6edb6a823/end_a.png"},"end_b":{"native":"res://tram_livery/livery/aubagne_aubagne_1dc6edb6a823/end_b.png"},"suspended":{"native":"res://tram_livery/livery/aubagne_aubagne_1dc6edb6a823/suspended.png"}}},"avanto_mulhouse_507243a94694":{"kit":"avanto","parts":{"end_a":{"native":"res://tram_livery/livery/avanto_mulhouse_507243a94694/end_a.png"},"end_b":{"native":"res://tram_livery/livery/avanto_mulhouse_507243a94694/end_b.png"},"powered":{"native":"res://tram_livery/livery/avanto_mulhouse_507243a94694/powered.png"},"suspended":{"native":"res://tram_livery/livery/avanto_mulhouse_507243a94694/suspended.png"}}},"avanto_paris_idf_321e3fb0fdd3":{"kit":"avanto_paris","parts":{"end_a":{"native":"res://tram_livery/livery/avanto_paris_idf_321e3fb0fdd3/end_a.png"},"end_b":{"native":"res://tram_livery/livery/avanto_paris_idf_321e3fb0fdd3/end_b.png"},"powered":{"native":"res://tram_livery/livery/avanto_paris_idf_321e3fb0fdd3/powered.png"},"suspended":{"native":"res://tram_livery/livery/avanto_paris_idf_321e3fb0fdd3/suspended.png"}}},"avignon_avignon_380bf1781fb8":{"kit":"avignon","parts":{"end_a":{"native":"res://tram_livery/livery/avignon_avignon_380bf1781fb8/end_a.png"},"end_b":{"native":"res://tram_livery/livery/avignon_avignon_380bf1781fb8/end_b.png"},"suspended":{"native":"res://tram_livery/livery/avignon_avignon_380bf1781fb8/suspended.png"}}},"bordeaux_bordeaux_40086b119bb5":{"kit":"bordeaux","parts":{"end_a":{"native":"res://tram_livery/livery/bordeaux_bordeaux_40086b119bb5/end_a.png"},"end_b":{"native":"res://tram_livery/livery/bordeaux_bordeaux_40086b119bb5/end_b.png"},"powered":{"native":"res://tram_livery/livery/bordeaux_bordeaux_40086b119bb5/powered.png"},"suspended":{"native":"res://tram_livery/livery/bordeaux_bordeaux_40086b119bb5/suspended.png"}}},"breda_lille_07f9b2b38d71":{"kit":"breda","parts":{"end_a":{"native":"res://tram_livery/livery/breda_lille_07f9b2b38d71/end_a.png"},"end_b":{"native":"res://tram_livery/livery/breda_lille_07f9b2b38d71/end_b.png"},"powered":{"native":"res://tram_livery/livery/breda_lille_07f9b2b38d71/powered.png"}}},"brest_brest_3c4e688f73d5":{"kit":"brest","parts":{"end_a":{"native":"res://tram_livery/livery/brest_brest_3c4e688f73d5/end_a.png"},"end_b":{"native":"res://tram_livery/livery/brest_brest_3c4e688f73d5/end_b.png"},"powered":{"native":"res://tram_livery/livery/brest_brest_3c4e688f73d5/powered.png"},"suspended":{"native":"res://tram_livery/livery/brest_brest_3c4e688f73d5/suspended.png"}}},"caen_caen_513bf7af43b0":{"kit":"caen","parts":{"end_a":{"native":"res://tram_livery/livery/caen_caen_513bf7af43b0/end_a.png"},"end_b":{"native":"res://tram_livery/livery/caen_caen_513bf7af43b0/end_b.png"},"powered":{"native":"res://tram_livery/livery/caen_caen_513bf7af43b0/powered.png"},"suspended":{"native":"res://tram_livery/livery/caen_caen_513bf7af43b0/suspended.png"}}},"cts3_strasbourg_857c710a8515":{"kit":"cts3","parts":{"end_a":{"native":"res://tram_livery/livery/cts3_strasbourg_857c710a8515/end_a.png"},"end_b":{"native":"res://tram_livery/livery/cts3_strasbourg_857c710a8515/end_b.png"},"powered":{"native":"res://tram_livery/livery/cts3_strasbourg_857c710a8515/powered.png"},"suspended":{"native":"res://tram_livery/livery/cts3_strasbourg_857c710a8515/suspended.png"}}},"cts403_strasbourg_857c710a8515":{"kit":"cts403","parts":{"end_a":{"native":"res://tram_livery/livery/cts403_strasbourg_857c710a8515/end_a.png"},"end_b":{"native":"res://tram_livery/livery/cts403_strasbourg_857c710a8515/end_b.png"},"powered":{"native":"res://tram_livery/livery/cts403_strasbourg_857c710a8515/powered.png"},"suspended":{"native":"res://tram_livery/livery/cts403_strasbourg_857c710a8515/suspended.png"}}},"cts403ng_strasbourg_857c710a8515":{"kit":"cts403ng","parts":{"end_a":{"native":"res://tram_livery/livery/cts403ng_strasbourg_857c710a8515/end_a.png"},"end_b":{"native":"res://tram_livery/livery/cts403ng_strasbourg_857c710a8515/end_b.png"},"powered":{"native":"res://tram_livery/livery/cts403ng_strasbourg_857c710a8515/powered.png"},"suspended":{"native":"res://tram_livery/livery/cts403ng_strasbourg_857c710a8515/suspended.png"}}},"dijon_dijon_6fd3fe93131a":{"kit":"dijon","parts":{"end_a":{"native":"res://tram_livery/livery/dijon_dijon_6fd3fe93131a/end_a.png"},"end_b":{"native":"res://tram_livery/livery/dijon_dijon_6fd3fe93131a/end_b.png"},"powered":{"native":"res://tram_livery/livery/dijon_dijon_6fd3fe93131a/powered.png"},"suspended":{"native":"res://tram_livery/livery/dijon_dijon_6fd3fe93131a/suspended.png"}}},"dualis_idf_aa08b12fc2b0":{"kit":"dualis","parts":{"end_a":{"native":"res://tram_livery/livery/dualis_idf_aa08b12fc2b0/end_a.png"},"end_b":{"native":"res://tram_livery/livery/dualis_idf_aa08b12fc2b0/end_b.png"},"powered":{"native":"res://tram_livery/livery/dualis_idf_aa08b12fc2b0/powered.png"}}},"dualis_lyon_b516a5d9cf29":{"kit":"dualis","parts":{"end_a":{"native":"res://tram_livery/livery/dualis_lyon_b516a5d9cf29/end_a.png"},"end_b":{"native":"res://tram_livery/livery/dualis_lyon_b516a5d9cf29/end_b.png"},"powered":{"native":"res://tram_livery/livery/dualis_lyon_b516a5d9cf29/powered.png"}}},"dualis_nantes_59206b869876":{"kit":"dualis","parts":{"end_a":{"native":"res://tram_livery/livery/dualis_nantes_59206b869876/end_a.png"},"end_b":{"native":"res://tram_livery/livery/dualis_nantes_59206b869876/end_b.png"},"powered":{"native":"res://tram_livery/livery/dualis_nantes_59206b869876/powered.png"}}},"eurotram_strasbourg_500b9a5dab46":{"kit":"eurotram","parts":{"end_a":{"native":"res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/end_a.png"},"end_b":{"native":"res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/end_b.png"},"powered":{"native":"res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/powered.png"},"suspended":{"native":"res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/suspended.png"},"suspended_doors":{"native":"res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/suspended_doors.png"}}},"flexity_basel_saintlouis_27997a05f11e":{"kit":"flexity_basel","parts":{"end_a":{"native":"res://tram_livery/livery/flexity_basel_saintlouis_27997a05f11e/end_a.png"},"end_b":{"native":"res://tram_livery/livery/flexity_basel_saintlouis_27997a05f11e/end_b.png"},"powered":{"native":"res://tram_livery/livery/flexity_basel_saintlouis_27997a05f11e/powered.png"},"suspended":{"native":"res://tram_livery/livery/flexity_basel_saintlouis_27997a05f11e/suspended.png"}}},"ginko305_besancon_6136f1639b57":{"kit":"ginko305","parts":{"end_a":{"native":"res://tram_livery/livery/ginko305_besancon_6136f1639b57/end_a.png"},"end_b":{"native":"res://tram_livery/livery/ginko305_besancon_6136f1639b57/end_b.png"},"powered":{"native":"res://tram_livery/livery/ginko305_besancon_6136f1639b57/powered.png"},"suspended":{"native":"res://tram_livery/livery/ginko305_besancon_6136f1639b57/suspended.png"}}},"grenoble_grenoble_746405df461f":{"kit":"grenoble","parts":{"end_a":{"native":"res://tram_livery/livery/grenoble_grenoble_746405df461f/end_a.png"},"end_b":{"native":"res://tram_livery/livery/grenoble_grenoble_746405df461f/end_b.png"},"powered":{"native":"res://tram_livery/livery/grenoble_grenoble_746405df461f/powered.png"},"suspended":{"native":"res://tram_livery/livery/grenoble_grenoble_746405df461f/suspended.png"}}},"idfm305_idf_e929f9072518":{"kit":"idfm305","parts":{"end_a":{"native":"res://tram_livery/livery/idfm305_idf_e929f9072518/end_a.png"},"end_b":{"native":"res://tram_livery/livery/idfm305_idf_e929f9072518/end_b.png"},"powered":{"native":"res://tram_livery/livery/idfm305_idf_e929f9072518/powered.png"},"suspended":{"native":"res://tram_livery/livery/idfm305_idf_e929f9072518/suspended.png"}}},"idfm405_idf_e929f9072518":{"kit":"idfm405","parts":{"end_a":{"native":"res://tram_livery/livery/idfm405_idf_e929f9072518/end_a.png"},"end_b":{"native":"res://tram_livery/livery/idfm405_idf_e929f9072518/end_b.png"},"powered":{"native":"res://tram_livery/livery/idfm405_idf_e929f9072518/powered.png"},"suspended":{"native":"res://tram_livery/livery/idfm405_idf_e929f9072518/suspended.png"}}},"incentro_nantes_43ccc43a562e":{"kit":"incentro","parts":{"end_a":{"native":"res://tram_livery/livery/incentro_nantes_43ccc43a562e/end_a.png"},"end_b":{"native":"res://tram_livery/livery/incentro_nantes_43ccc43a562e/end_b.png"},"powered":{"native":"res://tram_livery/livery/incentro_nantes_43ccc43a562e/powered.png"},"suspended":{"native":"res://tram_livery/livery/incentro_nantes_43ccc43a562e/suspended.png"}}},"lehavre_lehavre_93688c0ac2a4":{"kit":"lehavre","parts":{"end_a":{"native":"res://tram_livery/livery/lehavre_lehavre_93688c0ac2a4/end_a.png"},"end_b":{"native":"res://tram_livery/livery/lehavre_lehavre_93688c0ac2a4/end_b.png"},"powered":{"native":"res://tram_livery/livery/lehavre_lehavre_93688c0ac2a4/powered.png"},"suspended":{"native":"res://tram_livery/livery/lehavre_lehavre_93688c0ac2a4/suspended.png"}}},"lemans_lemans_8770ba960b49":{"kit":"lemans","parts":{"end_a":{"native":"res://tram_livery/livery/lemans_lemans_8770ba960b49/end_a.png"},"end_b":{"native":"res://tram_livery/livery/lemans_lemans_8770ba960b49/end_b.png"},"powered":{"native":"res://tram_livery/livery/lemans_lemans_8770ba960b49/powered.png"},"suspended":{"native":"res://tram_livery/livery/lemans_lemans_8770ba960b49/suspended.png"}}},"lemans_lemans_fe5b61a0a9ba":{"kit":"lemans","parts":{"end_a":{"native":"res://tram_livery/livery/lemans_lemans_fe5b61a0a9ba/end_a.png"},"end_b":{"native":"res://tram_livery/livery/lemans_lemans_fe5b61a0a9ba/end_b.png"},"powered":{"native":"res://tram_livery/livery/lemans_lemans_fe5b61a0a9ba/powered.png"},"suspended":{"native":"res://tram_livery/livery/lemans_lemans_fe5b61a0a9ba/suspended.png"}}},"lille305_lille_dcf63537607e":{"kit":"lille305","parts":{"end_a":{"native":"res://tram_livery/livery/lille305_lille_dcf63537607e/end_a.png"},"end_b":{"native":"res://tram_livery/livery/lille305_lille_dcf63537607e/end_b.png"},"powered":{"native":"res://tram_livery/livery/lille305_lille_dcf63537607e/powered.png"},"suspended":{"native":"res://tram_livery/livery/lille305_lille_dcf63537607e/suspended.png"}}},"lyon2020_lyon_ac3fae7b9780":{"kit":"lyon2020","parts":{"end_a":{"native":"res://tram_livery/livery/lyon2020_lyon_ac3fae7b9780/end_a.png"},"end_b":{"native":"res://tram_livery/livery/lyon2020_lyon_ac3fae7b9780/end_b.png"},"powered":{"native":"res://tram_livery/livery/lyon2020_lyon_ac3fae7b9780/powered.png"},"suspended":{"native":"res://tram_livery/livery/lyon2020_lyon_ac3fae7b9780/suspended.png"}}},"lyon_egg_lyon_ac3fae7b9780":{"kit":"lyon_egg","parts":{"end_a":{"native":"res://tram_livery/livery/lyon_egg_lyon_ac3fae7b9780/end_a.png"},"end_b":{"native":"res://tram_livery/livery/lyon_egg_lyon_ac3fae7b9780/end_b.png"},"powered":{"native":"res://tram_livery/livery/lyon_egg_lyon_ac3fae7b9780/powered.png"},"suspended":{"native":"res://tram_livery/livery/lyon_egg_lyon_ac3fae7b9780/suspended.png"}}},"marseille_caf_marseille_010c00c21ee5":{"kit":"marseille_caf","parts":{"end_a":{"native":"res://tram_livery/livery/marseille_caf_marseille_010c00c21ee5/end_a.png"},"end_b":{"native":"res://tram_livery/livery/marseille_caf_marseille_010c00c21ee5/end_b.png"},"powered":{"native":"res://tram_livery/livery/marseille_caf_marseille_010c00c21ee5/powered.png"},"suspended":{"native":"res://tram_livery/livery/marseille_caf_marseille_010c00c21ee5/suspended.png"}}},"marseille_marseille_31ffdbf165d2":{"kit":"marseille","parts":{"end_a":{"native":"res://tram_livery/livery/marseille_marseille_31ffdbf165d2/end_a.png"},"end_b":{"native":"res://tram_livery/livery/marseille_marseille_31ffdbf165d2/end_b.png"},"powered":{"native":"res://tram_livery/livery/marseille_marseille_31ffdbf165d2/powered.png"},"suspended":{"native":"res://tram_livery/livery/marseille_marseille_31ffdbf165d2/suspended.png"}}},"mulhouse_mulhouse_deb32fa450e0":{"kit":"mulhouse","parts":{"end_a":{"native":"res://tram_livery/livery/mulhouse_mulhouse_deb32fa450e0/end_a.png"},"end_b":{"native":"res://tram_livery/livery/mulhouse_mulhouse_deb32fa450e0/end_b.png"},"powered":{"native":"res://tram_livery/livery/mulhouse_mulhouse_deb32fa450e0/powered.png"},"suspended":{"native":"res://tram_livery/livery/mulhouse_mulhouse_deb32fa450e0/suspended.png"}}},"nantes_x05":{"kit":"nantes_x05","parts":{"end_a":{"256":"res://tram_livery/livery/nantes_x05/end_a_256.png","2k":"res://tram_livery/livery/nantes_x05/end_a_2k.png","4k":"res://tram_livery/livery/nantes_x05/end_a_4k.png","512":"res://tram_livery/livery/nantes_x05/end_a_512.png"},"end_b":{"256":"res://tram_livery/livery/nantes_x05/end_b_256.png","2k":"res://tram_livery/livery/nantes_x05/end_b_2k.png","4k":"res://tram_livery/livery/nantes_x05/end_b_4k.png","512":"res://tram_livery/livery/nantes_x05/end_b_512.png"},"powered":{"256":"res://tram_livery/livery/nantes_x05/powered_256.png","2k":"res://tram_livery/livery/nantes_x05/powered_2k.png","4k":"res://tram_livery/livery/nantes_x05/powered_4k.png","512":"res://tram_livery/livery/nantes_x05/powered_512.png"},"suspended":{"256":"res://tram_livery/livery/nantes_x05/suspended_256.png","2k":"res://tram_livery/livery/nantes_x05/suspended_2k.png","4k":"res://tram_livery/livery/nantes_x05/suspended_4k.png","512":"res://tram_livery/livery/nantes_x05/suspended_512.png"}}},"nice302_nice_8ca44abb2c25":{"kit":"nice302","parts":{"end_a":{"native":"res://tram_livery/livery/nice302_nice_8ca44abb2c25/end_a.png"},"end_b":{"native":"res://tram_livery/livery/nice302_nice_8ca44abb2c25/end_b.png"},"powered":{"native":"res://tram_livery/livery/nice302_nice_8ca44abb2c25/powered.png"},"suspended":{"native":"res://tram_livery/livery/nice302_nice_8ca44abb2c25/suspended.png"}}},"nice405_nice_cd87ff4e0967":{"kit":"nice405","parts":{"end_a":{"native":"res://tram_livery/livery/nice405_nice_cd87ff4e0967/end_a.png"},"end_b":{"native":"res://tram_livery/livery/nice405_nice_cd87ff4e0967/end_b.png"},"powered":{"native":"res://tram_livery/livery/nice405_nice_cd87ff4e0967/powered.png"},"suspended":{"native":"res://tram_livery/livery/nice405_nice_cd87ff4e0967/suspended.png"}}},"orleans301_orleans_80abe9dc9b36":{"kit":"orleans301","parts":{"end_a":{"native":"res://tram_livery/livery/orleans301_orleans_80abe9dc9b36/end_a.png"},"end_b":{"native":"res://tram_livery/livery/orleans301_orleans_80abe9dc9b36/end_b.png"},"powered":{"native":"res://tram_livery/livery/orleans301_orleans_80abe9dc9b36/powered.png"}}},"orleans302_orleans_3dc58aa5eeff":{"kit":"orleans302","parts":{"end_a":{"native":"res://tram_livery/livery/orleans302_orleans_3dc58aa5eeff/end_a.png"},"end_b":{"native":"res://tram_livery/livery/orleans302_orleans_3dc58aa5eeff/end_b.png"},"powered":{"native":"res://tram_livery/livery/orleans302_orleans_3dc58aa5eeff/powered.png"},"suspended":{"native":"res://tram_livery/livery/orleans302_orleans_3dc58aa5eeff/suspended.png"}}},"paris_t2_idf_247ccd5e06f9":{"kit":"paris_t2","parts":{"end_a":{"native":"res://tram_livery/livery/paris_t2_idf_247ccd5e06f9/end_a.png"},"end_b":{"native":"res://tram_livery/livery/paris_t2_idf_247ccd5e06f9/end_b.png"},"powered":{"native":"res://tram_livery/livery/paris_t2_idf_247ccd5e06f9/powered.png"},"suspended":{"native":"res://tram_livery/livery/paris_t2_idf_247ccd5e06f9/suspended.png"}}},"paris_t3_idf_00b179f12757":{"kit":"paris_t3","parts":{"end_a":{"native":"res://tram_livery/livery/paris_t3_idf_00b179f12757/end_a.png"},"end_b":{"native":"res://tram_livery/livery/paris_t3_idf_00b179f12757/end_b.png"},"powered":{"native":"res://tram_livery/livery/paris_t3_idf_00b179f12757/powered.png"},"suspended":{"native":"res://tram_livery/livery/paris_t3_idf_00b179f12757/suspended.png"}}},"paris_t7_idf_7046e02ef1af":{"kit":"paris_t7","parts":{"end_a":{"native":"res://tram_livery/livery/paris_t7_idf_7046e02ef1af/end_a.png"},"end_b":{"native":"res://tram_livery/livery/paris_t7_idf_7046e02ef1af/end_b.png"},"powered":{"native":"res://tram_livery/livery/paris_t7_idf_7046e02ef1af/powered.png"},"suspended":{"native":"res://tram_livery/livery/paris_t7_idf_7046e02ef1af/suspended.png"}}},"reims_reims_eb3dd271c9d7":{"kit":"reims","parts":{"end_a":{"native":"res://tram_livery/livery/reims_reims_eb3dd271c9d7/end_a.png"},"end_b":{"native":"res://tram_livery/livery/reims_reims_eb3dd271c9d7/end_b.png"},"powered":{"native":"res://tram_livery/livery/reims_reims_eb3dd271c9d7/powered.png"},"suspended":{"native":"res://tram_livery/livery/reims_reims_eb3dd271c9d7/suspended.png"}}},"rouen_rouen_4a57e731397e":{"kit":"rouen","parts":{"end_a":{"native":"res://tram_livery/livery/rouen_rouen_4a57e731397e/end_a.png"},"end_b":{"native":"res://tram_livery/livery/rouen_rouen_4a57e731397e/end_b.png"},"powered":{"native":"res://tram_livery/livery/rouen_rouen_4a57e731397e/powered.png"},"suspended":{"native":"res://tram_livery/livery/rouen_rouen_4a57e731397e/suspended.png"}}},"saarbahn_sarreguemines_86ebd92be64e":{"kit":"saarbahn","parts":{"end_a":{"native":"res://tram_livery/livery/saarbahn_sarreguemines_86ebd92be64e/end_a.png"},"end_b":{"native":"res://tram_livery/livery/saarbahn_sarreguemines_86ebd92be64e/end_b.png"},"suspended":{"native":"res://tram_livery/livery/saarbahn_sarreguemines_86ebd92be64e/suspended.png"}}},"tam302_montpellier_9c1fb270c9ae":{"kit":"tam302","parts":{"end_a":{"native":"res://tram_livery/livery/tam302_montpellier_9c1fb270c9ae/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tam302_montpellier_9c1fb270c9ae/end_b.png"},"powered":{"native":"res://tram_livery/livery/tam302_montpellier_9c1fb270c9ae/powered.png"},"suspended":{"native":"res://tram_livery/livery/tam302_montpellier_9c1fb270c9ae/suspended.png"}}},"tam302_montpellier_a7c29a3347c8":{"kit":"tam302","parts":{"end_a":{"native":"res://tram_livery/livery/tam302_montpellier_a7c29a3347c8/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tam302_montpellier_a7c29a3347c8/end_b.png"},"powered":{"native":"res://tram_livery/livery/tam302_montpellier_a7c29a3347c8/powered.png"},"suspended":{"native":"res://tram_livery/livery/tam302_montpellier_a7c29a3347c8/suspended.png"}}},"tam302_montpellier_f523eb30e135":{"kit":"tam302","parts":{"end_a":{"native":"res://tram_livery/livery/tam302_montpellier_f523eb30e135/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tam302_montpellier_f523eb30e135/end_b.png"},"powered":{"native":"res://tram_livery/livery/tam302_montpellier_f523eb30e135/powered.png"},"suspended":{"native":"res://tram_livery/livery/tam302_montpellier_f523eb30e135/suspended.png"}}},"tam401_montpellier_0da26c76525a":{"kit":"tam401","parts":{"end_a":{"native":"res://tram_livery/livery/tam401_montpellier_0da26c76525a/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tam401_montpellier_0da26c76525a/end_b.png"},"powered":{"native":"res://tram_livery/livery/tam401_montpellier_0da26c76525a/powered.png"}}},"tango_blt_leymen_96046ccdc6e1":{"kit":"tango_blt","parts":{"end_a":{"native":"res://tram_livery/livery/tango_blt_leymen_96046ccdc6e1/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tango_blt_leymen_96046ccdc6e1/end_b.png"},"powered":{"native":"res://tram_livery/livery/tango_blt_leymen_96046ccdc6e1/powered.png"}}},"tango_lyon_b6632b9797ed":{"kit":"tango","parts":{"end_a":{"native":"res://tram_livery/livery/tango_lyon_b6632b9797ed/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tango_lyon_b6632b9797ed/end_b.png"},"powered":{"native":"res://tram_livery/livery/tango_lyon_b6632b9797ed/powered.png"}}},"tango_tpg_annemasse_4c9406b404d0":{"kit":"tango_tpg","parts":{"end_a":{"native":"res://tram_livery/livery/tango_tpg_annemasse_4c9406b404d0/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tango_tpg_annemasse_4c9406b404d0/end_b.png"},"powered":{"native":"res://tram_livery/livery/tango_tpg_annemasse_4c9406b404d0/powered.png"}}},"tfs1_idf_72bb21ce8e0c":{"kit":"tfs1","parts":{"end_a":{"native":"res://tram_livery/livery/tfs1_idf_72bb21ce8e0c/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tfs1_idf_72bb21ce8e0c/end_b.png"},"powered":{"native":"res://tram_livery/livery/tfs1_idf_72bb21ce8e0c/powered.png"}}},"tfs1_nantes_e62878d17026":{"kit":"tfs1","parts":{"end_a":{"native":"res://tram_livery/livery/tfs1_nantes_e62878d17026/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tfs1_nantes_e62878d17026/end_b.png"},"powered":{"native":"res://tram_livery/livery/tfs1_nantes_e62878d17026/powered.png"}}},"tfs2_grenoble_5e0f8fe14338":{"kit":"tfs2","parts":{"end_a":{"native":"res://tram_livery/livery/tfs2_grenoble_5e0f8fe14338/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tfs2_grenoble_5e0f8fe14338/end_b.png"},"powered":{"native":"res://tram_livery/livery/tfs2_grenoble_5e0f8fe14338/powered.png"}}},"tfs2_idf_72bb21ce8e0c":{"kit":"tfs2","parts":{"end_a":{"native":"res://tram_livery/livery/tfs2_idf_72bb21ce8e0c/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tfs2_idf_72bb21ce8e0c/end_b.png"},"powered":{"native":"res://tram_livery/livery/tfs2_idf_72bb21ce8e0c/powered.png"}}},"tfs2_nantes_e62878d17026":{"kit":"tfs2","parts":{"end_a":{"native":"res://tram_livery/livery/tfs2_nantes_e62878d17026/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tfs2_nantes_e62878d17026/end_b.png"},"powered":{"native":"res://tram_livery/livery/tfs2_nantes_e62878d17026/powered.png"}}},"toulouse_toulouse_7a02746eb02f":{"kit":"toulouse","parts":{"end_a":{"native":"res://tram_livery/livery/toulouse_toulouse_7a02746eb02f/end_a.png"},"end_b":{"native":"res://tram_livery/livery/toulouse_toulouse_7a02746eb02f/end_b.png"},"powered":{"native":"res://tram_livery/livery/toulouse_toulouse_7a02746eb02f/powered.png"},"suspended":{"native":"res://tram_livery/livery/toulouse_toulouse_7a02746eb02f/suspended.png"}}},"tours_tours_07b41bb821c5":{"kit":"tours","parts":{"end_a":{"native":"res://tram_livery/livery/tours_tours_07b41bb821c5/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tours_tours_07b41bb821c5/end_b.png"},"powered":{"native":"res://tram_livery/livery/tours_tours_07b41bb821c5/powered.png"},"suspended":{"native":"res://tram_livery/livery/tours_tours_07b41bb821c5/suspended.png"}}},"tpg_cityrunner_annemasse_5a3d582d0711":{"kit":"tpg_cityrunner","parts":{"end_a":{"native":"res://tram_livery/livery/tpg_cityrunner_annemasse_5a3d582d0711/end_a.png"},"end_b":{"native":"res://tram_livery/livery/tpg_cityrunner_annemasse_5a3d582d0711/end_b.png"},"powered":{"native":"res://tram_livery/livery/tpg_cityrunner_annemasse_5a3d582d0711/powered.png"},"suspended":{"native":"res://tram_livery/livery/tpg_cityrunner_annemasse_5a3d582d0711/suspended.png"}}},"translohr_clermont_6af093f0de73":{"kit":"translohr","parts":{"end_a":{"native":"res://tram_livery/livery/translohr_clermont_6af093f0de73/end_a.png"},"end_b":{"native":"res://tram_livery/livery/translohr_clermont_6af093f0de73/end_b.png"},"powered":{"native":"res://tram_livery/livery/translohr_clermont_6af093f0de73/powered.png"},"suspended":{"native":"res://tram_livery/livery/translohr_clermont_6af093f0de73/suspended.png"}}},"translohr_paris_idf_410f00df9507":{"kit":"translohr_paris","parts":{"end_a":{"native":"res://tram_livery/livery/translohr_paris_idf_410f00df9507/end_a.png"},"end_b":{"native":"res://tram_livery/livery/translohr_paris_idf_410f00df9507/end_b.png"},"powered":{"native":"res://tram_livery/livery/translohr_paris_idf_410f00df9507/powered.png"},"suspended":{"native":"res://tram_livery/livery/translohr_paris_idf_410f00df9507/suspended.png"}}},"urbos_ginko_besancon_6136f1639b57":{"kit":"urbos_ginko","parts":{"end_a":{"native":"res://tram_livery/livery/urbos_ginko_besancon_6136f1639b57/end_a.png"},"end_b":{"native":"res://tram_livery/livery/urbos_ginko_besancon_6136f1639b57/end_b.png"},"suspended":{"native":"res://tram_livery/livery/urbos_ginko_besancon_6136f1639b57/suspended.png"}}},"urbos_nantes_nantes_616e16606f51":{"kit":"urbos_nantes","parts":{"end_a":{"native":"res://tram_livery/livery/urbos_nantes_nantes_616e16606f51/end_a.png"},"end_b":{"native":"res://tram_livery/livery/urbos_nantes_nantes_616e16606f51/end_b.png"},"powered":{"native":"res://tram_livery/livery/urbos_nantes_nantes_616e16606f51/powered.png"},"suspended":{"native":"res://tram_livery/livery/urbos_nantes_nantes_616e16606f51/suspended.png"}}},"urbos_stas_saintetienne_0e65458d85fb":{"kit":"urbos_stas","parts":{"end_a":{"native":"res://tram_livery/livery/urbos_stas_saintetienne_0e65458d85fb/end_a.png"},"end_b":{"native":"res://tram_livery/livery/urbos_stas_saintetienne_0e65458d85fb/end_b.png"},"powered":{"native":"res://tram_livery/livery/urbos_stas_saintetienne_0e65458d85fb/powered.png"},"suspended":{"native":"res://tram_livery/livery/urbos_stas_saintetienne_0e65458d85fb/suspended.png"}}},"urbos_tam_montpellier_8563f6806f8f":{"kit":"urbos_tam","parts":{"end_a":{"native":"res://tram_livery/livery/urbos_tam_montpellier_8563f6806f8f/end_a.png"},"end_b":{"native":"res://tram_livery/livery/urbos_tam_montpellier_8563f6806f8f/end_b.png"},"powered":{"native":"res://tram_livery/livery/urbos_tam_montpellier_8563f6806f8f/powered.png"},"suspended":{"native":"res://tram_livery/livery/urbos_tam_montpellier_8563f6806f8f/suspended.png"}}},"urbos_tam_montpellier_d15484ce9e09":{"kit":"urbos_tam","parts":{"end_a":{"native":"res://tram_livery/livery/urbos_tam_montpellier_d15484ce9e09/end_a.png"},"end_b":{"native":"res://tram_livery/livery/urbos_tam_montpellier_d15484ce9e09/end_b.png"},"powered":{"native":"res://tram_livery/livery/urbos_tam_montpellier_d15484ce9e09/powered.png"},"suspended":{"native":"res://tram_livery/livery/urbos_tam_montpellier_d15484ce9e09/suspended.png"}}},"valenciennes_valenciennes_4df73ca0cca2":{"kit":"valenciennes","parts":{"end_a":{"native":"res://tram_livery/livery/valenciennes_valenciennes_4df73ca0cca2/end_a.png"},"end_b":{"native":"res://tram_livery/livery/valenciennes_valenciennes_4df73ca0cca2/end_b.png"},"powered":{"native":"res://tram_livery/livery/valenciennes_valenciennes_4df73ca0cca2/powered.png"},"suspended":{"native":"res://tram_livery/livery/valenciennes_valenciennes_4df73ca0cca2/suspended.png"}}},"vevey1_saintetienne_5204c9aa4769":{"kit":"vevey1","parts":{"end_a":{"native":"res://tram_livery/livery/vevey1_saintetienne_5204c9aa4769/end_a.png"},"end_b":{"native":"res://tram_livery/livery/vevey1_saintetienne_5204c9aa4769/end_b.png"}}},"vevey2_saintetienne_5204c9aa4769":{"kit":"vevey2","parts":{"end_a":{"native":"res://tram_livery/livery/vevey2_saintetienne_5204c9aa4769/end_a.png"},"end_b":{"native":"res://tram_livery/livery/vevey2_saintetienne_5204c9aa4769/end_b.png"}}}},"schema":2.0,"variants":{"angers__citadis_302":{"count":5.0,"kit":"angers_x02","length_m":32.4,"livery":"angers_x02","type":"302"},"angers__citadis_x05":{"count":5.0,"kit":"angers_x05","length_m":33.0,"livery":"angers_x05","type":"305"},"angers__concept_citadis_205":{"count":3.0,"kit":"angers_x05","length_m":24.0,"livery":"angers_x05","type":"205"},"angers__concept_citadis_405":{"count":7.0,"kit":"angers_x05","length_m":44.5,"livery":"angers_x05","type":"405"},"annemasse__cityrunner_tpg":{"count":7.0,"kit":"tpg_cityrunner","length_m":42.046,"livery":"tpg_cityrunner_annemasse_5a3d582d0711","type":"7-caisses"},"annemasse__tango_tpg":{"count":6.0,"kit":"tango_tpg","length_m":44.0,"livery":"tango_tpg_annemasse_4c9406b404d0","type":"6-caisses"},"aubagne__citadis_compact":{"count":3.0,"kit":"aubagne","length_m":22.0,"livery":"aubagne_aubagne_1dc6edb6a823","type":"205"},"avignon__citadis_compact":{"count":3.0,"kit":"avignon","length_m":24.0,"livery":"avignon_avignon_380bf1781fb8","type":"205"},"besancon__citadis_x05":{"count":5.0,"kit":"ginko305","length_m":32.5,"livery":"ginko305_besancon_6136f1639b57","type":"305"},"besancon__urbos":{"count":3.0,"kit":"urbos_ginko","length_m":23.7,"livery":"urbos_ginko_besancon_6136f1639b57","type":"3-caisses"},"bordeaux__citadis_302":{"count":5.0,"kit":"bordeaux","length_m":32.85,"livery":"bordeaux_bordeaux_40086b119bb5","type":"302"},"bordeaux__citadis_402":{"count":7.0,"kit":"bordeaux","length_m":43.989,"livery":"bordeaux_bordeaux_40086b119bb5","type":"402"},"brest__citadis_302":{"count":5.0,"kit":"brest","length_m":32.7,"livery":"brest_brest_3c4e688f73d5","type":"302"},"brest__citadis_305":{"count":5.0,"kit":"brest","length_m":32.5,"livery":"brest_brest_3c4e688f73d5","type":"305"},"caen__citadis_x05":{"count":5.0,"kit":"caen","length_m":33.0,"livery":"caen_caen_513bf7af43b0","type":"305"},"clermont__translohr":{"count":4.0,"kit":"translohr","length_m":32.0,"livery":"translohr_clermont_6af093f0de73","type":"4-caisses"},"dijon__citadis_302":{"count":5.0,"kit":"dijon","length_m":32.7,"livery":"dijon_dijon_6fd3fe93131a","type":"302"},"dijon__concept_citadis_405":{"count":7.0,"kit":"dijon","length_m":44.0,"livery":"dijon_dijon_6fd3fe93131a","type":"405"},"grenoble__citadis_402":{"count":7.0,"kit":"grenoble","length_m":43.7,"livery":"grenoble_grenoble_746405df461f","type":"402"},"grenoble__tfs":{"count":3.0,"kit":"tfs2","length_m":29.4,"livery":"tfs2_grenoble_5e0f8fe14338","type":"3-caisses"},"idf__avanto__t4":{"count":5.0,"kit":"avanto_paris","length_m":36.97,"livery":"avanto_paris_idf_321e3fb0fdd3","type":"5-caisses"},"idf__citadis_302__t2":{"count":5.0,"kit":"paris_t2","length_m":32.2,"livery":"paris_t2_idf_247ccd5e06f9","type":"302"},"idf__citadis_302__t7":{"count":5.0,"kit":"paris_t7","length_m":32.7,"livery":"paris_t7_idf_7046e02ef1af","type":"302"},"idf__citadis_402__t3a":{"count":7.0,"kit":"paris_t3","length_m":43.7,"livery":"paris_t3_idf_00b179f12757","type":"402"},"idf__citadis_dualis__t11":{"count":4.0,"kit":"dualis","length_m":42.0,"livery":"dualis_idf_aa08b12fc2b0","type":"4-caisses"},"idf__citadis_x05__t1":{"count":5.0,"kit":"idfm305","length_m":33.0,"livery":"idfm305_idf_e929f9072518","type":"305"},"idf__citadis_x05__t9":{"count":7.0,"kit":"idfm405","length_m":44.0,"livery":"idfm405_idf_e929f9072518","type":"405"},"idf__concept_tfs_1":{"count":3.0,"kit":"tfs1","length_m":36.5,"livery":"tfs1_idf_72bb21ce8e0c","type":"3-caisses"},"idf__tfs__t1":{"count":3.0,"kit":"tfs2","length_m":29.4,"livery":"tfs2_idf_72bb21ce8e0c","type":"3-caisses"},"idf__translohr__t5":{"count":3.0,"kit":"translohr_paris","length_m":25.0,"livery":"translohr_paris_idf_410f00df9507","type":"3-caisses"},"idf__translohr__t6":{"count":6.0,"kit":"translohr_paris","length_m":46.0,"livery":"translohr_paris_idf_410f00df9507","type":"6-caisses"},"lehavre__citadis_302":{"count":5.0,"kit":"lehavre","length_m":32.15,"livery":"lehavre_lehavre_93688c0ac2a4","type":"302"},"lemans__citadis_302":{"count":5.0,"kit":"lemans","length_m":32.0,"livery":"lemans_lemans_8770ba960b49","type":"302"},"lemans__citadis_402":{"count":7.0,"kit":"lemans","length_m":44.0,"livery":"lemans_lemans_fe5b61a0a9ba","type":"402"},"leymen__tango_blt":{"count":6.0,"kit":"tango_blt","length_m":44.98,"livery":"tango_blt_leymen_96046ccdc6e1","type":"6-caisses"},"lille__breda_vlc":{"count":4.0,"kit":"breda","length_m":29.6,"livery":"breda_lille_07f9b2b38d71","type":"4-caisses"},"lille__citadis_x05":{"count":5.0,"kit":"lille305","length_m":32.4,"livery":"lille305_lille_dcf63537607e","type":"305"},"lyon__citadis_302":{"count":5.0,"kit":"lyon_egg","length_m":32.4,"livery":"lyon_egg_lyon_ac3fae7b9780","type":"302"},"lyon__citadis_402":{"count":7.0,"kit":"lyon_egg","length_m":43.76,"livery":"lyon_egg_lyon_ac3fae7b9780","type":"402"},"lyon__citadis_402_2020":{"count":7.0,"kit":"lyon2020","length_m":43.76,"livery":"lyon2020_lyon_ac3fae7b9780","type":"402"},"lyon__citadis_dualis":{"count":4.0,"kit":"dualis","length_m":42.0,"livery":"dualis_lyon_b516a5d9cf29","type":"4-caisses"},"lyon__tango_rhonexpress":{"count":3.0,"kit":"tango","length_m":27.0,"livery":"tango_lyon_b6632b9797ed","type":"3-caisses"},"marseille__flexity_marseille":{"count":7.0,"kit":"marseille","length_m":42.5,"livery":"marseille_marseille_31ffdbf165d2","type":"7-caisses"},"marseille__urbos":{"count":7.0,"kit":"marseille_caf","length_m":42.51,"livery":"marseille_caf_marseille_010c00c21ee5","type":"7-caisses"},"montpellier__citadis_302__2":{"count":5.0,"kit":"tam302","length_m":32.5,"livery":"tam302_montpellier_f523eb30e135","type":"302"},"montpellier__citadis_302__4":{"count":5.0,"kit":"tam302","length_m":32.5,"livery":"tam302_montpellier_a7c29a3347c8","type":"302"},"montpellier__citadis_402__3":{"count":7.0,"kit":"tam302","length_m":43.8,"livery":"tam302_montpellier_9c1fb270c9ae","type":"402"},"montpellier__citadis_x01":{"count":5.0,"kit":"tam401","length_m":40.9,"livery":"tam401_montpellier_0da26c76525a","type":"401"},"montpellier__urbos":{"count":7.0,"kit":"urbos_tam","length_m":43.262,"livery":"urbos_tam_montpellier_8563f6806f8f","type":"7-caisses"},"montpellier__urbos__5":{"count":7.0,"kit":"urbos_tam","length_m":43.262,"livery":"urbos_tam_montpellier_d15484ce9e09","type":"7-caisses"},"mulhouse__avanto":{"count":5.0,"kit":"avanto","length_m":36.97,"livery":"avanto_mulhouse_507243a94694","type":"5-caisses"},"mulhouse__citadis_302":{"count":5.0,"kit":"mulhouse","length_m":32.52,"livery":"mulhouse_mulhouse_deb32fa450e0","type":"302"},"nantes__citadis_dualis":{"count":4.0,"kit":"dualis","length_m":42.0,"livery":"dualis_nantes_59206b869876","type":"4-caisses"},"nantes__citadis_x05_nantes":{"count":7.0,"kit":"nantes_x05","length_m":45.6,"livery":"nantes_x05","type":"405"},"nantes__concept_citadis_205":{"count":3.0,"kit":"nantes_x05","length_m":24.0,"livery":"nantes_x05","type":"205"},"nantes__concept_citadis_305":{"count":5.0,"kit":"nantes_x05","length_m":33.0,"livery":"nantes_x05","type":"305"},"nantes__concept_tfs_2":{"count":3.0,"kit":"tfs2","length_m":29.4,"livery":"tfs2_nantes_e62878d17026","type":"3-caisses"},"nantes__incentro":{"count":5.0,"kit":"incentro","length_m":36.4,"livery":"incentro_nantes_43ccc43a562e","type":"5-caisses"},"nantes__tfs":{"count":3.0,"kit":"tfs1","length_m":36.5,"livery":"tfs1_nantes_e62878d17026","type":"3-caisses"},"nantes__urbos":{"count":5.0,"kit":"urbos_nantes","length_m":37.966,"livery":"urbos_nantes_nantes_616e16606f51","type":"5-caisses"},"nice__citadis_402":{"count":7.0,"kit":"nice302","length_m":44.0,"livery":"nice302_nice_8ca44abb2c25","type":"402"},"nice__citadis_x05":{"count":7.0,"kit":"nice405","length_m":44.0,"livery":"nice405_nice_cd87ff4e0967","type":"405"},"orleans__citadis_302":{"count":5.0,"kit":"orleans302","length_m":32.3,"livery":"orleans302_orleans_3dc58aa5eeff","type":"302"},"orleans__citadis_x01":{"count":3.0,"kit":"orleans301","length_m":29.9,"livery":"orleans301_orleans_80abe9dc9b36","type":"301"},"reims__citadis_reims":{"count":5.0,"kit":"reims","length_m":32.4,"livery":"reims_reims_eb3dd271c9d7","type":"302"},"rouen__citadis_402":{"count":7.0,"kit":"rouen","length_m":44.0,"livery":"rouen_rouen_4a57e731397e","type":"402"},"saintetienne__urbos":{"count":5.0,"kit":"urbos_stas","length_m":32.966,"livery":"urbos_stas_saintetienne_0e65458d85fb","type":"5-caisses"},"saintetienne__vevey_saint_etienne":{"count":2.0,"kit":"vevey2","length_m":22.24,"livery":"vevey2_saintetienne_5204c9aa4769","type":"2-caisses"},"saintetienne__vevey_ste1":{"count":2.0,"kit":"vevey1","length_m":22.24,"livery":"vevey1_saintetienne_5204c9aa4769","type":"2-caisses"},"saintlouis__flexity_bvb":{"count":7.0,"kit":"flexity_basel","length_m":43.2,"livery":"flexity_basel_saintlouis_27997a05f11e","type":"7-caisses"},"sarreguemines__flexity_link":{"count":3.0,"kit":"saarbahn","length_m":37.0,"livery":"saarbahn_sarreguemines_86ebd92be64e","type":"3-caisses"},"strasbourg__citadis_3":{"count":7.0,"kit":"cts3","length_m":45.0,"livery":"cts3_strasbourg_857c710a8515","type":"7-caisses"},"strasbourg__citadis_403_strasbourg":{"count":7.0,"kit":"cts403","length_m":45.06,"livery":"cts403_strasbourg_857c710a8515","type":"403"},"strasbourg__citadis_x05":{"count":7.0,"kit":"cts403ng","length_m":45.5,"livery":"cts403ng_strasbourg_857c710a8515","type":"403"},"strasbourg__eurotram":{"count":7.0,"kit":"eurotram","length_m":33.1,"livery":"eurotram_strasbourg_500b9a5dab46","type":"7-caisses"},"strasbourg__eurotram_long":{"count":9.0,"kit":"eurotram","length_m":43.05,"livery":"eurotram_strasbourg_500b9a5dab46","type":"9-caisses"},"toulouse__citadis_302":{"count":5.0,"kit":"toulouse","length_m":32.4,"livery":"toulouse_toulouse_7a02746eb02f","type":"302"},"toulouse__citadis_305":{"count":5.0,"kit":"toulouse","length_m":32.5,"livery":"toulouse_toulouse_7a02746eb02f","type":"305"},"tours__citadis_tours":{"count":7.0,"kit":"tours","length_m":43.7,"livery":"tours_tours_07b41bb821c5","type":"402"},"valenciennes__citadis_302":{"count":5.0,"kit":"valenciennes","length_m":32.85,"livery":"valenciennes_valenciennes_4df73ca0cca2","type":"302"}}}
+{
+  "kits": {
+    "angers_x02": "res://tram_parts/compositions/angers_x02.json",
+    "angers_x05": "res://tram_parts/compositions/angers_x05.json",
+    "aubagne": "res://tram_parts/compositions/aubagne.json",
+    "avanto": "res://tram_parts/compositions/avanto.json",
+    "avanto_paris": "res://tram_parts/compositions/avanto_paris.json",
+    "avignon": "res://tram_parts/compositions/avignon.json",
+    "bordeaux": "res://tram_parts/compositions/bordeaux.json",
+    "breda": "res://tram_parts/compositions/breda.json",
+    "brest": "res://tram_parts/compositions/brest.json",
+    "caen": "res://tram_parts/compositions/caen.json",
+    "cts3": "res://tram_parts/compositions/cts3.json",
+    "cts403": "res://tram_parts/compositions/cts403.json",
+    "cts403ng": "res://tram_parts/compositions/cts403ng.json",
+    "dijon": "res://tram_parts/compositions/dijon.json",
+    "dualis": "res://tram_parts/compositions/dualis.json",
+    "eurotram": "res://tram_parts/compositions/eurotram.json",
+    "flexity_basel": "res://tram_parts/compositions/flexity_basel.json",
+    "ginko305": "res://tram_parts/compositions/ginko305.json",
+    "grenoble": "res://tram_parts/compositions/grenoble.json",
+    "idfm305": "res://tram_parts/compositions/idfm305.json",
+    "idfm405": "res://tram_parts/compositions/idfm405.json",
+    "incentro": "res://tram_parts/compositions/incentro.json",
+    "lehavre": "res://tram_parts/compositions/lehavre.json",
+    "lemans": "res://tram_parts/compositions/lemans.json",
+    "lille305": "res://tram_parts/compositions/lille305.json",
+    "lyon2020": "res://tram_parts/compositions/lyon2020.json",
+    "lyon_egg": "res://tram_parts/compositions/lyon_egg.json",
+    "marseille": "res://tram_parts/compositions/marseille.json",
+    "marseille_caf": "res://tram_parts/compositions/marseille_caf.json",
+    "mulhouse": "res://tram_parts/compositions/mulhouse.json",
+    "nantes_x05": "res://tram_parts/compositions/nantes_x05.json",
+    "nice302": "res://tram_parts/compositions/nice302.json",
+    "nice405": "res://tram_parts/compositions/nice405.json",
+    "orleans301": "res://tram_parts/compositions/orleans301.json",
+    "orleans302": "res://tram_parts/compositions/orleans302.json",
+    "paris_t2": "res://tram_parts/compositions/paris_t2.json",
+    "paris_t3": "res://tram_parts/compositions/paris_t3.json",
+    "paris_t7": "res://tram_parts/compositions/paris_t7.json",
+    "reims": "res://tram_parts/compositions/reims.json",
+    "rouen": "res://tram_parts/compositions/rouen.json",
+    "saarbahn": "res://tram_parts/compositions/saarbahn.json",
+    "tam302": "res://tram_parts/compositions/tam302.json",
+    "tam401": "res://tram_parts/compositions/tam401.json",
+    "tango": "res://tram_parts/compositions/tango.json",
+    "tango_blt": "res://tram_parts/compositions/tango_blt.json",
+    "tango_tpg": "res://tram_parts/compositions/tango_tpg.json",
+    "tfs1": "res://tram_parts/compositions/tfs1.json",
+    "tfs2": "res://tram_parts/compositions/tfs2.json",
+    "toulouse": "res://tram_parts/compositions/toulouse.json",
+    "tours": "res://tram_parts/compositions/tours.json",
+    "tpg_cityrunner": "res://tram_parts/compositions/tpg_cityrunner.json",
+    "translohr": "res://tram_parts/compositions/translohr.json",
+    "translohr_paris": "res://tram_parts/compositions/translohr_paris.json",
+    "urbos_ginko": "res://tram_parts/compositions/urbos_ginko.json",
+    "urbos_nantes": "res://tram_parts/compositions/urbos_nantes.json",
+    "urbos_stas": "res://tram_parts/compositions/urbos_stas.json",
+    "urbos_tam": "res://tram_parts/compositions/urbos_tam.json",
+    "valenciennes": "res://tram_parts/compositions/valenciennes.json",
+    "vevey1": "res://tram_parts/compositions/vevey1.json",
+    "vevey2": "res://tram_parts/compositions/vevey2.json"
+  },
+  "liveries": {
+    "angers_x02": {
+      "kit": "angers_x02",
+      "parts": {
+        "end_a": {
+          "256": "res://tram_livery/livery/angers_x02/end_a_256.png",
+          "2k": "res://tram_livery/livery/angers_x02/end_a_2k.png",
+          "4k": "res://tram_livery/livery/angers_x02/end_a_4k.png",
+          "512": "res://tram_livery/livery/angers_x02/end_a_512.png"
+        },
+        "end_b": {
+          "256": "res://tram_livery/livery/angers_x02/end_b_256.png",
+          "2k": "res://tram_livery/livery/angers_x02/end_b_2k.png",
+          "4k": "res://tram_livery/livery/angers_x02/end_b_4k.png",
+          "512": "res://tram_livery/livery/angers_x02/end_b_512.png"
+        },
+        "powered": {
+          "256": "res://tram_livery/livery/angers_x02/powered_256.png",
+          "2k": "res://tram_livery/livery/angers_x02/powered_2k.png",
+          "4k": "res://tram_livery/livery/angers_x02/powered_4k.png",
+          "512": "res://tram_livery/livery/angers_x02/powered_512.png"
+        },
+        "suspended": {
+          "256": "res://tram_livery/livery/angers_x02/suspended_256.png",
+          "2k": "res://tram_livery/livery/angers_x02/suspended_2k.png",
+          "4k": "res://tram_livery/livery/angers_x02/suspended_4k.png",
+          "512": "res://tram_livery/livery/angers_x02/suspended_512.png"
+        }
+      }
+    },
+    "angers_x05": {
+      "kit": "angers_x05",
+      "parts": {
+        "end_a": {
+          "256": "res://tram_livery/livery/angers_x05/end_a_256.png",
+          "2k": "res://tram_livery/livery/angers_x05/end_a_2k.png",
+          "4k": "res://tram_livery/livery/angers_x05/end_a_4k.png",
+          "512": "res://tram_livery/livery/angers_x05/end_a_512.png"
+        },
+        "end_b": {
+          "256": "res://tram_livery/livery/angers_x05/end_b_256.png",
+          "2k": "res://tram_livery/livery/angers_x05/end_b_2k.png",
+          "4k": "res://tram_livery/livery/angers_x05/end_b_4k.png",
+          "512": "res://tram_livery/livery/angers_x05/end_b_512.png"
+        },
+        "powered": {
+          "256": "res://tram_livery/livery/angers_x05/powered_256.png",
+          "2k": "res://tram_livery/livery/angers_x05/powered_2k.png",
+          "4k": "res://tram_livery/livery/angers_x05/powered_4k.png",
+          "512": "res://tram_livery/livery/angers_x05/powered_512.png"
+        },
+        "suspended": {
+          "256": "res://tram_livery/livery/angers_x05/suspended_256.png",
+          "2k": "res://tram_livery/livery/angers_x05/suspended_2k.png",
+          "4k": "res://tram_livery/livery/angers_x05/suspended_4k.png",
+          "512": "res://tram_livery/livery/angers_x05/suspended_512.png"
+        }
+      }
+    },
+    "aubagne_aubagne_1dc6edb6a823": {
+      "kit": "aubagne",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/aubagne_aubagne_1dc6edb6a823/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/aubagne_aubagne_1dc6edb6a823/end_b.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/aubagne_aubagne_1dc6edb6a823/suspended.png"
+        }
+      }
+    },
+    "avanto_mulhouse_507243a94694": {
+      "kit": "avanto",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/avanto_mulhouse_507243a94694/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/avanto_mulhouse_507243a94694/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/avanto_mulhouse_507243a94694/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/avanto_mulhouse_507243a94694/suspended.png"
+        }
+      }
+    },
+    "avanto_paris_idf_321e3fb0fdd3": {
+      "kit": "avanto_paris",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/avanto_paris_idf_321e3fb0fdd3/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/avanto_paris_idf_321e3fb0fdd3/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/avanto_paris_idf_321e3fb0fdd3/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/avanto_paris_idf_321e3fb0fdd3/suspended.png"
+        }
+      }
+    },
+    "avignon_avignon_380bf1781fb8": {
+      "kit": "avignon",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/avignon_avignon_380bf1781fb8/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/avignon_avignon_380bf1781fb8/end_b.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/avignon_avignon_380bf1781fb8/suspended.png"
+        }
+      }
+    },
+    "bordeaux_bordeaux_40086b119bb5": {
+      "kit": "bordeaux",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/bordeaux_bordeaux_40086b119bb5/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/bordeaux_bordeaux_40086b119bb5/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/bordeaux_bordeaux_40086b119bb5/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/bordeaux_bordeaux_40086b119bb5/suspended.png"
+        }
+      }
+    },
+    "breda_lille_07f9b2b38d71": {
+      "kit": "breda",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/breda_lille_07f9b2b38d71/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/breda_lille_07f9b2b38d71/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/breda_lille_07f9b2b38d71/powered.png"
+        }
+      }
+    },
+    "brest_brest_3c4e688f73d5": {
+      "kit": "brest",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/brest_brest_3c4e688f73d5/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/brest_brest_3c4e688f73d5/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/brest_brest_3c4e688f73d5/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/brest_brest_3c4e688f73d5/suspended.png"
+        }
+      }
+    },
+    "caen_caen_513bf7af43b0": {
+      "kit": "caen",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/caen_caen_513bf7af43b0/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/caen_caen_513bf7af43b0/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/caen_caen_513bf7af43b0/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/caen_caen_513bf7af43b0/suspended.png"
+        }
+      }
+    },
+    "cts3_strasbourg_857c710a8515": {
+      "kit": "cts3",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/cts3_strasbourg_857c710a8515/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/cts3_strasbourg_857c710a8515/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/cts3_strasbourg_857c710a8515/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/cts3_strasbourg_857c710a8515/suspended.png"
+        }
+      }
+    },
+    "cts403_strasbourg_857c710a8515": {
+      "kit": "cts403",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/cts403_strasbourg_857c710a8515/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/cts403_strasbourg_857c710a8515/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/cts403_strasbourg_857c710a8515/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/cts403_strasbourg_857c710a8515/suspended.png"
+        }
+      }
+    },
+    "cts403ng_strasbourg_857c710a8515": {
+      "kit": "cts403ng",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/cts403ng_strasbourg_857c710a8515/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/cts403ng_strasbourg_857c710a8515/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/cts403ng_strasbourg_857c710a8515/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/cts403ng_strasbourg_857c710a8515/suspended.png"
+        }
+      }
+    },
+    "dijon_dijon_6fd3fe93131a": {
+      "kit": "dijon",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/dijon_dijon_6fd3fe93131a/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/dijon_dijon_6fd3fe93131a/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/dijon_dijon_6fd3fe93131a/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/dijon_dijon_6fd3fe93131a/suspended.png"
+        }
+      }
+    },
+    "dualis_idf_aa08b12fc2b0": {
+      "kit": "dualis",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/dualis_idf_aa08b12fc2b0/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/dualis_idf_aa08b12fc2b0/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/dualis_idf_aa08b12fc2b0/powered.png"
+        }
+      }
+    },
+    "dualis_lyon_b516a5d9cf29": {
+      "kit": "dualis",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/dualis_lyon_b516a5d9cf29/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/dualis_lyon_b516a5d9cf29/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/dualis_lyon_b516a5d9cf29/powered.png"
+        }
+      }
+    },
+    "dualis_nantes_59206b869876": {
+      "kit": "dualis",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/dualis_nantes_59206b869876/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/dualis_nantes_59206b869876/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/dualis_nantes_59206b869876/powered.png"
+        }
+      }
+    },
+    "eurotram_strasbourg_500b9a5dab46": {
+      "kit": "eurotram",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/suspended.png"
+        },
+        "suspended_doors": {
+          "native": "res://tram_livery/livery/eurotram_strasbourg_500b9a5dab46/suspended_doors.png"
+        }
+      }
+    },
+    "flexity_basel_saintlouis_27997a05f11e": {
+      "kit": "flexity_basel",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/flexity_basel_saintlouis_27997a05f11e/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/flexity_basel_saintlouis_27997a05f11e/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/flexity_basel_saintlouis_27997a05f11e/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/flexity_basel_saintlouis_27997a05f11e/suspended.png"
+        }
+      }
+    },
+    "ginko305_besancon_6136f1639b57": {
+      "kit": "ginko305",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/ginko305_besancon_6136f1639b57/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/ginko305_besancon_6136f1639b57/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/ginko305_besancon_6136f1639b57/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/ginko305_besancon_6136f1639b57/suspended.png"
+        }
+      }
+    },
+    "grenoble_grenoble_746405df461f": {
+      "kit": "grenoble",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/grenoble_grenoble_746405df461f/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/grenoble_grenoble_746405df461f/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/grenoble_grenoble_746405df461f/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/grenoble_grenoble_746405df461f/suspended.png"
+        }
+      }
+    },
+    "idfm305_idf_e929f9072518": {
+      "kit": "idfm305",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/idfm305_idf_e929f9072518/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/idfm305_idf_e929f9072518/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/idfm305_idf_e929f9072518/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/idfm305_idf_e929f9072518/suspended.png"
+        }
+      }
+    },
+    "idfm405_idf_e929f9072518": {
+      "kit": "idfm405",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/idfm405_idf_e929f9072518/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/idfm405_idf_e929f9072518/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/idfm405_idf_e929f9072518/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/idfm405_idf_e929f9072518/suspended.png"
+        }
+      }
+    },
+    "incentro_nantes_43ccc43a562e": {
+      "kit": "incentro",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/incentro_nantes_43ccc43a562e/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/incentro_nantes_43ccc43a562e/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/incentro_nantes_43ccc43a562e/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/incentro_nantes_43ccc43a562e/suspended.png"
+        }
+      }
+    },
+    "lehavre_lehavre_93688c0ac2a4": {
+      "kit": "lehavre",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/lehavre_lehavre_93688c0ac2a4/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/lehavre_lehavre_93688c0ac2a4/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/lehavre_lehavre_93688c0ac2a4/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/lehavre_lehavre_93688c0ac2a4/suspended.png"
+        }
+      }
+    },
+    "lemans_lemans_8770ba960b49": {
+      "kit": "lemans",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/lemans_lemans_8770ba960b49/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/lemans_lemans_8770ba960b49/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/lemans_lemans_8770ba960b49/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/lemans_lemans_8770ba960b49/suspended.png"
+        }
+      }
+    },
+    "lemans_lemans_fe5b61a0a9ba": {
+      "kit": "lemans",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/lemans_lemans_fe5b61a0a9ba/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/lemans_lemans_fe5b61a0a9ba/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/lemans_lemans_fe5b61a0a9ba/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/lemans_lemans_fe5b61a0a9ba/suspended.png"
+        }
+      }
+    },
+    "lille305_lille_dcf63537607e": {
+      "kit": "lille305",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/lille305_lille_dcf63537607e/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/lille305_lille_dcf63537607e/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/lille305_lille_dcf63537607e/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/lille305_lille_dcf63537607e/suspended.png"
+        }
+      }
+    },
+    "lyon2020_lyon_ac3fae7b9780": {
+      "kit": "lyon2020",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/lyon2020_lyon_ac3fae7b9780/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/lyon2020_lyon_ac3fae7b9780/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/lyon2020_lyon_ac3fae7b9780/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/lyon2020_lyon_ac3fae7b9780/suspended.png"
+        }
+      }
+    },
+    "lyon_egg_lyon_ac3fae7b9780": {
+      "kit": "lyon_egg",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/lyon_egg_lyon_ac3fae7b9780/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/lyon_egg_lyon_ac3fae7b9780/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/lyon_egg_lyon_ac3fae7b9780/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/lyon_egg_lyon_ac3fae7b9780/suspended.png"
+        }
+      }
+    },
+    "marseille_caf_marseille_010c00c21ee5": {
+      "kit": "marseille_caf",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/marseille_caf_marseille_010c00c21ee5/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/marseille_caf_marseille_010c00c21ee5/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/marseille_caf_marseille_010c00c21ee5/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/marseille_caf_marseille_010c00c21ee5/suspended.png"
+        }
+      }
+    },
+    "marseille_marseille_31ffdbf165d2": {
+      "kit": "marseille",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/marseille_marseille_31ffdbf165d2/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/marseille_marseille_31ffdbf165d2/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/marseille_marseille_31ffdbf165d2/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/marseille_marseille_31ffdbf165d2/suspended.png"
+        }
+      }
+    },
+    "mulhouse_mulhouse_deb32fa450e0": {
+      "kit": "mulhouse",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/mulhouse_mulhouse_deb32fa450e0/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/mulhouse_mulhouse_deb32fa450e0/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/mulhouse_mulhouse_deb32fa450e0/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/mulhouse_mulhouse_deb32fa450e0/suspended.png"
+        }
+      }
+    },
+    "nantes_x05": {
+      "kit": "nantes_x05",
+      "parts": {
+        "end_a": {
+          "256": "res://tram_livery/livery/nantes_x05/end_a_256.png",
+          "2k": "res://tram_livery/livery/nantes_x05/end_a_2k.png",
+          "4k": "res://tram_livery/livery/nantes_x05/end_a_4k.png",
+          "512": "res://tram_livery/livery/nantes_x05/end_a_512.png"
+        },
+        "end_b": {
+          "256": "res://tram_livery/livery/nantes_x05/end_b_256.png",
+          "2k": "res://tram_livery/livery/nantes_x05/end_b_2k.png",
+          "4k": "res://tram_livery/livery/nantes_x05/end_b_4k.png",
+          "512": "res://tram_livery/livery/nantes_x05/end_b_512.png"
+        },
+        "powered": {
+          "256": "res://tram_livery/livery/nantes_x05/powered_256.png",
+          "2k": "res://tram_livery/livery/nantes_x05/powered_2k.png",
+          "4k": "res://tram_livery/livery/nantes_x05/powered_4k.png",
+          "512": "res://tram_livery/livery/nantes_x05/powered_512.png"
+        },
+        "suspended": {
+          "256": "res://tram_livery/livery/nantes_x05/suspended_256.png",
+          "2k": "res://tram_livery/livery/nantes_x05/suspended_2k.png",
+          "4k": "res://tram_livery/livery/nantes_x05/suspended_4k.png",
+          "512": "res://tram_livery/livery/nantes_x05/suspended_512.png"
+        }
+      }
+    },
+    "nice302_nice_8ca44abb2c25": {
+      "kit": "nice302",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/nice302_nice_8ca44abb2c25/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/nice302_nice_8ca44abb2c25/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/nice302_nice_8ca44abb2c25/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/nice302_nice_8ca44abb2c25/suspended.png"
+        }
+      }
+    },
+    "nice405_nice_cd87ff4e0967": {
+      "kit": "nice405",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/nice405_nice_cd87ff4e0967/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/nice405_nice_cd87ff4e0967/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/nice405_nice_cd87ff4e0967/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/nice405_nice_cd87ff4e0967/suspended.png"
+        }
+      }
+    },
+    "orleans301_orleans_80abe9dc9b36": {
+      "kit": "orleans301",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/orleans301_orleans_80abe9dc9b36/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/orleans301_orleans_80abe9dc9b36/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/orleans301_orleans_80abe9dc9b36/powered.png"
+        }
+      }
+    },
+    "orleans302_orleans_3dc58aa5eeff": {
+      "kit": "orleans302",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/orleans302_orleans_3dc58aa5eeff/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/orleans302_orleans_3dc58aa5eeff/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/orleans302_orleans_3dc58aa5eeff/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/orleans302_orleans_3dc58aa5eeff/suspended.png"
+        }
+      }
+    },
+    "paris_t2_idf_247ccd5e06f9": {
+      "kit": "paris_t2",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/paris_t2_idf_247ccd5e06f9/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/paris_t2_idf_247ccd5e06f9/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/paris_t2_idf_247ccd5e06f9/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/paris_t2_idf_247ccd5e06f9/suspended.png"
+        }
+      }
+    },
+    "paris_t3_idf_00b179f12757": {
+      "kit": "paris_t3",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/paris_t3_idf_00b179f12757/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/paris_t3_idf_00b179f12757/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/paris_t3_idf_00b179f12757/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/paris_t3_idf_00b179f12757/suspended.png"
+        }
+      }
+    },
+    "paris_t7_idf_7046e02ef1af": {
+      "kit": "paris_t7",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/paris_t7_idf_7046e02ef1af/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/paris_t7_idf_7046e02ef1af/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/paris_t7_idf_7046e02ef1af/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/paris_t7_idf_7046e02ef1af/suspended.png"
+        }
+      }
+    },
+    "reims_reims_eb3dd271c9d7": {
+      "kit": "reims",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/reims_reims_eb3dd271c9d7/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/reims_reims_eb3dd271c9d7/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/reims_reims_eb3dd271c9d7/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/reims_reims_eb3dd271c9d7/suspended.png"
+        }
+      }
+    },
+    "rouen_rouen_4a57e731397e": {
+      "kit": "rouen",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/rouen_rouen_4a57e731397e/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/rouen_rouen_4a57e731397e/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/rouen_rouen_4a57e731397e/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/rouen_rouen_4a57e731397e/suspended.png"
+        }
+      }
+    },
+    "saarbahn_sarreguemines_86ebd92be64e": {
+      "kit": "saarbahn",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/saarbahn_sarreguemines_86ebd92be64e/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/saarbahn_sarreguemines_86ebd92be64e/end_b.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/saarbahn_sarreguemines_86ebd92be64e/suspended.png"
+        }
+      }
+    },
+    "tam302_montpellier_9c1fb270c9ae": {
+      "kit": "tam302",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tam302_montpellier_9c1fb270c9ae/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tam302_montpellier_9c1fb270c9ae/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tam302_montpellier_9c1fb270c9ae/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/tam302_montpellier_9c1fb270c9ae/suspended.png"
+        }
+      }
+    },
+    "tam302_montpellier_a7c29a3347c8": {
+      "kit": "tam302",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tam302_montpellier_a7c29a3347c8/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tam302_montpellier_a7c29a3347c8/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tam302_montpellier_a7c29a3347c8/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/tam302_montpellier_a7c29a3347c8/suspended.png"
+        }
+      }
+    },
+    "tam302_montpellier_f523eb30e135": {
+      "kit": "tam302",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tam302_montpellier_f523eb30e135/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tam302_montpellier_f523eb30e135/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tam302_montpellier_f523eb30e135/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/tam302_montpellier_f523eb30e135/suspended.png"
+        }
+      }
+    },
+    "tam401_montpellier_0da26c76525a": {
+      "kit": "tam401",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tam401_montpellier_0da26c76525a/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tam401_montpellier_0da26c76525a/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tam401_montpellier_0da26c76525a/powered.png"
+        }
+      }
+    },
+    "tango_blt_leymen_96046ccdc6e1": {
+      "kit": "tango_blt",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tango_blt_leymen_96046ccdc6e1/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tango_blt_leymen_96046ccdc6e1/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tango_blt_leymen_96046ccdc6e1/powered.png"
+        }
+      }
+    },
+    "tango_lyon_b6632b9797ed": {
+      "kit": "tango",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tango_lyon_b6632b9797ed/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tango_lyon_b6632b9797ed/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tango_lyon_b6632b9797ed/powered.png"
+        }
+      }
+    },
+    "tango_tpg_annemasse_4c9406b404d0": {
+      "kit": "tango_tpg",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tango_tpg_annemasse_4c9406b404d0/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tango_tpg_annemasse_4c9406b404d0/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tango_tpg_annemasse_4c9406b404d0/powered.png"
+        }
+      }
+    },
+    "tfs1_idf_72bb21ce8e0c": {
+      "kit": "tfs1",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tfs1_idf_72bb21ce8e0c/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tfs1_idf_72bb21ce8e0c/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tfs1_idf_72bb21ce8e0c/powered.png"
+        }
+      }
+    },
+    "tfs1_nantes_e62878d17026": {
+      "kit": "tfs1",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tfs1_nantes_e62878d17026/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tfs1_nantes_e62878d17026/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tfs1_nantes_e62878d17026/powered.png"
+        }
+      }
+    },
+    "tfs2_grenoble_5e0f8fe14338": {
+      "kit": "tfs2",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tfs2_grenoble_5e0f8fe14338/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tfs2_grenoble_5e0f8fe14338/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tfs2_grenoble_5e0f8fe14338/powered.png"
+        }
+      }
+    },
+    "tfs2_idf_72bb21ce8e0c": {
+      "kit": "tfs2",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tfs2_idf_72bb21ce8e0c/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tfs2_idf_72bb21ce8e0c/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tfs2_idf_72bb21ce8e0c/powered.png"
+        }
+      }
+    },
+    "tfs2_nantes_e62878d17026": {
+      "kit": "tfs2",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tfs2_nantes_e62878d17026/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tfs2_nantes_e62878d17026/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tfs2_nantes_e62878d17026/powered.png"
+        }
+      }
+    },
+    "toulouse_toulouse_7a02746eb02f": {
+      "kit": "toulouse",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/toulouse_toulouse_7a02746eb02f/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/toulouse_toulouse_7a02746eb02f/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/toulouse_toulouse_7a02746eb02f/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/toulouse_toulouse_7a02746eb02f/suspended.png"
+        }
+      }
+    },
+    "tours_tours_07b41bb821c5": {
+      "kit": "tours",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tours_tours_07b41bb821c5/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tours_tours_07b41bb821c5/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tours_tours_07b41bb821c5/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/tours_tours_07b41bb821c5/suspended.png"
+        }
+      }
+    },
+    "tpg_cityrunner_annemasse_5a3d582d0711": {
+      "kit": "tpg_cityrunner",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/tpg_cityrunner_annemasse_5a3d582d0711/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/tpg_cityrunner_annemasse_5a3d582d0711/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/tpg_cityrunner_annemasse_5a3d582d0711/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/tpg_cityrunner_annemasse_5a3d582d0711/suspended.png"
+        }
+      }
+    },
+    "translohr_clermont_6af093f0de73": {
+      "kit": "translohr",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/translohr_clermont_6af093f0de73/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/translohr_clermont_6af093f0de73/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/translohr_clermont_6af093f0de73/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/translohr_clermont_6af093f0de73/suspended.png"
+        }
+      }
+    },
+    "translohr_paris_idf_410f00df9507": {
+      "kit": "translohr_paris",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/translohr_paris_idf_410f00df9507/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/translohr_paris_idf_410f00df9507/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/translohr_paris_idf_410f00df9507/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/translohr_paris_idf_410f00df9507/suspended.png"
+        }
+      }
+    },
+    "urbos_ginko_besancon_6136f1639b57": {
+      "kit": "urbos_ginko",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/urbos_ginko_besancon_6136f1639b57/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/urbos_ginko_besancon_6136f1639b57/end_b.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/urbos_ginko_besancon_6136f1639b57/suspended.png"
+        }
+      }
+    },
+    "urbos_nantes_nantes_616e16606f51": {
+      "kit": "urbos_nantes",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/urbos_nantes_nantes_616e16606f51/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/urbos_nantes_nantes_616e16606f51/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/urbos_nantes_nantes_616e16606f51/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/urbos_nantes_nantes_616e16606f51/suspended.png"
+        }
+      }
+    },
+    "urbos_stas_saintetienne_0e65458d85fb": {
+      "kit": "urbos_stas",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/urbos_stas_saintetienne_0e65458d85fb/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/urbos_stas_saintetienne_0e65458d85fb/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/urbos_stas_saintetienne_0e65458d85fb/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/urbos_stas_saintetienne_0e65458d85fb/suspended.png"
+        }
+      }
+    },
+    "urbos_tam_montpellier_8563f6806f8f": {
+      "kit": "urbos_tam",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/urbos_tam_montpellier_8563f6806f8f/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/urbos_tam_montpellier_8563f6806f8f/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/urbos_tam_montpellier_8563f6806f8f/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/urbos_tam_montpellier_8563f6806f8f/suspended.png"
+        }
+      }
+    },
+    "urbos_tam_montpellier_d15484ce9e09": {
+      "kit": "urbos_tam",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/urbos_tam_montpellier_d15484ce9e09/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/urbos_tam_montpellier_d15484ce9e09/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/urbos_tam_montpellier_d15484ce9e09/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/urbos_tam_montpellier_d15484ce9e09/suspended.png"
+        }
+      }
+    },
+    "valenciennes_valenciennes_4df73ca0cca2": {
+      "kit": "valenciennes",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/valenciennes_valenciennes_4df73ca0cca2/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/valenciennes_valenciennes_4df73ca0cca2/end_b.png"
+        },
+        "powered": {
+          "native": "res://tram_livery/livery/valenciennes_valenciennes_4df73ca0cca2/powered.png"
+        },
+        "suspended": {
+          "native": "res://tram_livery/livery/valenciennes_valenciennes_4df73ca0cca2/suspended.png"
+        }
+      }
+    },
+    "vevey1_saintetienne_5204c9aa4769": {
+      "kit": "vevey1",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/vevey1_saintetienne_5204c9aa4769/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/vevey1_saintetienne_5204c9aa4769/end_b.png"
+        }
+      }
+    },
+    "vevey2_saintetienne_5204c9aa4769": {
+      "kit": "vevey2",
+      "parts": {
+        "end_a": {
+          "native": "res://tram_livery/livery/vevey2_saintetienne_5204c9aa4769/end_a.png"
+        },
+        "end_b": {
+          "native": "res://tram_livery/livery/vevey2_saintetienne_5204c9aa4769/end_b.png"
+        }
+      }
+    }
+  },
+  "schema": 2.0,
+  "variants": {
+    "angers__citadis_302": {
+      "count": 5.0,
+      "kit": "angers_x02",
+      "length_m": 32.4,
+      "livery": "angers_x02",
+      "type": "302"
+    },
+    "angers__citadis_x05": {
+      "count": 5.0,
+      "kit": "angers_x05",
+      "length_m": 33.0,
+      "livery": "angers_x05",
+      "type": "305"
+    },
+    "angers__concept_citadis_205": {
+      "count": 3.0,
+      "kit": "angers_x05",
+      "length_m": 24.0,
+      "livery": "angers_x05",
+      "type": "205"
+    },
+    "angers__concept_citadis_405": {
+      "count": 7.0,
+      "kit": "angers_x05",
+      "length_m": 44.5,
+      "livery": "angers_x05",
+      "type": "405"
+    },
+    "annemasse__cityrunner_tpg": {
+      "count": 7.0,
+      "kit": "tpg_cityrunner",
+      "length_m": 42.046,
+      "livery": "tpg_cityrunner_annemasse_5a3d582d0711",
+      "type": "7-caisses"
+    },
+    "annemasse__tango_tpg": {
+      "count": 6.0,
+      "kit": "tango_tpg",
+      "length_m": 44.0,
+      "livery": "tango_tpg_annemasse_4c9406b404d0",
+      "type": "6-caisses"
+    },
+    "aubagne__citadis_compact": {
+      "count": 3.0,
+      "kit": "aubagne",
+      "length_m": 22.0,
+      "livery": "aubagne_aubagne_1dc6edb6a823",
+      "type": "205"
+    },
+    "avignon__citadis_compact": {
+      "count": 3.0,
+      "kit": "avignon",
+      "length_m": 24.0,
+      "livery": "avignon_avignon_380bf1781fb8",
+      "type": "205"
+    },
+    "besancon__citadis_x05": {
+      "count": 5.0,
+      "kit": "ginko305",
+      "length_m": 32.5,
+      "livery": "ginko305_besancon_6136f1639b57",
+      "type": "305"
+    },
+    "besancon__urbos": {
+      "count": 3.0,
+      "kit": "urbos_ginko",
+      "length_m": 23.7,
+      "livery": "urbos_ginko_besancon_6136f1639b57",
+      "type": "3-caisses"
+    },
+    "bordeaux__citadis_302": {
+      "count": 5.0,
+      "kit": "bordeaux",
+      "length_m": 32.85,
+      "livery": "bordeaux_bordeaux_40086b119bb5",
+      "type": "302"
+    },
+    "bordeaux__citadis_402": {
+      "count": 7.0,
+      "kit": "bordeaux",
+      "length_m": 43.989,
+      "livery": "bordeaux_bordeaux_40086b119bb5",
+      "type": "402"
+    },
+    "brest__citadis_302": {
+      "count": 5.0,
+      "kit": "brest",
+      "length_m": 32.7,
+      "livery": "brest_brest_3c4e688f73d5",
+      "type": "302"
+    },
+    "brest__citadis_305": {
+      "count": 5.0,
+      "kit": "brest",
+      "length_m": 32.5,
+      "livery": "brest_brest_3c4e688f73d5",
+      "type": "305"
+    },
+    "caen__citadis_x05": {
+      "count": 5.0,
+      "kit": "caen",
+      "length_m": 33.0,
+      "livery": "caen_caen_513bf7af43b0",
+      "type": "305"
+    },
+    "clermont__translohr": {
+      "count": 4.0,
+      "kit": "translohr",
+      "length_m": 32.0,
+      "livery": "translohr_clermont_6af093f0de73",
+      "type": "4-caisses"
+    },
+    "dijon__citadis_302": {
+      "count": 5.0,
+      "kit": "dijon",
+      "length_m": 32.7,
+      "livery": "dijon_dijon_6fd3fe93131a",
+      "type": "302"
+    },
+    "dijon__concept_citadis_405": {
+      "count": 7.0,
+      "kit": "dijon",
+      "length_m": 44.0,
+      "livery": "dijon_dijon_6fd3fe93131a",
+      "type": "405"
+    },
+    "grenoble__citadis_402": {
+      "count": 7.0,
+      "kit": "grenoble",
+      "length_m": 43.7,
+      "livery": "grenoble_grenoble_746405df461f",
+      "type": "402"
+    },
+    "grenoble__tfs": {
+      "count": 3.0,
+      "kit": "tfs2",
+      "length_m": 29.4,
+      "livery": "tfs2_grenoble_5e0f8fe14338",
+      "type": "3-caisses"
+    },
+    "idf__avanto__t4": {
+      "count": 5.0,
+      "kit": "avanto_paris",
+      "length_m": 36.97,
+      "livery": "avanto_paris_idf_321e3fb0fdd3",
+      "type": "5-caisses"
+    },
+    "idf__citadis_302__t2": {
+      "count": 5.0,
+      "kit": "paris_t2",
+      "length_m": 32.2,
+      "livery": "paris_t2_idf_247ccd5e06f9",
+      "type": "302"
+    },
+    "idf__citadis_302__t7": {
+      "count": 5.0,
+      "kit": "paris_t7",
+      "length_m": 32.7,
+      "livery": "paris_t7_idf_7046e02ef1af",
+      "type": "302"
+    },
+    "idf__citadis_402__t3a": {
+      "count": 7.0,
+      "kit": "paris_t3",
+      "length_m": 43.7,
+      "livery": "paris_t3_idf_00b179f12757",
+      "type": "402"
+    },
+    "idf__citadis_dualis__t11": {
+      "count": 4.0,
+      "kit": "dualis",
+      "length_m": 42.0,
+      "livery": "dualis_idf_aa08b12fc2b0",
+      "type": "4-caisses"
+    },
+    "idf__citadis_x05__t1": {
+      "count": 5.0,
+      "kit": "idfm305",
+      "length_m": 33.0,
+      "livery": "idfm305_idf_e929f9072518",
+      "type": "305"
+    },
+    "idf__citadis_x05__t9": {
+      "count": 7.0,
+      "kit": "idfm405",
+      "length_m": 44.0,
+      "livery": "idfm405_idf_e929f9072518",
+      "type": "405"
+    },
+    "idf__concept_tfs_1": {
+      "count": 3.0,
+      "kit": "tfs1",
+      "length_m": 36.5,
+      "livery": "tfs1_idf_72bb21ce8e0c",
+      "type": "3-caisses"
+    },
+    "idf__tfs__t1": {
+      "count": 3.0,
+      "kit": "tfs2",
+      "length_m": 29.4,
+      "livery": "tfs2_idf_72bb21ce8e0c",
+      "type": "3-caisses"
+    },
+    "idf__translohr__t5": {
+      "count": 3.0,
+      "kit": "translohr_paris",
+      "length_m": 25.0,
+      "livery": "translohr_paris_idf_410f00df9507",
+      "type": "3-caisses"
+    },
+    "idf__translohr__t6": {
+      "count": 6.0,
+      "kit": "translohr_paris",
+      "length_m": 46.0,
+      "livery": "translohr_paris_idf_410f00df9507",
+      "type": "6-caisses"
+    },
+    "lehavre__citadis_302": {
+      "count": 5.0,
+      "kit": "lehavre",
+      "length_m": 32.15,
+      "livery": "lehavre_lehavre_93688c0ac2a4",
+      "type": "302"
+    },
+    "lemans__citadis_302": {
+      "count": 5.0,
+      "kit": "lemans",
+      "length_m": 32.0,
+      "livery": "lemans_lemans_8770ba960b49",
+      "type": "302"
+    },
+    "lemans__citadis_402": {
+      "count": 7.0,
+      "kit": "lemans",
+      "length_m": 44.0,
+      "livery": "lemans_lemans_fe5b61a0a9ba",
+      "type": "402"
+    },
+    "leymen__tango_blt": {
+      "count": 6.0,
+      "kit": "tango_blt",
+      "length_m": 44.98,
+      "livery": "tango_blt_leymen_96046ccdc6e1",
+      "type": "6-caisses"
+    },
+    "lille__breda_vlc": {
+      "count": 4.0,
+      "kit": "breda",
+      "length_m": 29.6,
+      "livery": "breda_lille_07f9b2b38d71",
+      "type": "4-caisses"
+    },
+    "lille__citadis_x05": {
+      "count": 5.0,
+      "kit": "lille305",
+      "length_m": 32.4,
+      "livery": "lille305_lille_dcf63537607e",
+      "type": "305"
+    },
+    "lyon__citadis_302": {
+      "count": 5.0,
+      "kit": "lyon_egg",
+      "length_m": 32.4,
+      "livery": "lyon_egg_lyon_ac3fae7b9780",
+      "type": "302"
+    },
+    "lyon__citadis_402": {
+      "count": 7.0,
+      "kit": "lyon_egg",
+      "length_m": 43.76,
+      "livery": "lyon_egg_lyon_ac3fae7b9780",
+      "type": "402"
+    },
+    "lyon__citadis_402_2020": {
+      "count": 7.0,
+      "kit": "lyon2020",
+      "length_m": 43.76,
+      "livery": "lyon2020_lyon_ac3fae7b9780",
+      "type": "402"
+    },
+    "lyon__citadis_dualis": {
+      "count": 4.0,
+      "kit": "dualis",
+      "length_m": 42.0,
+      "livery": "dualis_lyon_b516a5d9cf29",
+      "type": "4-caisses"
+    },
+    "lyon__tango_rhonexpress": {
+      "count": 3.0,
+      "kit": "tango",
+      "length_m": 27.0,
+      "livery": "tango_lyon_b6632b9797ed",
+      "type": "3-caisses"
+    },
+    "marseille__flexity_marseille": {
+      "count": 7.0,
+      "kit": "marseille",
+      "length_m": 42.5,
+      "livery": "marseille_marseille_31ffdbf165d2",
+      "type": "7-caisses"
+    },
+    "marseille__urbos": {
+      "count": 7.0,
+      "kit": "marseille_caf",
+      "length_m": 42.51,
+      "livery": "marseille_caf_marseille_010c00c21ee5",
+      "type": "7-caisses"
+    },
+    "montpellier__citadis_302__2": {
+      "count": 5.0,
+      "kit": "tam302",
+      "length_m": 32.5,
+      "livery": "tam302_montpellier_f523eb30e135",
+      "type": "302"
+    },
+    "montpellier__citadis_302__4": {
+      "count": 5.0,
+      "kit": "tam302",
+      "length_m": 32.5,
+      "livery": "tam302_montpellier_a7c29a3347c8",
+      "type": "302"
+    },
+    "montpellier__citadis_402__3": {
+      "count": 7.0,
+      "kit": "tam302",
+      "length_m": 43.8,
+      "livery": "tam302_montpellier_9c1fb270c9ae",
+      "type": "402"
+    },
+    "montpellier__citadis_x01": {
+      "count": 5.0,
+      "kit": "tam401",
+      "length_m": 40.9,
+      "livery": "tam401_montpellier_0da26c76525a",
+      "type": "401"
+    },
+    "montpellier__urbos": {
+      "count": 7.0,
+      "kit": "urbos_tam",
+      "length_m": 43.262,
+      "livery": "urbos_tam_montpellier_8563f6806f8f",
+      "type": "7-caisses"
+    },
+    "montpellier__urbos__5": {
+      "count": 7.0,
+      "kit": "urbos_tam",
+      "length_m": 43.262,
+      "livery": "urbos_tam_montpellier_d15484ce9e09",
+      "type": "7-caisses"
+    },
+    "mulhouse__avanto": {
+      "count": 5.0,
+      "kit": "avanto",
+      "length_m": 36.97,
+      "livery": "avanto_mulhouse_507243a94694",
+      "type": "5-caisses"
+    },
+    "mulhouse__citadis_302": {
+      "count": 5.0,
+      "kit": "mulhouse",
+      "length_m": 32.52,
+      "livery": "mulhouse_mulhouse_deb32fa450e0",
+      "type": "302"
+    },
+    "nantes__citadis_dualis": {
+      "count": 4.0,
+      "kit": "dualis",
+      "length_m": 42.0,
+      "livery": "dualis_nantes_59206b869876",
+      "type": "4-caisses"
+    },
+    "nantes__citadis_x05_nantes": {
+      "count": 7.0,
+      "kit": "nantes_x05",
+      "length_m": 45.6,
+      "livery": "nantes_x05",
+      "type": "405"
+    },
+    "nantes__concept_citadis_205": {
+      "count": 3.0,
+      "kit": "nantes_x05",
+      "length_m": 24.0,
+      "livery": "nantes_x05",
+      "type": "205"
+    },
+    "nantes__concept_citadis_305": {
+      "count": 5.0,
+      "kit": "nantes_x05",
+      "length_m": 33.0,
+      "livery": "nantes_x05",
+      "type": "305"
+    },
+    "nantes__concept_tfs_2": {
+      "count": 3.0,
+      "kit": "tfs2",
+      "length_m": 29.4,
+      "livery": "tfs2_nantes_e62878d17026",
+      "type": "3-caisses"
+    },
+    "nantes__incentro": {
+      "count": 5.0,
+      "kit": "incentro",
+      "length_m": 36.4,
+      "livery": "incentro_nantes_43ccc43a562e",
+      "type": "5-caisses"
+    },
+    "nantes__tfs": {
+      "count": 3.0,
+      "kit": "tfs1",
+      "length_m": 36.5,
+      "livery": "tfs1_nantes_e62878d17026",
+      "type": "3-caisses"
+    },
+    "nantes__urbos": {
+      "count": 5.0,
+      "kit": "urbos_nantes",
+      "length_m": 37.966,
+      "livery": "urbos_nantes_nantes_616e16606f51",
+      "type": "5-caisses"
+    },
+    "nice__citadis_402": {
+      "count": 7.0,
+      "kit": "nice302",
+      "length_m": 44.0,
+      "livery": "nice302_nice_8ca44abb2c25",
+      "type": "402"
+    },
+    "nice__citadis_x05": {
+      "count": 7.0,
+      "kit": "nice405",
+      "length_m": 44.0,
+      "livery": "nice405_nice_cd87ff4e0967",
+      "type": "405"
+    },
+    "orleans__citadis_302": {
+      "count": 5.0,
+      "kit": "orleans302",
+      "length_m": 32.3,
+      "livery": "orleans302_orleans_3dc58aa5eeff",
+      "type": "302"
+    },
+    "orleans__citadis_x01": {
+      "count": 3.0,
+      "kit": "orleans301",
+      "length_m": 29.9,
+      "livery": "orleans301_orleans_80abe9dc9b36",
+      "type": "301"
+    },
+    "reims__citadis_reims": {
+      "count": 5.0,
+      "kit": "reims",
+      "length_m": 32.4,
+      "livery": "reims_reims_eb3dd271c9d7",
+      "type": "302"
+    },
+    "rouen__citadis_402": {
+      "count": 7.0,
+      "kit": "rouen",
+      "length_m": 44.0,
+      "livery": "rouen_rouen_4a57e731397e",
+      "type": "402"
+    },
+    "saintetienne__urbos": {
+      "count": 5.0,
+      "kit": "urbos_stas",
+      "length_m": 32.966,
+      "livery": "urbos_stas_saintetienne_0e65458d85fb",
+      "type": "5-caisses"
+    },
+    "saintetienne__vevey_saint_etienne": {
+      "count": 2.0,
+      "kit": "vevey2",
+      "length_m": 22.24,
+      "livery": "vevey2_saintetienne_5204c9aa4769",
+      "type": "2-caisses"
+    },
+    "saintetienne__vevey_ste1": {
+      "count": 2.0,
+      "kit": "vevey1",
+      "length_m": 22.24,
+      "livery": "vevey1_saintetienne_5204c9aa4769",
+      "type": "2-caisses"
+    },
+    "saintlouis__flexity_bvb": {
+      "count": 7.0,
+      "kit": "flexity_basel",
+      "length_m": 43.2,
+      "livery": "flexity_basel_saintlouis_27997a05f11e",
+      "type": "7-caisses"
+    },
+    "sarreguemines__flexity_link": {
+      "count": 3.0,
+      "kit": "saarbahn",
+      "length_m": 37.0,
+      "livery": "saarbahn_sarreguemines_86ebd92be64e",
+      "type": "3-caisses"
+    },
+    "strasbourg__citadis_3": {
+      "count": 7.0,
+      "kit": "cts3",
+      "length_m": 45.0,
+      "livery": "cts3_strasbourg_857c710a8515",
+      "type": "7-caisses"
+    },
+    "strasbourg__citadis_403_strasbourg": {
+      "count": 7.0,
+      "kit": "cts403",
+      "length_m": 45.06,
+      "livery": "cts403_strasbourg_857c710a8515",
+      "type": "403"
+    },
+    "strasbourg__citadis_x05": {
+      "count": 7.0,
+      "kit": "cts403ng",
+      "length_m": 45.5,
+      "livery": "cts403ng_strasbourg_857c710a8515",
+      "type": "403"
+    },
+    "strasbourg__eurotram": {
+      "count": 7.0,
+      "kit": "eurotram",
+      "length_m": 33.1,
+      "livery": "eurotram_strasbourg_500b9a5dab46",
+      "type": "7-caisses"
+    },
+    "strasbourg__eurotram_long": {
+      "count": 9.0,
+      "kit": "eurotram",
+      "length_m": 43.05,
+      "livery": "eurotram_strasbourg_500b9a5dab46",
+      "type": "9-caisses"
+    },
+    "toulouse__citadis_302": {
+      "count": 5.0,
+      "kit": "toulouse",
+      "length_m": 32.4,
+      "livery": "toulouse_toulouse_7a02746eb02f",
+      "type": "302"
+    },
+    "toulouse__citadis_305": {
+      "count": 5.0,
+      "kit": "toulouse",
+      "length_m": 32.5,
+      "livery": "toulouse_toulouse_7a02746eb02f",
+      "type": "305"
+    },
+    "tours__citadis_tours": {
+      "count": 7.0,
+      "kit": "tours",
+      "length_m": 43.7,
+      "livery": "tours_tours_07b41bb821c5",
+      "type": "402"
+    },
+    "valenciennes__citadis_302": {
+      "count": 5.0,
+      "kit": "valenciennes",
+      "length_m": 32.85,
+      "livery": "valenciennes_valenciennes_4df73ca0cca2",
+      "type": "302"
+    }
+  }
+}

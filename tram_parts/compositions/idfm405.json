@@ -1,1 +1,450 @@
-{"cab":{},"frame":{"body":{"cant_m":2.75,"roof_shoulder_m":0.25,"skirt_top_m":0.45,"tumblehome_m":0.0,"window_bottom_m":1.05,"window_top_m":2.45},"door_anim":{"leaf_split":"center","open_s":2.5,"out_m":0.06,"single_leaf_travel_m":0.8,"travel_m":0.65,"type":"plug"},"estimated":["body","modules.windows","modules.roof","modules.bogie_z_m","front.plan","front.side","front.windshield","front.headlights","front.destination","door_anim","pantograph","research:height_m","research:floor_height_m","research:power_kw","research:modules","research:front","research:variants.nantes"],"floor_m":0.32,"front":{"bumper_m":0.05,"destination":{"h_m":0.22,"w_m":1.4,"y_m":2.85},"headlights":{"h_m":0.05,"shape":"strip","w_m":0.3,"x_m":0.85,"y_m":0.9},"length_m":1.2,"plan":[[0.0,1.0],[0.5,0.96],[0.85,0.86],[1.0,0.72]],"side":[[0.1,0.06],[0.6,0.0],[1.2,0.0],[2.0,0.1],[2.8,0.3],[3.0,0.6]],"windshield":{"bottom_m":1.1,"top_m":2.8,"wrap":0.25}},"height_m":3.3,"id":"citadis_x05","length_m":32.5,"name":"Alstom Citadis X05 (305 / 405)","pantograph":{"down_m":0.25,"raise_s":4.0,"type":"single_arm","up_m":2.6},"sources":["research.json#citadis_x05","https://fr.wikipedia.org/wiki/Alstom_Citadis","https://fr.wikipedia.org/wiki/Tramway_de_Caen","https://fr.wikipedia.org/wiki/Tramway_d%27Angers","https://fr.wikipedia.org/wiki/Tramway_de_Besan%C3%A7on","https://fr.wikipedia.org/wiki/Tramway_de_Nice","https://fr.wikipedia.org/wiki/Ligne_1_du_tramway_d%27%C3%8Ele-de-France","https://fr.wikipedia.org/wiki/Ligne_9_du_tramway_d%27%C3%8Ele-de-France","https://fr.wikipedia.org/wiki/Ligne_10_du_tramway_d%27%C3%8Ele-de-France"],"variants":{"variants":{"305":{"length_m":32.5,"modules":5.0,"networks":"caen (36 rames), angers (2001-2020), besancon (901-908, 2025), idf_t1 (TW20, 2024-)"},"405":{"length_m":44.0,"modules":7.0,"networks":"nice T2/T3, idf T9 (45 m, 2,65 m), idf T10, strasbourg (commande 2024)"},"nantes":{"length_m":48.0,"note":"Citadis X05 Nantes (2020s), version longue"}},"width_variants_m":{"idf_t1":2.65,"idf_t9":2.65}},"variants_note":"variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur","width_m":2.4,"z_convention":"modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)"},"id":"idfm405","layout":["end_a","suspended","powered","suspended","suspended","powered","end_b"],"master":"idf__citadis_x05__t9","master_count":7.0,"master_length":44.0,"master_lengths":[9.53333377838135,5.02857160568237,4.92380952835083,5.02857160568237,5.02857160568237,4.92380952835083,9.53333377838135],"parts":{"end_a":{"bindings":{"leaves":["Leaf","@MeshInstance3D@1910","@MeshInstance3D@1911","@MeshInstance3D@1912","@MeshInstance3D@1913","@MeshInstance3D@1914","@MeshInstance3D@1915","@MeshInstance3D@1916"],"panto":{}},"door_count":2,"length_m":9.53333377838135,"models":{"native":"res://tram_parts/extremites/idfm405/end_a.scn"},"palette":"res://tram_livery/materials/idfm405/end_a_palette.png","pantograph":false,"plan":{"bogie":true,"bogie_z_m":5.65714312123728,"doors":[{"leaves":2.0,"width_m":1.3,"z_m":3.24761919922881},{"leaves":2.0,"width_m":1.3,"z_m":8.06666704324576}],"kind":"cab","length_m":9.53333377838135,"roof":[{"size":[1.92,0.25,1.2],"type":"fairing","z_m":0.628571457915254},{"size":[1.6,0.32,2.4],"type":"hvac","z_m":2.93333347027118},{"size":[1.3,0.3,1.8],"type":"box","z_m":7.96190513359321}],"windows":[{"z0_m":1.25714291583051,"z1_m":2.40952392200847},{"z0_m":4.08571447644915,"z1_m":7.22857176602542},{"z0_m":8.90476232046609,"z1_m":9.32380995907626}]},"role":"end_a","root":"Module0","source_index":0},"end_b":{"bindings":{"leaves":["Leaf","@MeshInstance3D@1926","@MeshInstance3D@1927","@MeshInstance3D@1928","@MeshInstance3D@1929","@MeshInstance3D@1930","@MeshInstance3D@1931","@MeshInstance3D@1932"],"panto":{}},"door_count":2,"length_m":9.53333377838135,"models":{"native":"res://tram_parts/extremites/idfm405/end_b.scn"},"palette":"res://tram_livery/materials/idfm405/end_b_palette.png","pantograph":false,"plan":{"bogie":true,"bogie_z_m":3.87619065714406,"doors":[{"leaves":2.0,"width_m":1.3,"z_m":1.46666673513559},{"leaves":2.0,"width_m":1.3,"z_m":6.28571457915254}],"kind":"cab","length_m":9.53333377838135,"roof":[{"size":[1.92,0.25,1.2],"type":"fairing","z_m":8.90476232046609},{"size":[1.6,0.32,2.4],"type":"hvac","z_m":6.60000030811016},{"size":[1.3,0.3,1.8],"type":"box","z_m":1.57142864478813}],"windows":[{"z0_m":2.30476201235593,"z1_m":5.4476193019322},{"z0_m":7.12380985637288,"z1_m":8.27619086255084}]},"role":"end_b","root":"Module6","source_index":6},"powered":{"bindings":{"leaves":[],"panto":{"head":"PantoHead","lower":"PantoLower","upper":"PantoUpper"}},"door_count":0,"length_m":4.92380952835083,"models":{"native":"res://tram_parts/motrices/idfm405/powered.scn"},"palette":"res://tram_livery/materials/idfm405/powered_palette.png","pantograph":true,"plan":{"bogie":true,"bogie_z_m":2.46190476417542,"doors":[],"kind":"middle","length_m":4.92380952835083,"roof":[{"size":[1.6,0.3,2.0],"type":"pantograph","z_m":2.46190476417542}],"windows":[{"z0_m":0.209523809717057,"z1_m":4.71428571863377}]},"role":"powered","root":"Module2","source_index":2},"suspended":{"bindings":{"leaves":["Leaf","@MeshInstance3D@1917","@MeshInstance3D@1918","@MeshInstance3D@1919"],"panto":{}},"door_count":1,"length_m":5.02857160568237,"models":{"native":"res://tram_parts/suspendues/idfm405/suspended.scn"},"palette":"res://tram_livery/materials/idfm405/suspended_palette.png","pantograph":false,"plan":{"bogie":false,"doors":[{"leaves":2.0,"width_m":1.3,"z_m":2.51428580284119}],"kind":"suspended","length_m":5.02857160568237,"roof":[{"size":[1.6,0.32,2.4],"type":"hvac","z_m":2.51428580284119}],"windows":[{"z0_m":0.209523816903432,"z1_m":1.67619053522746},{"z0_m":3.35238107045492,"z1_m":4.81904778877894}]},"role":"suspended","root":"Module1","source_index":1}},"presets":{"405":{"count":7.0,"length_m":44.0}},"renderer":"native","schema":2.0}
+{
+  "cab": {},
+  "frame": {
+    "body": {
+      "cant_m": 2.75,
+      "roof_shoulder_m": 0.25,
+      "skirt_top_m": 0.45,
+      "tumblehome_m": 0.0,
+      "window_bottom_m": 1.05,
+      "window_top_m": 2.45
+    },
+    "door_anim": {
+      "leaf_split": "center",
+      "open_s": 2.5,
+      "out_m": 0.06,
+      "single_leaf_travel_m": 0.8,
+      "travel_m": 0.65,
+      "type": "plug"
+    },
+    "estimated": [
+      "body",
+      "modules.windows",
+      "modules.roof",
+      "modules.bogie_z_m",
+      "front.plan",
+      "front.side",
+      "front.windshield",
+      "front.headlights",
+      "front.destination",
+      "door_anim",
+      "pantograph",
+      "research:height_m",
+      "research:floor_height_m",
+      "research:power_kw",
+      "research:modules",
+      "research:front",
+      "research:variants.nantes"
+    ],
+    "floor_m": 0.32,
+    "front": {
+      "bumper_m": 0.05,
+      "destination": {
+        "h_m": 0.22,
+        "w_m": 1.4,
+        "y_m": 2.85
+      },
+      "headlights": {
+        "h_m": 0.05,
+        "shape": "strip",
+        "w_m": 0.3,
+        "x_m": 0.85,
+        "y_m": 0.9
+      },
+      "length_m": 1.2,
+      "plan": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.5,
+          0.96
+        ],
+        [
+          0.85,
+          0.86
+        ],
+        [
+          1.0,
+          0.72
+        ]
+      ],
+      "side": [
+        [
+          0.1,
+          0.06
+        ],
+        [
+          0.6,
+          0.0
+        ],
+        [
+          1.2,
+          0.0
+        ],
+        [
+          2.0,
+          0.1
+        ],
+        [
+          2.8,
+          0.3
+        ],
+        [
+          3.0,
+          0.6
+        ]
+      ],
+      "windshield": {
+        "bottom_m": 1.1,
+        "top_m": 2.8,
+        "wrap": 0.25
+      }
+    },
+    "height_m": 3.3,
+    "id": "citadis_x05",
+    "length_m": 32.5,
+    "name": "Alstom Citadis X05 (305 / 405)",
+    "pantograph": {
+      "down_m": 0.25,
+      "raise_s": 4.0,
+      "type": "single_arm",
+      "up_m": 2.6
+    },
+    "sources": [
+      "research.json#citadis_x05",
+      "https://fr.wikipedia.org/wiki/Alstom_Citadis",
+      "https://fr.wikipedia.org/wiki/Tramway_de_Caen",
+      "https://fr.wikipedia.org/wiki/Tramway_d%27Angers",
+      "https://fr.wikipedia.org/wiki/Tramway_de_Besan%C3%A7on",
+      "https://fr.wikipedia.org/wiki/Tramway_de_Nice",
+      "https://fr.wikipedia.org/wiki/Ligne_1_du_tramway_d%27%C3%8Ele-de-France",
+      "https://fr.wikipedia.org/wiki/Ligne_9_du_tramway_d%27%C3%8Ele-de-France",
+      "https://fr.wikipedia.org/wiki/Ligne_10_du_tramway_d%27%C3%8Ele-de-France"
+    ],
+    "variants": {
+      "variants": {
+        "305": {
+          "length_m": 32.5,
+          "modules": 5.0,
+          "networks": "caen (36 rames), angers (2001-2020), besancon (901-908, 2025), idf_t1 (TW20, 2024-)"
+        },
+        "405": {
+          "length_m": 44.0,
+          "modules": 7.0,
+          "networks": "nice T2/T3, idf T9 (45 m, 2,65 m), idf T10, strasbourg (commande 2024)"
+        },
+        "nantes": {
+          "length_m": 48.0,
+          "note": "Citadis X05 Nantes (2020s), version longue"
+        }
+      },
+      "width_variants_m": {
+        "idf_t1": 2.65,
+        "idf_t9": 2.65
+      }
+    },
+    "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur",
+    "width_m": 2.4,
+    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)"
+  },
+  "id": "idfm405",
+  "layout": [
+    "end_a",
+    "suspended",
+    "powered",
+    "suspended",
+    "suspended",
+    "powered",
+    "end_b"
+  ],
+  "master": "idf__citadis_x05__t9",
+  "master_count": 7.0,
+  "master_length": 44.0,
+  "master_lengths": [
+    9.53333377838135,
+    5.02857160568237,
+    4.92380952835083,
+    5.02857160568237,
+    5.02857160568237,
+    4.92380952835083,
+    9.53333377838135
+  ],
+  "parts": {
+    "end_a": {
+      "bindings": {
+        "leaves": [
+          "Leaf",
+          "@MeshInstance3D@658",
+          "@MeshInstance3D@659",
+          "@MeshInstance3D@660",
+          "@MeshInstance3D@661",
+          "@MeshInstance3D@662",
+          "@MeshInstance3D@663",
+          "@MeshInstance3D@664"
+        ],
+        "panto": {}
+      },
+      "door_count": 2,
+      "length_m": 9.53333377838135,
+      "models": {
+        "native": "res://tram_parts/extremites/idfm405/end_a.scn"
+      },
+      "palette": "res://tram_livery/materials/idfm405/end_a_palette.png",
+      "pantograph": false,
+      "plan": {
+        "bogie": true,
+        "bogie_z_m": 5.65714312123728,
+        "doors": [
+          {
+            "leaves": 2.0,
+            "width_m": 1.3,
+            "z_m": 3.24761919922881
+          },
+          {
+            "leaves": 2.0,
+            "width_m": 1.3,
+            "z_m": 8.06666704324576
+          }
+        ],
+        "kind": "cab",
+        "length_m": 9.53333377838135,
+        "roof": [
+          {
+            "size": [
+              1.92,
+              0.25,
+              1.2
+            ],
+            "type": "fairing",
+            "z_m": 0.628571457915254
+          },
+          {
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ],
+            "type": "hvac",
+            "z_m": 2.93333347027118
+          },
+          {
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ],
+            "type": "box",
+            "z_m": 7.96190513359321
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 1.25714291583051,
+            "z1_m": 2.40952392200847
+          },
+          {
+            "z0_m": 4.08571447644915,
+            "z1_m": 7.22857176602542
+          },
+          {
+            "z0_m": 8.90476232046609,
+            "z1_m": 9.32380995907626
+          }
+        ]
+      },
+      "role": "end_a",
+      "root": "Module0",
+      "source_index": 0
+    },
+    "end_b": {
+      "bindings": {
+        "leaves": [
+          "Leaf",
+          "@MeshInstance3D@674",
+          "@MeshInstance3D@675",
+          "@MeshInstance3D@676",
+          "@MeshInstance3D@677",
+          "@MeshInstance3D@678",
+          "@MeshInstance3D@679",
+          "@MeshInstance3D@680"
+        ],
+        "panto": {}
+      },
+      "door_count": 2,
+      "length_m": 9.53333377838135,
+      "models": {
+        "native": "res://tram_parts/extremites/idfm405/end_b.scn"
+      },
+      "palette": "res://tram_livery/materials/idfm405/end_b_palette.png",
+      "pantograph": false,
+      "plan": {
+        "bogie": true,
+        "bogie_z_m": 3.87619065714406,
+        "doors": [
+          {
+            "leaves": 2.0,
+            "width_m": 1.3,
+            "z_m": 1.46666673513559
+          },
+          {
+            "leaves": 2.0,
+            "width_m": 1.3,
+            "z_m": 6.28571457915254
+          }
+        ],
+        "kind": "cab",
+        "length_m": 9.53333377838135,
+        "roof": [
+          {
+            "size": [
+              1.92,
+              0.25,
+              1.2
+            ],
+            "type": "fairing",
+            "z_m": 8.90476232046609
+          },
+          {
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ],
+            "type": "hvac",
+            "z_m": 6.60000030811016
+          },
+          {
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ],
+            "type": "box",
+            "z_m": 1.57142864478813
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 2.30476201235593,
+            "z1_m": 5.4476193019322
+          },
+          {
+            "z0_m": 7.12380985637288,
+            "z1_m": 8.27619086255084
+          }
+        ]
+      },
+      "role": "end_b",
+      "root": "Module6",
+      "source_index": 6
+    },
+    "powered": {
+      "bindings": {
+        "leaves": [],
+        "panto": {
+          "head": "PantoHead",
+          "lower": "PantoLower",
+          "upper": "PantoUpper"
+        }
+      },
+      "door_count": 0,
+      "length_m": 4.92380952835083,
+      "models": {
+        "native": "res://tram_parts/motrices/idfm405/powered.scn"
+      },
+      "palette": "res://tram_livery/materials/idfm405/powered_palette.png",
+      "pantograph": true,
+      "plan": {
+        "bogie": true,
+        "bogie_z_m": 2.46190476417542,
+        "doors": [],
+        "kind": "middle",
+        "length_m": 4.92380952835083,
+        "roof": [
+          {
+            "size": [
+              1.6,
+              0.3,
+              2.0
+            ],
+            "type": "pantograph",
+            "z_m": 2.46190476417542
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.209523809717057,
+            "z1_m": 4.71428571863377
+          }
+        ]
+      },
+      "role": "powered",
+      "root": "Module2",
+      "source_index": 2
+    },
+    "suspended": {
+      "bindings": {
+        "leaves": [
+          "Leaf",
+          "@MeshInstance3D@665",
+          "@MeshInstance3D@666",
+          "@MeshInstance3D@667"
+        ],
+        "panto": {}
+      },
+      "door_count": 1,
+      "length_m": 5.02857160568237,
+      "models": {
+        "native": "res://tram_parts/suspendues/idfm405/suspended.scn"
+      },
+      "palette": "res://tram_livery/materials/idfm405/suspended_palette.png",
+      "pantograph": false,
+      "plan": {
+        "bogie": false,
+        "doors": [
+          {
+            "leaves": 2.0,
+            "width_m": 1.3,
+            "z_m": 2.51428580284119
+          }
+        ],
+        "kind": "suspended",
+        "length_m": 5.02857160568237,
+        "roof": [
+          {
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ],
+            "type": "hvac",
+            "z_m": 2.51428580284119
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.209523816903432,
+            "z1_m": 1.67619053522746
+          },
+          {
+            "z0_m": 3.35238107045492,
+            "z1_m": 4.81904778877894
+          }
+        ]
+      },
+      "role": "suspended",
+      "root": "Module1",
+      "source_index": 1
+    }
+  },
+  "presets": {
+    "405": {
+      "count": 7.0,
+      "length_m": 44.0
+    }
+  },
+  "renderer": "native",
+  "schema": 2.0
+}

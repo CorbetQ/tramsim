@@ -5,12 +5,12 @@
       {
         "name": "Module00",
         "length_m": 9.0,
-        "faces": 999
+        "faces": 929
       },
       {
         "name": "Module01",
         "length_m": 4.8,
-        "faces": 547
+        "faces": 539
       },
       {
         "name": "Module02",
@@ -20,12 +20,12 @@
       {
         "name": "Module03",
         "length_m": 4.8,
-        "faces": 461
+        "faces": 439
       },
       {
         "name": "Module04",
         "length_m": 9.0,
-        "faces": 1055
+        "faces": 977
       }
     ],
     "doors": 20,
@@ -59,12 +59,12 @@
       {
         "name": "Module00",
         "length_m": 9.239999999999998,
-        "faces": 1018
+        "faces": 948
       },
       {
         "name": "Module01",
         "length_m": 4.873846153846153,
-        "faces": 540
+        "faces": 526
       },
       {
         "name": "Module02",
@@ -74,12 +74,12 @@
       {
         "name": "Module03",
         "length_m": 4.873846153846153,
-        "faces": 451
+        "faces": 429
       },
       {
         "name": "Module04",
         "length_m": 9.239999999999998,
-        "faces": 1021
+        "faces": 977
       }
     ],
     "doors": 24,
@@ -117,28 +117,28 @@
       },
       {
         "name": "Module01",
-        "length_m": 5.6000000000000005,
-        "faces": 435
+        "length_m": 4.1000000000000005,
+        "faces": 401
       },
       {
         "name": "Module02",
-        "length_m": 4.1000000000000005,
-        "faces": 401
-      },
-      {
-        "name": "Module03",
-        "length_m": 7.000000000000002,
+        "length_m": 7.050000000000002,
         "faces": 515
       },
       {
-        "name": "Module04",
+        "name": "Module03",
         "length_m": 4.1000000000000005,
         "faces": 401
       },
       {
+        "name": "Module04",
+        "length_m": 7.050000000000002,
+        "faces": 515
+      },
+      {
         "name": "Module05",
-        "length_m": 5.6000000000000005,
-        "faces": 435
+        "length_m": 4.1000000000000005,
+        "faces": 401
       },
       {
         "name": "Module06",

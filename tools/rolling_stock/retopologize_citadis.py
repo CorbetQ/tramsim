@@ -7,11 +7,14 @@ blender -b --python tools/rolling_stock/retopologize_citadis.py
 """
 import json
 import math
+import sys
 from pathlib import Path
 import bpy
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0,str(ROOT/'tools/models/stock'))
+from audit_stock import fitted_plan
 OUT = ROOT/'data/rolling_stock/meshy_citadis'
 PROFILES = {'angers302':('citadis_302',32.4), 'angers305':('citadis_x05',33.0), 'nantes405':('citadis_x05_nantes',45.6)}
 MATERIALS = []
@@ -371,7 +374,9 @@ def pantographs():
 
 
 def build(key,family,length,contour):
-    plan=json.loads((ROOT/'data/rolling_stock/plans'/(family+'.json')).read_text());ratio=length/sum(m['length_m'] for m in plan['modules'])
+    ids={'angers302':'angers__citadis_302','angers305':'angers__citadis_x05','nantes405':'nantes__citadis_x05_nantes'}
+    entry=next(e for e in json.loads((ROOT/'data/rolling_stock/variants/index.json').read_text())['entries'] if e['id']==ids[key])
+    plan=fitted_plan(ROOT,entry);ratio=length/sum(m['length_m'] for m in plan['modules'])
     objects=[];position=0;leaf_index=0;report=[];front_details=None
     for i,definition in enumerate(plan['modules']):
         l=definition['length_m']*ratio;centre=position+l*.5

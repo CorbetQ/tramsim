@@ -19,6 +19,14 @@ func run() -> void:
 		var stretched := TramModel.build_rig(liv,rig.length+2.0,true)
 		check(not stretched.modules[0].has_meta("meshy_experimental"),id+" custom length safely uses procedural rig")
 		for module in stretched.modules:module.free()
+		var altered:=liv.duplicate(true)
+		var changed:Array=[]
+		for size_ in old.module_lengths:changed.append(float(size_))
+		changed[0]+=.5;changed[1]-=.5
+		altered.stock_entry.geometry={"module_lengths":changed}
+		var incompatible:=TramModel.build_rig(altered,-1,true)
+		check(not incompatible.modules[0].has_meta("meshy_experimental"),id+" rejects different body lengths despite matching total")
+		for module in incompatible.modules:module.free()
 		check(rig.modules[0].has_meta("meshy_experimental"),id+" loads complete reconstructed GLB")
 		check(rig.modules.size()==old.modules.size() and rig.leaves.size()==old.leaves.size(),id+" preserves module and leaf topology")
 		check(rig.triangles<25000 and rig.triangles>2500,id+" exterior triangle budget "+str(rig.triangles))

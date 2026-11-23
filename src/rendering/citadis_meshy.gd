@@ -12,6 +12,7 @@ const VARIANTS := {
 const LENGTHS := {"angers302":32.4,"angers305":33.0,"nantes405":45.6}
 static var _parts := {}
 static var _materials := {}
+static var _body_reports := {}
 static var exteriors_enabled := true
 static var reference_interiors_enabled := true
 
@@ -71,6 +72,13 @@ static func apply_exterior(rig, livery: Dictionary) -> bool:
 	var key := key_for(str(livery.get("variant_id","")))
 	if key=="":return false
 	if absf(rig.length-float(LENGTHS[key]))>.02 or absf(float(livery.get("width",2.4))-2.4)>.01:return false
+	# A matching total/leaf count does not prove that doors and bodies match:
+	# the old Nantes pack had the same total but different middle-body lengths.
+	if _body_reports.is_empty():_body_reports=JSON.parse_string(FileAccess.get_file_as_string(ROOT+"build_report.json"))
+	var modules:Array=_body_reports.get(key,{}).get("modules",[])
+	if modules.size()!=rig.modules.size():return false
+	for i in modules.size():
+		if absf(float(modules[i].length_m)-float(rig.module_lengths[i]))>.02:return false
 	var imported := parts(key,"body")
 	# Validate the complete set before touching the rig. Never mix generations.
 	var required: Array[String]=[]

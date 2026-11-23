@@ -102,6 +102,13 @@ static func hd_entry(variant: String) -> Dictionary:
 	result["_kit"]=cfg.kit;result["_variant"]=variant;result.family=entry.family;result.name=entry.name
 	result.length_m=cfg.length_m;result.modules=[];result.doors=cfg.doors
 	for row in cfg.rows:result.modules.append(row.length_m)
+	# Derived composition budgets come from the actual shared prototypes.
+	for lod in StockHD.LOD_NAMES:
+		for mobile in [false,true]:
+			var key:=_lod_key(lod,mobile);var count:=0
+			for row in cfg.rows:count+=int(cfg.definition.parts[row.part].get("triangles",{}).get(key,0))
+			if not cfg.equipment_mount.is_empty():count+=int(cfg.definition.equipment.pantograph.get("triangles",{}).get(key,0))
+			result.lods[lod]["mobile_tris" if mobile else "tris"]=count
 	if not cfg.equipment_mount.is_empty():
 		result.panto.module=int(cfg.equipment_mount.slot)
 		var offset:=float(cfg.equipment_mount.y)-float(cfg.definition.equipment.pantograph.mount_y)
@@ -125,7 +132,7 @@ static func lod_file(variant: String, lod: String, mobile: bool) -> String:
 	var key:String={"LOD0":"lod1" if mobile else "lod0","LOD1":"lod1_m" if mobile else "lod1","LOD2":"lod2","LOD3":"lod3"}.get(lod,"")
 	return str(entry.get("lods",{}).get(key,""))
 static func allowed(path: String) -> bool:
-	return path.begins_with("res://tram_parts/") and not "/../" in path and not "\\" in path
+	return path.begins_with("res://tram_parts/") and not ".." in path.get_slice("::",0).split("/") and not "\\" in path
 static func assemble(path: String) -> Node3D:
 	if "::" in path:return assemble_kit(path)
 	if not allowed(path) or not FileAccess.file_exists(path):return null
@@ -187,6 +194,8 @@ static func apply_native(rig, livery: Dictionary) -> bool:
 					var image:=Image.create(1024,512,false,Image.FORMAT_RGBA8);image.fill(Color.WHITE);_blank=ImageTexture.create_from_image(image)
 				material.set_shader_parameter("part_custom_enabled",true)
 				material.set_shader_parameter("part_custom",LiveryPainter.texture(_blank,design,livery.stock_entry,i))
+				var window:=Color(str(design.colors.window))
+				material.set_shader_parameter("part_window_color",Vector3(window.r,window.g,window.b))
 				material.set_shader_parameter("part_size",Vector3(float(livery.width),3.4,rig.module_lengths[i]))
 				material.set_shader_parameter("part_end",-1 if i==0 else (1 if i==rows.size()-1 else 0))
 			destination.material_override=material
@@ -391,6 +400,8 @@ static func apply_native_kit(rig, livery: Dictionary) -> bool:
 				design=design.duplicate(true);design["_paint_only"]=true
 				material.set_shader_parameter("part_custom_enabled",true)
 				material.set_shader_parameter("part_custom",LiveryPainter.texture(_blank,design,livery.stock_entry,i))
+				var window:=Color(str(design.colors.window))
+				material.set_shader_parameter("part_window_color",Vector3(window.r,window.g,window.b))
 			node.material_override=material
 		for child in target.get_children():
 			if child is Node3D:child.hide()

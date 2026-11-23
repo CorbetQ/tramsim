@@ -1,0 +1,12 @@
+id,kind,source,author,licence,usage
+irigo305-side,photograph,https://commons.wikimedia.org/wiki/File:2005lignefochmb.png,TCPDLL,CC BY-SA 4.0,existing documentary reference; not a game texture
+irigo305-side-2,photograph,https://commons.wikimedia.org/wiki/File:Angers_-_15_boulevard_du_Maréchal-Foch_02.jpg,Fab5669,CC0,existing documentary reference; not a game texture
+irigo302-side,photograph,https://commons.wikimedia.org/wiki/File:Citadis_302_Tramway_de_Angers_2011.jpg,Maurits90,CC0,existing documentary reference; not a game texture
+naolib405-front,photograph,https://commons.wikimedia.org/wiki/File:Alstom_Citadis_X05_-_405.jpg,JFGChenel,CC0,existing documentary reference; not a game texture
+naolib405-side,photograph,https://commons.wikimedia.org/wiki/File:Nantes_-_Bouffay_20250726-02.jpg,Pymouss,CC BY-SA 4.0,existing documentary reference; not a game texture
+tfs1,photograph,https://commons.wikimedia.org/wiki/File:TAN_-_TFS_Nantes_n°336.jpg,Kevin.B,CC BY-SA 4.0,existing documentary reference; not a game texture
+tfs2,photograph,"https://commons.wikimedia.org/wiki/File:J28_375_Pont_de_Bondy,_M1_101.jpg",Falk2,CC BY-SA 4.0,existing documentary reference; not a game texture
+irigo-doors,technical reference,https://presse.angers.fr/private/uploads/piecesjointes/dossier-de-presse-tramway.pdf,Angers Loire Métropole,reference only; no redistribution licence assumed,door counts and widths; document not embedded
+naolib-architecture,technical reference,https://tramwaydemontpellier.net/2024/07/11/11-juillet-2024-nantes-le-point-sur-la-mise-en-service-commercial-des-nouvelles-rames-citadis-x05-alstom/,tramwaydemontpellier.net,reference only; no redistribution licence assumed,8 doors per side and 5 bogies; article not embedded
+body-kits,procedural game models,tools/models/stock/build_kits.py + tools/models/export_native_parts.gd,TramSim project,repository terms; no new external licence asserted,derived from existing game models; no Meshy generation or photo textures
+review-captures,Godot screenshots,tests/audit/family_front_shots.gd,TramSim project,repository terms; game screenshots,real PC renderer; fictitious models labelled

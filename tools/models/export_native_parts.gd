@@ -3,7 +3,8 @@ extends SceneTree
 var failures:=0
 func _initialize()->void:run.call_deferred()
 func save_json(path:String,value)->void:
- var file:=FileAccess.open(path,FileAccess.WRITE);file.store_string(JSON.stringify(value));file.close()
+ var indent:="" if path.begins_with("res://.cache/") else "  "
+ var file:=FileAccess.open(path,FileAccess.WRITE);file.store_string(JSON.stringify(value,indent)+"\n");file.close()
 func run()->void:
  TramParts.enabled=false;StockHD.enabled=false
  var manifest:Dictionary=JSON.parse_string(FileAccess.get_file_as_string(TramParts.INDEX))
@@ -23,7 +24,11 @@ func run()->void:
    var role:="end_a" if i==0 else ("end_b" if i==rig.modules.size()-1 else ("powered" if plan.modules[i].get("bogie",false) else "suspended"))
    var key:=role
    if prototypes.has(key) and plan.modules[prototypes[key]].get("doors",[]).size()!=plan.modules[i].get("doors",[]).size():key+="_doors" if not plan.modules[i].get("doors",[]).is_empty() else "_nodoor"
-   prototypes.get_or_add(key,i);kit.layout.append(key);kit.master_lengths.append(rig.module_lengths[i])
+   prototypes.get_or_add(key,i)
+   # Prefer the equipped instance of a repeated role; the renderer removes its
+   # moving equipment from the other occurrences instead of exporting a type copy.
+   if rig.panto.has("lower") and rig.modules[i].is_ancestor_of(rig.panto.lower):prototypes[key]=i
+   kit.layout.append(key);kit.master_lengths.append(rig.module_lengths[i])
   for key in prototypes:
    var i:int=prototypes[key];var body:MeshInstance3D=rig.modules[i]
    var role:String=key.get_slice("_doors",0).get_slice("_nodoor",0)
@@ -76,6 +81,7 @@ func run()->void:
      for surface in node.mesh.get_surface_count():
       var arrays:Array=node.mesh.surface_get_arrays(surface)
       var vertices:PackedVector3Array=arrays[Mesh.ARRAY_VERTEX];var colors:PackedColorArray=arrays[Mesh.ARRAY_COLOR];var uv:PackedVector2Array=arrays[Mesh.ARRAY_TEX_UV2]
+      var normals:PackedVector3Array=arrays[Mesh.ARRAY_NORMAL]
       var indices:PackedInt32Array=arrays[Mesh.ARRAY_INDEX] if arrays[Mesh.ARRAY_INDEX]!=null else PackedInt32Array()
       if indices.is_empty():
        for j in vertices.size():indices.append(j)
@@ -83,7 +89,9 @@ func run()->void:
        var at:=indices[j]
        if colors[at].a<.9 or uv[at].x<.25:continue
        var a:=transform*vertices[at];var b:=transform*vertices[indices[j+1]];var c:=transform*vertices[indices[j+2]]
-       var normal:=(b-a).cross(c-a).normalized()
+       # Godot uses clockwise triangle winding. The authored normal, rather
+       # than a counterclockwise cross product, identifies the painted face.
+       var normal:=(transform.basis.inverse().transposed()*normals[at]).normalized()
        triangles.append([[a.x,a.y,a.z],[b.x,b.y,b.z],[c.x,c.y,c.z],colors[at].to_html(false),[normal.x,normal.y,normal.z]])
     var texture_path:="res://tram_livery/livery/%s/%s.png"%[style,key]
     manifest.liveries[style].parts[key]={"native":texture_path}

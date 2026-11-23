@@ -11,7 +11,7 @@ Les 403 sont dans X03. Flexity Link est séparé d’Avanto malgré leur ancien 
 1. Ouvrir le catalogue depuis l’accueil, choisir une famille et un type.
 2. Choisir la livrée d’origine : cette sélection choisit **aussi la vraie forme de cabine** de cette variante.
 3. Conserver la peinture d’origine ou ouvrir « Créer une livrée ».
-4. Régler caisse, face, portes, toiture, jupe et bandeau ; ajouter deux bandes et une inscription.
+4. Choisir toute la rame, un rôle ou une caisse précise ; régler couleurs, deux bandes et inscription.
 5. Enregistrer sous un nom, modifier ou enregistrer une copie. La suppression demande deux actions.
 6. Choisir un réseau compatible et conduire en mode libre.
 
@@ -56,35 +56,114 @@ Les autres matériels conservent leurs adaptations de cabine existantes : ce lot
 remodélisé chaque rame française depuis des plans industriels.
 
 Les formes sont des relevés visuels **estimés**, pas des géométries certifiées par le constructeur.
-Les concepts courts/longs gardent la face du réseau choisi et leurs propres caisses, portes et LOD.
+Les concepts courts/longs gardent la face du réseau choisi et assemblent les mêmes prototypes de caisse et LOD.
 Ils ne sont pas des véhicules réels et leurs caractéristiques ne sont pas des données constructeur.
+
+## Pièces indépendantes et compositions paramétriques
+
+`data/rolling_stock/parts_manifest.json` (schéma 2) est l’index unique des kits,
+paramètres de variantes et jeux de textures. Un fichier `tram_parts/compositions/<design>.json`
+décrit chaque design. Il existe **un seul kit `angers_x05`, `angers_x02` et `nantes_x05`**,
+sans répertoire géométrique `angers_205`, `angers_305` ou `angers_405`.
+
+```text
+tram_parts/
+  compositions/angers_x05.json       # prototypes, schéma d’assemblage et presets
+  extremites/angers_x05/end_a_*.glb   # deux extrémités spécifiques A et B
+  extremites/angers_x05/end_b_*.glb
+  motrices/angers_x05/powered_*.glb
+  suspendues/angers_x05/suspended_*.glb
+  equipements/angers_x05/pantograph_*.glb
+tram_livery/
+  livery/<livree>/<role>_<LOD>.png    # UV normalisées par caisse, réutilisées selon la taille
+  materials/<design>/                # matériel, palettes sans perte, normales/ORM
+  interior/<reseau>/<design>/        # tissus, sol, cabine quand disponibles
+  lights/                           # catégorie réservée : les feux actuels sont géométriques/émissifs
+```
+
+Les kits natifs utilisent des scènes Godot `.scn` indépendantes, les trois kits HD des GLB.
+Le moteur adapte les longueurs des caisses à la composition choisie en conservant les zones de nez,
+portes et bogies autant que possible. L’adaptation est calculée au chargement puis mise en cache,
+pas à chaque image. Aucune géométrie 205/305/405 n’est exportée séparément.
+Le pantographe HD est monté séparément : une rame courte ne reçoit plus une caisse motrice
+sans portes à la place d’une suspendue uniquement pour récupérer son pantographe.
+
+Les modèles sources HD complets des **trois matériels réels** sont conservés comme sources
+d’auteur et repli. Les quatre anciens exports complets de concepts et les exports de caisses
+par identifiant de variante ont été supprimés après validation des kits. Les identifiants historiques
+de variantes restent présents pour le catalogue et les sauvegardes ; ce ne sont pas des noms de modèles.
+
+La peinture personnalisée utilise un atlas par rôle et des surcharges facultatives par caisse.
+Une peinture X05 peut être réutilisée en 205/305/405 sans changer la face, l’APS ou les propriétés
+techniques du matériel choisi. Les paramètres `end_a`, `end_b`, `powered`, `suspended`
+sont indépendants de la longueur. Les surcharges `caisse_N` restent volontairement propres à un emplacement.
+
+## Portes : correction depuis les références
+
+| Matériel réel | Portes par face, dans l’ordre des caisses | Particularité |
+|---|---|---|
+| Irigo 302 | 1 – 2 – 0 – 2 – 1 | porte simple de 800 mm aux extrémités |
+| Irigo 305 | 1 – 2 – 0 – 2 – 1 | porte double de 1 300 mm aux extrémités |
+| Naolib 405 | 2 – 0 – 2 – 0 – 2 – 0 – 2 | caisses porteuses de cabine, trois motrices centrales |
+
+Sur les Irigo, la porte de chaque extrémité est vers la cabine ; les suspendues ont deux portes
+et la motrice centrale aucune. Les deux côtés utilisent la même distribution, avec animation
+indépendante côté quai. Nantes n’hérite pas de la règle Irigo : ses deux longues extrémités
+ont chacune deux portes par face. Les concepts appliquent ces prototypes selon leur assemblage fictif.
+Les longueurs intermédiaires de Nantes sont estimées pour respecter 45,6 m au total, pas certifiées.
+
+Références : [dossier de presse Angers](https://presse.angers.fr/private/uploads/piecesjointes/dossier-de-presse-tramway.pdf),
+[photographies Irigo et crédits](../rolling-stock-rebuild/PHOTO-CREDITS.md),
+[présentation documentée du 405 Nantes](https://tramwaydemontpellier.net/2024/07/11/11-juillet-2024-nantes-le-point-sur-la-mise-en-service-commercial-des-nouvelles-rames-citadis-x05-alstom/),
+[référence frontale Naolib](../rolling-stock-meshy/reference-nantes405-face.jpg).
+Les autres modèles gardent leurs spécificités existantes ; leur exactitude exhaustive n’est pas revendiquée.
+Les trois anciennes coques de la vue passager ont également été régénérées à partir des plans corrigés
+avec `blender -b --python tools/rolling_stock/retopologize_citadis.py`, puis auditées avec
+`python tools/rolling_stock/audit_citadis.py --write-manifest`. Cette reconstruction locale réutilise
+les contours déjà enregistrés ; aucun nouveau travail Meshy payant. Le chargeur vérifie désormais
+les longueurs de chaque caisse, en plus de la longueur totale, avant de remplacer une coque.
 
 ## Production et vérification
 
 ```sh
 python tools/models/stock/build_stock.py
 python tools/models/stock/export_livery_layouts.py
-python tools/models/stock/audit_stock.py --report build/stock-hd/audit.json
-python -m unittest discover -s tests -p test_stock_hd_assets.py
+python tools/models/stock/build_kits.py
+godot --headless --path . -s tools/models/export_native_parts.gd
+python tools/models/stock/bake_native_liveries.py
 godot --headless --editor --path . --import
+python tools/models/stock/audit_stock.py --report build/stock-hd/audit.json
+python tools/models/stock/audit_parts.py --report build/stock-hd/parts-audit.json
+python -m unittest discover -s tests -p test_stock_hd_assets.py
+python -m unittest discover -s tests -p test_tram_parts_assets.py
+xvfb-run -a godot --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/test_tram_parts.gd
 xvfb-run -a godot --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/test_family_fronts.gd
 xvfb-run -a godot --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/test_livery_catalogue.gd
 xvfb-run -a godot --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/test_livery_ui.gd
-xvfb-run -a godot --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/family_front_shots.gd -- build/family-fronts
+xvfb-run -a godot --path . --rendering-method gl_compatibility --audio-driver Dummy -s tests/audit/family_front_shots.gd -- build/family-fronts review
 ```
 
-Attendre la fin de l’import avant les tests et captures. Les dépendances de génération sont NumPy et Pillow.
-L’audit binaire n’utilise que la bibliothèque standard. La CI HD teste les familles, les créations sauvegardées,
-le chargement en conduite, les animations et les formats PC/Mobile ; elle archive les captures effectives.
-La bibliothèque de couleurs est bornée à 100 entrées, les caches d’aperçu à huit palettes/atlas.
-Les atlas personnalisés sont de 1024×512 maximum avec mipmaps ; aucun calcul de peinture par image de conduite.
+Attendre la fin de chaque génération puis de l’import avant les tests et captures.
+L’exporteur natif désactive les habillages pendant sa génération pour ne pas reboucler sur ses sorties.
+Une copie de travail déjà importée est nécessaire pour les ressources Godot communes.
+Les dépendances de génération sont NumPy, Pillow et Godot 4.6.3 ; l’audit binaire utilise seulement
+la bibliothèque standard. Les banques nécessaires au jeu sont versionnées : le joueur n’a rien à générer.
 
-Voir [VALIDATION.md](VALIDATION.md) pour les mesures et limites du lot, et [assets.csv](assets.csv) pour les sources.
+Sur un poste/runner de validation PC, `python tools/models/stock/prepare_pc_imports.py` évite
+la compression CPU ETC2 inutile grâce à un `override.cfg` local. Ne pas utiliser cet override pour
+l’export Android ; `project.godot` conserve les paramètres Android. Ce script explicite modifie les
+métadonnées locales de cache `.import`, jamais les images ou le code du jeu.
+
+La CI HD exécute les audits, tests de rendu, catalogue, créations sauvegardées et formats PC/Mobile,
+puis archive ses captures. La génération de modèles n’est pas relancée à chaque commit.
+Les créations sont bornées à 100 entrées, les atlas personnalisés à 1024×512 avec mipmaps.
+
+Voir [VALIDATION.md](VALIDATION.md) pour les mesures et limites du lot et [assets.csv](assets.csv) pour les sources.
 
 ## Captures Godot
 
+- [Six configurations X05 corrigées, trois quarts](captures/citadis-x05-review.png)
 - [Citadis : faces](captures/citadis-x05-faces.png)
-- [Citadis : longueurs et livrées](captures/citadis-x05-types.png)
 - [TFS : faces](captures/tfs-faces.png)
 - [TFS : profils](captures/tfs-types.png)
 - [Éditeur de livrée](captures/editor-custom.png)
