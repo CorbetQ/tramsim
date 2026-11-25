@@ -33,7 +33,10 @@ def generate(source,arch,version):
                 UpgradeCode=str(uuid.uuid5(NAMESPACE,'upgrade/'+arch)).upper())
     add(package,'MajorUpgrade',AllowSameVersionUpgrades='yes',Schedule='afterInstallInitialize',
         DowngradeErrorMessage='Une version plus récente de Tram Sim France est déjà installée.')
-    add(package,'MediaTemplate',EmbedCab='yes',CompressionLevel='high')
+    add(package,'MediaTemplate',EmbedCab='yes',CompressionLevel='medium')
+    remembered=add(package,'Property',Id='INSTALLDIR',Secure='yes')
+    add(remembered,'RegistrySearch',Id='RememberedInstallDirectory',Root='HKCU',
+        Key='Software\\TramSimFrance\\'+arch,Name='InstallDir',Type='raw',Bitness='always64')
     local=add(package,'StandardDirectory',Id='LocalAppDataFolder')
     programs=add(local,'Directory',Id='UserPrograms',Name='Programs')
     product=add(programs,'Directory',Id='ProductRoot',Name='TramSimFrance')
@@ -63,6 +66,10 @@ def generate(source,arch,version):
     for folder in [programs,product,*directories.values()]:
         add(shortcuts,'RemoveFolder',Id='Remove_'+folder.get('Id'),Directory=folder.get('Id'),On='uninstall')
     add(shortcuts,'RegistryValue',Root='HKCU',Key='Software\\TramSimFrance\\'+arch,Name='installed',Type='integer',Value='1',KeyPath='yes')
+    # Registry-keyed per-user components cannot recover a custom target folder
+    # from a file key path. Persist it for repair, upgrade and uninstall.
+    add(shortcuts,'RegistryValue',Root='HKCU',Key='Software\\TramSimFrance\\'+arch,
+        Name='InstallDir',Type='string',Value='[INSTALLDIR]')
     components.append('UserShortcuts')
     feature=add(package,'Feature',Id='Complete',Title='Tram Sim France',Level='1')
     for component in components:add(feature,'ComponentRef',Id=component)

@@ -83,7 +83,16 @@ class WindowsPackaging(unittest.TestCase):
         self.assertEqual(tree.find('.//w:Package',NS).get('Scope'),'perUser')
         self.assertEqual(tree.findall('.//w:CustomAction',NS),[])
         self.assertTrue(all(c.find('w:RegistryValue',NS).get('Root')=='HKCU' for c in tree.findall('.//w:Component',NS)))
-        self.assertTrue(all(v.get('KeyPath')=='yes' for v in tree.findall('.//w:RegistryValue',NS)))
+        self.assertTrue(all(c.find('w:RegistryValue',NS).get('KeyPath')=='yes' for c in tree.findall('.//w:Component',NS)))
+
+    def test_custom_install_directory_survives_repair_and_uninstall(self):
+        tree=installer.generate(self.payload,'arm64','0.13.2')
+        search=tree.find('.//w:Property[@Id="INSTALLDIR"]/w:RegistrySearch',NS)
+        stored=tree.find('.//w:RegistryValue[@Name="InstallDir"]',NS)
+        self.assertIsNotNone(search);self.assertIsNotNone(stored)
+        self.assertEqual(search.get('Root'),stored.get('Root'))
+        self.assertEqual(search.get('Key'),stored.get('Key'))
+        self.assertEqual(stored.get('Value'),'[INSTALLDIR]')
 
     def test_architectures_have_distinct_upgrade_and_component_guids(self):
         x64=installer.generate(self.payload,'x64','0.13.2');arm=installer.generate(self.payload,'arm64','0.13.2')
