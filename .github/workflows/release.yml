@@ -6,6 +6,10 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
+      windows_only:
+        description: Compiler uniquement les versions Windows (x64 et ARM64)
+        type: boolean
+        default: false
       rolling_stock_preview:
         description: Construire et déposer uniquement l’aperçu des rames dans sa release en brouillon
         type: boolean
@@ -26,21 +30,28 @@ jobs:
   build:
     if: github.event_name != 'workflow_dispatch' || !inputs.rolling_stock_preview
     runs-on: ubuntu-latest
+    outputs:
+      app_version: ${{ steps.version.outputs.version }}
     env:
       GODOT_VERSION: 4.6.3
+      WINDOWS_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.windows_only }}
     steps:
       - uses: actions/checkout@v4
       - name: Version du jeu
+        id: version
         run: |
-          python - <<'PYVERSION' >> "$GITHUB_ENV"
-          import re
+          python - <<'PYVERSION'
+          import os, re
           from pathlib import Path
           version = re.search(r'config/version="([0-9.]+)"', Path('project.godot').read_text()).group(1)
-          print('APP_VERSION=' + version)
+          with open(os.environ['GITHUB_ENV'], 'a') as f: f.write('APP_VERSION=' + version + '\n')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f: f.write('version=' + version + '\n')
           PYVERSION
       - uses: actions/setup-java@v4
+        if: env.WINDOWS_ONLY != 'true'
         with: {distribution: temurin, java-version: "21"}
       - name: SDK Android (préinstallé sur le runner)
+        if: env.WINDOWS_ONLY != 'true'
         run: |
           echo "ANDROID_HOME=${ANDROID_HOME:-/usr/local/lib/android/sdk}" >> $GITHUB_ENV
           SDKM=$(ls -d ${ANDROID_HOME:-/usr/local/lib/android/sdk}/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)
@@ -49,10 +60,13 @@ jobs:
         run: |
           curl -sSL -o godot.zip https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
           unzip -q godot.zip && mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot && chmod +x godot
-          curl -sSL -o tpl.tpz https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
-          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-          unzip -q tpl.tpz && mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
+          if [ "$WINDOWS_ONLY" != "true" ]; then
+            curl -sSL -o tpl.tpz https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+            mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+            unzip -q tpl.tpz && mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
+          fi
       - name: Clé de développement et réglages d'export
+        if: env.WINDOWS_ONLY != 'true'
         run: |
           keytool -genkeypair -keystore $HOME/dev.keystore -alias dev -keyalg RSA -keysize 2048 -validity 10000 \
             -storepass tramsim-dev -keypass tramsim-dev -dname "CN=TramSim Dev"
@@ -70,6 +84,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - name: Dépendances des contrôles géographiques
+        if: env.WINDOWS_ONLY != 'true'
         run: python -m pip install -r tools/import/requirements.txt
       - name: Tests
         if: github.event_name != 'pull_request' && !(github.event_name == 'workflow_dispatch' && inputs.skip_tests)
@@ -80,67 +95,154 @@ jobs:
           GODOT=$PWD/godot tests/run_all.sh
       - name: Stamp benchmark build identity
         run: python tools/perf/write_build_info.py
+      - name: Mandatory Windows packaging tests
+        run: python -m unittest discover -s tests -p test_windows_packaging.py
       - name: Export
         run: |
-          mkdir -p build
-          ./godot --headless --path . --import >/dev/null 2>&1 || true
+          set -euo pipefail
           mkdir -p build/win-x64 build/win-arm64
-          # Shader baker (Godot 4.5+, export_presets.cfg : shader_baker/enabled) : pipelines Vulkan précompilés,
-          # pas de saccade de compilation au premier affichage. Repli sans baker si l'export échoue (signalé).
+          if [ "$WINDOWS_ONLY" = "true" ]; then python tools/models/stock/prepare_pc_imports.py; fi
+          ./godot --headless --editor --path . --import > build/import.log 2>&1
+          ! grep -Eq 'SCRIPT ERROR|Parse Error' build/import.log
           export_all() {
-            ./godot --headless --path . --export-debug Android build/TramSimFrance.apk 2>&1 | tee -a build/export.log &&
-            ./godot --headless --path . --export-release Windows build/win-x64/TramSimFrance.exe 2>&1 | tee -a build/export.log &&
-            ./godot --headless --path . --export-release "Windows ARM64" build/win-arm64/TramSimFrance.exe 2>&1 | tee -a build/export.log &&
-            test -s build/TramSimFrance.apk && test -s build/win-x64/TramSimFrance.exe && test -s build/win-arm64/TramSimFrance.exe
+            if [ "$WINDOWS_ONLY" != "true" ]; then
+              ./godot --headless --path . --export-debug Android build/TramSimFrance.apk 2>&1 | tee -a build/export.log || return 1
+              test -s build/TramSimFrance.apk || return 1
+            fi
+            ./godot --headless --path . --export-pack Windows build/win-x64/TramSimFrance.pck 2>&1 | tee -a build/export.log &&
+            ./godot --headless --path . --export-pack "Windows ARM64" build/win-arm64/TramSimFrance.pck 2>&1 | tee -a build/export.log &&
+            test -s build/win-x64/TramSimFrance.pck && test -s build/win-arm64/TramSimFrance.pck
           }
-          set -o pipefail
           if ! export_all; then
-            echo "::warning::export avec shader baker en échec : nouvel essai sans baker (saccades possibles au premier rendu)"
+            echo "::warning::Shader baking failed: retrying without shader baker"
             sed -i 's#^shader_baker/enabled=true#shader_baker/enabled=false#' export_presets.cfg
             export_all
           fi
-          grep -i "shader.bak" build/export.log | tail -5 || true
-          rm -f build/export.log
-          for a in x64 arm64; do cp CREDITS.md README.md build/win-$a/ ; (cd build/win-$a && zip -9 -r ../TramSimFrance-windows-$a.zip .); done
-          for i in 1 2 3; do sudo apt-get update > /dev/null 2>&1; sudo apt-get install -y wixl > /dev/null 2>&1 && break; sleep 20; done
-          if command -v wixl > /dev/null; then
-            wixl -a x64 -D Version=${{ env.APP_VERSION }} -D SrcDir=build/win-x64 -o build/TramSimFrance.msi installer/tramsim.wxs
-            # wixl ne connaît pas arm64 : MSI de plateforme x64 (installable sur Windows ARM) contenant l'exécutable ARM64 natif
-            wixl -a x64 -D Version=${{ env.APP_VERSION }} -D SrcDir=build/win-arm64 -o build/TramSimFrance-arm64.msi installer/tramsim.wxs
-          else
-            echo "::warning::wixl indisponible : MSI non produit"
-          fi
-          ls -la build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-export-x64
+          path: build/win-x64/
+          retention-days: 2
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-export-arm64
+          path: build/win-arm64/
+          retention-days: 2
+          if-no-files-found: error
       - name: APK de prévisualisation
+        if: env.WINDOWS_ONLY != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: TramSimFrance-Android
           path: build/TramSimFrance.apk
           retention-days: 14
-      - name: EXE de prévisualisation
+          if-no-files-found: error
+      - name: Export logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: TramSimFrance-Windows
-          path: build/win-x64/
+          name: windows-export-logs
+          path: build/*.log
+
+  windows:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: windows-latest
+          - arch: arm64
+            runner: windows-11-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-export-${{ matrix.arch }}
+          path: build/win-${{ matrix.arch }}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-dotnet@v4
+        with: {dotnet-version: '8.0.x'}
+      - name: Prepare original signed upstream runtime
+        run: |
+          New-Item -ItemType Directory -Force reports, dist | Out-Null
+          python tools/windows/prepare_runtime.py --arch ${{ matrix.arch }} --destination build/win-${{ matrix.arch }} --cache "$env:RUNNER_TEMP/godot-runtime" --godot-version 4.6.3
+          if ($LASTEXITCODE -ne 0) { throw 'Runtime preparation failed' }
+          ./tools/windows/verify_runtime.ps1 -Directory build/win-${{ matrix.arch }} -Architecture ${{ matrix.arch }} -Report reports/runtime-signature.json
+      - name: Build native MSI
+        run: |
+          dotnet tool install wix --version 5.0.2 --tool-path "$env:RUNNER_TEMP/wix"
+          if ($LASTEXITCODE -ne 0) { throw 'WiX installation failed' }
+          python tools/windows/build_installer.py --source build/win-${{ matrix.arch }} --arch ${{ matrix.arch }} --version ${{ needs.build.outputs.app_version }} --output build/TramSim-${{ matrix.arch }}.wxs
+          if ($LASTEXITCODE -ne 0) { throw 'MSI authoring failed' }
+          & "$env:RUNNER_TEMP/wix/wix.exe" build -arch ${{ matrix.arch }} -o dist/TramSimFrance-${{ matrix.arch }}.msi build/TramSim-${{ matrix.arch }}.wxs
+          if ($LASTEXITCODE -ne 0) { throw 'Native MSI build failed' }
+      - name: Optional project MSI signature
+        env:
+          WINDOWS_SIGNING_PFX_BASE64: ${{ secrets.WINDOWS_SIGNING_PFX_BASE64 }}
+          WINDOWS_SIGNING_PFX_PASSWORD: ${{ secrets.WINDOWS_SIGNING_PFX_PASSWORD }}
+        run: ./tools/windows/sign_installer.ps1 -Msi dist/TramSimFrance-${{ matrix.arch }}.msi -Report reports/msi-signature.json
+      - name: Native install, boot, reinstall and uninstall
+        run: ./tools/windows/test_package.ps1 -Directory build/win-${{ matrix.arch }} -Msi dist/TramSimFrance-${{ matrix.arch }}.msi -Architecture ${{ matrix.arch }} -Reports reports
+      - name: Package verified portable build
+        run: |
+          Compress-Archive -Path build/win-${{ matrix.arch }}/* -DestinationPath dist/TramSimFrance-windows-${{ matrix.arch }}.zip
+          Copy-Item reports/package-validation.json dist/Windows-validation-${{ matrix.arch }}.json
+          Copy-Item reports/msi-signature.json dist/MSI-signature-${{ matrix.arch }}.json
+          Get-ChildItem dist -File | ForEach-Object { "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant())  $($_.Name)" } | Set-Content dist/SHA256SUMS-${{ matrix.arch }}.txt -Encoding utf8
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-validated-${{ matrix.arch }}
+          path: dist/
+          if-no-files-found: error
           retention-days: 14
+      - name: Windows diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-diagnostics-${{ matrix.arch }}
+          path: |
+            reports/
+            build/*.wxs
+          retention-days: 14
+
+  publish:
+    needs: [build, windows]
+    if: github.event_name != 'pull_request' && needs.build.result == 'success' && needs.windows.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: windows-validated-*
+          path: dist
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        if: github.event_name != 'workflow_dispatch' || !inputs.windows_only
+        with:
+          name: TramSimFrance-Android
+          path: dist
       - name: Release
-        if: github.event_name != 'pull_request'
         uses: softprops/action-gh-release@v2
         with:
           target_commitish: ${{ github.sha }}
-          tag_name: v${{ env.APP_VERSION }}-build.${{ github.run_number }}
-          name: Tram Sim France ${{ env.APP_VERSION }} (build ${{ github.run_number }})${{ (github.event_name == 'workflow_dispatch' && inputs.skip_tests) && ' — aperçu travail en cours' || '' }}
+          tag_name: v${{ needs.build.outputs.app_version }}-build.${{ github.run_number }}
+          name: Tram Sim France ${{ needs.build.outputs.app_version }} (build ${{ github.run_number }})
           prerelease: true
-          fail_on_unmatched_files: false
+          fail_on_unmatched_files: true
           body: |
-            - **Android** : TramSimFrance.apk (arm64, signature de développement : autoriser les sources inconnues).
-            - **Windows x64** : TramSimFrance.msi (installeur) ou TramSimFrance-windows-x64.zip (portable : extraire puis lancer TramSimFrance.exe).
-            - **Windows ARM64** (Snapdragon, Surface Pro X…) : TramSimFrance-arm64.msi ou TramSimFrance-windows-arm64.zip.
-            - Application non signée : si SmartScreen affiche « Windows a protégé votre ordinateur », cliquer « Informations complémentaires » puis « Exécuter quand même ». Pour un zip, clic droit → Propriétés → cocher « Débloquer » avant d'extraire.
-            Données : voies et quais OpenStreetMap (ODbL), GTFS des réseaux (transport.data.gouv.fr) et BD TOPO® IGN — voir CREDITS.md et docs/COUVERTURE.md.
-          files: |
-            build/TramSimFrance.apk
-            build/TramSimFrance.msi
-            build/TramSimFrance-arm64.msi
-            build/TramSimFrance-windows-x64.zip
-            build/TramSimFrance-windows-arm64.zip
+            Correctif Windows : moteur Godot officiel conservant sa signature Authenticode, données du jeu dans un PCK séparé.
+            - **Snapdragon / Windows ARM64** : `TramSimFrance-windows-arm64.zip` (portable) ou `TramSimFrance-arm64.msi` (installeur ARM64 natif).
+            - **Intel / AMD x64** : `TramSimFrance-windows-x64.zip` ou `TramSimFrance-x64.msi`.
+            - Extraire tout le ZIP et ouvrir `TramSimFrance.exe`, en gardant le PCK à côté.
+            - Tests natifs Windows : lancement du vrai jeu, signature du moteur, installation, réinstallation, désinstallation. Rapports JSON et empreintes SHA-256 joints.
+            - Le moteur est signé par son éditeur Godot ; le MSI reste non signé si aucun certificat de projet n’est configuré (voir `MSI-signature-*.json`). Ne pas désactiver les protections Windows. Le ZIP portable est disponible si votre politique refuse le MSI.
+            - Le MSI installe pour le compte courant. Les sauvegardes sont conservées dans AppData.
+            Les données et leurs licences sont décrites dans le fichier CREDITS.md inclus.
+          files: dist/*

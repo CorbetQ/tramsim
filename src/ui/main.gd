@@ -111,6 +111,8 @@ func _ready() -> void:
 	ui_audio = UiAudio.new(); ui_audio.enabled = bool(save.settings.get("ui_sounds", true)); add_child(ui_audio)
 	bell = AudioStreamPlayer.new(); bell.stream = _bell_sound(); add_child(bell)
 	_build_menu()
+	if OS.get_cmdline_user_args().has("--windows-package-smoke"):
+		print("WINDOWS_PACKAGE_SMOKE|ready|",ProjectSettings.get_setting("application/config/version"),"|",OS.get_name())
 	if not SaveGame.last_load_report.get("ok", true):
 		var notice := AcceptDialog.new()
 		notice.title = "Sauvegarde protégée"

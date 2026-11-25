@@ -30,8 +30,8 @@ La version 0.9 recale les arrêts sur les nœuds OSM, importe aussi les quais ou
 Godot 4.6.3 + modèles d'export, JDK 21, Android SDK (platform 36, build-tools 36.0.0, platform-tools). Réglages éditeur :
 `export/android/android_sdk_path`, `java_sdk_path`, `debug_keystore(_user/_pass)`. Le projet doit avoir
 `rendering/textures/vram_compression/import_etc2_astc=true` (sinon l'export échoue avec une erreur vide). Si `sdkmanager`/`java` affichent
-« Picked up JAVA_TOOL_OPTIONS », faire `unset JAVA_TOOL_OPTIONS`. Commandes : `godot --headless --export-debug Android build/tramsim.apk` et `godot --headless --export-release Windows build/TramSimFrance.exe`.
-Le workflow `.github/workflows/release.yml` compile et publie automatiquement l'APK, l'EXE et le MSI (`installer/tramsim.wxs`, wixl) dans une Release GitHub.
+« Picked up JAVA_TOOL_OPTIONS », faire `unset JAVA_TOOL_OPTIONS`. Commandes : `godot --headless --export-debug Android build/tramsim.apk` et `godot --headless --export-pack Windows build/win-x64/TramSimFrance.pck` (puis ajout du moteur signé via `tools/windows/prepare_runtime.py`, voir `docs/windows/LISEZMOI.md`).
+Le workflow `.github/workflows/release.yml` exporte l’APK et les PCK Windows, ajoute le moteur officiel signé, construit les MSI natifs avec WiX 5, puis teste les paquets sur Windows x64 et ARM64 avant publication. Voir [l’installation Windows](docs/windows/LISEZMOI.md) et [la fabrication des MSI](installer/README.md).
 
 ## Ancienne note de compilation
 Prérequis : Godot 4.6.3 + modèles d'export, JDK 17, Android SDK (platform 34, build-tools 34, NDK r28),
@@ -46,7 +46,7 @@ Puis `godot --headless --export-debug Android build/tramsim.apk`. Voir `docs/ROA
   (glisser pour tourner, molette pour zoomer), M ou A plan, P alimentation, V changer de sens (aux terminus et terminus partiels, communication de voies en ciseaux), R remise sur voie, T trafic, Échap pause, F11 plein écran.
 - **Matériels** : chaque réseau propose sa flotte (`data/rolling_stock/liveries.json`, rames générées depuis `data/rolling_stock/plans/`, ex. Citadis « arc-en-ciel » d'Irigo, TFS et Incentro à Nantes,
   TFS à Grenoble, Eurotram à Strasbourg) ; les autres matériels restent jouables (mode d'adaptation en mode libre).
-- **Installation Windows** : `TramSimFrance.msi` (raccourcis menu Démarrer et Bureau) ou l'exécutable portable.
+- **Installation Windows** : `TramSimFrance-arm64.msi` sur Snapdragon/ARM64 ou `TramSimFrance-x64.msi` sur Intel/AMD ; ZIP portable disponible pour chaque architecture. Raccourci dans le menu Démarrer, installation pour le compte courant.
 
 ## Direction artistique
 Low poly et cel shading (shaders `src/rendering/shaders/`) : facettes plates, éclairage en paliers, contours encrés des rames,
