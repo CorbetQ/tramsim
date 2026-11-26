@@ -24,7 +24,10 @@ uniform float season : hint_range(0.0, 1.0) = 0.0;   // 0 été ; 1 automne (jau
 uniform float alpha_cut : hint_range(0.0, 1.0) = 0.42;
 uniform float leaf_roughness = 0.72;
 uniform float leaf_specular = 0.35;
-uniform vec3 albedo_mul = vec3(0.74, 0.76, 0.64);   // calage sur la canopée des orthophotos IGN (comme Materials.foliage)
+uniform vec3 albedo_mul = vec3(0.9, 0.92, 0.8);   // calage sur la canopée des orthophotos IGN (comme Materials.foliage)
+// Nuit : lumière urbaine diffuse (rebonds de l'éclairage public, non simulés en Mobile/Compatibility) : sans elle,
+// l'albédo réel du feuillage (≈ 0,1) tombe au noir pur sous la seule ambiance du ciel nocturne.
+uniform float night_fill = 0.28;
 
 varying float v_var;
 varying float v_kind;     // 0 écorce, 0,25 écorce desquamée, 1 feuillage
@@ -78,7 +81,7 @@ void fragment() {
 	if (v_kind < 0.5) {
 		// écorce : sillons verticaux (bruit étiré), plaques desquamées du platane
 		float n = vnoise(vec2(UV.x * 16.0, UV.y * 1.2)) * 0.55 + vnoise(vec2(UV.x * 40.0, UV.y * 6.0)) * 0.3 + vnoise(UV * vec2(9.0, 3.0)) * 0.15;
-		col = COLOR.rgb * (0.5 + 0.75 * n);
+		col = COLOR.rgb * (0.62 + 0.6 * n);
 		if (v_kind > 0.1) {
 			float pl = smoothstep(0.45, 0.55, vnoise(vec2(UV.x * 5.0, UV.y * 2.2) + v_var * 9.0));
 			col = mix(col * 0.82, vec3(0.80, 0.78, 0.62), pl * 0.6);
@@ -104,6 +107,7 @@ void fragment() {
 		SPECULAR = leaf_specular;
 	}
 	ALPHA_SCISSOR_THRESHOLD = alpha_cut;
+	EMISSION = pbr_albedo(col, OUTPUT_IS_SRGB) * night_fill * night;
 	ALBEDO = pbr_albedo(col, OUTPUT_IS_SRGB);
 	ROUGHNESS = rough;
 	METALLIC = 0.0;

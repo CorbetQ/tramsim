@@ -11,14 +11,14 @@ const SITES := [["angers_c", "Ralliement", 70.0], ["nantes_1", "Commerce", 60.0]
 const MONUMENTS := [
 	["angers_c", "chateau_angers", 47.46995, -0.55985, 260.0, 120.0, 120.0, 10.0],
 	["angers_c", "gare_saint_laud", 47.46455, -0.55655, 140.0, 55.0, 20.0, 8.0],
-	["angers_c", "hotel_de_ville_angers", 47.47070, -0.55020, 110.0, 45.0, 230.0, 10.0],
-	["nantes_1", "chateau_nantes", 47.21600, -1.54970, 260.0, 120.0, 200.0, 10.0],
+	["angers_c", "hotel_de_ville_angers", 47.47080, -0.54830, 120.0, 55.0, 140.0, 10.0],
+	["nantes_1", "chateau_nantes", 47.21625, -1.54934, 210.0, 80.0, 215.0, 0.0],
 	["nantes_1", "cathedrale_nantes", 47.21790, -1.55030, 230.0, 90.0, 160.0, 25.0],
-	["nantes_1", "tour_bretagne", 47.21770, -1.55940, 420.0, 120.0, 150.0, 60.0],
+	["nantes_1", "tour_bretagne", 47.21760, -1.55825, 330.0, 60.0, 150.0, 70.0],
 	["nantes_1", "gare_nantes", 47.21750, -1.54200, 190.0, 70.0, 10.0, 8.0],
 	["nantes_1", "lieu_unique", 47.21500, -1.54580, 140.0, 50.0, 330.0, 20.0],
-	["nantes_1", "passage_pommeraye", 47.21290, -1.55960, 70.0, 25.0, 140.0, 10.0],
-	["nantes_1", "elephant", 47.20660, -1.56420, 70.0, 20.0, 30.0, 6.0],
+	["nantes_1", "passage_pommeraye", 47.21288, -1.55961, 40.0, 8.0, 166.0, 9.0],
+	["nantes_1", "elephant", 47.20675, -1.56425, 55.0, 14.0, 290.0, 6.0],
 ]
 
 func _init() -> void:
@@ -102,7 +102,11 @@ func _run() -> void:
 		for i in 3: await process_frame
 	var cur := ""
 	var main = null
+	var pick: Array = []
+	for w in a.slice(2):
+		if str(w).begins_with("only="): pick = str(w).substr(5).split(",")
 	for m in (MONUMENTS if only != "sites" else []):
+		if not pick.is_empty() and not (m[1] in pick): continue
 		if m[0] != cur:
 			if main != null: main.queue_free(); for i in 3: await process_frame
 			main = await _start(m[0]); cur = m[0]

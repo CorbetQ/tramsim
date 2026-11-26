@@ -222,7 +222,7 @@ static func junctions(view) -> void:
 				if (item[2] as Vector3).distance_to(center)>0.03:
 					wires.line(item[2]+Vector3.UP*CONTACT_H,center+Vector3.UP*CONTACT_H,0.006,Color("#4f463c"))
 			# Suspension transversale au-dessus des appareils de voie (câble porteur + pendule), poteaux en retrait.
-			var l:=center-frame.basis.x*7.0+Vector3.UP*6.3;var r:=center+frame.basis.x*7.0+Vector3.UP*6.3
+			var l:=center-frame.basis.x*7.0+Vector3.UP*6.25;var r:=center+frame.basis.x*7.0+Vector3.UP*6.25
 			wires.line(l,center+Vector3.UP*6.05,0.007,Color("#585c5c"));wires.line(center+Vector3.UP*6.05,r,0.007,Color("#585c5c"))
 			wires.line(center+Vector3.UP*6.05,center+Vector3.UP*CONTACT_H,0.004,Color("#5c605f"))
 			for sign_ in [-1.0,1.0]:
@@ -230,7 +230,7 @@ static func junctions(view) -> void:
 				if support_clear(view,foot) and not NetworkLoader.in_spans(net.edge_info[id].tunnel,float(first[1])):
 					_tube(hardware,foot,foot+Vector3.UP*6.9,0.14,0.1,10,Color("#566264"))
 					hardware.box(foot+Vector3.UP*0.12,Vector3(0.36,0.16,0.36),Color("#9b9a90"))
-					_insulator(hardware,foot+Vector3.UP*6.3-frame.basis.x*(0.4*sign_),-frame.basis.x*sign_)
+					_insulator(hardware,foot+Vector3.UP*6.25-frame.basis.x*(0.4*sign_),-frame.basis.x*sign_)
 			if not hardware.v.is_empty():view._add_geo(view.sectors[id],hardware,Materials.building())
 			if not wires.v.is_empty():view.sectors[id].add_child(wires.instance())
 

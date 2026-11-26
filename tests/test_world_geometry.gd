@@ -81,6 +81,9 @@ func _init()->void:
  check(not ElectrificationView.support_clear(view,Vector3(5,0,1)),"poteau refusé dans le gabarit d’une voie")
  check(ElectrificationView.support_clear(view,Vector3(5,0,4)),"poteau possible à l’extérieur du gabarit")
  ElectrificationView.junctions(view)
+ # P3 : fils en lignes (ElectrificationView.Wires, ajoutés au secteur) : sommets des maillages de fils
+ for c in view.get_children():
+  if c is MeshInstance3D and c.material_override==ElectrificationView.line_material():view.wire_vertices.append_array(c.mesh.get_faces())
  var correct:=not view.wire_vertices.is_empty()
  for v in view.wire_vertices:correct=correct and v.y<6.3
  check(correct,"intersection : aucun raccord LAC entre voies au sol et branche six mètres plus haut")

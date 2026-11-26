@@ -1694,6 +1694,10 @@ func _faces_street(m: Vector2, out: Vector2) -> bool:
 				var q := Geometry2D.get_closest_point_to_segment(m, road[0], road[1])
 				var d := q - m
 				if d.length() < r and d.dot(out) > 0.5 * d.length() + 0.5: return true
+	# plateforme du tramway (places et rues piétonnes traversées par la ligne)
+	for q in _tracks_near(m + _tile_origin, r):
+		var d := Vector2(q.x, q.z) - _tile_origin - m
+		if d.dot(out) > 0.5 * d.length() + 0.5: return true
 	return false
 
 ## P3 : souches de cheminée sur les pignons d'un toit à deux pans (même faîtage que _gable_roof).
