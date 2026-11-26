@@ -20,7 +20,7 @@ func _init() -> void:
 		var t: Array = m.triangles
 		check(t.size() == 3 and int(t[0]) > int(t[1]) and int(t[1]) > int(t[2]), "%s : LOD décroissants %s" % [m.id, t])
 		check(int(t[0]) <= int(m.budget_lod0) and int(t[1]) <= int(m.budget_mobile), "%s : budget LOD0 %d ≤ %d, Mobile (LOD1) %d ≤ %d" % [m.id, t[0], m.budget_lod0, t[1], m.budget_mobile])
-		var v := FakeView.new(); v.net = NetworkLoader.new(); v.net.load_file("res://data/networks/%s.json" % nets[m.id])
+		var v := FakeView.new(); v.net = NetworkLoader.new(); v.net.load_file("res://data/networks/%s.json" % nets.get(m.id, "angers_c" if str(m.city) == "angers" else "nantes_1"))   # P3 : monuments près des lignes du centre
 		var a := LandmarkModels.anchor(v, m)
 		var unknown := {}
 		var verts := PackedVector3Array()

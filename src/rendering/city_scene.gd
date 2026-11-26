@@ -1707,6 +1707,7 @@ func _gable_chimneys(S: _Arrays, ring: PackedVector2Array, y: float, rise: float
 		var t := a; a = b; b = c; c = d; d = t
 	var col := Color(wall.r * 0.95, wall.g * 0.93, wall.b * 0.9, SOLID_A) if fst == Facades.ANJOU else Color(0.55, 0.33, 0.26, SOLID_A)
 	Facades.gable_chimneys(S, (d + a) * 0.5, (b + c) * 0.5, y, rise, col, seed_)
+	if fst != Facades.GENERIC: Facades.ridge(S, (d + a) * 0.5, (b + c) * 0.5, y + rise)
 
 ## P3 : souches sur le terrasson d'un comble brisé (murs mitoyens : sommets de l'emprise les plus proches du centre).
 func _roof_chimneys(S: _Arrays, ring: PackedVector2Array, y: float, fst: int, wall: Color, seed_: int) -> void:
@@ -1859,7 +1860,11 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 	if shop:  # rez-de-chaussée commercial : piliers, vitrines, bandeau d'enseigne (éclairés le soir)
 		_walls(S, ring, 0.0, 3.4, Color(wall.r * 0.92, wall.g * 0.92, wall.b * 0.92, GLASS_SHOP), true)
 		y0 = 3.4
-	if cls != 2: _facade_detail(_D, ring, h, seed, shop, ftype, wall, fst != Facades.GENERIC)
+	if fst != Facades.GENERIC and cls != 2 and cls != 5:   # P3 : nuance propre au bâtiment (pierres, enduits)
+		var j := float(absi(hash(seed * 23 + 1)) % 1000) / 1000.0
+		wall = Color(wall.r * lerpf(0.9, 1.05, j), wall.g * lerpf(0.9, 1.04, j), wall.b * lerpf(0.88, 1.03, fposmod(j * 7.3, 1.0)), wall.a)
+	if cls != 2 and fst == Facades.GENERIC: _facade_detail(_D, ring, h, seed, shop, ftype, wall)
+	elif cls != 2 and not Facades.enabled(): _facade_detail(_D, ring, h, seed, shop, ftype, wall)
 	wall.a = _wall_code(ftype, seed) if windows else SOLID_A
 	_walls(S, ring, y0, h, wall, windows)
 	if _Fcur != null and not lite and n <= 40 and (windows or fst == Facades.ACTIVITE) and Facades.enabled():

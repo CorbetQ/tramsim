@@ -25,7 +25,7 @@ const PAINT_A := 0.41     # métal peint (garde-corps, ferronneries)
 
 ## Portée du LOD proche (relief) : PC / Mobile. Cellules de CELL m (portée mesurée au centre de la cellule).
 const NEAR_PC := 150.0
-const NEAR_MOBILE := 70.0
+const NEAR_MOBILE := 45.0
 const CELL := 48.0
 ## Relief seulement sur les faces tournées vers une voie à moins de STREET_D m.
 const STREET_D := 22.0
@@ -114,6 +114,18 @@ static func bays(ftype: int, code: float) -> Dictionary:
 		9: fh = 3.6; w = 0.47; wy0 = 0.05; wy1 = 0.95
 	return {"bay": bay, "fh": fh, "hw": w * bay, "y0": wy0 * fh, "y1": wy1 * fh}
 
+## Enseignes et stores génériques (sans marque) : sombre, bordeaux, vert, bleu, crème, rouge.
+const SIGNS := [Color(0.11, 0.13, 0.16, 0.35), Color(0.36, 0.08, 0.09, 0.35), Color(0.1, 0.25, 0.17, 0.35), Color(0.12, 0.2, 0.4, 0.35), Color(0.78, 0.72, 0.58, 0.35), Color(0.55, 0.12, 0.1, 0.35)]
+const AWNINGS := [Color(0.45, 0.1, 0.1, 0.35), Color(0.16, 0.3, 0.22, 0.35), Color(0.2, 0.25, 0.33, 0.35), Color(0.7, 0.64, 0.5, 0.35), Color(0.62, 0.42, 0.15, 0.35)]
+
+## Faîtage en zinc et rives : arêtier saillant le long du faîtage r1-r2 (toit à deux pans).
+static func ridge(S, r1: Vector2, r2: Vector2, y: float) -> void:
+	var ax := (r2 - r1); var L := ax.length()
+	if L < 1.0: return
+	var t := Vector3(ax.x / L, 0, ax.y / L); var o := Vector3(-t.z, 0, t.x)
+	var m := (r1 + r2) * 0.5
+	obox(S, Vector3(m.x, y + 0.05, m.y), Vector3(L + 0.3, 0.16, 0.34), t, o, Color(0.5, 0.54, 0.57, 0.35), 1 | 2 | 8 | 16)
+
 ## Vitrines du shader (bloc M_SHOP) : largeur de cellule (graine de façade nulle pour les vitrines).
 const SHOP_W := 4.2
 
@@ -166,7 +178,7 @@ static func railing(S, f: Face, x0: float, x1: float, y: float, d: float, hgt: f
 		S.quad(f.P(x0, y + 0.08, d), f.P(x1, y + 0.08, d), f.P(x1, y + hgt - 0.03, d), f.P(x0, y + hgt - 0.03, d), Color(0.42, 0.5, 0.55, 0.45), -1.0)
 		return
 	obox(S, f.P(xm, y + 0.1, d), Vector3(w, 0.04, 0.04), f.t, f.o, col, 1 | 2)
-	var n := maxi(2, int(w / maxf(pitch, 0.16)))
+	var n := maxi(2, int(w / maxf(pitch, 0.4 if DayNight.low_quality else 0.16)))
 	for i in range(n + 1):
 		var x := x0 + w * float(i) / n
 		S.quad(f.P(x - 0.012, y + 0.1, d), f.P(x + 0.012, y + 0.1, d), f.P(x + 0.012, y + hgt, d), f.P(x - 0.012, y + hgt, d), col, -1.0)
@@ -199,12 +211,12 @@ static func face_relief(S, a2: Vector2, b2: Vector2, out2: Vector2, u0: float, h
 	var fs := 0.0; var fd := 0.0; var sill := true; var key := false; var rails := false
 	var courses := false; var corn := 0.0; var quoins := false
 	match st:
-		ANJOU: fs = 0.16; fd = 0.07; courses = hs % 2 == 0; corn = 0.42; quoins = true; rails = g.y0 < 0.5
-		NANTES_XVIII: fs = 0.19; fd = 0.09; key = true; rails = true; courses = true; corn = 0.55
-		HAUSSMANN: fs = 0.15; fd = 0.07; key = true; rails = true; courses = true; corn = 0.62
+		ANJOU: fs = 0.18; fd = 0.13; courses = hs % 2 == 0; corn = 0.42; quoins = true; rails = g.y0 < 0.5
+		NANTES_XVIII: fs = 0.21; fd = 0.15; key = true; rails = true; courses = true; corn = 0.55
+		HAUSSMANN: fs = 0.17; fd = 0.13; key = true; rails = true; courses = true; corn = 0.62
 		MODERNE: sill = ftype != CityScene.F_VERRE; corn = 0.0
-		PAVILLON: fs = 0.09; fd = 0.04
-		_: fs = 0.11; fd = 0.05; corn = 0.3 if (ftype == CityScene.F_PIERRE or ftype == CityScene.F_TUFFEAU or ftype == CityScene.F_ANDESITE) else 0.0
+		PAVILLON: fs = 0.11; fd = 0.08
+		_: fs = 0.13; fd = 0.1; corn = 0.3 if (ftype == CityScene.F_PIERRE or ftype == CityScene.F_TUFFEAU or ftype == CityScene.F_ANDESITE) else 0.0
 	var ground_top := 3.4 if shop else 0.0
 	# rez-de-chaussée commercial : piliers (trame des vitrines du shader), bandeau d'enseigne et corniche de devanture
 	if shop:
@@ -213,8 +225,23 @@ static func face_relief(S, a2: Vector2, b2: Vector2, out2: Vector2, u0: float, h
 		for k in range(k0, k1 + 1):
 			var x := k * SHOP_W - u0
 			if x < 0.35 or x > f.L - 0.35: continue
-			obox(S, f.P(x, 1.65, 0.07), Vector3(0.6, 3.3, 0.14), f.t, f.o, pier, 1 | 8 | 16)
-		obox(S, f.P(f.L * 0.5, 3.4, 0.11), Vector3(f.L, 0.2, 0.22), f.t, f.o, stone, 31)
+			obox(S, f.P(x, 1.65, 0.12), Vector3(0.62, 3.3, 0.24), f.t, f.o, pier, 1 | 8 | 16)
+		obox(S, f.P(f.L * 0.5, 3.42, 0.16), Vector3(f.L, 0.24, 0.32), f.t, f.o, stone, 31)
+		# devantures : menuiserie sombre (cadre de vitrine), enseigne générique en relief, store banne
+		var mf := Color(0.13, 0.14, 0.15, PAINT_A)
+		for k in range(k0 - 1, k1 + 1):
+			var xa := maxf(k * SHOP_W - u0 + 0.31, 0.3); var xb := minf((k + 1) * SHOP_W - u0 - 0.31, f.L - 0.3)
+			if xb - xa < 1.2: continue
+			var xm := (xa + xb) * 0.5; var w := xb - xa
+			var hk := absi(hash(Vector2i(seed_, k)))
+			obox(S, f.P(xm, 0.4, 0.05), Vector3(w, 0.1, 0.1), f.t, f.o, mf, 1 | 2)
+			obox(S, f.P(xm, 2.78, 0.05), Vector3(w, 0.08, 0.1), f.t, f.o, mf, 1 | 4)
+			var sc: Color = SIGNS[hk % SIGNS.size()]
+			obox(S, f.P(xm, 3.06, 0.09), Vector3(w * 0.86, 0.44, 0.1), f.t, f.o, sc, 1 | 2 | 4 | 8 | 16)
+			if hk % 5 < 3:   # store banne
+				var ac: Color = AWNINGS[(hk / 5) % AWNINGS.size()]
+				S.quad(f.P(xa, 2.72, 0.1), f.P(xb, 2.72, 0.1), f.P(xb, 2.3, 1.25), f.P(xa, 2.3, 1.25), ac, -1.0)
+				S.quad(f.P(xa, 2.3, 1.25), f.P(xb, 2.3, 1.25), f.P(xb, 2.08, 1.25), f.P(xa, 2.08, 1.25), Color(ac.r * 0.85, ac.g * 0.85, ac.b * 0.85, ac.a), -1.0)
 	# rangées de baies (mêmes cellules que le shader : origine 0,4 m)
 	var rows: Array = []
 	for fl in range(0, 40):

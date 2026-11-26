@@ -9,7 +9,7 @@ import geo
 from meshkit import Kit, v3, norm, UP
 from archkit import mansard, hip_roof
 
-TUF = "facade_tuffeau"; SCH = "pierre_taille#4f535b"; GRA = "pierre_taille#9c9890"; STONE = "pierre_taille"
+TUF = "facade_tuffeau"; SCH = "pierre_taille#6b6f78"; GRA = "pierre_taille#9c9890"; STONE = "pierre_taille"
 SLATE = "toiture"; ZINC = "lm_zinc"; GLASS = "lm_vitre"; DARK = "lm_menuiserie_sombre"; METAL = "mobilier_metal"
 WHITE = "lm_peinture_blanche"; BRICK = "facade_brique"; WOOD = "lm_bois"; IRON = "lm_ferronnerie"; GOLD = "lm_jaune"
 CONC = "beton_banche"
@@ -188,7 +188,7 @@ def chateau_angers():
         ring = ccw(b["ring"]); base = ground_min(city, ring, 1.5) - 1.0
         top = ground_min(city, ring) + b["h"]
         k.lod = (0, 2)
-        banded(k, ring, base, top, [(SCH, 1.6), (TUF, 0.55), (SCH, 1.2), (TUF, 0.45)])
+        banded(k, ring, base, top, [(SCH, 1.3), (TUF, 0.9), (SCH, 1.1), (TUF, 0.8)])
         k.lod = (0, 1)
         talus(k, ring, base, base + 5.0, 1.4, SCH)
         k.lod = (0, 2)
@@ -301,7 +301,17 @@ def chateau_nantes():
     en retrait de la contrescarpe BD TOPO, pied dans les douves (relief IGN)."""
     city = geo.City("nantes"); k = Kit()
     outer = Polygon(DOUVES).buffer(0)
-    curt = outer.buffer(-13.0, join_style=2).simplify(2.5)
+    curt = outer.buffer(-13.0, join_style=2)
+    # gabarit de la ligne 1 (allée du Cdt-Charcot, au ras des douves) : enceinte tenue à 13 m de l'axe des voies
+    tracks = []
+    for e in geo.network("nantes_1")["edges"]:
+        pts = e["pts"] if isinstance(e["pts"], list) else __import__("json").loads(e["pts"])
+        if len(pts) > 1 and LineString(pts).distance(outer) < 60: tracks.append(LineString(pts))
+    if tracks:
+        from shapely.ops import unary_union
+        curt = curt.difference(unary_union(tracks).buffer(13.0))
+        if curt.geom_type != "Polygon": curt = max(curt.geoms, key=lambda q: q.area)
+    curt = curt.simplify(2.5)
     ring = ccw(list(curt.exterior.coords))
     inner = curt.buffer(-3.2, join_style=2)
     g_in = city.ground(curt.centroid.x, curt.centroid.y)
@@ -331,7 +341,8 @@ def chateau_nantes():
         a, p, b = np.array(ring[i - 1]), np.array(ring[i]), np.array(ring[(i + 1) % n])
         d1, d2 = norm(p - a), norm(b - p)
         turn = math.degrees(math.acos(np.clip(np.dot(d1, d2), -1, 1)))
-        if turn > 28 and all(np.linalg.norm(p - q) > 22 for q, _ in towers): towers.append((p, 7.5))
+        clear = min([tl.distance(Point(p)) for tl in tracks] or [99.0])
+        if turn > 28 and clear > 12.0 and all(np.linalg.norm(p - q) > 22 for q, _ in towers): towers.append((p, 7.5))
     gate = np.array([6600.0, 631.0])   # extrémité intérieure du pont dormant (BD TOPO)
     e = curt.exterior; s = e.project(Point(gate)); gp = e.interpolate(s)
     t = np.array(e.interpolate(s + 1).coords[0]) - np.array(gp.coords[0]); t = t / np.linalg.norm(t)
