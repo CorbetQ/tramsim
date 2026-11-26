@@ -52,6 +52,7 @@ var night_lights: NightLights        # éclairage urbain dynamique de nuit (lot 
 
 func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile = null, prepared_city: CityScene = null) -> void:
 	net = network
+	StationShelters.reset()
 	var fx_layer := CanvasLayer.new(); fx_layer.layer = -1; add_child(fx_layer)
 	var fx := ColorRect.new(); fx.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fx.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); fx_layer.add_child(fx)
@@ -409,12 +410,31 @@ func _real_platforms() -> void:
 			var edge_: Array[Vector3] = [top[i] + inset, top[j] + inset]
 			g.ribbon(edge_, 0.10, 0.012, Color("#eee6c9"))
 		if platform.get("shelter", false) and longest > 8.0:
-			g.box_basis(center + Vector3.UP * 2.5, Vector3(1.3, 0.12, 3.8), basis, Color("#536065"))
-			for side in [-1.0, 1.0]:
-				g.box(center + basis.z * side * 1.6 + Vector3.UP * 1.25, Vector3(0.06, 2.5, 0.06), Color("#535b60"))
-			g.box_basis(center + Vector3.UP * 0.5, Vector3(0.5, 0.12, 2.0), basis, Color("#746d5d"))
+			# abri du réseau (P4) centré sur le quai OSM, ouvert côté voie (bord le plus proche du rail)
+			var st := shelter_style()
+			var across := basis.x
+			var ep: PackedVector2Array = net.edge_info.get(str(platform.edge), {}).get("pts", PackedVector2Array())
+			if ep.size() >= 2:
+				var q := Vector2.ZERO
+				var best := INF
+				for k in range(1, ep.size()):
+					var c2 := Geometry2D.get_closest_point_to_segment(Vector2(center.x, center.z), ep[k - 1], ep[k])
+					if c2.distance_to(Vector2(center.x, center.z)) < best: best = c2.distance_to(Vector2(center.x, center.z)); q = c2
+				var away := Vector3(center.x - q.x, 0, center.z - q.y)
+				if away.dot(across) < 0.0: across = -across
+			StationShelters.build(sectors[platform.edge], g, center - across * float(st.depth) * 0.5, across, basis.z, st, str(platform.get("name", "")), str(net.meta.get("line", "")), shelter_termini(), float(st.depth))
 		_add_geo(sectors[platform.edge], g, Materials.building())
 		_platform_people(platform, sectors[platform.edge])
+
+## Style d'abri du réseau (StationShelters, par source_id) et terminus affichés par les PID.
+var _shelter_style: Dictionary = {}
+func shelter_style() -> Dictionary:
+	if _shelter_style.is_empty(): _shelter_style = StationShelters.style(str(net.meta.get("source_id", "")))
+	return _shelter_style
+
+func shelter_termini() -> Array:
+	if net.stations.is_empty(): return []
+	return [str(net.stations[net.stations.size() - 1].name), str(net.stations[0].name)]
 
 func _platform_people(platform: Dictionary, parent: Node3D, include_info := true) -> void:
 	var poly := PackedVector2Array(); var top: Array[Vector3] = []; var center := Vector3.ZERO
@@ -553,16 +573,13 @@ func _platform(parent: Node3D, pf: Dictionary) -> void:
 	var basis := Basis(o, Vector3.UP, t)
 	var y := inn[m].y + StationLayout.HEIGHT
 	var at := func(x: float, h: float, z: float) -> Vector3: return Vector3(inn[m].x, y + h, inn[m].z) + o * x + t * z
-	var acc: Color = livery.get("accent", Color("#c8102e"))
 	var sx := w - 0.75 if not lft else w * 0.62
-	for k in [-1.0, 1.0]:
-		g.box_basis(at.call(sx + 0.45, 1.25, k * 2.8), Vector3(0.1, 2.5, 0.1), basis, Color("#4a4f55"))
-	g.box_basis(at.call(sx, 2.55, 0.0), Vector3(1.6, 0.08, 6.6), basis, Color("#5d646b"))
-	g.box_basis(at.call(sx + 0.5, 1.35, 0.0), Vector3(0.05, 2.0, 6.2), basis, Color(0.6, 0.75, 0.82, 0.5))
-	g.box_basis(at.call(sx + 0.15, 0.45, 0.0), Vector3(0.45, 0.08, 2.4), basis, Color("#7a6a58"))
+	# abri du réseau (P4 : StationShelters, data/station_shelters.json) : toiture, vitrages, banc, PID, distributeur, totem
+	var shelter := shelter_style()
+	var sd := minf(float(shelter.depth), maxf(w - 0.9, 1.1))
+	var front := maxf(0.8, w - sd - 0.12) if not lft else maxf(0.6, (w - sd) * 0.5)
+	StationShelters.build(parent, g, at.call(front, 0.0, 0.0), o, t, shelter, str(net.stations[pf.station].name), str(net.meta.get("line", "")), shelter_termini(), sd)
 	var tz := 6.0 if n * StationLayout.STEP > 16.0 else 0.0
-	g.box_basis(at.call(sx, 1.35, tz), Vector3(0.3, 2.7, 0.6), basis, acc)                         # totem
-	g.box_basis(at.call(sx, 0.8, -tz - 1.2), Vector3(0.6, 1.6, 0.45), basis, Color("#3d4a57"))    # distributeur
 	g.box_basis(at.call(sx + 0.2, 0.45, -tz + 3.6), Vector3(0.4, 0.9, 0.4), basis, Color("#56606a")) # corbeille
 	for k in [-1.0, 1.0]:  # candélabres
 		g.box_basis(at.call(sx + 0.3, 2.1, k * (n * StationLayout.STEP * 0.32)), Vector3(0.12, 4.2, 0.12), basis, Color("#4a4f55"))

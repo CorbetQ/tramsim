@@ -198,7 +198,7 @@ class Train:
         return zg + self.L / 2
 
     def cab_len(self):
-        return self.Lf + 1.05       # loge de conduite : nez + 1,05 m (cloison)
+        return max(self.Lf + 1.05, 2.25)   # loge : nez + 1,05 m (cloison), au moins 2,25 m (faces plates TFS/Vevey)
 
     def cab_horizontal_ring(self, y, zj, direction, rear, inset=WALL):
         """Floor/ceiling clipped to the rounded nose; rectangular front corners

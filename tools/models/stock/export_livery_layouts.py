@@ -9,7 +9,9 @@ from citadis import materials, swatch_colors
 
 def main():
     result = {}
-    for vid in specs.VARIANTS:
+    # P4 : tous les maîtres de kits HD (les autres variantes d'un kit retombent sur leur maître, LiveryPainter)
+    manifest = json.loads((Path(specs.ROOT) / 'assets/models/rolling_stock/manifest.json').read_text())['variants']
+    for vid in list(specs.VARIANTS) + sorted(v for v in manifest if v not in specs.VARIANTS):
         builder = Builder()
         materials(builder, Train(specs.load(vid)), 0, '4k')
         swatches = {}

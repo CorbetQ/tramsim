@@ -27,6 +27,7 @@ var sources := PackedVector3Array()
 var _t := 0.0
 var _scan_t := 0.0
 var _known := {}
+var _shelter_n := 0
 var active := 0
 
 static func budget_for(p: String) -> Dictionary:
@@ -71,12 +72,17 @@ func _scan() -> void:
 		for i in mm.instance_count:
 			sources.append(xf * mm.get_instance_transform(i).origin + Vector3(0, LAMP_H, 0))
 	StreetProps.halo_sets = keep
+	# bandeaux LED et mâts lumineux des abris de station (StationShelters, repère de la vue)
+	var xf: Transform3D = (view as Node3D).global_transform
+	while _shelter_n < StationShelters.lights.size():
+		sources.append(xf * StationShelters.lights[_shelter_n]); _shelter_n += 1
 
 func _process(dt: float) -> void:
 	if view == null or view.cam == null or view.day_night == null: return
 	var night: float = view.day_night.night
 	_t -= dt; _scan_t -= dt
 	if _scan_t <= 0.0: _scan_t = 2.0; _scan()
+	StationShelters.update_boards(view.cam.global_position, view.day_night.hour, dt)
 	if _t > 0.0: return
 	_t = PERIOD
 	var k := clampf((night - NIGHT_ON) / 0.35, 0.0, 1.0)

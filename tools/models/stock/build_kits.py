@@ -167,7 +167,9 @@ def main():
                 relocate_cab(original/(name+'.glb'),target,sp['network'],kid)
                 kit['cab'][name]='res://'+target.relative_to(ROOT).as_posix()
         path.write_text(json.dumps(kit,indent=2)+'\n')
-    INDEX.write_text(json.dumps(result,indent=2)+'\n')
+    out=next((Path(a[12:]) for a in sys.argv if a.startswith('--index-out=')),INDEX)
+    out.write_text(json.dumps(result,indent=2)+'\n')
+    if out!=INDEX:return
     for directory in (ROOT/'tram_livery').rglob('*'):
         if directory.is_dir():configure_texture_imports(directory)
     if only_hd:print(len(hd_master),'HD design kits rebuilt; native kits and livery banks preserved')
