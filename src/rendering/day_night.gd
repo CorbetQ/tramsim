@@ -125,9 +125,10 @@ func set_hour(h: float) -> void:
 	env.ambient_light_sky_contribution = lerpf(0.65, 0.25, night)
 	env.ambient_light_energy = lerpf(0.55, 1.3, night)
 	env.tonemap_exposure = lerpf(EXPOSURE_DAY, EXPOSURE_NIGHT, night) * exposure_scale
-	env.fog_light_color = horizon.lerp(top, 0.15)
+	env.fog_light_color = horizon.lerp(top, 0.35)   # perspective aérienne bleutée plutôt que voile blanc
 	env.fog_light_energy = lerpf(0.9, 0.5, night)
-	env.fog_density = lerpf(0.00065, 0.0017, night)
+	env.fog_density = lerpf(0.0003, 0.0017, night)   # jour : ~14 % à 500 m (vues obliques/aériennes lisibles)
+	env.fog_aerial_perspective = 0.6
 	env.glow_intensity = lerpf(0.35, 0.55 if low_quality else 0.9, night)
 
 ## Altitude du sol sous la caméra (repère de la ligne) : cale le brouillard de hauteur sur le terrain
