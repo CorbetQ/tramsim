@@ -1207,6 +1207,104 @@
           "native": "res://tram_livery/livery/vevey2_saintetienne_5204c9aa4769/end_b.png"
         }
       }
+    },
+    "dualis": {
+      "kit": "dualis",
+      "parts": {
+        "end_a": {
+          "4k": "res://tram_livery/livery/dualis/end_a_4k.png",
+          "2k": "res://tram_livery/livery/dualis/end_a_2k.png",
+          "512": "res://tram_livery/livery/dualis/end_a_512.png",
+          "256": "res://tram_livery/livery/dualis/end_a_256.png"
+        },
+        "powered": {
+          "4k": "res://tram_livery/livery/dualis/powered_4k.png",
+          "2k": "res://tram_livery/livery/dualis/powered_2k.png",
+          "512": "res://tram_livery/livery/dualis/powered_512.png",
+          "256": "res://tram_livery/livery/dualis/powered_256.png"
+        },
+        "end_b": {
+          "4k": "res://tram_livery/livery/dualis/end_b_4k.png",
+          "2k": "res://tram_livery/livery/dualis/end_b_2k.png",
+          "512": "res://tram_livery/livery/dualis/end_b_512.png",
+          "256": "res://tram_livery/livery/dualis/end_b_256.png"
+        }
+      }
+    },
+    "dualis_lyon_eaeb0c282a": {
+      "kit": "dualis",
+      "parts": {
+        "end_a": {
+          "4k": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/end_a_4k.png",
+          "2k": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/end_a_2k.png",
+          "512": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/end_a_512.png",
+          "256": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/end_a_256.png"
+        },
+        "powered": {
+          "4k": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/powered_4k.png",
+          "2k": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/powered_2k.png",
+          "512": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/powered_512.png",
+          "256": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/powered_256.png"
+        },
+        "end_b": {
+          "4k": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/end_b_4k.png",
+          "2k": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/end_b_2k.png",
+          "512": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/end_b_512.png",
+          "256": "res://tram_livery/livery/dualis_lyon_eaeb0c282a/end_b_256.png"
+        }
+      }
+    },
+    "dualis_idf_afcf95bc29": {
+      "kit": "dualis",
+      "parts": {
+        "end_a": {
+          "4k": "res://tram_livery/livery/dualis_idf_afcf95bc29/end_a_4k.png",
+          "2k": "res://tram_livery/livery/dualis_idf_afcf95bc29/end_a_2k.png",
+          "512": "res://tram_livery/livery/dualis_idf_afcf95bc29/end_a_512.png",
+          "256": "res://tram_livery/livery/dualis_idf_afcf95bc29/end_a_256.png"
+        },
+        "powered": {
+          "4k": "res://tram_livery/livery/dualis_idf_afcf95bc29/powered_4k.png",
+          "2k": "res://tram_livery/livery/dualis_idf_afcf95bc29/powered_2k.png",
+          "512": "res://tram_livery/livery/dualis_idf_afcf95bc29/powered_512.png",
+          "256": "res://tram_livery/livery/dualis_idf_afcf95bc29/powered_256.png"
+        },
+        "end_b": {
+          "4k": "res://tram_livery/livery/dualis_idf_afcf95bc29/end_b_4k.png",
+          "2k": "res://tram_livery/livery/dualis_idf_afcf95bc29/end_b_2k.png",
+          "512": "res://tram_livery/livery/dualis_idf_afcf95bc29/end_b_512.png",
+          "256": "res://tram_livery/livery/dualis_idf_afcf95bc29/end_b_256.png"
+        }
+      }
+    },
+    "marseille": {
+      "kit": "marseille",
+      "parts": {
+        "end_a": {
+          "4k": "res://tram_livery/livery/marseille/end_a_4k.png",
+          "2k": "res://tram_livery/livery/marseille/end_a_2k.png",
+          "512": "res://tram_livery/livery/marseille/end_a_512.png",
+          "256": "res://tram_livery/livery/marseille/end_a_256.png"
+        },
+        "suspended": {
+          "4k": "res://tram_livery/livery/marseille/suspended_4k.png",
+          "2k": "res://tram_livery/livery/marseille/suspended_2k.png",
+          "512": "res://tram_livery/livery/marseille/suspended_512.png",
+          "256": "res://tram_livery/livery/marseille/suspended_256.png"
+        },
+        "powered": {
+          "4k": "res://tram_livery/livery/marseille/powered_4k.png",
+          "2k": "res://tram_livery/livery/marseille/powered_2k.png",
+          "512": "res://tram_livery/livery/marseille/powered_512.png",
+          "256": "res://tram_livery/livery/marseille/powered_256.png"
+        },
+        "end_b": {
+          "4k": "res://tram_livery/livery/marseille/end_b_4k.png",
+          "2k": "res://tram_livery/livery/marseille/end_b_2k.png",
+          "512": "res://tram_livery/livery/marseille/end_b_512.png",
+          "256": "res://tram_livery/livery/marseille/end_b_256.png"
+        }
+      }
     }
   },
   "schema": 2.0,
@@ -1380,11 +1478,11 @@
       "type": "402"
     },
     "idf__citadis_dualis__t11": {
-      "count": 4.0,
       "kit": "dualis",
+      "type": "4-caisses",
+      "count": 4,
       "length_m": 42.0,
-      "livery": "dualis_idf_aa08b12fc2b0",
-      "type": "4-caisses"
+      "livery": "dualis_idf_afcf95bc29"
     },
     "idf__citadis_x05__t1": {
       "count": 5.0,
@@ -1492,11 +1590,11 @@
       "type": "402"
     },
     "lyon__citadis_dualis": {
-      "count": 4.0,
       "kit": "dualis",
+      "type": "4-caisses",
+      "count": 4,
       "length_m": 42.0,
-      "livery": "dualis_lyon_b516a5d9cf29",
-      "type": "4-caisses"
+      "livery": "dualis_lyon_eaeb0c282a"
     },
     "lyon__tango_rhonexpress": {
       "count": 3.0,
@@ -1506,11 +1604,11 @@
       "type": "3-caisses"
     },
     "marseille__flexity_marseille": {
-      "count": 7.0,
       "kit": "marseille",
+      "type": "7-caisses",
+      "count": 7,
       "length_m": 42.5,
-      "livery": "marseille_marseille_31ffdbf165d2",
-      "type": "7-caisses"
+      "livery": "marseille"
     },
     "marseille__urbos": {
       "count": 7.0,
@@ -1576,11 +1674,11 @@
       "type": "302"
     },
     "nantes__citadis_dualis": {
-      "count": 4.0,
       "kit": "dualis",
+      "type": "4-caisses",
+      "count": 4,
       "length_m": 42.0,
-      "livery": "dualis_nantes_59206b869876",
-      "type": "4-caisses"
+      "livery": "dualis"
     },
     "nantes__citadis_x05_nantes": {
       "kit": "nantes_x05",

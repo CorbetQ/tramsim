@@ -65,7 +65,11 @@ def variant_entry(vid):
 
 
 def load(vid):
-    s = copy.deepcopy(VARIANTS[vid]); s["id"] = vid
+    if vid in VARIANTS: s = copy.deepcopy(VARIANTS[vid])
+    else:
+        import families
+        s = families.auto_spec(vid)
+    s["id"] = vid
     s["plan_data"] = _json("data/rolling_stock/plans/%s.json" % s["plan"])
     e = variant_entry(vid)
     s['family'] = e['family']; s['label'] = e['name']
@@ -81,6 +85,9 @@ def load(vid):
         first=s['plan_data']['modules'][0]
         first.setdefault('roof',[]).append({'type':'pantograph','z_m':first['length_m']*0.65,'size':[1.2,0.3,2.0]})
     profile = _json('data/rolling_stock/front_profiles.json').get(e.get('cab_profile',''))
+    if not profile and s.get('livery_rule') == 'elements':
+        import families
+        profile = families.nose_from_plan(s['plan_data'])
     if profile:
         s['nose_profile'] = profile
         s['plan_data']['front']['windshield'].update(profile['windshield'])

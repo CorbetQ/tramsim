@@ -41,6 +41,8 @@ static var _meshes: Array = []
 static var _detail: Dictionary = {}
 static var _mat_props: ShaderMaterial = null
 static var _mat_halo: ShaderMaterial = null
+## Halos au sol posés (références faibles) : NightLights y prend la position des lampadaires (lot P4).
+static var halo_sets: Array = []
 
 ## Couleurs de carrosserie (parc français : blanc, gris, noir, bleu, rouge dominent).
 const CAR_COLORS := ["#e9e9e6", "#e4e4e0", "#9a9ea2", "#7d8287", "#2b2e33", "#1f2328", "#33496b", "#8c2a2a", "#b8b0a0", "#56606a", "#cfcfc9", "#5b2f2a"]
@@ -77,6 +79,7 @@ static func instances(kind: int, xf: Array, colors: Array = [], detail := false)
 	var mi := MultiMeshInstance3D.new()
 	mi.multimesh = mm
 	mi.material_override = material(kind)
+	if kind == HALO: halo_sets.append(weakref(mi))   # pied de chaque lampadaire : sources de NightLights (P4)
 	var low := DayNight.low_quality
 	mi.visibility_range_end = RANGE[kind] * (0.6 if low else 1.0)
 	mi.visibility_range_end_margin = 20.0

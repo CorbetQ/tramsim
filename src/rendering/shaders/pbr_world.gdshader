@@ -356,6 +356,12 @@ void fragment() {
 		vec3 em_far = window_night * glass_part * (1.0 - lit_thr) * 0.55 * night * 1.5;
 		EMISSION = mix(em_far, em_near, detail_k);
 	}
+	// météo (P4) : chaussée mouillée, flaques, neige ; ni lumineux, ni vitrines, ni façades (faces verticales exclues)
+	if (wet + snow > 0.001 && id != M_LIGHT && id != M_SHOP) {
+		float porous = id == M_METAL ? 0.0 : (id == M_PAINT ? 0.15 : (id == M_VEG ? 0.35 : (id == M_ASPHALT ? 1.0 : 0.75)));
+		float pud = (id == M_ASPHALT || id == M_PAVING || id == M_CONCRETE || id == M_SETTS || id == M_GRANITE || (id == M_PLAIN && v_h < 0.6)) ? 1.0 : 0.0;
+		pbr_weather(ALBEDO, ROUGHNESS, SPECULAR, NORMAL, wn.y, porous, pud, xz, normalize((VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz), TIME);
+	}
 	// chaîne de couleur unique (pbr_common)
 	ALBEDO = pbr_albedo(ALBEDO, OUTPUT_IS_SRGB);
 	EMISSION = pbr_emission(EMISSION, OUTPUT_IS_SRGB);

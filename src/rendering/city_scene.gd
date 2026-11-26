@@ -1664,7 +1664,7 @@ func _ledge(S: _Arrays, ring: PackedVector2Array, y: float, depth: float, col: C
 		S.quad(Vector3(oa.x, y - 0.25, oa.y), Vector3(ob.x, y - 0.25, ob.y), Vector3(ob.x, y, ob.y), Vector3(oa.x, y, oa.y), col, -1.0)
 
 ## P3 : relief des faces sur rue d'un bâtiment courant (Facades.face_relief) dans la cellule de LOD proche.
-func _facade_relief(ring: PackedVector2Array, h: float, fst: int, ftype: int, seed_: int, shop: bool, wall: Color, roof_kind: int) -> void:
+func _facade_relief(ring: PackedVector2Array, h: float, fst: int, ftype: int, seed_: int, shop: bool, wall: Color, roof_kind: int, fsc: Dictionary = {}) -> void:
 	var n := ring.size()
 	# près des voies seulement (réseau lié) : le relief se voit depuis la cabine et la vue extérieure
 	if not _track_pts.is_empty() and _tracks_near(_tile_origin + _centroid(ring), Facades.TRACK_D).is_empty(): return
@@ -1681,7 +1681,7 @@ func _facade_relief(ring: PackedVector2Array, h: float, fst: int, ftype: int, se
 			var tt := (b - a) / L
 			var out := Vector2(tt.y, -tt.x) if signed > 0.0 else Vector2(-tt.y, tt.x)
 			if _faces_street((a + b) * 0.5, out):
-				Facades.face_relief(_Fcur, a, b, out, u, h, fst, ftype, code, shop, wall, accent, seed_ + i, roof_kind)
+				Facades.face_relief(_Fcur, a, b, out, u, h, fst, ftype, code, shop, wall, accent, seed_ + i, roof_kind, fsc)
 				faces += 1
 		u += L
 
@@ -1699,6 +1699,33 @@ func _faces_street(m: Vector2, out: Vector2) -> bool:
 		var d := Vector2(q.x, q.z) - _tile_origin - m
 		if d.dot(out) > 0.5 * d.length() + 0.5: return true
 	return false
+
+## P4 : tuiles vernissées de Bourgogne (Dijon) : losanges polychromes (jaune, vert, brun, noir) sur les deux pans d'un
+## toit à deux pans (même faîtage que _gable_roof), posés à 4 cm au-dessus de la couverture.
+const GLAZED := [Color("#c99a2e"), Color("#3f6b3a"), Color("#6b3a22"), Color("#2a2622"), Color("#a8452c")]
+func _glazed_tiles(S: _Arrays, ring: PackedVector2Array, y: float, rise: float, seed_: int) -> void:
+	var a := ring[0]; var b := ring[1]; var c := ring[2]; var d := ring[3]
+	if a.distance_to(b) < b.distance_to(c):
+		var t := a; a = b; b = c; c = d; d = t
+	var r1 := (d + a) * 0.5; var r2 := (b + c) * 0.5
+	var L := r1.distance_to(r2)
+	if L < 4.0: return
+	var hs := absi(hash(seed_ * 7 + 5))
+	var c0: Color = GLAZED[hs % 5]; var c1: Color = GLAZED[(hs / 5 + 1) % 5]
+	c0.a = SOLID_A; c1.a = SOLID_A
+	for side in [[a, b, false], [d, c, true]]:   # pan : de l'égout (side) au faîtage (r1-r2)
+		var e0: Vector2 = side[0]; var e1: Vector2 = side[1]; var flip: bool = side[2]
+		var nu := maxi(2, int(L / 1.6)); var nv := 3
+		for i in nu:
+			for j in nv:
+				var u := (i + 0.5) / nu; var v := (j + 0.5) / (nv + 0.4)
+				var du := 0.42 / nu; var dv := 0.38 / (nv + 0.4)
+				var P := func(uu: float, vv: float) -> Vector3:
+					var q: Vector2 = e0.lerp(e1, uu).lerp(r1.lerp(r2, uu), vv)
+					return Vector3(q.x, y + rise * vv + 0.04, q.y)
+				var cc: Color = c0 if (i + j) % 2 == 0 else c1
+				if flip: S.quad(P.call(u, v - dv), P.call(u - du, v), P.call(u, v + dv), P.call(u + du, v), cc, -1.0)
+				else: S.quad(P.call(u, v - dv), P.call(u + du, v), P.call(u, v + dv), P.call(u - du, v), cc, -1.0)
 
 ## P3 : souches de cheminée sur les pignons d'un toit à deux pans (même faîtage que _gable_roof).
 func _gable_chimneys(S: _Arrays, ring: PackedVector2Array, y: float, rise: float, fst: int, wall: Color, seed_: int) -> void:
@@ -1844,7 +1871,8 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 	var fst := Facades.pick(city, _fac_dist, _tile_origin + c, cls, h, area, ftype, seed) if Facades.enabled() else Facades.GENERIC
 	ftype = Facades.ftype_for(fst, ftype, seed)
 	facade_stats[fst] = int(facade_stats.get(fst, 0)) + 1
-	var old_town := fst == Facades.ANJOU or fst == Facades.NANTES_XVIII or fst == Facades.HAUSSMANN
+	var old_town := fst in Facades.OLD
+	var fsc := Facades.style_cfg(city, fst) if fst != Facades.GENERIC else {}
 	var wall: Color
 	match cls:
 		2: wall = Color("#c7c3ba").lerp(Color("#a9b0b5"), (seed % 7) / 7.0)
@@ -1852,6 +1880,8 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 		4: wall = Color("#eee6d2")
 		5: wall = Color("#b9b6ae")
 		_: wall = _facade_color(ftype, seed)
+	if fsc.has("palette") and (cls == 0 or cls == 1):   # P4 : teintes du style dans la ville (facade_styles.json)
+		wall = Facades.pick_color(fsc.palette, seed, wall)
 	var paris: bool = style.get("pitched", "") == "#6f7a85" or (city == "idf" and ftype == F_PIERRE)
 	var shop := (cls == 1 or (cls == 0 and h > (8.0 if old_town else 11.0) and rng.randf() < (0.7 if old_town else (0.6 if ftype == F_PIERRE or ftype == F_OCRE else 0.4)))) and h > 6.0 and ftype != F_VERRE and fst != Facades.ACTIVITE
 	var mansard := (paris and cls == 0 and h > 13.0 and n <= 16) or (fst == Facades.HAUSSMANN and h > 12.0 and n <= 16) \
@@ -1868,7 +1898,7 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 	wall.a = _wall_code(ftype, seed) if windows else SOLID_A
 	_walls(S, ring, y0, h, wall, windows)
 	if _Fcur != null and not lite and n <= 40 and (windows or fst == Facades.ACTIVITE) and Facades.enabled():
-		_facade_relief(ring, h, fst, ftype, seed, shop, wall, 2 if mansard else 0)
+		_facade_relief(ring, h, fst, ftype, seed, shop, wall, 2 if mansard else 0, fsc)
 	if windows and h > 5.0 and n <= 24:   # soubassement en saillie (pierre plus sombre)
 		_plinth(_D, ring, 0.75 if not shop else 0.45, Color(wall.r * 0.72, wall.g * 0.71, wall.b * 0.7))
 	if mansard:
@@ -1888,7 +1918,9 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 	if lidar and lidar_rise > 0.0 and (area > 600.0 or n > 8): lidar_rise = 0.0
 	lidar_rise = minf(lidar_rise, sqrt(area) * 0.35)
 	if lidar and lidar_rise > 0.0 and n <= 8 and cls != 2:
-		if n == 4: _gable_roof(S, ring, h, lidar_rise, pitched if has_ortho or sud else SLATE, wall)
+		if n == 4:
+			_gable_roof(S, ring, h, lidar_rise, pitched if has_ortho or sud else SLATE, wall)
+			if str(fsc.get("roof", "")) == "glazed" and lidar_rise > 2.0: _glazed_tiles(S, ring, h, lidar_rise, seed)
 		else: _hip_roof(S, ring, h, lidar_rise, pitched if has_ortho or sud else SLATE)
 		if cls == 0 and not sud and h >= 6.0 and lidar_rise > 2.2 and n == 4: _dormers(_D, ring, h, lidar_rise, wall, seed, old_town)
 		if n == 4 and fst != Facades.MODERNE and fst != Facades.ACTIVITE: _gable_chimneys(S, ring, h, lidar_rise, fst, wall, seed)
@@ -1906,11 +1938,14 @@ func _building(S: _Arrays, ring: PackedVector2Array, idx: PackedByteArray, cls: 
 			_gable_chimneys(S, ring, h, rise, fst, wall, seed)
 	elif cls == 0 and h <= 12.0 and n <= 8 and area < 320.0:
 		_hip_roof(S, ring, h, clampf(sqrt(area) * (0.2 if sud else 0.3), 1.0, 3.5), pitched)
-	elif cls == 0 and h <= 16.0 and n == 4 and area < 600.0 and (ftype == F_PIERRE or ftype == F_TUFFEAU or ftype == F_BRIQUE or ftype == F_ANDESITE or ftype == F_BRIQUE_PIERRE):
-		# immeuble ancien de centre : toit à deux pans (ardoise ou tuile), lucarnes sur rue ; Anjou : forte pente
-		var rise := clampf(sqrt(area) * (0.42 if fst == Facades.ANJOU else 0.28), 2.0, 6.5 if fst == Facades.ANJOU else 5.0)
+	elif cls == 0 and h <= 16.0 and n == 4 and area < 600.0 and (ftype == F_PIERRE or ftype == F_TUFFEAU or ftype == F_BRIQUE or ftype == F_ANDESITE or ftype == F_BRIQUE_PIERRE or fst == Facades.COLOMBAGE):
+		# immeuble ancien de centre : toit à deux pans (ardoise ou tuile), lucarnes sur rue ; Anjou : forte pente ;
+		# pan de bois rhénan et normand : très forte pente
+		var steep := fst == Facades.ANJOU or fst == Facades.COLOMBAGE
+		var rise := clampf(sqrt(area) * (0.55 if fst == Facades.COLOMBAGE else (0.42 if steep else 0.28)), 2.0, 8.0 if fst == Facades.COLOMBAGE else (6.5 if steep else 5.0))
 		if fst == Facades.GENERIC: _ledge(_D, ring, h, 0.32, Color(wall.r * 1.06, wall.g * 1.06, wall.b * 1.05))
 		_gable_roof(S, ring, h, rise, pitched if has_ortho or sud else SLATE, wall)
+		if str(fsc.get("roof", "")) == "glazed": _glazed_tiles(S, ring, h, rise, seed)
 		if not sud: _dormers(_D, ring, h, rise, wall, seed, old_town)
 		_gable_chimneys(S, ring, h, rise, fst, wall, seed)
 	elif cls == 2 and area > 600.0:

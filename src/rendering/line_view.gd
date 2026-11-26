@@ -46,6 +46,9 @@ var wiper_forced := false
 var headlights_full := false
 var mirrors_folded := false
 var hd_lod := -1                    # LOD HD de la rame du joueur (-1 : vue cabine / pas de HD)
+var external_view := true            # dernière vue demandée (WeatherView : pare-brise en cabine)
+var speed_mps := 0.0
+var night_lights: NightLights        # éclairage urbain dynamique de nuit (lot P4)
 
 func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile = null, prepared_city: CityScene = null) -> void:
 	net = network
@@ -132,6 +135,7 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		var light := OmniLight3D.new(); light.omni_range = 22.0; light.light_energy = 2.2
 		light.light_color = Color("#ffe7c3"); light.shadow_enabled = false; light.visible = false
 		add_child(light); tunnel_lights.append(light)
+	night_lights = NightLights.new(); add_child(night_lights); night_lights.setup(self)
 
 func set_hour(h: float) -> void:
 	day_night.set_hour(h)
@@ -681,6 +685,7 @@ func update_sectors(center: Vector3) -> int:
 	return shown
 
 func update_from(s: MissionSession, external: bool) -> void:
+	external_view = external; speed_mps = s.phys.speed
 	_ensure_modules(s.phys.profile.length_m)
 	EventView.sync(self, s)
 	speed_material.set_shader_parameter("speed", s.phys.speed)

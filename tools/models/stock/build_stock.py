@@ -11,6 +11,8 @@ from citadis import Citadis
 import cab as CAB
 
 OUT = os.path.join(specs.ROOT, "assets/models/rolling_stock")
+# P4 : sources intermédiaires des kits générés hors dépôt (les kits tram_parts sont la sortie) ; manifeste toujours dans OUT
+SRC = os.environ.get("TRAMSIM_STOCK_SRC", OUT)
 # fichier -> (q, taille de livrée) ; LOD0 mobile = lod1.glb
 LODS = [("lod0", 0, "4k"), ("lod1", 1, "2k"), ("lod1_m", 2, "2k"), ("lod2", 3, "512"), ("lod3", 4, "256")]
 
@@ -37,13 +39,13 @@ def configure_texture_imports(directory):
 
 def build_variant(vid, only=None):
     sp = specs.load(vid); t = layout.Train(sp)
-    d = os.path.join(OUT, sp["dir"]); td = os.path.join(d, "textures"); os.makedirs(td, exist_ok=True)
+    d = os.path.join(OUT if vid in specs.VARIANTS else SRC, sp["dir"]); td = os.path.join(d, "textures"); os.makedirs(td, exist_ok=True)
     from geom import Builder
     from citadis import materials, swatch_colors
     Bm = Builder(); materials(Bm, t, 0, "4k")
     TX.Painter(t).paint().swatches(swatch_colors(Bm)).save(td, "livery")
     TX.floor_textures(td, sp["interior"]["floor"])
-    TX.fabric_texture(td, sp["seat"]["fabric"])
+    TX.fabric_texture(td, sp["seat"]["fabric"], sp["seat"].get("fabric_colors"))
     TX.metal_textures(td)
     info = {"tris": {}, "nodes": {}}
     for fname, q, tag in LODS:
@@ -59,7 +61,7 @@ def build_variant(vid, only=None):
         n = B.export(os.path.join(d, fname + ".glb"))
         info["tris"][fname] = n; info["nodes"][fname] = list(B.order); info["cab"] = cb.meta
         print("  %-8s %7d tris" % (fname, n))
-    configure_texture_imports(td)
+    if td.startswith(specs.ROOT): configure_texture_imports(td)
     return sp, t, info
 
 

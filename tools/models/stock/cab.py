@@ -21,6 +21,8 @@ class Cab:
         B = self.B = Builder()
         m0 = train.mods[0]
         self.tip = m0["zs"]; self.zj = m0["zA"]; self.fl = train.floor
+        # P4 : loge à plancher haut (TFS) : pupitre/siège modelés au plancher de référence puis remontés de dy
+        self.dy = max(0.0, train.floor - 0.40); self.fl = train.floor - self.dy
         B.base = np.array([0, 0, m0["zc"]])
         self.meta = {}
         self.controls = {}; self.screens = {}; self.lamps = []
@@ -72,7 +74,7 @@ class Cab:
     PANEL = (4, 5)          # indices du plan incliné principal (d 0.68 -> 1.04)
 
     def wrap(self, x):
-        return 0.20 * (min(abs(x), 1.0) / 0.95) ** 2.4
+        return float(self.t.spec.get("cab", {}).get("wrap", 0.20)) * (min(abs(x), 1.0) / 0.95) ** 2.4
 
     def desk_profile(self):
         P = np.array(self.PROF, float); P[-1, 1] = self.fl + 0.02
@@ -107,7 +109,7 @@ class Cab:
         zb = self.tip + t.cab_len() - 0.03
         xw = t.hw - WALL - 0.003
         fl = self.fl
-        B.fan(t.cab_horizontal_ring(fl+.005,self.zj,-1,zb),"cab_floor",normal=(0,1,0))
+        B.fan(t.cab_horizontal_ring(fl+self.dy+.005,self.zj,-1,zb),"cab_floor",normal=(0,1,0))
         yc = 2.42
         B.fan(t.cab_horizontal_ring(yc,self.zj,-1,zb),"cab_lining",normal=(0,-1,0))
         B.node("em_interior_cab", "cab_shell", (0, yc - 0.01, self.zd(1.6)))
@@ -128,6 +130,7 @@ class Cab:
         B.cyl((-0.85, t.ws_hi - 0.03, zs_), (0.85, t.ws_hi - 0.03, zs_), 0.035, "cab_plastic", seg=12)
         B.box((0, t.ws_hi - 0.09, zs_ - 0.02), (1.6, 0.12, 0.004), "cab_plastic") if q == 0 else None
         # ---------------------------------------------------------- pupitre
+        first = len(B.order)
         B.node("desk", root, (0, 1.1, self.zd(0.9)))
         self.desk_body()
         self.hood()
@@ -139,7 +142,13 @@ class Cab:
         self.seat()
         self.pedals()
         # ---------------------------------------------------------- point de vue
-        eye = np.array([0.0, fl + 1.37, self.zd(1.86)])
+        if self.dy > 0:
+            moved = set(B.order[first:])
+            for n in moved: B.nodes[n]["pos"] = np.asarray(B.nodes[n]["pos"], float) + np.array([0, self.dy, 0])
+            for (n, mname), pieces in B.geo.items():
+                if n in moved:
+                    for piece in pieces: piece[0][:, 1] += self.dy
+        eye = np.array([0.0, fl + self.dy + 1.37, self.zd(1.86)])
         B.node("cam_driver", root, eye, rot=rot_x(-11.0))
         self.meta_build(eye)
         self.desk_texture(texdir)

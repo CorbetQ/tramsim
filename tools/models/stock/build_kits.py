@@ -9,7 +9,7 @@ import specs
 from layout import Train
 from citadis import Citadis
 from build_parts import export_part, part_texture, relocate_cab
-from build_stock import LODS, configure_texture_imports
+from build_stock import LODS, configure_texture_imports, SRC
 from geom import Builder
 from build_parts import descendants
 
@@ -72,6 +72,17 @@ def main():
     result=json.loads(INDEX.read_text()) if only_hd else {'schema':2,'kits':{},'variants':{},'liveries':{}}
     if result.get('schema')!=2:raise ValueError('Canonical schema 2 required for --hd-only')
     hd_master={'angers_x05':'angers__citadis_x05','angers_x02':'angers__citadis_302','nantes_x05':'nantes__citadis_x05_nantes'}
+    # P4 : --kits=a,b (ou --kits=all) convertit ces kits en HD ; leur maître est la variante déjà maître du kit natif
+    for arg in sys.argv[1:]:
+        if arg.startswith('--kits='):
+            wanted=arg[7:].split(',')
+            for kid in groups:
+                if kid not in hd_master and (wanted==['all'] or kid in wanted):
+                    previous=result.get('kits',{}).get(kid)
+                    old=json.loads((ROOT/previous.replace('res://','')).read_text()) if previous else {}
+                    hd_master[kid]=old.get('master') or max(groups[kid],key=lambda e:e['module_count'])['id']
+    if only_hd and '--kits=' in ' '.join(sys.argv):
+        hd_master={k:v for k,v in hd_master.items() if k in wanted or wanted==['all']}
     for kid,rows in groups.items():
         if only_hd and kid not in hd_master:continue
         real=[e for e in rows if not e.get('fictional')]
@@ -88,7 +99,8 @@ def main():
         path=ROOT/'tram_parts/compositions'/(kid+'.json');path.parent.mkdir(parents=True,exist_ok=True)
         result['kits'][kid]='res://'+path.relative_to(ROOT).as_posix()
         if kit['renderer']=='hd':
-            sp=specs.load(master['id']);train=Train(sp);original=ROOT/'assets/models/rolling_stock'/sp['dir']
+            sp=specs.load(master['id']);train=Train(sp)
+            original=(ROOT/'assets/models/rolling_stock' if master['id'] in specs.VARIANTS else Path(SRC))/sp['dir']
             kit['nose_profile']=copy.deepcopy(train.nose_style())
             plans=[physical_module(m,float(t['Lm'])) for m,t in zip(sp['plan_data']['modules'],train.mods)]
             keys,prototypes=part_keys(plans);kit['layout']=keys
@@ -126,6 +138,30 @@ def main():
                     tri=export_part(builder,train.mods[i],train,target,atlas,original,i)
                     p['models'][filename]='res://'+target.relative_to(ROOT).as_posix();p['triangles'][filename]=tri
                     result['liveries'][kid]['parts'][key][tag]='res://'+atlas.relative_to(ROOT).as_posix()
+            # P4 : livrées propres aux autres variantes du kit (réseau ou famille différents) : mêmes caisses, atlas dédiés
+            if master['id'] not in specs.VARIANTS:
+                import families, tempfile
+                from citadis import materials, swatch_colors
+                import textures as TX
+                done={families.livery_key(master):kid}
+                for e in rows:
+                    key_=families.livery_key(e)
+                    if key_ not in done:
+                        lid='%s_%s_%s'%(kid,e['network'],key_);done[key_]=lid
+                        other=copy.deepcopy(sp);auto=families.auto_spec(e['id'],kid)
+                        for k in ('colors','livery_res','network','seat'):other[k]=auto[k]
+                        t2=Train(other);Bm=Builder();materials(Bm,t2,0,'4k')
+                        tmp=Path(tempfile.mkdtemp(prefix='liv_',dir=SRC))
+                        TX.Painter(t2).paint().swatches(swatch_colors(Bm)).save(str(tmp),'livery')
+                        result['liveries'][lid]={'kit':kid,'parts':{}}
+                        for key,i in prototypes.items():
+                            result['liveries'][lid]['parts'][key]={}
+                            for _f,_q,tag in LODS:
+                                if tag in result['liveries'][lid]['parts'][key]:continue
+                                atlas=ROOT/'tram_livery/livery'/lid/(key+'_'+tag+'.png')
+                                part_texture(tmp/('livery_%s.png'%tag),atlas,train.mods[i]['z0f'],train.mods[i]['Lm'],train.L)
+                                result['liveries'][lid]['parts'][key][tag]='res://'+atlas.relative_to(ROOT).as_posix()
+                    result['variants'][e['id']]['livery']=done[key_]
             for name in ('cab','cab_m'):
                 target=ROOT/'tram_parts/extremites'/kid/(name+'.glb')
                 relocate_cab(original/(name+'.glb'),target,sp['network'],kid)
@@ -134,7 +170,7 @@ def main():
     INDEX.write_text(json.dumps(result,indent=2)+'\n')
     for directory in (ROOT/'tram_livery').rglob('*'):
         if directory.is_dir():configure_texture_imports(directory)
-    if only_hd:print('3 HD design kits rebuilt; native kits and livery banks preserved')
+    if only_hd:print(len(hd_master),'HD design kits rebuilt; native kits and livery banks preserved')
     else:print(len(groups),'canonical design kits; native geometry/textures: tools/models/export_native_parts.gd')
 
 

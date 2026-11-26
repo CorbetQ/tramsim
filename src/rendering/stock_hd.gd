@@ -276,7 +276,9 @@ static func dress(root: Node, livery: Dictionary, glass_alpha := -1.0) -> void:
 		var g := mi as MeshInstance3D
 		if g.mesh == null: continue
 		for s in g.mesh.get_surface_count():
-			var src := g.mesh.surface_get_material(s)
+			# Surcharge d'atlas posée à l'assemblage d'un kit partagé (TramParts._repaint) : elle prime.
+			var pre := g.get_surface_override_material(s)
+			var src := pre if pre != null and str(pre.resource_name).begins_with("livery") else g.mesh.surface_get_material(s)
 			var scoped:=livery
 			var parent:Node=g
 			while parent!=null:

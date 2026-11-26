@@ -100,6 +100,8 @@ class Painter:
             self._liveries_json()
         elif rule == "naolib":
             self._naolib()
+        elif rule == "elements":
+            self._elements()
         for m in t.mods:
             for d in m["doors"]:
                 z0, z1 = t.zf(d["z0"]), t.zf(d["z1"])
@@ -157,6 +159,42 @@ class Painter:
                 self.rainbow(a, b, y0, min(y1, t.wb - 0.04) if el.get("zone") == "sides" else y1, cc,
                              float(el.get("angle_deg", 60)), lean)
 
+    def _elements(self):
+        """Livrée générique (P4) : éléments résolus de liveries.json (bandes, obliques, filets, dégradés)."""
+        t = self.t; L = t.L
+        Zg, Yg = np.meshgrid(self.Z, self.Y)
+        for el in t.spec["livery_res"].get("elements", []):
+            typ = el.get("type"); zone = el.get("zone", "sides"); cols = el["colors"]
+            if "sides" not in zone: continue
+            y0, y1 = [float(v) for v in el.get("y", [0.45, 0.6])]
+            if typ == "band":
+                n = len(cols)
+                for i, col in enumerate(cols):
+                    a = y0 + (y1 - y0) * i / n; b = y0 + (y1 - y0) * (i + 1) / n
+                    self.side_fill((Yg >= a) & (Yg <= b), col)
+            elif typ == "stripes":
+                n = max(1, len(cols)); hh = (y1 - y0) / (2 * n - 1)
+                for i, col in enumerate(cols):
+                    a = y0 + 2 * i * hh
+                    self.side_fill((Yg >= a) & (Yg <= a + hh), col)
+            elif typ == "gradient":
+                if len(cols) == 1: cols = cols + [self.c["base"]]
+                k = np.clip((Yg - y0) / max(y1 - y0, 1e-3), 0, 1) * (len(cols) - 1)
+                i0 = np.clip(k.astype(int), 0, len(cols) - 2); f = (k - i0)[..., None]
+                ca = np.array([_rgb(c) for c in cols])
+                m = (Yg >= y0) & (Yg <= y1)
+                self.img[:SIDE_H][m] = (ca[i0] * (1 - f) + ca[i0 + 1] * f)[m]
+            elif typ == "diagonal":
+                zr = el.get("z", [0, 1]); spans = [(zr[0] * L, zr[1] * L, 1.0, cols)]
+                if el.get("symmetric"): spans.append(((1 - zr[1]) * L, (1 - zr[0]) * L, -1.0, cols[::-1]))
+                for a, b, lean, cc in spans:
+                    self.rainbow(max(a, t.Lf * 0.5), min(b, L - t.Lf * 0.5), y0, y1, cc, float(el.get("angle_deg", 60)), lean)
+            elif typ == "panel" and el.get("pattern") == "visuals":
+                # vitrophanies : panneaux de couleur entre les portes (évocation, sans motif)
+                for m in t.mods:
+                    for a, b in m["windows"][::2]:
+                        self.rect(t.zf(a) + 0.2, t.zf(b) - 0.2, max(y0, t.skirt + 0.05), min(y1, t.wb - 0.06), cols[0], r=0.08)
+
     def _naolib(self):
         t = self.t; c = self.c; L = t.L
         # joues avant blanches jusqu'à la première porte, tablier vert
@@ -178,6 +216,20 @@ class Painter:
                 out.append((c["apron"], (Y < 0.64) & (Y > 0.31) & (np.abs(X)<1.06)))
                 out.append((c["mask"], (Y>0.64) & (Y<1.20) & (np.abs(X)<1.035)))
                 out.append((c["mask"], (Y>1.25) & (Y<3.18) & (np.abs(X)<1.035)))
+            elif t.spec.get("livery_rule") == "elements":
+                out.append((c["mask"], (Y > t.ws_lo - 0.08) & (Y < t.ws_hi + 0.12) & (np.abs(X) < 1.12)))
+                for el in t.spec["livery_res"].get("elements", []):
+                    zone = el.get("zone", ""); y0, y1 = [float(v) for v in el.get("y", [0.45, 0.6])]
+                    if el.get("type") == "front_mask":
+                        out.append((el["colors"][0], (Y > max(y0, t.skirt)) & (Y < min(y1, t.ws_hi + 0.12)) & (np.abs(X) < 1.12)))
+                    elif "front" in zone and el.get("type") in ("band", "stripes", "diagonal", "gradient"):
+                        out.append((el["colors"][0], (Y >= y0) & (Y <= min(y1, t.ws_lo - 0.1))))
+                    elif el.get("type") == "panel" and el.get("pattern") == "ring":
+                        out.append((el["colors"][0], ((X / 0.95) ** 2 + ((Y - 0.5 * (y0 + y1)) / (0.5 * (y1 - y0))) ** 2 < 1.0)
+                                    & ((X / 0.80) ** 2 + ((Y - 0.5 * (y0 + y1)) / (0.42 * (y1 - y0))) ** 2 > 1.0)))
+                    elif el.get("type") == "panel" and el.get("pattern") == "led_bars":
+                        out.append((el["colors"][0], (np.abs(np.abs(X) - 0.7) < 0.22) & (Y > y0) & (Y < y0 + 0.06)))
+                out.append((c["roof"], Y > t.ws_hi + 0.25))
             else:
                 out.append((c["mask"], (Y > t.ws_lo - 0.08) & (Y < t.ws_hi + 0.25)))
                 out.append((c["roof"], Y > t.ws_hi + 0.25))
@@ -258,11 +310,14 @@ def floor_textures(outdir, base_hex):
     normal_from_height(hb, 3.0).save(os.path.join(outdir, "floor_normal.png"), optimize=True)
 
 
-def fabric_texture(outdir, kind):
+def fabric_texture(outdir, kind, colors=None):
     n = 512; rng = np.random.default_rng(11)
     yy, xx = np.mgrid[0:n, 0:n]
     weave = (np.sin(xx * math.pi / 2) * np.sin(yy * math.pi / 2)) * 0.06
-    if kind == "irigo":
+    if colors:   # P4 : tissu de réseau (fond sombre + mouchetis aux couleurs de la livrée)
+        base = np.array([42, 46, 52.0]) * 0.6 + np.array(hex2rgb(colors[0])) * 255 * 0.4 * 0.5
+        cols = [hex2rgb(c) for c in colors]
+    elif kind == "irigo":
         base = np.array([52, 55, 60.0]); cols = [hex2rgb(c) for c in ("#6a2c91", "#0096d6", "#5cb531", "#ffd500", "#f18a00", "#e2231a")]
     else:
         base = np.array([30, 64, 58.0]); cols = [hex2rgb(c) for c in ("#00a77e", "#7fcab4", "#e8efe9", "#1d2b28")]

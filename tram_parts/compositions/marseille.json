@@ -1,62 +1,298 @@
 {
-  "cab": {},
+  "schema": 2,
+  "id": "marseille",
+  "renderer": "hd",
+  "master": "marseille__flexity_marseille",
+  "master_count": 7,
+  "master_length": 42.5,
+  "parts": {
+    "end_a": {
+      "role": "end_a",
+      "source_index": 0,
+      "root": "module_00",
+      "plan": {
+        "kind": "cab",
+        "length_m": 8.401162790697674,
+        "bogie": true,
+        "bogie_z_m": 5.337209302325582,
+        "doors": [
+          {
+            "z_m": 3.162790697674419,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 7.511627906976743,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 1.9767441860465116,
+            "z1_m": 2.3720930232558137
+          },
+          {
+            "z0_m": 3.953488372093023,
+            "z1_m": 6.720930232558139
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 0.9883720930232558,
+            "size": [
+              1.92,
+              0.25,
+              2.0
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 3.558139534883721,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 6.9186046511627906,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 8.401162790697674,
+      "pantograph": false,
+      "door_count": 2,
+      "models": {
+        "lod0": "res://tram_parts/extremites/marseille/end_a_lod0.glb",
+        "lod1": "res://tram_parts/extremites/marseille/end_a_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/marseille/end_a_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/marseille/end_a_lod2.glb",
+        "lod3": "res://tram_parts/extremites/marseille/end_a_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 25629,
+        "lod1": 9521,
+        "lod1_m": 3326,
+        "lod2": 942,
+        "lod3": 289
+      },
+      "bindings": {}
+    },
+    "suspended": {
+      "role": "suspended",
+      "source_index": 1,
+      "root": "module_01",
+      "plan": {
+        "kind": "suspended",
+        "length_m": 4.941860465116279,
+        "bogie": false,
+        "doors": [
+          {
+            "z_m": 2.3720930232558137,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.19767441860465118,
+            "z1_m": 1.5813953488372094
+          },
+          {
+            "z0_m": 3.162790697674419,
+            "z1_m": 4.7441860465116275
+          }
+        ],
+        "roof": [
+          {
+            "type": "hvac",
+            "z_m": 2.4709302325581395,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          }
+        ]
+      },
+      "length_m": 4.941860465116279,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/suspendues/marseille/suspended_lod0.glb",
+        "lod1": "res://tram_parts/suspendues/marseille/suspended_lod1.glb",
+        "lod1_m": "res://tram_parts/suspendues/marseille/suspended_lod1_m.glb",
+        "lod2": "res://tram_parts/suspendues/marseille/suspended_lod2.glb",
+        "lod3": "res://tram_parts/suspendues/marseille/suspended_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 8276,
+        "lod1": 2720,
+        "lod1_m": 630,
+        "lod2": 238,
+        "lod3": 108
+      },
+      "bindings": {}
+    },
+    "powered": {
+      "role": "powered",
+      "source_index": 2,
+      "root": "module_02",
+      "plan": {
+        "kind": "middle",
+        "length_m": 5.436046511627907,
+        "bogie": true,
+        "bogie_z_m": 2.7180232558139537,
+        "doors": [],
+        "windows": [
+          {
+            "z0_m": 0.19767441860465118,
+            "z1_m": 5.238372093023256
+          }
+        ],
+        "roof": []
+      },
+      "length_m": 5.436046511627907,
+      "pantograph": false,
+      "door_count": 0,
+      "models": {
+        "lod0": "res://tram_parts/motrices/marseille/powered_lod0.glb",
+        "lod1": "res://tram_parts/motrices/marseille/powered_lod1.glb",
+        "lod1_m": "res://tram_parts/motrices/marseille/powered_lod1_m.glb",
+        "lod2": "res://tram_parts/motrices/marseille/powered_lod2.glb",
+        "lod3": "res://tram_parts/motrices/marseille/powered_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 15568,
+        "lod1": 4804,
+        "lod1_m": 1610,
+        "lod2": 398,
+        "lod3": 92
+      },
+      "bindings": {}
+    },
+    "end_b": {
+      "role": "end_b",
+      "source_index": 6,
+      "root": "module_06",
+      "plan": {
+        "kind": "cab",
+        "length_m": 8.401162790697674,
+        "bogie": true,
+        "bogie_z_m": 3.063953488372093,
+        "doors": [
+          {
+            "z_m": 0.8895348837209303,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 5.238372093023256,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 1.6802325581395348,
+            "z1_m": 4.447674418604651
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 7.412790697674419,
+            "size": [
+              1.92,
+              0.25,
+              2.0
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 4.843023255813954,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 1.4825581395348837,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 8.401162790697674,
+      "pantograph": false,
+      "door_count": 2,
+      "models": {
+        "lod0": "res://tram_parts/extremites/marseille/end_b_lod0.glb",
+        "lod1": "res://tram_parts/extremites/marseille/end_b_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/marseille/end_b_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/marseille/end_b_lod2.glb",
+        "lod3": "res://tram_parts/extremites/marseille/end_b_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 22793,
+        "lod1": 8601,
+        "lod1_m": 3050,
+        "lod2": 874,
+        "lod3": 277
+      },
+      "bindings": {}
+    }
+  },
+  "layout": [
+    "end_a",
+    "suspended",
+    "powered",
+    "suspended",
+    "suspended",
+    "powered",
+    "end_b"
+  ],
+  "presets": {
+    "7-caisses": {
+      "count": 7,
+      "length_m": 42.5
+    }
+  },
   "frame": {
+    "id": "flexity_marseille",
+    "name": "Bombardier Flexity Outlook C (Cityrunner) Marseille",
+    "length_m": 32.5,
+    "width_m": 2.4,
+    "height_m": 3.4,
+    "floor_m": 0.35,
     "body": {
+      "skirt_top_m": 0.45,
+      "window_bottom_m": 1.05,
+      "window_top_m": 2.45,
       "cant_m": 2.85,
       "roof_shoulder_m": 0.25,
-      "skirt_top_m": 0.45,
-      "tumblehome_m": 0.0,
-      "window_bottom_m": 1.05,
-      "window_top_m": 2.45
+      "tumblehome_m": 0.0
     },
-    "door_anim": {
-      "leaf_split": "center",
-      "open_s": 2.5,
-      "out_m": 0.06,
-      "single_leaf_travel_m": 0.8,
-      "travel_m": 0.65,
-      "type": "plug"
-    },
-    "estimated": [
-      "body",
-      "modules.windows",
-      "modules.roof",
-      "modules.bogie_z_m",
-      "front.plan",
-      "front.side",
-      "front.windshield",
-      "front.headlights",
-      "front.destination",
-      "door_anim",
-      "pantograph",
-      "research:height_m",
-      "research:floor_height_m",
-      "research:power_kw",
-      "research:capacity",
-      "research:modules",
-      "research:doors_per_side",
-      "research:door_width_m"
-    ],
-    "floor_m": 0.35,
+    "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
-      "bumper_m": 0.05,
-      "destination": {
-        "h_m": 0.22,
-        "w_m": 1.4,
-        "y_m": 2.85
-      },
-      "headlights": {
-        "h_m": 0.05,
-        "shape": "strip",
-        "w_m": 0.4,
-        "x_m": 0.6,
-        "y_m": 0.8
-      },
       "length_m": 2.0,
       "plan": [
         [
-          0.0,
-          1.0
+          0,
+          1
         ],
         [
           0.4,
@@ -67,16 +303,10 @@
           0.7
         ],
         [
-          1.0,
+          1,
           0.35
         ]
       ],
-      "ring": {
-        "color": "route",
-        "r_m": 0.35,
-        "width_m": 0.05,
-        "y_m": 1.0
-      },
       "side": [
         [
           0.1,
@@ -106,23 +336,68 @@
       "windshield": {
         "bottom_m": 1.05,
         "top_m": 2.8,
-        "wrap": 0.5
+        "wrap": 0.5,
+        "lower_curve_m": 0.03,
+        "upper_curve_m": 0.1
+      },
+      "headlights": {
+        "shape": "strip",
+        "y_m": 0.8,
+        "x_m": 0.6,
+        "w_m": 0.4,
+        "h_m": 0.05
+      },
+      "destination": {
+        "y_m": 2.85,
+        "w_m": 1.4,
+        "h_m": 0.22
+      },
+      "bumper_m": 0.05,
+      "ring": {
+        "y_m": 1.0,
+        "r_m": 0.35,
+        "width_m": 0.05,
+        "color": "route"
       }
     },
-    "height_m": 3.4,
-    "id": "flexity_marseille",
-    "length_m": 32.5,
-    "name": "Bombardier Flexity Outlook C (Cityrunner) Marseille",
+    "door_anim": {
+      "type": "plug",
+      "open_s": 2.5,
+      "travel_m": 0.65,
+      "out_m": 0.06,
+      "leaf_split": "center",
+      "single_leaf_travel_m": 0.8
+    },
     "pantograph": {
       "down_m": 0.25,
+      "up_m": 2.5,
       "raise_s": 4.0,
-      "type": "single_arm",
-      "up_m": 2.5
+      "type": "single_arm"
     },
     "sources": [
       "research.json#flexity_marseille",
       "https://fr.wikipedia.org/wiki/Tramway_de_Marseille",
       "https://fr.wikipedia.org/wiki/Bombardier_Flexity_Outlook"
+    ],
+    "estimated": [
+      "body",
+      "modules.windows",
+      "modules.roof",
+      "modules.bogie_z_m",
+      "front.plan",
+      "front.side",
+      "front.windshield",
+      "front.headlights",
+      "front.destination",
+      "door_anim",
+      "pantograph",
+      "research:height_m",
+      "research:floor_height_m",
+      "research:power_kw",
+      "research:capacity",
+      "research:modules",
+      "research:doors_per_side",
+      "research:door_width_m"
     ],
     "variants": {
       "length_variants_m": {
@@ -130,298 +405,88 @@
         "7_modules": 42.5
       }
     },
-    "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur",
-    "width_m": 2.4,
-    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)"
+    "variants_note": "variantes : r\u00e9\u00e9chelonner les modules suspendus/interm\u00e9diaires (ou ajouter des paires suspendu+interm\u00e9diaire) pour atteindre length_m ; width_m remplace la largeur"
   },
-  "id": "marseille",
-  "layout": [
-    "end_a",
-    "suspended",
-    "powered",
-    "suspended",
-    "suspended",
-    "powered",
-    "end_b"
-  ],
-  "master": "marseille__flexity_marseille",
-  "master_count": 7.0,
-  "master_length": 42.5,
+  "cab": {
+    "cab": "res://tram_parts/extremites/marseille/cab.glb",
+    "cab_m": "res://tram_parts/extremites/marseille/cab_m.glb"
+  },
+  "nose_profile": {
+    "style": "gen",
+    "p": 1.9,
+    "theta_w": 0.43,
+    "D": [
+      [
+        0.25,
+        0.95
+      ],
+      [
+        0.5,
+        1.0
+      ],
+      [
+        1.0,
+        0.92
+      ],
+      [
+        1.6,
+        0.7
+      ],
+      [
+        2.4,
+        0.35
+      ],
+      [
+        3.0,
+        0.05
+      ],
+      [
+        3.4,
+        0.0
+      ]
+    ],
+    "windshield": {
+      "bottom_m": 1.05,
+      "top_m": 2.8,
+      "lower_curve_m": 0.03,
+      "upper_curve_m": 0.1
+    }
+  },
   "master_lengths": [
-    8.40116310119629,
-    4.94186067581177,
-    5.4360466003418,
-    4.94186067581177,
-    4.94186067581177,
-    5.4360466003418,
-    8.40116310119629
+    8.401162790697674,
+    4.941860465116279,
+    5.436046511627907,
+    4.941860465116279,
+    4.941860465116279,
+    5.436046511627907,
+    8.401162790697674
   ],
-  "parts": {
-    "end_a": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@925",
-          "@MeshInstance3D@926",
-          "@MeshInstance3D@927",
-          "@MeshInstance3D@928",
-          "@MeshInstance3D@929",
-          "@MeshInstance3D@930",
-          "@MeshInstance3D@931"
-        ],
-        "panto": {}
-      },
-      "door_count": 2,
-      "length_m": 8.40116310119629,
+  "equipment": {
+    "pantograph": {
       "models": {
-        "native": "res://tram_parts/extremites/marseille/end_a.scn"
+        "lod0": "res://tram_parts/equipements/marseille/pantograph_lod0.glb",
+        "lod1": "res://tram_parts/equipements/marseille/pantograph_lod1.glb",
+        "lod1_m": "res://tram_parts/equipements/marseille/pantograph_lod1_m.glb",
+        "lod2": "res://tram_parts/equipements/marseille/pantograph_lod2.glb"
       },
-      "palette": "res://tram_livery/materials/marseille/end_a_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 5.33720949958353,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 3.16279081456802
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 7.51162818459903
-          }
-        ],
-        "kind": "cab",
-        "length_m": 8.40116310119629,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              2.0
-            ],
-            "type": "fairing",
-            "z_m": 0.988372129552505
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 3.55813966638902
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 6.91860490686753
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 1.97674425910501,
-            "z1_m": 2.37209311092601
-          },
-          {
-            "z0_m": 3.95348851821002,
-            "z1_m": 6.72093048095703
-          }
-        ]
-      },
-      "role": "end_a",
-      "root": "Module0",
-      "source_index": 0
-    },
-    "end_b": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@941",
-          "@MeshInstance3D@942",
-          "@MeshInstance3D@943",
-          "@MeshInstance3D@944",
-          "@MeshInstance3D@945",
-          "@MeshInstance3D@946",
-          "@MeshInstance3D@947"
-        ],
-        "panto": {}
-      },
-      "door_count": 2,
-      "length_m": 8.40116310119629,
-      "models": {
-        "native": "res://tram_parts/extremites/marseille/end_b.scn"
-      },
-      "palette": "res://tram_livery/materials/marseille/end_b_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 3.06395360161276,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 0.889534916597254
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 5.23837228662827
-          }
-        ],
-        "kind": "cab",
-        "length_m": 8.40116310119629,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              2.0
-            ],
-            "type": "fairing",
-            "z_m": 7.41279097164379
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 4.84302343480727
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 1.48255819432876
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 1.68023262023926,
-            "z1_m": 4.44767458298627
-          }
-        ]
-      },
-      "role": "end_b",
-      "root": "Module6",
-      "source_index": 6
-    },
-    "powered": {
-      "bindings": {
-        "leaves": [],
-        "panto": {
-          "head": "PantoHead",
-          "lower": "PantoLower",
-          "upper": "PantoUpper"
-        }
-      },
-      "door_count": 0,
-      "length_m": 5.4360466003418,
-      "models": {
-        "native": "res://tram_parts/motrices/marseille/powered.scn"
-      },
-      "palette": "res://tram_livery/materials/marseille/powered_palette.png",
-      "pantograph": true,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 2.7180233001709,
-        "doors": [],
-        "kind": "middle",
-        "length_m": 5.4360466003418,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.3,
-              2.0
-            ],
-            "type": "pantograph",
-            "z_m": 2.7180233001709
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.197674421830611,
-            "z1_m": 5.23837217851119
-          }
-        ]
+      "triangles": {
+        "lod0": 1788,
+        "lod1": 1116,
+        "lod1_m": 284,
+        "lod2": 232
       },
       "role": "powered",
-      "root": "Module2",
-      "source_index": 2
-    },
-    "suspended": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@932",
-          "@MeshInstance3D@933",
-          "@MeshInstance3D@934"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 4.94186067581177,
-      "models": {
-        "native": "res://tram_parts/suspendues/marseille/suspended.scn"
-      },
-      "palette": "res://tram_livery/materials/marseille/suspended_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": false,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 2.37209312438965
-          }
-        ],
-        "kind": "suspended",
-        "length_m": 4.94186067581177,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 2.47093033790588
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.197674427032471,
-            "z1_m": 1.58139541625977
-          },
-          {
-            "z0_m": 3.16279083251953,
-            "z1_m": 4.7441862487793
-          }
+      "z_ratio": 0.5,
+      "mount_y": 3.4,
+      "roof": {
+        "type": "pantograph",
+        "z_m": 2.7180232558139537,
+        "size": [
+          1.6,
+          0.3,
+          2.0
         ]
-      },
-      "role": "suspended",
-      "root": "Module1",
-      "source_index": 1
+      }
     }
-  },
-  "presets": {
-    "7-caisses": {
-      "count": 7.0,
-      "length_m": 42.5
-    }
-  },
-  "renderer": "native",
-  "schema": 2.0
+  }
 }

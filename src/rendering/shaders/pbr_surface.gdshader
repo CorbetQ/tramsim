@@ -47,5 +47,14 @@ void fragment() {
 		vec3 n = pbr_tex_normal(nts, T, B, wn, VIEW_MATRIX);
 		NORMAL = local_space ? normalize((VIEW_MATRIX * MODEL_MATRIX * vec4(T * nts.x + B * nts.y + wn * nts.z, 0.0)).xyz) : n;
 	}
-	ALBEDO = pbr_albedo(base * ratio * (1.0 + macro), OUTPUT_IS_SRGB);
+	vec3 alb = base * ratio * (1.0 + macro);
+	// météo (P4) : sols et dalles des modèles dédiés (quais, trémies) ; les flaques suivent la rugosité de la fiche
+	if (wet + snow > 0.001) {
+		vec3 wpos = local_space ? (MODEL_MATRIX * vec4(v_pos, 1.0)).xyz : v_pos;
+		vec3 wup = local_space ? normalize((MODEL_MATRIX * vec4(wn, 0.0)).xyz) : wn;
+		float porous = surface_metallic > 0.5 ? 0.0 : clamp(surface_roughness, 0.2, 1.0);
+		pbr_weather(alb, ROUGHNESS, SPECULAR, NORMAL, wup.y, porous, step(0.6, surface_roughness) * (1.0 - surface_metallic), wpos.xz,
+			normalize((VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz), TIME);
+	}
+	ALBEDO = pbr_albedo(alb, OUTPUT_IS_SRGB);
 }

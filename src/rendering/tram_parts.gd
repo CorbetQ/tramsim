@@ -285,6 +285,25 @@ static func _strip_panto(root: Node3D, part: Dictionary) -> void:
 		var node:=root.get_node_or_null(str(path))
 		if node!=null:node.get_parent().remove_child(node);node.free()
 
+## P4 : un kit HD partagé par plusieurs réseaux garde ses caisses ; seul l'atlas `livery*` change (surcharge de surface,
+## reprise par StockHD.dress). Matériaux mis en cache par atlas : aucune copie de maillage.
+static var _repainted: Dictionary = {}
+static func _repaint(body: Node3D, livery_id: String, part: String, lod_key: String) -> void:
+	var tag:String={"lod0":"4k","lod1":"2k","lod1_m":"2k","lod2":"512","lod3":"256"}.get(lod_key,"2k")
+	var atlas:String=manifest().get("liveries",{}).get(livery_id,{}).get("parts",{}).get(part,{}).get(tag,"")
+	if not atlas.begins_with("res://tram_livery/livery/") or not ResourceLoader.exists(atlas):return
+	for mi in body.find_children("*","MeshInstance3D",true,false)+([body] if body is MeshInstance3D else []):
+		var g:=mi as MeshInstance3D
+		if g.mesh==null:continue
+		for s in g.mesh.get_surface_count():
+			var src:=g.mesh.surface_get_material(s)
+			if not src is BaseMaterial3D or not str(src.resource_name).begins_with("livery"):continue
+			var k:="%d|%s"%[src.get_instance_id(),atlas]
+			if not _repainted.has(k):
+				var m:=(src as BaseMaterial3D).duplicate() as BaseMaterial3D
+				m.albedo_texture=load(atlas);_repainted[k]=m
+			g.set_surface_override_material(s,_repainted[k])
+
 static func assemble_kit(path: String) -> Node3D:
 	var fields:=path.split("::")
 	if fields.size()!=4:return null
@@ -306,6 +325,7 @@ static func assemble_kit(path: String) -> Node3D:
 		holder.add_child(body)
 		if body!=instance:instance.free()
 		body.transform=Transform3D.IDENTITY
+		if str(cfg.livery)!=str(cfg.kit):_repaint(body,str(cfg.livery),str(row.part),key)
 		if not row.pantograph:_strip_panto(body,part)
 		if absf(float(row.length_m)-float(part.length_m))>.0001:
 			_fit_node(body,Transform3D.IDENTITY,Transform3D.IDENTITY,_knots(part,float(row.length_m),float(cfg.definition.frame.front.get("length_m",1.2))))

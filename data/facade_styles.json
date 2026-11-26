@@ -1,29 +1,1247 @@
 {
  "schema": 1,
- "doc": "Grammaire de façades P3 (src/rendering/facades.gd). Quartiers : cercles WGS84 (r en m), premier cercle contenant le centre de l'emprise. Styles : anjou, nantes_xviii, haussmann, moderne, pavillon, activite, generic. old_style : style des immeubles anciens (tuffeau, pierre) hors quartiers. Délimitation d'après les secteurs patrimoniaux (Angers : centre historique, Doutre ; Nantes : île Feydeau, quai de la Fosse, quartier Graslin, centre XIXe) et la BD TOPO (hauteurs, usages).",
+ "doc": "Grammaire de façades P3 (src/rendering/facades.gd). Quartiers : cercles WGS84 (r en m), premier cercle contenant le centre de l'emprise. Styles : anjou, nantes_xviii, haussmann, moderne, pavillon, activite, generic. old_style : style des immeubles anciens (tuffeau, pierre) hors quartiers. Délimitation d'après les secteurs patrimoniaux (Angers : centre historique, Doutre ; Nantes : île Feydeau, quai de la Fosse, quartier Graslin, centre XIXe) et la BD TOPO (hauteurs, usages). P4 : 26 autres villes, 8 styles de plus (colombage, flamand, toulousain, mediterraneen, bordelais, canut, reconstruction, faubourg) ; old_map : style par appareil hors quartiers ; styles.<style> : palette, frame, shutters, timber, roof (glazed : tuiles vernissées).",
  "cities": {
   "angers": {
    "old_style": "anjou",
    "districts": [
-    {"name": "Cité et quartier de la cathédrale", "lat": 47.4710, "lon": -0.5555, "r": 260, "style": "anjou"},
-    {"name": "Doutre", "lat": 47.4737, "lon": -0.5608, "r": 260, "style": "anjou"},
-    {"name": "Boulevard Foch, rue d'Alsace", "lat": 47.4683, "lon": -0.5515, "r": 230, "style": "haussmann"},
-    {"name": "Centre-ville (Ralliement, Lices)", "lat": 47.4700, "lon": -0.5520, "r": 520, "style": "anjou"},
-    {"name": "Faubourgs XIXe (Saint-Laud, Saint-Serge)", "lat": 47.4700, "lon": -0.5500, "r": 1100, "style": "anjou"}
+    {
+     "name": "Cité et quartier de la cathédrale",
+     "lat": 47.471,
+     "lon": -0.5555,
+     "r": 260,
+     "style": "anjou"
+    },
+    {
+     "name": "Doutre",
+     "lat": 47.4737,
+     "lon": -0.5608,
+     "r": 260,
+     "style": "anjou"
+    },
+    {
+     "name": "Boulevard Foch, rue d'Alsace",
+     "lat": 47.4683,
+     "lon": -0.5515,
+     "r": 230,
+     "style": "haussmann"
+    },
+    {
+     "name": "Centre-ville (Ralliement, Lices)",
+     "lat": 47.47,
+     "lon": -0.552,
+     "r": 520,
+     "style": "anjou"
+    },
+    {
+     "name": "Faubourgs XIXe (Saint-Laud, Saint-Serge)",
+     "lat": 47.47,
+     "lon": -0.55,
+     "r": 1100,
+     "style": "anjou"
+    }
    ]
   },
   "nantes": {
    "old_style": "nantes_xviii",
    "districts": [
-    {"name": "Île Feydeau", "lat": 47.2122, "lon": -1.5545, "r": 170, "style": "nantes_xviii"},
-    {"name": "Quai de la Fosse (est)", "lat": 47.2100, "lon": -1.5630, "r": 190, "style": "nantes_xviii"},
-    {"name": "Quai de la Fosse (ouest)", "lat": 47.2085, "lon": -1.5700, "r": 190, "style": "nantes_xviii"},
-    {"name": "Graslin, cours Cambronne", "lat": 47.2125, "lon": -1.5625, "r": 230, "style": "nantes_xviii"},
-    {"name": "Bouffay", "lat": 47.2145, "lon": -1.5535, "r": 150, "style": "nantes_xviii"},
-    {"name": "Centre XIXe (Commerce, Calvaire, Orléans)", "lat": 47.2150, "lon": -1.5590, "r": 380, "style": "haussmann"},
-    {"name": "Centre élargi", "lat": 47.2160, "lon": -1.5560, "r": 900, "style": "nantes_xviii"}
+    {
+     "name": "Île Feydeau",
+     "lat": 47.2122,
+     "lon": -1.5545,
+     "r": 170,
+     "style": "nantes_xviii"
+    },
+    {
+     "name": "Quai de la Fosse (est)",
+     "lat": 47.21,
+     "lon": -1.563,
+     "r": 190,
+     "style": "nantes_xviii"
+    },
+    {
+     "name": "Quai de la Fosse (ouest)",
+     "lat": 47.2085,
+     "lon": -1.57,
+     "r": 190,
+     "style": "nantes_xviii"
+    },
+    {
+     "name": "Graslin, cours Cambronne",
+     "lat": 47.2125,
+     "lon": -1.5625,
+     "r": 230,
+     "style": "nantes_xviii"
+    },
+    {
+     "name": "Bouffay",
+     "lat": 47.2145,
+     "lon": -1.5535,
+     "r": 150,
+     "style": "nantes_xviii"
+    },
+    {
+     "name": "Centre XIXe (Commerce, Calvaire, Orléans)",
+     "lat": 47.215,
+     "lon": -1.559,
+     "r": 380,
+     "style": "haussmann"
+    },
+    {
+     "name": "Centre élargi",
+     "lat": 47.216,
+     "lon": -1.556,
+     "r": 900,
+     "style": "nantes_xviii"
+    }
    ]
   },
-  "idf": {"old_style": "haussmann", "districts": []}
+  "idf": {
+   "old_style": "haussmann",
+   "old_map": {
+    "pierre": "haussmann",
+    "enduit": "faubourg",
+    "brique": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "La Défense",
+     "lat": 48.892,
+     "lon": 2.238,
+     "r": 700,
+     "style": "moderne"
+    },
+    {
+     "name": "Paris (intra-muros)",
+     "lat": 48.8566,
+     "lon": 2.348,
+     "r": 4300,
+     "style": "haussmann"
+    },
+    {
+     "name": "Saint-Denis centre",
+     "lat": 48.936,
+     "lon": 2.358,
+     "r": 500,
+     "style": "faubourg"
+    }
+   ],
+   "styles": {
+    "faubourg": {
+     "palette": [
+      "#e5dccb",
+      "#ddd2bd",
+      "#d6cab3",
+      "#e8e0d0"
+     ],
+     "shutters": [
+      "#c9c2b0",
+      "#8f8a7d",
+      "#b5ad99"
+     ]
+    }
+   }
+  },
+  "lyon": {
+   "old_map": {
+    "ocre": "faubourg",
+    "enduit": "faubourg",
+    "pierre": "haussmann"
+   },
+   "districts": [
+    {
+     "name": "Confluence",
+     "lat": 45.742,
+     "lon": 4.818,
+     "r": 520,
+     "style": "moderne"
+    },
+    {
+     "name": "Part-Dieu",
+     "lat": 45.761,
+     "lon": 4.858,
+     "r": 420,
+     "style": "moderne"
+    },
+    {
+     "name": "Vieux Lyon (Saint-Jean, Saint-Paul)",
+     "lat": 45.7625,
+     "lon": 4.8272,
+     "r": 330,
+     "style": "canut"
+    },
+    {
+     "name": "Pentes et plateau de la Croix-Rousse",
+     "lat": 45.7745,
+     "lon": 4.832,
+     "r": 720,
+     "style": "canut"
+    },
+    {
+     "name": "Presqu'île (Bellecour, Cordeliers, République)",
+     "lat": 45.76,
+     "lon": 4.8345,
+     "r": 750,
+     "style": "haussmann"
+    },
+    {
+     "name": "Brotteaux, 6e",
+     "lat": 45.77,
+     "lon": 4.85,
+     "r": 650,
+     "style": "haussmann"
+    },
+    {
+     "name": "Guillotière, 7e",
+     "lat": 45.75,
+     "lon": 4.843,
+     "r": 800,
+     "style": "faubourg"
+    }
+   ],
+   "styles": {
+    "canut": {
+     "palette": [
+      "#e2b98e",
+      "#d9a07a",
+      "#e9c9a0",
+      "#dca58a",
+      "#e6d0a6",
+      "#cf9a70",
+      "#e8c08f"
+     ],
+     "shutters": [
+      "#8c7a5e",
+      "#a8a08a",
+      "#6d7f74"
+     ]
+    },
+    "haussmann": {
+     "palette": [
+      "#e3d2b0",
+      "#dcc8a4",
+      "#e8dcc2",
+      "#d9c9a8"
+     ]
+    },
+    "faubourg": {
+     "palette": [
+      "#e2c49a",
+      "#d9b48e",
+      "#e6d4b2",
+      "#d2b9a0"
+     ],
+     "shutters": [
+      "#b7ae9c",
+      "#8f8a7d"
+     ]
+    }
+   }
+  },
+  "bordeaux": {
+   "old_map": {
+    "pierre": "bordelais",
+    "enduit": "bordelais"
+   },
+   "districts": [
+    {
+     "name": "Mériadeck",
+     "lat": 44.8375,
+     "lon": -0.5845,
+     "r": 320,
+     "style": "moderne"
+    },
+    {
+     "name": "Bassins à flot, Ginko",
+     "lat": 44.869,
+     "lon": -0.555,
+     "r": 600,
+     "style": "moderne"
+    },
+    {
+     "name": "Centre historique (Bourse, Saint-Pierre, Grand Théâtre)",
+     "lat": 44.841,
+     "lon": -0.573,
+     "r": 750,
+     "style": "bordelais"
+    },
+    {
+     "name": "Chartrons",
+     "lat": 44.854,
+     "lon": -0.572,
+     "r": 550,
+     "style": "bordelais"
+    },
+    {
+     "name": "Échoppes (Saint-Augustin, Saint-Genès, Caudéran, Bastide)",
+     "lat": 44.838,
+     "lon": -0.58,
+     "r": 2600,
+     "style": "bordelais"
+    }
+   ],
+   "styles": {
+    "bordelais": {
+     "palette": [
+      "#e2d4b4",
+      "#dccca9",
+      "#e6dac0",
+      "#d8c7a0",
+      "#ebdfc6"
+     ],
+     "frame": "#e9dec4"
+    }
+   }
+  },
+  "strasbourg": {
+   "old_map": {
+    "pierre": "haussmann",
+    "enduit": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Petite France",
+     "lat": 48.5805,
+     "lon": 7.741,
+     "r": 230,
+     "style": "colombage"
+    },
+    {
+     "name": "Cathédrale, place du Marché-aux-Cochons-de-Lait",
+     "lat": 48.5815,
+     "lon": 7.751,
+     "r": 280,
+     "style": "colombage"
+    },
+    {
+     "name": "Esplanade",
+     "lat": 48.5795,
+     "lon": 7.771,
+     "r": 420,
+     "style": "moderne"
+    },
+    {
+     "name": "Krutenau",
+     "lat": 48.5785,
+     "lon": 7.7585,
+     "r": 300,
+     "style": "colombage"
+    },
+    {
+     "name": "Grande Île",
+     "lat": 48.583,
+     "lon": 7.747,
+     "r": 650,
+     "style": "haussmann"
+    },
+    {
+     "name": "Neustadt",
+     "lat": 48.588,
+     "lon": 7.76,
+     "r": 800,
+     "style": "haussmann"
+    }
+   ],
+   "styles": {
+    "colombage": {
+     "palette": [
+      "#e8d7a8",
+      "#d9b9a0",
+      "#efe6d2",
+      "#cdd5c5",
+      "#e6c2a2",
+      "#d8c3d4",
+      "#e9d2a0"
+     ],
+     "timber": [
+      "#4b2f22",
+      "#5a3a28",
+      "#3b2a22",
+      "#6a3b2a"
+     ],
+     "shutters": [
+      "#6f8466",
+      "#8a5a3c"
+     ]
+    },
+    "haussmann": {
+     "palette": [
+      "#b98b7c",
+      "#c49a8a",
+      "#ad8273",
+      "#cfb7a2",
+      "#d2c2a8"
+     ]
+    },
+    "faubourg": {
+     "palette": [
+      "#e6d3a8",
+      "#d9b9a0",
+      "#e8dccb",
+      "#cfd2c4",
+      "#e3c6a8"
+     ]
+    }
+   }
+  },
+  "lille": {
+   "old_map": {
+    "brique": "flamand",
+    "brique_pierre": "flamand",
+    "pierre": "haussmann"
+   },
+   "districts": [
+    {
+     "name": "Euralille",
+     "lat": 50.6385,
+     "lon": 3.075,
+     "r": 360,
+     "style": "moderne"
+    },
+    {
+     "name": "Vieux-Lille",
+     "lat": 50.641,
+     "lon": 3.063,
+     "r": 450,
+     "style": "flamand"
+    },
+    {
+     "name": "Centre (Grand'Place, Rihour, Faidherbe)",
+     "lat": 50.637,
+     "lon": 3.0645,
+     "r": 650,
+     "style": "flamand"
+    },
+    {
+     "name": "Roubaix centre",
+     "lat": 50.691,
+     "lon": 3.174,
+     "r": 900,
+     "style": "flamand"
+    },
+    {
+     "name": "Tourcoing centre",
+     "lat": 50.7235,
+     "lon": 3.161,
+     "r": 900,
+     "style": "flamand"
+    }
+   ],
+   "styles": {
+    "flamand": {
+     "frame": "#e9e2d0"
+    }
+   }
+  },
+  "valenciennes": {
+   "old_map": {
+    "brique": "flamand",
+    "brique_pierre": "flamand"
+   },
+   "districts": [
+    {
+     "name": "Centre",
+     "lat": 50.358,
+     "lon": 3.524,
+     "r": 900,
+     "style": "flamand"
+    }
+   ],
+   "styles": {
+    "flamand": {
+     "frame": "#e6dfcd"
+    }
+   }
+  },
+  "toulouse": {
+   "old_map": {
+    "brique": "toulousain",
+    "brique_pierre": "toulousain",
+    "enduit": "toulousain"
+   },
+   "districts": [
+    {
+     "name": "Compans-Caffarelli",
+     "lat": 43.611,
+     "lon": 1.434,
+     "r": 300,
+     "style": "moderne"
+    },
+    {
+     "name": "Mirail",
+     "lat": 43.585,
+     "lon": 1.402,
+     "r": 900,
+     "style": "moderne"
+    },
+    {
+     "name": "Centre (Capitole, Carmes, Saint-Sernin, Saint-Cyprien)",
+     "lat": 43.603,
+     "lon": 1.443,
+     "r": 1300,
+     "style": "toulousain"
+    }
+   ],
+   "styles": {
+    "toulousain": {
+     "palette": [
+      "#c47f60",
+      "#b8735a",
+      "#cf8c6c",
+      "#c98868",
+      "#d09074"
+     ],
+     "frame": "#d9b49a",
+     "shutters": [
+      "#7d8a96",
+      "#5c6b73",
+      "#8a6f5a",
+      "#b9b2a1",
+      "#6e8a8c"
+     ]
+    }
+   }
+  },
+  "marseille": {
+   "old_map": {
+    "ocre": "mediterraneen",
+    "enduit": "mediterraneen",
+    "pierre": "mediterraneen"
+   },
+   "districts": [
+    {
+     "name": "Euroméditerranée (Joliette, Arenc)",
+     "lat": 43.3075,
+     "lon": 5.3655,
+     "r": 450,
+     "style": "moderne"
+    },
+    {
+     "name": "Rue de la République",
+     "lat": 43.3005,
+     "lon": 5.37,
+     "r": 260,
+     "style": "haussmann"
+    },
+    {
+     "name": "Centre (Vieux-Port, Panier, Noailles, Belsunce)",
+     "lat": 43.2965,
+     "lon": 5.376,
+     "r": 1300,
+     "style": "mediterraneen"
+    }
+   ],
+   "styles": {
+    "mediterraneen": {
+     "palette": [
+      "#e0b98a",
+      "#d9a877",
+      "#e6c9a0",
+      "#d79a6e",
+      "#e8d2b0",
+      "#efe0c2"
+     ],
+     "frame": "#efe4cc",
+     "shutters": [
+      "#6f8f8a",
+      "#8fa3a6",
+      "#c8c0a8",
+      "#5f7d6e",
+      "#9a7b56",
+      "#7a8c9c"
+     ]
+    },
+    "haussmann": {
+     "palette": [
+      "#e3d7bd",
+      "#dccfb2",
+      "#d7c8a8"
+     ]
+    }
+   }
+  },
+  "aubagne": {
+   "old_map": {
+    "ocre": "mediterraneen",
+    "enduit": "mediterraneen",
+    "pierre": "mediterraneen"
+   },
+   "districts": [
+    {
+     "name": "Centre ancien",
+     "lat": 43.293,
+     "lon": 5.569,
+     "r": 700,
+     "style": "mediterraneen"
+    }
+   ],
+   "styles": {
+    "mediterraneen": {
+     "frame": "#efe4cc",
+     "shutters": [
+      "#6f8f8a",
+      "#8fa3a6",
+      "#c8c0a8",
+      "#5f7d6e",
+      "#9a7b56",
+      "#7a8c9c"
+     ]
+    }
+   }
+  },
+  "nice": {
+   "old_map": {
+    "ocre": "mediterraneen",
+    "enduit": "mediterraneen",
+    "pierre": "haussmann"
+   },
+   "districts": [
+    {
+     "name": "Vieux-Nice",
+     "lat": 43.697,
+     "lon": 7.276,
+     "r": 420,
+     "style": "mediterraneen"
+    },
+    {
+     "name": "Centre (Masséna, Jean-Médecin, Libération)",
+     "lat": 43.703,
+     "lon": 7.267,
+     "r": 1100,
+     "style": "mediterraneen"
+    },
+    {
+     "name": "Port Lympia",
+     "lat": 43.699,
+     "lon": 7.286,
+     "r": 400,
+     "style": "mediterraneen"
+    }
+   ],
+   "styles": {
+    "mediterraneen": {
+     "palette": [
+      "#e9b07a",
+      "#d9805f",
+      "#efcf8a",
+      "#e8a48a",
+      "#d4a35f",
+      "#c46a4c",
+      "#f0d9a8",
+      "#e7b98c"
+     ],
+     "frame": "#f2e8d2",
+     "shutters": [
+      "#4f7a5a",
+      "#6b8f6a",
+      "#3f6650",
+      "#c9a24e",
+      "#5d7f6a"
+     ]
+    },
+    "haussmann": {
+     "palette": [
+      "#efe3c8",
+      "#e8d6b4",
+      "#f1e6d0"
+     ]
+    }
+   }
+  },
+  "montpellier": {
+   "old_map": {
+    "ocre": "mediterraneen",
+    "enduit": "mediterraneen",
+    "pierre": "mediterraneen"
+   },
+   "districts": [
+    {
+     "name": "Antigone",
+     "lat": 43.6085,
+     "lon": 3.889,
+     "r": 380,
+     "style": "moderne"
+    },
+    {
+     "name": "Port Marianne",
+     "lat": 43.6,
+     "lon": 3.897,
+     "r": 700,
+     "style": "moderne"
+    },
+    {
+     "name": "Écusson",
+     "lat": 43.611,
+     "lon": 3.877,
+     "r": 560,
+     "style": "haussmann"
+    },
+    {
+     "name": "Faubourgs",
+     "lat": 43.608,
+     "lon": 3.876,
+     "r": 1300,
+     "style": "mediterraneen"
+    }
+   ],
+   "styles": {
+    "haussmann": {
+     "palette": [
+      "#e6d8b8",
+      "#e0cfa9",
+      "#eadfc4",
+      "#dccaa0"
+     ]
+    },
+    "mediterraneen": {
+     "frame": "#efe4cc",
+     "shutters": [
+      "#6f8f8a",
+      "#8fa3a6",
+      "#c8c0a8",
+      "#5f7d6e",
+      "#9a7b56",
+      "#7a8c9c"
+     ]
+    }
+   }
+  },
+  "avignon": {
+   "old_map": {
+    "ocre": "mediterraneen",
+    "enduit": "mediterraneen",
+    "pierre": "mediterraneen"
+   },
+   "districts": [
+    {
+     "name": "Intra-muros",
+     "lat": 43.949,
+     "lon": 4.806,
+     "r": 950,
+     "style": "mediterraneen"
+    }
+   ],
+   "styles": {
+    "mediterraneen": {
+     "palette": [
+      "#e3c9a0",
+      "#dcb88a",
+      "#e8d4b2",
+      "#d9b07e",
+      "#e0c4a2"
+     ],
+     "frame": "#ebdcc0",
+     "shutters": [
+      "#8fa3a6",
+      "#a49a80",
+      "#6f8f8a",
+      "#c8c0a8"
+     ]
+    }
+   }
+  },
+  "grenoble": {
+   "old_map": {
+    "pierre": "haussmann",
+    "enduit": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Europole",
+     "lat": 45.191,
+     "lon": 5.713,
+     "r": 300,
+     "style": "moderne"
+    },
+    {
+     "name": "Villeneuve",
+     "lat": 45.16,
+     "lon": 5.735,
+     "r": 650,
+     "style": "moderne"
+    },
+    {
+     "name": "Vieille ville (Grenette, Notre-Dame)",
+     "lat": 45.193,
+     "lon": 5.731,
+     "r": 300,
+     "style": "faubourg"
+    },
+    {
+     "name": "Centre XIXe (Victor-Hugo, Hoche)",
+     "lat": 45.1885,
+     "lon": 5.725,
+     "r": 650,
+     "style": "haussmann"
+    }
+   ],
+   "styles": {
+    "faubourg": {
+     "palette": [
+      "#e2c8a0",
+      "#d9b48e",
+      "#e6d4b2",
+      "#cfc2a8",
+      "#e0b890"
+     ],
+     "shutters": [
+      "#8a8f86",
+      "#6d7f74",
+      "#a49a80"
+     ]
+    }
+   }
+  },
+  "reims": {
+   "old_map": {
+    "pierre": "haussmann",
+    "brique_pierre": "flamand",
+    "enduit": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Centre reconstruit (cathédrale, Drouet-d'Erlon, Royale)",
+     "lat": 49.255,
+     "lon": 4.03,
+     "r": 900,
+     "style": "haussmann"
+    }
+   ],
+   "styles": {
+    "haussmann": {
+     "palette": [
+      "#e3d8c0",
+      "#dccfb3",
+      "#d6c7a6"
+     ]
+    },
+    "flamand": {
+     "frame": "#ece5d3"
+    }
+   }
+  },
+  "dijon": {
+   "old_map": {
+    "pierre": "haussmann",
+    "enduit": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Centre médiéval (Notre-Dame, Verrerie, Forges)",
+     "lat": 47.3225,
+     "lon": 5.042,
+     "r": 330,
+     "style": "colombage"
+    },
+    {
+     "name": "Centre (ducs, Liberté, Darcy)",
+     "lat": 47.322,
+     "lon": 5.038,
+     "r": 850,
+     "style": "haussmann"
+    }
+   ],
+   "styles": {
+    "colombage": {
+     "palette": [
+      "#e6d4b0",
+      "#dcc6a0",
+      "#ebdfc5",
+      "#d8c2a2"
+     ],
+     "timber": [
+      "#4a3426",
+      "#5b3a2a"
+     ],
+     "roof": "glazed"
+    },
+    "faubourg": {
+     "roof": "glazed"
+    },
+    "haussmann": {
+     "palette": [
+      "#e6dcc4",
+      "#ddd1b6",
+      "#e8e0cc"
+     ]
+    }
+   }
+  },
+  "rouen": {
+   "old_map": {
+    "pierre": "haussmann",
+    "brique": "faubourg",
+    "enduit": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Rive gauche (Saint-Sever)",
+     "lat": 49.431,
+     "lon": 1.087,
+     "r": 600,
+     "style": "reconstruction"
+    },
+    {
+     "name": "Centre médiéval (cathédrale, Gros-Horloge, Vieux-Marché)",
+     "lat": 49.441,
+     "lon": 1.0915,
+     "r": 620,
+     "style": "colombage"
+    }
+   ],
+   "styles": {
+    "colombage": {
+     "palette": [
+      "#e9dfc8",
+      "#d8c9a8",
+      "#e5d2b0",
+      "#cfc7b4",
+      "#e2cfa8"
+     ],
+     "timber": [
+      "#3f2c22",
+      "#5a3a2a",
+      "#6b4630"
+     ]
+    }
+   }
+  },
+  "caen": {
+   "old_map": {
+    "tuffeau": "reconstruction",
+    "enduit": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Vaugueux",
+     "lat": 49.1852,
+     "lon": -0.3595,
+     "r": 180,
+     "style": "colombage"
+    },
+    {
+     "name": "Centre reconstruit (Saint-Jean, Saint-Pierre)",
+     "lat": 49.1825,
+     "lon": -0.362,
+     "r": 850,
+     "style": "reconstruction"
+    }
+   ],
+   "styles": {
+    "reconstruction": {
+     "palette": [
+      "#e9e1cc",
+      "#e4dcc5",
+      "#ede6d3",
+      "#ddd4bd"
+     ]
+    },
+    "colombage": {
+     "timber": [
+      "#4a3426"
+     ]
+    }
+   }
+  },
+  "lehavre": {
+   "old_map": {
+    "enduit": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Centre reconstruit (Perret)",
+     "lat": 49.4935,
+     "lon": 0.11,
+     "r": 1100,
+     "style": "reconstruction"
+    }
+   ],
+   "styles": {
+    "reconstruction": {
+     "palette": [
+      "#bdb6a6",
+      "#c3bba9",
+      "#b2ab9c",
+      "#c8c1b0",
+      "#b9a98f"
+     ]
+    }
+   }
+  },
+  "brest": {
+   "old_map": {
+    "andesite": "reconstruction",
+    "enduit": "reconstruction"
+   },
+   "districts": [
+    {
+     "name": "Centre reconstruit (Siam, Jaurès)",
+     "lat": 48.3905,
+     "lon": -4.487,
+     "r": 1300,
+     "style": "reconstruction"
+    }
+   ],
+   "styles": {
+    "reconstruction": {
+     "palette": [
+      "#d8d4cc",
+      "#cfcac0",
+      "#e0dcd2",
+      "#c8c3b8"
+     ]
+    }
+   }
+  },
+  "tours": {
+   "old_style": "anjou",
+   "districts": [
+    {
+     "name": "Vieux-Tours (Plumereau)",
+     "lat": 47.3952,
+     "lon": 0.6815,
+     "r": 280,
+     "style": "colombage"
+    },
+    {
+     "name": "Rue Nationale (reconstruite)",
+     "lat": 47.3935,
+     "lon": 0.6885,
+     "r": 220,
+     "style": "reconstruction"
+    },
+    {
+     "name": "Centre",
+     "lat": 47.392,
+     "lon": 0.688,
+     "r": 950,
+     "style": "anjou"
+    }
+   ],
+   "styles": {
+    "colombage": {
+     "palette": [
+      "#e9e1cc",
+      "#e4dcc5",
+      "#ede6d3"
+     ],
+     "timber": [
+      "#4a3426",
+      "#5c3b2a"
+     ]
+    }
+   }
+  },
+  "orleans": {
+   "old_style": "anjou",
+   "districts": [
+    {
+     "name": "Rue Royale",
+     "lat": 47.8995,
+     "lon": 1.904,
+     "r": 200,
+     "style": "nantes_xviii"
+    },
+    {
+     "name": "Rue de Bourgogne, Châtelet",
+     "lat": 47.9012,
+     "lon": 1.9112,
+     "r": 160,
+     "style": "colombage"
+    },
+    {
+     "name": "Centre",
+     "lat": 47.903,
+     "lon": 1.908,
+     "r": 800,
+     "style": "anjou"
+    }
+   ],
+   "styles": {
+    "colombage": {
+     "palette": [
+      "#e6d4b0",
+      "#ebdfc5",
+      "#d8c2a2"
+     ]
+    }
+   }
+  },
+  "lemans": {
+   "old_map": {
+    "tuffeau": "anjou",
+    "enduit": "faubourg",
+    "brique": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Cité Plantagenêt",
+     "lat": 48.009,
+     "lon": 0.1985,
+     "r": 260,
+     "style": "colombage"
+    },
+    {
+     "name": "Centre (République, Jacobins)",
+     "lat": 48.005,
+     "lon": 0.199,
+     "r": 800,
+     "style": "haussmann"
+    }
+   ],
+   "styles": {
+    "colombage": {
+     "palette": [
+      "#e6d4b0",
+      "#ebdfc5",
+      "#d8c2a2"
+     ],
+     "timber": [
+      "#4a3426",
+      "#6a3b2a"
+     ]
+    }
+   }
+  },
+  "besancon": {
+   "old_map": {
+    "pierre": "haussmann",
+    "enduit": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Planoise",
+     "lat": 47.219,
+     "lon": 5.95,
+     "r": 800,
+     "style": "moderne"
+    },
+    {
+     "name": "Boucle",
+     "lat": 47.238,
+     "lon": 6.025,
+     "r": 750,
+     "style": "haussmann"
+    }
+   ],
+   "styles": {
+    "haussmann": {
+     "palette": [
+      "#cdbfa5",
+      "#bfb7a6",
+      "#b8b4a8",
+      "#d4c4a2",
+      "#c2b9a8"
+     ]
+    }
+   }
+  },
+  "mulhouse": {
+   "old_map": {
+    "enduit": "faubourg",
+    "brique": "faubourg",
+    "pierre": "haussmann"
+   },
+   "districts": [
+    {
+     "name": "Place de la Réunion",
+     "lat": 47.7468,
+     "lon": 7.3392,
+     "r": 260,
+     "style": "colombage"
+    },
+    {
+     "name": "Centre",
+     "lat": 47.748,
+     "lon": 7.338,
+     "r": 900,
+     "style": "faubourg"
+    }
+   ],
+   "styles": {
+    "colombage": {
+     "palette": [
+      "#e8b8a0",
+      "#e6d3a8",
+      "#cfd5c3",
+      "#e9c48f",
+      "#d9a88a"
+     ],
+     "timber": [
+      "#4b2f22",
+      "#5a3a28"
+     ]
+    },
+    "faubourg": {
+     "palette": [
+      "#e6d3a8",
+      "#d9b9a0",
+      "#e8dccb",
+      "#cfd2c4"
+     ]
+    }
+   }
+  },
+  "clermont": {
+   "old_map": {
+    "andesite": "faubourg",
+    "enduit": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Centre (Jaude, cathédrale)",
+     "lat": 45.778,
+     "lon": 3.085,
+     "r": 850,
+     "style": "faubourg"
+    }
+   ],
+   "styles": {
+    "faubourg": {
+     "frame": "#4a4845",
+     "palette": [
+      "#d9cdb8",
+      "#cfc3ad",
+      "#e0d6c4",
+      "#6a6866",
+      "#5d5b5a"
+     ],
+     "shutters": [
+      "#8a8f86",
+      "#b5ad99"
+     ]
+    }
+   }
+  },
+  "saintetienne": {
+   "old_map": {
+    "enduit": "faubourg",
+    "pierre": "haussmann",
+    "brique": "faubourg"
+   },
+   "districts": [
+    {
+     "name": "Centre (Hôtel de ville, Jean-Jaurès)",
+     "lat": 45.4395,
+     "lon": 4.387,
+     "r": 1100,
+     "style": "faubourg"
+    }
+   ],
+   "styles": {
+    "faubourg": {
+     "palette": [
+      "#d9cbb2",
+      "#cfc0a6",
+      "#e0d4bd",
+      "#c9bca6"
+     ],
+     "shutters": [
+      "#8f8a7d",
+      "#b5ad99"
+     ]
+    }
+   }
+  }
  }
 }

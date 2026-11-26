@@ -125,6 +125,9 @@ func setup(line: LineView, name_: String) -> void:
 	applied = apply_profile(profile, dn.env, dn.sun, get_viewport())
 	PbrMaterials.set_profile(profile)   # textures 2048² + anti-répétition (PC) ou 1024² (Mobile, Repli)
 	applied.textures = PbrMaterials.TEX_PROFILES[profile]
+	if view.night_lights != null:   # lumières dynamiques de nuit bornées par profil (NightLights.BUDGET, lot P4)
+		view.night_lights.set_profile("mobile" if DayNight.low_quality else profile)
+		applied.night_lights = NightLights.budget_for(view.night_lights.profile)
 	set_process(bool(params.reflection) or float(params.blur) > 0)
 	view.speed_material.set_shader_parameter("bloom_amount", params.glow if renderer() == "gl_compatibility" else 0.0)
 	view.speed_material.set_shader_parameter("motion_amount", params.blur)

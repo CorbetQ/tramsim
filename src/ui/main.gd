@@ -847,8 +847,8 @@ func _open_settings() -> void:
 	if settings_layer: return
 	var v := VBoxContainer.new(); v.add_theme_constant_override("separation", 10)
 	var weather_choice := _opt(v,"Météo")
-	var weather_ids := ["clear","rain","fog","storm","dynamic"]
-	for label in ["Temps sec","Pluie","Brouillard","Forte pluie","Dynamique (simulée)"]:weather_choice.add_item(label)
+	var weather_ids := ["clear","rain","fog","storm","dynamic","snow"]
+	for label in ["Temps sec","Pluie","Brouillard","Forte pluie","Dynamique (simulée)","Neige légère"]:weather_choice.add_item(label)
 	weather_choice.select(maxi(0,weather_ids.find(str(save.settings.get("weather","clear")))))
 	weather_choice.item_selected.connect(func(i):save.settings.weather=weather_ids[i])
 	var effects_choice := _opt(v,"Qualité graphique")

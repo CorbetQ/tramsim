@@ -45,3 +45,11 @@ night={
 "type": "float",
 "value": 0.0
 }
+wet={
+"type": "float",
+"value": 0.0
+}
+snow={
+"type": "float",
+"value": 0.0
+}

@@ -18,7 +18,19 @@ const HAUSSMANN := 3      # immeuble de rapport XIXe : pierre de taille, balcons
 const MODERNE := 4        # béton, enduit (après 1950) : nez de dalle, loggias, garde-corps vitrés, toiture-terrasse
 const PAVILLON := 5       # pavillonnaire : enduit, encadrements simples, toit à pentes, cheminée
 const ACTIVITE := 6       # zones d'activités : bardage métallique nervuré, bandeau vitré, portes sectionnelles
-const NAMES := ["generic", "anjou", "nantes_xviii", "haussmann", "moderne", "pavillon", "activite"]
+## P4 (styles régionaux des 26 autres villes)
+const COLOMBAGE := 7      # pan de bois (Strasbourg, Rouen, Dijon, Le Mans, Tours, Caen, Mulhouse) : sablières, poteaux, décharges, croix de Saint-André
+const FLAMAND := 8        # brique flamande (Lille, Valenciennes) : encadrements et bandeaux de pierre blanche, chaînes d'angle
+const TOULOUSAIN := 9     # brique rose foraine (Toulouse) : corniche de brique, persiennes, balconnets
+const MEDITERRANEEN := 10 # enduits ocre et tuiles (Marseille, Aubagne, Nice, Montpellier, Avignon) : volets persiennés, génoise
+const BORDELAIS := 11     # pierre blonde (Bordeaux) : mascarons, balconnets sur consoles, corniche à balustrade ; échoppes
+const CANUT := 12         # immeuble canut et lyonnais (Croix-Rousse, Vieux Lyon, pentes) : hautes baies nues, appuis minces, génoise
+const RECONSTRUCTION := 13 # béton armé de la Reconstruction (Perret au Havre ; Brest, Caen) : trame de pilastres, nez de dalle
+const FAUBOURG := 14      # faubourg XIXe enduit (Paris/IdF, Saint-Étienne, Grenoble, Clermont…) : encadrements minces, persiennes
+const NAMES := ["generic", "anjou", "nantes_xviii", "haussmann", "moderne", "pavillon", "activite",
+	"colombage", "flamand", "toulousain", "mediterraneen", "bordelais", "canut", "reconstruction", "faubourg"]
+## Styles « anciens » (comptés comme centre historique : vitrines plus fréquentes, lucarnes à fronton…).
+const OLD := [1, 2, 3, 7, 8, 9, 10, 11, 12, 14]
 const DATA := "res://data/facade_styles.json"
 const SOLID_A := 0.35
 const PAINT_A := 0.41     # métal peint (garde-corps, ferronneries)
@@ -50,6 +62,16 @@ static func near_range() -> float:
 static func style_id(name_: String) -> int:
 	return maxi(0, NAMES.find(name_))
 
+## Réglages d'un style pour une ville (facade_styles.json, cities.<ville>.styles.<style>) : palette (teintes des
+## murs), frame (encadrements), shutters (volets), timber (pan de bois), roof (« glazed » : tuiles vernissées).
+static func style_cfg(city: String, st: int) -> Dictionary:
+	return doc().get("cities", {}).get(city, {}).get("styles", {}).get(NAMES[st], {})
+
+## Couleur d'une liste « #rrggbb » choisie par la graine (stable), sinon dflt.
+static func pick_color(arr, seed_: int, dflt: Color) -> Color:
+	if not (arr is Array) or arr.is_empty(): return dflt
+	return Color.from_string(str(arr[absi(hash(seed_ * 17 + 3)) % arr.size()]), dflt)
+
 ## Quartiers de la ville en repère de la ville : [[centre, rayon, style]] (premier cercle contenant le point).
 static func districts(city: String, origin: Array) -> Array:
 	var out: Array = []
@@ -74,15 +96,21 @@ static func pick(city: String, dist: Array, p: Vector2, cls: int, h: float, area
 	if ftype == CityScene.F_VERRE: return MODERNE
 	if zone >= 0:
 		# quartier ancien : les immeubles de grande hauteur ou très massifs restent modernes (reconstruction, ZAC)
-		if (h >= 24.0 and zone != HAUSSMANN) or (h >= 15.0 and area >= 1800.0): return MODERNE
+		if (h >= 24.0 and zone != HAUSSMANN and zone != RECONSTRUCTION) or (h >= 15.0 and area >= 1800.0 and zone != RECONSTRUCTION): return MODERNE
 		if zone == NANTES_XVIII and h >= 17.0 and hs % 3 == 0: return HAUSSMANN
 		if zone == ANJOU and h >= 16.0 and hs % 2 == 0: return HAUSSMANN
+		if zone == COLOMBAGE and h > 15.0: return HAUSSMANN if hs % 2 == 0 else FAUBOURG
+		if zone == BORDELAIS and h <= 7.5: return BORDELAIS   # échoppe bordelaise
+		if zone == RECONSTRUCTION: return zone
 		if h <= 7.0 and area < 160.0 and zone != HAUSSMANN: return zone if hs % 4 != 0 else PAVILLON
 		return zone
 	if ftype == CityScene.F_BETON or ftype == CityScene.F_GRAND_ENSEMBLE or h >= 15.0: return MODERNE
 	if cls == 0 and h <= 9.5 and area < 260.0: return PAVILLON
+	var om: Dictionary = cfg.get("old_map", {})   # P4 : style par appareil hors quartiers (ex. brique -> flamand)
+	if om.has(CityScene.FACADE_NAMES[ftype]): return style_id(str(om[CityScene.FACADE_NAMES[ftype]]))
 	var old := str(cfg.get("old_style", ""))
-	if old != "" and (ftype == CityScene.F_TUFFEAU or ftype == CityScene.F_PIERRE): return style_id(old)
+	var olds: Array = cfg.get("old_ftypes", ["tuffeau", "pierre"])
+	if old != "" and CityScene.FACADE_NAMES[ftype] in olds: return style_id(old)
 	if ftype == CityScene.F_PIERRE and h >= 13.0: return HAUSSMANN
 	return GENERIC
 
@@ -97,6 +125,18 @@ static func ftype_for(st: int, ftype: int, seed_: int) -> int:
 			if ftype == CityScene.F_VERRE or ftype == CityScene.F_GRAND_ENSEMBLE or ftype == CityScene.F_BETON: return ftype
 			return CityScene.F_BETON if hs % 2 == 0 else CityScene.F_GRAND_ENSEMBLE
 		PAVILLON: return CityScene.F_ENDUIT if ftype != CityScene.F_BRIQUE else ftype
+		COLOMBAGE: return CityScene.F_ENDUIT
+		FLAMAND: return CityScene.F_BRIQUE_PIERRE if hs % 3 == 0 else CityScene.F_BRIQUE
+		TOULOUSAIN: return CityScene.F_BRIQUE if hs % 6 != 0 else CityScene.F_ENDUIT
+		MEDITERRANEEN: return ftype if ftype == CityScene.F_PIERRE and hs % 3 == 0 else CityScene.F_OCRE
+		BORDELAIS: return CityScene.F_PIERRE
+		CANUT: return CityScene.F_OCRE if hs % 3 != 0 else CityScene.F_ENDUIT
+		RECONSTRUCTION:
+			if ftype == CityScene.F_PIERRE or ftype == CityScene.F_TUFFEAU or ftype == CityScene.F_ANDESITE: return ftype
+			return CityScene.F_BETON
+		FAUBOURG:
+			if ftype == CityScene.F_ANDESITE or ftype == CityScene.F_BRIQUE or ftype == CityScene.F_OCRE: return ftype
+			return CityScene.F_ENDUIT
 	return ftype
 
 ## Trame des baies du shader (pbr_world.gdshader, bloc M_FACADE) pour un code de façade (CityScene._wall_code × 1000).
@@ -196,7 +236,7 @@ static func cornice(S, f: Face, y: float, depth: float, col: Color) -> void:
 ## Relief d'une face sur rue. ring/i : arête, out : normale sortante, u0 : abscisse cumulée (UV.x des murs),
 ## h : hauteur d'égout, shop : rez-de-chaussée commercial (vitrines du shader de 0 à 3,4 m), wall : teinte + code.
 static func face_relief(S, a2: Vector2, b2: Vector2, out2: Vector2, u0: float, h: float, st: int, ftype: int,
-		code: float, shop: bool, wall: Color, accent: Color, seed_: int, roof_kind: int) -> void:
+		code: float, shop: bool, wall: Color, accent: Color, seed_: int, roof_kind: int, sc: Dictionary = {}) -> void:
 	var f := Face.new(a2, b2, out2)
 	if f.L < 3.0 or h < 3.0: return
 	var stone := Color(minf(wall.r * 1.07, 1.0), minf(wall.g * 1.07, 1.0), minf(wall.b * 1.05, 1.0), code / 1000.0)
@@ -210,12 +250,27 @@ static func face_relief(S, a2: Vector2, b2: Vector2, out2: Vector2, u0: float, h
 	# éléments par style : [chambranle (largeur, saillie), appui, clé, garde-corps, bandeaux, corniche, chaînes]
 	var fs := 0.0; var fd := 0.0; var sill := true; var key := false; var rails := false
 	var courses := false; var corn := 0.0; var quoins := false
+	# P4 : volets, génoise, balconnets de l'étage noble, balustrade d'attique, pan de bois, pilastres
+	var shut := false; var genoise := false; var noble_bal := false; var balustrade := false
+	var timber := false; var pilasters := false; var lintel_band := false
+	var fcol := stone   # encadrements (pierre blanche des façades de brique, encadrements peints…)
+	if sc.has("frame"): fcol = Color(Color.from_string(str(sc.frame), stone), stone.a)
+	var scol := pick_color(sc.get("shutters", []), seed_, Color("#5d6f63"))
+	scol.a = PAINT_A
 	match st:
 		ANJOU: fs = 0.18; fd = 0.13; courses = hs % 2 == 0; corn = 0.42; quoins = true; rails = g.y0 < 0.5
 		NANTES_XVIII: fs = 0.21; fd = 0.15; key = true; rails = true; courses = true; corn = 0.55
 		HAUSSMANN: fs = 0.17; fd = 0.13; key = true; rails = true; courses = true; corn = 0.62
 		MODERNE: sill = ftype != CityScene.F_VERRE; corn = 0.0
 		PAVILLON: fs = 0.11; fd = 0.08
+		COLOMBAGE: fs = 0.0; sill = false; timber = true; corn = 0.0
+		FLAMAND: fs = 0.16; fd = 0.1; key = true; lintel_band = true; quoins = hs % 2 == 0; corn = 0.32; rails = g.y0 < 0.5
+		TOULOUSAIN: fs = 0.14; fd = 0.08; shut = hs % 3 != 0; noble_bal = hs % 2 == 0; corn = 0.4; courses = hs % 3 == 0
+		MEDITERRANEEN: fs = 0.16; fd = 0.025; shut = true; genoise = true; noble_bal = hs % 3 == 0
+		BORDELAIS: fs = 0.17; fd = 0.12; key = true; noble_bal = true; courses = true; corn = 0.5; balustrade = h <= 7.5 or hs % 3 == 0
+		CANUT: fs = 0.1; fd = 0.04; genoise = hs % 2 == 0; corn = 0.0 if genoise else 0.25; shut = hs % 4 == 0
+		RECONSTRUCTION: fs = 0.0; pilasters = true; rails = true; corn = 0.28
+		FAUBOURG: fs = 0.12; fd = 0.07; courses = hs % 2 == 0; corn = 0.3; shut = hs % 3 == 0
 		_: fs = 0.13; fd = 0.1; corn = 0.3 if (ftype == CityScene.F_PIERRE or ftype == CityScene.F_TUFFEAU or ftype == CityScene.F_ANDESITE) else 0.0
 	var ground_top := 3.4 if shop else 0.0
 	# rez-de-chaussée commercial : piliers (trame des vitrines du shader), bandeau d'enseigne et corniche de devanture
@@ -236,8 +291,8 @@ static func face_relief(S, a2: Vector2, b2: Vector2, out2: Vector2, u0: float, h
 			var hk := absi(hash(Vector2i(seed_, k)))
 			obox(S, f.P(xm, 0.4, 0.05), Vector3(w, 0.1, 0.1), f.t, f.o, mf, 1 | 2)
 			obox(S, f.P(xm, 2.78, 0.05), Vector3(w, 0.08, 0.1), f.t, f.o, mf, 1 | 4)
-			var sc: Color = SIGNS[hk % SIGNS.size()]
-			obox(S, f.P(xm, 3.06, 0.09), Vector3(w * 0.86, 0.44, 0.1), f.t, f.o, sc, 1 | 2 | 4 | 8 | 16)
+			var sgc: Color = SIGNS[hk % SIGNS.size()]
+			obox(S, f.P(xm, 3.06, 0.09), Vector3(w * 0.86, 0.44, 0.1), f.t, f.o, sgc, 1 | 2 | 4 | 8 | 16)
 			if hk % 5 < 3:   # store banne
 				var ac: Color = AWNINGS[(hk / 5) % AWNINGS.size()]
 				S.quad(f.P(xa, 2.72, 0.1), f.P(xb, 2.72, 0.1), f.P(xb, 2.3, 1.25), f.P(xa, 2.3, 1.25), ac, -1.0)
@@ -274,13 +329,24 @@ static func face_relief(S, a2: Vector2, b2: Vector2, out2: Vector2, u0: float, h
 		for ci in cols.size():
 			var x: float = cols[ci]
 			var x0 := x - hw; var x1 := x + hw
-			if fs > 0.0: frame(S, f, x0, x1, y0, y1, fs, fd, stone)
+			if fs > 0.0: frame(S, f, x0, x1, y0, y1, fs, fd, fcol)
 			if sill:
-				obox(S, f.P(x, y0 - 0.04, 0.07), Vector3(hw * 2.0 + fs * 2.0 + 0.1, 0.08, 0.14), f.t, f.o, stone, 1 | 2 | 4)
-			if key:   # clé (agrafe) au droit du linteau
-				obox(S, f.P(x, y1 + fs * 0.5, fd + 0.03), Vector3(0.24, fs + 0.14, 0.06), f.t, f.o, stone, 1 | 4 | 8 | 16)
+				obox(S, f.P(x, y0 - 0.04, 0.07), Vector3(hw * 2.0 + fs * 2.0 + 0.1, 0.08, 0.14), f.t, f.o, fcol, 1 | 2 | 4)
+			if key:   # clé (agrafe) au droit du linteau ; Bordeaux : mascaron
+				var kw := 0.42 if st == BORDELAIS else 0.24
+				obox(S, f.P(x, y1 + fs * 0.5, fd + 0.03), Vector3(kw, fs + (0.3 if st == BORDELAIS else 0.14), 0.08 if st == BORDELAIS else 0.06), f.t, f.o, fcol, 1 | 4 | 8 | 16)
+			if shut and not (rails and g.y0 < 0.5 and st == RECONSTRUCTION):   # volets persiennés ouverts contre le mur
+				var sw := minf(hw, (bay - hw * 2.0) * 0.5 - fs - 0.04)
+				if sw > 0.25:
+					obox(S, f.P(x0 - fs - sw * 0.5 - 0.02, (y0 + y1) * 0.5, 0.05), Vector3(sw, y1 - y0, 0.05), f.t, f.o, scol, 1 | 2 | 8)
+					obox(S, f.P(x1 + fs + sw * 0.5 + 0.02, (y0 + y1) * 0.5, 0.05), Vector3(sw, y1 - y0, 0.05), f.t, f.o, scol, 1 | 2 | 16)
 			if filant: continue
-			if st == NANTES_XVIII and ri == noble and (hs + ci) % 4 != 0:
+			if noble_bal and ri == noble and (hs + ci) % 3 != 1:   # balconnet sur consoles (étage noble)
+				obox(S, f.P(x, y0 - 0.1, 0.28), Vector3(hw * 2.0 + 0.5, 0.13, 0.56), f.t, f.o, fcol, 31)
+				obox(S, f.P(x - hw, y0 - 0.36, 0.16), Vector3(0.13, 0.36, 0.3), f.t, f.o, fcol, 1 | 4 | 8 | 16)
+				obox(S, f.P(x + hw, y0 - 0.36, 0.16), Vector3(0.13, 0.36, 0.3), f.t, f.o, fcol, 1 | 4 | 8 | 16)
+				railing(S, f, x0 - 0.22, x1 + 0.22, y0 - 0.03, 0.54, 0.9, 0.12, iron)
+			elif st == NANTES_XVIII and ri == noble and (hs + ci) % 4 != 0:
 				# balconnet de l'étage noble : dalle galbée sur deux consoles, ferronnerie
 				obox(S, f.P(x, y0 - 0.1, 0.3), Vector3(hw * 2.0 + 0.6, 0.14, 0.6), f.t, f.o, stone, 31)
 				obox(S, f.P(x - hw, y0 - 0.38, 0.18), Vector3(0.14, 0.4, 0.34), f.t, f.o, stone, 1 | 4 | 8 | 16)
@@ -301,6 +367,32 @@ static func face_relief(S, a2: Vector2, b2: Vector2, out2: Vector2, u0: float, h
 			obox(S, f.P(f.L * 0.5, y, 0.05), Vector3(f.L, 0.22, 0.1), f.t, f.o, Color(wall.r * 1.05, wall.g * 1.05, wall.b * 1.04, SOLID_A), 1 | 2 | 4)
 		# acrotère en saillie
 		obox(S, f.P(f.L * 0.5, h + 0.3, 0.08), Vector3(f.L, 0.6, 0.16), f.t, f.o, Color(wall.r * 0.95, wall.g * 0.95, wall.b * 0.95, SOLID_A), 31)
+	if lintel_band:   # bandeaux de pierre blanche au niveau des linteaux et des appuis (brique flamande)
+		for r in rows:
+			obox(S, f.P(f.L * 0.5, float(r[2]) + fs + 0.1, 0.03), Vector3(f.L, 0.2, 0.06), f.t, f.o, fcol, 1 | 2 | 4)
+	if timber: _timber(S, f, h, ground_top, rows, cols, hw, bay, fh, sc, seed_)
+	if pilasters:   # trame de pilastres (Perret) aux limites de travées et nez de dalle à chaque plancher
+		var pc := Color(wall.r * 1.04, wall.g * 1.04, wall.b * 1.03, wall.a)
+		for ci in cols.size() + 1:
+			var x: float = (cols[ci] - bay * 0.5) if ci < cols.size() else (cols[ci - 1] + bay * 0.5) if not cols.is_empty() else 0.0
+			if cols.is_empty() or x < 0.2 or x > f.L - 0.2: continue
+			obox(S, f.P(x, (ground_top + h) * 0.5, 0.07), Vector3(0.34, h - ground_top, 0.14), f.t, f.o, pc, 1 | 8 | 16)
+		for fl in range(1, 40):
+			var y := 0.4 + fl * fh - 0.02
+			if y > h - 0.5: break
+			obox(S, f.P(f.L * 0.5, y, 0.09), Vector3(f.L, 0.24, 0.18), f.t, f.o, pc, 1 | 2 | 4)
+	if genoise and roof_kind != 2:   # génoise : trois rangs de tuiles en encorbellement sous l'égout
+		var tc := Color(0.66, 0.37, 0.25, SOLID_A)
+		for k in 3:
+			obox(S, f.P(f.L * 0.5, h - 0.38 + k * 0.13, 0.06 + k * 0.08), Vector3(f.L + k * 0.1, 0.11, 0.12 + k * 0.16), f.t, f.o, Color(tc.r * (0.92 + k * 0.05), tc.g * (0.92 + k * 0.05), tc.b, tc.a), 1 | 4 | 8 | 16)
+	if balustrade and roof_kind != 2:   # attique à balustrade (pierre de Bordeaux, échoppes)
+		var yb := h + 0.03
+		obox(S, f.P(f.L * 0.5, yb + 0.05, 0.12), Vector3(f.L, 0.1, 0.3), f.t, f.o, fcol, 1 | 2)
+		obox(S, f.P(f.L * 0.5, yb + 0.82, 0.12), Vector3(f.L, 0.12, 0.34), f.t, f.o, fcol, 1 | 2 | 4)
+		var nb := mini(int(f.L / 0.32), 70)
+		for i in range(1, nb):
+			var x := f.L * float(i) / nb
+			obox(S, f.P(x, yb + 0.44, 0.12), Vector3(0.12, 0.66, 0.12), f.t, f.o, fcol, 1 | 8 | 16)
 	# chaînes d'angle harpées (tuffeau) aux deux extrémités
 	if quoins:
 		var yq := ground_top + 0.2; var alt := 0
@@ -310,9 +402,56 @@ static func face_relief(S, a2: Vector2, b2: Vector2, out2: Vector2, u0: float, h
 			obox(S, f.P(f.L - w * 0.5, yq + 0.17, 0.035), Vector3(w, 0.32, 0.07), f.t, f.o, stone, 1 | 2 | 4 | 8)
 			yq += 0.36; alt += 1
 	if corn > 0.0 and roof_kind != 2:   # corniche (le brisis haussmannien porte la sienne)
-		cornice(S, f, h + 0.03, corn, stone)
+		cornice(S, f, h + 0.03 + (0.0 if not balustrade else -0.02), corn, fcol if st == TOULOUSAIN else stone)
 	elif corn > 0.0:
 		cornice(S, f, h + 0.03, corn * 0.8, stone)
+
+## Poutre de pan de bois entre deux points (x, y) de la face : face avant et deux joues (largeur w, saillie d).
+static func beam(S, f: Face, xa: float, ya: float, xb: float, yb: float, w: float, d: float, col: Color) -> void:
+	var dir := Vector2(xb - xa, yb - ya)
+	if dir.length() < 0.05: return
+	var n := Vector2(-dir.y, dir.x).normalized() * w * 0.5
+	var p0 := f.P(xa + n.x, ya + n.y, d); var p1 := f.P(xb + n.x, yb + n.y, d)
+	var p2 := f.P(xb - n.x, yb - n.y, d); var p3 := f.P(xa - n.x, ya - n.y, d)
+	S.quad(p3, p2, p1, p0, col, -1.0)
+	S.quad(f.P(xa + n.x, ya + n.y, 0.0), f.P(xb + n.x, yb + n.y, 0.0), p1, p0, col, -1.0)
+	S.quad(p3, p2, f.P(xb - n.x, yb - n.y, 0.0), f.P(xa - n.x, ya - n.y, 0.0), col, -1.0)
+
+## Pan de bois (colombages) : sablières à chaque plancher, poteaux aux angles et de part et d'autre des baies,
+## appuis et linteaux, décharges dans les trumeaux et croix de Saint-André sous les baies (une travée sur deux).
+## La maçonnerie de remplissage reste l'enduit peint du shader (couleur du style).
+static func _timber(S, f: Face, h: float, ground_top: float, rows: Array, cols: Array, hw: float, bay: float, fh: float, sc: Dictionary, seed_: int) -> void:
+	var tc := pick_color(sc.get("timber", []), seed_ * 3, Color("#4a3426")); tc.a = PAINT_A
+	var w := 0.16; var d := 0.05
+	var y0 := maxf(ground_top, 0.4 + fh * floor(maxf(ground_top - 0.4, 0.0) / fh))
+	if ground_top <= 0.0: y0 = 0.4 + fh   # rez-de-chaussée maçonné, pan de bois aux étages
+	if y0 >= h - 1.0: return
+	var hs := absi(hash(seed_ * 19 + 2))
+	var y := y0
+	while y < h - 0.3:   # sablières
+		beam(S, f, 0.0, y, f.L, y, w * 1.3, d + 0.02, tc)
+		y += fh
+	beam(S, f, 0.0, h - 0.12, f.L, h - 0.12, w * 1.3, d + 0.02, tc)
+	beam(S, f, w * 0.5, y0, w * 0.5, h, w, d, tc)
+	beam(S, f, f.L - w * 0.5, y0, f.L - w * 0.5, h, w, d, tc)
+	for r in rows:
+		var ry0: float = r[1]; var ry1: float = r[2]; var base: float = r[3]
+		if ry0 < y0: continue
+		var top := minf(base + fh, h - 0.12)
+		for ci in cols.size():
+			var x: float = cols[ci]
+			beam(S, f, x - hw - w * 0.5, base, x - hw - w * 0.5, top, w, d, tc)
+			beam(S, f, x + hw + w * 0.5, base, x + hw + w * 0.5, top, w, d, tc)
+			beam(S, f, x - hw, ry0 - w * 0.5, x + hw, ry0 - w * 0.5, w, d, tc)
+			beam(S, f, x - hw, ry1 + w * 0.5, x + hw, ry1 + w * 0.5, w, d, tc)
+			if (hs + ci + int(r[0])) % 2 == 0 and ry0 - base > 0.5:   # croix de Saint-André sous la baie
+				beam(S, f, x - hw, base, x + hw, ry0 - w, w * 0.8, d, tc)
+				beam(S, f, x + hw, base, x - hw, ry0 - w, w * 0.8, d, tc)
+			# décharge dans le trumeau suivant
+			var xn: float = cols[ci + 1] - hw if ci + 1 < cols.size() else minf(x + bay - hw, f.L - w)
+			if xn - (x + hw) > 0.9:
+				if (ci + int(r[0])) % 2 == 0: beam(S, f, x + hw + w, base, xn - w, top, w * 0.8, d, tc)
+				else: beam(S, f, x + hw + w, top, xn - w, base, w * 0.8, d, tc)
 
 ## Bâtiment d'activités : bardage nervuré (nervures tous les 1 m), bandeau vitré haut, portes sectionnelles.
 static func _activity(S, f: Face, h: float, wall: Color, accent: Color, seed_: int) -> void:

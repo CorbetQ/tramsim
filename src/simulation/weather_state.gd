@@ -1,7 +1,8 @@
 class_name WeatherState
 extends RefCounted
 ## Estimated weather, not live meteorological data. Physics state is independent of rendering.
-const PRESETS := {"clear":Vector2(0,0),"rain":Vector2(0.8,0.12),"fog":Vector2(0,0.8),"storm":Vector2(1,0.35)}
+const PRESETS := {"clear":Vector2(0,0),"rain":Vector2(0.8,0.12),"fog":Vector2(0,0.8),"storm":Vector2(1,0.35),"snow":Vector2(0.45,0.3)}
+## Neige légère (option) : mêmes grandeurs physiques qu'une pluie fine (rail humide), rendu en flocons et couverture.
 var rain := 0.0
 var fog := 0.0
 var wetness := 0.0

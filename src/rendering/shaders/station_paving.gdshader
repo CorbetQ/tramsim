@@ -19,6 +19,10 @@ void fragment() {
 	float variation = fract(sin(dot(floor(p), vec2(12.9898, 78.233))) * 43758.5453);
 	ALBEDO = base_color.rgb * 0.79 * mix(0.95, 1.035, variation * visible) * (1.0 - mortar * 0.17);
 	ROUGHNESS = mix(0.82, 0.95, mortar); SPECULAR = 0.45;
+	if (wet + snow > 0.001) {   // météo (P4) : dalles mouillées, flaques et neige
+		vec3 wn = (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz;
+		pbr_weather(ALBEDO, ROUGHNESS, SPECULAR, NORMAL, abs(wn.y), 0.75, 1.0, world_pos.xz, normalize((VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz), TIME);
+	}
 	ALBEDO = pbr_albedo(ALBEDO, OUTPUT_IS_SRGB);
 	EMISSION = pbr_emission(EMISSION, OUTPUT_IS_SRGB);
 }

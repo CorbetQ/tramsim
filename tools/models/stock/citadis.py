@@ -280,6 +280,7 @@ class Citadis:
 
     def bev_breaks(self, m):
         out = []
+        if self.q >= 4: return out      # LOD3 : pas de congé, une seule travée par caisse
         if not m["front_cab"]: out.append(m["zA"] + BEV)
         if not m["rear_cab"]: out.append(m["zB"] - BEV)
         if self.q <= 1:
@@ -428,6 +429,25 @@ class Citadis:
                 NN = np.array([Nn, Nn])
                 if dirz < 0: G = G[:, ::-1]; NN = NN[:, ::-1]
                 emit(B, G, NN, np.zeros(G.shape[:2] + (2,)), np.ones((1, G.shape[1] - 1), bool), "em_drl")
+        elif t.spec.get("lamp_style", "c302") == "plan":
+            # P4 : optiques de famille d'après le plan (front.headlights : forme, position, taille)
+            shape = hl.get("shape", "round"); xh = min(float(hl.get("x_m", 0.8)), 0.95)
+            w = float(hl.get("w_m", 0.25)); h = max(float(hl.get("h_m", 0.12)), 0.05)
+            for sx in (1, -1):
+                x = sx * min(xh, 0.98 - w / 2)
+                if q >= 4:
+                    B.use(hn); self.disc_on_face(x, y0, zj, dirz, min(w, 0.3) / 2, "em_head", depth=0.005, seg=5, dome=0)
+                    B.use(tn); self.disc_on_face(x - sx * 0.2, y0, zj, dirz, 0.04, "em_tail", depth=0.004, seg=4, dome=0)
+                elif shape == "round":
+                    r = min(w, 0.3) / 2
+                    B.use(mod); self.disc_on_face(x, y0, zj, dirz, r + 0.02, "trim_black", depth=0.002, seg=seg, bezel="trim_chrome", dome=0)
+                    B.use(hn); self.disc_on_face(x, y0, zj, dirz, r * 0.8, "em_head", depth=0.005, seg=seg)
+                    B.use(tn); self.disc_on_face(x - sx * (r + 0.09), y0 - 0.02, zj, dirz, 0.035, "em_tail", depth=0.004, seg=seg)
+                else:
+                    ang = 8.0 * sx if shape == "strip" else 0.0
+                    B.use(mod); self.almond(x, y0, w + 0.06, h + 0.05, ang, zj, dirz, "trim_black", 0.003, seg=seg + 4)
+                    B.use(hn); self.almond(x - sx * 0.03, y0, w * 0.72, h * 0.75, ang, zj, dirz, "em_head", 0.006, seg=seg + 4)
+                    B.use(tn); self.disc_on_face(x + sx * (w * 0.5 - 0.015), y0, zj, dirz, min(0.035, h * 0.4 + 0.01), "em_tail", depth=0.007, seg=seg)
         else:   # 302 : groupes de trois feux inclinés
             for sx in (1, -1):
                 for k in range(3):
@@ -497,13 +517,13 @@ class Citadis:
         t, B = self.t, self.B
         mod = "module_%02d" % m["i"]
         st = t.spec["front_style"]
-        y = 2.45 if st != "c302" else 2.3
+        y = 2.45 if st != "c302" and not t.spec.get("classic_mirror") else 2.3
         zh = zj - dirz * 0.25
         for sx, lr in ((-1, "L"), (1, "R")):
             name = ("mirror_%s" % lr) if end == "A" else ("mirror_B_%s" % lr)
             xh = sx * float(t.prof_x(y))
             B.node(name, mod, (xh, y, zh))
-            if st == "c302":   # rétroviseur classique
+            if st == "c302" or t.spec.get("classic_mirror"):   # rétroviseur classique
                 B.cyl((xh, y, zh), (xh + sx * 0.28, y + 0.05, zh + dirz * 0.06), 0.015, "trim_black", seg=6)
                 B.rbox((xh + sx * 0.33, y - 0.05, zh + dirz * 0.07), (0.16, 0.30, 0.06), 0.03, "trim_black", seg=2)
                 B.box((xh + sx * 0.33, y - 0.05, zh + dirz * 0.105), (0.13, 0.26, 0.004), "trim_chrome")
@@ -831,8 +851,7 @@ class Citadis:
         zb = m["ze"]
         B.node("bellows_%02d" % m["i"], mod, (0, 0, zb))
         folds = {0: 11, 1: 6, 2: 3, 3: 1, 4: 1}[q]
-        if q >= 4:
-            B.box((0, 1.6, zb), (2 * t.hw - 0.12, 2.6, 2 * GAP + 0.01), "bellows_rubber")
+        if q >= 4:      # LOD3 (> 250 m) : intercirculation invisible, budget réservé aux caisses
             B.use(mod); return
         sec = t.section({0: 22, 1: 12, 2: 8}.get(q, 6), {0: 7, 1: 4, 2: 3}.get(q, 2), ybot=0.30)
         cx, cy = 0.0, 1.6
