@@ -13,6 +13,31 @@ var _bundle_files: Dictionary = {}
 var _bundle_documents: Dictionary = {}
 var _scene: CityScene
 var _audio_assets: Array[Resource] = []
+## P4 : téléchargement des packs de ville absents (désactivé par TRAMSIM_PACK_DOWNLOAD=0 et dans les tests).
+var allow_download := OS.get_environment("TRAMSIM_PACK_DOWNLOAD") != "0"
+var _http: HTTPRequest
+var _failed_downloads := {}
+signal download_progress(city: String, fraction: float)
+
+func _download(key: String) -> void:
+	if _http == null:
+		_http = HTTPRequest.new(); _http.use_threads = true; add_child(_http)
+		_http.request_completed.connect(_downloaded)
+	if _http.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED: return
+	_http.set_meta("key", key)
+	_http.download_file = CityPacks.download_path(key) + ".part"
+	if _http.request(CityPacks.download_url(key)) != OK:
+		_failed_downloads[key] = true; _launch()
+
+func _downloaded(result: int, code: int, _headers: PackedStringArray, _body: PackedByteArray) -> void:
+	var key := str(_http.get_meta("key", ""))
+	var dst := CityPacks.download_path(key)
+	if result == HTTPRequest.RESULT_SUCCESS and code == 200:
+		DirAccess.rename_absolute(dst + ".part", dst)
+	else:
+		DirAccess.remove_absolute(dst + ".part")
+		_failed_downloads[key] = true
+	_launch()
 
 func request(selected: String) -> void:
 	city = selected
@@ -33,7 +58,19 @@ func take_scene(origin: Array) -> CityScene:
 	return result
 
 func _launch() -> void:
-	_job = {"city": city, "entries": NetworkRegistry.entries().filter(func(e): return e.city == city), "cached_files": _bundle_files if _bundle_city == city else {}, "cached_documents": _bundle_documents if _bundle_city == city else {}}
+	# P4 : packs de ville (CityPacks) : montage si présent, sinon téléchargement depuis la release, sinon erreur
+	var entries := NetworkRegistry.entries().filter(func(e): return e.city == city)
+	for e in entries:
+		var key := CityPacks.key_of(e)
+		var err := CityPacks.ensure(key)
+		if err == "": continue
+		if allow_download and not _failed_downloads.has(key):
+			_download(key)
+			return
+		error = err; ready_city = ""; _networks.clear()
+		completed.emit.call_deferred(city, error)
+		return
+	_job = {"city": city, "entries": entries, "cached_files": _bundle_files if _bundle_city == city else {}, "cached_documents": _bundle_documents if _bundle_city == city else {}}
 	_task = WorkerThreadPool.add_task(_load.bind(_job), false, "city_data_preload")
 
 static func _read(job: Dictionary, path: String) -> PackedByteArray:
@@ -83,6 +120,8 @@ static func _load(job: Dictionary) -> void:
 	job.files = files; job.documents = documents; job.networks = networks
 
 func _process(_dt: float) -> void:
+	if _http != null and _http.get_http_client_status() == HTTPClient.STATUS_BODY and _http.get_body_size() > 0:
+		download_progress.emit(city, float(_http.get_downloaded_bytes()) / float(_http.get_body_size()))
 	if _task < 0: return
 	if not WorkerThreadPool.is_task_completed(_task): return
 	WorkerThreadPool.wait_for_task_completion(_task); _task = -1

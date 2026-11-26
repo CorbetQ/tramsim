@@ -435,6 +435,12 @@ class Citadis:
             w = float(hl.get("w_m", 0.25)); h = max(float(hl.get("h_m", 0.12)), 0.05)
             for sx in (1, -1):
                 x = sx * min(xh, 0.98 - w / 2)
+                if shape == "double_round" and q < 4:
+                    r = min(w, 0.2) / 2
+                    for k, dx in enumerate((0.0, -sx * (2 * r + 0.05))):
+                        B.use(mod); self.disc_on_face(x + dx, y0, zj, dirz, r + 0.018, "trim_black", depth=0.002, seg=seg, bezel="trim_chrome", dome=0)
+                        B.use(hn if k == 0 else tn); self.disc_on_face(x + dx, y0, zj, dirz, r * 0.78, "em_head" if k == 0 else "em_tail", depth=0.005, seg=seg)
+                    continue
                 if q >= 4:
                     B.use(hn); self.disc_on_face(x, y0, zj, dirz, min(w, 0.3) / 2, "em_head", depth=0.005, seg=5, dome=0)
                     B.use(tn); self.disc_on_face(x - sx * 0.2, y0, zj, dirz, 0.04, "em_tail", depth=0.004, seg=4, dome=0)
@@ -645,7 +651,7 @@ class Citadis:
                     for zz_, dd in ((za, -1), (zb, 1)):
                         ring = np.array([(x, y, zz_) for x, y in pr])
                         B.fan(ring, "paint_base", normal=np.array([0, 0, dd], float))
-        covered = t.spec["front_style"] in ("x05", "x05_nantes") and not has_panto
+        covered = (t.spec["front_style"] in ("x05", "x05_nantes") or t.spec.get("roof_covered")) and not has_panto
         if covered:
             # The nose retreats to zA/zB at roof height. Starting a raised cover
             # at 0.45*Lf left it floating over the windshield with visible sky

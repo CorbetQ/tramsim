@@ -1,22 +1,22 @@
 {
   "nantes__citadis_dualis": {
-    "base": "#dadcda",
-    "front": "#1595c0",
-    "window": "#1c2b38",
-    "door": "#3a98bf",
-    "roof": "#56899f",
-    "skirt": "#384652",
+    "base": "#19a6d3",
+    "front": "#19a6d3",
+    "window": "#16232c",
+    "door": "#19a6d3",
+    "roof": "#1c8fb8",
+    "skirt": "#23313b",
     "elements": [
       {
         "type": "band",
         "colors": [
-          "#3a657f"
+          "#16232c"
         ],
         "y": [
-          0.6,
-          1.05
+          1.02,
+          2.55
         ],
-        "zone": "sides+front"
+        "zone": "sides"
       }
     ]
   },
@@ -660,5 +660,8 @@
         "zone": "sides+front"
       }
     ]
+  },
+  "marseille__flexity_marseille": {
+    "front": "#e4e1dc"
   }
 }

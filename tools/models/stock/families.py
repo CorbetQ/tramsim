@@ -25,18 +25,34 @@ MAKER = {
 }
 # pupitre (RGB sRGB), décalage de hauteur, enveloppement ; rétroviseur classique (bras) ou caméra carénée
 DESIGN = {
-    "citadis1": {"desk": (86, 92, 102), "classic_mirror": True, "lamp": "c302"},
-    "citadis2": {"desk": (160, 165, 170), "classic_mirror": False, "lamp": "plan"},
-    "dualis": {"desk": (70, 76, 84), "classic_mirror": True, "lamp": "plan"},
-    "tfs": {"desk": (112, 104, 92), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.08},
-    "vevey": {"desk": (96, 98, 92), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.06},
-    "bombardier": {"desk": (58, 62, 68), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.26},
-    "siemens": {"desk": (128, 132, 138), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.14},
-    "caf": {"desk": (46, 50, 56), "classic_mirror": False, "lamp": "plan", "desk_wrap": 0.24},
-    "translohr": {"desk": (150, 152, 150), "classic_mirror": False, "lamp": "plan", "desk_wrap": 0.3},
-    "breda": {"desk": (92, 96, 104), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.12},
-    "stadler": {"desk": (60, 64, 70), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.18},
+    "citadis1": {"cab": "classic", "plastic": "#8c949c", "desk": (86, 92, 102), "classic_mirror": True, "lamp": "c302"},
+    "citadis2": {"cab": "tri", "plastic": "#b4b9bd", "desk": (160, 165, 170), "classic_mirror": False, "lamp": "plan"},
+    "dualis": {"cab": "classic", "plastic": "#7d858d", "desk": (70, 76, 84), "classic_mirror": True, "lamp": "plan"},
+    "tfs": {"cab": "classic", "plastic": "#9a948a", "desk": (112, 104, 92), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.08},
+    "vevey": {"cab": "classic", "plastic": "#8f918a", "desk": (96, 98, 92), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.06},
+    "bombardier": {"cab": "duo", "plastic": "#4a4f55", "desk": (58, 62, 68), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.26},
+    "siemens": {"cab": "duo", "plastic": "#c3c7cb", "desk": (128, 132, 138), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.14},
+    "caf": {"cab": "duo", "plastic": "#3a3e44", "desk": (46, 50, 56), "classic_mirror": False, "lamp": "plan", "desk_wrap": 0.24},
+    "translohr": {"cab": "tri", "plastic": "#c8cac8", "desk": (150, 152, 150), "classic_mirror": False, "lamp": "plan", "desk_wrap": 0.3},
+    "breda": {"cab": "classic", "plastic": "#8a9098", "desk": (92, 96, 104), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.12},
+    "stadler": {"cab": "duo", "plastic": "#555a60", "desk": (60, 64, 70), "classic_mirror": True, "lamp": "plan", "desk_wrap": 0.18},
 }
+# Faces calées sur photos (docs/rolling-stock-rebuild/references) quand le plan donneur est trop générique :
+# nez (D(y) relatif, p, theta_w, pare-brise), feux, toiture carénée ; clé = cab_profile du catalogue.
+FACE = {
+    # Dualis : nez « bulle » très bombé, grand pare-brise galbé descendant bas, doubles optiques rondes
+    "dualis": {"nose": {"p": 2.35, "theta_w": 0.42, "D": [(0.25, 0.86), (0.45, 0.97), (0.8, 1.0), (1.15, 0.98), (1.5, 0.92),
+                         (1.9, 0.80), (2.3, 0.63), (2.7, 0.43), (3.0, 0.24), (3.2, 0.09), (3.35, 0.0)],
+                         "windshield": {"bottom_m": 1.12, "top_m": 2.95, "lower_curve_m": 0.16, "upper_curve_m": 0.18}},
+               "lamps": {"shape": "double_round", "x_m": 0.62, "y_m": 0.86, "w_m": 0.15, "h_m": 0.15}},
+    # Flexity Outlook Marseille : face haute presque verticale, pare-brise panoramique arrondi, masque noir,
+    # phares ronds latéraux bas, carénages de toiture continus
+    "marseille": {"nose": {"p": 3.4, "theta_w": 0.34, "D": [(0.25, 0.80), (0.45, 0.93), (0.8, 1.0), (1.2, 0.99), (1.8, 0.95),
+                           (2.4, 0.87), (2.9, 0.74), (3.15, 0.55), (3.3, 0.25), (3.4, 0.0)],
+                           "windshield": {"bottom_m": 1.0, "top_m": 3.02, "lower_curve_m": 0.10, "upper_curve_m": 0.20}},
+                  "lamps": {"shape": "round", "x_m": 0.80, "y_m": 0.72, "w_m": 0.17, "h_m": 0.17}, "roof_covered": True},
+}
+FACE["tpg_cityrunner"] = FACE["flexity_basel"] = FACE["marseille"]
 COLOR_KEYS = ("base", "window", "door", "front", "roof", "skirt")
 DEFAULT_COLORS = {"base": "#f1f2f2", "window": "#1d2a33", "door": "#f1f2f2", "front": "#f1f2f2", "roof": "#c9cdd0", "skirt": "#3a3f44"}
 ROUTE = "#2f6db5"      # couleur « route » (ligne GTFS) figée dans l'atlas : bleu neutre ; la caisse unie suit le réseau
@@ -82,6 +98,12 @@ def livery_key(e):
     return hashlib.sha1(json.dumps(resolve_livery(e), sort_keys=True).encode()).hexdigest()[:10]
 
 
+def nose_profile(P, face):
+    if face.get("nose"):
+        n = copy.deepcopy(face["nose"]); n["style"] = "gen"; return n
+    return nose_from_plan(P)
+
+
 def nose_from_plan(P):
     """Profil de nez (style « gen ») dérivé du plan : D(y) = 1 - front.side(y) ; p selon la largeur en pointe."""
     fr = P["front"]; h = float(P.get("height_m", 3.3))
@@ -106,7 +128,9 @@ def auto_spec(vid, kid=None):
     c = {k: liv[k] for k in COLOR_KEYS}; c["mask"] = mask; c["accent"] = accent
     from build_kits import kit_id
     kid = kid or kit_id(e)
-    return {
+    face = FACE.get(e.get("cab_profile", ""), {})
+    return {"face": face, "roof_covered": bool(face.get("roof_covered")), "cab_layout": dz.get("cab", "tri"),
+            "cab_plastic": dz.get("plastic", "#b4b9bd"),
         "dir": kid, "plan": fam, "network": e["network"], "family": fam, "label": e["name"],
         "front_style": "gen_" + maker, "maker": maker, "lamp_style": dz["lamp"], "classic_mirror": dz["classic_mirror"],
         "colors": c, "livery_rule": "elements", "livery_res": liv,

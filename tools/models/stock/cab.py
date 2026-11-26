@@ -33,7 +33,7 @@ class Cab:
         B = self.B
         B.material("cab_lining", color=lin("#bfc3c6"), rough=0.65, tex="textures/cab_grain.png")
         B.material("cab_plastic", color=lin("#3a3e42"), rough=0.55)
-        B.material("cab_plastic_light", color=lin("#b4b9bd"), rough=0.55, tex="textures/cab_grain.png")
+        B.material("cab_plastic_light", color=lin(self.t.spec.get("cab_plastic", "#b4b9bd")), rough=0.55, tex="textures/cab_grain.png")
         B.material("cab_panel", color=lin("#2b2e31"), rough=0.6)
         B.material("cab_desk", color=(1, 1, 1, 1), tex="textures/cab_desk_mobile.png" if self.q else "textures/cab_desk.png", rough=0.6)
         B.material("cab_floor", color=lin("#3b3f42"), tex="textures/floor_albedo.png", normal="textures/floor_normal.png", rough=0.8)
@@ -221,21 +221,32 @@ class Cab:
     def hood(self):
         """Capot d'instruments galbé : écrans encastrés sur la face inclinée."""
         B, q = self.B, self.q
+        lay = self.t.spec.get("cab_layout", "tri")
         prof = [(0.56, 1.08), (0.56, 1.30), (0.585, 1.335), (0.63, 1.345), (0.67, 1.335), (0.95, 1.19), (0.95, 1.17)]
-        w = 0.52; nx = 16 if q == 0 else 8
+        w = {"tri": 0.52, "duo": 0.53, "classic": 0.44}[lay]; nx = 16 if q == 0 else 8
+        if lay == "duo":      # Bombardier/Siemens/CAF/Stadler : capot plus bas et plus large, deux grands écrans
+            prof = [(0.58, 1.08), (0.58, 1.26), (0.60, 1.29), (0.64, 1.30), (0.68, 1.29), (0.97, 1.18), (0.97, 1.16)]
+        elif lay == "classic":  # Citadis 1re génération, Dualis, TFS, Vevey, Breda : bloc d'instruments à cadrans
+            prof = [(0.56, 1.08), (0.56, 1.33), (0.58, 1.36), (0.62, 1.37), (0.66, 1.36), (0.90, 1.22), (0.90, 1.19)]
         xs = np.linspace(-w, w, nx + 1)
         G = np.array([[(x, y - 0.03 * (x / w) ** 2, self.zk(d + 0.06 * (x / w) ** 2)) for x in xs] for d, y in prof])
         N = grid_normals(G, away=(0, 1.1, self.zk(0.75)))
         emit(B, G, N, np.stack([G[..., 0], G[..., 1]], -1) * 3, np.ones((len(prof) - 1, nx), bool), "cab_plastic_light")
         for c, s in ((0, -1), (nx, 1)):
             B.fan(G[:, c], "cab_plastic_light", normal=np.array([s, 0, 0.0]))
-        a = np.array([0, 1.335, self.zk(0.67)]); b = np.array([0, 1.19, self.zk(0.95)])
+        a = np.array([0, prof[4][1], self.zk(prof[4][0])]); b = np.array([0, prof[5][1], self.zk(prof[5][0])])
         up = nz(a - b); n = nz(np.cross(np.array([1.0, 0, 0]), up))
         if n[2] < 0: n = -n
         self.hood_n = n; self.hood_up = up
-        for name, xc, ww, hh, f in (("speed", -0.30, 0.25, 0.17, 0.5), ("info", 0.0, 0.27, 0.18, 0.5), ("next_stop", 0.30, 0.25, 0.17, 0.5)):
+        screens = {"tri": (("speed", -0.30, 0.25, 0.17, 0.5), ("info", 0.0, 0.27, 0.18, 0.5), ("next_stop", 0.30, 0.25, 0.17, 0.5)),
+                   "duo": (("info", -0.215, 0.36, 0.19, 0.52), ("speed", 0.215, 0.36, 0.19, 0.52), ("next_stop", 0.0, 0.1, 0.05, 0.92)),
+                   "classic": (("speed", -0.27, 0.15, 0.15, 0.5), ("info", 0.0, 0.2, 0.13, 0.5), ("next_stop", 0.27, 0.15, 0.15, 0.5))}[lay]
+        for name, xc, ww, hh, f in screens:
             c = b + (a - b) * f + np.array([xc, -0.03 * (xc / w) ** 2, 0.06 * (xc / w) ** 2]) + n * 0.004
             self.screen(name, c, ww, hh, up, n, px=(320, 200), recess=True)
+            if lay == "classic" and name != "info":   # cadran rond chromé autour de l'afficheur
+                B.use("desk")
+                B.cyl(c - n * 0.02, c + n * 0.0005, 0.112, "cab_metal", seg=24 if q == 0 else 12, cap_mat="btn_black")
         # rangée de voyants sous les écrans
         for i, lid in enumerate(("doors", "panto", "power", "emergency", "sand", "headlights", "autopilot")):
             x = -0.27 + i * 0.09

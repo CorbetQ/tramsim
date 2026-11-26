@@ -87,10 +87,11 @@ def load(vid):
     profile = _json('data/rolling_stock/front_profiles.json').get(e.get('cab_profile',''))
     if not profile and s.get('livery_rule') == 'elements':
         import families
-        profile = families.nose_from_plan(s['plan_data'])
+        profile = families.nose_profile(s['plan_data'], s.get('face', {}))
     if profile:
         s['nose_profile'] = profile
         s['plan_data']['front']['windshield'].update(profile['windshield'])
+    if s.get('face', {}).get('lamps'): s['plan_data']['front']['headlights'] = dict(s['face']['lamps'])
     s["length"] = float(e["length"]); s["width"] = float(e.get("width", s["plan_data"]["width_m"]))
     liv = _json("data/rolling_stock/liveries.json").get(s["network"], {})
     s["livery_json"] = liv

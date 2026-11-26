@@ -8,7 +8,8 @@ extends RefCounted
 ## z le long de la voie.
 
 const PATH := "res://data/station_shelters.json"
-const GLASS := Color(0.62, 0.74, 0.80, 0.45)     # alpha < 0,75 : vitrage (pbr_world)
+const GLASS := Color(0.62, 0.74, 0.80, 0.5)      # repli opaque (pbr_world : teinte unie) sans maillage de verre
+const GLASS_T := Color(0.58, 0.70, 0.76, 0.26)   # verre feuilleté (maillage de verre transparent)
 const LIT := 0.1                                   # alpha < 0,25 : lumineux (M_LIGHT)
 const PID_RANGE := 45.0
 const PID_RANGE_MOBILE := 22.0
@@ -48,8 +49,23 @@ static func facing(toward: Vector3) -> Basis:
 
 # ------------------------------------------------------------------------------------------- géométrie
 
+static var _glass_mat: StandardMaterial3D = null
+## Verre des abris (un matériau transparent partagé : un draw call par quai).
+static func glass_material() -> StandardMaterial3D:
+	if _glass_mat == null:
+		var m := StandardMaterial3D.new()
+		m.vertex_color_use_as_albedo = true; m.vertex_color_is_srgb = true
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA; m.cull_mode = BaseMaterial3D.CULL_DISABLED
+		m.roughness = 0.06; m.metallic = 0.1; m.specular_mode = BaseMaterial3D.SPECULAR_SCHLICK_GGX
+		_glass_mat = m
+	return _glass_mat
+
 class _F:
 	var g
+	var gg       # maillage de verre (null : repli opaque dans g)
+	func glass(a: Vector3, bb: Vector3, c: Vector3, d: Vector3) -> void:
+		if gg != null: gg.quad(p(a.x, a.y, a.z), p(bb.x, bb.y, bb.z), p(c.x, c.y, c.z), p(d.x, d.y, d.z), StationShelters.GLASS_T)
+		else: quad(a, bb, c, d, StationShelters.GLASS)
 	var o: Vector3
 	var x: Vector3
 	var z: Vector3
@@ -74,14 +90,14 @@ class _F:
 ## Abri complet. `origin` : devant de l'abri au niveau du quai (milieu en longueur) ; `back` : horizontale vers l'arrière
 ## du quai ; `along` : le long de la voie. Retourne le nombre d'éléments posés.
 static func build(owner: Node3D, g, origin: Vector3, back: Vector3, along: Vector3, st: Dictionary, station_name: String,
-		line_label: String = "", termini: Array = [], max_depth: float = 99.0) -> int:
-	var f := _F.new(); f.g = g; f.o = origin; f.x = back.normalized(); f.z = along.normalized()
+		line_label: String = "", termini: Array = [], max_depth: float = 99.0, glass_geo = null) -> int:
+	var f := _F.new(); f.g = g; f.gg = glass_geo; f.o = origin; f.x = back.normalized(); f.z = along.normalized()
 	f.b = Basis(f.x, Vector3.UP, f.z)
 	var L := float(st.get("length", 6.6)); var D := minf(float(st.get("depth", 1.6)), max_depth); var H := float(st.get("height", 2.55))
 	var frame := _c(st.get("frame", "#4f575c")); var roofc := _c(st.get("roof_color", "#5d646b"))
 	var accent := _c(st.get("accent", "#6c7a80"))
 	var glass_roof := bool(st.get("glass_roof", false))
-	var roof_col := GLASS if glass_roof else roofc
+	var roof_col := roofc
 	var hl := L * 0.5
 	var n := 0
 	# --- porteurs
@@ -108,7 +124,8 @@ static func build(owner: Node3D, g, origin: Vector3, back: Vector3, along: Vecto
 	match roof_kind:
 		"mono":
 			var yf := H + 0.28; var yb := H - 0.05
-			f.quad(Vector3(-0.2, yf, -hl), Vector3(-0.2, yf, hl), Vector3(D + 0.1, yb, hl), Vector3(D + 0.1, yb, -hl), roof_col)
+			if glass_roof: f.glass(Vector3(-0.2, yf, -hl), Vector3(-0.2, yf, hl), Vector3(D + 0.1, yb, hl), Vector3(D + 0.1, yb, -hl))
+			else: f.quad(Vector3(-0.2, yf, -hl), Vector3(-0.2, yf, hl), Vector3(D + 0.1, yb, hl), Vector3(D + 0.1, yb, -hl), roof_col)
 			for zz in range(0, int(L / 1.2) + 1):
 				var z := -hl + zz * L / maxf(1.0, floorf(L / 1.2))
 				f.beam(Vector3(-0.2, yf - 0.03, z), Vector3(D + 0.1, yb - 0.03, z), 0.05, frame)
@@ -124,7 +141,8 @@ static func build(owner: Node3D, g, origin: Vector3, back: Vector3, along: Vecto
 				var yy := H + (0.32 * sin(PI * u) if roof_kind == "curved" else 0.42 * absf(u - 0.5) * 2.0)
 				var cur := Vector3(xx, yy, 0)
 				if i > 0:
-					f.quad(Vector3(prev.x, prev.y, -hl), Vector3(prev.x, prev.y, hl), Vector3(cur.x, cur.y, hl), Vector3(cur.x, cur.y, -hl), roof_col)
+					if glass_roof: f.glass(Vector3(prev.x, prev.y, -hl), Vector3(prev.x, prev.y, hl), Vector3(cur.x, cur.y, hl), Vector3(cur.x, cur.y, -hl))
+					else: f.quad(Vector3(prev.x, prev.y, -hl), Vector3(prev.x, prev.y, hl), Vector3(cur.x, cur.y, hl), Vector3(cur.x, cur.y, -hl), roof_col)
 					for zz in [-hl, -hl * 0.33, hl * 0.33, hl]:
 						f.beam(Vector3(prev.x, prev.y - 0.03, zz), Vector3(cur.x, cur.y - 0.03, zz), 0.05, frame)
 				prev = cur
@@ -154,7 +172,11 @@ static func build(owner: Node3D, g, origin: Vector3, back: Vector3, along: Vecto
 				f.quad(Vector3(cx, H, 0), Vector3(c.x, H, c.z), Vector3(a.x, H, a.z), Vector3(cx, H, 0), roofc.darkened(0.25))
 			top = H + th
 		_:   # flat : dalle mince et bandeau
-			f.box(D * 0.5, H + 0.05, 0.0, Vector3(D + 0.3, 0.1, L), roof_col)
+			if glass_roof:
+				f.glass(Vector3(-0.15, H + 0.08, -hl), Vector3(-0.15, H + 0.08, hl), Vector3(D + 0.15, H + 0.08, hl), Vector3(D + 0.15, H + 0.08, -hl))
+				f.box(D * 0.5, H + 0.03, -hl, Vector3(D + 0.3, 0.1, 0.08), frame); f.box(D * 0.5, H + 0.03, hl, Vector3(D + 0.3, 0.1, 0.08), frame)
+				f.box(D + 0.12, H + 0.03, 0.0, Vector3(0.08, 0.1, L), frame)
+			else: f.box(D * 0.5, H + 0.05, 0.0, Vector3(D + 0.3, 0.1, L), roof_col)
 			if glass_roof:
 				for zz in range(0, int(L / 1.3) + 1):
 					f.box(D * 0.5, H, -hl + zz * L / maxf(1.0, floorf(L / 1.3)), Vector3(D + 0.3, 0.07, 0.05), frame)
@@ -172,7 +194,7 @@ static func build(owner: Node3D, g, origin: Vector3, back: Vector3, along: Vecto
 	# --- vitrages : fond et joues
 	if bool(st.get("rear_glass", true)):
 		var xb := D - 0.03
-		f.quad(Vector3(xb, 0.18, -hl + 0.3), Vector3(xb, 0.18, hl - 0.3), Vector3(xb, H - 0.18, hl - 0.3), Vector3(xb, H - 0.18, -hl + 0.3), GLASS)
+		f.glass(Vector3(xb, 0.18, -hl + 0.3), Vector3(xb, 0.18, hl - 0.3), Vector3(xb, H - 0.18, hl - 0.3), Vector3(xb, H - 0.18, -hl + 0.3))
 		f.box(xb, 0.16, 0.0, Vector3(0.05, 0.05, L - 0.6), frame); f.box(xb, H - 0.16, 0.0, Vector3(0.05, 0.05, L - 0.6), frame)
 		var bays := maxi(2, int(L / 1.45))
 		for i in bays + 1: f.box(xb, H * 0.5, -hl + 0.3 + (L - 0.6) * i / bays, Vector3(0.05, H - 0.3, 0.04), frame)
@@ -182,7 +204,7 @@ static func build(owner: Node3D, g, origin: Vector3, back: Vector3, along: Vecto
 		n += 2
 	if bool(st.get("side_glass", true)):
 		for zz in [-hl + 0.28, hl - 0.28]:
-			f.quad(Vector3(D * 0.35, 0.18, zz), Vector3(D - 0.05, 0.18, zz), Vector3(D - 0.05, H - 0.18, zz), Vector3(D * 0.35, H - 0.18, zz), GLASS)
+			f.glass(Vector3(D * 0.35, 0.18, zz), Vector3(D - 0.05, 0.18, zz), Vector3(D - 0.05, H - 0.18, zz), Vector3(D * 0.35, H - 0.18, zz))
 			f.box(D * 0.35, H * 0.5, zz, Vector3(0.04, H - 0.3, 0.04), frame)
 	# --- assise
 	var bz := hl * 0.15

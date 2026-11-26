@@ -78,8 +78,10 @@ func run()->void:
 	check(not LiveryLibrary.compatible(design,"nantes__tfs"),"pas de transfert implicite entre architectures différentes")
 	var tfs:=StockCatalog.find("nantes__tfs");var native_design:=LiveryLibrary.create(tfs)
 	var tfs_cfg:=TramParts.configuration(tfs)
-	var factory_path:String=TramParts.manifest().liveries[tfs_cfg.livery].parts.end_a.native
-	var factory:=Image.load_from_file(factory_path);var green:=0
+	var hd_tfs:bool=str(tfs_cfg.definition.renderer)=="hd"
+	var factory_path:String=TramParts.manifest().liveries[tfs_cfg.livery].parts.end_a.get("4k" if hd_tfs else "native","")
+	var factory:=Image.load_from_file(factory_path) if not hd_tfs else (load(factory_path) as Texture2D).get_image();var green:=0
+	if factory.is_compressed():factory.decompress()
 	for y in range(roundi(factory.get_height()*.625),factory.get_height()):
 		var color:=factory.get_pixel(roundi(factory.get_width()*.09375),y)
 		if color.g>color.r+.15 and color.g>color.b+.08:green+=1
@@ -87,7 +89,8 @@ func run()->void:
 	native_design.colors.window="#154694";native_design.colors.door="#f18023"
 	var native_liv:=LiveryLibrary.apply(TramModel.livery_for(StockCatalog.origin_meta(tfs),tfs),native_design)
 	var native_rig:=TramModel.build_rig(native_liv)
-	check(native_rig.parts_view!=null,"peinture native conserve les prototypes partagés")
+	# P4 : le TFS est passé en kit HD ; la peinture personnalisée passe alors par StockHD (même kit partagé).
+	check(native_rig.parts_view!=null or (hd_tfs and native_rig.hd!=null),"peinture native conserve les prototypes partagés")
 	if native_rig.parts_view!=null:
 		var material:ShaderMaterial=native_rig.parts_view.bindings[0].visual.material_override
 		check(material.get_shader_parameter("part_custom_enabled")==true,"atlas personnalisé natif effectivement relié")

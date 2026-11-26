@@ -155,7 +155,7 @@ static func smooth_kinds(kinds: Array, lens: Array) -> Array:
 ## Plateforme d'une voie (axe `pts`, décalage `o` vers la droite) : lit texturé par tronçon (nature lissée), bordures
 ## de plateforme côté extérieur (gazon) ou caniveau (enrobé, pavés, béton), rails à gorge, contre-rails en courbe
 ## serrée, appareils de voie aux extrémités partagées avec une autre voie.
-static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color, gauge_m: float = 1.435, no_skirt: Callable = Callable(), ground: Callable = Callable(), near = null) -> void:
+static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color, paved: Color, gauge_m: float = 1.435, no_skirt: Callable = Callable(), ground: Callable = Callable(), near = null, tufts = null) -> void:
 	var pts := densify(axis)
 	if pts.size() < 2: return
 	var nrm := miter_normals(pts)
@@ -191,6 +191,29 @@ static func build(g, axis: Array, o: float, nature_fn: Callable, fallback: Color
 	for side in [-1.0, 1.0]:
 		_rail(g, pts, nrm, o + side * hw, side, grassy, curv, bed, near)
 	_switch_ends(g, pts, nrm, o, gauge_m, grassy)
+	if tufts != null: grass_tufts(tufts, pts, nrm, o, gauge_m, grassy)
+
+## Voie gazonnée détaillée (lot P4) : touffes d'herbe (maillage « graminées » de Vegetation, rabattu à 12-16 cm) entre
+## les rails et sur les accotements, hors longrines ; transformations ajoutées à `out` (instanciées par cellule de
+## DETAIL_CELL m et portée courte par LineView). Forward+ dense, Compatibility clairsemée ; Mobile : texture seule.
+const TUFT_SPACING := 0.42
+const TUFT_SPACING_SPARSE := 1.1
+static func grass_tufts(out: Array, pts: Array[Vector3], nrm: PackedVector3Array, o: float, gauge_m: float, grassy: Array) -> void:
+	var spacing := TUFT_SPACING if VisualEffects.renderer() == "forward_plus" else TUFT_SPACING_SPARSE
+	var rng := RandomNumberGenerator.new(); rng.seed = hash(Vector2i(roundi(pts[0].x * 10.0), roundi(pts[0].z * 10.0)))
+	var hw := gauge_m * 0.5
+	for i in mini(grassy.size(), pts.size() - 1):
+		if not grassy[i]: continue
+		var a := pts[i]; var b := pts[i + 1]
+		var n := int(a.distance_to(b) / spacing + rng.randf())
+		for k in n:
+			var u := rng.randf()
+			var lat := rng.randf_range(-1.5, 1.5)
+			if absf(absf(lat) - hw) < 0.2: continue   # rail, gorge et longrine
+			var nn := nrm[i].lerp(nrm[i + 1], u)
+			var p := a.lerp(b, u) + nn * (o + lat) + Vector3(0, BED_TOP_M - 0.01, 0)
+			var sc := rng.randf_range(0.45, 0.75)
+			out.append(Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3(sc, sc * rng.randf_range(0.42, 0.6), sc)), p))
 
 ## Talus de plateforme (« jupe ») : ferme la fente entre le bord de la plateforme et le terrain. `ground` (Vector3 ->
 ## altitude du sol, LineView.ground_at) : talus de terre/ballast de pente 2/3 jusqu'au sol quand la plateforme est à moins

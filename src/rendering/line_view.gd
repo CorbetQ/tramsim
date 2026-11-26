@@ -22,6 +22,7 @@ var sector_center: Dictionary = {} # edge id -> Vector3
 var view_distance := 400.0
 var car_nodes: Array[MeshInstance3D] = []
 var light_nodes: Array[MeshInstance3D] = []
+var road_lights: Array = []          # feux routiers R11v (SignalView.road_light)
 var authored_stations := true
 var station_identity: StationIdentityView
 var city: CityScene
@@ -116,8 +117,9 @@ func build(network: NetworkLoader, start_edge: String, vehicle: VehicleProfile =
 		var road := _Geo.new()
 		road.box(Vector3(0, -0.04, 0), Vector3(float(lane.length), 0.06, 7.0), Color("#5b5f66"))
 		_add_geo(self, road, Materials.building(), t3)
-		_post(self, t3.origin + t3.basis.x * 4.0 + t3.basis.z * 5.0, 3.0)
-		light_nodes.append(_lamp(self, t3.origin + t3.basis.x * 4.0 + Vector3(0, 2.8, 0) + t3.basis.z * 5.0, Color(0.1, 0.9, 0.3)))
+		# feu tricolore R11v (P4 : SignalView.road_light) face à la voie routière, au bord de la chaussée
+		var lp := t3.origin + t3.basis.x * 4.0 + t3.basis.z * 5.0
+		road_lights.append(SignalView.road_light(self, Transform3D(Basis.looking_at(-t3.basis.x, Vector3.UP), lp)))
 	tram = Node3D.new(); add_child(tram)
 	# sol au-delà du corridor
 	var c := (lo + hi) * 0.5; var ext := (hi - lo) + Vector3(3000, 0, 3000)
@@ -246,13 +248,31 @@ func _track(parent: Node3D, id: String) -> void:
 			if absf(w.x - p.x) < 1.5 and absf(w.z - p.z) < 1.5 and absf(w.y - p.y) < 3.0: return true
 		return false
 	var near := TrackView.NearSink.new(func(): var ng := _Geo.new(); ng.all_faces = true; return ng)
-	TrackView.build(g, pts, o, nature, fallback, paved, float(info.get("gauge_mm", 1435)) / 1000.0, no_skirt if not works.is_empty() else Callable(), ground_at if city != null and city.has_terrain else Callable(), near)
+	var tufts = [] if geometric and not DayNight.low_quality else null   # gazon détaillé (P4) : PC seulement
+	TrackView.build(g, pts, o, nature, fallback, paved, float(info.get("gauge_mm", 1435)) / 1000.0, no_skirt if not works.is_empty() else Callable(), ground_at if city != null and city.has_terrain else Callable(), near, tufts)
+	if tufts != null and not tufts.is_empty(): _track_grass(parent, tufts)
 	if geometric: _structures(g, id)
 	_add_geo(parent, g, Materials.building())
 	for ng in near.cells.values():   # profil Ri60 (LOD proche, refonte P1)
 		var mn := _add_geo(parent, ng, Materials.building())
 		mn.name = "rail_ri60"; mn.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		mn.visibility_range_end = TrackView.detail_range(); mn.visibility_range_end_margin = 10.0
+
+## Touffes d'herbe de la plateforme gazonnée par cellule (portée courte, sans ombre ; au-delà : texture du gazon).
+func _track_grass(parent: Node3D, tufts: Array) -> void:
+	var cells := {}
+	for x in tufts:
+		var p: Vector3 = (x as Transform3D).origin
+		var k := Vector2i(floori(p.x / 20.0), floori(p.z / 20.0))   # cellules de 20 m : portée mesurée au centre
+		if not cells.has(k): cells[k] = []
+		cells[k].append(x)
+	var reach := 34.0 if VisualEffects.renderer() == "forward_plus" else 24.0
+	for k in cells:
+		var mmi := CityScene._mm(Vegetation.mesh(8), cells[k])
+		mmi.name = "track_grass"; mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mmi.visibility_range_end = reach; mmi.visibility_range_end_margin = 6.0
+		mmi.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_DISABLED
+		parent.add_child(mmi)
 
 ## Ouvrages d'une voie (intervalles calculés par tools/import/terrain.py) : pont (dalle, garde-corps, piles),
 ## tunnel (tube, portails), trémie (murs de soutènement).
@@ -422,7 +442,9 @@ func _real_platforms() -> void:
 					if c2.distance_to(Vector2(center.x, center.z)) < best: best = c2.distance_to(Vector2(center.x, center.z)); q = c2
 				var away := Vector3(center.x - q.x, 0, center.z - q.y)
 				if away.dot(across) < 0.0: across = -across
-			StationShelters.build(sectors[platform.edge], g, center - across * float(st.depth) * 0.5, across, basis.z, st, str(platform.get("name", "")), str(net.meta.get("line", "")), shelter_termini(), float(st.depth))
+			var glass := _Geo.new()
+			StationShelters.build(sectors[platform.edge], g, center - across * float(st.depth) * 0.5, across, basis.z, st, str(platform.get("name", "")), str(net.meta.get("line", "")), shelter_termini(), float(st.depth), glass)
+			_add_glass(sectors[platform.edge], glass)
 		_add_geo(sectors[platform.edge], g, Materials.building())
 		_platform_people(platform, sectors[platform.edge])
 
@@ -431,6 +453,12 @@ var _shelter_style: Dictionary = {}
 func shelter_style() -> Dictionary:
 	if _shelter_style.is_empty(): _shelter_style = StationShelters.style(str(net.meta.get("source_id", "")))
 	return _shelter_style
+
+func _add_glass(parent: Node3D, glass: _Geo) -> void:
+	if glass.v.is_empty(): return
+	var mi := _add_geo(parent, glass, StationShelters.glass_material())
+	mi.name = "shelter_glass"; mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	mi.visibility_range_end = 160.0 if not DayNight.low_quality else 90.0
 
 func shelter_termini() -> Array:
 	if net.stations.is_empty(): return []
@@ -578,7 +606,9 @@ func _platform(parent: Node3D, pf: Dictionary) -> void:
 	var shelter := shelter_style()
 	var sd := minf(float(shelter.depth), maxf(w - 0.9, 1.1))
 	var front := maxf(0.8, w - sd - 0.12) if not lft else maxf(0.6, (w - sd) * 0.5)
-	StationShelters.build(parent, g, at.call(front, 0.0, 0.0), o, t, shelter, str(net.stations[pf.station].name), str(net.meta.get("line", "")), shelter_termini(), sd)
+	var glass := _Geo.new()
+	StationShelters.build(parent, g, at.call(front, 0.0, 0.0), o, t, shelter, str(net.stations[pf.station].name), str(net.meta.get("line", "")), shelter_termini(), sd, glass)
+	_add_glass(parent, glass)
 	var tz := 6.0 if n * StationLayout.STEP > 16.0 else 0.0
 	g.box_basis(at.call(sx + 0.2, 0.45, -tz + 3.6), Vector3(0.4, 0.9, 0.4), basis, Color("#56606a")) # corbeille
 	for k in [-1.0, 1.0]:  # candélabres
@@ -837,8 +867,14 @@ func _update_cars(s: MissionSession) -> void:
 			var t := _frame(lane.edge, float(lane.edge_offset))
 			var p := t.origin + t.basis.x * (float(cars[i].pos) - float(lane.cross_at)) + t.basis.z * 1.5
 			node.transform = Transform3D(Basis.looking_at(t.basis.x, Vector3.UP), p)
-	for i in light_nodes.size():
-		_set_lamp(light_nodes[i], Color(0.95, 0.1, 0.1) if s.traffic.light_red[i] else Color(0.1, 0.9, 0.3))
+	for i in road_lights.size():
+		if i >= s.traffic.light_red.size(): break
+		var red: bool = s.traffic.light_red[i]
+		var l: Dictionary = road_lights[i]
+		if red != bool(l.get("was_red", false)): l["was_red"] = red; l["switched"] = Time.get_ticks_msec()
+		# orange 3 s avant le rouge (le rouge « demandé » par la circulation est affiché après l'orange)
+		var amber := red and Time.get_ticks_msec() - int(l.get("switched", -10000)) < 3000
+		SignalView.set_road_light(l, red, amber)
 
 ## Petit accumulateur géométrique (couleurs de sommets ; alpha < 0.75 = vitrage, < 0.25 = lumineux).
 class _Geo:
