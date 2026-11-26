@@ -5,8 +5,10 @@ extends RefCounted
 static func build(view, id: String) -> void:
 	var net: NetworkLoader = view.net
 	var length_: float = net.graph.edges[id].length
-	var g := LineView._Geo.new()
-	var wires := LineView._Geo.new()
+	var g := LineView._Geo.new()        # poteaux, consoles (toujours)
+	var det := LineView._Geo.new()      # isolateurs, bras de rappel, semelles (LOD proche)
+	var wires := Wires.new()            # fil de contact, porteur (toujours)
+	var drop := Wires.new()             # pendules, haubans (LOD proche)
 	var count := maxi(1, ceili(length_ / 5.0))
 	var cuts: Array[float] = [0.0, length_]
 	for i in range(1, count): cuts.append(length_ * i / count)
@@ -16,6 +18,8 @@ static func build(view, id: String) -> void:
 	cuts.sort()
 	var last_mode := ""
 	var pole_distance := 36.0
+	var span_i := 0
+	var lattice := str(net.meta.get("source_id", net.meta.get("city", ""))).to_lower() in LATTICE_CITIES
 	for i in cuts.size() - 1:
 		var a := cuts[i]
 		var b := cuts[i + 1]
@@ -30,28 +34,135 @@ static func build(view, id: String) -> void:
 			g.ribbon(rail, 0.30, TrackView.BED_TOP_M + 0.008, Color("#383d3f"))
 			g.ribbon(rail, 0.12, TrackView.APS_TOP_M, Color("#b3b8b5"))
 		if "overhead" in modes:
-			var wire: Array[Vector3] = [pa, pb]
-			wires.ribbon(wire, 0.035, 5.45, Color("#353a3d"))
-			wires.ribbon(wire, 0.025, 6.05, Color("#535757"))
-			wires.box(pa.lerp(pb, 0.5) + Vector3.UP * 5.75, Vector3(0.025, 0.60, 0.025), Color("#555b5a"))
+			# Caténaire HD : fil de contact en zigzag (± 20 cm entre supports), porteur en chaînette (6,05 m aux
+			# supports, flèche de 25 cm à mi-portée), pendules tous les 5 m ; lignes à largeur d'écran minimale.
+			var pole_now := (pole_distance + (b - a) >= SPAN or last_mode != mode) and not near_junction(net, id, a)
+			var u0 := clampf(pole_distance / SPAN, 0.0, 1.0)
+			var u1 := 1.0 if pole_now else clampf((pole_distance + b - a) / SPAN, 0.0, 1.0)
+			var z := 1.0 if span_i % 2 == 0 else -1.0
+			var nb: Vector3 = view._frame(id, b).basis.x
+			var ca := pa + frame.basis.x * (z * STAGGER * (1.0 - 2.0 * u0)) + Vector3.UP * CONTACT_H
+			var cb := pb + nb * (z * STAGGER * (1.0 - 2.0 * u1)) + Vector3.UP * CONTACT_H
+			var ma := pa + Vector3.UP * _messenger_h(u0); var mb := pb + Vector3.UP * _messenger_h(u1)
+			wires.line(ca, cb, 0.006, Color("#4f463c"))
+			wires.line(ma, mb, 0.0065, Color("#585c5c"))
+			if u0 > 0.04 and u0 < 0.96: drop.line(ca, ma, 0.0025, Color("#5c605f"))
 			pole_distance += b - a
-			if (pole_distance >= 30.0 or last_mode != mode) and not near_junction(net,id,a):
-				pole_distance = 0.0
-				var side:=1.0
+			if pole_now:
+				pole_distance = 0.0; span_i += 1
+				var side := 1.0
 				var support := pa + frame.basis.x * 3.25
-				if not support_clear(view,support):
-					side=-1.0; support=pa-frame.basis.x*3.25
-				if not support_clear(view,support): continue
+				if not support_clear(view, support):
+					side = -1.0; support = pa - frame.basis.x * 3.25
+				if not support_clear(view, support): continue
+				var x := frame.basis.x * side
+				var in_tunnel := NetworkLoader.in_spans(net.edge_info[id].tunnel, a)
+				var top := support + Vector3.UP * 6.9
 				# Pas de poteau dans un tunnel ; consoles fixées à la voûte.
-				if not NetworkLoader.in_spans(net.edge_info[id].tunnel, a):
-					g.box(support + Vector3.UP * 3.2, Vector3(0.13, 6.4, 0.13), Color("#555d60"))
-					g.box(support + Vector3.UP * 0.14, Vector3(0.42, 0.28, 0.42), Color("#aaa79a"))
-				g.box_basis(pa + frame.basis.x * (side*1.55) + Vector3.UP * 5.9, Vector3(3.5, 0.08, 0.08), frame.basis, Color("#626966"))
-				g.box(pa + Vector3.UP * 5.68, Vector3(0.045, 0.46, 0.045), Color("#363c3b"))
-				g.box(pa + frame.basis.x * (side*2.8) + Vector3.UP * 5.9, Vector3(0.25, 0.16, 0.16), Color("#beb7a4"))
+				if not in_tunnel:
+					if lattice: _lattice_pole(g, support, 7.0, frame.basis, Color("#5c6466"))
+					else:
+						_tube(g, support, top, 0.13, 0.09, 10, Color("#59625f"))
+						_tube(g, top, top + Vector3.UP * 0.06, 0.1, 0.0, 10, Color("#59625f"))
+					det.box(support + Vector3.UP * 0.02, Vector3(0.5, 0.04, 0.5), Color("#4d5254"))   # platine
+					det.box(support + Vector3.UP * 0.12, Vector3(0.34, 0.16, 0.34), Color("#9b9a90"))  # massif
+					if last_mode != mode or i == cuts.size() - 2:   # fin de canton : hauban d'ancrage
+						var foot := support + x * 3.0 - (pb - pa).normalized() * 2.0
+						drop.line(top - Vector3.UP * 0.4, foot + Vector3.UP * 0.05, 0.008, Color("#6a6e6c"))
+						det.box(foot + Vector3.UP * 0.05, Vector3(0.3, 0.1, 0.3), Color("#9b9a90"))
+				# console : tube supérieur (porteur), tube inférieur incliné (contact), isolateurs côté poteau
+				var root := support - x * 0.13
+				var c_hi := root + Vector3.UP * 6.25; var c_lo := root + Vector3.UP * 5.55
+				var over := pa + Vector3.UP * 6.1 + x * 0.1
+				var reg := ca + x * 0.55 + Vector3.UP * 0.18
+				_tube(g, c_hi, over, 0.035, 0.03, 6, Color("#7b8384"))
+				_tube(g, c_lo, reg, 0.03, 0.028, 6, Color("#7b8384"))
+				_tube(g, c_lo + (reg - c_lo) * 0.55, c_hi + (over - c_hi) * 0.55, 0.02, 0.02, 5, Color("#7b8384"))   # contrefiche
+				_tube(det, reg, ca, 0.012, 0.012, 4, Color("#6f7677"))      # bras de rappel
+				drop.line(over, ma, 0.004, Color("#5c605f"))                  # suspension du porteur
+				for ins in [[c_hi, over], [c_lo, reg]]:
+					var d0: Vector3 = ins[0]; var d1: Vector3 = ins[1]
+					_insulator(det, d0 + (d1 - d0).normalized() * 0.18, (d1 - d0).normalized())
 		last_mode = mode
-	if not g.v.is_empty(): view._add_geo(view.sectors[id], g, Materials.building())
-	if not wires.v.is_empty(): view._add_geo(view.sectors[id], wires, wire_material())
+	var sector: Node3D = view.sectors[id]
+	if not g.v.is_empty(): view._add_geo(sector, g, Materials.building())
+	if not det.v.is_empty():
+		var mi: MeshInstance3D = view._add_geo(sector, det, Materials.building())
+		mi.visibility_range_end = DETAIL_RANGE * (0.5 if DayNight.low_quality else 1.0)
+		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	if not wires.v.is_empty(): sector.add_child(wires.instance())
+	if not drop.v.is_empty():
+		var dm := drop.instance()
+		dm.visibility_range_end = DETAIL_RANGE * (0.5 if DayNight.low_quality else 1.0)
+		sector.add_child(dm)
+
+const SPAN := 30.0
+const STAGGER := 0.2
+const CONTACT_H := 5.45
+const DETAIL_RANGE := 140.0
+## Réseaux à poteaux en treillis (anciennes lignes, dépôts) ; les autres : poteaux tubulaires coniques.
+const LATTICE_CITIES := ["saintetienne", "lille", "marseille"]
+
+static func _messenger_h(u: float) -> float:
+	return 5.80 + 0.25 * pow(2.0 * u - 1.0, 2.0)
+
+## Tube conique (facettes) de a vers b.
+static func _tube(g: LineView._Geo, a: Vector3, b: Vector3, r0: float, r1: float, sides: int, col: Color) -> void:
+	var d := (b - a).normalized()
+	var x := d.cross(Vector3.FORWARD if absf(d.y) > 0.9 else Vector3.UP).normalized()
+	var z := d.cross(x)
+	for i in sides:
+		var a0 := TAU * i / sides; var a1 := TAU * (i + 1) / sides
+		var e0 := x * cos(a0) + z * sin(a0); var e1 := x * cos(a1) + z * sin(a1)
+		g.quad(a + e0 * r0, b + e0 * r1, b + e1 * r1, a + e1 * r0, col)
+
+## Isolateur composite : 4 ailettes le long de l'axe `d`.
+static func _insulator(g: LineView._Geo, p: Vector3, d: Vector3) -> void:
+	_tube(g, p, p + d * 0.32, 0.022, 0.022, 6, Color("#8a8f89"))
+	for k in 4:
+		var q := p + d * (0.05 + 0.075 * k)
+		_tube(g, q, q + d * 0.02, 0.05, 0.05, 8, Color("#7d4f36"))
+
+## Poteau en treillis : 4 cornières + croisillons (faces tournées vers la voie).
+static func _lattice_pole(g: LineView._Geo, foot: Vector3, h: float, b: Basis, col: Color) -> void:
+	var w := 0.16
+	var corners := [b.x * w + b.z * w, b.x * w - b.z * w, -b.x * w - b.z * w, -b.x * w + b.z * w]
+	for c in corners:
+		g.box(foot + c + Vector3.UP * h * 0.5, Vector3(0.04, h, 0.04), col)
+	var n := int(h / 0.5)
+	for k in n:
+		var y0 := 0.5 * k; var y1 := y0 + 0.5
+		for f in 4:
+			var c0: Vector3 = corners[f]; var c1: Vector3 = corners[(f + 1) % 4]
+			_tube(g, foot + c0 + Vector3.UP * y0, foot + c1 + Vector3.UP * y1, 0.012, 0.012, 3, col)
+
+## Fils : lignes tournées vers la caméra, largeur d'écran minimale (wire.gdshader) ; NORMAL = tangente,
+## UV = (côté ±1, rayon en m).
+class Wires:
+	var v := PackedVector3Array()
+	var t := PackedVector3Array()
+	var c := PackedColorArray()
+	var uv := PackedVector2Array()
+
+	func line(a: Vector3, b: Vector3, r: float, col: Color) -> void:
+		var d := (b - a).normalized()
+		for q in [[a, -1.0], [b, -1.0], [b, 1.0], [a, -1.0], [b, 1.0], [a, 1.0]]:
+			v.append(q[0]); t.append(d); c.append(col); uv.append(Vector2(q[1], r))
+
+	func instance() -> MeshInstance3D:
+		var arr := []; arr.resize(Mesh.ARRAY_MAX)
+		arr[Mesh.ARRAY_VERTEX] = v; arr[Mesh.ARRAY_NORMAL] = t; arr[Mesh.ARRAY_COLOR] = c; arr[Mesh.ARRAY_TEX_UV] = uv
+		var m := ArrayMesh.new(); m.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+		var aabb := m.get_aabb(); m.custom_aabb = aabb.grow(0.5)
+		var mi := MeshInstance3D.new(); mi.mesh = m; mi.material_override = ElectrificationView.line_material()
+		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		return mi
+
+static var _line_mat: ShaderMaterial = null
+static func line_material() -> ShaderMaterial:
+	if _line_mat == null:
+		_line_mat = ShaderMaterial.new(); _line_mat.shader = load("res://src/rendering/shaders/wire.gdshader")
+	return _line_mat
 
 static func near_junction(net: NetworkLoader,id: String,at: float) -> bool:
 	var edge:TrackGraph.Edge=net.graph.edges[id]
@@ -106,20 +217,22 @@ static func junctions(view) -> void:
 			for item in cluster:center+=item[2]
 			center/=cluster.size()
 			var id:String=first[0];var frame:Transform3D=view._frame(id,first[1])
-			var hardware:=LineView._Geo.new();var wires:=LineView._Geo.new()
+			var hardware:=LineView._Geo.new();var wires:=Wires.new()
 			for item in cluster:
 				if (item[2] as Vector3).distance_to(center)>0.03:
-					var contact:Array[Vector3]=[item[2],center]
-					wires.ribbon(contact,0.045,5.45,Color("#46494c"))
-			# Suspension au-dessus des appareils de voie, poteaux en retrait.
-			var span:Array[Vector3]=[center-frame.basis.x*7.0,center+frame.basis.x*7.0]
-			wires.ribbon(span,0.035,6.1,Color("#555a5e"))
+					wires.line(item[2]+Vector3.UP*CONTACT_H,center+Vector3.UP*CONTACT_H,0.006,Color("#4f463c"))
+			# Suspension transversale au-dessus des appareils de voie (câble porteur + pendule), poteaux en retrait.
+			var l:=center-frame.basis.x*7.0+Vector3.UP*6.3;var r:=center+frame.basis.x*7.0+Vector3.UP*6.3
+			wires.line(l,center+Vector3.UP*6.05,0.007,Color("#585c5c"));wires.line(center+Vector3.UP*6.05,r,0.007,Color("#585c5c"))
+			wires.line(center+Vector3.UP*6.05,center+Vector3.UP*CONTACT_H,0.004,Color("#5c605f"))
 			for sign_ in [-1.0,1.0]:
 				var foot:Vector3=center+frame.basis.x*(7.0*sign_)
 				if support_clear(view,foot) and not NetworkLoader.in_spans(net.edge_info[id].tunnel,float(first[1])):
-					hardware.box(foot+Vector3.UP*3.15,Vector3(0.16,6.3,0.16),Color("#566264"))
+					_tube(hardware,foot,foot+Vector3.UP*6.9,0.14,0.1,10,Color("#566264"))
+					hardware.box(foot+Vector3.UP*0.12,Vector3(0.36,0.16,0.36),Color("#9b9a90"))
+					_insulator(hardware,foot+Vector3.UP*6.3-frame.basis.x*(0.4*sign_),-frame.basis.x*sign_)
 			if not hardware.v.is_empty():view._add_geo(view.sectors[id],hardware,Materials.building())
-			if not wires.v.is_empty():view._add_geo(view.sectors[id],wires,wire_material())
+			if not wires.v.is_empty():view.sectors[id].add_child(wires.instance())
 
 ## Fil fin : ne pas l'inscrire dans le tampon de profondeur utilisé par les
 ## contours. Sinon un fil de moins d'un pixel devient une ligne de points noirs.

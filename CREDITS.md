@@ -216,6 +216,9 @@ Bibliothèque `data/materials` : tableaux de textures `assets/textures/pbr/{albe
 | 16 | `lm_ecorce` | [Bark Platanus](https://polyhaven.com/a/bark_platanus) (`bark_platanus`) | Dimitrios Savva | CC0 1.0 |
 | 17 | `lm_bois` | [Weathered Brown Planks](https://polyhaven.com/a/weathered_brown_planks) (`weathered_brown_planks`) | Dimitrios Savva, Rico Cilliers | CC0 1.0 |
 
+Végétation réaliste (refonte P3) : atlas de cartes de rameaux et imposteurs `assets/textures/vegetation/{foliage_2k,foliage_1k,impostors_1k,impostors_512}.png`, composés par `tools/models/props/build_vegetation_textures.py` à partir de feuilles scannées **ambientCG** (https://ambientcg.com), domaine public **CC0 1.0** (https://docs.ambientcg.com/license/) : [LeafSet024](https://ambientcg.com/view?id=LeafSet024), [LeafSet027](https://ambientcg.com/view?id=LeafSet027), [LeafSet019](https://ambientcg.com/view?id=LeafSet019), [LeafSet009](https://ambientcg.com/view?id=LeafSet009). Rameaux, palmes, graminées, vivaces, silhouettes et decals de voirie (`decal_*.png`) : générés, sans source externe.
+
+
 ### Catalogue, kits de caisses et correction des portes
 
 Les nouveaux atlas et kits sont dérivés des modèles procéduraux du projet ; aucune nouvelle génération

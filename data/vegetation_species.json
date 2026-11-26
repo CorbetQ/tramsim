@@ -1,0 +1,16 @@
+{
+  "_doc": "Essences de la végétation réaliste (refonte P3, src/rendering/vegetation.gd et tools/models/props/build_vegetation_textures.py). Index = type d'arbre de CityScene (0-9) ; 10 = marronnier (variante du type 0, une instance sur deux). Mètres. crown = [centre y, rayon horizontal (= CityScene.CROWN_R), demi-hauteur] ; cell = carte de foliage_*.png (0 tilleul, 1 platane/érable, 2 marronnier, 3 pin, 4 palme, 5 graminées, 6 vivaces, 7 haie) ; imp = cellule de impostors_*.png ; bark/leaf = teintes sRGB ; patch = écorce desquamée (platane).",
+  "species": [
+    {"name": "tilleul", "shape": "round", "trunk": [2.6, 0.2], "crown": [4.2, 2.6, 2.1], "limbs": 6, "cards": 110, "card": 1.9, "cell": 0, "imp": 0, "bark": "#6b5a4a", "leaf": "#f2f6e6"},
+    {"name": "conifere", "shape": "cone", "trunk": [1.2, 0.2], "crown": [3.9, 2.3, 3.0], "limbs": 0, "cards": 70, "card": 1.8, "cell": 3, "imp": 1, "bark": "#5d4a3a", "leaf": "#cfe0cf"},
+    {"name": "erable", "shape": "round", "trunk": [3.0, 0.18], "crown": [5.0, 1.9, 2.7], "limbs": 5, "cards": 90, "card": 1.7, "cell": 1, "imp": 2, "bark": "#5f5448", "leaf": "#f4f8e2"},
+    {"name": "pin_parasol", "shape": "umbrella", "trunk": [5.2, 0.24], "crown": [5.9, 3.4, 0.95], "limbs": 7, "cards": 90, "card": 2.2, "cell": 3, "imp": 3, "bark": "#7a5a44", "leaf": "#e6eed8"},
+    {"name": "palmier", "shape": "palm", "trunk": [7.3, 0.3], "crown": [7.3, 3.0, 1.0], "limbs": 0, "cards": 13, "card": 3.2, "cell": 4, "imp": 4, "bark": "#8b7a60", "leaf": "#f0f4dc"},
+    {"name": "peuplier", "shape": "round", "trunk": [1.4, 0.16], "crown": [5.6, 1.1, 4.6], "limbs": 6, "cards": 110, "card": 0.95, "cell": 0, "imp": 5, "bark": "#6a6458", "leaf": "#eaf2d6"},
+    {"name": "platane", "shape": "round", "trunk": [3.6, 0.3], "crown": [5.6, 3.6, 2.4], "limbs": 7, "cards": 130, "card": 2.25, "cell": 1, "imp": 6, "bark": "#a39a7f", "leaf": "#fbffe8", "patch": true},
+    {"name": "massif", "shape": "shrub", "trunk": [0.0, 0.0], "crown": [0.65, 1.4, 0.65], "limbs": 0, "cards": 16, "card": 1.0, "cell": 7, "imp": -1, "bark": "#4a3c30", "leaf": "#e6eed6"},
+    {"name": "graminees", "shape": "tuft", "trunk": [0.0, 0.0], "crown": [0.4, 0.5, 0.4], "limbs": 0, "cards": 3, "card": 0.9, "cell": 5, "imp": -1, "bark": "#4a3c30", "leaf": "#ffffff"},
+    {"name": "vivaces", "shape": "tuft", "trunk": [0.0, 0.0], "crown": [0.4, 0.5, 0.4], "limbs": 0, "cards": 3, "card": 0.8, "cell": 6, "imp": -1, "bark": "#4a3c30", "leaf": "#ffffff"},
+    {"name": "marronnier", "shape": "round", "trunk": [2.7, 0.24], "crown": [4.4, 2.6, 2.3], "limbs": 6, "cards": 100, "card": 2.1, "cell": 2, "imp": 7, "bark": "#5e5048", "leaf": "#eef4e0"}
+  ]
+}

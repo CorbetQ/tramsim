@@ -1,0 +1,16 @@
+{
+ "id": "decals_voirie",
+ "label": "Decals de voirie (salissures, taches, plaques d'égout, rapiéçages)",
+ "albedo_color": "#2c2a26",
+ "roughness": 0.8,
+ "metallic": 0.0,
+ "specular": 0.4,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "source": "P3 : repli des tableaux PBR par conception : Decal Godot (Forward+/Mobile seulement, rien en Compatibility), atlas généré par tools/models/props/build_vegetation_textures.py (assets/textures/vegetation/decals_1k.png + decals_n_1k.png), sans source externe"
+}

@@ -1,0 +1,29 @@
+{
+ "schema": 1,
+ "doc": "Grammaire de façades P3 (src/rendering/facades.gd). Quartiers : cercles WGS84 (r en m), premier cercle contenant le centre de l'emprise. Styles : anjou, nantes_xviii, haussmann, moderne, pavillon, activite, generic. old_style : style des immeubles anciens (tuffeau, pierre) hors quartiers. Délimitation d'après les secteurs patrimoniaux (Angers : centre historique, Doutre ; Nantes : île Feydeau, quai de la Fosse, quartier Graslin, centre XIXe) et la BD TOPO (hauteurs, usages).",
+ "cities": {
+  "angers": {
+   "old_style": "anjou",
+   "districts": [
+    {"name": "Cité et quartier de la cathédrale", "lat": 47.4710, "lon": -0.5555, "r": 260, "style": "anjou"},
+    {"name": "Doutre", "lat": 47.4737, "lon": -0.5608, "r": 260, "style": "anjou"},
+    {"name": "Boulevard Foch, rue d'Alsace", "lat": 47.4683, "lon": -0.5515, "r": 230, "style": "haussmann"},
+    {"name": "Centre-ville (Ralliement, Lices)", "lat": 47.4700, "lon": -0.5520, "r": 520, "style": "anjou"},
+    {"name": "Faubourgs XIXe (Saint-Laud, Saint-Serge)", "lat": 47.4700, "lon": -0.5500, "r": 1100, "style": "anjou"}
+   ]
+  },
+  "nantes": {
+   "old_style": "nantes_xviii",
+   "districts": [
+    {"name": "Île Feydeau", "lat": 47.2122, "lon": -1.5545, "r": 170, "style": "nantes_xviii"},
+    {"name": "Quai de la Fosse (est)", "lat": 47.2100, "lon": -1.5630, "r": 190, "style": "nantes_xviii"},
+    {"name": "Quai de la Fosse (ouest)", "lat": 47.2085, "lon": -1.5700, "r": 190, "style": "nantes_xviii"},
+    {"name": "Graslin, cours Cambronne", "lat": 47.2125, "lon": -1.5625, "r": 230, "style": "nantes_xviii"},
+    {"name": "Bouffay", "lat": 47.2145, "lon": -1.5535, "r": 150, "style": "nantes_xviii"},
+    {"name": "Centre XIXe (Commerce, Calvaire, Orléans)", "lat": 47.2150, "lon": -1.5590, "r": 380, "style": "haussmann"},
+    {"name": "Centre élargi", "lat": 47.2160, "lon": -1.5560, "r": 900, "style": "nantes_xviii"}
+   ]
+  },
+  "idf": {"old_style": "haussmann", "districts": []}
+ }
+}

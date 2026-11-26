@@ -388,5 +388,39 @@
   },
   "fonts": "DejaVu Sans (licence libre Bitstream Vera/DejaVu) pour les légendes du pupitre et numéros de parc, rastérisées dans les textures",
   "no_brand_logos": "aucun logo de marque (Alstom, Irigo, Naolib) reproduit ; numéros de parc génériques"
- }
+ },
+ "vegetation_textures": [
+  {
+   "asset": "LeafSet024",
+   "url": "https://ambientcg.com/view?id=LeafSet024",
+   "license": "CC0 1.0",
+   "source": "ambientCG",
+   "use": "feuilles du tilleul, haie",
+   "file": "assets/textures/vegetation/foliage_{2k,1k}.png, impostors_{1k,512}.png"
+  },
+  {
+   "asset": "LeafSet027",
+   "url": "https://ambientcg.com/view?id=LeafSet027",
+   "license": "CC0 1.0",
+   "source": "ambientCG",
+   "use": "feuilles lobées platane/érable (recolorées en vert)",
+   "file": "assets/textures/vegetation/foliage_{2k,1k}.png, impostors_{1k,512}.png"
+  },
+  {
+   "asset": "LeafSet019",
+   "url": "https://ambientcg.com/view?id=LeafSet019",
+   "license": "CC0 1.0",
+   "source": "ambientCG",
+   "use": "aiguilles de pin",
+   "file": "assets/textures/vegetation/foliage_{2k,1k}.png, impostors_{1k,512}.png"
+  },
+  {
+   "asset": "LeafSet009",
+   "url": "https://ambientcg.com/view?id=LeafSet009",
+   "license": "CC0 1.0",
+   "source": "ambientCG",
+   "use": "folioles du marronnier",
+   "file": "assets/textures/vegetation/foliage_{2k,1k}.png, impostors_{1k,512}.png"
+  }
+ ]
 }

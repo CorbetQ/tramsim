@@ -32,6 +32,7 @@ static func for_view(v) -> Array:
 	if v == null or v.net == null or not v.net.meta.has("origin"): return out
 	var src := str(v.net.meta.get("source_id", ""))
 	for m in manifest().get("models", []):
+		if m.get("lot", "") == "P3" and OS.get_environment("TRAMSIM_P3_MONUMENTS") == "0": continue   # planches avant/après
 		if str(m.city) == src and ResourceLoader.exists(str(m.lods[1])): out.append(m)
 	return out
 

@@ -1,0 +1,17 @@
+{
+ "id": "vegetation_cartes",
+ "label": "Végétation réaliste (cartes de rameaux, imposteurs)",
+ "albedo_color": "#56663f",
+ "roughness": 0.72,
+ "metallic": 0.0,
+ "specular": 0.35,
+ "textures": {
+  "albedo": "",
+  "normal": "",
+  "orm": ""
+ },
+ "uv_scale_m": 1.0,
+ "normal_scale": 1.0,
+ "translucency": 0.5,
+ "source": "P3 : repli des tableaux PBR par conception : atlas RGBA dédié (assets/textures/vegetation/foliage_2k/1k.png, impostors_1k/512.png ; feuilles scannées CC0 ambientCG LeafSet024, LeafSet027, LeafSet019, LeafSet009, rameaux/palmes/graminées générés par tools/models/props/build_vegetation_textures.py), shader vegetation.gdshader : normales sphériques, translucidité, découpe alpha"
+}
