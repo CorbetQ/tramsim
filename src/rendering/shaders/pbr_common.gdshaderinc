@@ -54,8 +54,8 @@ void pbr_weather(inout vec3 albedo, inout float rough, inout float spec, inout v
 		albedo *= 1.0 - w * porous * 0.38;                         // matériau imbibé : plus sombre
 		rough = mix(rough, mix(0.08, 0.28, porous), w * 0.85);      // film d'eau : brillant
 		spec = mix(spec, 0.5, w);
-		float n = pbr_wn(xz * 0.31) * 0.7 + pbr_wn(xz * 1.9 + 3.7) * 0.3;
-		float pud = smoothstep(0.66 - 0.12 * w, 0.72 - 0.12 * w, n) * puddles * smoothstep(0.35, 0.8, w);
+		float n = pbr_wn(mat2(vec2(0.6, -0.8), vec2(0.8, 0.6)) * xz * 0.23) * 0.55 + pbr_wn(xz * 0.67 + 9.1) * 0.25 + pbr_wn(xz * 1.9 + 3.7) * 0.2;
+		float pud = smoothstep(0.66 - 0.12 * w, 0.72 - 0.12 * w, n) * puddles * smoothstep(0.35, 0.8, w) * (1.0 - clamp(snow * 1.5, 0.0, 1.0));
 		if (pud > 0.001) {
 			// ronds de pluie : anneaux qui s'élargissent sur une grille de 0,6 m (phase aléatoire par cellule)
 			vec2 g = xz / 0.6, c = floor(g);
@@ -70,8 +70,11 @@ void pbr_weather(inout vec3 albedo, inout float rough, inout float spec, inout v
 	}
 	float s = clamp(snow, 0.0, 1.0) * face;
 	if (s > 0.001) {
-		float cov = smoothstep(0.25, 0.75, pbr_wn(xz * 0.8 + 11.0) * 0.6 + pbr_wn(xz * 5.0) * 0.4 + s - 0.5);
-		cov *= s;
+		// couverture : trois octaves tournées (pas de motif répété), trous rares et peu contrastés (sol mouillé visible)
+		vec2 q = mat2(vec2(0.8, 0.6), vec2(-0.6, 0.8)) * xz;
+		float nz = pbr_wn(q * 0.13 + 11.0) * 0.5 + pbr_wn(xz * 0.71 + 5.3) * 0.3 + pbr_wn(q * 3.7) * 0.2;
+		float cov = smoothstep(0.2, 0.6, nz + s - 0.45) * s;
+		cov = mix(cov, s, 0.35);
 		albedo = mix(albedo, vec3(0.82, 0.84, 0.88), cov);
 		rough = mix(rough, 0.75, cov);
 		normal_v = normalize(mix(normal_v, up_view, cov * 0.6));

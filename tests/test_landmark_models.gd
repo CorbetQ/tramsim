@@ -12,15 +12,33 @@ func check(c: bool, m: String) -> void:
 	if c: print("ok: ", m)
 	else: fails += 1; printerr("ECHEC: ", m)
 
+## Réseau de tram de la ville dont une station est la plus proche de l'ancre WGS84 du modèle.
+func _nearest_net(city: String, m: Dictionary) -> NetworkLoader:
+	var best: NetworkLoader = null; var bd := INF
+	for e in NetworkRegistry.entries():
+		if CityPacks.key_of(e) != city or str(e.get("kind", "tram")) != "tram" or not str(e.path).begins_with("res://data/networks/"): continue
+		var n := NetworkLoader.new(); n.load_file(str(e.path))
+		var v := FakeView.new(); v.net = n
+		var a := LandmarkModels.anchor(v, m)
+		for id in n.edge_info:
+			for p in n.edge_info[id].pts:
+				var d := Vector2(a.x, a.z).distance_to(p)
+				if d < bd: bd = d; best = n
+	return best
+
 func _init() -> void:
 	var doc := LandmarkModels.manifest()
 	check(doc.get("models", []).size() >= 3, "manifeste : %d modèles" % doc.get("models", []).size())
 	var nets := {"angers_ralliement": "angers_c", "angers_cathedrale_saint_maurice": "angers_c", "nantes_tremie_l3": "nantes_3"}
 	for m in doc.models:
 		var t: Array = m.triangles
-		check(t.size() == 3 and int(t[0]) > int(t[1]) and int(t[1]) > int(t[2]), "%s : LOD décroissants %s" % [m.id, t])
+		# P4 : modèles simples (ouvrages singuliers) : LOD non croissants, LOD2 strictement plus léger que LOD0
+		var p4 := str(m.get("lot", "")) == "P4"
+		check(t.size() == 3 and (int(t[0]) > int(t[1]) and int(t[1]) > int(t[2]) if not p4 else int(t[0]) >= int(t[1]) and int(t[1]) >= int(t[2]) and (int(t[0]) > int(t[2]) or int(t[0]) < 2000)), "%s : LOD décroissants %s" % [m.id, t])
 		check(int(t[0]) <= int(m.budget_lod0) and int(t[1]) <= int(m.budget_mobile), "%s : budget LOD0 %d ≤ %d, Mobile (LOD1) %d ≤ %d" % [m.id, t[0], m.budget_lod0, t[1], m.budget_mobile])
 		var v := FakeView.new(); v.net = NetworkLoader.new(); v.net.load_file("res://data/networks/%s.json" % nets.get(m.id, "angers_c" if str(m.city) == "angers" else "nantes_1"))   # P3 : monuments près des lignes du centre
+		if p4:   # P4 : ligne de tram de la ville la plus proche du monument
+			v.net = _nearest_net(str(m.city), m)
 		var a := LandmarkModels.anchor(v, m)
 		var unknown := {}
 		var verts := PackedVector3Array()

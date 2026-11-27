@@ -33,16 +33,17 @@ static func center_net(city: String) -> Array:
 	var best := []; var bd := INF
 	for n in idx.networks:
 		if str(n.id).get_slice("_", 0) != city or n.kind != "tram" or c.is_empty(): continue
-		var net := NetworkLoader.new(); net.load_file(str(n.path))
-		var o: Array = net.meta.origin
+		var doc: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(str(n.path)))
+		var o: Array = doc.origin
 		var x := deg_to_rad(float(c[1]) - float(o[1])) * CityScene.R * cos(deg_to_rad(float(o[0])))
 		var z := -deg_to_rad(float(c[0]) - float(o[0])) * CityScene.R
-		for s in net.stations:
-			var e = net.graph.edges[s.edge]
-			var pts: Array = e.pts if "pts" in e else []
-			if pts.is_empty(): continue
-			var q: Vector2 = pts[clampi(int(float(s.offset) / maxf(float(e.length), 1.0) * (pts.size() - 1)), 0, pts.size() - 1)]
-			var d := q.distance_to(Vector2(x, z))
+		var ed := {}
+		for e in doc.edges: ed[e.id] = e
+		for s in doc.stations:
+			var e = ed.get(s.edge)
+			if e == null or e.pts.is_empty(): continue
+			var k := clampi(int(float(s.offset) / maxf(float(e.length), 1.0) * (e.pts.size() - 1)), 0, e.pts.size() - 1)
+			var d := Vector2(float(e.pts[k][0]), float(e.pts[k][1])).distance_to(Vector2(x, z))
 			if d < bd: bd = d; best = [str(n.path), str(s.name)]
 	return best
 

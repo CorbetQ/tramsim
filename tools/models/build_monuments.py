@@ -661,6 +661,12 @@ SPECS = [
 ]
 
 
+def _specs():
+    """Monuments P3 (Angers, Nantes) puis P4 (26 autres villes, monuments_p4.SPECS_P4)."""
+    import monuments_p4
+    return SPECS + monuments_p4.SPECS_P4
+
+
 def main(only=None):
     """Construit les monuments P3 et les fusionne dans assets/models/landmark_models.json (entrées P1 conservées)."""
     import json, sys
@@ -669,10 +675,13 @@ def main(only=None):
     path = OUT / "landmark_models.json"
     doc = json.loads(path.read_text())
     models = {m["id"]: m for m in doc["models"]}
-    for mid, cname, stem, fn, ranges, extra in SPECS:
-        if only and mid not in only: continue
+    import monuments_p4
+    for mid, cname, stem, fn, ranges, extra in _specs():
+        if only and mid not in only and cname not in only: continue
         k, a, meta = fn()
         city = geo.City(cname)
+        if extra.get("lot") == "P4": monuments_p4.gauge_check(k, a, monuments_p4.city_of(cname), mid)
+        (OUT / stem).parent.mkdir(parents=True, exist_ok=True)
         lat, lon = geo.xy2ll(a[0], a[2], city.origin)
         translate(k, a)
         tris, files = [], []

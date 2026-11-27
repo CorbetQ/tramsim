@@ -7,7 +7,7 @@ const SCAN_DIRS := ["res://src", "res://tests/audit", "res://tools/qa"]
 const FORBIDDEN := ["toon.gdshader", "toon_building", "cel.gdshaderinc", "cel_light", "cel_steps", "cel_layer_clip",
 	"outline.gdshader", "edges.gdshader", "Materials.toon(", "day_night.edges", "day.edges"]
 ## Shaders autorisés en `unshaded` (ni décor ni objet éclairé) : ciel de transition, halo de lampadaire, effet de vitesse.
-const UNSHADED_OK := ["halo.gdshader", "speed.gdshader", "transition_clouds.gdshader"]
+const UNSHADED_OK := ["halo.gdshader", "speed.gdshader", "transition_clouds.gdshader", "windscreen_rain.gdshader"]   # gouttes : réfraction de l'image (P4)
 
 var fails := 0
 

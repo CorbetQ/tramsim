@@ -76,12 +76,21 @@ func _run() -> void:
 		print("SKIP test_render_budgets : affichage requis"); print("TOTAL_ECHECS|0"); quit(0); return
 	await _pass(false)
 	await _pass(true)
+	# P4 : passe Mobile bloquante sur le point dense de chacune des grandes villes (TRAMSIM_BUDGET_CITIES pour
+	# restreindre, « none » pour sauter)
+	var env := OS.get_environment("TRAMSIM_BUDGET_CITIES")
+	var cities: Array = CITIES if env == "" else (Array(env.split(",")) if env != "none" else [])
+	for c in cities: await _pass(true, c)
 	StockHD.reset_cache()
 	print("TOTAL_ECHECS|%d" % fails)
 	quit(1 if fails > 0 else 0)
 
-func _pass(mobile: bool) -> void:
-	pass_name = "mobile_" if mobile else ""
+## P4 : les dix plus grands réseaux après Angers (points denses jugés au budget Mobile).
+const CITIES := ["idf", "lyon", "bordeaux", "strasbourg", "lille", "marseille", "nice", "montpellier", "grenoble", "toulouse", "nantes"]
+
+func _pass(mobile: bool, city := "angers") -> void:
+	var short := city != "angers"
+	pass_name = ("mobile_" if mobile else "") + ("" if not short else city + "_")
 	DayNight.low_quality = mobile or OS.has_feature("mobile")
 	root.size = Vector2i(1280, 720)
 	main = load("res://src/ui/main.tscn").instantiate(); root.add_child(main)
@@ -92,7 +101,7 @@ func _pass(mobile: bool) -> void:
 	var idx: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/index.json"))
 	var line := {}
 	for n in idx.networks:
-		if str(n.id).begins_with("angers") and n.kind == "tram" and (line.is_empty() or float(n.length_km) > float(line.length_km)): line = n
+		if str(n.id).get_slice("_", 0) == city and n.kind == "tram" and (line.is_empty() or float(n.length_km) > float(line.length_km)): line = n
 	main.net_path = str(line.path); main.free_mode = false
 	var net := NetworkLoader.new(); net.load_file(main.net_path)
 	main.vehicle = VehicleLibrary.default_for(net.meta)
@@ -126,6 +135,20 @@ func _pass(mobile: bool) -> void:
 	await process_frame
 	if cs: cs.warm(main.view.cam.global_position)
 	await _shot("dense_ext", true)
+	if short:   # P4 : cabine et oblique 150 m (cadrage de p3f_shots) au point dense de la ville
+		main.external_cam = false
+		await _shot("dense_cab", true)
+		var p0: Vector3 = main.view.pos3(main.session.edge_id, main.session.offset)
+		var L0: float = main.net.graph.edges[main.session.edge_id].length
+		var tt: Vector3 = main.view.pos3(main.session.edge_id, minf(main.session.offset + 5.0, L0)) - main.view.pos3(main.session.edge_id, maxf(main.session.offset - 5.0, 0.0))
+		tt.y = 0.0; tt = tt.normalized()
+		var ob := Camera3D.new(); ob.fov = 60.0; ob.far = 6000.0; main.add_child(ob)
+		ob.global_position = p0 - tt * 110.0 + tt.cross(Vector3.UP) * 70.0 + Vector3(0, 75.0, 0)
+		ob.look_at(p0 + tt * 20.0, Vector3.UP); ob.make_current()
+		main.external_cam = true
+		await _shot("oblique150", true)
+		main.queue_free(); await process_frame; await process_frame
+		return
 	# rames IA visibles (P2) : 4 rames garées devant la rame du joueur, LOD HD des rames IA (Mobile : un cran
 	# plus bas, au plus 3 rames en LOD0) ; même contenu, budget inchangé.
 	var extra: Array = []
@@ -161,4 +184,12 @@ func _pass(mobile: bool) -> void:
 	main.view.cam.make_current()
 	main.hour0 = 22.5 - main.session.time_s / 3600.0; main.view.set_hour(22.5)
 	await _shot("dense_nuit", false)
+	# P4 ambiance : nuit de pluie (chaussée mouillée, flaques, gouttes, lampadaires dynamiques du profil)
+	var w: WeatherState = main.weather
+	w.set_preset("rain"); w.rain = 0.85; w.fog = 0.12; w.wetness = 1.0
+	main.weather_view.wet = 1.0; main.view.rain = 0.85
+	await _shot("dense_nuit_pluie", false)
+	main.hour0 = 13.5 - main.session.time_s / 3600.0; main.view.set_hour(13.5)
+	await _shot("dense_pluie", true)
+	w.set_preset("clear"); w.rain = 0.0; w.fog = 0.0; w.wetness = 0.0; main.weather_view.wet = 0.0
 	main.queue_free(); await process_frame; await process_frame

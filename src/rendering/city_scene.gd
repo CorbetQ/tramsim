@@ -64,6 +64,12 @@ var _trees_cur: Array = []
 var _D: _Arrays = null              # détails de façade de la tuile en cours (maillage LOD)
 var _F: Dictionary = {}             # P3 : relief des façades sur rue, Vector2i (cellules Facades.CELL) -> _Arrays
 var _Fcur: _Arrays = null           # cellule de relief du bâtiment en cours
+var _BN: Dictionary = {}            # P4 : HLOD Mobile, Vector2i (cellules HLOD_CELL) -> _Arrays du bâti
+## P4 : HLOD du bâti en Mobile : cellules de HLOD_CELL m, bascule à HLOD_NEAR m (portée au centre de la cellule) vers
+## une version sans les triangles de moins de HLOD_MIN_AREA m². Bascule A/B : TRAMSIM_HLOD=0.
+const HLOD_CELL := 96.0
+const HLOD_NEAR := 200.0
+const HLOD_MIN_AREA := 3.0
 var _fac_dist: Array = []           # P3 : quartiers de style (Facades.districts)
 var facade_stats := {}              # P3 : bâtiments par style de façade (tests)
 var _props: Array = []              # par modèle StreetProps : [transformations, couleurs] de la tuile en cours
@@ -690,17 +696,24 @@ func _build_tile(k: Vector2i) -> Node3D:
 		var rc := Color(0, 0, 0, 0)
 		if i < roofs.size() and roofs[i] & 0x8000:
 			rc = _ortho_roof(roofs[i])
-		var j0 := S.count(); var d0 := _D.count()
+		# P4 : HLOD Mobile : bâti dans des maillages par cellule (proche complet, lointain simplifié)
+		var BT := S
+		if hlod_enabled():
+			var hk := Vector2i(floori(_centroid(b[0]).x / HLOD_CELL), floori(_centroid(b[0]).y / HLOD_CELL))
+			if not _BN.has(hk): _BN[hk] = _Arrays.new()
+			BT = _BN[hk]
+		var j0 := BT.count(); var d0 := _D.count()
 		var fk := Vector2i(floori(_centroid(b[0]).x / Facades.CELL), floori(_centroid(b[0]).y / Facades.CELL))
 		if not _F.has(fk): _F[fk] = _Arrays.new()
 		_Fcur = _F[fk]; var f0 := _Fcur.count()
-		_building(S, b[0], b[1], b[2], b[3], b[4], seed + i, points, rc)
+		_building(BT, b[0], b[1], b[2], b[3], b[4], seed + i, points, rc)
 		if has_terrain:  # posé au sol : base à l'altitude minimale de l'emprise
 			var base := INF
 			for q in b[0]: base = minf(base, _ground_h(q))
-			_lift(S, j0, base); _lift(_D, d0, base); _lift(_Fcur, f0, base)
-		var bounds := AABB(S.v[j0], Vector3.ZERO)
-		for j in range(j0, S.count()): bounds = bounds.expand(S.v[j])
+			_lift(BT, j0, base); _lift(_D, d0, base); _lift(_Fcur, f0, base)
+		if BT.count() == j0: continue
+		var bounds := AABB(BT.v[j0], Vector3.ZERO)
+		for j in range(j0, BT.count()): bounds = bounds.expand(BT.v[j])
 		var rect := Rect2(b[0][0], Vector2.ZERO)
 		for q in b[0]: rect = rect.expand(q)
 		_camera_boxes.append([0, b[0], bounds.position.y - 0.3, bounds.end.y + 0.3, rect.grow(0.8)])
@@ -795,6 +808,23 @@ func _build_tile(k: Vector2i) -> Node3D:
 	if gmesh != null:   # même matériau (masque de végétation de la tuile)
 		var gm := MeshInstance3D.new(); gm.mesh = gmesh; gm.material_override = mi.material_override
 		node.add_child(gm)
+	# P4 : HLOD Mobile du bâti : cellule complète en deçà de HLOD_NEAR, version simplifiée au-delà (sans les petits
+	# triangles : cheminées, faîtages, lucarnes, créneaux, tuiles vernissées ; murs et pans de toit conservés)
+	for hk in _BN:
+		var ba: _Arrays = _BN[hk]
+		if ba.count() == 0: continue
+		var bn := MeshInstance3D.new(); bn.mesh = ba.mesh(); bn.material_override = mi.material_override
+		bn.name = "hlod_near_%d_%d" % [hk.x, hk.y]
+		bn.visibility_range_end = HLOD_NEAR; bn.visibility_range_end_margin = 15.0
+		node.add_child(bn)
+		var fa := _hlod_far(ba)
+		var bf := MeshInstance3D.new(); bf.mesh = fa.mesh(); bf.material_override = mi.material_override
+		bf.name = "hlod_far_%d_%d" % [hk.x, hk.y]
+		bf.visibility_range_begin = HLOD_NEAR; bf.visibility_range_begin_margin = 15.0
+		node.add_child(bf)
+		stats["hlod_near_tris"] = int(stats.get("hlod_near_tris", 0)) + ba.count() / 3
+		stats["hlod_far_tris"] = int(stats.get("hlod_far_tris", 0)) + fa.count() / 3
+	_BN = {}
 	if W.count() > 0:
 		var wi := MeshInstance3D.new(); wi.mesh = W.mesh(); wi.material_override = Materials.water()
 		node.add_child(wi)
@@ -1662,6 +1692,21 @@ func _ledge(S: _Arrays, ring: PackedVector2Array, y: float, depth: float, col: C
 		var oa := a + (a - c).normalized() * depth; var ob := b + (b - c).normalized() * depth
 		S.quad(Vector3(a.x, y, a.y), Vector3(b.x, y, b.y), Vector3(ob.x, y, ob.y), Vector3(oa.x, y, oa.y), col, -1.0)
 		S.quad(Vector3(oa.x, y - 0.25, oa.y), Vector3(ob.x, y - 0.25, ob.y), Vector3(ob.x, y, ob.y), Vector3(oa.x, y, oa.y), col, -1.0)
+
+func hlod_enabled() -> bool:
+	return DayNight.low_quality and not lite and OS.get_environment("TRAMSIM_HLOD") != "0"
+
+## Version lointaine d'une cellule de bâti : triangles d'aire ≥ HLOD_MIN_AREA (mêmes sommets, couleurs, UV).
+static func _hlod_far(a: _Arrays) -> _Arrays:
+	var o := _Arrays.new()
+	var lim := HLOD_MIN_AREA * 2.0
+	var has_rel := a.rel.size() >= a.v.size()
+	for i in range(0, a.v.size() - 2, 3):
+		if (a.v[i + 1] - a.v[i]).cross(a.v[i + 2] - a.v[i]).length() < lim: continue
+		for j in 3:
+			o.v.append(a.v[i + j]); o.c.append(a.c[i + j]); o.uv.append(a.uv[i + j])
+			if has_rel: o.set_rel(o.v.size() - 1, a.rel[i + j])
+	return o
 
 ## P3 : relief des faces sur rue d'un bâtiment courant (Facades.face_relief) dans la cellule de LOD proche.
 func _facade_relief(ring: PackedVector2Array, h: float, fst: int, ftype: int, seed_: int, shop: bool, wall: Color, roof_kind: int, fsc: Dictionary = {}) -> void:

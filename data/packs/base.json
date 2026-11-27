@@ -1,0 +1,1 @@
+{"doc": "Villes incluses dans le paquet de base Android (APK) ; les autres sont livrées en packs tramsim-city-<ville>.pck (src/catalogue/city_packs.gd, tools/packs).", "cities": ["angers", "nantes"]}

@@ -365,8 +365,13 @@ def church(cname, lat, lon, r=90.0, west=True, h=None, aisles=True, gothic=True,
         for i in range(len(hemi) - 1):
             k.tri(v3(hemi[i][0], g + H, hemi[i][1]), v3(hemi[i + 1][0], g + H, hemi[i + 1][1]), ap, roof, v3(0, 1, 0))
         if aisles:
-            hemi2 = [tuple(F.p(ae + W * math.cos(t), W * math.sin(t))) for t in np.linspace(-math.pi / 2, math.pi / 2, 11)]
-            k.prism(hemi2, g, g + ha, stone)
+            ts = np.linspace(-math.pi / 2, math.pi / 2, 11)
+            hemi2 = [tuple(F.p(ae + W * 0.9 * math.cos(t), W * math.sin(t))) for t in ts]
+            k.prism(hemi2, g, g + ha, stone, top=False)
+            inner = [tuple(F.p(ae + Wn * math.cos(t), Wn * math.sin(t))) for t in ts]
+            for i in range(len(ts) - 1):   # toit en appentis du déambulatoire
+                k.quad(v3(hemi2[i][0], g + ha, hemi2[i][1]), v3(hemi2[i + 1][0], g + ha, hemi2[i + 1][1]),
+                       v3(inner[i + 1][0], g + ha + 2.5, inner[i + 1][1]), v3(inner[i][0], g + ha + 2.5, inner[i][1]), roof, v3(0, 1, 0))
     # contreforts, arcs-boutants et baies
     bay = 6.0
     for sgn in (-1, 1):
@@ -464,7 +469,7 @@ def skyscraper(cname, lat, lon, r=80.0, h=None, mat=GLASS, band=WHITE, top="flat
     return finish(k, city, rep, [block(ring, g, H + top_h)], tuple(c))
 
 
-def palace(cname, lat, lon, r=60.0, kinds=None, minh=6.0, h=None, mat=STONE, roof="mansard", roof_mat=SLATE, floors=None,
+def palace(cname, lat, lon, r=60.0, kinds=None, minh=0.0, h=None, mat=STONE, roof="mansard", roof_mat=SLATE, floors=None,
            pitch=4.0, center=True, columns=0, pediment=True, dome_r=0.0, dome_h=0.0, clock=False, n=6, frame=None, maxarea=1e9, pilasters=True):
     """Palais ou hôtel de ville classique sur les emprises BD TOPO près du point : murs, baies encadrées, pilastres,
     corniche, comble (mansard, hip, flat, tile), avant-corps central à colonnes et fronton face à la voie la plus
@@ -935,13 +940,13 @@ SPECS_P4 = [
     S("lyon_fourviere", "lyon", lambda: domed("lyon", 45.76230, 4.82250, 60, kinds=(1,), H=22.0, mat="pierre_taille#e6e1d6", roof=SLATE,
         towers=((-30, -10, 7.5, 48.0, "flat", 2.0), (-30, 10, 7.5, 48.0, "flat", 2.0), (30, -10, 7.5, 48.0, "flat", 2.0), (30, 10, 7.5, 48.0, "flat", 2.0)),
         statue_=(36, 0, 5.0, 0.0)), R_FAR, "Basilique Notre-Dame de Fourvière", [700.0, 220.0, 120.0, 40.0]),
-    S("lyon_tour_part_dieu", "lyon", lambda: skyscraper("lyon", 45.76120, 4.85560, 120, h=142.0, mat="pierre_taille#c9906f", band="pierre_taille#b97c5c", top="pyramid", top_h=23.0, circle_r=20.0, minh=100.0), R_FAR, "Tour Part-Dieu (Crayon)", [450.0, 120.0, 210.0, 90.0]),
-    S("lyon_tour_incity", "lyon", lambda: skyscraper("lyon", 45.75990, 4.85200, 120, mat=GLASS, band=WHITE, top="crown", top_h=12.0, minh=120.0, mullion=3.0), R_FAR, "Tour Incity", [450.0, 120.0, 250.0, 90.0]),
+    S("lyon_tour_part_dieu", "lyon", lambda: skyscraper("lyon", 45.75909, 4.85894, 60, h=142.0, mat="pierre_taille#c9906f", band="pierre_taille#b97c5c", top="pyramid", top_h=23.0, circle_r=20.0, minh=100.0), R_FAR, "Tour Part-Dieu (Crayon)", [450.0, 120.0, 210.0, 90.0]),
+    S("lyon_saint_jean", "lyon", lambda: church("lyon", 45.76080, 4.82730, 60, h=32.0, towers=(("west_pair", 44.0, "flat", 1.5),), stone="pierre_taille#d9cdb0", transept=0.0), R_BIG, "Cathédrale Saint-Jean", [300.0, 90.0, 120.0, 25.0]),
     S("lyon_confluences", "lyon", confluences, R_MED, "Musée des Confluences", [200.0, 70.0, 170.0, 15.0]),
     # Bordeaux
     S("bordeaux_place_bourse", "bordeaux", lambda: palace("bordeaux", 44.84140, -0.57010, 75, minh=10.0, h=17.0, mat=BLOND, roof="mansard", pitch=4.2, columns=4, n=6, maxarea=6000), R_MED, "Place de la Bourse", [180.0, 45.0, 90.0, 10.0]),
     S("bordeaux_miroir_eau", "bordeaux", miroir_eau, R_SMALL, "Miroir d'eau", [140.0, 35.0, 80.0, 0.0]),
-    S("bordeaux_grand_theatre", "bordeaux", lambda: palace("bordeaux", 44.84270, -0.57440, 40, kinds=(4,), h=19.0, mat=BLOND, roof="hip", roof_mat=ZINC, floors=2, pitch=4.6, columns=12, pediment=False, n=1), R_MED, "Grand Théâtre", [150.0, 40.0, 200.0, 10.0]),
+    S("bordeaux_grand_theatre", "bordeaux", lambda: palace("bordeaux", 44.84270, -0.57440, 40, kinds=(4,), minh=0.0, h=19.0, mat=BLOND, roof="hip", roof_mat=ZINC, floors=2, pitch=4.6, columns=12, pediment=False, n=1), R_MED, "Grand Théâtre", [150.0, 40.0, 200.0, 10.0]),
     S("bordeaux_cathedrale", "bordeaux", lambda: church("bordeaux", 44.83780, -0.57760, 60, h=29.0, towers=(("transept_n_pair", 81.0, "spire", 28.0),), rose_=True, stone=BLOND), R_BIG, "Cathédrale Saint-André", [260.0, 90.0, 150.0, 30.0]),
     # Strasbourg
     S("strasbourg_cathedrale", "strasbourg", lambda: church("strasbourg", 48.58180, 7.75090, 60, h=32.0, stone=SAND_RED, roof="toiture#7f6a5c",
@@ -951,7 +956,7 @@ SPECS_P4 = [
     # Lille
     S("lille_beffroi", "lille", lambda: _belfry("lille", 50.63290, 3.07110, 104.0), R_FAR, "Beffroi de l'hôtel de ville", [420.0, 120.0, 200.0, 50.0]),
     S("lille_gare_flandres", "lille", lambda: palace("lille", 50.63650, 3.07040, 60, kinds=(5,), minh=8.0, h=19.0, mat=STONE, roof="mansard", pitch=5.0, columns=0, clock=True, n=1), R_MED, "Gare Lille-Flandres", [170.0, 40.0, 250.0, 10.0]),
-    S("lille_tour_euralille", "lille", lambda: skyscraper("lille", 50.63790, 3.07520, 130, mat=GLASS, band="beton_banche#b9b6ad", top="flat", minh=90.0, mullion=3.0), R_FAR, "Tour de Lille (Euralille)", [400.0, 120.0, 230.0, 60.0]),
+    S("lille_tour_euralille", "lille", lambda: skyscraper("lille", 50.63800, 3.07667, 60, mat=GLASS, band="beton_banche#b9b6ad", top="flat", minh=90.0, mullion=3.0), R_FAR, "Tour de Lille (Euralille)", [400.0, 120.0, 230.0, 60.0]),
     # Toulouse
     S("toulouse_capitole", "toulouse", lambda: palace("toulouse", 43.60450, 1.44330, 70, kinds=(4,), h=20.0, mat=RED_BRICK, roof="tile", frame=STONE, columns=8, pitch=4.5, n=2), R_MED, "Capitole", [200.0, 60.0, 200.0, 10.0]),
     S("toulouse_saint_sernin", "toulouse", lambda: church("toulouse", 43.60830, 1.44190, 60, h=21.0, gothic=False, stone=RED_BRICK, roof=TILE, towers=(("crossing", 67.0, "octagon", 32.0),), rose_=False), R_BIG, "Basilique Saint-Sernin", [320.0, 120.0, 200.0, 30.0]),
@@ -974,7 +979,7 @@ SPECS_P4 = [
     S("montpellier_opera_comedie", "montpellier", lambda: palace("montpellier", 43.60850, 3.88010, 45, kinds=(4,), h=22.0, mat=BLOND, roof="hip", roof_mat=ZINC, floors=3, columns=6, n=1), R_MED, "Opéra Comédie", [140.0, 35.0, 200.0, 10.0]),
     S("montpellier_arc_triomphe", "montpellier", lambda: arch("montpellier", 43.61120, 3.87270, 18.0, 7.0, 15.0, yaw_deg=None, bays=1, mat=BLOND, attic=3.0), R_SMALL, "Arc de triomphe (Porte du Peyrou)", [70.0, 15.0, 160.0, 8.0]),
     # Grenoble
-    S("grenoble_tour_perret", "grenoble", lambda: skyscraper("grenoble", 45.18400, 5.73460, 80, h=80.0, mat=CONC, band=CONC, top="lantern", top_h=14.0, minh=0.0, circle_r=5.5), R_FAR, "Tour Perret", [300.0, 70.0, 200.0, 45.0]),
+    S("grenoble_tour_perret", "grenoble", lambda: skyscraper("grenoble", 45.18492, 5.73546, 30, h=81.0, mat=CONC, band=CONC, top="lantern", top_h=14.0, minh=40.0), R_FAR, "Tour Perret", [300.0, 70.0, 200.0, 45.0]),
     S("grenoble_bastille", "grenoble", lambda: fortress("grenoble", 45.19870, 5.72530, 220, mat="pierre_taille#b8b0a0", minh=2.0), R_FAR, "Fort de la Bastille", [500.0, 150.0, 180.0, 0.0]),
     # Île-de-France
     S("idf_tour_eiffel", "idf", eiffel, R_FAR, "Tour Eiffel", [900.0, 200.0, 150.0, 120.0]),
@@ -1001,7 +1006,7 @@ SPECS_P4 = [
     S("lehavre_hotel_de_ville", "lehavre", lambda: palace("lehavre", 49.49450, 0.10700, 90, kinds=(4,), h=14.0, mat="beton_banche#c3bba9", roof="flat", pitch=3.6, columns=0, pediment=False, n=2, maxarea=12000), R_MED, "Hôtel de ville", [250.0, 60.0, 200.0, 20.0]),
     S("lehavre_volcan", "lehavre", volcan, R_MED, "Le Volcan (Espace Niemeyer)", [140.0, 45.0, 230.0, 10.0]),
     # Brest
-    S("brest_chateau", "brest", lambda: fortress("brest", 48.38380, -4.49500, 200, mat="pierre_taille#8f8c86"), R_BIG, "Château de Brest", [350.0, 110.0, 180.0, 0.0]),
+    S("brest_chateau", "brest", lambda: fortress("brest", 48.38380, -4.49500, 220, mat="pierre_taille#8f8c86", kinds=(3, 4), minh=6.0, maxarea=15000), R_BIG, "Château de Brest", [350.0, 110.0, 180.0, 0.0]),
     S("brest_recouvrance", "brest", pylones_recouvrance, R_BIG, "Pont de Recouvrance (pylônes)", [220.0, 60.0, 120.0, 25.0]),
     # Tours
     S("tours_cathedrale", "tours", lambda: church("tours", 47.39550, 0.69430, 60, h=29.0, towers=(("west_pair", 68.0, "lantern", 12.0),), stone="facade_tuffeau#e9e1cc"), R_BIG, "Cathédrale Saint-Gatien", [300.0, 90.0, 230.0, 30.0]),
@@ -1011,28 +1016,28 @@ SPECS_P4 = [
     S("orleans_jeanne_arc", "orleans", lambda: _equestrian("orleans", 47.90240, 1.90450, 1.4), R_SMALL, "Statue de Jeanne d'Arc (place du Martroi)", [35.0, 10.0, 200.0, 5.0]),
     # Le Mans
     S("lemans_cathedrale", "lemans", lambda: church("lemans", 48.01050, 0.19900, 70, h=34.0, towers=(("transept_n_pair", 64.0, "flat", 2.0),), transept=0.7), R_FAR, "Cathédrale Saint-Julien", [350.0, 110.0, 120.0, 35.0]),
-    S("lemans_enceinte", "lemans", lambda: fortress("lemans", 48.00920, 0.19650, 220, mat="pierre_taille#c9a890", minh=2.0, maxarea=8000, kinds=(3, 4)), R_MED, "Enceinte gallo-romaine (Cité Plantagenêt)", [220.0, 80.0, 250.0, 0.0]),
+    S("lemans_enceinte", "lemans", lambda: fortress("lemans", 48.00920, 0.19650, 220, mat="pierre_taille#c9a890", minh=2.0, maxarea=8000, kinds=(3,)), R_MED, "Enceinte gallo-romaine (Cité Plantagenêt)", [220.0, 80.0, 250.0, 0.0]),
     # Besançon
     S("besancon_citadelle", "besancon", lambda: fortress("besancon", 47.23180, 6.03130, 260, mat="pierre_taille#b9b4a6", minh=2.0), R_FAR, "Citadelle", [550.0, 180.0, 300.0, 0.0]),
     S("besancon_cathedrale", "besancon", lambda: church("besancon", 47.23430, 6.02980, 60, h=24.0, gothic=False, towers=(("west", 55.0, "dome", 8.0),), stone="pierre_taille#cdbfa5", rose_=False), R_BIG, "Cathédrale Saint-Jean", [260.0, 80.0, 200.0, 25.0]),
     # Mulhouse
     S("mulhouse_temple_saint_etienne", "mulhouse", lambda: church("mulhouse", 47.74660, 7.33890, 50, h=22.0, towers=(("west", 97.0, "spire", 50.0),), stone=SAND_RED, aisles=True), R_FAR, "Temple Saint-Étienne", [300.0, 90.0, 200.0, 35.0]),
-    S("mulhouse_tour_europe", "mulhouse", lambda: skyscraper("mulhouse", 47.74810, 7.34210, 120, mat=GLASS, band="beton_banche#c8c2b4", top="crown", top_h=8.0, minh=60.0), R_FAR, "Tour de l'Europe", [380.0, 120.0, 180.0, 60.0]),
+    S("mulhouse_hotel_de_ville", "mulhouse", lambda: palace("mulhouse", 47.74680, 7.33830, 45, kinds=None, minh=8.0, h=16.0, mat="facade_enduit#d9a88a", roof="hip", roof_mat=SLATE, frame=STONE, columns=0, pediment=False, clock=True, n=1), R_MED, "Hôtel de ville (place de la Réunion)", [110.0, 30.0, 200.0, 10.0]),
     # Clermont-Ferrand
     S("clermont_cathedrale", "clermont", lambda: church("clermont", 45.77890, 3.08660, 70, h=28.6, stone=VOLVIC, roof="toiture#4a4b4e", towers=(("west_pair", 108.0, "spire", 48.0),)), R_FAR, "Cathédrale Notre-Dame-de-l'Assomption", [420.0, 130.0, 210.0, 45.0]),
     S("clermont_vercingetorix", "clermont", lambda: _equestrian("clermont", 45.77690, 3.08140, 1.6), R_SMALL, "Statue de Vercingétorix (place de Jaude)", [40.0, 12.0, 200.0, 6.0]),
     # Saint-Étienne
-    S("saintetienne_hotel_de_ville", "saintetienne", lambda: palace("saintetienne", 45.43940, 4.38680, 50, kinds=(4,), h=19.0, mat="pierre_taille#d4cbb6", roof="mansard", columns=6, clock=True, n=1), R_MED, "Hôtel de ville", [150.0, 45.0, 180.0, 12.0]),
+    S("saintetienne_hotel_de_ville", "saintetienne", lambda: palace("saintetienne", 45.43940, 4.38680, 45, kinds=None, minh=10.0, h=19.0, mat="pierre_taille#d4cbb6", roof="mansard", columns=6, clock=True, n=1), R_MED, "Hôtel de ville", [150.0, 45.0, 180.0, 12.0]),
     S("saintetienne_couriot", "saintetienne", chevalement_couriot, R_MED, "Puits Couriot", [110.0, 30.0, 200.0, 15.0]),
     # Avignon
     S("avignon_palais_papes", "avignon", lambda: fortress("avignon", 43.95080, 4.80750, 120, kinds=(3, 4, 1, 2, 0), mat="pierre_taille#d6c7a6", minh=12.0, towers=False), R_FAR, "Palais des Papes", [380.0, 120.0, 230.0, 20.0]),
     S("avignon_pont", "avignon", pont_avignon, R_BIG, "Pont Saint-Bénézet", [220.0, 50.0, 230.0, 8.0]),
     # Aubagne
-    S("aubagne_hotel_de_ville", "aubagne", lambda: palace("aubagne", 43.29270, 5.57030, 60, kinds=(4,), h=13.0, mat="facade_enduit#e8d2b0", roof="tile", frame=STONE, columns=0, clock=True, n=1), R_MED, "Hôtel de ville", [110.0, 30.0, 180.0, 10.0]),
+    S("aubagne_hotel_de_ville", "aubagne", lambda: palace("aubagne", 43.29270, 5.57030, 45, kinds=None, minh=6.0, h=13.0, mat="facade_enduit#e8d2b0", roof="tile", frame=STONE, columns=0, clock=True, n=1), R_MED, "Hôtel de ville", [110.0, 30.0, 180.0, 10.0]),
     S("aubagne_saint_sauveur", "aubagne", lambda: church("aubagne", 43.29310, 5.56900, 90, h=14.0, gothic=False, aisles=False, roof=TILE, stone="pierre_taille#e0cfae", towers=(("west", 30.0, "pyramid", 5.0),), rose_=False, transept=0.0), R_MED, "Église Saint-Sauveur", [130.0, 40.0, 200.0, 12.0]),
     # Valenciennes
     S("valenciennes_hotel_de_ville", "valenciennes", lambda: palace("valenciennes", 50.35770, 3.52330, 50, kinds=(4,), h=19.0, mat="pierre_taille#ddd4c0", roof="mansard", columns=4, clock=True, n=1), R_MED, "Hôtel de ville", [140.0, 40.0, 180.0, 12.0]),
-    S("valenciennes_saint_cordon", "valenciennes", lambda: church("valenciennes", 50.36060, 3.51630, 70, h=24.0, stone="facade_brique#8e4f3e", towers=(("west", 80.0, "spire", 38.0),)), R_BIG, "Basilique Notre-Dame-du-Saint-Cordon", [300.0, 90.0, 200.0, 30.0]),
+    S("valenciennes_saint_cordon", "valenciennes", lambda: church("valenciennes", 50.36060, 3.51630, 250, h=24.0, stone="facade_brique#8e4f3e", towers=(("west", 80.0, "spire", 38.0),)), R_BIG, "Basilique Notre-Dame-du-Saint-Cordon", [300.0, 90.0, 200.0, 30.0]),
 ]
 
 
