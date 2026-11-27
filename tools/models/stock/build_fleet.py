@@ -55,6 +55,8 @@ def main():
     with Pool(jobs) as pool:
         entries = dict(pool.map(stock, [masters[k] for k in wanted]))
     mp = os.path.join(OUT, 'manifest.json'); man = json.load(open(mp))
+    for vid, e in entries.items():   # banques sources hors dépôt : le maître est livré par son kit tram_parts
+        e['composed'] = 'res://tram_parts/compositions/%s.json' % e['dir']
     man['variants'].update(entries)
     json.dump(man, open(mp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     with Pool(jobs) as pool:

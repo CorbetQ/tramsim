@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
 """P4 : dédoublonne les textures techniques des kits (sol, tissu, grain, métal, pupitre) référencées par les GLB de
 tram_parts : une copie par contenu dans tram_livery/shared/, URI des GLB réécrites. Les atlas de livrée
-(tram_livery/livery/, adressés par parts_manifest.json) ne sont pas touchés."""
+(tram_livery/livery/, adressés par parts_manifest.json) ne sont pas touchés.
+Rangement : tram_livery/interior/shared/<hash>/<nom> (sol, tissu, pupitre) et tram_livery/materials/shared/<hash>/<nom>."""
 import hashlib, json, os, struct
 from pathlib import Path
 import specs
 from build_stock import configure_texture_imports
 
-ROOT = Path(specs.ROOT); SHARED = ROOT / 'tram_livery/shared'
+ROOT = Path(specs.ROOT); OLD = ROOT / 'tram_livery/shared'
+INTERIOR = ('floor_', 'fabric_', 'cab_')
+
+
+def target(src, h):
+    cat = 'interior' if src.name.split('_', 1)[-1].startswith(INTERIOR) or src.name.startswith(INTERIOR) else 'materials'
+    name = src.name.split('_', 1)[1] if src.parent == OLD else src.name
+    return ROOT / 'tram_livery' / cat / 'shared' / h / name
 
 
 def rewrite(glb):
@@ -16,10 +24,10 @@ def rewrite(glb):
     for image in doc.get('images', []):
         uri = image.get('uri', '')
         src = (glb.parent / uri).resolve()
-        if not uri or not src.exists() or '/tram_livery/livery/' in str(src) or SHARED in src.parents: continue
+        if not uri or not src.exists() or '/tram_livery/livery/' in str(src) or src.parent.parent.name == 'shared': continue
         data = src.read_bytes(); h = hashlib.sha1(data).hexdigest()[:12]
-        dst = SHARED / ('%s_%s' % (h, src.name))
-        if not dst.exists(): SHARED.mkdir(parents=True, exist_ok=True); dst.write_bytes(data)
+        dst = target(src, h)
+        if not dst.exists(): dst.parent.mkdir(parents=True, exist_ok=True); dst.write_bytes(data)
         image['uri'] = os.path.relpath(dst, glb.parent).replace(os.sep, '/'); changed = True
     if changed:
         enc = json.dumps(doc, separators=(',', ':'), ensure_ascii=False).encode(); enc += b' ' * ((-len(enc)) % 4)
@@ -40,8 +48,12 @@ def main():
                 p.unlink(); removed += 1
                 imp = Path(str(p) + '.import')
                 if imp.exists(): imp.unlink()
-    configure_texture_imports(SHARED)
-    print(n, 'GLB réécrits ;', removed, 'copies supprimées ;', len(list(SHARED.glob('*.png'))), 'textures partagées')
+    if OLD.exists():
+        for p in OLD.iterdir(): p.unlink()
+        OLD.rmdir()
+    shared = [d for c in ('interior', 'materials') for d in (ROOT / 'tram_livery' / c / 'shared').glob('*')]
+    for d in shared: configure_texture_imports(d)
+    print(n, 'GLB réécrits ;', removed, 'copies supprimées ;', len(shared), 'textures partagées')
 
 
 if __name__ == '__main__':

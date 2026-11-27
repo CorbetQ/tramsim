@@ -27,7 +27,11 @@ class IndependentBodyAssets(unittest.TestCase):
         self.assertEqual(report['errors'],[])
         self.assertEqual(set(report['variants']),{e['id'] for e in entries})
         self.assertEqual(report['bodies'],sum(e['module_count'] for e in entries))
-        self.assertLess(len(report['model_files']),report['bodies'])  # prototypes are actually shared
+        # Prototypes are actually shared. HD kits (P4: whole catalogue) ship one file per LOD/profile for each
+        # prototype, so count prototypes (file stem without its LOD suffix), not files.
+        import re
+        prototypes={re.sub(r'_lod\d(_m)?$','',str(Path(name).with_suffix(''))) for name in report['model_files']}
+        self.assertLess(len(prototypes),report['bodies'])
         self.assertTrue(all(len(v['sha256'])==64 for v in report['model_files'].values()))
 
     def test_paths_cannot_escape_their_asset_category(self):
@@ -51,8 +55,9 @@ class IndependentBodyAssets(unittest.TestCase):
             text=original(path,*args,**kwargs)
             if path.parent.name=='compositions' and path.suffix=='.json':
                 data=json.loads(text)
-                if data['renderer']!='native':return text
-                next(iter(data['parts'].values()))['models']['native']='res://tram_parts/absent.scn'
+                # P4: every kit is HD; a missing LOD file must be reported exactly like a missing native body.
+                models=next(iter(data['parts'].values()))['models']
+                models[next(iter(models))]='res://tram_parts/absent.scn' if data['renderer']=='native' else 'res://tram_parts/absent.glb'
                 return json.dumps(data)
             return text
         with patch.object(Path,'read_text',missing):report=parts.audit()

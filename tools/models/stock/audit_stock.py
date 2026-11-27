@@ -162,6 +162,19 @@ def audit(root=ROOT):
                 result['errors'].append(f'{vid}: width disagrees with source plan')
         except (OSError, ValueError, KeyError, ZeroDivisionError) as error:
             result['errors'].append(f'{vid}: invalid source plan: {error}')
+        if entry.get('composed'):
+            # P4 : maître livré uniquement en caisses canoniques (tram_parts) ; fichiers, triangles et textures
+            # mesurés par audit_parts.py. On vérifie ici que le kit HD existe et désigne bien ce maître.
+            try:
+                kit = json.loads(local_file(root, entry['composed'].removeprefix('res://')).read_text())
+                if kit.get('renderer') != 'hd' or kit.get('master') != vid:
+                    result['errors'].append(f'{vid}: composed kit does not ship this HD master')
+                if any(not check for check in entry.get('budget_check', {}).values()):
+                    result['errors'].append(f'{vid}: generated LOD over budget')
+            except (OSError, ValueError) as error:
+                result['errors'].append(f'{vid}: composed kit: {error}')
+            result.setdefault('composed', {})[vid] = entry['composed']
+            continue
         for level, spec in list(entry['lods'].items()) + [('cab', entry['cab'])]:
             budget = budgets['LOD0' if level == 'cab' else ('LOD3_impostor' if level == 'LOD3' else level)]
             for platform in ('pc', 'mobile'):

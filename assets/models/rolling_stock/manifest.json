@@ -2141,7 +2141,8 @@
     "livrée data/rolling_stock/liveries.json#nantes + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/dualis.json"
   },
   "marseille__flexity_marseille": {
    "dir": "marseille",
@@ -2690,7 +2691,8 @@
     "livrée data/rolling_stock/liveries.json#marseille + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/marseille.json"
   },
   "grenoble__tfs": {
    "dir": "tfs2",
@@ -3222,7 +3224,8 @@
     "livrée data/rolling_stock/liveries.json#grenoble + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/tfs2.json"
   },
   "mulhouse__avanto": {
    "dir": "avanto",
@@ -3744,7 +3747,8 @@
     "livrée data/rolling_stock/liveries.json#mulhouse + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/avanto.json"
   },
   "nantes__tfs": {
    "dir": "tfs1",
@@ -4276,7 +4280,8 @@
     "livrée data/rolling_stock/liveries.json#nantes + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/tfs1.json"
   },
   "bordeaux__citadis_402": {
    "dir": "bordeaux",
@@ -4823,7 +4828,8 @@
     "livrée data/rolling_stock/liveries.json#bordeaux + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/bordeaux.json"
   },
   "lyon__citadis_402": {
    "dir": "lyon_egg",
@@ -5370,7 +5376,8 @@
     "livrée data/rolling_stock/liveries.json#lyon + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/lyon_egg.json"
   },
   "lyon__citadis_402_2020": {
    "dir": "lyon2020",
@@ -5917,7 +5924,8 @@
     "livrée data/rolling_stock/liveries.json#lyon + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/lyon2020.json"
   },
   "toulouse__citadis_302": {
    "dir": "toulouse",
@@ -6447,7 +6455,8 @@
     "livrée data/rolling_stock/liveries.json#toulouse + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/toulouse.json"
   },
   "montpellier__citadis_402__3": {
    "dir": "tam302",
@@ -6994,7 +7003,8 @@
     "livrée data/rolling_stock/liveries.json#montpellier + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/tam302.json"
   },
   "montpellier__urbos": {
    "dir": "urbos_tam",
@@ -7573,7 +7583,8 @@
     "livrée data/rolling_stock/liveries.json#montpellier + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/urbos_tam.json"
   },
   "montpellier__citadis_x01": {
    "dir": "tam401",
@@ -8097,7 +8108,8 @@
     "livrée data/rolling_stock/liveries.json#montpellier + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/tam401.json"
   },
   "grenoble__citadis_402": {
    "dir": "grenoble",
@@ -8644,7 +8656,8 @@
     "livrée data/rolling_stock/liveries.json#grenoble + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/grenoble.json"
   },
   "strasbourg__citadis_403_strasbourg": {
    "dir": "cts403",
@@ -9191,7 +9204,8 @@
     "livrée data/rolling_stock/liveries.json#strasbourg + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/cts403.json"
   },
   "strasbourg__citadis_x05": {
    "dir": "cts403ng",
@@ -9742,7 +9756,8 @@
     "livrée data/rolling_stock/liveries.json#strasbourg + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/cts403ng.json"
   },
   "strasbourg__citadis_3": {
    "dir": "cts3",
@@ -10293,7 +10308,8 @@
     "livrée data/rolling_stock/liveries.json#strasbourg + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/cts3.json"
   },
   "strasbourg__eurotram_long": {
    "dir": "eurotram",
@@ -10855,7 +10871,8 @@
     "livrée data/rolling_stock/liveries.json#strasbourg + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/eurotram.json"
   },
   "idf__citadis_x05__t1": {
    "dir": "idfm305",
@@ -11389,7 +11406,8 @@
     "livrée data/rolling_stock/liveries.json#idf + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/idfm305.json"
   },
   "idf__citadis_x05__t9": {
    "dir": "idfm405",
@@ -11940,7 +11958,8 @@
     "livrée data/rolling_stock/liveries.json#idf + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/idfm405.json"
   },
   "idf__citadis_302__t2": {
    "dir": "paris_t2",
@@ -12470,7 +12489,8 @@
     "livrée data/rolling_stock/liveries.json#idf + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/paris_t2.json"
   },
   "idf__citadis_402__t3a": {
    "dir": "paris_t3",
@@ -13017,7 +13037,8 @@
     "livrée data/rolling_stock/liveries.json#idf + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/paris_t3.json"
   },
   "idf__citadis_302__t7": {
    "dir": "paris_t7",
@@ -13547,7 +13568,8 @@
     "livrée data/rolling_stock/liveries.json#idf + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/paris_t7.json"
   },
   "idf__avanto__t4": {
    "dir": "avanto_paris",
@@ -14069,7 +14091,8 @@
     "livrée data/rolling_stock/liveries.json#idf + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/avanto_paris.json"
   },
   "idf__translohr__t6": {
    "dir": "translohr_paris",
@@ -14596,7 +14619,8 @@
     "livrée data/rolling_stock/liveries.json#idf + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/translohr_paris.json"
   },
   "lille__citadis_x05": {
    "dir": "lille305",
@@ -15130,7 +15154,8 @@
     "livrée data/rolling_stock/liveries.json#lille + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/lille305.json"
   },
   "lille__breda_vlc": {
    "dir": "breda",
@@ -15648,7 +15673,8 @@
     "livrée data/rolling_stock/liveries.json#lille + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/breda.json"
   },
   "nice__citadis_402": {
    "dir": "nice302",
@@ -16195,7 +16221,8 @@
     "livrée data/rolling_stock/liveries.json#nice + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/nice302.json"
   },
   "nice__citadis_x05": {
    "dir": "nice405",
@@ -16746,7 +16773,8 @@
     "livrée data/rolling_stock/liveries.json#nice + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/nice405.json"
   },
   "rouen__citadis_402": {
    "dir": "rouen",
@@ -17293,7 +17321,8 @@
     "livrée data/rolling_stock/liveries.json#rouen + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/rouen.json"
   },
   "nantes__incentro": {
    "dir": "incentro",
@@ -17823,7 +17852,8 @@
     "livrée data/rolling_stock/liveries.json#nantes + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/incentro.json"
   },
   "nantes__urbos": {
    "dir": "urbos_nantes",
@@ -18368,7 +18398,8 @@
     "livrée data/rolling_stock/liveries.json#nantes + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/urbos_nantes.json"
   },
   "aubagne__citadis_compact": {
    "dir": "aubagne",
@@ -18879,7 +18910,8 @@
     "livrée data/rolling_stock/liveries.json#aubagne + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/aubagne.json"
   },
   "avignon__citadis_compact": {
    "dir": "avignon",
@@ -19390,7 +19422,8 @@
     "livrée data/rolling_stock/liveries.json#avignon + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/avignon.json"
   },
   "brest__citadis_302": {
    "dir": "brest",
@@ -19920,7 +19953,8 @@
     "livrée data/rolling_stock/liveries.json#brest + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/brest.json"
   },
   "caen__citadis_x05": {
    "dir": "caen",
@@ -20454,7 +20488,8 @@
     "livrée data/rolling_stock/liveries.json#caen + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/caen.json"
   },
   "dijon__citadis_302": {
    "dir": "dijon",
@@ -20984,7 +21019,8 @@
     "livrée data/rolling_stock/liveries.json#dijon + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/dijon.json"
   },
   "saintlouis__flexity_bvb": {
    "dir": "flexity_basel",
@@ -21535,7 +21571,8 @@
     "livrée data/rolling_stock/liveries.json#saintlouis + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/flexity_basel.json"
   },
   "besancon__citadis_x05": {
    "dir": "ginko305",
@@ -22069,7 +22106,8 @@
     "livrée data/rolling_stock/liveries.json#besancon + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/ginko305.json"
   },
   "lehavre__citadis_302": {
    "dir": "lehavre",
@@ -22599,7 +22637,8 @@
     "livrée data/rolling_stock/liveries.json#lehavre + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/lehavre.json"
   },
   "lemans__citadis_402": {
    "dir": "lemans",
@@ -23146,7 +23185,8 @@
     "livrée data/rolling_stock/liveries.json#lemans + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/lemans.json"
   },
   "marseille__urbos": {
    "dir": "marseille_caf",
@@ -23725,7 +23765,8 @@
     "livrée data/rolling_stock/liveries.json#marseille + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/marseille_caf.json"
   },
   "mulhouse__citadis_302": {
    "dir": "mulhouse",
@@ -24255,7 +24296,8 @@
     "livrée data/rolling_stock/liveries.json#mulhouse + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/mulhouse.json"
   },
   "orleans__citadis_x01": {
    "dir": "orleans301",
@@ -24767,7 +24809,8 @@
     "livrée data/rolling_stock/liveries.json#orleans + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/orleans301.json"
   },
   "orleans__citadis_302": {
    "dir": "orleans302",
@@ -25297,7 +25340,8 @@
     "livrée data/rolling_stock/liveries.json#orleans + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/orleans302.json"
   },
   "reims__citadis_reims": {
    "dir": "reims",
@@ -25827,7 +25871,8 @@
     "livrée data/rolling_stock/liveries.json#reims + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/reims.json"
   },
   "sarreguemines__flexity_link": {
    "dir": "saarbahn",
@@ -26332,7 +26377,8 @@
     "livrée data/rolling_stock/liveries.json#sarreguemines + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/saarbahn.json"
   },
   "lyon__tango_rhonexpress": {
    "dir": "tango",
@@ -26844,7 +26890,8 @@
     "livrée data/rolling_stock/liveries.json#lyon + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/tango.json"
   },
   "leymen__tango_blt": {
    "dir": "tango_blt",
@@ -27410,7 +27457,8 @@
     "livrée data/rolling_stock/liveries.json#leymen + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/tango_blt.json"
   },
   "annemasse__tango_tpg": {
    "dir": "tango_tpg",
@@ -27976,7 +28024,8 @@
     "livrée data/rolling_stock/liveries.json#annemasse + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/tango_tpg.json"
   },
   "tours__citadis_tours": {
    "dir": "tours",
@@ -28523,7 +28572,8 @@
     "livrée data/rolling_stock/liveries.json#tours + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/tours.json"
   },
   "annemasse__cityrunner_tpg": {
    "dir": "tpg_cityrunner",
@@ -29072,7 +29122,8 @@
     "livrée data/rolling_stock/liveries.json#annemasse + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/tpg_cityrunner.json"
   },
   "clermont__translohr": {
    "dir": "translohr",
@@ -29582,7 +29633,8 @@
     "livrée data/rolling_stock/liveries.json#clermont + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/translohr.json"
   },
   "besancon__urbos": {
    "dir": "urbos_ginko",
@@ -30093,7 +30145,8 @@
     "livrée data/rolling_stock/liveries.json#besancon + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/urbos_ginko.json"
   },
   "saintetienne__urbos": {
    "dir": "urbos_stas",
@@ -30638,7 +30691,8 @@
     "livrée data/rolling_stock/liveries.json#saintetienne + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/urbos_stas.json"
   },
   "valenciennes__citadis_302": {
    "dir": "valenciennes",
@@ -31168,7 +31222,8 @@
     "livrée data/rolling_stock/liveries.json#valenciennes + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/valenciennes.json"
   },
   "saintetienne__vevey_ste1": {
    "dir": "vevey1",
@@ -31674,7 +31729,8 @@
     "livrée data/rolling_stock/liveries.json#saintetienne + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/vevey1.json"
   },
   "saintetienne__vevey_saint_etienne": {
    "dir": "vevey2",
@@ -32180,7 +32236,8 @@
     "livrée data/rolling_stock/liveries.json#saintetienne + photos docs/rolling-stock-meshy (Commons CC BY-SA, références)",
     "textures : générées (CC0, projet) ; métal Poly Haven rusty_metal_02 (CC0)"
    ],
-   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)"
+   "license": "CC-BY-SA 4.0 (production du projet, géométrie procédurale tools/models/stock)",
+   "composed": "res://tram_parts/compositions/vevey2.json"
   }
  },
  "generator": "tools/models/stock/build_stock.py",
