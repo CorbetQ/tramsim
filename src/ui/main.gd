@@ -52,6 +52,12 @@ var _city_loading_layer: CanvasLayer
 var _city_loading_title: Label
 var _city_loading_detail: Label
 var _city_retry: Button
+var _city_shade: ColorRect
+var _city_bar: ProgressBar
+var _city_dl: Button
+var _city_dl_cancel: Button
+var _city_dl_skip: Button
+var _city_dl_hide: Button
 var _launching := false
 var _departure_context: Dictionary = {}
 
@@ -214,25 +220,76 @@ func _ensure_city_preload() -> void:
 	city_preload = CityPreload.new(); city_preload.name = "city_preload"; add_child(city_preload)
 	city_preload.completed.connect(_city_data_completed)
 	_city_loading_layer = CanvasLayer.new(); _city_loading_layer.layer = 90; _city_loading_layer.name = "city_loading"; add_child(_city_loading_layer)
-	var shade := ColorRect.new(); shade.color = Color(0.025, 0.04, 0.06, 0.95)
+	var shade := ColorRect.new(); shade.color = Color(0.025, 0.04, 0.06, 0.95); _city_shade = shade
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); shade.mouse_filter = Control.MOUSE_FILTER_STOP
 	_city_loading_layer.add_child(shade)
 	var center := CenterContainer.new(); center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); shade.add_child(center)
-	var box := VBoxContainer.new(); box.custom_minimum_size.x = 280; box.add_theme_constant_override("separation", 18); center.add_child(box)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var card := UiTheme.panel(Color(UiTheme.SURFACE, 0.92), 18, 18); card.name = "city_download"; center.add_child(card)
+	var box := VBoxContainer.new(); box.custom_minimum_size.x = 320; box.add_theme_constant_override("separation", 14); card.add_child(box)
 	_city_loading_title = UiTheme.label_("", 24, UiTheme.TEXT, true); _city_loading_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; box.add_child(_city_loading_title)
 	var bar := ProgressBar.new(); bar.indeterminate = true; bar.show_percentage = false; bar.custom_minimum_size.y = 8; box.add_child(bar)
+	bar.max_value = 1.0; _city_bar = bar
 	_city_loading_detail = UiTheme.label_("Préparation de la ville…", 16, UiTheme.MUTED); _city_loading_detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; box.add_child(_city_loading_detail)
 	_city_retry = UiTheme.button("Réessayer", "play", "primary", Vector2(0, 52)); box.add_child(_city_retry)
 	_city_retry.pressed.connect(func(): city_preload.invalidate(); _show_bg(menu_city))
+	# données téléchargeables (CityPacks) : télécharger, annuler (reprise ensuite), jouer sans la mise à jour, masquer
+	_city_dl = UiTheme.button("Télécharger la ville", "play", "primary", Vector2(0, 52)); _city_dl.name = "download_city"; box.add_child(_city_dl)
+	_city_dl.pressed.connect(func():
+		if city_preload.download(): _download_ui(true)
+		else: _city_loading_detail.text = "Téléchargement indisponible (désactivé ou déjà en cours).")
+	_city_dl_cancel = UiTheme.button("Annuler", "close", "normal", Vector2(0, 48)); _city_dl_cancel.name = "download_cancel"; box.add_child(_city_dl_cancel)
+	_city_dl_cancel.pressed.connect(func(): city_preload.cancel_download())
+	_city_dl_skip = UiTheme.button("Jouer avec la version installée", "switch", "ghost", Vector2(0, 48)); box.add_child(_city_dl_skip)
+	_city_dl_skip.pressed.connect(func(): _loading_mode(false); city_preload.skip_updates())
+	_city_dl_hide = UiTheme.button("Choisir une autre ville", "chevron", "ghost", Vector2(0, 48)); box.add_child(_city_dl_hide)
+	_city_dl_hide.pressed.connect(func(): _city_loading_layer.hide())
+	for b in [_city_retry, _city_dl, _city_dl_cancel, _city_dl_skip, _city_dl_hide]:
+		b.expand_icon = true; b.add_theme_constant_override("icon_max_width", 24)
+	city_preload.download_status.connect(_download_status)
+	_loading_mode(false)
 	_city_loading_layer.hide()
+
+## Écran de chargement (bloquant) ou panneau de téléchargement (non bloquant : le menu reste utilisable).
+func _loading_mode(download: bool) -> void:
+	_city_shade.color = Color(0.025, 0.04, 0.06, 0.55 if download else 0.95)
+	_city_shade.mouse_filter = Control.MOUSE_FILTER_IGNORE if download else Control.MOUSE_FILTER_STOP
+	_city_bar.indeterminate = not download; _city_bar.value = 0.0; _city_bar.visible = not download
+	for b in [_city_dl, _city_dl_cancel, _city_dl_skip, _city_dl_hide]: b.hide()
+	if download: _city_retry.hide()
+
+func _download_ui(active: bool) -> void:
+	_loading_mode(true)
+	_city_bar.visible = active
+	_city_dl.visible = not active; _city_dl_cancel.visible = active; _city_dl_hide.visible = true
+	_city_dl_skip.visible = not active and city_preload.missing.is_empty() and not city_preload.updates.is_empty()
+	_city_dl.text = "Mettre à jour" if city_preload.missing.is_empty() and not city_preload.updates.is_empty() else "Télécharger la ville"
+	_city_loading_layer.show()
+
+func _show_download(city: String) -> void:
+	_city_loading_title.text = city
+	var left := CityPacks.space_left()
+	_city_loading_detail.text = city_preload.error + ("\nEspace libre : %s." % CityPacks.human_size(left) if left >= 0 else "")
+	if not city_preload.allow_download: _city_loading_detail.text += "\nTéléchargement désactivé (hors ligne)."
+	_download_ui(city_preload.downloading())
+
+func _download_status(city: String, done: int, total: int, speed: float) -> void:
+	if city != menu_city or not is_instance_valid(_city_bar): return
+	_city_bar.value = float(done) / float(maxi(total, 1))
+	var eta := "" if speed <= 1.0 else " · %d s restantes" % int(float(total - done) / speed)
+	_city_loading_detail.text = "%s / %s · %s/s · %d %%%s" % [CityPacks.human_size(done), CityPacks.human_size(total), CityPacks.human_size(speed), int(_city_bar.value * 100.0), eta]
 
 func _show_bg(city: String) -> void:
 	_ensure_city_preload()
 	city_preload.request(city)
 	if not city_preload.is_ready(city):
-		_city_loading_title.text = "Chargement de " + city
-		_city_loading_detail.text = "Préparation de la ville…"
-		_city_retry.hide(); _city_loading_layer.show()
+		if city_preload.downloading() or (city_preload.city == city and not (city_preload.missing + city_preload.updates).is_empty()):
+			_show_download(city)
+		else:
+			_loading_mode(false)
+			_city_loading_title.text = "Chargement de " + city
+			_city_loading_detail.text = "Préparation de la ville…"
+			_city_retry.hide(); _city_loading_layer.show()
 		var go: Button = _menu.get("go")
 		if is_instance_valid(go): go.disabled = true; go.text = "Chargement…"
 		return
@@ -256,8 +313,12 @@ func _install_home_bg(city: String) -> void:
 func _city_data_completed(city: String, error: String) -> void:
 	if city != menu_city or session != null or is_instance_valid(explore): return
 	if error != "":
+		if not (city_preload.missing + city_preload.updates).is_empty():
+			_show_download(city); return
+		_loading_mode(false); _city_bar.visible = false
 		_city_loading_detail.text = error; _city_retry.show(); _city_loading_layer.show()
 		return
+	_loading_mode(false)
 	if has_meta("deferred_catalogue_pick"):
 		set_meta("catalogue_pick", get_meta("deferred_catalogue_pick")); remove_meta("deferred_catalogue_pick")
 		_build_menu(); return
@@ -845,6 +906,7 @@ func _resume() -> void:
 ## Réglages (accueil) : distance de vue, trafic, ambiance, fond animé, astuces.
 func _open_settings() -> void:
 	if settings_layer: return
+	if is_instance_valid(_city_loading_layer) and _city_shade.mouse_filter == Control.MOUSE_FILTER_IGNORE: _city_loading_layer.hide()
 	var v := VBoxContainer.new(); v.add_theme_constant_override("separation", 10)
 	var weather_choice := _opt(v,"Météo")
 	var weather_ids := ["clear","rain","fog","storm","dynamic","snow"]
@@ -874,6 +936,7 @@ func _open_settings() -> void:
 	var tut := CheckButton.new(); tut.text = "Revoir les astuces de conduite"; tut.custom_minimum_size = Vector2(0, 48)
 	tut.button_pressed = not save.settings.tutorial_done; v.add_child(tut)
 	tut.toggled.connect(func(on): save.settings.tutorial_done = not on)
+	_data_settings(v)
 	settings_layer = _overlay("Réglages", "switch", UiTheme.ACCENT, [["Fermer  (Échap)", "close", "primary", _close_settings]], "", [], v, 600.0)
 	settings_layer.name = "settings_layer"
 
@@ -883,9 +946,50 @@ func _close_settings() -> void:
 	_save_profile()
 	_show_bg(menu_city)
 
+## Réglages : données des villes téléchargées (espace, suppression, mises à jour) et serveur de données (avancé).
+func _data_settings(v: VBoxContainer) -> void:
+	_ensure_city_preload()
+	var box := VBoxContainer.new(); box.name = "data_settings"; box.add_theme_constant_override("separation", 8); v.add_child(box)
+	var fill := func(self_ref: Callable) -> void:
+		for c in box.get_children(): c.queue_free()
+		box.add_child(UiTheme.label_("Données des villes", UiTheme.SIZE_H2, UiTheme.TEXT, true))
+		var left := CityPacks.space_left()
+		box.add_child(UiTheme.label_("Utilisé : %s · libre : %s · plateforme %s" % [CityPacks.human_size(CityPacks.usage_bytes()), CityPacks.human_size(left), CityPacks.platform()], UiTheme.SIZE_SMALL, UiTheme.MUTED))
+		var ids := CityPacks.installed().keys(); ids.sort()
+		if ids.is_empty(): box.add_child(UiTheme.label_("Aucune ville téléchargée.", UiTheme.SIZE_SMALL, UiTheme.MUTED))
+		for id in ids:
+			var r: Dictionary = CityPacks.installed()[id]
+			var row := HBoxContainer.new(); row.name = "pack_" + str(id); row.add_theme_constant_override("separation", 10); box.add_child(row)
+			var st := CityPacks.status(id)
+			var l := UiTheme.label_("%s · %s · données %s%s" % [CityPacks.label(id), CityPacks.human_size(float(r.get("size", 0))), r.get("data_version", "?"), " · mise à jour disponible" if st == "update" else ""], UiTheme.SIZE_SMALL, UiTheme.TEXT)
+			l.size_flags_horizontal = Control.SIZE_EXPAND_FILL; l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; row.add_child(l)
+			var del := UiTheme.button("Supprimer", "close", "ghost", Vector2(0, 44)); del.name = "remove"; row.add_child(del)
+			del.pressed.connect(func():
+				var msg := CityPacks.remove(id)
+				if is_instance_valid(city_preload): city_preload.invalidate()
+				self_ref.call(self_ref)
+				if msg != "": box.add_child(UiTheme.label_(msg, UiTheme.SIZE_SMALL, UiTheme.MUTED)))
+		var srv := HBoxContainer.new(); srv.add_theme_constant_override("separation", 8); box.add_child(srv)
+		var edit := LineEdit.new(); edit.name = "data_server"; edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit.custom_minimum_size.y = 44
+		edit.placeholder_text = CityPacks.embedded_base_url() if CityPacks.embedded_base_url() != "" else "https://données.exemple (vide : release GitHub)"
+		edit.text = str(CityPacks._config().get_value("server", "base_url", "")); edit.tooltip_text = "Serveur de données (avancé) : vide = valeur du build"
+		srv.add_child(edit)
+		var apply := UiTheme.button("Appliquer", "switch", "normal", Vector2(0, 44)); srv.add_child(apply)
+		var check := UiTheme.button("Vérifier les mises à jour", "switch", "normal", Vector2(0, 44)); box.add_child(check)
+		var note := UiTheme.label_("Source : %s" % (CityPacks.base_url() if CityPacks.base_url() != "" else "release GitHub " + CityPacks.release_tag()), UiTheme.SIZE_CAPTION, UiTheme.MUTED)
+		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; box.add_child(note)
+		apply.pressed.connect(func(): CityPacks.set_base_url(edit.text); self_ref.call(self_ref))
+		check.pressed.connect(func():
+			if not city_preload.allow_download or not city_preload.downloader.fetch_manifest(): note.text = "Vérification indisponible."; return
+			note.text = "Vérification…"
+			await city_preload.downloader.manifest_done
+			if not is_instance_valid(box): return
+			self_ref.call(self_ref))
+	fill.call(fill)
+
 ## Raccourcis des menus (accueil, configuration). Renvoie vrai si la touche est consommée.
 func _menu_key(k: int, ev: InputEventKey) -> bool:
-	if _launching or (is_instance_valid(_city_loading_layer) and _city_loading_layer.visible): return true
+	if _launching or (is_instance_valid(_city_loading_layer) and _city_loading_layer.visible and _city_shade.mouse_filter == Control.MOUSE_FILTER_STOP): return true
 	if not get_tree().get_nodes_in_group("touch_choice_modal").is_empty(): return false
 	for c in get_children():
 		if c is Catalogue: return false

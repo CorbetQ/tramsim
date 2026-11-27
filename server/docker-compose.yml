@@ -1,0 +1,32 @@
+# Serveur de données de Tram Sim France (docs/SERVEUR_DONNEES.md) : Caddy sert en HTTPS (Let's Encrypt automatique)
+# les packs versionnés /packs/<version>/<fichier>.pck (Range, cache long) et l'API statique /api/v1/*.
+# Variables (.env écrit par deploy-data.yml, ou à la main depuis .env.example) : DATA_DOMAIN, DATA_ROOT.
+services:
+  caddy:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DATA_DOMAIN: ${DATA_DOMAIN:?DATA_DOMAIN manquant (domaine HTTPS pointant vers ce serveur)}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${DATA_ROOT:-/srv/tramsim-data}/www:/srv/www:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    security_opt: ["no-new-privileges:true"]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:2019/config/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options: {max-size: "20m", max-file: "5"}
+volumes:
+  caddy_data:
+  caddy_config:

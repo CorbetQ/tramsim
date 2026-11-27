@@ -1,0 +1,47 @@
+# Tram Sim France : données des villes (docs/SERVEUR_DONNEES.md). Certificat Let's Encrypt obtenu automatiquement
+# pour {$DATA_DOMAIN} (ports 80 et 443 ouverts, enregistrement DNS A/AAAA vers ce serveur).
+# Contact Let's Encrypt facultatif : ajouter en tête un bloc global « { email vous@exemple.org } ».
+
+{$DATA_DOMAIN} {
+	root * /srv/www
+
+	# API statique : manifest.json et health.json écrits par scripts/publish.sh
+	rewrite /api/v1/health /api/v1/health.json
+	rewrite /api/v1/manifest /api/v1/manifest.json
+
+	# compression du JSON seulement : les .pck restent bruts (requêtes Range exactes, reprise des téléchargements)
+	encode {
+		zstd
+		gzip
+		match {
+			header Content-Type application/json*
+			header Content-Type text/*
+		}
+	}
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy no-referrer
+		-Server
+	}
+	# packs : chemin versionné, contenu immuable
+	header /packs/* Cache-Control "public, max-age=31536000, immutable"
+	# API : revalidation à chaque requête (nouvelle version de données visible tout de suite)
+	header /api/* {
+		Cache-Control "no-cache"
+		Access-Control-Allow-Origin *
+	}
+
+	@data path /packs/* /api/*
+	handle @data {
+		file_server
+	}
+	handle {
+		respond "Tram Sim France : serveur de données (GET /api/v1/manifest, /api/v1/health)" 200
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

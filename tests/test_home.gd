@@ -73,6 +73,25 @@ func _run() -> void:
 	check(main.home_bg.layer_count() == 1, "ancienne ville libérée après le fondu")
 	var summary: Node = main.find_child("summary", true, false)
 	check(summary != null and summary.is_visible_in_tree(), "résumé de la sélection visible")
+	# ville non téléchargée (exports sans données) : panneau « Télécharger la ville » non bloquant, départ grisé
+	CityPacks.simulated_absent = {"lyon": true}
+	picker.pick("Lyon")
+	for i in 5: await process_frame
+	var dlb: Button = main.find_child("download_city", true, false)
+	check(main.menu_city == "Lyon" and main._city_loading_layer.visible and dlb != null and dlb.is_visible_in_tree(), "ville absente : bouton « Télécharger la ville »")
+	check(main._city_shade.mouse_filter == Control.MOUSE_FILTER_IGNORE and main._menu.go.disabled and main.city_preload.missing.has("lyon"), "ville absente : menu utilisable, départ grisé, pack lyon à télécharger")
+	check(main.find_child("card_mission", true, false) == null and summary.is_visible_in_tree(), "choix de ville utilisable avant téléchargement")
+	await _shot("home_download")
+	main._open_settings(); await process_frame
+	await _shot("settings_data")
+	var ds: Node = main.find_child("data_settings", true, false)
+	check(ds != null and ds.find_child("data_server", true, false) is LineEdit, "réglages : données des villes (espace, suppression) et serveur de données")
+	main._close_settings(); await process_frame
+	CityPacks.simulated_absent = {}
+	picker.pick("Angers")
+	var t_back := Time.get_ticks_msec()
+	while (not main._ready_for_launch("Angers") or main._city_loading_layer.visible) and Time.get_ticks_msec() - t_back < 120000: await process_frame
+	check(main._ready_for_launch("Angers") and not main._city_loading_layer.visible, "retour sur une ville présente : panneau fermé")
 	small = 0
 	for b in main.find_children("*", "Button", true, false):
 		if b.is_visible_in_tree() and b.size.y < 44.0: small += 1; print("  petite cible : ", b.name, " ", b.size)

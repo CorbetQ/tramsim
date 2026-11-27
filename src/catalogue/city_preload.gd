@@ -13,33 +13,58 @@ var _bundle_files: Dictionary = {}
 var _bundle_documents: Dictionary = {}
 var _scene: CityScene
 var _audio_assets: Array[Resource] = []
-## P4 : téléchargement des packs de ville absents (désactivé par TRAMSIM_PACK_DOWNLOAD=0 et dans les tests).
+## Données téléchargeables (CityPacks, PackDownloader) : une ville absente n'est jamais téléchargée sans le joueur ;
+## _launch publie missing (packs à télécharger, dépendances comprises) et une erreur, l'écran propose « Télécharger ».
+## TRAMSIM_PACK_DOWNLOAD=0 : aucun accès réseau (tests, mode hors ligne forcé).
 var allow_download := OS.get_environment("TRAMSIM_PACK_DOWNLOAD") != "0"
-var _http: HTTPRequest
-var _failed_downloads := {}
+var missing: Array = []            # packs à télécharger pour city
+var updates: Array = []            # packs installés dont le manifeste annonce une nouvelle version
+var downloader: PackDownloader
+var _skip_updates := {}
 signal download_progress(city: String, fraction: float)
+signal download_status(city: String, done: int, total: int, speed: float)
+signal download_finished(city: String, error: String)
 
-func _download(key: String) -> void:
-	if _http == null:
-		_http = HTTPRequest.new(); _http.use_threads = true; add_child(_http)
-		_http.request_completed.connect(_downloaded)
-	if _http.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED: return
-	_http.set_meta("key", key)
-	_http.download_file = CityPacks.download_path(key) + ".part"
-	if _http.request(CityPacks.download_url(key)) != OK:
-		_failed_downloads[key] = true; _launch()
+func _ready() -> void:
+	CityPacks.cleanup()
+	downloader = PackDownloader.new(); downloader.name = "pack_downloader"; add_child(downloader)
+	downloader.progress.connect(func(_id, done, total, speed):
+		download_status.emit(city, done, total, speed)
+		if total > 0: download_progress.emit(city, float(done) / float(total)))
+	downloader.finished.connect(_downloaded)
+	downloader.manifest_done.connect(func(ok, _e): if ok and _task < 0 and ready_city != city and city != "": _launch())
+	# état des mises à jour ; échec silencieux (hors ligne). Arborescence source : toutes les données sont là.
+	if allow_download and not FileAccess.file_exists(CityPacks.SOURCE_TREE): downloader.fetch_manifest()
 
-func _downloaded(result: int, code: int, _headers: PackedStringArray, _body: PackedByteArray) -> void:
-	var key := str(_http.get_meta("key", ""))
-	var dst := CityPacks.download_path(key)
-	if result == HTTPRequest.RESULT_SUCCESS and code == 200:
-		DirAccess.rename_absolute(dst + ".part", dst)
+## Télécharge les packs manquants (ou à mettre à jour) de la ville courante.
+func download() -> bool:
+	if not allow_download or downloader == null or downloader.busy(): return false
+	var ids := missing.duplicate()
+	for u in updates:
+		if not u in ids: ids.append(u)
+	if ids.is_empty(): return false
+	error = ""
+	return downloader.download(ids)
+
+func cancel_download() -> void:
+	if downloader != null: downloader.cancel()
+
+func downloading() -> bool:
+	return downloader != null and downloader.busy() and downloader._kind == "download"
+
+## Joue avec les packs installés malgré une mise à jour disponible.
+func skip_updates() -> void:
+	_skip_updates[city] = true; updates.clear(); invalidate(); _launch()
+
+func _downloaded(ok: bool, err: String) -> void:
+	if ok: _skip_updates.erase(city)
+	download_finished.emit(city, err)
+	if ok: invalidate(); _launch()
 	else:
-		DirAccess.remove_absolute(dst + ".part")
-		_failed_downloads[key] = true
-	_launch()
+		error = err; completed.emit(city, error)
 
 func request(selected: String) -> void:
+	if selected != city and downloading(): cancel_download()
 	city = selected
 	error = ""
 	if ready_city == city: return
@@ -58,18 +83,25 @@ func take_scene(origin: Array) -> CityScene:
 	return result
 
 func _launch() -> void:
-	# P4 : packs de ville (CityPacks) : montage si présent, sinon téléchargement depuis la release, sinon erreur
 	var entries := NetworkRegistry.entries().filter(func(e): return e.city == city)
+	var keys: Array = []
 	for e in entries:
-		var key := CityPacks.key_of(e)
-		var err := CityPacks.ensure(key)
-		if err == "": continue
-		if allow_download and not _failed_downloads.has(key):
-			_download(key)
-			return
-		error = err; ready_city = ""; _networks.clear()
+		if not CityPacks.key_of(e) in keys: keys.append(CityPacks.key_of(e))
+	missing = CityPacks.needed(keys)
+	updates = [] if _skip_updates.has(city) else CityPacks.needed(keys, true).filter(func(x): return not x in missing)
+	if not missing.is_empty() or not updates.is_empty():
+		var n := CityPacks.download_bytes(missing + updates)
+		var size := " (%s)" % CityPacks.human_size(n) if n >= 0 else ""
+		error = ("Données de %s à télécharger%s." if not missing.is_empty() else "Mise à jour des données de %s disponible%s.") % [city, size]
+		ready_city = ""; _networks.clear()
 		completed.emit.call_deferred(city, error)
 		return
+	for key in keys:
+		var err := CityPacks.ensure(key)
+		if err != "":
+			error = err; ready_city = ""; _networks.clear()
+			completed.emit.call_deferred(city, error)
+			return
 	_job = {"city": city, "entries": entries, "cached_files": _bundle_files if _bundle_city == city else {}, "cached_documents": _bundle_documents if _bundle_city == city else {}}
 	_task = WorkerThreadPool.add_task(_load.bind(_job), false, "city_data_preload")
 
@@ -120,8 +152,6 @@ static func _load(job: Dictionary) -> void:
 	job.files = files; job.documents = documents; job.networks = networks
 
 func _process(_dt: float) -> void:
-	if _http != null and _http.get_http_client_status() == HTTPClient.STATUS_BODY and _http.get_body_size() > 0:
-		download_progress.emit(city, float(_http.get_downloaded_bytes()) / float(_http.get_body_size()))
 	if _task < 0: return
 	if not WorkerThreadPool.is_task_completed(_task): return
 	WorkerThreadPool.wait_for_task_completion(_task); _task = -1

@@ -1,0 +1,11 @@
+{
+  "doc": "Données téléchargeables (docs/SERVEUR_DONNEES.md) : répartition des fichiers lourds entre les packs de ville et les packs communs, exclus de tous les exports (APK, EXE/MSI). Lu par tools/packs/packs.py et tools/packs/build_packs.gd.",
+  "format": 1,
+  "export_exclude": ["data/packs/*", "data/scenes/*", "data/free/*", "assets/models/*", "assets/textures/*", "assets/lightmaps/*", "tram_parts/*", "tram_livery/*"],
+  "mobile_exclude": ["tram_parts/*_lod0.glb", "tram_parts/*/cab.glb", "tram_livery/livery/*_4k.png", "tram_livery/shared/*_cab_desk.png", "assets/models/rolling_stock/*/lod0.glb", "assets/models/rolling_stock/*/cab.glb", "assets/models/rolling_stock/*/textures/livery_4k.png", "assets/models/rolling_stock/*/textures/cab_desk.png", "assets/textures/pbr/*_2k.jpg"],
+  "city_patterns": ["data/scenes/{c}.*", "data/scenes/{c}_*", "data/free/{c}.*", "data/free/{c}_*", "assets/models/{c}/*", "assets/lightmaps/{c}_*"],
+  "commons": {
+    "commun-rames": {"label": "Rames et livrées communes", "patterns": ["tram_parts/*", "tram_livery/*", "assets/models/rolling_stock/*"]},
+    "commun-decor": {"label": "Décor commun (matériaux, végétation, monuments)", "patterns": ["assets/textures/*", "assets/models/*", "data/scenes/*", "data/free/*", "assets/lightmaps/*"]}
+  }
+}

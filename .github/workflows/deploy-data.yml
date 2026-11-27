@@ -1,0 +1,163 @@
+name: deploy-data
+# Publie les packs de données (28 villes + communs, mobile et pc) et leur manifeste sur le serveur de données (VPS,
+# server/ : Caddy HTTPS). Déclenché après une release réussie (packs de l'artefact du build) ou à la main (packs d'une
+# release existante, ou reconstruits depuis les sources). Sans secrets VPS_* ni variable DATA_DOMAIN : rien n'est
+# déployé, le job s'arrête avec un message (la release reste le repli des données). Voir docs/SERVEUR_DONNEES.md.
+on:
+  workflow_run:
+    workflows: [release]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "Packs à publier : release (assets d'une release) ou build (reconstruits depuis les sources)"
+        type: choice
+        options: [release, build]
+        default: release
+      tag:
+        description: "Tag de la release (source=release) ; vide = dernière release"
+        type: string
+        default: ""
+      keep_versions:
+        description: "Versions de données conservées sur le serveur"
+        type: string
+        default: "3"
+concurrency:
+  group: deploy-data
+  cancel-in-progress: false
+permissions:
+  contents: read
+  actions: read
+jobs:
+  check:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event != 'pull_request')
+    runs-on: ubuntu-latest
+    outputs:
+      configured: ${{ steps.c.outputs.configured }}
+    steps:
+      - id: c
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          DATA_DOMAIN: ${{ vars.DATA_DOMAIN }}
+        run: |
+          missing=""
+          for v in VPS_HOST VPS_USER VPS_SSH_KEY; do [ -n "${!v}" ] || missing="$missing secret:$v"; done
+          [ -n "$DATA_DOMAIN" ] || missing="$missing variable:DATA_DOMAIN"
+          if [ -n "$missing" ]; then
+            echo "::notice title=Serveur de données non configuré::Déploiement ignoré, il manque :$missing. Créez-les dans Settings > Secrets and variables > Actions (docs/SERVEUR_DONNEES.md). Les packs restent disponibles en repli sur la release GitHub."
+            echo "configured=false" >> $GITHUB_OUTPUT
+          else
+            echo "configured=true" >> $GITHUB_OUTPUT
+          fi
+
+  deploy:
+    needs: check
+    if: needs.check.outputs.configured == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GODOT_VERSION: 4.6.3
+      DATA_DOMAIN: ${{ vars.DATA_DOMAIN }}
+      DATA_ROOT: ${{ vars.DATA_ROOT || '/srv/tramsim-data' }}
+      KEEP_VERSIONS: ${{ inputs.keep_versions || vars.DATA_KEEP_VERSIONS || '3' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      # 1. packs + manifeste
+      - name: Packs de l'artefact du build (après release)
+        if: github.event_name == 'workflow_run'
+        uses: actions/download-artifact@v4
+        with:
+          name: TramSimFrance-data-packs
+          path: out
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Packs d'une release existante
+        if: github.event_name == 'workflow_dispatch' && inputs.source == 'release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ inputs.tag }}"
+          [ -n "$tag" ] || tag=$(gh release list -R "$GITHUB_REPOSITORY" --limit 1 --json tagName -q '.[0].tagName')
+          mkdir -p out && gh release download "$tag" -R "$GITHUB_REPOSITORY" -D out -p 'tramsim-*.pck' -p 'manifest.json'
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Packs reconstruits depuis les sources
+        if: github.event_name == 'workflow_dispatch' && inputs.source == 'build'
+        run: |
+          set -euo pipefail
+          curl -sSL -o godot.zip https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
+          unzip -q godot.zip && mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot && chmod +x godot
+          python tools/packs/packs.py stock
+          ./godot --headless --editor --path . --import > import.log 2>&1 || true
+          ! grep -Eq 'SCRIPT ERROR|Parse Error' import.log
+          v=$(python -c "import re;print(re.search(r'config/version=\"([0-9.]+)\"',open('project.godot').read()).group(1))")
+          DATA_VERSION="$(date -u +%Y%m%d).d${{ github.run_number }}"
+          ./godot --headless --path . -s tools/packs/build_packs.gd -- out --platform all --data-version "$DATA_VERSION" | tee packs.log
+          ! grep -Eq 'SCRIPT ERROR|Parse Error|ECHEC' packs.log
+          python tools/packs/packs.py manifest out --data-version "$DATA_VERSION" --app-version "$v" --engine "${GODOT_VERSION%.*}"
+      - name: Contrôle du manifeste (tailles, sha256)
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, sys
+          m = json.load(open("out/manifest.json")); n = 0
+          for plat, packs in m["platforms"].items():
+              for pid, e in packs.items():
+                  p = os.path.join("out", e["file"])
+                  if os.path.getsize(p) != e["size"]: sys.exit("taille : " + p)
+                  h = hashlib.sha256()
+                  with open(p, "rb") as f:
+                      for b in iter(lambda: f.read(1 << 20), b""): h.update(b)
+                  if h.hexdigest() != e["sha256"]: sys.exit("sha256 : " + p)
+                  n += 1
+          print(f"{n} packs vérifiés, données {m['data_version']}, format {m['format']}")
+          with open(os.environ["GITHUB_ENV"], "a") as f: f.write(f"DATA_VERSION={m['data_version']}\nDATA_FORMAT={m['format']}\n")
+          PY
+      # 2. envoi (rsync, liens durs vers la version précédente : seuls les packs modifiés occupent de la place)
+      - name: Clé SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          echo "SSH_OPTS=-i $HOME/.ssh/id_deploy -p ${VPS_PORT:-22} -o BatchMode=yes -o StrictHostKeyChecking=yes" >> $GITHUB_ENV
+      - name: Envoi des packs et du serveur
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          set -euo pipefail
+          T="$VPS_USER@$VPS_HOST"
+          ssh $SSH_OPTS "$T" "mkdir -p '$DATA_ROOT/www/packs' '$DATA_ROOT/incoming' '$DATA_ROOT/server'"
+          prev=$(ssh $SSH_OPTS "$T" "ls -1t '$DATA_ROOT/www/packs' 2>/dev/null | head -1" || true)
+          link=""; [ -n "$prev" ] && link="--link-dest=$DATA_ROOT/www/packs/$prev"
+          rsync -a --checksum --partial --delete $link -e "ssh $SSH_OPTS" out/ "$T:$DATA_ROOT/incoming/$DATA_VERSION/"
+          rsync -a --delete -e "ssh $SSH_OPTS" server/ "$T:$DATA_ROOT/server/"
+      # 3. publication (manifeste par format, rétention) et service
+      - name: Publication et docker compose up -d
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          set -euo pipefail
+          T="$VPS_USER@$VPS_HOST"
+          d="${DATA_DOMAIN#https://}"; d="${d%/}"
+          ssh $SSH_OPTS "$T" "cd '$DATA_ROOT/server' && DATA_ROOT='$DATA_ROOT' KEEP_VERSIONS='$KEEP_VERSIONS' sh scripts/publish.sh '$DATA_ROOT/incoming/$DATA_VERSION' && \
+            printf 'DATA_DOMAIN=%s\nDATA_ROOT=%s\n' '$d' '$DATA_ROOT' > .env && docker compose up -d --remove-orphans"
+      # 4. vérification
+      - name: Vérification (health, manifeste, Range)
+        run: |
+          set -euo pipefail
+          d="${DATA_DOMAIN#https://}"; d="${d%/}"; B="https://$d"
+          for i in $(seq 1 30); do curl -fsS "$B/api/v1/health" -o health.json && break; sleep 5; done
+          cat health.json; grep -q "\"data_version\": *\"$DATA_VERSION\"" health.json
+          curl -fsS "$B/api/v1/formats/$DATA_FORMAT/manifest.json" | grep -q "\"data_version\": *\"$DATA_VERSION\""
+          url=$(python -c "import json;m=json.load(open('out/manifest.json'));e=next(iter(m['platforms']['mobile'].values())) if 'mobile' in m['platforms'] else next(iter(next(iter(m['platforms'].values())).values()));print(e['url'])")
+          code=$(curl -s -o /dev/null -w '%{http_code}' -r 0-99 "$B$url"); [ "$code" = 206 ] || { echo "Range : HTTP $code"; exit 1; }
+          echo "::notice::Données $DATA_VERSION publiées sur $B"

@@ -95,11 +95,24 @@ jobs:
           GODOT=$PWD/godot tests/run_all.sh
       - name: Stamp benchmark build identity
         run: python tools/perf/write_build_info.py
-      - name: Tag de release embarqué (URL des packs de ville)
+      - name: Sources des données embarquées (serveur DATA_DOMAIN, repli release)
+        env:
+          DATA_DOMAIN: ${{ vars.DATA_DOMAIN }}
         run: |
-          # city_packs.gd télécharge les packs depuis la release de ce build : même tag que l'étape Release
-          printf '\n[tramsim]\n\nrelease/tag="v%s-build.%s"\n' "$APP_VERSION" "${{ github.run_number }}" >> project.godot
-          grep -n 'release/tag' project.godot
+          # city_packs.gd : manifeste et packs sur le serveur de données (variable de dépôt DATA_DOMAIN, optionnelle),
+          # repli sur la release de ce build (même tag que l'étape Release)
+          {
+            printf '\n[tramsim]\n\n'
+            printf 'release/tag="v%s-build.%s"\n' "$APP_VERSION" "${{ github.run_number }}"
+            printf 'release/repo="%s"\n' "${{ github.repository }}"
+            if [ -n "$DATA_DOMAIN" ]; then
+              d="${DATA_DOMAIN#https://}"; d="${d%/}"
+              printf 'data/base_url="https://%s"\n' "$d"
+            else
+              echo "::notice::Variable DATA_DOMAIN absente : le jeu téléchargera ses données depuis la release GitHub"
+            fi
+          } >> project.godot
+          grep -n 'release/\|data/base_url' project.godot
       - name: Mandatory Windows packaging tests
         run: python -m unittest discover -s tests -p test_windows_packaging.py
       - name: Export
@@ -107,7 +120,7 @@ jobs:
           set -euo pipefail
           mkdir -p build/win-x64 build/win-arm64
           if [ "$WINDOWS_ONLY" = "true" ]; then python tools/models/stock/prepare_pc_imports.py; fi
-          # rames HD des villes en packs hors APK : inventaire et filtre du preset Android à jour
+          # données de ville, rames HD et décor hors des exports (data/packs/plan.json) : inventaire et filtres à jour
           python tools/packs/packs.py stock
           ./godot --headless --editor --path . --import > build/import.log 2>&1
           ! grep -Eq 'SCRIPT ERROR|Parse Error' build/import.log
@@ -125,21 +138,28 @@ jobs:
             sed -i 's#^shader_baker/enabled=true#shader_baker/enabled=false#' export_presets.cfg
             export_all
           fi
-      - name: Packs de ville
-        if: env.WINDOWS_ONLY != 'true'
+      - name: Packs de données (28 villes + communs, mobile et pc) et manifeste
         run: |
           set -euo pipefail
-          ./godot --headless --path . -s tools/packs/build_packs.gd -- build/packs 2>&1 | tee build/packs.log
-          ! grep -Eq 'SCRIPT ERROR|Parse Error' build/packs.log
-          ls build/packs/*.pck > /dev/null
-          a=$(stat -c%s build/TramSimFrance.apk); echo "::notice::APK de base $((a / 1048576)) Mo, packs $(du -cm build/packs/*.pck | tail -1 | cut -f1) Mo"
-          [ "$a" -le 157286400 ] || echo "::warning::APK de base au-delà de 150 Mo"
-      - name: Packs de ville (artefact)
-        if: env.WINDOWS_ONLY != 'true'
+          plat=all; [ "$WINDOWS_ONLY" = "true" ] && plat=pc
+          DATA_VERSION="$(date -u +%Y%m%d).${{ github.run_number }}"
+          echo "DATA_VERSION=$DATA_VERSION" >> $GITHUB_ENV
+          ./godot --headless --path . -s tools/packs/build_packs.gd -- build/packs --platform $plat --data-version "$DATA_VERSION" 2>&1 | tee build/packs.log
+          ! grep -Eq 'SCRIPT ERROR|Parse Error|ECHEC' build/packs.log
+          python tools/packs/packs.py manifest build/packs --data-version "$DATA_VERSION" --app-version "$APP_VERSION" \
+            --release-tag "v${APP_VERSION}-build.${{ github.run_number }}" --engine "${GODOT_VERSION%.*}"
+          if [ "$WINDOWS_ONLY" != "true" ]; then
+            a=$(stat -c%s build/TramSimFrance.apk)
+            echo "::notice::APK $((a / 1048576)) Mo, PCK Windows $(( $(stat -c%s build/win-x64/TramSimFrance.pck) / 1048576 )) Mo, données $(du -cm build/packs/*.pck | tail -1 | cut -f1) Mo (données $DATA_VERSION)"
+            [ "$a" -le 83886080 ] || echo "::warning::APK au-delà de 80 Mo"
+          fi
+      - name: Packs de données (artefact, utilisé par deploy-data.yml)
         uses: actions/upload-artifact@v4
         with:
-          name: TramSimFrance-city-packs
-          path: build/packs/*.pck
+          name: TramSimFrance-data-packs
+          path: |
+            build/packs/*.pck
+            build/packs/manifest.json
           retention-days: 14
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
@@ -252,11 +272,17 @@ jobs:
         with:
           name: TramSimFrance-Android
           path: dist
+      # repli des données : packs et manifeste joints à la release (désactivable : variable RELEASE_DATA_FALLBACK=false)
       - uses: actions/download-artifact@v4
-        if: github.event_name != 'workflow_dispatch' || !inputs.windows_only
+        if: vars.RELEASE_DATA_FALLBACK != 'false'
         with:
-          name: TramSimFrance-city-packs
+          name: TramSimFrance-data-packs
           path: dist/packs
+      - name: Fichiers de la release
+        run: |
+          mkdir -p dist/packs
+          { echo "dist/*"; ls dist/packs/* >/dev/null 2>&1 && echo "dist/packs/*"; } > files.txt
+          { echo 'RELEASE_FILES<<EOF'; cat files.txt; echo EOF; } >> $GITHUB_ENV
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
@@ -273,7 +299,6 @@ jobs:
             - Tests natifs Windows : lancement du vrai jeu, signature du moteur, installation, réinstallation, désinstallation. Rapports JSON et empreintes SHA-256 joints.
             - Le moteur est signé par son éditeur Godot ; le MSI reste non signé si aucun certificat de projet n’est configuré (voir `MSI-signature-*.json`). Ne pas désactiver les protections Windows. Le ZIP portable est disponible si votre politique refuse le MSI.
             - Le MSI installe pour le compte courant. Les sauvegardes sont conservées dans AppData.
+            Les villes (28) se téléchargent depuis le jeu (serveur de données, repli : packs `tramsim-*-mobile|pc.pck` et `manifest.json` joints ici). Voir docs/SERVEUR_DONNEES.md.
             Les données et leurs licences sont décrites dans le fichier CREDITS.md inclus.
-          files: |
-            dist/*
-            dist/packs/*.pck
+          files: ${{ env.RELEASE_FILES }}
