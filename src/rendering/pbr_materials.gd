@@ -55,6 +55,8 @@ static func color(id: String, fallback := Color(0.5, 0.5, 0.5)) -> Color:
 ## Tableau de textures d'un emplacement (albedo, normal, orm) pour le jeu `res` (textures / textures_mobile).
 static func _tex(e: Dictionary, slot: String, res := "textures") -> TextureLayered:
 	var p := str(e.get(res, {}).get(slot, ""))
+	if res == "textures" and p != "" and not ResourceLoader.exists(p):   # P4 : tableaux 2048² hors APK Android -> 1024²
+		p = str(e.get("textures_mobile", {}).get(slot, ""))
 	if p == "" or not e.has("layer"): return null
 	if not _arrays.has(p):
 		_arrays[p] = load(p) as TextureLayered if ResourceLoader.exists(p) else null

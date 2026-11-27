@@ -291,6 +291,7 @@ static var _repainted: Dictionary = {}
 static func _repaint(body: Node3D, livery_id: String, part: String, lod_key: String) -> void:
 	var tag:String={"lod0":"4k","lod1":"2k","lod1_m":"2k","lod2":"512","lod3":"256"}.get(lod_key,"2k")
 	var atlas:String=manifest().get("liveries",{}).get(livery_id,{}).get("parts",{}).get(part,{}).get(tag,"")
+	if tag=="4k" and not ResourceLoader.exists(atlas):atlas=manifest().get("liveries",{}).get(livery_id,{}).get("parts",{}).get(part,{}).get("2k","")   # P4 : 4k hors APK Android
 	if not atlas.begins_with("res://tram_livery/livery/") or not ResourceLoader.exists(atlas):return
 	for mi in body.find_children("*","MeshInstance3D",true,false)+([body] if body is MeshInstance3D else []):
 		var g:=mi as MeshInstance3D

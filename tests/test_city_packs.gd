@@ -38,6 +38,39 @@ func _init() -> void:
 	for c in Builder.all_cities():
 		var excluded := android.contains("data/scenes/%s.*" % c)
 		check(excluded == not (c in base), "preset Android : %s %s" % [c, "en pack" if excluded else "dans l'APK"])
+	# P4 : rames HD des villes en packs hors APK (data/packs/stock.json), rames d'Angers et Nantes dans l'APK
+	var excl: Array = []
+	for x in android.get_slice('exclude_filter="', 1).get_slice('"', 0).split(","): excl.append(x.strip_edges())
+	var st: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(Builder.STOCK))
+	var stock_cities: Dictionary = st.get("cities", {})
+	check(stock_cities.get("lyon", []).size() > 0 and stock_cities.get("strasbourg", []).size() > 0, "rames HD de Lyon et Strasbourg dans leurs packs")
+	check(not stock_cities.has("angers") and not stock_cities.has("nantes"), "aucune rame d'Angers ou Nantes en pack")
+	var in_excl := func(p: String) -> bool:
+		for x in excl:
+			if x != "" and p.matchn(x): return true
+		return false
+	var miss := 0
+	for p in stock_cities.get("lyon", []):
+		if not in_excl.call(str(p).trim_prefix("res://")): miss += 1
+	check(miss == 0, "preset Android : fichiers de rames de Lyon exclus (%d non exclus)" % miss)
+	var pm: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/rolling_stock/parts_manifest.json"))
+	var kept := 0; var lost: Array = []
+	for vid in pm.variants:
+		if not (str(vid).begins_with("angers__") or str(vid).begins_with("nantes__")): continue
+		var kit_path := str(pm.kits.get(str(pm.variants[vid].kit), ""))
+		var doc = JSON.parse_string(FileAccess.get_file_as_string(kit_path))
+		for part in doc.get("parts", {}).values():
+			for k in ["lod1", "lod1_m", "lod2", "lod3"]:
+				var f := str(part.get("models", {}).get(k, ""))
+				if f == "": continue
+				if in_excl.call(f.trim_prefix("res://")): lost.append(f)
+				else: kept += 1
+	check(kept > 0 and lost.is_empty(), "rames d'Angers et Nantes (LOD Mobile) dans l'APK : %d fichiers, exclus à tort %s" % [kept, lost.slice(0, 3)])
+	var lyon_files: Array = Builder.city_files("lyon")
+	var has_stock := false
+	for f in lyon_files: has_stock = has_stock or str(f[0]).begins_with("res://tram_parts/") or str(f[0]).begins_with("res://tram_livery/")
+	check(has_stock, "pack lyon : rames HD incluses (%d fichiers)" % lyon_files.size())
+	check(in_excl.call("assets/textures/pbr/albedo_2k.jpg") and not in_excl.call("assets/textures/pbr/albedo_1k.jpg"), "preset Android : PBR 2048² exclu, 1024² conservé")
 	DirAccess.remove_absolute(path); DirAccess.remove_absolute(tmp)
 	print("TOTAL_ECHECS|%d" % fails)
 	quit(1 if fails > 0 else 0)

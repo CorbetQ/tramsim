@@ -107,6 +107,8 @@ jobs:
           set -euo pipefail
           mkdir -p build/win-x64 build/win-arm64
           if [ "$WINDOWS_ONLY" = "true" ]; then python tools/models/stock/prepare_pc_imports.py; fi
+          # rames HD des villes en packs hors APK : inventaire et filtre du preset Android à jour
+          python tools/packs/packs.py stock
           ./godot --headless --editor --path . --import > build/import.log 2>&1
           ! grep -Eq 'SCRIPT ERROR|Parse Error' build/import.log
           export_all() {
@@ -130,6 +132,8 @@ jobs:
           ./godot --headless --path . -s tools/packs/build_packs.gd -- build/packs 2>&1 | tee build/packs.log
           ! grep -Eq 'SCRIPT ERROR|Parse Error' build/packs.log
           ls build/packs/*.pck > /dev/null
+          a=$(stat -c%s build/TramSimFrance.apk); echo "::notice::APK de base $((a / 1048576)) Mo, packs $(du -cm build/packs/*.pck | tail -1 | cut -f1) Mo"
+          [ "$a" -le 157286400 ] || echo "::warning::APK de base au-delà de 150 Mo"
       - name: Packs de ville (artefact)
         if: env.WINDOWS_ONLY != 'true'
         uses: actions/upload-artifact@v4

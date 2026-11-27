@@ -6,6 +6,7 @@ extends SceneTree
 ## Usage : godot --headless --path . -s tools/packs/build_packs.gd -- [dossier de sortie] [ville ...]
 ## Les mêmes motifs servent au filtre d'exclusion du preset Android (tools/packs/packs.py filters).
 const DATA_DIRS := ["res://data/scenes", "res://data/free"]
+const STOCK := "res://data/packs/stock.json"
 
 static func base_cities() -> Array:
 	var d = JSON.parse_string(FileAccess.get_file_as_string(CityPacks.BASE))
@@ -26,6 +27,22 @@ static func city_files(city: String) -> Array:
 			if f.ends_with(".import"): continue
 			if f.get_basename() == city or f.begins_with(city + "_"):
 				out.append([dir.path_join(f), ProjectSettings.globalize_path(dir.path_join(f))])
+	# P4 : rames HD propres aux villes en packs (data/packs/stock.json, tools/packs/packs.py stock) : source non
+	# importée telle quelle, ressource importée avec son .import et sa version Android (etc2/astc) ou unique
+	var st = JSON.parse_string(FileAccess.get_file_as_string(STOCK)) if FileAccess.file_exists(STOCK) else null
+	if st is Dictionary:
+		for p in st.get("cities", {}).get(city, []):
+			var imp := str(p) + ".import"
+			if not FileAccess.file_exists(imp):
+				if FileAccess.file_exists(p): out.append([p, ProjectSettings.globalize_path(p)])
+				continue
+			out.append([imp, ProjectSettings.globalize_path(imp)])
+			var cfg := ConfigFile.new()
+			if cfg.load(imp) != OK: continue
+			for key in cfg.get_section_keys("remap"):
+				if key == "path" or key.contains("etc2") or key.contains("astc"):
+					var q := str(cfg.get_value("remap", key))
+					if FileAccess.file_exists(q): out.append([q, ProjectSettings.globalize_path(q)])
 	var md := "res://assets/models/" + city
 	if DirAccess.dir_exists_absolute(md):
 		for f in DirAccess.get_files_at(md):
