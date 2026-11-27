@@ -41,7 +41,8 @@ func _run() -> void:
 		var t0 := Time.get_ticks_msec()
 		b.pressed.emit()
 		var done := func() -> bool: return lm.light_data != null and lm.light_data.get_lightmap_textures().size() > 0
-		while not done.call() and Time.get_ticks_msec() - t0 < 3600000: await _frames(10)
+		var limit_ms := int(OS.get_environment("TRAMSIM_BAKE_TIMEOUT_S")) * 1000 if OS.get_environment("TRAMSIM_BAKE_TIMEOUT_S") != "" else 3600000
+		while not done.call() and Time.get_ticks_msec() - t0 < limit_ms: await _frames(10)
 		if not done.call(): printerr("BAKE|%s|échec ou délai dépassé" % path); rc = 1; continue
 		EditorInterface.save_scene()
 		print("BAKE|%s|ok|%.0f s" % [path, (Time.get_ticks_msec() - t0) / 1000.0])

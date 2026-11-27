@@ -1,75 +1,304 @@
 {
-  "cab": {},
+  "schema": 2,
+  "id": "ginko305",
+  "renderer": "hd",
+  "master": "besancon__citadis_x05",
+  "master_count": 5,
+  "master_length": 32.5,
+  "parts": {
+    "end_a": {
+      "role": "end_a",
+      "source_index": 0,
+      "root": "module_00",
+      "plan": {
+        "kind": "cab",
+        "length_m": 9.1,
+        "bogie": true,
+        "bogie_z_m": 5.4,
+        "doors": [
+          {
+            "z_m": 3.1,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 7.7,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 1.2,
+            "z1_m": 2.3
+          },
+          {
+            "z0_m": 3.9,
+            "z1_m": 6.9
+          },
+          {
+            "z0_m": 8.5,
+            "z1_m": 8.9
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 0.6,
+            "size": [
+              1.92,
+              0.25,
+              1.2
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 2.8,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 7.6,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 9.1,
+      "pantograph": false,
+      "door_count": 2,
+      "models": {
+        "lod0": "res://tram_parts/extremites/ginko305/end_a_lod0.glb",
+        "lod1": "res://tram_parts/extremites/ginko305/end_a_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/ginko305/end_a_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/ginko305/end_a_lod2.glb",
+        "lod3": "res://tram_parts/extremites/ginko305/end_a_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 28133,
+        "lod1": 9985,
+        "lod1_m": 3326,
+        "lod2": 942,
+        "lod3": 209
+      },
+      "bindings": {}
+    },
+    "suspended": {
+      "role": "suspended",
+      "source_index": 1,
+      "root": "module_01",
+      "plan": {
+        "kind": "suspended",
+        "length_m": 4.8,
+        "bogie": false,
+        "doors": [
+          {
+            "z_m": 2.4,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.2,
+            "z1_m": 1.6
+          },
+          {
+            "z0_m": 3.2,
+            "z1_m": 4.6
+          }
+        ],
+        "roof": [
+          {
+            "type": "hvac",
+            "z_m": 2.4,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          }
+        ]
+      },
+      "length_m": 4.8,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/suspendues/ginko305/suspended_lod0.glb",
+        "lod1": "res://tram_parts/suspendues/ginko305/suspended_lod1.glb",
+        "lod1_m": "res://tram_parts/suspendues/ginko305/suspended_lod1_m.glb",
+        "lod2": "res://tram_parts/suspendues/ginko305/suspended_lod2.glb",
+        "lod3": "res://tram_parts/suspendues/ginko305/suspended_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 7324,
+        "lod1": 2624,
+        "lod1_m": 630,
+        "lod2": 238,
+        "lod3": 44
+      },
+      "bindings": {}
+    },
+    "powered": {
+      "role": "powered",
+      "source_index": 2,
+      "root": "module_02",
+      "plan": {
+        "kind": "middle",
+        "length_m": 4.7,
+        "bogie": true,
+        "bogie_z_m": 2.35,
+        "doors": [],
+        "windows": [
+          {
+            "z0_m": 0.2,
+            "z1_m": 4.5
+          }
+        ],
+        "roof": []
+      },
+      "length_m": 4.7,
+      "pantograph": false,
+      "door_count": 0,
+      "models": {
+        "lod0": "res://tram_parts/motrices/ginko305/powered_lod0.glb",
+        "lod1": "res://tram_parts/motrices/ginko305/powered_lod1.glb",
+        "lod1_m": "res://tram_parts/motrices/ginko305/powered_lod1_m.glb",
+        "lod2": "res://tram_parts/motrices/ginko305/powered_lod2.glb",
+        "lod3": "res://tram_parts/motrices/ginko305/powered_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 14584,
+        "lod1": 4684,
+        "lod1_m": 1610,
+        "lod2": 398,
+        "lod3": 28
+      },
+      "bindings": {}
+    },
+    "end_b": {
+      "role": "end_b",
+      "source_index": 4,
+      "root": "module_04",
+      "plan": {
+        "kind": "cab",
+        "length_m": 9.1,
+        "bogie": true,
+        "bogie_z_m": 3.7,
+        "doors": [
+          {
+            "z_m": 1.4,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 6.0,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 2.2,
+            "z1_m": 5.2
+          },
+          {
+            "z0_m": 6.8,
+            "z1_m": 7.9
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 8.5,
+            "size": [
+              1.92,
+              0.25,
+              1.2
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 6.3,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 1.5,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 9.1,
+      "pantograph": false,
+      "door_count": 2,
+      "models": {
+        "lod0": "res://tram_parts/extremites/ginko305/end_b_lod0.glb",
+        "lod1": "res://tram_parts/extremites/ginko305/end_b_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/ginko305/end_b_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/ginko305/end_b_lod2.glb",
+        "lod3": "res://tram_parts/extremites/ginko305/end_b_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 25209,
+        "lod1": 9001,
+        "lod1_m": 3050,
+        "lod2": 874,
+        "lod3": 209
+      },
+      "bindings": {}
+    }
+  },
+  "layout": [
+    "end_a",
+    "suspended",
+    "powered",
+    "suspended",
+    "end_b"
+  ],
+  "presets": {
+    "305": {
+      "count": 5,
+      "length_m": 32.5
+    }
+  },
   "frame": {
+    "id": "citadis_x05",
+    "name": "Alstom Citadis X05 (305 / 405)",
+    "length_m": 32.5,
+    "width_m": 2.4,
+    "height_m": 3.3,
+    "floor_m": 0.32,
     "body": {
+      "skirt_top_m": 0.45,
+      "window_bottom_m": 1.05,
+      "window_top_m": 2.45,
       "cant_m": 2.75,
       "roof_shoulder_m": 0.25,
-      "skirt_top_m": 0.45,
-      "tumblehome_m": 0.0,
-      "window_bottom_m": 1.05,
-      "window_top_m": 2.45
+      "tumblehome_m": 0.0
     },
-    "door_anim": {
-      "leaf_split": "center",
-      "open_s": 2.5,
-      "out_m": 0.06,
-      "single_leaf_travel_m": 0.8,
-      "travel_m": 0.65,
-      "type": "plug"
-    },
-    "estimated": [
-      "body",
-      "modules.windows",
-      "modules.roof",
-      "modules.bogie_z_m",
-      "front.plan",
-      "front.side",
-      "front.windshield",
-      "front.headlights",
-      "front.destination",
-      "door_anim",
-      "pantograph",
-      "research:height_m",
-      "research:floor_height_m",
-      "research:power_kw",
-      "research:modules",
-      "research:front",
-      "research:variants.nantes"
-    ],
-    "floor_m": 0.32,
+    "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
-      "bumper_m": 0.05,
-      "destination": {
-        "h_m": 0.22,
-        "w_m": 1.4,
-        "y_m": 2.85
-      },
-      "extra_lights": [
-        {
-          "color": "#c6cfd2",
-          "r_m": 0.06,
-          "x_m": 0.9,
-          "y_m": 1.29
-        },
-        {
-          "color": "#8a2830",
-          "r_m": 0.055,
-          "x_m": 0.83,
-          "y_m": 0.88
-        }
-      ],
-      "headlights": {
-        "h_m": 0.14,
-        "shape": "round",
-        "w_m": 0.14,
-        "x_m": 0.88,
-        "y_m": 1.07
-      },
       "length_m": 1.2,
       "plan": [
         [
-          0.0,
-          1.0
+          0,
+          1
         ],
         [
           0.5,
@@ -80,7 +309,7 @@
           0.86
         ],
         [
-          1.0,
+          1,
           0.72
         ]
       ],
@@ -113,18 +342,37 @@
       "windshield": {
         "bottom_m": 1.1,
         "top_m": 2.8,
-        "wrap": 0.25
-      }
+        "wrap": 0.25,
+        "lower_curve_m": 0.03,
+        "upper_curve_m": 0.1
+      },
+      "headlights": {
+        "shape": "strip",
+        "y_m": 0.9,
+        "x_m": 0.85,
+        "w_m": 0.3,
+        "h_m": 0.05
+      },
+      "destination": {
+        "y_m": 2.85,
+        "w_m": 1.4,
+        "h_m": 0.22
+      },
+      "bumper_m": 0.05
     },
-    "height_m": 3.3,
-    "id": "citadis_x05",
-    "length_m": 32.5,
-    "name": "Alstom Citadis X05 (305 / 405)",
+    "door_anim": {
+      "type": "plug",
+      "open_s": 2.5,
+      "travel_m": 0.65,
+      "out_m": 0.06,
+      "leaf_split": "center",
+      "single_leaf_travel_m": 0.8
+    },
     "pantograph": {
       "down_m": 0.25,
+      "up_m": 2.6,
       "raise_s": 4.0,
-      "type": "single_arm",
-      "up_m": 2.6
+      "type": "single_arm"
     },
     "sources": [
       "research.json#citadis_x05",
@@ -137,16 +385,35 @@
       "https://fr.wikipedia.org/wiki/Ligne_9_du_tramway_d%27%C3%8Ele-de-France",
       "https://fr.wikipedia.org/wiki/Ligne_10_du_tramway_d%27%C3%8Ele-de-France"
     ],
+    "estimated": [
+      "body",
+      "modules.windows",
+      "modules.roof",
+      "modules.bogie_z_m",
+      "front.plan",
+      "front.side",
+      "front.windshield",
+      "front.headlights",
+      "front.destination",
+      "door_anim",
+      "pantograph",
+      "research:height_m",
+      "research:floor_height_m",
+      "research:power_kw",
+      "research:modules",
+      "research:front",
+      "research:variants.nantes"
+    ],
     "variants": {
       "variants": {
         "305": {
           "length_m": 32.5,
-          "modules": 5.0,
+          "modules": 5,
           "networks": "caen (36 rames), angers (2001-2020), besancon (901-908, 2025), idf_t1 (TW20, 2024-)"
         },
         "405": {
           "length_m": 44.0,
-          "modules": 7.0,
+          "modules": 7,
           "networks": "nice T2/T3, idf T9 (45 m, 2,65 m), idf T10, strasbourg (commande 2024)"
         },
         "nantes": {
@@ -155,306 +422,90 @@
         }
       },
       "width_variants_m": {
-        "idf_t1": 2.65,
-        "idf_t9": 2.65
+        "idf_t9": 2.65,
+        "idf_t1": 2.65
       }
     },
-    "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur",
-    "width_m": 2.4,
-    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)"
+    "variants_note": "variantes : r\u00e9\u00e9chelonner les modules suspendus/interm\u00e9diaires (ou ajouter des paires suspendu+interm\u00e9diaire) pour atteindre length_m ; width_m remplace la largeur"
   },
-  "id": "ginko305",
-  "layout": [
-    "end_a",
-    "suspended",
-    "powered",
-    "suspended",
-    "end_b"
-  ],
-  "master": "besancon__citadis_x05",
-  "master_count": 5.0,
-  "master_length": 32.5,
+  "cab": {
+    "cab": "res://tram_parts/extremites/ginko305/cab.glb",
+    "cab_m": "res://tram_parts/extremites/ginko305/cab_m.glb"
+  },
+  "nose_profile": {
+    "style": "gen",
+    "p": 3.142,
+    "theta_w": 0.535,
+    "D": [
+      [
+        0.25,
+        0.94
+      ],
+      [
+        0.6,
+        1.0
+      ],
+      [
+        1.2,
+        1.0
+      ],
+      [
+        2.0,
+        0.9
+      ],
+      [
+        2.8,
+        0.7
+      ],
+      [
+        3.0,
+        0.4
+      ],
+      [
+        3.3,
+        0.0
+      ]
+    ],
+    "windshield": {
+      "bottom_m": 1.1,
+      "top_m": 2.8,
+      "lower_curve_m": 0.03,
+      "upper_curve_m": 0.1
+    }
+  },
   "master_lengths": [
-    9.10000038146973,
-    4.80000019073486,
-    4.69999980926514,
-    4.80000019073486,
-    9.10000038146973
+    9.1,
+    4.8,
+    4.7,
+    4.8,
+    9.1
   ],
-  "parts": {
-    "end_a": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@540",
-          "@MeshInstance3D@541",
-          "@MeshInstance3D@542",
-          "@MeshInstance3D@543",
-          "@MeshInstance3D@544",
-          "@MeshInstance3D@545",
-          "@MeshInstance3D@546"
-        ],
-        "panto": {}
-      },
-      "door_count": 2,
-      "length_m": 9.10000038146973,
+  "equipment": {
+    "pantograph": {
       "models": {
-        "native": "res://tram_parts/extremites/ginko305/end_a.scn"
+        "lod0": "res://tram_parts/equipements/ginko305/pantograph_lod0.glb",
+        "lod1": "res://tram_parts/equipements/ginko305/pantograph_lod1.glb",
+        "lod1_m": "res://tram_parts/equipements/ginko305/pantograph_lod1_m.glb",
+        "lod2": "res://tram_parts/equipements/ginko305/pantograph_lod2.glb"
       },
-      "palette": "res://tram_livery/materials/ginko305/end_a_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 5.40000022636665,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 3.10000012995123
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 7.70000032278208
-          }
-        ],
-        "kind": "cab",
-        "length_m": 9.10000038146973,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              1.2
-            ],
-            "type": "fairing",
-            "z_m": 0.60000002515185
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 2.8000001173753
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 7.6000003185901
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 1.2000000503037,
-            "z1_m": 2.30000009641543
-          },
-          {
-            "z0_m": 3.90000016348703,
-            "z1_m": 6.90000028924628
-          },
-          {
-            "z0_m": 8.50000035631788,
-            "z1_m": 8.90000037308578
-          }
-        ]
-      },
-      "role": "end_a",
-      "root": "Module0",
-      "source_index": 0
-    },
-    "end_b": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@553",
-          "@MeshInstance3D@554",
-          "@MeshInstance3D@555",
-          "@MeshInstance3D@556",
-          "@MeshInstance3D@557",
-          "@MeshInstance3D@558",
-          "@MeshInstance3D@559"
-        ],
-        "panto": {}
-      },
-      "door_count": 2,
-      "length_m": 9.10000038146973,
-      "models": {
-        "native": "res://tram_parts/extremites/ginko305/end_b.scn"
-      },
-      "palette": "res://tram_livery/materials/ginko305/end_b_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 3.70000015510308,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 1.40000005868765
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 6.0000002515185
-          }
-        ],
-        "kind": "cab",
-        "length_m": 9.10000038146973,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              1.2
-            ],
-            "type": "fairing",
-            "z_m": 8.50000035631788
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 6.30000026409443
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 1.50000006287963
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 2.20000009222345,
-            "z1_m": 5.2000002179827
-          },
-          {
-            "z0_m": 6.8000002850543,
-            "z1_m": 7.90000033116603
-          }
-        ]
-      },
-      "role": "end_b",
-      "root": "Module4",
-      "source_index": 4
-    },
-    "powered": {
-      "bindings": {
-        "leaves": [],
-        "panto": {
-          "head": "PantoHead",
-          "lower": "PantoLower",
-          "upper": "PantoUpper"
-        }
-      },
-      "door_count": 0,
-      "length_m": 4.69999980926514,
-      "models": {
-        "native": "res://tram_parts/motrices/ginko305/powered.scn"
-      },
-      "palette": "res://tram_livery/materials/ginko305/powered_palette.png",
-      "pantograph": true,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 2.34999990463257,
-        "doors": [],
-        "kind": "middle",
-        "length_m": 4.69999980926514,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.3,
-              2.0
-            ],
-            "type": "pantograph",
-            "z_m": 2.34999990463257
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.199999991883623,
-            "z1_m": 4.49999981738151
-          }
-        ]
+      "triangles": {
+        "lod0": 1788,
+        "lod1": 1116,
+        "lod1_m": 284,
+        "lod2": 232
       },
       "role": "powered",
-      "root": "Module2",
-      "source_index": 2
-    },
-    "suspended": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@547",
-          "@MeshInstance3D@548",
-          "@MeshInstance3D@549"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 4.80000019073486,
-      "models": {
-        "native": "res://tram_parts/suspendues/ginko305/suspended.scn"
-      },
-      "palette": "res://tram_livery/materials/ginko305/suspended_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": false,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 2.40000009536743
-          }
-        ],
-        "kind": "suspended",
-        "length_m": 4.80000019073486,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 2.40000009536743
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.200000007947286,
-            "z1_m": 1.60000006357829
-          },
-          {
-            "z0_m": 3.20000012715658,
-            "z1_m": 4.60000018278758
-          }
+      "z_ratio": 0.5,
+      "mount_y": 3.3,
+      "roof": {
+        "type": "pantograph",
+        "z_m": 2.35,
+        "size": [
+          1.6,
+          0.3,
+          2.0
         ]
-      },
-      "role": "suspended",
-      "root": "Module1",
-      "source_index": 1
+      }
     }
-  },
-  "presets": {
-    "305": {
-      "count": 5.0,
-      "length_m": 32.5
-    }
-  },
-  "renderer": "native",
-  "schema": 2.0
+  }
 }

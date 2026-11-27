@@ -199,7 +199,9 @@ static func build(owner: Node3D, g, origin: Vector3, back: Vector3, along: Vecto
 		var bays := maxi(2, int(L / 1.45))
 		for i in bays + 1: f.box(xb, H * 0.5, -hl + 0.3 + (L - 0.6) * i / bays, Vector3(0.05, H - 0.3, 0.04), frame)
 		# plan du réseau rétroéclairé et affiche horaire dans le fond
-		f.box(xb - 0.03, 1.35, -hl + 0.95, Vector3(0.04, 1.15, 0.85), _c("#e9ebe3", LIT))
+		f.box(xb - 0.03, 1.35, -hl + 0.95, Vector3(0.04, 1.15, 0.85), _c("#e9ebe3"))
+		for j in 4:   # tracé des lignes du plan (traits colorés génériques)
+			f.box(xb - 0.052, 1.05 + j * 0.17, -hl + 0.95, Vector3(0.004, 0.025, 0.6 - j * 0.08), _c(["#c8202a", "#1d5aa6", "#2c8a3e", "#e46a0f"][j]))
 		f.box(xb - 0.035, 1.35, -hl + 0.95, Vector3(0.035, 1.21, 0.91), frame)
 		n += 2
 	if bool(st.get("side_glass", true)):

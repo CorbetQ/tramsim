@@ -1,65 +1,303 @@
 {
-  "cab": {},
+  "schema": 2,
+  "id": "paris_t2",
+  "renderer": "hd",
+  "master": "idf__citadis_302__t2",
+  "master_count": 5,
+  "master_length": 32.2,
+  "parts": {
+    "end_a": {
+      "role": "end_a",
+      "source_index": 0,
+      "root": "module_00",
+      "plan": {
+        "kind": "cab",
+        "length_m": 8.944444444444445,
+        "bogie": true,
+        "bogie_z_m": 5.2672839506172835,
+        "doors": [
+          {
+            "z_m": 2.9814814814814814,
+            "width_m": 0.8,
+            "leaves": 1
+          },
+          {
+            "z_m": 7.553086419753086,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 1.4907407407407407,
+            "z1_m": 2.4348765432098767
+          },
+          {
+            "z0_m": 3.528086419753086,
+            "z1_m": 6.758024691358024
+          },
+          {
+            "z0_m": 8.348148148148148,
+            "z1_m": 8.74567901234568
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 0.7453703703703703,
+            "size": [
+              1.92,
+              0.25,
+              1.5
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 3.080864197530864,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 7.453703703703703,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 8.944444444444445,
+      "pantograph": false,
+      "door_count": 2,
+      "models": {
+        "lod0": "res://tram_parts/extremites/paris_t2/end_a_lod0.glb",
+        "lod1": "res://tram_parts/extremites/paris_t2/end_a_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/paris_t2/end_a_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/paris_t2/end_a_lod2.glb",
+        "lod3": "res://tram_parts/extremites/paris_t2/end_a_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 28785,
+        "lod1": 10381,
+        "lod1_m": 3720,
+        "lod2": 926,
+        "lod3": 227
+      },
+      "bindings": {}
+    },
+    "suspended": {
+      "role": "suspended",
+      "source_index": 1,
+      "root": "module_01",
+      "plan": {
+        "kind": "suspended",
+        "length_m": 4.770370370370371,
+        "bogie": false,
+        "doors": [
+          {
+            "z_m": 2.3851851851851853,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.19876543209876546,
+            "z1_m": 1.5901234567901237
+          },
+          {
+            "z0_m": 3.1802469135802474,
+            "z1_m": 4.571604938271605
+          }
+        ],
+        "roof": [
+          {
+            "type": "hvac",
+            "z_m": 2.3851851851851853,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          }
+        ]
+      },
+      "length_m": 4.770370370370371,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/suspendues/paris_t2/suspended_lod0.glb",
+        "lod1": "res://tram_parts/suspendues/paris_t2/suspended_lod1.glb",
+        "lod1_m": "res://tram_parts/suspendues/paris_t2/suspended_lod1_m.glb",
+        "lod2": "res://tram_parts/suspendues/paris_t2/suspended_lod2.glb",
+        "lod3": "res://tram_parts/suspendues/paris_t2/suspended_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 7324,
+        "lod1": 2624,
+        "lod1_m": 630,
+        "lod2": 238,
+        "lod3": 44
+      },
+      "bindings": {}
+    },
+    "powered": {
+      "role": "powered",
+      "source_index": 2,
+      "root": "module_02",
+      "plan": {
+        "kind": "middle",
+        "length_m": 4.770370370370371,
+        "bogie": true,
+        "bogie_z_m": 2.3851851851851853,
+        "doors": [],
+        "windows": [
+          {
+            "z0_m": 0.19876543209876546,
+            "z1_m": 4.571604938271605
+          }
+        ],
+        "roof": []
+      },
+      "length_m": 4.770370370370371,
+      "pantograph": false,
+      "door_count": 0,
+      "models": {
+        "lod0": "res://tram_parts/motrices/paris_t2/powered_lod0.glb",
+        "lod1": "res://tram_parts/motrices/paris_t2/powered_lod1.glb",
+        "lod1_m": "res://tram_parts/motrices/paris_t2/powered_lod1_m.glb",
+        "lod2": "res://tram_parts/motrices/paris_t2/powered_lod2.glb",
+        "lod3": "res://tram_parts/motrices/paris_t2/powered_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 14608,
+        "lod1": 4684,
+        "lod1_m": 1610,
+        "lod2": 398,
+        "lod3": 28
+      },
+      "bindings": {}
+    },
+    "end_b": {
+      "role": "end_b",
+      "source_index": 4,
+      "root": "module_04",
+      "plan": {
+        "kind": "cab",
+        "length_m": 8.944444444444445,
+        "bogie": true,
+        "bogie_z_m": 3.6771604938271607,
+        "doors": [
+          {
+            "z_m": 1.391358024691358,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 5.962962962962963,
+            "width_m": 0.8,
+            "leaves": 1
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.19876543209876543,
+            "z1_m": 0.5962962962962962
+          },
+          {
+            "z0_m": 2.18641975308642,
+            "z1_m": 5.416358024691358
+          },
+          {
+            "z0_m": 6.5095679012345675,
+            "z1_m": 7.453703703703703
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 8.199074074074074,
+            "size": [
+              1.92,
+              0.25,
+              1.5
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 5.86358024691358,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 1.4907407407407407,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 8.944444444444445,
+      "pantograph": false,
+      "door_count": 2,
+      "models": {
+        "lod0": "res://tram_parts/extremites/paris_t2/end_b_lod0.glb",
+        "lod1": "res://tram_parts/extremites/paris_t2/end_b_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/paris_t2/end_b_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/paris_t2/end_b_lod2.glb",
+        "lod3": "res://tram_parts/extremites/paris_t2/end_b_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 26097,
+        "lod1": 9537,
+        "lod1_m": 3444,
+        "lod2": 858,
+        "lod3": 227
+      },
+      "bindings": {}
+    }
+  },
+  "layout": [
+    "end_a",
+    "suspended",
+    "powered",
+    "suspended",
+    "end_b"
+  ],
+  "presets": {
+    "302": {
+      "count": 5,
+      "length_m": 32.2
+    }
+  },
   "frame": {
+    "id": "citadis_302",
+    "name": "Alstom Citadis 302",
+    "length_m": 32.4,
+    "width_m": 2.4,
+    "height_m": 3.3,
+    "floor_m": 0.32,
     "body": {
+      "skirt_top_m": 0.45,
+      "window_bottom_m": 1.05,
+      "window_top_m": 2.45,
       "cant_m": 2.75,
       "roof_shoulder_m": 0.25,
-      "skirt_top_m": 0.45,
-      "tumblehome_m": 0.0,
-      "window_bottom_m": 1.05,
-      "window_top_m": 2.45
+      "tumblehome_m": 0.0
     },
-    "door_anim": {
-      "leaf_split": "center",
-      "open_s": 2.5,
-      "out_m": 0.06,
-      "single_leaf_travel_m": 0.8,
-      "travel_m": 0.65,
-      "type": "plug"
-    },
-    "estimated": [
-      "body",
-      "modules.windows",
-      "modules.roof",
-      "modules.bogie_z_m",
-      "front.plan",
-      "front.side",
-      "front.windshield",
-      "front.headlights",
-      "front.destination",
-      "door_anim",
-      "pantograph",
-      "research:height_m",
-      "research:floor_height_m",
-      "research:mass_t",
-      "research:modules",
-      "research:doors_per_side",
-      "research:door_width_single_m",
-      "research:front"
-    ],
-    "floor_m": 0.32,
+    "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
-      "bumper_m": 0.05,
-      "destination": {
-        "h_m": 0.22,
-        "w_m": 1.4,
-        "y_m": 2.85
-      },
-      "extra_lights": [
-        {
-          "color": "#65727c",
-          "r_m": 0.06,
-          "x_m": 0.65,
-          "y_m": 0.79
-        }
-      ],
-      "headlights": {
-        "h_m": 0.16,
-        "shape": "round",
-        "w_m": 0.16,
-        "x_m": 0.85,
-        "y_m": 0.8
-      },
       "length_m": 1.5,
       "plan": [
         [
@@ -67,16 +305,20 @@
           1
         ],
         [
-          0.35,
-          0.99
+          0.3,
+          0.98
         ],
         [
-          0.7,
-          0.95
+          0.6,
+          0.9
+        ],
+        [
+          0.85,
+          0.76
         ],
         [
           1,
-          0.75
+          0.56
         ]
       ],
       "side": [
@@ -112,18 +354,37 @@
       "windshield": {
         "bottom_m": 1.15,
         "top_m": 2.75,
-        "wrap": 0.3
-      }
+        "wrap": 0.3,
+        "lower_curve_m": 0.03,
+        "upper_curve_m": 0.1
+      },
+      "headlights": {
+        "shape": "strip",
+        "y_m": 0.85,
+        "x_m": 0.8,
+        "w_m": 0.35,
+        "h_m": 0.1
+      },
+      "destination": {
+        "y_m": 2.85,
+        "w_m": 1.4,
+        "h_m": 0.22
+      },
+      "bumper_m": 0.05
     },
-    "height_m": 3.3,
-    "id": "citadis_302",
-    "length_m": 32.4,
-    "name": "Alstom Citadis 302",
+    "door_anim": {
+      "type": "plug",
+      "open_s": 2.5,
+      "travel_m": 0.65,
+      "out_m": 0.06,
+      "leaf_split": "center",
+      "single_leaf_travel_m": 0.8
+    },
     "pantograph": {
       "down_m": 0.25,
+      "up_m": 2.6,
       "raise_s": 4.0,
-      "type": "single_arm",
-      "up_m": 2.6
+      "type": "single_arm"
     },
     "sources": [
       "research.json#citadis_302",
@@ -136,316 +397,124 @@
       "https://fr.wikipedia.org/wiki/Ligne_7_du_tramway_d%27%C3%8Ele-de-France",
       "https://presse.angers.fr/private/uploads/piecesjointes/dp-essai-rame-tramway.pdf"
     ],
+    "estimated": [
+      "body",
+      "modules.windows",
+      "modules.roof",
+      "modules.bogie_z_m",
+      "front.plan",
+      "front.side",
+      "front.windshield",
+      "front.headlights",
+      "front.destination",
+      "door_anim",
+      "pantograph",
+      "research:height_m",
+      "research:floor_height_m",
+      "research:mass_t",
+      "research:modules",
+      "research:doors_per_side",
+      "research:door_width_single_m",
+      "research:front"
+    ],
     "variants": {
       "length_variants_m": {
+        "reims/lyon/toulouse/angers": 32.4,
         "idf_t2": 32.2,
         "idf_t7": 32.7,
-        "lemans/lehavre": 32.0,
         "mulhouse": 32.5,
-        "reims/lyon/toulouse/angers": 32.4,
+        "lemans/lehavre": 32.0,
         "valenciennes": 33.0
       },
       "width_variants_m": {
-        "montpellier": 2.65,
-        "mulhouse": 2.65
+        "mulhouse": 2.65,
+        "montpellier": 2.65
       }
     },
-    "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur",
-    "width_m": 2.4,
-    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)"
+    "variants_note": "variantes : r\u00e9\u00e9chelonner les modules suspendus/interm\u00e9diaires (ou ajouter des paires suspendu+interm\u00e9diaire) pour atteindre length_m ; width_m remplace la largeur"
   },
-  "id": "paris_t2",
-  "layout": [
-    "end_a",
-    "suspended",
-    "powered",
-    "suspended",
-    "end_b"
-  ],
-  "master": "idf__citadis_302__t2",
-  "master_count": 5.0,
-  "master_length": 32.2,
+  "cab": {
+    "cab": "res://tram_parts/extremites/paris_t2/cab.glb",
+    "cab_m": "res://tram_parts/extremites/paris_t2/cab_m.glb"
+  },
+  "nose_profile": {
+    "style": "gen",
+    "p": 2.406,
+    "theta_w": 0.514,
+    "D": [
+      [
+        0.25,
+        0.88
+      ],
+      [
+        0.4,
+        0.98
+      ],
+      [
+        0.9,
+        1.0
+      ],
+      [
+        1.15,
+        0.96
+      ],
+      [
+        2.0,
+        0.7
+      ],
+      [
+        2.75,
+        0.38
+      ],
+      [
+        3.0,
+        0.1
+      ],
+      [
+        3.3,
+        0.0
+      ]
+    ],
+    "windshield": {
+      "bottom_m": 1.15,
+      "top_m": 2.75,
+      "lower_curve_m": 0.03,
+      "upper_curve_m": 0.1
+    }
+  },
   "master_lengths": [
-    8.94444465637207,
-    4.77037048339844,
-    4.77037048339844,
-    4.77037048339844,
-    8.94444465637207
+    8.944444444444445,
+    4.770370370370371,
+    4.770370370370371,
+    4.770370370370371,
+    8.944444444444445
   ],
-  "parts": {
-    "end_a": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@1187",
-          "@MeshInstance3D@1188",
-          "@MeshInstance3D@1189",
-          "@MeshInstance3D@1190",
-          "@MeshInstance3D@1191"
-        ],
-        "panto": {}
-      },
-      "door_count": 2,
-      "length_m": 8.94444465637207,
+  "equipment": {
+    "pantograph": {
       "models": {
-        "native": "res://tram_parts/extremites/paris_t2/end_a.scn"
+        "lod0": "res://tram_parts/equipements/paris_t2/pantograph_lod0.glb",
+        "lod1": "res://tram_parts/equipements/paris_t2/pantograph_lod1.glb",
+        "lod1_m": "res://tram_parts/equipements/paris_t2/pantograph_lod1_m.glb",
+        "lod2": "res://tram_parts/equipements/paris_t2/pantograph_lod2.glb"
       },
-      "palette": "res://tram_livery/materials/paris_t2/end_a_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 5.26728407541911,
-        "doors": [
-          {
-            "leaves": 1.0,
-            "width_m": 0.8,
-            "z_m": 2.98148155212402
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 7.55308659871419
-          }
-        ],
-        "kind": "cab",
-        "length_m": 8.94444465637207,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              1.5
-            ],
-            "type": "fairing",
-            "z_m": 0.745370388031006
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 3.08086427052816
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 7.45370388031006
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 1.49074077606201,
-            "z1_m": 2.43487660090129
-          },
-          {
-            "z0_m": 3.52808650334676,
-            "z1_m": 6.75802485148112
-          },
-          {
-            "z0_m": 8.34814834594727,
-            "z1_m": 8.7456792195638
-          }
-        ]
-      },
-      "role": "end_a",
-      "root": "Module0",
-      "source_index": 0
-    },
-    "end_b": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@1198",
-          "@MeshInstance3D@1199",
-          "@MeshInstance3D@1200",
-          "@MeshInstance3D@1201",
-          "@MeshInstance3D@1202"
-        ],
-        "panto": {}
-      },
-      "door_count": 2,
-      "length_m": 8.94444465637207,
-      "models": {
-        "native": "res://tram_parts/extremites/paris_t2/end_b.scn"
-      },
-      "palette": "res://tram_livery/materials/paris_t2/end_b_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 3.67716058095296,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 1.39135805765788
-          },
-          {
-            "leaves": 1.0,
-            "width_m": 0.8,
-            "z_m": 5.96296310424805
-          }
-        ],
-        "kind": "cab",
-        "length_m": 8.94444465637207,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              1.5
-            ],
-            "type": "fairing",
-            "z_m": 8.19907426834106
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 5.86358038584391
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 1.49074077606201
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.198765436808268,
-            "z1_m": 0.596296310424805
-          },
-          {
-            "z0_m": 2.18641980489095,
-            "z1_m": 5.41635815302531
-          },
-          {
-            "z0_m": 6.50956805547078,
-            "z1_m": 7.45370388031006
-          }
-        ]
-      },
-      "role": "end_b",
-      "root": "Module4",
-      "source_index": 4
-    },
-    "powered": {
-      "bindings": {
-        "leaves": [],
-        "panto": {
-          "head": "PantoHead",
-          "lower": "PantoLower",
-          "upper": "PantoUpper"
-        }
-      },
-      "door_count": 0,
-      "length_m": 4.77037048339844,
-      "models": {
-        "native": "res://tram_parts/motrices/paris_t2/powered.scn"
-      },
-      "palette": "res://tram_livery/materials/paris_t2/powered_palette.png",
-      "pantograph": true,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 2.38518524169922,
-        "doors": [],
-        "kind": "middle",
-        "length_m": 4.77037048339844,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.3,
-              2.0
-            ],
-            "type": "pantograph",
-            "z_m": 2.38518524169922
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.198765436808268,
-            "z1_m": 4.57160504659017
-          }
-        ]
+      "triangles": {
+        "lod0": 1788,
+        "lod1": 1116,
+        "lod1_m": 284,
+        "lod2": 232
       },
       "role": "powered",
-      "root": "Module2",
-      "source_index": 2
-    },
-    "suspended": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@1192",
-          "@MeshInstance3D@1193",
-          "@MeshInstance3D@1194"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 4.77037048339844,
-      "models": {
-        "native": "res://tram_parts/suspendues/paris_t2/suspended.scn"
-      },
-      "palette": "res://tram_livery/materials/paris_t2/suspended_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": false,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 2.38518524169922
-          }
-        ],
-        "kind": "suspended",
-        "length_m": 4.77037048339844,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 2.38518524169922
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.198765436808268,
-            "z1_m": 1.59012349446615
-          },
-          {
-            "z0_m": 3.18024698893229,
-            "z1_m": 4.57160504659017
-          }
+      "z_ratio": 0.5,
+      "mount_y": 3.3,
+      "roof": {
+        "type": "pantograph",
+        "z_m": 2.3851851851851853,
+        "size": [
+          1.6,
+          0.3,
+          2.0
         ]
-      },
-      "role": "suspended",
-      "root": "Module1",
-      "source_index": 1
+      }
     }
-  },
-  "presets": {
-    "302": {
-      "count": 5.0,
-      "length_m": 32.2
-    }
-  },
-  "renderer": "native",
-  "schema": 2.0
+  }
 }

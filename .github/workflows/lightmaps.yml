@@ -1,0 +1,69 @@
+# Cuisson LightmapGI (refonte P1/P4, docs/CDC_REFONTE_VISUELLE.md §10 et « État P4 — ambiance ») : déclenchement
+# MANUEL seulement, séparé de release.yml et des tests. Runner Linux sans GPU : Vulkan logiciel (lavapipe / llvmpipe,
+# mesa-vulkan-drivers) sous xvfb, une scène par tâche (matrice), durée bornée. Les données cuites sont publiées en
+# artefact (rien n'est poussé) : les télécharger, les vérifier (tests/audit/p1_shots.gd) puis les committer.
+name: lightmaps
+on:
+  workflow_dispatch:
+    inputs:
+      scenes:
+        description: "Scènes à cuire (identifiants séparés par des virgules, dossiers de assets/lightmaps)"
+        default: "angers_ralliement,nantes_tremie_l3"
+        required: true
+      timeout_min:
+        description: "Durée maximale de cuisson par scène (minutes, ≤ 330)"
+        default: "300"
+        required: true
+permissions:
+  contents: read
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      scenes: ${{ steps.m.outputs.scenes }}
+    steps:
+      - id: m
+        env:
+          SCENES: ${{ inputs.scenes }}
+        run: |
+          echo "$SCENES" | grep -Eq '^[a-z0-9_, ]+$' || { echo "identifiants de scène invalides"; exit 1; }
+          echo "scenes=$(printf '%s' "$SCENES" | tr -d ' ' | jq -R -c 'split(",") | map(select(length > 0))')" >> "$GITHUB_OUTPUT"
+  bake:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+    strategy:
+      fail-fast: false
+      matrix:
+        scene: ${{ fromJSON(needs.plan.outputs.scenes) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Godot 4.6.3 et Vulkan logiciel
+        run: |
+          curl -sSL -o g.zip https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          unzip -q g.zip && chmod +x Godot_v4.6.3-stable_linux.x86_64
+          sudo apt-get update -qq && sudo apt-get install -y xvfb mesa-vulkan-drivers vulkan-tools
+          vulkaninfo --summary | grep -E "deviceName|driverName" || true
+      - name: Import
+        run: timeout 1800 xvfb-run -a ./Godot_v4.6.3-stable_linux.x86_64 --headless --path . --import > import.log 2>&1 || (tail -50 import.log; exit 1)
+      - name: Cuisson ${{ matrix.scene }}
+        env:
+          TIMEOUT_MIN: ${{ inputs.timeout_min }}
+          BAKE_LOG: bake.log
+          LP_NUM_THREADS: 4
+        run: |
+          m=$(( TIMEOUT_MIN > 330 ? 330 : TIMEOUT_MIN ))
+          export BAKE_TIMEOUT=$(( m * 60 )) TRAMSIM_BAKE_TIMEOUT_S=$(( m * 60 - 120 ))
+          s="res://assets/lightmaps/${{ matrix.scene }}/${{ matrix.scene }}_bake.tscn"
+          tools/lightmaps/bake.sh "$PWD/Godot_v4.6.3-stable_linux.x86_64" "$s"
+          ls -la assets/lightmaps/${{ matrix.scene }}/
+      - name: Journal
+        if: always()
+        run: tail -100 bake.log || true
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: lightmaps-${{ matrix.scene }}
+          path: |
+            assets/lightmaps/${{ matrix.scene }}/
+          retention-days: 14

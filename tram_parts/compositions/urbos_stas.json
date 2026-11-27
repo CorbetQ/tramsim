@@ -1,62 +1,248 @@
 {
-  "cab": {},
+  "schema": 2,
+  "id": "urbos_stas",
+  "renderer": "hd",
+  "master": "saintetienne__urbos",
+  "master_count": 5,
+  "master_length": 32.966,
+  "parts": {
+    "end_a": {
+      "role": "end_a",
+      "source_index": 0,
+      "root": "module_00",
+      "plan": {
+        "kind": "cab",
+        "length_m": 8.995265293761358,
+        "bogie": true,
+        "bogie_z_m": 6.499353725015143,
+        "doors": [
+          {
+            "z_m": 3.2946032707450037,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 1.3977104784978802,
+            "z1_m": 2.495911568746215
+          },
+          {
+            "z0_m": 4.093294972743792,
+            "z1_m": 8.795592368261662
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 0.6988552392489401,
+            "size": [
+              1.92,
+              0.25,
+              1.4
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 2.995093882495458,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 7.49771835251363,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 8.995265293761358,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/extremites/urbos_stas/end_a_lod0.glb",
+        "lod1": "res://tram_parts/extremites/urbos_stas/end_a_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/urbos_stas/end_a_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/urbos_stas/end_a_lod2.glb",
+        "lod3": "res://tram_parts/extremites/urbos_stas/end_a_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 28885,
+        "lod1": 9625,
+        "lod1_m": 3194,
+        "lod2": 942,
+        "lod3": 209
+      },
+      "bindings": {}
+    },
+    "suspended": {
+      "role": "suspended",
+      "source_index": 1,
+      "root": "module_01",
+      "plan": {
+        "kind": "suspended",
+        "length_m": 4.991823137492429,
+        "bogie": false,
+        "doors": [
+          {
+            "z_m": 1.3977104784978802,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 3.594112658994549,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.19967292549969717,
+            "z1_m": 0.5990187764990915
+          },
+          {
+            "z0_m": 2.196402180496669,
+            "z1_m": 2.7954209569957604
+          }
+        ],
+        "roof": []
+      },
+      "length_m": 4.991823137492429,
+      "pantograph": false,
+      "door_count": 2,
+      "models": {
+        "lod0": "res://tram_parts/suspendues/urbos_stas/suspended_lod0.glb",
+        "lod1": "res://tram_parts/suspendues/urbos_stas/suspended_lod1.glb",
+        "lod1_m": "res://tram_parts/suspendues/urbos_stas/suspended_lod1_m.glb",
+        "lod2": "res://tram_parts/suspendues/urbos_stas/suspended_lod2.glb",
+        "lod3": "res://tram_parts/suspendues/urbos_stas/suspended_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 6292,
+        "lod1": 2776,
+        "lod1_m": 818,
+        "lod2": 222,
+        "lod3": 28
+      },
+      "bindings": {}
+    },
+    "end_b": {
+      "role": "end_b",
+      "source_index": 4,
+      "root": "module_04",
+      "plan": {
+        "kind": "cab",
+        "length_m": 8.995265293761358,
+        "bogie": true,
+        "bogie_z_m": 2.495911568746215,
+        "doors": [
+          {
+            "z_m": 5.7006620230163545,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.1996729254996972,
+            "z1_m": 4.901970321017567
+          },
+          {
+            "z0_m": 6.499353725015143,
+            "z1_m": 7.597554815263479
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 8.29641005451242,
+            "size": [
+              1.92,
+              0.25,
+              1.4
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 6.0001714112659,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 1.497546941247729,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 8.995265293761358,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/extremites/urbos_stas/end_b_lod0.glb",
+        "lod1": "res://tram_parts/extremites/urbos_stas/end_b_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/urbos_stas/end_b_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/urbos_stas/end_b_lod2.glb",
+        "lod3": "res://tram_parts/extremites/urbos_stas/end_b_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 26197,
+        "lod1": 8781,
+        "lod1_m": 2918,
+        "lod2": 874,
+        "lod3": 209
+      },
+      "bindings": {}
+    }
+  },
+  "layout": [
+    "end_a",
+    "suspended",
+    "suspended",
+    "suspended",
+    "end_b"
+  ],
+  "presets": {
+    "5-caisses": {
+      "count": 5,
+      "length_m": 32.966
+    }
+  },
   "frame": {
+    "id": "urbos",
+    "name": "CAF Urbos 3 / Urbos 100X",
+    "length_m": 23.021,
+    "width_m": 2.4,
+    "height_m": 3.3,
+    "floor_m": 0.35,
     "body": {
+      "skirt_top_m": 0.45,
+      "window_bottom_m": 1.05,
+      "window_top_m": 2.45,
       "cant_m": 2.75,
       "roof_shoulder_m": 0.25,
-      "skirt_top_m": 0.45,
-      "tumblehome_m": 0.0,
-      "window_bottom_m": 1.05,
-      "window_top_m": 2.45
+      "tumblehome_m": 0.0
     },
-    "door_anim": {
-      "leaf_split": "center",
-      "open_s": 2.5,
-      "out_m": 0.06,
-      "single_leaf_travel_m": 0.8,
-      "travel_m": 0.65,
-      "type": "plug"
-    },
-    "estimated": [
-      "body",
-      "modules.windows",
-      "modules.roof",
-      "modules.bogie_z_m",
-      "front.plan",
-      "front.side",
-      "front.windshield",
-      "front.headlights",
-      "front.destination",
-      "door_anim",
-      "pantograph",
-      "research:height_m",
-      "research:floor_height_m",
-      "research:mass_t",
-      "research:power_kw",
-      "research:modules",
-      "research:doors_per_side",
-      "research:variants.saintetienne_urbos3"
-    ],
-    "floor_m": 0.35,
+    "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
-      "bumper_m": 0.05,
-      "destination": {
-        "h_m": 0.22,
-        "w_m": 1.4,
-        "y_m": 2.85
-      },
-      "headlights": {
-        "h_m": 0.12,
-        "shape": "rect",
-        "w_m": 0.3,
-        "x_m": 0.85,
-        "y_m": 0.8
-      },
       "length_m": 1.4,
       "plan": [
         [
-          0.0,
-          1.0
+          0,
+          1
         ],
         [
           0.4,
@@ -67,7 +253,7 @@
           0.8
         ],
         [
-          1.0,
+          1,
           0.62
         ]
       ],
@@ -100,18 +286,37 @@
       "windshield": {
         "bottom_m": 1.1,
         "top_m": 2.7,
-        "wrap": 0.35
-      }
+        "wrap": 0.35,
+        "lower_curve_m": 0.03,
+        "upper_curve_m": 0.1
+      },
+      "headlights": {
+        "shape": "rect",
+        "y_m": 0.8,
+        "x_m": 0.85,
+        "w_m": 0.3,
+        "h_m": 0.12
+      },
+      "destination": {
+        "y_m": 2.85,
+        "w_m": 1.4,
+        "h_m": 0.22
+      },
+      "bumper_m": 0.05
     },
-    "height_m": 3.3,
-    "id": "urbos",
-    "length_m": 23.021,
-    "name": "CAF Urbos 3 / Urbos 100X",
+    "door_anim": {
+      "type": "plug",
+      "open_s": 2.5,
+      "travel_m": 0.65,
+      "out_m": 0.06,
+      "leaf_split": "center",
+      "single_leaf_travel_m": 0.8
+    },
     "pantograph": {
       "down_m": 0.25,
+      "up_m": 2.6,
       "raise_s": 4.0,
-      "type": "single_arm",
-      "up_m": 2.6
+      "type": "single_arm"
     },
     "sources": [
       "research.json#urbos",
@@ -122,295 +327,130 @@
       "https://fr.wikipedia.org/wiki/Tramway_de_Marseille",
       "https://fr.wikipedia.org/wiki/Ligne_13_Express_du_tramway_d%27%C3%8Ele-de-France"
     ],
-    "unidirectional": true,
+    "estimated": [
+      "body",
+      "modules.windows",
+      "modules.roof",
+      "modules.bogie_z_m",
+      "front.plan",
+      "front.side",
+      "front.windshield",
+      "front.headlights",
+      "front.destination",
+      "door_anim",
+      "pantograph",
+      "research:height_m",
+      "research:floor_height_m",
+      "research:mass_t",
+      "research:power_kw",
+      "research:modules",
+      "research:doors_per_side",
+      "research:variants.saintetienne_urbos3"
+    ],
     "variants": {
       "variants": {
         "besancon_urbos3": {
-          "capacity": 132.0,
           "length_m": 23.021,
-          "modules": 3.0,
-          "rames": 19.0,
-          "width_m": 2.4
+          "width_m": 2.4,
+          "capacity": 132,
+          "modules": 3,
+          "rames": 19
         },
-        "marseille_urbos100x": {
-          "note": "livraison prévue 2025+"
+        "saintetienne_urbos3": {
+          "length_m": 33.0,
+          "width_m": 2.15,
+          "rames": 16,
+          "note": "voie m\u00e9trique"
         },
         "montpellier_urbos100x": {
           "lines": "1, 5",
           "note": "2025-"
         },
-        "saintetienne_urbos3": {
-          "length_m": 33.0,
-          "note": "voie métrique",
-          "rames": 16.0,
-          "width_m": 2.15
+        "marseille_urbos100x": {
+          "note": "livraison pr\u00e9vue 2025+"
         }
       }
     },
-    "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur",
-    "width_m": 2.4,
-    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)"
+    "variants_note": "variantes : r\u00e9\u00e9chelonner les modules suspendus/interm\u00e9diaires (ou ajouter des paires suspendu+interm\u00e9diaire) pour atteindre length_m ; width_m remplace la largeur"
   },
-  "id": "urbos_stas",
-  "layout": [
-    "end_a",
-    "suspended",
-    "powered",
-    "suspended",
-    "end_b"
-  ],
-  "master": "saintetienne__urbos",
-  "master_count": 5.0,
-  "master_length": 32.966,
+  "cab": {
+    "cab": "res://tram_parts/extremites/urbos_stas/cab.glb",
+    "cab_m": "res://tram_parts/extremites/urbos_stas/cab_m.glb"
+  },
+  "nose_profile": {
+    "style": "gen",
+    "p": 2.682,
+    "theta_w": 0.493,
+    "D": [
+      [
+        0.25,
+        0.9
+      ],
+      [
+        0.5,
+        1.0
+      ],
+      [
+        1.0,
+        0.97
+      ],
+      [
+        1.8,
+        0.75
+      ],
+      [
+        2.6,
+        0.5
+      ],
+      [
+        3.0,
+        0.25
+      ],
+      [
+        3.3,
+        0.0
+      ]
+    ],
+    "windshield": {
+      "bottom_m": 1.1,
+      "top_m": 2.7,
+      "lower_curve_m": 0.03,
+      "upper_curve_m": 0.1
+    }
+  },
   "master_lengths": [
-    8.62939167022705,
-    4.78878545761108,
-    6.12964534759521,
-    4.78878545761108,
-    8.62939167022705
+    8.995265293761358,
+    4.991823137492429,
+    4.991823137492429,
+    4.991823137492429,
+    8.995265293761358
   ],
-  "parts": {
-    "end_a": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@2049"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 8.62939167022705,
+  "equipment": {
+    "pantograph": {
       "models": {
-        "native": "res://tram_parts/extremites/urbos_stas/end_a.scn"
+        "lod0": "res://tram_parts/equipements/urbos_stas/pantograph_lod0.glb",
+        "lod1": "res://tram_parts/equipements/urbos_stas/pantograph_lod1.glb",
+        "lod1_m": "res://tram_parts/equipements/urbos_stas/pantograph_lod1_m.glb",
+        "lod2": "res://tram_parts/equipements/urbos_stas/pantograph_lod2.glb"
       },
-      "palette": "res://tram_livery/materials/urbos_stas/end_a_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 6.23499886494762,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 3.16059850296884
-          }
-        ],
-        "kind": "cab",
-        "length_m": 8.62939167022705,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              1.4
-            ],
-            "type": "fairing",
-            "z_m": 0.670429985478239
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 2.87327136633531
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 7.1927559870594
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 1.34085997095648,
-            "z1_m": 2.39439280527943
-          },
-          {
-            "z0_m": 3.92680420065826,
-            "z1_m": 8.4378402458047
-          }
-        ]
-      },
-      "role": "end_a",
-      "root": "Module0",
-      "source_index": 0
-    },
-    "end_b": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@2056"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 8.62939167022705,
-      "models": {
-        "native": "res://tram_parts/extremites/urbos_stas/end_b.scn"
-      },
-      "palette": "res://tram_livery/materials/urbos_stas/end_b_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 2.39439280527943,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 5.46879316725821
-          }
-        ],
-        "kind": "cab",
-        "length_m": 8.62939167022705,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              1.4
-            ],
-            "type": "fairing",
-            "z_m": 7.95896168474881
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 5.75612030389174
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 1.43663568316766
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.191551424422354,
-            "z1_m": 4.70258746956879
-          },
-          {
-            "z0_m": 6.23499886494762,
-            "z1_m": 7.28853169927057
-          }
-        ]
-      },
-      "role": "end_b",
-      "root": "Module4",
-      "source_index": 4
-    },
-    "powered": {
-      "bindings": {
-        "leaves": [],
-        "panto": {}
-      },
-      "door_count": 0,
-      "length_m": 6.12964534759521,
-      "models": {
-        "native": "res://tram_parts/motrices/urbos_stas/powered.scn"
-      },
-      "palette": "res://tram_livery/materials/urbos_stas/powered_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "doors": [],
-        "kind": "middle",
-        "length_m": 6.12964534759521,
-        "roof": [],
-        "windows": [
-          {
-            "z0_m": 0.19155141711235,
-            "z1_m": 5.93809393048286
-          }
-        ]
-      },
-      "role": "powered",
-      "root": "Module2",
-      "source_index": 2
-    },
-    "suspended": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@2050",
-          "@MeshInstance3D@2051",
-          "@MeshInstance3D@2052"
-        ],
-        "panto": {
-          "head": "PantoHead",
-          "lower": "PantoLower",
-          "upper": "PantoUpper"
-        }
-      },
-      "door_count": 2,
-      "length_m": 4.78878545761108,
-      "models": {
-        "native": "res://tram_parts/suspendues/urbos_stas/suspended.scn"
-      },
-      "palette": "res://tram_livery/materials/urbos_stas/suspended_palette.png",
-      "pantograph": true,
-      "plan": {
-        "bogie": false,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 1.3408599281311
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 3.44792552947998
-          }
-        ],
-        "kind": "suspended",
-        "length_m": 4.78878545761108,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.3,
-              2.0
-            ],
-            "type": "pantograph",
-            "z_m": 2.39439272880554
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.191551418304443,
-            "z1_m": 0.57465425491333
-          },
-          {
-            "z0_m": 2.10706560134888,
-            "z1_m": 2.68171985626221
-          }
-        ]
+      "triangles": {
+        "lod0": 1788,
+        "lod1": 1116,
+        "lod1_m": 284,
+        "lod2": 232
       },
       "role": "suspended",
-      "root": "Module1",
-      "source_index": 1
+      "z_ratio": 0.5,
+      "mount_y": 3.3,
+      "roof": {
+        "type": "pantograph",
+        "z_m": 2.4959115687462146,
+        "size": [
+          1.6,
+          0.3,
+          2.0
+        ]
+      }
     }
-  },
-  "presets": {
-    "5-caisses": {
-      "count": 5.0,
-      "length_m": 32.966
-    }
-  },
-  "renderer": "native",
-  "schema": 2.0
+  }
 }

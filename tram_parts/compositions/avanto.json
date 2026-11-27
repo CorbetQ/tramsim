@@ -1,60 +1,300 @@
 {
-  "cab": {},
+  "schema": 2,
+  "id": "avanto",
+  "renderer": "hd",
+  "master": "mulhouse__avanto",
+  "master_count": 5,
+  "master_length": 36.97,
+  "parts": {
+    "end_a": {
+      "role": "end_a",
+      "source_index": 0,
+      "root": "module_00",
+      "plan": {
+        "kind": "cab",
+        "length_m": 10.52,
+        "bogie": true,
+        "bogie_z_m": 2.6,
+        "doors": [
+          {
+            "z_m": 6.01,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 2.0,
+            "z1_m": 5.21
+          },
+          {
+            "z0_m": 6.81,
+            "z1_m": 10.32
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 1.0,
+            "size": [
+              2.12,
+              0.25,
+              2.0
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 3.6,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 9.02,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 10.52,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/extremites/avanto/end_a_lod0.glb",
+        "lod1": "res://tram_parts/extremites/avanto/end_a_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/avanto/end_a_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/avanto/end_a_lod2.glb",
+        "lod3": "res://tram_parts/extremites/avanto/end_a_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 29169,
+        "lod1": 9701,
+        "lod1_m": 3358,
+        "lod2": 918,
+        "lod3": 209
+      },
+      "bindings": {}
+    },
+    "suspended": {
+      "role": "suspended",
+      "source_index": 1,
+      "root": "module_01",
+      "plan": {
+        "kind": "suspended",
+        "length_m": 4.01,
+        "bogie": false,
+        "doors": [
+          {
+            "z_m": 2.0,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.2,
+            "z1_m": 1.2
+          },
+          {
+            "z0_m": 2.8,
+            "z1_m": 3.81
+          }
+        ],
+        "roof": [
+          {
+            "type": "hvac",
+            "z_m": 2.0,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          }
+        ]
+      },
+      "length_m": 4.01,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/suspendues/avanto/suspended_lod0.glb",
+        "lod1": "res://tram_parts/suspendues/avanto/suspended_lod1.glb",
+        "lod1_m": "res://tram_parts/suspendues/avanto/suspended_lod1_m.glb",
+        "lod2": "res://tram_parts/suspendues/avanto/suspended_lod2.glb",
+        "lod3": "res://tram_parts/suspendues/avanto/suspended_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 7324,
+        "lod1": 2624,
+        "lod1_m": 630,
+        "lod2": 238,
+        "lod3": 44
+      },
+      "bindings": {}
+    },
+    "powered": {
+      "role": "powered",
+      "source_index": 2,
+      "root": "module_02",
+      "plan": {
+        "kind": "middle",
+        "length_m": 7.91,
+        "bogie": true,
+        "bogie_z_m": 3.96,
+        "doors": [],
+        "windows": [
+          {
+            "z0_m": 0.2,
+            "z1_m": 7.71
+          }
+        ],
+        "roof": [
+          {
+            "type": "box",
+            "z_m": 5.86,
+            "size": [
+              1.2,
+              0.28,
+              1.4
+            ]
+          }
+        ]
+      },
+      "length_m": 7.91,
+      "pantograph": false,
+      "door_count": 0,
+      "models": {
+        "lod0": "res://tram_parts/motrices/avanto/powered_lod0.glb",
+        "lod1": "res://tram_parts/motrices/avanto/powered_lod1.glb",
+        "lod1_m": "res://tram_parts/motrices/avanto/powered_lod1_m.glb",
+        "lod2": "res://tram_parts/motrices/avanto/powered_lod2.glb",
+        "lod3": "res://tram_parts/motrices/avanto/powered_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 19312,
+        "lod1": 5252,
+        "lod1_m": 1642,
+        "lod2": 414,
+        "lod3": 44
+      },
+      "bindings": {}
+    },
+    "end_b": {
+      "role": "end_b",
+      "source_index": 4,
+      "root": "module_04",
+      "plan": {
+        "kind": "cab",
+        "length_m": 10.52,
+        "bogie": true,
+        "bogie_z_m": 7.92,
+        "doors": [
+          {
+            "z_m": 4.51,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.2,
+            "z1_m": 3.71
+          },
+          {
+            "z0_m": 5.31,
+            "z1_m": 8.52
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 9.52,
+            "size": [
+              2.12,
+              0.25,
+              2.0
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 6.92,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 1.5,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 10.52,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/extremites/avanto/end_b_lod0.glb",
+        "lod1": "res://tram_parts/extremites/avanto/end_b_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/avanto/end_b_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/avanto/end_b_lod2.glb",
+        "lod3": "res://tram_parts/extremites/avanto/end_b_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 26481,
+        "lod1": 8857,
+        "lod1_m": 3082,
+        "lod2": 850,
+        "lod3": 209
+      },
+      "bindings": {}
+    }
+  },
+  "layout": [
+    "end_a",
+    "suspended",
+    "powered",
+    "suspended",
+    "end_b"
+  ],
+  "presets": {
+    "5-caisses": {
+      "count": 5,
+      "length_m": 36.97
+    }
+  },
   "frame": {
+    "id": "avanto",
+    "name": "Siemens Avanto (S70 tram-train)",
+    "length_m": 36.97,
+    "width_m": 2.65,
+    "height_m": 3.52,
+    "floor_m": 0.4,
     "body": {
+      "skirt_top_m": 0.55,
+      "window_bottom_m": 1.15,
+      "window_top_m": 2.55,
       "cant_m": 2.97,
       "roof_shoulder_m": 0.25,
-      "skirt_top_m": 0.55,
-      "tumblehome_m": 0.0,
-      "window_bottom_m": 1.15,
-      "window_top_m": 2.55
+      "tumblehome_m": 0.0
     },
-    "door_anim": {
-      "leaf_split": "center",
-      "open_s": 2.5,
-      "out_m": 0.06,
-      "single_leaf_travel_m": 0.8,
-      "travel_m": 0.65,
-      "type": "plug"
-    },
-    "estimated": [
-      "body",
-      "modules.windows",
-      "modules.roof",
-      "modules.bogie_z_m",
-      "front.plan",
-      "front.side",
-      "front.windshield",
-      "front.headlights",
-      "front.destination",
-      "door_anim",
-      "pantograph",
-      "research:floor_height_m",
-      "research:capacity",
-      "research:modules",
-      "research:doors_per_side",
-      "research:door_width_m"
-    ],
-    "floor_m": 0.4,
+    "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
-      "bumper_m": 0.2,
-      "destination": {
-        "h_m": 0.22,
-        "w_m": 1.5,
-        "y_m": 3.05
-      },
-      "headlights": {
-        "h_m": 0.2,
-        "shape": "round",
-        "w_m": 0.2,
-        "x_m": 0.9,
-        "y_m": 1.0
-      },
       "length_m": 2.0,
       "plan": [
         [
-          0.0,
-          1.0
+          0,
+          1
         ],
         [
           0.5,
@@ -65,7 +305,7 @@
           0.8
         ],
         [
-          1.0,
+          1,
           0.62
         ]
       ],
@@ -95,25 +335,44 @@
           0.8
         ]
       ],
-      "upper_light": {
-        "shape": "round",
-        "y_m": 3.15
-      },
       "windshield": {
         "bottom_m": 1.5,
         "top_m": 3.0,
-        "wrap": 0.3
+        "wrap": 0.3,
+        "lower_curve_m": 0.03,
+        "upper_curve_m": 0.1
+      },
+      "headlights": {
+        "shape": "round",
+        "y_m": 1.0,
+        "x_m": 0.9,
+        "w_m": 0.2,
+        "h_m": 0.2
+      },
+      "destination": {
+        "y_m": 3.05,
+        "w_m": 1.5,
+        "h_m": 0.22
+      },
+      "bumper_m": 0.2,
+      "upper_light": {
+        "y_m": 3.15,
+        "shape": "round"
       }
     },
-    "height_m": 3.52,
-    "id": "avanto",
-    "length_m": 36.97,
-    "name": "Siemens Avanto (S70 tram-train)",
+    "door_anim": {
+      "type": "plug",
+      "open_s": 2.5,
+      "travel_m": 0.65,
+      "out_m": 0.06,
+      "leaf_split": "center",
+      "single_leaf_travel_m": 0.8
+    },
     "pantograph": {
       "down_m": 0.25,
+      "up_m": 1.98,
       "raise_s": 6.0,
-      "type": "single_arm",
-      "up_m": 1.98
+      "type": "single_arm"
     },
     "sources": [
       "research.json#avanto",
@@ -121,288 +380,103 @@
       "https://fr.wikipedia.org/wiki/Tramway_de_Mulhouse",
       "https://fr.wikipedia.org/wiki/Ligne_4_du_tramway_d%27%C3%8Ele-de-France"
     ],
-    "width_m": 2.65,
-    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)"
+    "estimated": [
+      "body",
+      "modules.windows",
+      "modules.roof",
+      "modules.bogie_z_m",
+      "front.plan",
+      "front.side",
+      "front.windshield",
+      "front.headlights",
+      "front.destination",
+      "door_anim",
+      "pantograph",
+      "research:floor_height_m",
+      "research:capacity",
+      "research:modules",
+      "research:doors_per_side",
+      "research:door_width_m"
+    ]
   },
-  "id": "avanto",
-  "layout": [
-    "end_a",
-    "suspended",
-    "powered",
-    "suspended",
-    "end_b"
-  ],
-  "master": "mulhouse__avanto",
-  "master_count": 5.0,
-  "master_length": 36.97,
+  "cab": {
+    "cab": "res://tram_parts/extremites/avanto/cab.glb",
+    "cab_m": "res://tram_parts/extremites/avanto/cab_m.glb"
+  },
+  "nose_profile": {
+    "style": "gen",
+    "p": 2.682,
+    "theta_w": 0.514,
+    "D": [
+      [
+        0.25,
+        0.95
+      ],
+      [
+        0.4,
+        1.0
+      ],
+      [
+        1.2,
+        1.0
+      ],
+      [
+        1.5,
+        0.95
+      ],
+      [
+        2.6,
+        0.55
+      ],
+      [
+        3.2,
+        0.2
+      ],
+      [
+        3.52,
+        0.0
+      ]
+    ],
+    "windshield": {
+      "bottom_m": 1.5,
+      "top_m": 3.0,
+      "lower_curve_m": 0.03,
+      "upper_curve_m": 0.1
+    }
+  },
   "master_lengths": [
-    10.5200004577637,
-    4.01000022888184,
-    7.90999984741211,
-    4.01000022888184,
-    10.5200004577637
+    10.52,
+    4.01,
+    7.91,
+    4.01,
+    10.52
   ],
-  "parts": {
-    "end_a": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@28",
-          "@MeshInstance3D@29",
-          "@MeshInstance3D@30"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 10.5200004577637,
+  "equipment": {
+    "pantograph": {
       "models": {
-        "native": "res://tram_parts/extremites/avanto/end_a.scn"
+        "lod0": "res://tram_parts/equipements/avanto/pantograph_lod0.glb",
+        "lod1": "res://tram_parts/equipements/avanto/pantograph_lod1.glb",
+        "lod1_m": "res://tram_parts/equipements/avanto/pantograph_lod1_m.glb",
+        "lod2": "res://tram_parts/equipements/avanto/pantograph_lod2.glb"
       },
-      "palette": "res://tram_livery/materials/avanto/end_a_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 2.60000011313551,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 6.01000026151708
-          }
-        ],
-        "kind": "cab",
-        "length_m": 10.5200004577637,
-        "roof": [
-          {
-            "size": [
-              2.12,
-              0.25,
-              2.0
-            ],
-            "type": "fairing",
-            "z_m": 1.00000004351366
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 3.60000015664917
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 9.02000039249319
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 2.00000008702731,
-            "z1_m": 5.21000022670615
-          },
-          {
-            "z0_m": 6.810000296328,
-            "z1_m": 10.3200004490609
-          }
-        ]
-      },
-      "role": "end_a",
-      "root": "Module0",
-      "source_index": 0
-    },
-    "end_b": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@37",
-          "@MeshInstance3D@38",
-          "@MeshInstance3D@39"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 10.5200004577637,
-      "models": {
-        "native": "res://tram_parts/extremites/avanto/end_b.scn"
-      },
-      "palette": "res://tram_livery/materials/avanto/end_b_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 7.92000034462816,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 4.51000019624659
-          }
-        ],
-        "kind": "cab",
-        "length_m": 10.5200004577637,
-        "roof": [
-          {
-            "size": [
-              2.12,
-              0.25,
-              2.0
-            ],
-            "type": "fairing",
-            "z_m": 9.52000041425002
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 6.92000030111451
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 1.50000006527049
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.200000008702731,
-            "z1_m": 3.71000016143567
-          },
-          {
-            "z0_m": 5.31000023105752,
-            "z1_m": 8.52000037073636
-          }
-        ]
-      },
-      "role": "end_b",
-      "root": "Module4",
-      "source_index": 4
-    },
-    "powered": {
-      "bindings": {
-        "leaves": [],
-        "panto": {
-          "head": "PantoHead",
-          "lower": "PantoLower",
-          "upper": "PantoUpper"
-        }
-      },
-      "door_count": 0,
-      "length_m": 7.90999984741211,
-      "models": {
-        "native": "res://tram_parts/motrices/avanto/powered.scn"
-      },
-      "palette": "res://tram_livery/materials/avanto/powered_palette.png",
-      "pantograph": true,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 3.9599999236096,
-        "doors": [],
-        "kind": "middle",
-        "length_m": 7.90999984741211,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.3,
-              2.0
-            ],
-            "type": "pantograph",
-            "z_m": 3.9599999236096
-          },
-          {
-            "size": [
-              1.2,
-              0.28,
-              1.4
-            ],
-            "type": "box",
-            "z_m": 5.85999988695764
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.199999996141899,
-            "z1_m": 7.70999985127021
-          }
-        ]
+      "triangles": {
+        "lod0": 1788,
+        "lod1": 1116,
+        "lod1_m": 284,
+        "lod2": 232
       },
       "role": "powered",
-      "root": "Module2",
-      "source_index": 2
-    },
-    "suspended": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@31",
-          "@MeshInstance3D@32",
-          "@MeshInstance3D@33"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 4.01000022888184,
-      "models": {
-        "native": "res://tram_parts/suspendues/avanto/suspended.scn"
-      },
-      "palette": "res://tram_livery/materials/avanto/suspended_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": false,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 2.00000011415553
-          }
-        ],
-        "kind": "suspended",
-        "length_m": 4.01000022888184,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 2.00000011415553
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.200000011415553,
-            "z1_m": 1.20000006849332
-          },
-          {
-            "z0_m": 2.80000015981774,
-            "z1_m": 3.81000021746628
-          }
+      "z_ratio": 0.5006321112515802,
+      "mount_y": 3.52,
+      "roof": {
+        "type": "pantograph",
+        "z_m": 3.96,
+        "size": [
+          1.6,
+          0.3,
+          2.0
         ]
-      },
-      "role": "suspended",
-      "root": "Module1",
-      "source_index": 1
+      }
     }
-  },
-  "presets": {
-    "5-caisses": {
-      "count": 5.0,
-      "length_m": 36.97
-    }
-  },
-  "renderer": "native",
-  "schema": 2.0
+  }
 }

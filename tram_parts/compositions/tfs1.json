@@ -1,22 +1,369 @@
 {
-  "cab": {},
+  "schema": 2,
+  "id": "tfs1",
+  "renderer": "hd",
+  "master": "nantes__tfs",
+  "master_count": 3,
+  "master_length": 36.5,
+  "parts": {
+    "end_a": {
+      "role": "end_a",
+      "source_index": 0,
+      "root": "module_00",
+      "plan": {
+        "kind": "cab",
+        "length_m": 16.387755102040817,
+        "bogie": true,
+        "bogie_z_m": 4.22108843537415,
+        "doors": [
+          {
+            "z_m": 2.358843537414966,
+            "width_m": 0.8,
+            "leaves": 1
+          },
+          {
+            "z_m": 6.9523809523809526,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 10.925170068027214,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 14.773809523809526,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.620748299319728,
+            "z1_m": 1.6760204081632657
+          },
+          {
+            "z0_m": 3.0416666666666674,
+            "z1_m": 5.959183673469388
+          },
+          {
+            "z0_m": 7.945578231292519,
+            "z1_m": 9.931972789115648
+          },
+          {
+            "z0_m": 11.918367346938776,
+            "z1_m": 13.780612244897961
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 0.310374149659864,
+            "size": [
+              1.84,
+              0.25,
+              0.5
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 2.6071428571428577,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 14.525510204081634,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 11.54591836734694,
+            "size": [
+              1.2,
+              0.28,
+              1.4
+            ]
+          }
+        ]
+      },
+      "length_m": 16.387755102040817,
+      "pantograph": false,
+      "door_count": 4,
+      "models": {
+        "lod0": "res://tram_parts/extremites/tfs1/end_a_lod0.glb",
+        "lod1": "res://tram_parts/extremites/tfs1/end_a_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/tfs1/end_a_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/tfs1/end_a_lod2.glb",
+        "lod3": "res://tram_parts/extremites/tfs1/end_a_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 35629,
+        "lod1": 11529,
+        "lod1_m": 3850,
+        "lod2": 934,
+        "lod3": 225
+      },
+      "bindings": {}
+    },
+    "powered": {
+      "role": "powered",
+      "source_index": 1,
+      "root": "module_01",
+      "plan": {
+        "kind": "middle",
+        "length_m": 3.724489795918368,
+        "bogie": true,
+        "bogie_z_m": 1.862244897959184,
+        "doors": [],
+        "windows": [
+          {
+            "z0_m": 0.2482993197278912,
+            "z1_m": 3.4761904761904763
+          }
+        ],
+        "roof": []
+      },
+      "length_m": 3.724489795918368,
+      "pantograph": false,
+      "door_count": 0,
+      "models": {
+        "lod0": "res://tram_parts/motrices/tfs1/powered_lod0.glb",
+        "lod1": "res://tram_parts/motrices/tfs1/powered_lod1.glb",
+        "lod1_m": "res://tram_parts/motrices/tfs1/powered_lod1_m.glb",
+        "lod2": "res://tram_parts/motrices/tfs1/powered_lod2.glb",
+        "lod3": "res://tram_parts/motrices/tfs1/powered_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 13616,
+        "lod1": 4532,
+        "lod1_m": 1522,
+        "lod2": 398,
+        "lod3": 28
+      },
+      "bindings": {}
+    },
+    "end_b": {
+      "role": "end_b",
+      "source_index": 2,
+      "root": "module_02",
+      "plan": {
+        "kind": "cab",
+        "length_m": 16.387755102040817,
+        "bogie": true,
+        "bogie_z_m": 12.16666666666667,
+        "doors": [
+          {
+            "z_m": 1.6139455782312928,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 5.462585034013607,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 9.435374149659864,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 14.028911564625853,
+            "width_m": 0.8,
+            "leaves": 1
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 2.6071428571428577,
+            "z1_m": 4.469387755102042
+          },
+          {
+            "z0_m": 6.455782312925171,
+            "z1_m": 8.4421768707483
+          },
+          {
+            "z0_m": 10.42857142857143,
+            "z1_m": 13.346088435374151
+          },
+          {
+            "z0_m": 14.711734693877553,
+            "z1_m": 15.76700680272109
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 16.077380952380953,
+            "size": [
+              1.84,
+              0.25,
+              0.5
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 13.780612244897961,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          },
+          {
+            "type": "box",
+            "z_m": 1.862244897959184,
+            "size": [
+              1.3,
+              0.3,
+              1.8
+            ]
+          }
+        ]
+      },
+      "length_m": 16.387755102040817,
+      "pantograph": false,
+      "door_count": 4,
+      "models": {
+        "lod0": "res://tram_parts/extremites/tfs1/end_b_lod0.glb",
+        "lod1": "res://tram_parts/extremites/tfs1/end_b_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/tfs1/end_b_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/tfs1/end_b_lod2.glb",
+        "lod3": "res://tram_parts/extremites/tfs1/end_b_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 32757,
+        "lod1": 10533,
+        "lod1_m": 3454,
+        "lod2": 850,
+        "lod3": 209
+      },
+      "bindings": {}
+    }
+  },
+  "layout": [
+    "end_a",
+    "powered",
+    "end_b"
+  ],
+  "presets": {
+    "3-caisses": {
+      "count": 3,
+      "length_m": 36.5
+    }
+  },
   "frame": {
+    "id": "tfs",
+    "name": "Alsthom TFS (Tramway fran\u00e7ais standard)",
+    "length_m": 29.4,
+    "width_m": 2.3,
+    "height_m": 3.36,
+    "floor_m": 0.87,
     "body": {
+      "skirt_top_m": 0.75,
+      "window_bottom_m": 1.45,
+      "window_top_m": 2.6,
       "cant_m": 2.86,
       "roof_shoulder_m": 0.2,
-      "skirt_top_m": 0.75,
-      "tumblehome_m": 0.0,
-      "window_bottom_m": 1.45,
-      "window_top_m": 2.6
+      "tumblehome_m": 0.0
+    },
+    "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
+    "front": {
+      "length_m": 0.5,
+      "plan": [
+        [
+          0,
+          1
+        ],
+        [
+          0.5,
+          0.99
+        ],
+        [
+          1,
+          0.93
+        ]
+      ],
+      "side": [
+        [
+          0.3,
+          0.1
+        ],
+        [
+          0.5,
+          0.0
+        ],
+        [
+          1.4,
+          0.0
+        ],
+        [
+          1.6,
+          0.1
+        ],
+        [
+          2.6,
+          0.3
+        ],
+        [
+          3.0,
+          0.4
+        ],
+        [
+          3.06,
+          0.8
+        ]
+      ],
+      "windshield": {
+        "bottom_m": 1.6,
+        "top_m": 2.7,
+        "wrap": 0.05,
+        "lower_curve_m": 0.03,
+        "upper_curve_m": 0.1
+      },
+      "headlights": {
+        "shape": "round",
+        "y_m": 1.1,
+        "x_m": 0.85,
+        "w_m": 0.18,
+        "h_m": 0.18
+      },
+      "destination": {
+        "y_m": 2.9,
+        "w_m": 1.4,
+        "h_m": 0.25
+      },
+      "bumper_m": 0.1
     },
     "door_anim": {
-      "leaf_split": "center",
+      "type": "plug",
       "open_s": 3.0,
-      "out_m": 0.06,
-      "single_leaf_travel_m": 0.8,
       "travel_m": 0.65,
-      "type": "plug"
+      "out_m": 0.06,
+      "leaf_split": "center",
+      "single_leaf_travel_m": 0.8
     },
+    "pantograph": {
+      "down_m": 0.25,
+      "up_m": 2.54,
+      "raise_s": 4.0,
+      "type": "single_arm_old"
+    },
+    "sources": [
+      "research.json#tfs",
+      "https://fr.wikipedia.org/wiki/Tramway_fran%C3%A7ais_standard",
+      "https://fr.wikipedia.org/wiki/Tramway_de_Grenoble",
+      "https://fr.wikipedia.org/wiki/Tramway_de_Nantes",
+      "https://fr.wikipedia.org/wiki/Ligne_1_du_tramway_d%27%C3%8Ele-de-France"
+    ],
     "estimated": [
       "body",
       "modules.windows",
@@ -32,435 +379,97 @@
       "research:modules",
       "research:door_width_m"
     ],
-    "floor_m": 0.87,
-    "front": {
-      "bulge": 0.055,
-      "bumper_m": 0.1,
-      "destination": {
-        "h_m": 0.2,
-        "w_m": 1.55,
-        "y_m": 2.87
-      },
-      "extra_lights": [
-        {
-          "color": "#e66c43",
-          "r_m": 0.04,
-          "x_m": 0.72,
-          "y_m": 0.91
-        },
-        {
-          "color": "#942e2e",
-          "r_m": 0.035,
-          "x_m": 0.58,
-          "y_m": 0.91
-        }
-      ],
-      "headlights": {
-        "h_m": 0.16,
-        "shape": "round",
-        "w_m": 0.16,
-        "x_m": 0.72,
-        "y_m": 1.12
-      },
-      "length_m": 0.65,
-      "plan": [
-        [
-          0,
-          1
-        ],
-        [
-          0.65,
-          1
-        ],
-        [
-          0.9,
-          0.98
-        ],
-        [
-          1,
-          0.91
-        ]
-      ],
-      "section": [
-        [
-          0.25,
-          0.94
-        ],
-        [
-          0.65,
-          1
-        ],
-        [
-          2.8,
-          1
-        ],
-        [
-          3.1,
-          0.97
-        ],
-        [
-          3.36,
-          0.9
-        ]
-      ],
-      "side": [
-        [
-          0.25,
-          0.16
-        ],
-        [
-          0.65,
-          0
-        ],
-        [
-          1.2,
-          0.02
-        ],
-        [
-          2.7,
-          0.16
-        ],
-        [
-          3.08,
-          0.22
-        ],
-        [
-          3.36,
-          1
-        ]
-      ],
-      "windshield": {
-        "bottom_m": 1.3,
-        "half_width_m": 0.89,
-        "lower_curve_m": 0.14,
-        "top_m": 3.04,
-        "wrap": 0.02
-      },
-      "wiper_lines": [
-        [
-          [
-            0.68,
-            1.32
-          ],
-          [
-            -0.12,
-            2.27
-          ]
-        ]
-      ]
-    },
-    "height_m": 3.36,
-    "id": "tfs",
-    "length_m": 29.4,
-    "name": "Alsthom TFS (Tramway français standard)",
-    "pantograph": {
-      "down_m": 0.25,
-      "raise_s": 4.0,
-      "type": "single_arm_old",
-      "up_m": 2.54
-    },
-    "sources": [
-      "research.json#tfs",
-      "https://fr.wikipedia.org/wiki/Tramway_fran%C3%A7ais_standard",
-      "https://fr.wikipedia.org/wiki/Tramway_de_Grenoble",
-      "https://fr.wikipedia.org/wiki/Tramway_de_Nantes",
-      "https://fr.wikipedia.org/wiki/Ligne_1_du_tramway_d%27%C3%8Ele-de-France"
-    ],
     "variants": {
       "length_variants_m": {
         "nantes_3_caisses": 39.15
       }
     },
-    "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur",
-    "width_m": 2.3,
-    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)"
+    "variants_note": "variantes : r\u00e9\u00e9chelonner les modules suspendus/interm\u00e9diaires (ou ajouter des paires suspendu+interm\u00e9diaire) pour atteindre length_m ; width_m remplace la largeur"
   },
-  "id": "tfs1",
-  "layout": [
-    "end_a",
-    "powered",
-    "end_b"
-  ],
-  "master": "nantes__tfs",
-  "master_count": 3.0,
-  "master_length": 36.5,
+  "cab": {
+    "cab": "res://tram_parts/extremites/tfs1/cab.glb",
+    "cab_m": "res://tram_parts/extremites/tfs1/cab_m.glb"
+  },
+  "nose_profile": {
+    "style": "gen",
+    "p": 4.108,
+    "theta_w": 0.619,
+    "D": [
+      [
+        0.25,
+        0.81
+      ],
+      [
+        0.3,
+        0.9
+      ],
+      [
+        0.5,
+        1.0
+      ],
+      [
+        1.4,
+        1.0
+      ],
+      [
+        1.6,
+        0.9
+      ],
+      [
+        2.6,
+        0.7
+      ],
+      [
+        3.0,
+        0.6
+      ],
+      [
+        3.06,
+        0.2
+      ],
+      [
+        3.36,
+        0.0
+      ]
+    ],
+    "windshield": {
+      "bottom_m": 1.6,
+      "top_m": 2.7,
+      "lower_curve_m": 0.03,
+      "upper_curve_m": 0.1
+    }
+  },
   "master_lengths": [
-    13.75,
-    9.0,
-    13.75
+    16.387755102040817,
+    3.724489795918368,
+    16.387755102040817
   ],
-  "parts": {
-    "end_a": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@1643",
-          "@MeshInstance3D@1644",
-          "@MeshInstance3D@1645",
-          "@MeshInstance3D@1646",
-          "@MeshInstance3D@1647",
-          "@MeshInstance3D@1648",
-          "@MeshInstance3D@1649",
-          "@MeshInstance3D@1650",
-          "@MeshInstance3D@1651",
-          "@MeshInstance3D@1652",
-          "@MeshInstance3D@1653",
-          "@MeshInstance3D@1654",
-          "@MeshInstance3D@1655"
-        ],
-        "panto": {
-          "head": "PantoHead",
-          "lower": "PantoLower",
-          "upper": "PantoUpper"
-        }
-      },
-      "door_count": 4,
-      "length_m": 13.75,
+  "equipment": {
+    "pantograph": {
       "models": {
-        "native": "res://tram_parts/extremites/tfs1/end_a.scn"
+        "lod0": "res://tram_parts/equipements/tfs1/pantograph_lod0.glb",
+        "lod1": "res://tram_parts/equipements/tfs1/pantograph_lod1.glb",
+        "lod1_m": "res://tram_parts/equipements/tfs1/pantograph_lod1_m.glb",
+        "lod2": "res://tram_parts/equipements/tfs1/pantograph_lod2.glb"
       },
-      "palette": "res://tram_livery/materials/tfs1/end_a_palette.png",
-      "pantograph": true,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 3.54166666666667,
-        "doors": [
-          {
-            "leaves": 1.0,
-            "width_m": 0.8,
-            "z_m": 1.97916666666667
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 5.83333333333333
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 9.16666666666667
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 12.3958333333333
-          }
-        ],
-        "kind": "cab",
-        "length_m": 13.75,
-        "roof": [
-          {
-            "size": [
-              1.84,
-              0.25,
-              0.5
-            ],
-            "type": "fairing",
-            "z_m": 0.260416666666667
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 2.1875
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 12.1875
-          },
-          {
-            "size": [
-              1.6,
-              0.3,
-              2.0
-            ],
-            "type": "pantograph",
-            "z_m": 11.6666666666667
-          },
-          {
-            "size": [
-              1.2,
-              0.28,
-              1.4
-            ],
-            "type": "box",
-            "z_m": 9.6875
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.520833333333333,
-            "z1_m": 1.40625
-          },
-          {
-            "z0_m": 2.55208333333333,
-            "z1_m": 5.0
-          },
-          {
-            "z0_m": 6.66666666666667,
-            "z1_m": 8.33333333333333
-          },
-          {
-            "z0_m": 10.0,
-            "z1_m": 11.5625
-          }
-        ]
-      },
-      "role": "end_a",
-      "root": "Module0",
-      "source_index": 0
-    },
-    "end_b": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@1656",
-          "@MeshInstance3D@1657",
-          "@MeshInstance3D@1658",
-          "@MeshInstance3D@1659",
-          "@MeshInstance3D@1660",
-          "@MeshInstance3D@1661",
-          "@MeshInstance3D@1662",
-          "@MeshInstance3D@1663",
-          "@MeshInstance3D@1664",
-          "@MeshInstance3D@1665",
-          "@MeshInstance3D@1666",
-          "@MeshInstance3D@1667",
-          "@MeshInstance3D@1668"
-        ],
-        "panto": {}
-      },
-      "door_count": 4,
-      "length_m": 13.75,
-      "models": {
-        "native": "res://tram_parts/extremites/tfs1/end_b.scn"
-      },
-      "palette": "res://tram_livery/materials/tfs1/end_b_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 10.2083333333333,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 1.35416666666667
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 4.58333333333333
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 7.91666666666667
-          },
-          {
-            "leaves": 1.0,
-            "width_m": 0.8,
-            "z_m": 11.7708333333333
-          }
-        ],
-        "kind": "cab",
-        "length_m": 13.75,
-        "roof": [
-          {
-            "size": [
-              1.84,
-              0.25,
-              0.5
-            ],
-            "type": "fairing",
-            "z_m": 13.4895833333333
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 11.5625
-          },
-          {
-            "size": [
-              1.3,
-              0.3,
-              1.8
-            ],
-            "type": "box",
-            "z_m": 1.5625
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 2.1875,
-            "z1_m": 3.75
-          },
-          {
-            "z0_m": 5.41666666666667,
-            "z1_m": 7.08333333333333
-          },
-          {
-            "z0_m": 8.75,
-            "z1_m": 11.1979166666667
-          },
-          {
-            "z0_m": 12.34375,
-            "z1_m": 13.2291666666667
-          }
-        ]
-      },
-      "role": "end_b",
-      "root": "Module2",
-      "source_index": 2
-    },
-    "powered": {
-      "bindings": {
-        "leaves": [],
-        "panto": {}
-      },
-      "door_count": 0,
-      "length_m": 9.0,
-      "models": {
-        "native": "res://tram_parts/motrices/tfs1/powered.scn"
-      },
-      "palette": "res://tram_livery/materials/tfs1/powered_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 4.5,
-        "doors": [],
-        "kind": "middle",
-        "length_m": 9.0,
-        "roof": [],
-        "windows": [
-          {
-            "z0_m": 0.6,
-            "z1_m": 8.4
-          }
-        ]
+      "triangles": {
+        "lod0": 1788,
+        "lod1": 1116,
+        "lod1_m": 284,
+        "lod2": 232
       },
       "role": "powered",
-      "root": "Module1",
-      "source_index": 1
+      "z_ratio": 0.8484848484848485,
+      "mount_y": 3.36,
+      "roof": {
+        "type": "pantograph",
+        "z_m": 13.904761904761905,
+        "size": [
+          1.6,
+          0.3,
+          2.0
+        ]
+      }
     }
-  },
-  "presets": {
-    "3-caisses": {
-      "count": 3.0,
-      "length_m": 36.5
-    }
-  },
-  "renderer": "native",
-  "schema": 2.0
+  }
 }

@@ -78,11 +78,11 @@
         "lod3": "res://tram_parts/extremites/marseille/end_a_lod3.glb"
       },
       "triangles": {
-        "lod0": 25629,
-        "lod1": 9521,
-        "lod1_m": 3326,
-        "lod2": 942,
-        "lod3": 289
+        "lod0": 25953,
+        "lod1": 9525,
+        "lod1_m": 3426,
+        "lod2": 886,
+        "lod3": 177
       },
       "bindings": {}
     },
@@ -134,11 +134,11 @@
         "lod3": "res://tram_parts/suspendues/marseille/suspended_lod3.glb"
       },
       "triangles": {
-        "lod0": 8276,
-        "lod1": 2720,
-        "lod1_m": 630,
-        "lod2": 238,
-        "lod3": 108
+        "lod0": 9080,
+        "lod1": 2876,
+        "lod1_m": 726,
+        "lod2": 294,
+        "lod3": 28
       },
       "bindings": {}
     },
@@ -175,7 +175,7 @@
         "lod1": 4804,
         "lod1_m": 1610,
         "lod2": 398,
-        "lod3": 92
+        "lod3": 28
       },
       "bindings": {}
     },
@@ -247,11 +247,11 @@
         "lod3": "res://tram_parts/extremites/marseille/end_b_lod3.glb"
       },
       "triangles": {
-        "lod0": 22793,
-        "lod1": 8601,
-        "lod1_m": 3050,
-        "lod2": 874,
-        "lod3": 277
+        "lod0": 23117,
+        "lod1": 8605,
+        "lod1_m": 3150,
+        "lod2": 818,
+        "lod3": 177
       },
       "bindings": {}
     }
@@ -334,18 +334,18 @@
         ]
       ],
       "windshield": {
-        "bottom_m": 1.05,
-        "top_m": 2.8,
+        "bottom_m": 1.0,
+        "top_m": 3.02,
         "wrap": 0.5,
-        "lower_curve_m": 0.03,
-        "upper_curve_m": 0.1
+        "lower_curve_m": 0.1,
+        "upper_curve_m": 0.2
       },
       "headlights": {
-        "shape": "strip",
-        "y_m": 0.8,
-        "x_m": 0.6,
-        "w_m": 0.4,
-        "h_m": 0.05
+        "shape": "round",
+        "x_m": 0.8,
+        "y_m": 0.72,
+        "w_m": 0.17,
+        "h_m": 0.17
       },
       "destination": {
         "y_m": 2.85,
@@ -412,33 +412,44 @@
     "cab_m": "res://tram_parts/extremites/marseille/cab_m.glb"
   },
   "nose_profile": {
-    "style": "gen",
-    "p": 1.9,
-    "theta_w": 0.43,
+    "p": 3.4,
+    "theta_w": 0.34,
     "D": [
       [
         0.25,
-        0.95
+        0.8
       ],
       [
-        0.5,
+        0.45,
+        0.93
+      ],
+      [
+        0.8,
         1.0
       ],
       [
-        1.0,
-        0.92
+        1.2,
+        0.99
       ],
       [
-        1.6,
-        0.7
+        1.8,
+        0.95
       ],
       [
         2.4,
-        0.35
+        0.87
       ],
       [
-        3.0,
-        0.05
+        2.9,
+        0.74
+      ],
+      [
+        3.15,
+        0.55
+      ],
+      [
+        3.3,
+        0.25
       ],
       [
         3.4,
@@ -446,11 +457,12 @@
       ]
     ],
     "windshield": {
-      "bottom_m": 1.05,
-      "top_m": 2.8,
-      "lower_curve_m": 0.03,
-      "upper_curve_m": 0.1
-    }
+      "bottom_m": 1.0,
+      "top_m": 3.02,
+      "lower_curve_m": 0.1,
+      "upper_curve_m": 0.2
+    },
+    "style": "gen"
   },
   "master_lengths": [
     8.401162790697674,

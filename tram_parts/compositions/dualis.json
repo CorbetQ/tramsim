@@ -73,11 +73,11 @@
         "lod3": "res://tram_parts/extremites/dualis/end_a_lod3.glb"
       },
       "triangles": {
-        "lod0": 30029,
-        "lod1": 9793,
-        "lod1_m": 3358,
-        "lod2": 918,
-        "lod3": 253
+        "lod0": 30165,
+        "lod1": 9849,
+        "lod1_m": 3448,
+        "lod2": 930,
+        "lod3": 209
       },
       "bindings": {}
     },
@@ -134,7 +134,7 @@
         "lod1": 5692,
         "lod1_m": 1686,
         "lod2": 414,
-        "lod3": 108
+        "lod3": 44
       },
       "bindings": {}
     },
@@ -205,11 +205,11 @@
         "lod3": "res://tram_parts/extremites/dualis/end_b_lod3.glb"
       },
       "triangles": {
-        "lod0": 27341,
-        "lod1": 8949,
-        "lod1_m": 3082,
-        "lod2": 850,
-        "lod3": 241
+        "lod0": 27477,
+        "lod1": 9005,
+        "lod1_m": 3172,
+        "lod2": 862,
+        "lod3": 209
       },
       "bindings": {}
     }
@@ -293,18 +293,18 @@
         ]
       ],
       "windshield": {
-        "bottom_m": 1.4,
-        "top_m": 2.9,
+        "bottom_m": 1.12,
+        "top_m": 2.95,
         "wrap": 0.35,
-        "lower_curve_m": 0.03,
-        "upper_curve_m": 0.1
+        "lower_curve_m": 0.16,
+        "upper_curve_m": 0.18
       },
       "headlights": {
-        "shape": "round",
-        "y_m": 1.0,
-        "x_m": 0.85,
-        "w_m": 0.25,
-        "h_m": 0.25
+        "shape": "double_round",
+        "x_m": 0.62,
+        "y_m": 0.86,
+        "w_m": 0.15,
+        "h_m": 0.15
       },
       "destination": {
         "y_m": 2.95,
@@ -359,37 +359,48 @@
     "cab_m": "res://tram_parts/extremites/dualis/cab_m.glb"
   },
   "nose_profile": {
-    "style": "gen",
-    "p": 1.9,
-    "theta_w": 0.493,
+    "p": 2.35,
+    "theta_w": 0.42,
     "D": [
       [
         0.25,
-        0.85
+        0.86
       ],
       [
-        0.6,
+        0.45,
+        0.97
+      ],
+      [
+        0.8,
         1.0
       ],
       [
-        1.1,
+        1.15,
         0.98
       ],
       [
-        1.4,
+        1.5,
         0.92
       ],
       [
-        2.4,
-        0.55
+        1.9,
+        0.8
+      ],
+      [
+        2.3,
+        0.63
+      ],
+      [
+        2.7,
+        0.43
       ],
       [
         3.0,
-        0.2
+        0.24
       ],
       [
-        3.05,
-        0.0
+        3.2,
+        0.09
       ],
       [
         3.35,
@@ -397,11 +408,12 @@
       ]
     ],
     "windshield": {
-      "bottom_m": 1.4,
-      "top_m": 2.9,
-      "lower_curve_m": 0.03,
-      "upper_curve_m": 0.1
-    }
+      "bottom_m": 1.12,
+      "top_m": 2.95,
+      "lower_curve_m": 0.16,
+      "upper_curve_m": 0.18
+    },
+    "style": "gen"
   },
   "master_lengths": [
     11.0,

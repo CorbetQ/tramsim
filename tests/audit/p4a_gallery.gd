@@ -70,9 +70,9 @@ func _run() -> void:
 			var dot := SignalView._shape("dot", func(): var c := CylinderMesh.new(); c.top_radius = 0.055; c.bottom_radius = 0.055; c.height = 0.012; c.radial_segments = 12; c.rings = 1; return c)
 			var sy := SignalView.symbols(aspects[i])
 			var lunar := SignalView._lit("lunar", SignalView.LUNAR, 2.8)
-			var top := SignalView._symbol(root_, bar, Vector3(0, y + SignalView.MOD, -0.104), lunar); top.visible = sy[0]; top.rotation.z = sy[1]
-			var mid := SignalView._symbol(root_, dot, Vector3(0, y, -0.104), lunar); mid.rotation.x = PI * 0.5; mid.visible = sy[2]
-			var low := SignalView._symbol(root_, bar, Vector3(0, y - SignalView.MOD, -0.104), lunar); low.rotation.z = PI * 0.5; low.visible = sy[3]
+			var top := SignalView._symbol(root_, bar, Vector3(0, y + SignalView.MOD, -0.113), lunar); top.visible = sy[0]; top.rotation.z = sy[1]
+			var mid := SignalView._symbol(root_, dot, Vector3(0, y, -0.113), lunar); mid.rotation.x = PI * 0.5; mid.visible = sy[2]
+			var low := SignalView._symbol(root_, bar, Vector3(0, y - SignalView.MOD, -0.113), lunar); low.rotation.z = PI * 0.5; low.visible = sy[3]
 		var rl := SignalView.road_light(world, Transform3D(Basis(Vector3.UP, PI), Vector3(5.0, 0, 0)))
 		SignalView.set_road_light(rl, true)
 		var rl2 := SignalView.road_light(world, Transform3D(Basis(Vector3.UP, PI), Vector3(6.4, 0, 0)))

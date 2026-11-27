@@ -1,64 +1,355 @@
 {
-  "cab": {},
+  "schema": 2,
+  "id": "eurotram",
+  "renderer": "hd",
+  "master": "strasbourg__eurotram_long",
+  "master_count": 9,
+  "master_length": 43.05,
+  "parts": {
+    "end_a": {
+      "role": "end_a",
+      "source_index": 0,
+      "root": "module_00",
+      "plan": {
+        "kind": "cab",
+        "length_m": 6.4575,
+        "bogie": true,
+        "bogie_z_m": 2.79825,
+        "doors": [
+          {
+            "z_m": 4.6278749999999995,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 2.36775,
+            "z1_m": 3.7668749999999998
+          },
+          {
+            "z0_m": 5.488874999999999,
+            "z1_m": 6.242249999999999
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 1.183875,
+            "size": [
+              1.92,
+              0.25,
+              2.2
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 4.0897499999999996,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          }
+        ]
+      },
+      "length_m": 6.4575,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/extremites/eurotram/end_a_lod0.glb",
+        "lod1": "res://tram_parts/extremites/eurotram/end_a_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/eurotram/end_a_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/eurotram/end_a_lod2.glb",
+        "lod3": "res://tram_parts/extremites/eurotram/end_a_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 24237,
+        "lod1": 9009,
+        "lod1_m": 3326,
+        "lod2": 902,
+        "lod3": 193
+      },
+      "bindings": {}
+    },
+    "suspended": {
+      "role": "suspended",
+      "source_index": 1,
+      "root": "module_01",
+      "plan": {
+        "kind": "suspended",
+        "length_m": 3.7668749999999998,
+        "bogie": false,
+        "doors": [
+          {
+            "z_m": 1.8834374999999999,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.21525,
+            "z1_m": 1.0224374999999999
+          },
+          {
+            "z0_m": 2.7444374999999996,
+            "z1_m": 3.5516249999999996
+          }
+        ],
+        "roof": [
+          {
+            "type": "hvac",
+            "z_m": 1.8834374999999999,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          }
+        ]
+      },
+      "length_m": 3.7668749999999998,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/suspendues/eurotram/suspended_lod0.glb",
+        "lod1": "res://tram_parts/suspendues/eurotram/suspended_lod1.glb",
+        "lod1_m": "res://tram_parts/suspendues/eurotram/suspended_lod1_m.glb",
+        "lod2": "res://tram_parts/suspendues/eurotram/suspended_lod2.glb",
+        "lod3": "res://tram_parts/suspendues/eurotram/suspended_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 7244,
+        "lod1": 2608,
+        "lod1_m": 630,
+        "lod2": 238,
+        "lod3": 44
+      },
+      "bindings": {}
+    },
+    "powered": {
+      "role": "powered",
+      "source_index": 2,
+      "root": "module_02",
+      "plan": {
+        "kind": "middle",
+        "length_m": 3.7668749999999998,
+        "bogie": true,
+        "bogie_z_m": 1.8834374999999999,
+        "doors": [],
+        "windows": [
+          {
+            "z0_m": 0.21525,
+            "z1_m": 3.5516249999999996
+          }
+        ],
+        "roof": [
+          {
+            "type": "box",
+            "z_m": 1.8834374999999999,
+            "size": [
+              1.3,
+              0.3,
+              2.0
+            ]
+          }
+        ]
+      },
+      "length_m": 3.7668749999999998,
+      "pantograph": false,
+      "door_count": 0,
+      "models": {
+        "lod0": "res://tram_parts/motrices/eurotram/powered_lod0.glb",
+        "lod1": "res://tram_parts/motrices/eurotram/powered_lod1.glb",
+        "lod1_m": "res://tram_parts/motrices/eurotram/powered_lod1_m.glb",
+        "lod2": "res://tram_parts/motrices/eurotram/powered_lod2.glb",
+        "lod3": "res://tram_parts/motrices/eurotram/powered_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 13640,
+        "lod1": 4580,
+        "lod1_m": 1554,
+        "lod2": 414,
+        "lod3": 44
+      },
+      "bindings": {}
+    },
+    "suspended_doors": {
+      "role": "suspended",
+      "source_index": 3,
+      "root": "module_03",
+      "plan": {
+        "kind": "suspended",
+        "length_m": 7.5337499999999995,
+        "bogie": false,
+        "doors": [
+          {
+            "z_m": 1.93725,
+            "width_m": 1.3,
+            "leaves": 2
+          },
+          {
+            "z_m": 5.5965,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.21525,
+            "z1_m": 1.07625
+          },
+          {
+            "z0_m": 2.79825,
+            "z1_m": 4.7355
+          },
+          {
+            "z0_m": 6.4575,
+            "z1_m": 7.318499999999999
+          }
+        ],
+        "roof": [
+          {
+            "type": "hvac",
+            "z_m": 3.7668749999999998,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          }
+        ]
+      },
+      "length_m": 7.5337499999999995,
+      "pantograph": false,
+      "door_count": 2,
+      "models": {
+        "lod0": "res://tram_parts/suspendues/eurotram/suspended_doors_lod0.glb",
+        "lod1": "res://tram_parts/suspendues/eurotram/suspended_doors_lod1.glb",
+        "lod1_m": "res://tram_parts/suspendues/eurotram/suspended_doors_lod1_m.glb",
+        "lod2": "res://tram_parts/suspendues/eurotram/suspended_doors_lod2.glb",
+        "lod3": "res://tram_parts/suspendues/eurotram/suspended_doors_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 10164,
+        "lod1": 3344,
+        "lod1_m": 762,
+        "lod2": 238,
+        "lod3": 44
+      },
+      "bindings": {}
+    },
+    "end_b": {
+      "role": "end_b",
+      "source_index": 8,
+      "root": "module_08",
+      "plan": {
+        "kind": "cab",
+        "length_m": 6.4575,
+        "bogie": true,
+        "bogie_z_m": 3.6592499999999997,
+        "doors": [
+          {
+            "z_m": 1.8296249999999998,
+            "width_m": 1.3,
+            "leaves": 2
+          }
+        ],
+        "windows": [
+          {
+            "z0_m": 0.21525,
+            "z1_m": 0.968625
+          },
+          {
+            "z0_m": 2.690625,
+            "z1_m": 4.0897499999999996
+          }
+        ],
+        "roof": [
+          {
+            "type": "fairing",
+            "z_m": 5.273625,
+            "size": [
+              1.92,
+              0.25,
+              2.2
+            ]
+          },
+          {
+            "type": "hvac",
+            "z_m": 2.36775,
+            "size": [
+              1.6,
+              0.32,
+              2.4
+            ]
+          }
+        ]
+      },
+      "length_m": 6.4575,
+      "pantograph": false,
+      "door_count": 1,
+      "models": {
+        "lod0": "res://tram_parts/extremites/eurotram/end_b_lod0.glb",
+        "lod1": "res://tram_parts/extremites/eurotram/end_b_lod1.glb",
+        "lod1_m": "res://tram_parts/extremites/eurotram/end_b_lod1_m.glb",
+        "lod2": "res://tram_parts/extremites/eurotram/end_b_lod2.glb",
+        "lod3": "res://tram_parts/extremites/eurotram/end_b_lod3.glb"
+      },
+      "triangles": {
+        "lod0": 21549,
+        "lod1": 8165,
+        "lod1_m": 3050,
+        "lod2": 834,
+        "lod3": 193
+      },
+      "bindings": {}
+    }
+  },
+  "layout": [
+    "end_a",
+    "suspended",
+    "powered",
+    "suspended_doors",
+    "powered",
+    "suspended",
+    "suspended",
+    "powered",
+    "end_b"
+  ],
+  "presets": {
+    "7-caisses": {
+      "count": 7,
+      "length_m": 33.1
+    },
+    "9-caisses": {
+      "count": 9,
+      "length_m": 43.05
+    }
+  },
   "frame": {
+    "id": "eurotram",
+    "name": "ABB / Bombardier Eurotram (Flexity Outlook E)",
+    "length_m": 33.0,
+    "width_m": 2.4,
+    "height_m": 3.3,
+    "floor_m": 0.35,
     "body": {
+      "skirt_top_m": 0.4,
+      "window_bottom_m": 0.75,
+      "window_top_m": 2.55,
       "cant_m": 2.7,
       "roof_shoulder_m": 0.3,
-      "skirt_top_m": 0.4,
-      "tumblehome_m": 0.0,
-      "window_bottom_m": 0.75,
-      "window_top_m": 2.55
+      "tumblehome_m": 0.0
     },
-    "door_anim": {
-      "leaf_split": "center",
-      "open_s": 2.5,
-      "out_m": 0.06,
-      "single_leaf_travel_m": 0.8,
-      "travel_m": 0.65,
-      "type": "plug"
-    },
-    "estimated": [
-      "body",
-      "modules.windows",
-      "modules.roof",
-      "modules.bogie_z_m",
-      "front.plan",
-      "front.side",
-      "front.windshield",
-      "front.headlights",
-      "front.destination",
-      "door_anim",
-      "pantograph",
-      "research:width_m",
-      "research:height_m",
-      "research:floor_height_m",
-      "research:mass_t",
-      "research:power_kw",
-      "research:capacity",
-      "research:modules",
-      "research:doors_per_side",
-      "research:door_width_m"
-    ],
-    "floor_m": 0.35,
+    "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
-      "bumper_m": 0.03,
-      "destination": {
-        "h_m": 0.2,
-        "w_m": 1.3,
-        "y_m": 2.55
-      },
-      "headlights": {
-        "h_m": 0.12,
-        "shape": "round",
-        "w_m": 0.15,
-        "x_m": 0.7,
-        "y_m": 0.5
-      },
       "length_m": 2.2,
       "plan": [
         [
-          0.0,
-          1.0
+          0,
+          1
         ],
         [
           0.3,
@@ -73,7 +364,7 @@
           0.7
         ],
         [
-          1.0,
+          1,
           0.45
         ]
       ],
@@ -114,23 +405,64 @@
       "windshield": {
         "bottom_m": 0.7,
         "top_m": 2.9,
-        "wrap": 0.6
-      }
+        "wrap": 0.6,
+        "lower_curve_m": 0.03,
+        "upper_curve_m": 0.1
+      },
+      "headlights": {
+        "shape": "round",
+        "y_m": 0.5,
+        "x_m": 0.7,
+        "w_m": 0.15,
+        "h_m": 0.12
+      },
+      "destination": {
+        "y_m": 2.55,
+        "w_m": 1.3,
+        "h_m": 0.2
+      },
+      "bumper_m": 0.03
     },
-    "height_m": 3.3,
-    "id": "eurotram",
-    "length_m": 33.0,
-    "name": "ABB / Bombardier Eurotram (Flexity Outlook E)",
+    "door_anim": {
+      "type": "plug",
+      "open_s": 2.5,
+      "travel_m": 0.65,
+      "out_m": 0.06,
+      "leaf_split": "center",
+      "single_leaf_travel_m": 0.8
+    },
     "pantograph": {
       "down_m": 0.25,
+      "up_m": 2.6,
       "raise_s": 4.0,
-      "type": "single_arm",
-      "up_m": 2.6
+      "type": "single_arm"
     },
     "sources": [
       "research.json#eurotram",
       "https://fr.wikipedia.org/wiki/Bombardier_Flexity_Outlook",
       "https://fr.wikipedia.org/wiki/Tramway_de_Strasbourg"
+    ],
+    "estimated": [
+      "body",
+      "modules.windows",
+      "modules.roof",
+      "modules.bogie_z_m",
+      "front.plan",
+      "front.side",
+      "front.windshield",
+      "front.headlights",
+      "front.destination",
+      "door_anim",
+      "pantograph",
+      "research:width_m",
+      "research:height_m",
+      "research:floor_height_m",
+      "research:mass_t",
+      "research:power_kw",
+      "research:capacity",
+      "research:modules",
+      "research:doors_per_side",
+      "research:door_width_m"
     ],
     "variants": {
       "length_variants_m": {
@@ -138,341 +470,98 @@
         "9_modules": 43.0
       }
     },
-    "variants_note": "variantes : rééchelonner les modules suspendus/intermédiaires (ou ajouter des paires suspendu+intermédiaire) pour atteindre length_m ; width_m remplace la largeur",
-    "width_m": 2.4,
-    "z_convention": "modules ordonnés de l'avant (-z) vers l'arrière ; z_m local mesuré depuis l'extrémité avant du module ; la cabine arrière est le miroir de la cabine avant (nez en z_m = length_m)"
+    "variants_note": "variantes : r\u00e9\u00e9chelonner les modules suspendus/interm\u00e9diaires (ou ajouter des paires suspendu+interm\u00e9diaire) pour atteindre length_m ; width_m remplace la largeur"
   },
-  "id": "eurotram",
-  "layout": [
-    "end_a",
-    "suspended",
-    "powered",
-    "suspended_doors",
-    "powered",
-    "suspended",
-    "suspended",
-    "powered",
-    "end_b"
-  ],
-  "master": "strasbourg__eurotram_long",
-  "master_count": 9.0,
-  "master_length": 43.05,
+  "cab": {
+    "cab": "res://tram_parts/extremites/eurotram/cab.glb",
+    "cab_m": "res://tram_parts/extremites/eurotram/cab_m.glb"
+  },
+  "nose_profile": {
+    "style": "gen",
+    "p": 1.9,
+    "theta_w": 0.388,
+    "D": [
+      [
+        0.25,
+        0.85
+      ],
+      [
+        0.45,
+        0.97
+      ],
+      [
+        0.8,
+        1.0
+      ],
+      [
+        1.4,
+        0.92
+      ],
+      [
+        2.0,
+        0.75
+      ],
+      [
+        2.6,
+        0.45
+      ],
+      [
+        2.95,
+        0.15
+      ],
+      [
+        3.0,
+        0.0
+      ],
+      [
+        3.3,
+        0.0
+      ]
+    ],
+    "windshield": {
+      "bottom_m": 0.7,
+      "top_m": 2.9,
+      "lower_curve_m": 0.03,
+      "upper_curve_m": 0.1
+    }
+  },
   "master_lengths": [
-    6.45749998092651,
-    3.76687502861023,
-    3.76687502861023,
-    7.53375005722046,
-    3.76687502861023,
-    3.76687502861023,
-    3.76687502861023,
-    3.76687502861023,
-    6.45749998092651
+    6.4575,
+    3.7668749999999998,
+    3.7668749999999998,
+    7.5337499999999995,
+    3.7668749999999998,
+    3.7668749999999998,
+    3.7668749999999998,
+    3.7668749999999998,
+    6.4575
   ],
-  "parts": {
-    "end_a": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@450",
-          "@MeshInstance3D@451",
-          "@MeshInstance3D@452"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 6.45749998092651,
+  "equipment": {
+    "pantograph": {
       "models": {
-        "native": "res://tram_parts/extremites/eurotram/end_a.scn"
+        "lod0": "res://tram_parts/equipements/eurotram/pantograph_lod0.glb",
+        "lod1": "res://tram_parts/equipements/eurotram/pantograph_lod1.glb",
+        "lod1_m": "res://tram_parts/equipements/eurotram/pantograph_lod1_m.glb",
+        "lod2": "res://tram_parts/equipements/eurotram/pantograph_lod2.glb"
       },
-      "palette": "res://tram_livery/materials/eurotram/end_a_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 2.79824999173482,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 4.62787498633067
-          }
-        ],
-        "kind": "cab",
-        "length_m": 6.45749998092651,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              2.2
-            ],
-            "type": "fairing",
-            "z_m": 1.18387499650319
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 4.08974998792013
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 2.36774999300639,
-            "z1_m": 3.7668749888738
-          },
-          {
-            "z0_m": 5.48887498378754,
-            "z1_m": 6.2422499815623
-          }
-        ]
-      },
-      "role": "end_a",
-      "root": "Module0",
-      "source_index": 0
-    },
-    "end_b": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@469",
-          "@MeshInstance3D@470",
-          "@MeshInstance3D@471"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 6.45749998092651,
-      "models": {
-        "native": "res://tram_parts/extremites/eurotram/end_b.scn"
-      },
-      "palette": "res://tram_livery/materials/eurotram/end_b_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 3.65924998919169,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 1.82962499459585
-          }
-        ],
-        "kind": "cab",
-        "length_m": 6.45749998092651,
-        "roof": [
-          {
-            "size": [
-              1.92,
-              0.25,
-              2.2
-            ],
-            "type": "fairing",
-            "z_m": 5.27362498442332
-          },
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 2.36774999300639
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.215249999364217,
-            "z1_m": 0.968624997138977
-          },
-          {
-            "z0_m": 2.69062499205271,
-            "z1_m": 4.08974998792013
-          }
-        ]
-      },
-      "role": "end_b",
-      "root": "Module8",
-      "source_index": 8
-    },
-    "powered": {
-      "bindings": {
-        "leaves": [],
-        "panto": {
-          "head": "PantoHead",
-          "lower": "PantoLower",
-          "upper": "PantoUpper"
-        }
-      },
-      "door_count": 0,
-      "length_m": 3.76687502861023,
-      "models": {
-        "native": "res://tram_parts/motrices/eurotram/powered.scn"
-      },
-      "palette": "res://tram_livery/materials/eurotram/powered_palette.png",
-      "pantograph": true,
-      "plan": {
-        "bogie": true,
-        "bogie_z_m": 1.88343751430511,
-        "doors": [],
-        "kind": "middle",
-        "length_m": 3.76687502861023,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.3,
-              2.0
-            ],
-            "type": "pantograph",
-            "z_m": 1.88343751430511
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.21525000163487,
-            "z1_m": 3.55162502697536
-          }
-        ]
+      "triangles": {
+        "lod0": 1788,
+        "lod1": 1116,
+        "lod1_m": 284,
+        "lod2": 232
       },
       "role": "powered",
-      "root": "Module4",
-      "source_index": 4
-    },
-    "suspended": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@453",
-          "@MeshInstance3D@454",
-          "@MeshInstance3D@455"
-        ],
-        "panto": {}
-      },
-      "door_count": 1,
-      "length_m": 3.76687502861023,
-      "models": {
-        "native": "res://tram_parts/suspendues/eurotram/suspended.scn"
-      },
-      "palette": "res://tram_livery/materials/eurotram/suspended_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": false,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 1.88343751430511
-          }
-        ],
-        "kind": "suspended",
-        "length_m": 3.76687502861023,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 1.88343751430511
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.21525000163487,
-            "z1_m": 1.02243750776563
-          },
-          {
-            "z0_m": 2.7444375208446,
-            "z1_m": 3.55162502697536
-          }
+      "z_ratio": 0.5,
+      "mount_y": 3.3,
+      "roof": {
+        "type": "pantograph",
+        "z_m": 1.8834374999999999,
+        "size": [
+          1.6,
+          0.3,
+          2.0
         ]
-      },
-      "role": "suspended",
-      "root": "Module1",
-      "source_index": 1
-    },
-    "suspended_doors": {
-      "bindings": {
-        "leaves": [
-          "Leaf",
-          "@MeshInstance3D@456",
-          "@MeshInstance3D@457",
-          "@MeshInstance3D@458",
-          "@MeshInstance3D@459",
-          "@MeshInstance3D@460",
-          "@MeshInstance3D@461",
-          "@MeshInstance3D@462"
-        ],
-        "panto": {}
-      },
-      "door_count": 2,
-      "length_m": 7.53375005722046,
-      "models": {
-        "native": "res://tram_parts/suspendues/eurotram/suspended_doors.scn"
-      },
-      "palette": "res://tram_livery/materials/eurotram/suspended_doors_palette.png",
-      "pantograph": false,
-      "plan": {
-        "bogie": false,
-        "doors": [
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 1.93725001471383
-          },
-          {
-            "leaves": 2.0,
-            "width_m": 1.3,
-            "z_m": 5.59650004250663
-          }
-        ],
-        "kind": "suspended",
-        "length_m": 7.53375005722046,
-        "roof": [
-          {
-            "size": [
-              1.6,
-              0.32,
-              2.4
-            ],
-            "type": "hvac",
-            "z_m": 3.76687502861023
-          }
-        ],
-        "windows": [
-          {
-            "z0_m": 0.21525000163487,
-            "z1_m": 1.07625000817435
-          },
-          {
-            "z0_m": 2.79825002125331,
-            "z1_m": 4.73550003596715
-          },
-          {
-            "z0_m": 6.45750004904611,
-            "z1_m": 7.31850005558559
-          }
-        ]
-      },
-      "role": "suspended",
-      "root": "Module3",
-      "source_index": 3
+      }
     }
-  },
-  "presets": {
-    "7-caisses": {
-      "count": 7.0,
-      "length_m": 33.1
-    },
-    "9-caisses": {
-      "count": 9.0,
-      "length_m": 43.05
-    }
-  },
-  "renderer": "native",
-  "schema": 2.0
+  }
 }

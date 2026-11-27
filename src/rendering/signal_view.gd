@@ -81,7 +81,7 @@ static func r17_body(kind: String) -> Mesh:
 			var my := y + (1 - k) * MOD
 			g.box(Vector3(0, my, -0.02), Vector3(0.3, 0.3, 0.16), black)            # module
 			_disk(g, Vector3(0, my, -0.101), 0.12, lens)                           # lentille éteinte
-			_visor(g, Vector3(0, my, -0.1), 0.135, 0.16, black)                    # visière
+			_visor(g, Vector3(0, my, -0.1), 0.15, 0.12, black)                    # visière
 		g.box(Vector3(0, y - 0.88, -0.05), Vector3(0.22, 0.12, 0.02), Color("#f2f2ee"))   # plaque d'identification
 		g.box(Vector3(0, y - 0.88, -0.061), Vector3(0.16, 0.035, 0.002), Color("#1b1d1f"))
 		g.box(Vector3(0, y + 0.62, 0.0), Vector3(0.36, 0.05, 0.22), black)         # chapeau
@@ -132,9 +132,9 @@ func build(view: LineView, m: SignalModel) -> void:
 			lamp.rotation = Vector3(PI * 0.5, 0, 0); lamp.visible = true
 			continue
 		var y := (2.75 if kind != "crossing" else 2.45) + 0.5
-		var top := _symbol(root, bar, Vector3(0, y + MOD, -0.104), lunar)
-		var mid := _symbol(root, dot, Vector3(0, y, -0.104), lunar); mid.rotation = Vector3(PI * 0.5, 0, 0)
-		var low := _symbol(root, bar, Vector3(0, y - MOD, -0.104), lunar); low.rotation = Vector3(0, 0, PI * 0.5)
+		var top := _symbol(root, bar, Vector3(0, y + MOD, -0.113), lunar)
+		var mid := _symbol(root, dot, Vector3(0, y, -0.113), lunar); mid.rotation = Vector3(PI * 0.5, 0, 0)
+		var low := _symbol(root, bar, Vector3(0, y - MOD, -0.113), lunar); low.rotation = Vector3(0, 0, PI * 0.5)
 		heads.append([i, root, top, mid, low, t.origin, ""])
 	update(Vector3.ZERO, true)
 
@@ -192,7 +192,7 @@ static func road_light(parent: Node3D, xf: Transform3D) -> Dictionary:
 	var cols := {"red": Color(1.0, 0.1, 0.06), "amber": Color(1.0, 0.55, 0.05), "green": Color(0.1, 1.0, 0.45)}
 	var k := 0
 	for n in ["red", "amber", "green"]:
-		var mi := _symbol(root, lens, Vector3(0, 2.75 + (1 - k) * 0.3, -0.184), _lit("road_" + n, cols[n], 2.4))
+		var mi := _symbol(root, lens, Vector3(0, 2.75 + (1 - k) * 0.3, -0.192), _lit("road_" + n, cols[n], 2.4))
 		mi.rotation = Vector3(PI * 0.5, 0, 0)
 		out[n] = mi; k += 1
 	set_road_light(out, false)

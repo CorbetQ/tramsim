@@ -82,6 +82,12 @@ def resolve_livery(e):
         layers.append(net)
         fo = net.get("families", {}).get(fam)
         if fo: layers.append(fo)
+        # ligne d'exploitation de la variante (comme TramModel._layers) : Mulhouse tt (Avanto), Rhônexpress, Montpellier...
+        lines = net.get("lines") if isinstance(net.get("lines"), dict) else {}
+        for ln in [e.get("line")] + list(e.get("lines") or []):
+            lo = lines.get(str(ln or "").lower())
+            if lo and (not lo.get("family") or lo["family"] == fam):
+                layers.append(lo); break
     for layer in layers:
         for k in COLOR_KEYS + ("elements",):
             if k in layer: raw[k] = copy.deepcopy(layer[k])

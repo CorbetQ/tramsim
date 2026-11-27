@@ -1,0 +1,11 @@
+[remap]
+importer="texture"
+type="CompressedTexture2D"
+
+[deps]
+source_file="res://tram_livery/livery/paris_t3/powered_4k.png"
+
+[params]
+compress/mode=2
+mipmaps/generate=true
+compress/normal_map=0

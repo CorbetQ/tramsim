@@ -131,57 +131,51 @@
     ]
   },
   "saintlouis__flexity_bvb": {
-    "base": "#37805a",
-    "front": "#37805a",
-    "door": "#8cba70",
-    "window": "#192d29",
-    "elements": [
-      {
-        "type": "band",
-        "colors": [
-          "#c5d9b6"
-        ],
-        "y": [
-          0.45,
-          0.63
-        ],
-        "zone": "sides+front"
-      }
-    ]
+    "base": "#1e7a3a",
+    "front": "#1e7a3a",
+    "window": "#14181a",
+    "door": "#1e7a3a",
+    "roof": "#d6d9db",
+    "skirt": "#2c3a30",
+    "elements": []
   },
   "leymen__tango_blt": {
-    "base": "#e5bc2c",
-    "front": "#e5bc2c",
-    "door": "#d13631",
-    "window": "#293134",
+    "base": "#f2c200",
+    "front": "#f2c200",
+    "window": "#16191c",
+    "door": "#f2c200",
+    "roof": "#d0d3d5",
+    "skirt": "#3a3f44",
     "elements": [
       {
         "type": "band",
         "colors": [
-          "#d13631"
+          "#d71920"
         ],
         "y": [
           0.45,
-          0.95
+          0.6
         ],
         "zone": "sides+front"
       }
     ]
   },
   "sarreguemines__flexity_link": {
-    "base": "#c5cbd0",
-    "front": "#c5cbd0",
-    "door": "#c73138",
-    "window": "#202e38",
+    "base": "#eef0f0",
+    "front": "#d0102a",
+    "window": "#14181a",
+    "door": "#d0102a",
+    "roof": "#cfd2d4",
+    "skirt": "#3a3f44",
     "elements": [
       {
         "type": "band",
         "colors": [
-          "#c73138"
+          "#d0102a"
         ],
         "y": [
           0.45,
-          1.1
+          0.9
         ],
         "zone": "sides+front"
       }
@@ -663,5 +657,26 @@
   },
   "marseille__flexity_marseille": {
     "front": "#e4e1dc"
+  },
+  "mulhouse__avanto": {
+    "base": "#c5cace",
+    "front": "#1d4f9a",
+    "window": "#141a20",
+    "door": "#c5cace",
+    "roof": "#d3d6d9",
+    "skirt": "#3a3f44",
+    "elements": [
+      {
+        "type": "band",
+        "colors": [
+          "#1d4f9a"
+        ],
+        "y": [
+          0.45,
+          0.72
+        ],
+        "zone": "sides+front"
+      }
+    ]
   }
 }
