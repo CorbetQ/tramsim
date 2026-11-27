@@ -113,6 +113,7 @@ def nose_profile(P, face):
 def nose_from_plan(P):
     """Profil de nez (style « gen ») dérivé du plan : D(y) = 1 - front.side(y) ; p selon la largeur en pointe."""
     fr = P["front"]; h = float(P.get("height_m", 3.3))
+    ws = fr.get("windshield", {})
     side = sorted([float(a), float(b)] for a, b in fr.get("side", [[0, 0]]))
     D = [(max(y, 0.25), round(max(0.0, min(1.0, 1.0 - s)), 3)) for y, s in side if y < h - 0.05]
     if not D or D[0][0] > 0.26: D.insert(0, (0.25, D[0][1] * 0.9 if D else 0.9))
@@ -123,7 +124,7 @@ def nose_from_plan(P):
     tw = max(0.3, min(0.66, 0.64 - 0.42 * wrap))
     return {"style": "gen", "p": round(p, 3), "theta_w": round(tw, 3), "D": D,
             "windshield": {"bottom_m": float(fr["windshield"]["bottom_m"]), "top_m": float(fr["windshield"]["top_m"]),
-                           "lower_curve_m": 0.03, "upper_curve_m": 0.10}}
+                           "lower_curve_m": float(ws.get("lower_curve_m", 0.03)), "upper_curve_m": float(ws.get("upper_curve_m", 0.10))}}
 
 
 def auto_spec(vid, kid=None):

@@ -11,7 +11,10 @@ extends RefCounted
 const BASE := "res://data/packs/base.json"
 const MANIFEST := "res://data/packs/%s.json"      # écrit dans chaque pack : version, fichiers
 const FILE := "tramsim-city-%s.pck"
-const RELEASE_URL := "https://github.com/CorbetQ/tramsim/releases/download/v%s/%s"
+const RELEASE_URL := "https://github.com/CorbetQ/tramsim/releases/download/%s/%s"
+## Tag de la release GitHub qui publie les packs de ce build : écrit par release.yml dans project.godot
+## (tramsim/release/tag = v<APP_VERSION>-build.<run_number>) avant l'export ; à défaut (build local), v<version>.
+const RELEASE_TAG_SETTING := "tramsim/release/tag"
 const USER_DIR := "user://packs"
 static var mounted: Dictionary = {}
 
@@ -51,9 +54,14 @@ static func ensure(city: String) -> String:
 	if present(city): return ""
 	return "Données de la ville « %s » absentes : pack %s à télécharger." % [city, file_name(city)]
 
-## URL du pack sur la release GitHub de la version courante.
+## Tag de la release GitHub de ce build (celle qui publie ses packs).
+static func release_tag() -> String:
+	var t := str(ProjectSettings.get_setting(RELEASE_TAG_SETTING, ""))
+	return t if t != "" else "v" + game_version()
+
+## URL du pack sur la release GitHub de ce build.
 static func download_url(city: String) -> String:
-	return RELEASE_URL % [game_version(), file_name(city)]
+	return RELEASE_URL % [release_tag(), file_name(city)]
 
 ## Chemin de destination d'un téléchargement.
 static func download_path(city: String) -> String:

@@ -6,6 +6,7 @@ import numpy as np
 from geom import Builder, nz, vertex_normals, frame_from_z, rot_y, rounded_rect
 from layout import GAP, TUCK, WALL
 from specs import hex2rgb, srgb2lin
+specs_rgb = hex2rgb
 import textures as TX
 
 SEG = {0: 1.0, 1: 0.6, 2: 0.45, 3: 0.3, 4: 0.2}
@@ -431,6 +432,19 @@ class Citadis:
                 emit(B, G, NN, np.zeros(G.shape[:2] + (2,)), np.ones((1, G.shape[1] - 1), bool), "em_drl")
         elif t.spec.get("lamp_style", "c302") == "plan":
             # P4 : optiques de famille d'après le plan (front.headlights : forme, position, taille)
+            # faces spécifiques (StockGeometry) : caissons, feu haut central, feux additionnels
+            lh = t.fr.get("lamp_housings")
+            if lh and q < 4:
+                for sx in (1, -1):
+                    B.use(mod); self.almond(sx * min(float(lh["x_m"]), 0.95 - float(lh["w_m"]) / 2), float(lh["y_m"]), float(lh["w_m"]), float(lh["h_m"]), 0.0, zj, dirz, "trim_black", 0.002, seg=seg + 4)
+            ul = t.fr.get("upper_light")
+            if ul and q < 4:
+                B.use(hn); self.disc_on_face(0.0, min(float(ul["y_m"]), t.h - 0.12), zj, dirz, 0.05, "em_head", depth=0.006, seg=seg, bezel="trim_black", dome=0)
+            for xl in (t.fr.get("extra_lights") or []) if q < 3 else []:
+                cc = specs_rgb(xl.get("color", "#ffffff")); red = cc[0] > 1.6 * max(cc[1], 0.05)
+                for sx in (1, -1):
+                    B.use(tn if red else mod)
+                    self.disc_on_face(sx * float(xl["x_m"]), float(xl["y_m"]), zj, dirz, float(xl.get("r_m", 0.04)), "em_tail" if red else "lamp_lens_off", depth=0.005, seg=seg)
             shape = hl.get("shape", "round"); xh = min(float(hl.get("x_m", 0.8)), 0.95)
             w = float(hl.get("w_m", 0.25)); h = max(float(hl.get("h_m", 0.12)), 0.05)
             for sx in (1, -1):

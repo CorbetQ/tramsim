@@ -25,7 +25,7 @@ func _run() -> void:
 	if args.size() > 0: out = args[0]
 	DirAccess.make_dir_recursive_absolute(out)
 	var what := args[1] if args.size() > 1 else "abris"
-	var nights := [false, true] if args.size() <= 2 else [args[2] == "nuit"]
+	var nights := [false, true] if args.size() <= 2 else [args.has("nuit")]
 	root.size = Vector2i(1600, 900)
 	var world := Node3D.new(); root.add_child(world)
 	var dn := DayNight.new(); world.add_child(dn); dn.setup(world)
@@ -80,6 +80,9 @@ func _run() -> void:
 		var rl3 := SignalView.road_light(world, Transform3D(Basis(Vector3.UP, PI), Vector3(7.8, 0, 0)))
 		SignalView.set_road_light(rl3, true, true)
 		var buf := MeshInstance3D.new(); buf.mesh = SignalView.buffer_body(); buf.material_override = Materials.building(); buf.position = Vector3(-6.5, 0, 0); buf.rotation.y = PI; world.add_child(buf)
+		if args.has("pluie"):   # gouttes de pare-brise sur la caméra (balai simulé arrêté)
+			var ws := WindscreenRain.new(); cam.add_child(ws); ws.strength = 0.9
+			ws.update_wiper(0.016, 0.9, false, -1.0, 0.0, 0.0, 0.0)
 		for night in nights:
 			dn.set_hour(22.5 if night else 15.0)
 			cam.global_position = Vector3(0.8, 2.6, 7.5); cam.look_at(Vector3(0.8, 2.3, 0))

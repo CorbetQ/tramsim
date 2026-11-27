@@ -95,6 +95,11 @@ jobs:
           GODOT=$PWD/godot tests/run_all.sh
       - name: Stamp benchmark build identity
         run: python tools/perf/write_build_info.py
+      - name: Tag de release embarqué (URL des packs de ville)
+        run: |
+          # city_packs.gd télécharge les packs depuis la release de ce build : même tag que l'étape Release
+          printf '\n[tramsim]\n\nrelease/tag="v%s-build.%s"\n' "$APP_VERSION" "${{ github.run_number }}" >> project.godot
+          grep -n 'release/tag' project.godot
       - name: Mandatory Windows packaging tests
         run: python -m unittest discover -s tests -p test_windows_packaging.py
       - name: Export
@@ -118,6 +123,21 @@ jobs:
             sed -i 's#^shader_baker/enabled=true#shader_baker/enabled=false#' export_presets.cfg
             export_all
           fi
+      - name: Packs de ville
+        if: env.WINDOWS_ONLY != 'true'
+        run: |
+          set -euo pipefail
+          ./godot --headless --path . -s tools/packs/build_packs.gd -- build/packs 2>&1 | tee build/packs.log
+          ! grep -Eq 'SCRIPT ERROR|Parse Error' build/packs.log
+          ls build/packs/*.pck > /dev/null
+      - name: Packs de ville (artefact)
+        if: env.WINDOWS_ONLY != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: TramSimFrance-city-packs
+          path: build/packs/*.pck
+          retention-days: 14
+          if-no-files-found: error
       - uses: actions/upload-artifact@v4
         with:
           name: windows-export-x64
@@ -228,6 +248,11 @@ jobs:
         with:
           name: TramSimFrance-Android
           path: dist
+      - uses: actions/download-artifact@v4
+        if: github.event_name != 'workflow_dispatch' || !inputs.windows_only
+        with:
+          name: TramSimFrance-city-packs
+          path: dist/packs
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
@@ -245,4 +270,6 @@ jobs:
             - Le moteur est signé par son éditeur Godot ; le MSI reste non signé si aucun certificat de projet n’est configuré (voir `MSI-signature-*.json`). Ne pas désactiver les protections Windows. Le ZIP portable est disponible si votre politique refuse le MSI.
             - Le MSI installe pour le compte courant. Les sauvegardes sont conservées dans AppData.
             Les données et leurs licences sont décrites dans le fichier CREDITS.md inclus.
-          files: dist/*
+          files: |
+            dist/*
+            dist/packs/*.pck

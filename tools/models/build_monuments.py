@@ -675,12 +675,19 @@ def main(only=None):
     path = OUT / "landmark_models.json"
     doc = json.loads(path.read_text())
     models = {m["id"]: m for m in doc["models"]}
-    import monuments_p4
+    import monuments_p4, traceback
+    failed = []
+    def flush():   # écriture incrémentale : un plantage ultérieur ne perd pas les monuments déjà construits
+        doc["models"] = list(models.values())
+        path.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n")
     for mid, cname, stem, fn, ranges, extra in _specs():
         if only and mid not in only and cname not in only: continue
-        k, a, meta = fn()
+        try:
+            k, a, meta = fn()
+            if extra.get("lot") == "P4": monuments_p4.gauge_check(k, a, monuments_p4.city_of(cname), mid)
+        except Exception as e:   # un monument en échec n'interrompt pas le lot (avertissement, entrée précédente conservée)
+            print(f"AVERTISSEMENT {mid} : {e}", file=sys.stderr); traceback.print_exc(limit=2); failed.append(mid); continue
         city = geo.City(cname)
-        if extra.get("lot") == "P4": monuments_p4.gauge_check(k, a, monuments_p4.city_of(cname), mid)
         (OUT / stem).parent.mkdir(parents=True, exist_ok=True)
         lat, lon = geo.xy2ll(a[0], a[2], city.origin)
         translate(k, a)
@@ -693,9 +700,11 @@ def main(only=None):
              "lods": files, "ranges_m": ranges, "triangles": tris, "lot": "P3", "budget_lod0": 150000, "budget_mobile": 60000}
         m.update(extra); m.update(local(meta, a))
         models[mid] = m
-        print(mid, "triangles LOD0-2", tris, "remplace", len(m["replace"]))
-    doc["models"] = list(models.values())
-    path.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n")
+        print(mid, "triangles LOD0-2", tris, "remplace", len(m["replace"]), flush=True)
+        flush()
+    flush()
+    if failed: print("AVERTISSEMENT monuments en échec :", ", ".join(failed), file=sys.stderr)
+    return failed
 
 
 if __name__ == "__main__":

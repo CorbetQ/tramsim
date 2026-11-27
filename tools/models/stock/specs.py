@@ -85,6 +85,12 @@ def load(vid):
         first=s['plan_data']['modules'][0]
         first.setdefault('roof',[]).append({'type':'pantograph','z_m':first['length_m']*0.65,'size':[1.2,0.3,2.0]})
     profile = _json('data/rolling_stock/front_profiles.json').get(e.get('cab_profile',''))
+    if s.get('livery_rule') == 'elements':
+        # P4 : face spécifique du kit (StockGeometry) plutôt que la face du plan donneur
+        hf = _json('data/rolling_stock/hd_fronts.json').get(s['dir'])
+        if hf:
+            s['plan_data']['front'] = copy.deepcopy(hf['front'])
+            if hf.get('unidirectional'): s['plan_data']['unidirectional'] = True
     if not profile and s.get('livery_rule') == 'elements':
         import families
         profile = families.nose_profile(s['plan_data'], s.get('face', {}))

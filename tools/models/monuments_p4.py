@@ -470,12 +470,17 @@ def skyscraper(cname, lat, lon, r=80.0, h=None, mat=GLASS, band=WHITE, top="flat
 
 
 def palace(cname, lat, lon, r=60.0, kinds=None, minh=0.0, h=None, mat=STONE, roof="mansard", roof_mat=SLATE, floors=None,
-           pitch=4.0, center=True, columns=0, pediment=True, dome_r=0.0, dome_h=0.0, clock=False, n=6, frame=None, maxarea=1e9, pilasters=True):
+           pitch=4.0, center=True, columns=0, pediment=True, dome_r=0.0, dome_h=0.0, clock=False, n=6, frame=None, maxarea=1e9, pilasters=True, rect=None):
     """Palais ou hôtel de ville classique sur les emprises BD TOPO près du point : murs, baies encadrées, pilastres,
     corniche, comble (mansard, hip, flat, tile), avant-corps central à colonnes et fronton face à la voie la plus
     proche, dôme et horloge en option."""
     city = city_of(cname); k = Kit()
     sel = find(city, lat, lon, r, kinds=kinds, minh=minh, n=n, maxarea=maxarea)
+    if not sel and rect:   # emprise absente de la BD TOPO du jeu : rectangle (L, W, cap en degrés) centré sur le point
+        c0 = np.array(xy(city, lat, lon)); a = math.radians(rect[2])
+        u = np.array([math.cos(a), math.sin(a)]); w = np.array([-u[1], u[0]])
+        ring = [tuple(c0 + su * rect[0] / 2 * u + sw * rect[1] / 2 * w) for su, sw in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+        sel = [({"ring": ring, "h": h or 20.0, "kind": 4}, Polygon(ring), 0.0)]
     if not sel: raise RuntimeError(f"{cname} : pas d'emprise près de {lat}, {lon}")
     main = sel[0]
     rings = [ccw(t[0]["ring"]) for t in sel]
@@ -976,7 +981,7 @@ SPECS_P4 = [
         domes=((0, 0, 4.5, 9.0, 6.0, True, GREEN_CU), (-8, -6, 2.5, 6.0, 3.0, True, GREEN_CU), (-8, 6, 2.5, 6.0, 3.0, True, GREEN_CU), (8, -6, 2.5, 6.0, 3.0, True, GREEN_CU), (8, 6, 2.5, 6.0, 3.0, True, GREEN_CU)),
         towers=((-14, 0, 5.0, 28.0, "dome", 5.0),)), R_MED, "Cathédrale Saint-Nicolas", [160.0, 45.0, 150.0, 15.0]),
     # Montpellier
-    S("montpellier_opera_comedie", "montpellier", lambda: palace("montpellier", 43.60850, 3.88010, 45, kinds=(4,), h=22.0, mat=BLOND, roof="hip", roof_mat=ZINC, floors=3, columns=6, n=1), R_MED, "Opéra Comédie", [140.0, 35.0, 200.0, 10.0]),
+    S("montpellier_opera_comedie", "montpellier", lambda: palace("montpellier", 43.60840, 3.87970, 12, kinds=(4,), rect=(36.0, 28.0, 0.0), h=22.0, mat=BLOND, roof="hip", roof_mat=ZINC, floors=3, columns=6, n=1), R_MED, "Opéra Comédie", [140.0, 35.0, 200.0, 10.0]),
     S("montpellier_arc_triomphe", "montpellier", lambda: arch("montpellier", 43.61120, 3.87270, 18.0, 7.0, 15.0, yaw_deg=None, bays=1, mat=BLOND, attic=3.0), R_SMALL, "Arc de triomphe (Porte du Peyrou)", [70.0, 15.0, 160.0, 8.0]),
     # Grenoble
     S("grenoble_tour_perret", "grenoble", lambda: skyscraper("grenoble", 45.18492, 5.73546, 30, h=81.0, mat=CONC, band=CONC, top="lantern", top_h=14.0, minh=40.0), R_FAR, "Tour Perret", [300.0, 70.0, 200.0, 45.0]),

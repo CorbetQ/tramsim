@@ -177,7 +177,7 @@ static func r11_body() -> Mesh:
 		for k in 3:
 			var my := 2.75 + (1 - k) * 0.3
 			_disk(g, Vector3(0, my, -0.181), 0.105, lens)
-			_visor(g, Vector3(0, my, -0.18), 0.12, 0.18, black)
+			_visor(g, Vector3(0, my, -0.18), 0.125, 0.1, black)
 		g.box(Vector3(0, 1.1, -0.06), Vector3(0.14, 0.2, 0.08), Color("#d8d24a"))   # boîtier d'appel piéton
 		return g.mesh())
 
