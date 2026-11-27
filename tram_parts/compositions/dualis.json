@@ -243,11 +243,24 @@
     },
     "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
+      "bumper_m": 0.15,
+      "destination": {
+        "h_m": 0.22,
+        "w_m": 1.5,
+        "y_m": 2.95
+      },
+      "headlights": {
+        "shape": "double_round",
+        "x_m": 0.62,
+        "y_m": 0.86,
+        "w_m": 0.15,
+        "h_m": 0.15
+      },
       "length_m": 2.2,
       "plan": [
         [
-          0,
-          1
+          0.0,
+          1.0
         ],
         [
           0.4,
@@ -258,7 +271,7 @@
           0.7
         ],
         [
-          1,
+          1.0,
           0.45
         ]
       ],
@@ -298,20 +311,7 @@
         "wrap": 0.35,
         "lower_curve_m": 0.16,
         "upper_curve_m": 0.18
-      },
-      "headlights": {
-        "shape": "double_round",
-        "x_m": 0.62,
-        "y_m": 0.86,
-        "w_m": 0.15,
-        "h_m": 0.15
-      },
-      "destination": {
-        "y_m": 2.95,
-        "w_m": 1.5,
-        "h_m": 0.22
-      },
-      "bumper_m": 0.15
+      }
     },
     "door_anim": {
       "type": "plug",

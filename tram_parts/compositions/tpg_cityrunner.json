@@ -78,8 +78,8 @@
         "lod3": "res://tram_parts/extremites/tpg_cityrunner/end_a_lod3.glb"
       },
       "triangles": {
-        "lod0": 25953,
-        "lod1": 9525,
+        "lod0": 26001,
+        "lod1": 9549,
         "lod1_m": 3426,
         "lod2": 886,
         "lod3": 177
@@ -247,8 +247,8 @@
         "lod3": "res://tram_parts/extremites/tpg_cityrunner/end_b_lod3.glb"
       },
       "triangles": {
-        "lod0": 23117,
-        "lod1": 8605,
+        "lod0": 23165,
+        "lod1": 8629,
         "lod1_m": 3150,
         "lod2": 818,
         "lod3": 177
@@ -288,7 +288,20 @@
     },
     "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
-      "length_m": 2.0,
+      "bumper_m": 0.05,
+      "destination": {
+        "h_m": 0.22,
+        "w_m": 1.4,
+        "y_m": 2.85
+      },
+      "headlights": {
+        "shape": "round",
+        "x_m": 0.8,
+        "y_m": 0.72,
+        "w_m": 0.17,
+        "h_m": 0.17
+      },
+      "length_m": 1.3,
       "plan": [
         [
           0,
@@ -296,17 +309,23 @@
         ],
         [
           0.4,
-          0.92
+          0.98
         ],
         [
-          0.75,
-          0.7
+          0.8,
+          0.95
         ],
         [
           1,
-          0.35
+          0.8
         ]
       ],
+      "ring": {
+        "color": "route",
+        "r_m": 0.35,
+        "width_m": 0.05,
+        "y_m": 1.0
+      },
       "side": [
         [
           0.1,
@@ -336,28 +355,9 @@
       "windshield": {
         "bottom_m": 1.0,
         "top_m": 3.02,
-        "wrap": 0.5,
+        "wrap": 0.23,
         "lower_curve_m": 0.1,
         "upper_curve_m": 0.2
-      },
-      "headlights": {
-        "shape": "round",
-        "x_m": 0.8,
-        "y_m": 0.72,
-        "w_m": 0.17,
-        "h_m": 0.17
-      },
-      "destination": {
-        "y_m": 2.85,
-        "w_m": 1.4,
-        "h_m": 0.22
-      },
-      "bumper_m": 0.05,
-      "ring": {
-        "y_m": 1.0,
-        "r_m": 0.35,
-        "width_m": 0.05,
-        "color": "route"
       }
     },
     "door_anim": {

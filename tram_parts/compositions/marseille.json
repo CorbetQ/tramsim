@@ -288,11 +288,24 @@
     },
     "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
+      "bumper_m": 0.05,
+      "destination": {
+        "h_m": 0.22,
+        "w_m": 1.4,
+        "y_m": 2.85
+      },
+      "headlights": {
+        "shape": "round",
+        "x_m": 0.8,
+        "y_m": 0.72,
+        "w_m": 0.17,
+        "h_m": 0.17
+      },
       "length_m": 2.0,
       "plan": [
         [
-          0,
-          1
+          0.0,
+          1.0
         ],
         [
           0.4,
@@ -303,10 +316,16 @@
           0.7
         ],
         [
-          1,
+          1.0,
           0.35
         ]
       ],
+      "ring": {
+        "color": "route",
+        "r_m": 0.35,
+        "width_m": 0.05,
+        "y_m": 1.0
+      },
       "side": [
         [
           0.1,
@@ -339,25 +358,6 @@
         "wrap": 0.5,
         "lower_curve_m": 0.1,
         "upper_curve_m": 0.2
-      },
-      "headlights": {
-        "shape": "round",
-        "x_m": 0.8,
-        "y_m": 0.72,
-        "w_m": 0.17,
-        "h_m": 0.17
-      },
-      "destination": {
-        "y_m": 2.85,
-        "w_m": 1.4,
-        "h_m": 0.22
-      },
-      "bumper_m": 0.05,
-      "ring": {
-        "y_m": 1.0,
-        "r_m": 0.35,
-        "width_m": 0.05,
-        "color": "route"
       }
     },
     "door_anim": {

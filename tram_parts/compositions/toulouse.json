@@ -82,10 +82,10 @@
         "lod3": "res://tram_parts/extremites/toulouse/end_a_lod3.glb"
       },
       "triangles": {
-        "lod0": 28785,
-        "lod1": 10381,
-        "lod1_m": 3720,
-        "lod2": 926,
+        "lod0": 28889,
+        "lod1": 10421,
+        "lod1_m": 3772,
+        "lod2": 954,
         "lod3": 227
       },
       "bindings": {}
@@ -259,10 +259,10 @@
         "lod3": "res://tram_parts/extremites/toulouse/end_b_lod3.glb"
       },
       "triangles": {
-        "lod0": 26097,
-        "lod1": 9537,
-        "lod1_m": 3444,
-        "lod2": 858,
+        "lod0": 26201,
+        "lod1": 9577,
+        "lod1_m": 3496,
+        "lod2": 886,
         "lod3": 227
       },
       "bindings": {}
@@ -302,6 +302,19 @@
     },
     "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
+      "bumper_m": 0.05,
+      "destination": {
+        "h_m": 0.22,
+        "w_m": 1.4,
+        "y_m": 2.85
+      },
+      "headlights": {
+        "h_m": 0.16,
+        "shape": "round",
+        "w_m": 0.16,
+        "x_m": 0.78,
+        "y_m": 0.72
+      },
       "length_m": 1.5,
       "plan": [
         [
@@ -309,20 +322,16 @@
           1
         ],
         [
-          0.3,
-          0.98
+          0.35,
+          0.99
         ],
         [
-          0.6,
-          0.9
-        ],
-        [
-          0.85,
-          0.76
+          0.7,
+          0.94
         ],
         [
           1,
-          0.56
+          0.72
         ]
       ],
       "side": [
@@ -356,25 +365,12 @@
         ]
       ],
       "windshield": {
-        "bottom_m": 1.15,
-        "top_m": 2.75,
-        "wrap": 0.3,
+        "bottom_m": 1.12,
+        "top_m": 2.9,
+        "wrap": 0.42,
         "lower_curve_m": 0.03,
         "upper_curve_m": 0.1
-      },
-      "headlights": {
-        "shape": "strip",
-        "y_m": 0.85,
-        "x_m": 0.8,
-        "w_m": 0.35,
-        "h_m": 0.1
-      },
-      "destination": {
-        "y_m": 2.85,
-        "w_m": 1.4,
-        "h_m": 0.22
-      },
-      "bumper_m": 0.05
+      }
     },
     "door_anim": {
       "type": "plug",
@@ -443,8 +439,8 @@
   },
   "nose_profile": {
     "style": "gen",
-    "p": 2.406,
-    "theta_w": 0.514,
+    "p": 3.142,
+    "theta_w": 0.464,
     "D": [
       [
         0.25,
@@ -480,8 +476,8 @@
       ]
     ],
     "windshield": {
-      "bottom_m": 1.15,
-      "top_m": 2.75,
+      "bottom_m": 1.12,
+      "top_m": 2.9,
       "lower_curve_m": 0.03,
       "upper_curve_m": 0.1
     }

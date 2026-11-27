@@ -1073,7 +1073,7 @@ def lining(B, t, zj, dirz, mat, q=0):
     G, S, part, ys = t.nose_grid(zj, dirz, q, inset=WALL)
     N = grid_normals(G, away=(0, 1.4, zj - dirz * 4.0))
     R, C = G.shape[:2]
-    rows = (ys[:-1] >= t.floor - 1e-6) & (ys[1:] <= 2.46)
+    rows = (ys[:-1] >= t.floor - 1e-6) & (ys[1:] <= max(2.46, t.floor + 1.84))
     pc = part.astype(bool)
     qfront = np.tile(pc[:-1] & pc[1:], (R - 1, 1))
     glass = qfront & ((ys[:-1] >= t.ws_lo - 1e-6) & (ys[1:] <= t.ws_hi + 1e-6))[:, None]

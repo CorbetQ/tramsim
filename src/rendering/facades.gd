@@ -414,6 +414,7 @@ static func beam(S, f: Face, xa: float, ya: float, xb: float, yb: float, w: floa
 	var p0 := f.P(xa + n.x, ya + n.y, d); var p1 := f.P(xb + n.x, yb + n.y, d)
 	var p2 := f.P(xb - n.x, yb - n.y, d); var p3 := f.P(xa - n.x, ya - n.y, d)
 	S.quad(p3, p2, p1, p0, col, -1.0)
+	if d < 0.08: return   # P4 : pan de bois (saillie de 5-7 cm) : joues invisibles au-delà de quelques mètres, face seule
 	S.quad(f.P(xa + n.x, ya + n.y, 0.0), f.P(xb + n.x, yb + n.y, 0.0), p1, p0, col, -1.0)
 	S.quad(p3, p2, f.P(xb - n.x, yb - n.y, 0.0), f.P(xa - n.x, ya - n.y, 0.0), col, -1.0)
 

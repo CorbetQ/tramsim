@@ -2708,20 +2708,20 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 77310,
+     "tris": 77454,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 27014,
+     "mobile_tris": 27046,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 27014,
+     "tris": 27046,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 9110
+     "mobile_tris": 9252
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 2414
+     "tris": 2474
     },
     "LOD3": {
      "file": "lod3.glb",
@@ -2729,16 +2729,16 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 27014,
-    "LOD1": 9110,
-    "LOD2": 2414,
+    "LOD0": 27046,
+    "LOD1": 9252,
+    "LOD2": 2474,
     "LOD3": 462
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 13614,
+    "tris": 13062,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 7996
+    "mobile_tris": 7876
    },
    "textures": {
     "pc_px": 4096,
@@ -3199,13 +3199,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 77310,
-    "lod1": 27014,
-    "lod1_m": 9110,
-    "lod2": 2414,
+    "lod0": 77454,
+    "lod1": 27046,
+    "lod1_m": 9252,
+    "lod2": 2474,
     "lod3": 462,
-    "cab": 13614,
-    "cab_m": 7996
+    "cab": 13062,
+    "cab_m": 7876
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -3242,20 +3242,20 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 91398,
+     "tris": 91598,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 30174,
+     "mobile_tris": 30294,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 30174,
+     "tris": 30294,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 9626
+     "mobile_tris": 9716
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 2890
+     "tris": 2902
     },
     "LOD3": {
      "file": "lod3.glb",
@@ -3263,9 +3263,9 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 30174,
-    "LOD1": 9626,
-    "LOD2": 2890,
+    "LOD0": 30294,
+    "LOD1": 9716,
+    "LOD2": 2902,
     "LOD3": 550
    },
    "cab": {
@@ -3721,10 +3721,10 @@
     }
    },
    "tris_by_file": {
-    "lod0": 91398,
-    "lod1": 30174,
-    "lod1_m": 9626,
-    "lod2": 2890,
+    "lod0": 91598,
+    "lod1": 30294,
+    "lod1_m": 9716,
+    "lod2": 2902,
     "lod3": 550,
     "cab": 14830,
     "cab_m": 8332
@@ -3762,16 +3762,16 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 83790,
+     "tris": 84822,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 27710,
+     "mobile_tris": 28294,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 27710,
+     "tris": 28294,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 9110
+     "mobile_tris": 9614
     },
     "LOD2": {
      "file": "lod2.glb",
@@ -3783,16 +3783,16 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 27710,
-    "LOD1": 9110,
+    "LOD0": 28294,
+    "LOD1": 9614,
     "LOD2": 2414,
     "LOD3": 462
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 13614,
+    "tris": 13326,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 7996
+    "mobile_tris": 7920
    },
    "textures": {
     "pc_px": 4096,
@@ -4253,13 +4253,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 83790,
-    "lod1": 27710,
-    "lod1_m": 9110,
+    "lod0": 84822,
+    "lod1": 28294,
+    "lod1_m": 9614,
     "lod2": 2414,
     "lod3": 462,
-    "cab": 13614,
-    "cab_m": 7996
+    "cab": 13326,
+    "cab_m": 7920
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -4298,14 +4298,14 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 115482,
+     "tris": 115418,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 39146,
+     "mobile_tris": 39082,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 39146,
+     "tris": 39082,
      "mobile_file": "lod1_m.glb",
      "mobile_tris": 12606
     },
@@ -4319,16 +4319,16 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 39146,
+    "LOD0": 39082,
     "LOD1": 12606,
     "LOD2": 3598,
     "LOD3": 658
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14686,
+    "tris": 14334,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 8424
+    "mobile_tris": 8292
    },
    "textures": {
     "pc_px": 4096,
@@ -4800,13 +4800,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 115482,
-    "lod1": 39146,
+    "lod0": 115418,
+    "lod1": 39082,
     "lod1_m": 12606,
     "lod2": 3598,
     "lod3": 658,
-    "cab": 14686,
-    "cab_m": 8424
+    "cab": 14334,
+    "cab_m": 8292
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -4845,20 +4845,20 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 115482,
+     "tris": 115274,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 39146,
+     "mobile_tris": 39066,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 39146,
+     "tris": 39066,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 12606
+     "mobile_tris": 12502
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 3598
+     "tris": 3542
     },
     "LOD3": {
      "file": "lod3.glb",
@@ -4866,14 +4866,14 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 39146,
-    "LOD1": 12606,
-    "LOD2": 3598,
+    "LOD0": 39066,
+    "LOD1": 12502,
+    "LOD2": 3542,
     "LOD3": 658
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14686,
+    "tris": 14774,
     "mobile_file": "cab_m.glb",
     "mobile_tris": 8424
    },
@@ -5347,12 +5347,12 @@
     }
    },
    "tris_by_file": {
-    "lod0": 115482,
-    "lod1": 39146,
-    "lod1_m": 12606,
-    "lod2": 3598,
+    "lod0": 115274,
+    "lod1": 39066,
+    "lod1_m": 12502,
+    "lod2": 3542,
     "lod3": 658,
-    "cab": 14686,
+    "cab": 14774,
     "cab_m": 8424
    },
    "budget_check": {
@@ -5937,20 +5937,20 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 85926,
+     "tris": 86134,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 30966,
+     "mobile_tris": 31046,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 30966,
+     "tris": 31046,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 10318
+     "mobile_tris": 10422
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 2890
+     "tris": 2946
     },
     "LOD3": {
      "file": "lod3.glb",
@@ -5958,14 +5958,14 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 30966,
-    "LOD1": 10318,
-    "LOD2": 2890,
+    "LOD0": 31046,
+    "LOD1": 10422,
+    "LOD2": 2946,
     "LOD3": 570
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14774,
+    "tris": 14686,
     "mobile_file": "cab_m.glb",
     "mobile_tris": 8424
    },
@@ -6424,12 +6424,12 @@
     }
    },
    "tris_by_file": {
-    "lod0": 85926,
-    "lod1": 30966,
-    "lod1_m": 10318,
-    "lod2": 2890,
+    "lod0": 86134,
+    "lod1": 31046,
+    "lod1_m": 10422,
+    "lod2": 2946,
     "lod3": 570,
-    "cab": 14774,
+    "cab": 14686,
     "cab_m": 8424
    },
    "budget_check": {
@@ -9213,7 +9213,7 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 113782,
+     "tris": 113734,
      "mobile_file": "lod1.glb",
      "mobile_tris": 38134,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
@@ -9719,7 +9719,7 @@
     }
    },
    "tris_by_file": {
-    "lod0": 113782,
+    "lod0": 113734,
     "lod1": 38134,
     "lod1_m": 11714,
     "lod2": 3574,
@@ -9764,20 +9764,20 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 113782,
+     "tris": 114502,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 38134,
+     "mobile_tris": 38582,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 38134,
+     "tris": 38582,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 11714
+     "mobile_tris": 12042
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 3574
+     "tris": 3526
     },
     "LOD3": {
      "file": "lod3.glb",
@@ -9785,16 +9785,16 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 38134,
-    "LOD1": 11714,
-    "LOD2": 3574,
+    "LOD0": 38582,
+    "LOD1": 12042,
+    "LOD2": 3526,
     "LOD3": 622
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14494,
+    "tris": 14318,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 8328
+    "mobile_tris": 8284
    },
    "textures": {
     "pc_px": 4096,
@@ -10270,13 +10270,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 113782,
-    "lod1": 38134,
-    "lod1_m": 11714,
-    "lod2": 3574,
+    "lod0": 114502,
+    "lod1": 38582,
+    "lod1_m": 12042,
+    "lod2": 3526,
     "lod3": 622,
-    "cab": 14494,
-    "cab_m": 8328
+    "cab": 14318,
+    "cab_m": 8284
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -13567,20 +13567,20 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 91398,
+     "tris": 91598,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 30174,
+     "mobile_tris": 30294,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 30174,
+     "tris": 30294,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 9626
+     "mobile_tris": 9716
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 2890
+     "tris": 2902
     },
     "LOD3": {
      "file": "lod3.glb",
@@ -13588,9 +13588,9 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 30174,
-    "LOD1": 9626,
-    "LOD2": 2890,
+    "LOD0": 30294,
+    "LOD1": 9716,
+    "LOD2": 2902,
     "LOD3": 550
    },
    "cab": {
@@ -14046,10 +14046,10 @@
     }
    },
    "tris_by_file": {
-    "lod0": 91398,
-    "lod1": 30174,
-    "lod1_m": 9626,
-    "lod2": 2890,
+    "lod0": 91598,
+    "lod1": 30294,
+    "lod1_m": 9716,
+    "lod2": 2902,
     "lod3": 550,
     "cab": 14830,
     "cab_m": 8332
@@ -21006,14 +21006,14 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 110218,
+     "tris": 110314,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 37770,
+     "mobile_tris": 37818,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 37770,
+     "tris": 37818,
      "mobile_file": "lod1_m.glb",
      "mobile_tris": 12298
     },
@@ -21027,7 +21027,7 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 37770,
+    "LOD0": 37818,
     "LOD1": 12298,
     "LOD2": 3686,
     "LOD3": 494
@@ -21512,8 +21512,8 @@
     }
    },
    "tris_by_file": {
-    "lod0": 110218,
-    "lod1": 37770,
+    "lod0": 110314,
+    "lod1": 37818,
     "lod1_m": 12298,
     "lod2": 3686,
     "lod3": 494,
@@ -21555,20 +21555,20 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 84362,
+     "tris": 86250,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 30034,
+     "mobile_tris": 31154,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 30034,
+     "tris": 31154,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 9530
+     "mobile_tris": 10362
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 2922
+     "tris": 2874
     },
     "LOD3": {
      "file": "lod3.glb",
@@ -21576,9 +21576,9 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 30034,
-    "LOD1": 9530,
-    "LOD2": 2922,
+    "LOD0": 31154,
+    "LOD1": 10362,
+    "LOD2": 2874,
     "LOD3": 534
    },
    "cab": {
@@ -22046,10 +22046,10 @@
     }
    },
    "tris_by_file": {
-    "lod0": 84362,
-    "lod1": 30034,
-    "lod1_m": 9530,
-    "lod2": 2922,
+    "lod0": 86250,
+    "lod1": 31154,
+    "lod1_m": 10362,
+    "lod2": 2874,
     "lod3": 534,
     "cab": 14494,
     "cab_m": 8328
@@ -23168,20 +23168,20 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 88106,
+     "tris": 89498,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 33306,
+     "mobile_tris": 34154,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 33306,
+     "tris": 34154,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 10262
+     "mobile_tris": 10842
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 3222
+     "tris": 3174
     },
     "LOD3": {
      "file": "lod3.glb",
@@ -23189,14 +23189,14 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 33306,
-    "LOD1": 10262,
-    "LOD2": 3222,
+    "LOD0": 34154,
+    "LOD1": 10842,
+    "LOD2": 3174,
     "LOD3": 622
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14358,
+    "tris": 14446,
     "mobile_file": "cab_m.glb",
     "mobile_tris": 8328
    },
@@ -23702,12 +23702,12 @@
     }
    },
    "tris_by_file": {
-    "lod0": 88106,
-    "lod1": 33306,
-    "lod1_m": 10262,
-    "lod2": 3222,
+    "lod0": 89498,
+    "lod1": 34154,
+    "lod1_m": 10842,
+    "lod2": 3174,
     "lod3": 622,
-    "cab": 14358,
+    "cab": 14446,
     "cab_m": 8328
    },
    "budget_check": {
@@ -25845,20 +25845,20 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 79674,
+     "tris": 81682,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 23970,
+     "mobile_tris": 24266,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 23970,
+     "tris": 24266,
      "mobile_file": "lod1_m.glb",
-     "mobile_tris": 7442
+     "mobile_tris": 7532
     },
     "LOD2": {
      "file": "lod2.glb",
-     "tris": 2238
+     "tris": 2250
     },
     "LOD3": {
      "file": "lod3.glb",
@@ -25866,16 +25866,16 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 23970,
-    "LOD1": 7442,
-    "LOD2": 2238,
+    "LOD0": 24266,
+    "LOD1": 7532,
+    "LOD2": 2250,
     "LOD3": 462
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14830,
+    "tris": 14390,
     "mobile_file": "cab_m.glb",
-    "mobile_tris": 8332
+    "mobile_tris": 8200
    },
    "textures": {
     "pc_px": 4096,
@@ -26309,13 +26309,13 @@
     }
    },
    "tris_by_file": {
-    "lod0": 79674,
-    "lod1": 23970,
-    "lod1_m": 7442,
-    "lod2": 2238,
+    "lod0": 81682,
+    "lod1": 24266,
+    "lod1_m": 7532,
+    "lod2": 2250,
     "lod3": 462,
-    "cab": 14830,
-    "cab_m": 8332
+    "cab": 14390,
+    "cab_m": 8200
    },
    "budget_check": {
     "LOD0_pc<=250000": true,
@@ -26865,14 +26865,14 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 119046,
+     "tris": 119110,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 42210,
+     "mobile_tris": 42274,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 42210,
+     "tris": 42274,
      "mobile_file": "lod1_m.glb",
      "mobile_tris": 14180
     },
@@ -26886,14 +26886,14 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 42210,
+    "LOD0": 42274,
     "LOD1": 14180,
     "LOD2": 3704,
     "LOD3": 642
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14438,
+    "tris": 14526,
     "mobile_file": "cab_m.glb",
     "mobile_tris": 8272
    },
@@ -27387,12 +27387,12 @@
     }
    },
    "tris_by_file": {
-    "lod0": 119046,
-    "lod1": 42210,
+    "lod0": 119110,
+    "lod1": 42274,
     "lod1_m": 14180,
     "lod2": 3704,
     "lod3": 642,
-    "cab": 14438,
+    "cab": 14526,
     "cab_m": 8272
    },
    "budget_check": {
@@ -27431,14 +27431,14 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 111526,
+     "tris": 111590,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 41346,
+     "mobile_tris": 41410,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 41346,
+     "tris": 41410,
      "mobile_file": "lod1_m.glb",
      "mobile_tris": 14180
     },
@@ -27452,14 +27452,14 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 41346,
+    "LOD0": 41410,
     "LOD1": 14180,
     "LOD2": 3704,
     "LOD3": 642
    },
    "cab": {
     "file": "cab.glb",
-    "tris": 14438,
+    "tris": 14526,
     "mobile_file": "cab_m.glb",
     "mobile_tris": 8272
    },
@@ -27953,12 +27953,12 @@
     }
    },
    "tris_by_file": {
-    "lod0": 111526,
-    "lod1": 41346,
+    "lod0": 111590,
+    "lod1": 41410,
     "lod1_m": 14180,
     "lod2": 3704,
     "lod3": 642,
-    "cab": 14438,
+    "cab": 14526,
     "cab_m": 8272
    },
    "budget_check": {
@@ -28545,14 +28545,14 @@
    "lods": {
     "LOD0": {
      "file": "lod0.glb",
-     "tris": 110050,
+     "tris": 110146,
      "mobile_file": "lod1.glb",
-     "mobile_tris": 37634,
+     "mobile_tris": 37682,
      "note": "LOD0 mobile = lod1.glb (même contenu, ≤ 80 k)"
     },
     "LOD1": {
      "file": "lod1.glb",
-     "tris": 37634,
+     "tris": 37682,
      "mobile_file": "lod1_m.glb",
      "mobile_tris": 12298
     },
@@ -28566,7 +28566,7 @@
     }
    },
    "mobile_tris": {
-    "LOD0": 37634,
+    "LOD0": 37682,
     "LOD1": 12298,
     "LOD2": 3686,
     "LOD3": 494
@@ -29049,8 +29049,8 @@
     }
    },
    "tris_by_file": {
-    "lod0": 110050,
-    "lod1": 37634,
+    "lod0": 110146,
+    "lod1": 37682,
     "lod1_m": 12298,
     "lod2": 3686,
     "lod3": 494,

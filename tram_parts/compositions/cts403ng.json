@@ -82,7 +82,7 @@
         "lod3": "res://tram_parts/extremites/cts403ng/end_a_lod3.glb"
       },
       "triangles": {
-        "lod0": 28157,
+        "lod0": 28133,
         "lod1": 9985,
         "lod1_m": 3326,
         "lod2": 942,
@@ -255,7 +255,7 @@
         "lod3": "res://tram_parts/extremites/cts403ng/end_b_lod3.glb"
       },
       "triangles": {
-        "lod0": 25233,
+        "lod0": 25209,
         "lod1": 9001,
         "lod1_m": 3050,
         "lod2": 874,
@@ -296,7 +296,21 @@
     },
     "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
-      "length_m": 1.2,
+      "bulge": 0.12,
+      "bumper_m": 0.05,
+      "destination": {
+        "h_m": 0.22,
+        "w_m": 1.4,
+        "y_m": 2.85
+      },
+      "headlights": {
+        "h_m": 0.09,
+        "shape": "strip",
+        "w_m": 0.3,
+        "x_m": 0.87,
+        "y_m": 1.0
+      },
+      "length_m": 1.8,
       "plan": [
         [
           0,
@@ -304,63 +318,54 @@
         ],
         [
           0.5,
-          0.96
+          1
         ],
         [
           0.85,
-          0.86
+          0.94
         ],
         [
           1,
-          0.72
+          0.8
         ]
       ],
       "side": [
         [
-          0.1,
-          0.06
+          0.2,
+          0.12
         ],
         [
           0.6,
-          0.0
+          0
         ],
         [
-          1.2,
-          0.0
+          1.1,
+          0.02
         ],
         [
-          2.0,
-          0.1
+          1.5,
+          0.15
         ],
         [
-          2.8,
-          0.3
+          2.4,
+          0.52
         ],
         [
-          3.0,
-          0.6
+          3.1,
+          0.83
+        ],
+        [
+          3.3,
+          1
         ]
       ],
       "windshield": {
-        "bottom_m": 1.1,
-        "top_m": 2.8,
-        "wrap": 0.25,
+        "bottom_m": 1.12,
+        "top_m": 2.95,
+        "wrap": 0.32,
         "lower_curve_m": 0.03,
         "upper_curve_m": 0.1
-      },
-      "headlights": {
-        "shape": "strip",
-        "y_m": 0.9,
-        "x_m": 0.85,
-        "w_m": 0.3,
-        "h_m": 0.05
-      },
-      "destination": {
-        "y_m": 2.85,
-        "w_m": 1.4,
-        "h_m": 0.22
-      },
-      "bumper_m": 0.05
+      }
     },
     "door_anim": {
       "type": "plug",
@@ -436,32 +441,32 @@
   },
   "nose_profile": {
     "style": "gen",
-    "p": 3.142,
-    "theta_w": 0.535,
+    "p": 3.51,
+    "theta_w": 0.506,
     "D": [
       [
         0.25,
-        0.94
+        0.88
       ],
       [
         0.6,
         1.0
       ],
       [
-        1.2,
-        1.0
+        1.1,
+        0.98
       ],
       [
-        2.0,
-        0.9
+        1.5,
+        0.85
       ],
       [
-        2.8,
-        0.7
+        2.4,
+        0.48
       ],
       [
-        3.0,
-        0.4
+        3.1,
+        0.17
       ],
       [
         3.3,
@@ -469,8 +474,8 @@
       ]
     ],
     "windshield": {
-      "bottom_m": 1.1,
-      "top_m": 2.8,
+      "bottom_m": 1.12,
+      "top_m": 2.95,
       "lower_curve_m": 0.03,
       "upper_curve_m": 0.1
     }

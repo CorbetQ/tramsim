@@ -67,8 +67,8 @@ var _Fcur: _Arrays = null           # cellule de relief du bâtiment en cours
 var _BN: Dictionary = {}            # P4 : HLOD Mobile, Vector2i (cellules HLOD_CELL) -> _Arrays du bâti
 ## P4 : HLOD du bâti en Mobile : cellules de HLOD_CELL m, bascule à HLOD_NEAR m (portée au centre de la cellule) vers
 ## une version sans les triangles de moins de HLOD_MIN_AREA m². Bascule A/B : TRAMSIM_HLOD=0.
-const HLOD_CELL := 96.0
-const HLOD_NEAR := 200.0
+const HLOD_CELL := 200.0   # une cellule ≈ quart de tuile (400 m) : 4 à 9 draw calls de bâti par tuile au lieu de 25 à 36
+const HLOD_NEAR := 280.0
 const HLOD_MIN_AREA := 3.0
 var _fac_dist: Array = []           # P3 : quartiers de style (Facades.districts)
 var facade_stats := {}              # P3 : bâtiments par style de façade (tests)

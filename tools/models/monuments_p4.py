@@ -981,7 +981,7 @@ SPECS_P4 = [
         domes=((0, 0, 4.5, 9.0, 6.0, True, GREEN_CU), (-8, -6, 2.5, 6.0, 3.0, True, GREEN_CU), (-8, 6, 2.5, 6.0, 3.0, True, GREEN_CU), (8, -6, 2.5, 6.0, 3.0, True, GREEN_CU), (8, 6, 2.5, 6.0, 3.0, True, GREEN_CU)),
         towers=((-14, 0, 5.0, 28.0, "dome", 5.0),)), R_MED, "Cathédrale Saint-Nicolas", [160.0, 45.0, 150.0, 15.0]),
     # Montpellier
-    S("montpellier_opera_comedie", "montpellier", lambda: palace("montpellier", 43.60840, 3.87970, 12, kinds=(4,), rect=(36.0, 28.0, 0.0), h=22.0, mat=BLOND, roof="hip", roof_mat=ZINC, floors=3, columns=6, n=1), R_MED, "Opéra Comédie", [140.0, 35.0, 200.0, 10.0]),
+    S("montpellier_opera_comedie", "montpellier", lambda: palace("montpellier", 43.60840, 3.87940, 8, kinds=(4,), rect=(40.0, 24.0, 90.0), h=22.0, mat=BLOND, roof="hip", roof_mat=ZINC, floors=3, columns=6, n=1), R_MED, "Opéra Comédie", [140.0, 35.0, 200.0, 10.0]),
     S("montpellier_arc_triomphe", "montpellier", lambda: arch("montpellier", 43.61120, 3.87270, 18.0, 7.0, 15.0, yaw_deg=None, bays=1, mat=BLOND, attic=3.0), R_SMALL, "Arc de triomphe (Porte du Peyrou)", [70.0, 15.0, 160.0, 8.0]),
     # Grenoble
     S("grenoble_tour_perret", "grenoble", lambda: skyscraper("grenoble", 45.18492, 5.73546, 30, h=81.0, mat=CONC, band=CONC, top="lantern", top_h=14.0, minh=40.0), R_FAR, "Tour Perret", [300.0, 70.0, 200.0, 45.0]),
@@ -1067,7 +1067,23 @@ def _belfry(cname, lat, lon, H, top="lantern", mat=RED_BRICK, side=12.0):
         k.lod = (0, 2)
     else:
         tower(k, tuple(c), side, g, H, mat, top, 2.0, u=tuple(u))
-    F = F2(c, u); s = side * 0.6
+    # P4 : relief du fût (lisenes d'angle, baies verticales étroites et bandeaux), lisible à distance
+    F = F2(c, u); s = side / 2; Hs = H * (0.72 if top == "lantern" else 0.92)
+    k.lod = (0, 1)
+    for sa in (-1, 1):
+        for sb in (-1, 1):
+            k.box(F.P(sa * (s - 0.35), sb * (s + 0.12), g + Hs / 2), (0.7, Hs, 0.25), mat, yaw=F.yaw())
+            k.box(F.P(sa * (s + 0.12), sb * (s - 0.35), g + Hs / 2), (0.25, Hs, 0.7), mat, yaw=F.yaw())
+    for i, (da, db, w_, d_) in enumerate(((1, 0, 0.12, 1.0), (-1, 0, 0.12, 1.0), (0, 1, 1.0, 0.12), (0, -1, 1.0, 0.12))):
+        for j in (-1, 0, 1):   # trois baies verticales par face
+            off = j * side * 0.25
+            q = F.P(da * (s + 0.04) + abs(db) * off, db * (s + 0.04) + abs(da) * off, g + Hs * 0.55)
+            k.box(q, (w_ * 0.9 if w_ < 1 else 0.9, Hs * 0.6, d_ * 0.9 if d_ < 1 else 0.9), GLASS, yaw=F.yaw())
+        for y in (0.3, 0.88):   # bandeaux de pierre
+            q = F.P(da * (s + 0.1), db * (s + 0.1), g + Hs * y)
+            k.box(q, (0.2 if w_ < 1 else side + 0.4, 0.6, side + 0.4 if w_ < 1 else 0.2), "pierre_taille#d8d0bd", yaw=F.yaw())
+    k.lod = (0, 2)
+    s = side * 0.6
     return finish(k, city, rep, [block(F.ring(-s, s, -s, s), g, H)], tuple(c))
 
 

@@ -82,10 +82,10 @@
         "lod3": "res://tram_parts/extremites/ginko305/end_a_lod3.glb"
       },
       "triangles": {
-        "lod0": 28133,
-        "lod1": 9985,
-        "lod1_m": 3326,
-        "lod2": 942,
+        "lod0": 29077,
+        "lod1": 10545,
+        "lod1_m": 3742,
+        "lod2": 918,
         "lod3": 209
       },
       "bindings": {}
@@ -255,10 +255,10 @@
         "lod3": "res://tram_parts/extremites/ginko305/end_b_lod3.glb"
       },
       "triangles": {
-        "lod0": 25209,
-        "lod1": 9001,
-        "lod1_m": 3050,
-        "lod2": 874,
+        "lod0": 26153,
+        "lod1": 9561,
+        "lod1_m": 3466,
+        "lod2": 850,
         "lod3": 209
       },
       "bindings": {}
@@ -294,11 +294,38 @@
     },
     "z_convention": "modules ordonn\u00e9s de l'avant (-z) vers l'arri\u00e8re ; z_m local mesur\u00e9 depuis l'extr\u00e9mit\u00e9 avant du module ; la cabine arri\u00e8re est le miroir de la cabine avant (nez en z_m = length_m)",
     "front": {
+      "bumper_m": 0.05,
+      "destination": {
+        "h_m": 0.22,
+        "w_m": 1.4,
+        "y_m": 2.85
+      },
+      "extra_lights": [
+        {
+          "color": "#c6cfd2",
+          "r_m": 0.06,
+          "x_m": 0.9,
+          "y_m": 1.29
+        },
+        {
+          "color": "#8a2830",
+          "r_m": 0.055,
+          "x_m": 0.83,
+          "y_m": 0.88
+        }
+      ],
+      "headlights": {
+        "h_m": 0.14,
+        "shape": "round",
+        "w_m": 0.14,
+        "x_m": 0.88,
+        "y_m": 1.07
+      },
       "length_m": 1.2,
       "plan": [
         [
-          0,
-          1
+          0.0,
+          1.0
         ],
         [
           0.5,
@@ -309,7 +336,7 @@
           0.86
         ],
         [
-          1,
+          1.0,
           0.72
         ]
       ],
@@ -345,20 +372,7 @@
         "wrap": 0.25,
         "lower_curve_m": 0.03,
         "upper_curve_m": 0.1
-      },
-      "headlights": {
-        "shape": "strip",
-        "y_m": 0.9,
-        "x_m": 0.85,
-        "w_m": 0.3,
-        "h_m": 0.05
-      },
-      "destination": {
-        "y_m": 2.85,
-        "w_m": 1.4,
-        "h_m": 0.22
-      },
-      "bumper_m": 0.05
+      }
     },
     "door_anim": {
       "type": "plug",

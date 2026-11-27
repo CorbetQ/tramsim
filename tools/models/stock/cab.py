@@ -110,7 +110,7 @@ class Cab:
         xw = t.hw - WALL - 0.003
         fl = self.fl
         B.fan(t.cab_horizontal_ring(fl+self.dy+.005,self.zj,-1,zb),"cab_floor",normal=(0,1,0))
-        yc = 2.42
+        yc = self.yc = max(2.42, t.floor + 1.80)   # plafond : plancher haut TFS -> loge plus haute
         B.fan(t.cab_horizontal_ring(yc,self.zj,-1,zb),"cab_lining",normal=(0,-1,0))
         B.node("em_interior_cab", "cab_shell", (0, yc - 0.01, self.zd(1.6)))
         B.box((0, yc - 0.012, self.zd(1.6)), (0.7, 0.012, 0.22), "em_interior")
@@ -443,7 +443,7 @@ class Cab:
         """Pupitre de plafond (au-dessus du pare-brise) : interrupteurs à bascule, voyants, haut-parleur."""
         B, t, q = self.B, self.t, self.q
         B.use("cab_shell")
-        y0 = 2.42; d0, d1 = 0.95, 1.30
+        y0 = self.yc; d0, d1 = 0.95, 1.30
         a = np.array([0, y0 - 0.20, self.zd(d0)]); b = np.array([0, y0, self.zd(d1)])
         n = nz(np.array([0, -(b[2] - a[2]), (b[1] - a[1])]))
         if n[2] < 0: n = -n
