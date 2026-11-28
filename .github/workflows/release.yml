@@ -68,8 +68,11 @@ jobs:
       - name: Clé de développement et réglages d'export
         if: env.WINDOWS_ONLY != 'true'
         run: |
-          keytool -genkeypair -keystore $HOME/dev.keystore -alias dev -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass tramsim-dev -keypass tramsim-dev -dname "CN=TramSim Dev"
+          umask 077
+          export TRAMSIM_DEBUG_KEYSTORE_PASSPHRASE="$(openssl rand -hex 24)"
+          echo "::add-mask::$TRAMSIM_DEBUG_KEYSTORE_PASSPHRASE"
+          keytool -genkeypair -keystore "$HOME/dev.keystore" -alias dev -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass:env TRAMSIM_DEBUG_KEYSTORE_PASSPHRASE -keypass:env TRAMSIM_DEBUG_KEYSTORE_PASSPHRASE -dname "CN=TramSim Dev"
           mkdir -p ~/.config/godot
           cat > ~/.config/godot/editor_settings-4.6.tres <<CFG
           [gd_resource type="EditorSettings" format=3]
@@ -79,7 +82,7 @@ jobs:
           export/android/java_sdk_path = "$JAVA_HOME"
           export/android/debug_keystore = "$HOME/dev.keystore"
           export/android/debug_keystore_user = "dev"
-          export/android/debug_keystore_pass = "tramsim-dev"
+          export/android/debug_keystore_pass = "$TRAMSIM_DEBUG_KEYSTORE_PASSPHRASE"
           CFG
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
